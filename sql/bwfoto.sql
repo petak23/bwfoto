@@ -1,0 +1,559 @@
+-- Adminer 4.3.1 MySQL dump
+
+SET NAMES utf8;
+SET time_zone = '+00:00';
+SET foreign_key_checks = 0;
+SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
+
+DROP TABLE IF EXISTS `admin_menu`;
+CREATE TABLE `admin_menu` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
+  `odkaz` varchar(50) COLLATE utf8_bin NOT NULL COMMENT 'Odkaz',
+  `nazov` varchar(100) COLLATE utf8_bin NOT NULL COMMENT 'Názov položky',
+  `id_user_roles` int(11) NOT NULL DEFAULT '4' COMMENT 'Id min úrovne registrácie',
+  `avatar` varchar(200) COLLATE utf8_bin DEFAULT NULL COMMENT 'Odkaz na avatar aj s relatívnou cestou od adresára www',
+  PRIMARY KEY (`id`),
+  KEY `id_registracia` (`id_user_roles`),
+  CONSTRAINT `admin_menu_ibfk_2` FOREIGN KEY (`id_user_roles`) REFERENCES `user_roles` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Administračné menu';
+
+INSERT INTO `admin_menu` (`id`, `odkaz`, `nazov`, `id_user_roles`, `avatar`) VALUES
+(1,	'Homepage:',	'Úvod',	3,	'ikonky/AzulLustre_icons/Cerrada.png'),
+(2,	'Lang:',	'Editácia jazykov',	5,	'ikonky/AzulLustre_icons/Webfolder.png'),
+(3,	'Slider:',	'Editácia slider-u',	4,	'ikonky/AzulLustre_icons/Imagenes.png'),
+(4,	'User:',	'Editácia užívateľov',	5,	'ikonky/AzulLustre_icons/Fuentes.png'),
+(5,	'Verzie:',	'Verzie webu',	4,	'ikonky/AzulLustre_icons/URL_historial.png'),
+(6,	'Udaje:',	'Údaje webu',	4,	'ikonky/AzulLustre_icons/Admin.png'),
+(7,	'Oznam:',	'Aktuality(oznamy)',	4,	'ikonky/AzulLustre_icons/Documentos_azul.png');
+
+DROP TABLE IF EXISTS `clanok_komponenty`;
+CREATE TABLE `clanok_komponenty` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
+  `id_hlavne_menu` int(11) NOT NULL COMMENT 'Id hl. menu, ktorému je komponenta pripojená',
+  `spec_nazov` varchar(30) COLLATE utf8_bin DEFAULT NULL COMMENT 'Špecifický názov komponenty',
+  `parametre` varchar(100) COLLATE utf8_bin DEFAULT NULL COMMENT 'Parametre komponenty',
+  PRIMARY KEY (`id`),
+  KEY `id_clanok` (`id_hlavne_menu`),
+  CONSTRAINT `clanok_komponenty_ibfk_3` FOREIGN KEY (`id_hlavne_menu`) REFERENCES `hlavne_menu` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Zoznam komponent, ktoré sú priradené k článku';
+
+
+DROP TABLE IF EXISTS `clanok_lang`;
+CREATE TABLE `clanok_lang` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
+  `id_lang` int(11) NOT NULL DEFAULT '1' COMMENT 'Id jazyka',
+  `text` text COLLATE utf8_bin,
+  `anotacia` varchar(255) COLLATE utf8_bin DEFAULT NULL COMMENT 'Anotácia článku v danom jazyku',
+  PRIMARY KEY (`id`),
+  KEY `id_lang` (`id_lang`),
+  CONSTRAINT `clanok_lang_ibfk_2` FOREIGN KEY (`id_lang`) REFERENCES `lang` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Jazyková mutácia článku';
+
+DROP TABLE IF EXISTS `dlzka_novinky`;
+CREATE TABLE `dlzka_novinky` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
+  `nazov` varchar(30) COLLATE utf8_bin NOT NULL COMMENT 'Zobrazený názov',
+  `dlzka` int(11) NOT NULL COMMENT 'Počet dní, v ktorých je novinka',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Tabuľka pre hodnoty dĺžky noviniek';
+
+INSERT INTO `dlzka_novinky` (`id`, `nazov`, `dlzka`) VALUES
+(1,	'Nesleduje sa',	0),
+(2,	'Deň',	1),
+(3,	'Týždeň',	7),
+(4,	'Mesiac(30 dní)',	30),
+(5,	'Štvrť roka(91 dní)',	91),
+(6,	'Pol roka(182 dní)',	182),
+(7,	'Rok',	365);
+
+DROP TABLE IF EXISTS `dokumenty`;
+CREATE TABLE `dokumenty` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_hlavne_menu` int(11) NOT NULL DEFAULT '1' COMMENT 'Id položky hl. menu ku ktorej patrí',
+  `id_user_main` int(11) NOT NULL DEFAULT '1' COMMENT 'Id užívateľa',
+  `id_user_roles` int(11) NOT NULL DEFAULT '0' COMMENT 'Id min úrovne registrácie pre zobrazenie',
+  `znacka` varchar(20) COLLATE utf8_bin DEFAULT NULL COMMENT 'Značka súboru pre vloženie do textu',
+  `nazov` varchar(50) COLLATE utf8_bin NOT NULL COMMENT 'Názov titulku pre daný dokument',
+  `pripona` varchar(20) COLLATE utf8_bin NOT NULL COMMENT 'Prípona súboru',
+  `spec_nazov` varchar(50) COLLATE utf8_bin NOT NULL COMMENT 'Špecifický názov dokumentu pre URL',
+  `popis` varchar(255) COLLATE utf8_bin DEFAULT NULL COMMENT 'Popis dokumentu',
+  `subor` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'Názov súboru s relatívnou cestou',
+  `thumb` varchar(255) COLLATE utf8_bin DEFAULT NULL COMMENT 'Názov súboru thumb pre obrázky a iné ',
+  `zmena` datetime NOT NULL COMMENT 'Dátum uloženia alebo opravy - časová pečiatka',
+  `zobraz_v_texte` tinyint(4) NOT NULL DEFAULT '1' COMMENT 'Zobrazenie obrázku v texte',
+  `pocitadlo` int(11) NOT NULL DEFAULT '0' COMMENT 'Počítadlo stiahnutí',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `spec_nazov` (`spec_nazov`),
+  KEY `id_user_profiles` (`id_user_main`),
+  KEY `id_registracia` (`id_user_roles`),
+  KEY `id_hlavne_menu` (`id_hlavne_menu`),
+  CONSTRAINT `dokumenty_ibfk_1` FOREIGN KEY (`id_user_main`) REFERENCES `user_main` (`id`),
+  CONSTRAINT `dokumenty_ibfk_3` FOREIGN KEY (`id_hlavne_menu`) REFERENCES `hlavne_menu` (`id`),
+  CONSTRAINT `dokumenty_ibfk_4` FOREIGN KEY (`id_user_roles`) REFERENCES `user_roles` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Prílohy k článkom';
+
+DROP TABLE IF EXISTS `druh`;
+CREATE TABLE `druh` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A]Id položiek',
+  `druh` varchar(20) COLLATE utf8_bin NOT NULL COMMENT 'Názov druhu stredného stĺpca',
+  `modul` varchar(20) COLLATE utf8_bin DEFAULT NULL COMMENT 'Názov špecifického modulu ak NULL vždy',
+  `presenter` varchar(30) COLLATE utf8_bin NOT NULL COMMENT 'Názov prezenteru pre Nette',
+  `popis` varchar(255) COLLATE utf8_bin DEFAULT 'Popis' COMMENT 'Popis bloku',
+  `povolene` tinyint(4) NOT NULL DEFAULT '1' COMMENT 'Ak 1 tak daná položka je povolená',
+  `je_spec_naz` tinyint(4) NOT NULL DEFAULT '0' COMMENT 'Ak 1 tak daný druh potrebuje špecif. názov',
+  `robots` tinyint(4) NOT NULL DEFAULT '1' COMMENT 'Ak 1 tak je povolené indexovanie daného druhu',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+INSERT INTO `druh` (`id`, `druh`, `modul`, `presenter`, `popis`, `povolene`, `je_spec_naz`, `robots`) VALUES
+(1,	'clanky',	NULL,	'Clanky',	'Články - Stredná časť je ako článok, alebo je sub-menu',	1,	1,	1),
+(3,	'menupol',	NULL,	'Menu',	'Položka menu - nerobí nič, len zobrazí všetky položky, ktoré sú v nej zaradené',	1,	1,	1),
+(5,	'oznam',	NULL,	'Oznam',	'Vypísanie oznamov',	1,	0,	1),
+(7,	'dokumenty',	NULL,	'Dokumenty',	'Vkladanie dokumentov do stránky',	0,	0,	0);
+
+DROP TABLE IF EXISTS `faktury`;
+CREATE TABLE `faktury` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_hlavne_menu` int(11) NOT NULL DEFAULT '1' COMMENT 'Ku ktorej položke patrí',
+  `nazov` varchar(50) COLLATE utf8_bin DEFAULT NULL COMMENT 'Názov titulku pre daný dokument',
+  `cislo` varchar(20) COLLATE utf8_bin DEFAULT NULL COMMENT 'Číslo faktúry, zmluvy, objednávky',
+  `predmet` varchar(200) COLLATE utf8_bin DEFAULT NULL COMMENT 'Predmet faktúry, zmluvy, objednávky',
+  `cena` float(15,2) DEFAULT NULL COMMENT 'Cena faktúry, zmluvy, objednávky',
+  `subjekt` varchar(200) COLLATE utf8_bin DEFAULT NULL COMMENT 'Subjekt faktúry,  objednávky - (dodávateľ), zmluvy(Zmluvná strana)',
+  `datum_vystavenia` date DEFAULT NULL COMMENT 'Dátum vystavenia pri faktúre a objednávke pri zmluve dátum uzatvorenia',
+  `datum_ukoncenia` date DEFAULT NULL COMMENT 'Dátum ukoncenia zmluvy',
+  `subor` varchar(50) COLLATE utf8_bin NOT NULL COMMENT 'Názov súboru s relatívnou cestou',
+  `id_user_main` int(11) NOT NULL DEFAULT '1' COMMENT 'Kto pridal dokument',
+  `id_reg` int(11) NOT NULL DEFAULT '0' COMMENT 'Úroveň registrácie',
+  `kedy` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Dátum uloženia alebo opravy - časová pečiatka',
+  `pocitadlo` int(11) NOT NULL DEFAULT '0' COMMENT 'Počítadlo stiahnutí',
+  `id_skupina` int(11) NOT NULL DEFAULT '0' COMMENT 'Id článku do ktorej časti dokument patrí',
+  `id_rok` int(11) NOT NULL DEFAULT '0' COMMENT 'Id roku do ktorého sa má zaradiť',
+  PRIMARY KEY (`id`),
+  KEY `id_hlavne_menu` (`id_hlavne_menu`),
+  KEY `id_user_profiles` (`id_user_main`),
+  CONSTRAINT `faktury_ibfk_1` FOREIGN KEY (`id_hlavne_menu`) REFERENCES `hlavne_menu` (`id`),
+  CONSTRAINT `faktury_ibfk_3` FOREIGN KEY (`id_user_main`) REFERENCES `user_main` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+DROP TABLE IF EXISTS `hlavicka`;
+CREATE TABLE `hlavicka` (
+  `id` int(11) NOT NULL COMMENT '[A]Index',
+  `nazov` varchar(40) COLLATE utf8_bin NOT NULL DEFAULT 'Veľká' COMMENT 'Zobrazený názov pre daný typ hlavičky',
+  `pripona` varchar(10) COLLATE utf8_bin DEFAULT NULL COMMENT 'Prípona názvu súborov',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+INSERT INTO `hlavicka` (`id`, `nazov`, `pripona`) VALUES
+(0,	'Nerozhoduje',	' '),
+(1,	'Veľká',	'normal'),
+(2,	'Malá',	'small'),
+(3,	'Veľká bez ponuky podčlánkov',	'normal'),
+(4,	'Malá bez ponuky podčlánkov',	NULL);
+
+DROP TABLE IF EXISTS `hlavne_menu`;
+CREATE TABLE `hlavne_menu` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[5]Id položky hlavného menu',
+  `spec_nazov` varchar(100) COLLATE utf8_bin DEFAULT NULL COMMENT 'Názov položky menu pre URL',
+  `id_hlavne_menu_cast` int(11) NOT NULL DEFAULT '1' COMMENT '[5]Ku ktorej časti hl. menu patrí položka',
+  `id_user_roles` int(11) NOT NULL DEFAULT '0' COMMENT 'Id min úrovne registrácie pre zobrazenie',
+  `id_ikonka` int(11) DEFAULT NULL COMMENT '[4]Názov súboru ikonky aj s koncovkou',
+  `id_druh` int(11) NOT NULL DEFAULT '1' COMMENT '[5]Výber druhu priradenej položky. Ak 1 tak je možné priradiť článok v náväznosti na tab. druh',
+  `uroven` tinyint(4) NOT NULL DEFAULT '0' COMMENT 'Úroveň položky menu',
+  `id_nadradenej` int(11) DEFAULT NULL COMMENT 'Id nadradenej položky menu z tejto tabuľky ',
+  `id_user_main` int(11) NOT NULL DEFAULT '1' COMMENT 'Id užívateľa',
+  `poradie` int(11) NOT NULL DEFAULT '1' COMMENT 'Poradie v zobrazení',
+  `poradie_podclankov` int(11) NOT NULL DEFAULT '0' COMMENT 'Poradie podčlánkov ak sú: 0 - od 1-9, 1 - od 9-1',
+  `id_hlavicka` int(11) NOT NULL DEFAULT '0' COMMENT '[5]Druh hlavičky podľa tabuľky hlavicka. 1 - velka',
+  `id_hlavne_menu_opravnenie` int(11) NOT NULL DEFAULT '0' COMMENT 'Povolenie pre nevlastníkov (0-žiadne,1- podčlánky,2-editacia,4-všetko)',
+  `zvyrazni` tinyint(4) NOT NULL DEFAULT '0' COMMENT '[5]Zvýraznenie položky menu pri pridaní obsahu',
+  `pocitadlo` int(11) NOT NULL DEFAULT '0' COMMENT '[R]Počítadlo kliknutí na položku',
+  `nazov_ul_sub` varchar(20) COLLATE utf8_bin DEFAULT NULL COMMENT '[5]Názov pomocnej triedy ul-elsementu sub menu',
+  `absolutna` varchar(100) COLLATE utf8_bin DEFAULT NULL COMMENT 'Absolútna adresa',
+  `ikonka` varchar(30) COLLATE utf8_bin DEFAULT NULL COMMENT 'Názov css ikonky',
+  `avatar` varchar(300) COLLATE utf8_bin DEFAULT NULL COMMENT 'Názov a cesta k titulnému obrázku',
+  `komentar` tinyint(4) NOT NULL DEFAULT '0' COMMENT 'Povolenie komentárov',
+  `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Posledná zmena',
+  `datum_platnosti` date DEFAULT NULL COMMENT 'Platnosť',
+  `aktualny_projekt` tinyint(4) NOT NULL DEFAULT '0' COMMENT 'Označenie aktuálneho projektu',
+  `redirect_id` int(11) DEFAULT NULL COMMENT 'Id článku na ktorý sa má presmerovať',
+  `id_dlzka_novinky` int(11) NOT NULL DEFAULT '1' COMMENT 'Do kedy je to novinka',
+  PRIMARY KEY (`id`),
+  KEY `id_reg` (`id_user_roles`),
+  KEY `druh` (`id_druh`),
+  KEY `id_ikonka` (`id_ikonka`),
+  KEY `id_hlavicka` (`id_hlavicka`),
+  KEY `id_hlavne_menu_cast` (`id_hlavne_menu_cast`),
+  KEY `id_user_profiles` (`id_user_main`),
+  KEY `id_dlzka_novinky` (`id_dlzka_novinky`),
+  KEY `id_hlavne_menu_opravnenie` (`id_hlavne_menu_opravnenie`),
+  CONSTRAINT `hlavne_menu_ibfk_10` FOREIGN KEY (`id_user_roles`) REFERENCES `user_roles` (`id`),
+  CONSTRAINT `hlavne_menu_ibfk_11` FOREIGN KEY (`id_hlavne_menu_opravnenie`) REFERENCES `hlavne_menu_opravnenie` (`id`),
+  CONSTRAINT `hlavne_menu_ibfk_2` FOREIGN KEY (`id_ikonka`) REFERENCES `ikonka` (`id`),
+  CONSTRAINT `hlavne_menu_ibfk_4` FOREIGN KEY (`id_hlavicka`) REFERENCES `hlavicka` (`id`),
+  CONSTRAINT `hlavne_menu_ibfk_5` FOREIGN KEY (`id_hlavne_menu_cast`) REFERENCES `hlavne_menu_cast` (`id`),
+  CONSTRAINT `hlavne_menu_ibfk_6` FOREIGN KEY (`id_druh`) REFERENCES `druh` (`id`),
+  CONSTRAINT `hlavne_menu_ibfk_8` FOREIGN KEY (`id_dlzka_novinky`) REFERENCES `dlzka_novinky` (`id`),
+  CONSTRAINT `hlavne_menu_ibfk_9` FOREIGN KEY (`id_user_main`) REFERENCES `user_main` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Položky hlavného menu';
+
+INSERT INTO `hlavne_menu` (`id`, `spec_nazov`, `id_hlavne_menu_cast`, `id_user_roles`, `id_ikonka`, `id_druh`, `uroven`, `id_nadradenej`, `id_user_main`, `poradie`, `poradie_podclankov`, `id_hlavicka`, `id_hlavne_menu_opravnenie`, `zvyrazni`, `pocitadlo`, `nazov_ul_sub`, `absolutna`, `ikonka`, `avatar`, `komentar`, `modified`, `datum_platnosti`, `aktualny_projekt`, `redirect_id`, `id_dlzka_novinky`) VALUES
+(1,	'home',	1,	0,	NULL,	3,	0,	NULL,	1,	1,	0,	0,	0,	0,	0,	NULL,	'Homepage:',	NULL,	NULL,	0,	'2017-07-10 06:03:03',	NULL,	0,	NULL,	1);
+
+DROP TABLE IF EXISTS `hlavne_menu_cast`;
+CREATE TABLE `hlavne_menu_cast` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
+  `nazov` varchar(50) COLLATE utf8_bin NOT NULL DEFAULT 'Časť' COMMENT 'Názov časti',
+  `id_user_roles` int(11) NOT NULL DEFAULT '5' COMMENT 'Id min úrovne registrácie pre editáciu',
+  `mapa_stranky` tinyint(4) NOT NULL DEFAULT '0' COMMENT 'Ak 1 tak je časť zahrnutá do mapy',
+  PRIMARY KEY (`id`),
+  KEY `id_registracia` (`id_user_roles`),
+  CONSTRAINT `hlavne_menu_cast_ibfk_2` FOREIGN KEY (`id_user_roles`) REFERENCES `user_roles` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Časti hlavného menu';
+
+INSERT INTO `hlavne_menu_cast` (`id`, `nazov`, `id_user_roles`, `mapa_stranky`) VALUES
+(1,	'Hlavná ponuka',	4,	1),
+(2,	'Druhá časť',	4,	1);
+
+DROP TABLE IF EXISTS `hlavne_menu_lang`;
+CREATE TABLE `hlavne_menu_lang` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
+  `id_lang` int(11) NOT NULL DEFAULT '1' COMMENT 'Id Jazyka',
+  `id_hlavne_menu` int(11) NOT NULL COMMENT 'Id hlavného menu, ku ktorému patrí',
+  `id_clanok_lang` int(11) DEFAULT NULL COMMENT 'Id jazka článku ak ho má',
+  `menu_name` varchar(100) COLLATE utf8_bin DEFAULT NULL COMMENT 'Názov položky v hlavnom menu pre daný jazyk',
+  `h1part2` varchar(100) COLLATE utf8_bin DEFAULT NULL COMMENT 'Druhá časť názvu pre daný jazyk',
+  `view_name` varchar(255) COLLATE utf8_bin DEFAULT NULL COMMENT 'Zobrazený názov položky pre daný jazyk',
+  PRIMARY KEY (`id`),
+  KEY `id_hlavne_menu` (`id_hlavne_menu`),
+  KEY `id_lang` (`id_lang`),
+  KEY `id_clanok_lang` (`id_clanok_lang`),
+  CONSTRAINT `hlavne_menu_lang_ibfk_1` FOREIGN KEY (`id_hlavne_menu`) REFERENCES `hlavne_menu` (`id`),
+  CONSTRAINT `hlavne_menu_lang_ibfk_2` FOREIGN KEY (`id_lang`) REFERENCES `lang` (`id`),
+  CONSTRAINT `hlavne_menu_lang_ibfk_3` FOREIGN KEY (`id_clanok_lang`) REFERENCES `clanok_lang` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Popis položiek hlavného menu pre iný jazyk';
+
+INSERT INTO `hlavne_menu_lang` (`id`, `id_lang`, `id_hlavne_menu`, `id_clanok_lang`, `menu_name`, `h1part2`, `view_name`) VALUES
+(1,	1,	1,	NULL,	'home',	NULL,	'Príroda blízko mesta');
+
+DROP TABLE IF EXISTS `hlavne_menu_opravnenie`;
+CREATE TABLE `hlavne_menu_opravnenie` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
+  `nazov` varchar(40) COLLATE utf8_bin NOT NULL COMMENT 'Názov oprávnenia',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Oprávnenia nevlastníkov položiek hlavného menu';
+
+INSERT INTO `hlavne_menu_opravnenie` (`id`, `nazov`) VALUES
+(0,	'Žiadne'),
+(1,	'Pridávanie podčlánkov'),
+(2,	'Editácia položky'),
+(3,	'Pridávanie podčlánkov a editácia položky');
+
+DROP TABLE IF EXISTS `ikonka`;
+CREATE TABLE `ikonka` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
+  `nazov` varchar(30) COLLATE utf8_bin NOT NULL DEFAULT 'ikonka' COMMENT 'Kmeňová časť názvu súboru ikonky',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Ikonky';
+
+INSERT INTO `ikonka` (`id`, `nazov`) VALUES
+(0,	'---'),
+(1,	'info'),
+(2,	'kniha'),
+(3,	'kvietok'),
+(4,	'lienka'),
+(5,	'list_ceruza'),
+(6,	'list'),
+(7,	'listok'),
+(8,	'lupa'),
+(9,	'pocasie'),
+(10,	'slnko'),
+(11,	'smerovnik'),
+(12,	'topanka'),
+(13,	'vykricnik');
+
+DROP TABLE IF EXISTS `lang`;
+CREATE TABLE `lang` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
+  `skratka` varchar(3) COLLATE utf8_bin NOT NULL DEFAULT 'sk' COMMENT 'Skratka jazyka',
+  `nazov` varchar(15) COLLATE utf8_bin NOT NULL DEFAULT 'Slovenčina' COMMENT 'Miestny názov jazyka',
+  `nazov_en` varchar(15) COLLATE utf8_bin NOT NULL DEFAULT 'Slovak' COMMENT 'Anglický názov jazyka',
+  `prijaty` tinyint(4) DEFAULT NULL COMMENT 'Ak je > 0 jazyk je možné použiť na Frond',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Jazyky pre web';
+
+INSERT INTO `lang` (`id`, `skratka`, `nazov`, `nazov_en`, `prijaty`) VALUES
+(1,	'sk',	'Slovenčina',	'Slovak',	1);
+
+DROP TABLE IF EXISTS `news`;
+CREATE TABLE `news` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
+  `text` text COLLATE utf8_bin NOT NULL COMMENT 'Text novinky',
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Dátum novinky',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+
+DROP TABLE IF EXISTS `oznam`;
+CREATE TABLE `oznam` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
+  `id_user_main` int(11) NOT NULL DEFAULT '1' COMMENT 'Id užívateľa',
+  `id_user_roles` int(11) NOT NULL DEFAULT '0' COMMENT 'Id min úrovne registrácie pre zobrazenie',
+  `id_ikonka` int(11) DEFAULT NULL COMMENT 'Id použitej ikonky',
+  `datum_platnosti` date NOT NULL DEFAULT '0000-00-00' COMMENT 'Dátum platnosti',
+  `datum_zadania` date NOT NULL DEFAULT '0000-00-00' COMMENT 'Dátum zadania oznamu',
+  `nazov` varchar(50) DEFAULT NULL COMMENT 'Názov oznamu',
+  `text` text COMMENT 'Text oznamu',
+  `oznam_kluc` varchar(10) DEFAULT NULL COMMENT 'Kľúč pre potvrdenie účasti',
+  `title_image` varchar(200) DEFAULT NULL COMMENT 'Názov titulného obrázku',
+  `title_fa_class` varchar(20) DEFAULT NULL COMMENT 'Názov ikonky pre font awesome',
+  `title_image_url` varchar(200) DEFAULT NULL COMMENT 'Odkaz titulného obrázka',
+  PRIMARY KEY (`id`),
+  KEY `id_user_profiles` (`id_user_main`),
+  KEY `id_registracia` (`id_user_roles`),
+  KEY `id_ikonka` (`id_ikonka`),
+  CONSTRAINT `oznam_ibfk_3` FOREIGN KEY (`id_ikonka`) REFERENCES `ikonka` (`id`),
+  CONSTRAINT `oznam_ibfk_4` FOREIGN KEY (`id_user_main`) REFERENCES `user_main` (`id`),
+  CONSTRAINT `oznam_ibfk_5` FOREIGN KEY (`id_user_roles`) REFERENCES `user_roles` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Oznamy';
+
+DROP TABLE IF EXISTS `slider`;
+CREATE TABLE `slider` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
+  `poradie` int(11) NOT NULL DEFAULT '1' COMMENT 'Určuje poradie obrázkov v slidery',
+  `nadpis` varchar(50) COLLATE utf8_bin DEFAULT NULL COMMENT 'Nadpis obrázku',
+  `popis` varchar(150) COLLATE utf8_bin DEFAULT NULL COMMENT 'Popis obrázku slideru vypisovaný v dolnej časti',
+  `subor` varchar(50) COLLATE utf8_bin NOT NULL DEFAULT '*.jpg' COMMENT 'Názov obrázku slideru aj s relatívnou cestou',
+  `zobrazenie` varchar(20) COLLATE utf8_bin DEFAULT NULL COMMENT 'Kedy sa obrázok zobrazí',
+  `id_hlavne_menu` int(11) DEFAULT NULL COMMENT 'Odkaz na položku hlavného menu',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Popis obrázkou slideru aj s názvami súborov';
+
+DROP TABLE IF EXISTS `udaje`;
+CREATE TABLE `udaje` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
+  `id_user_roles` int(11) NOT NULL DEFAULT '5' COMMENT 'Id min úrovne pre editáciu',
+  `id_druh` int(11) DEFAULT NULL COMMENT 'Druhová skupina pre nastavenia',
+  `id_udaje_typ` int(11) NOT NULL DEFAULT '1' COMMENT 'Typ input-u',
+  `nazov` varchar(20) COLLATE utf8_bin NOT NULL DEFAULT 'nazov' COMMENT 'Názov prvku',
+  `text` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT 'Definícia' COMMENT 'Hodnota prvku',
+  `comment` varchar(255) COLLATE utf8_bin DEFAULT NULL COMMENT 'Komentár k hodnote',
+  PRIMARY KEY (`id`),
+  KEY `id_reg` (`id_user_roles`),
+  KEY `id_druh` (`id_druh`),
+  KEY `id_udaje_typ` (`id_udaje_typ`),
+  CONSTRAINT `udaje_ibfk_2` FOREIGN KEY (`id_druh`) REFERENCES `druh` (`id`),
+  CONSTRAINT `udaje_ibfk_3` FOREIGN KEY (`id_udaje_typ`) REFERENCES `udaje_typ` (`id`),
+  CONSTRAINT `udaje_ibfk_4` FOREIGN KEY (`id_user_roles`) REFERENCES `user_roles` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Tabuľka na uschovanie základných údajov o stránke';
+
+INSERT INTO `udaje` (`id`, `id_user_roles`, `id_druh`, `id_udaje_typ`, `nazov`, `text`, `comment`) VALUES
+(1,	5,	NULL,	1,	'titulka-sk',	'Mestské Lesy Poprad',	'Názov zobrazený v titulke'),
+(2,	5,	NULL,	1,	'titulka_2-sk',	'',	'Druhá časť titulky pre jazyk: sk'),
+(3,	5,	NULL,	1,	'titulka_citat_enable',	'0',	'Povolenie zobrazenia citátu'),
+(4,	5,	NULL,	1,	'titulka_citat_podpis',	'',	'Podpis pod citát na titulke'),
+(5,	5,	NULL,	1,	'titulka_citat-sk',	'',	'Text citátu, ktorý sa zobrazí na titulke pre jazyk: sk'),
+(6,	5,	NULL,	1,	'keywords-sk',	'Mestské lesy Poprad, Turistika, oddych, ochrana životného prostredia.',	'Kľúčové slová'),
+(7,	5,	NULL,	1,	'autor',	'Ing. Peter VOJTECH ml. - VZ',	'Autor stránky'),
+(8,	5,	NULL,	1,	'log_out-sk',	'Odhlás sa...',	'Text pre odkaz na odhlásenie sa'),
+(9,	5,	NULL,	1,	'log_in-sk',	'Prihlás sa',	'Text pre odkaz na prihlásenie sa'),
+(10,	5,	NULL,	1,	'forgot_password-sk',	'Zabudnuté heslo?',	'Text pre odkaz na zabudnuté heslo'),
+(11,	5,	NULL,	1,	'register-sk',	'Registrácia',	'Text pre odkaz na registráciu'),
+(12,	5,	NULL,	1,	'last_update-sk',	'Posledná aktualizácia',	'Text pre odkaz na poslednú aktualizáciu'),
+(13,	4,	NULL,	1,	'spravca-sk',	'Správca obsahu',	'Text pre odkaz na správcu'),
+(14,	4,	NULL,	1,	'copy',	'MLPP',	'Text, ktorý sa vypíše za znakom copyright-u'),
+(15,	5,	NULL,	1,	'no_exzist-sk',	'To čo hľadáte nie je ešte v tomto jazyku vytvorené!',	'Text ak položka v danom jazyku neexzistuje pre jazyk:sk'),
+(16,	5,	NULL,	1,	'nazov_uvod-sk',	'Úvod',	'Text pre odkaz na východziu stránku pre jazyk:sk'),
+(17,	5,	NULL,	3,	'komentare',	'0',	'Globálne povolenie komentárov'),
+(18,	5,	NULL,	3,	'registracia_enabled',	'0',	'Globálne registrácie(ak 1 tak áno, ak 0 tak nie)'),
+(19,	4,	1,	1,	'clanok_hlavicka',	'0',	'Nastavuje, ktoré hodnoty sa zobrazia v hlavičke článku Front modulu. Výsledok je súčet čísel.[1=Dátum, 2=Zadávateľ, 4=Počet zobrazení]'),
+(21,	4,	5,	3,	'oznam_komentare',	'0',	'Povolenie komentárov k aktualitám(oznamom).'),
+(22,	5,	5,	2,	'oznam_usporiadanie',	'1',	'Usporiadanie aktualít podľa dátumu platnosti. [1=od najstaršieho; 0=od najmladšieho]'),
+(23,	4,	5,	3,	'oznam_ucast',	'0',	'Povolenie potvrdenia účasti.'),
+(24,	5,	5,	1,	'oznam_prva_stranka',	'1',	'Id stránky, ktorá sa zobrazí ako 1. po načítaní webu'),
+(25,	4,	5,	3,	'oznam_title_image_en',	'1',	'Povolenie pridávania titulného obrázku k oznamu. Ak je zakázané používajú sa ikonky.');
+
+DROP TABLE IF EXISTS `udaje_typ`;
+CREATE TABLE `udaje_typ` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
+  `nazov` varchar(20) COLLATE utf8_bin NOT NULL DEFAULT 'text' COMMENT 'Typ input-u pre danú položku',
+  `comment` varchar(50) COLLATE utf8_bin NOT NULL DEFAULT 'Text' COMMENT 'Popis navonok',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Typy prvkov pre tabuľku udaje';
+
+INSERT INTO `udaje_typ` (`id`, `nazov`, `comment`) VALUES
+(1,	'text',	'Text'),
+(2,	'radio',	'Vyber jednu možnosť'),
+(3,	'checkbox',	'Áno alebo nie');
+
+DROP TABLE IF EXISTS `user_main`;
+CREATE TABLE `user_main` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
+  `id_user_roles` int(11) NOT NULL DEFAULT '0' COMMENT 'Úroveň registrácie a rola',
+  `id_user_profiles` int(11) DEFAULT NULL COMMENT 'Užívateľský profil',
+  `password` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'Heslo',
+  `meno` varchar(50) COLLATE utf8_bin NOT NULL COMMENT 'Meno',
+  `priezvisko` varchar(50) COLLATE utf8_bin NOT NULL COMMENT 'Priezvisko',
+  `email` varchar(100) COLLATE utf8_bin NOT NULL COMMENT 'Email',
+  `activated` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Aktivácia',
+  `banned` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Zazázaný',
+  `ban_reason` varchar(255) COLLATE utf8_bin DEFAULT NULL COMMENT 'Dôvod zákazu',
+  `new_password_key` varchar(100) COLLATE utf8_bin DEFAULT NULL COMMENT 'Kľúč nového hesla',
+  `new_password_requested` datetime DEFAULT NULL COMMENT 'Čas požiadavky na nové heslo',
+  `new_email` varchar(100) COLLATE utf8_bin DEFAULT NULL COMMENT 'Nový email',
+  `new_email_key` varchar(100) COLLATE utf8_bin DEFAULT NULL COMMENT 'Kľúč nového emailu',
+  `last_ip` varchar(40) COLLATE utf8_bin DEFAULT NULL COMMENT 'Posledná IP',
+  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'Vytvorenie užívateľa',
+  `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Posledná zmena',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`),
+  KEY `id_registracia` (`id_user_roles`),
+  KEY `id_user_profiles` (`id_user_profiles`),
+  CONSTRAINT `user_main_ibfk_2` FOREIGN KEY (`id_user_profiles`) REFERENCES `user_profiles` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `user_main_ibfk_3` FOREIGN KEY (`id_user_roles`) REFERENCES `user_roles` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Hlavné údaje užívateľa';
+
+INSERT INTO `user_main` (`id`, `id_user_roles`, `id_user_profiles`, `password`, `meno`, `priezvisko`, `email`, `activated`, `banned`, `ban_reason`, `new_password_key`, `new_password_requested`, `new_email`, `new_email_key`, `last_ip`, `created`, `modified`) VALUES
+(1,	5,	1,	'$2y$10$RnzAjUCyc/B1GgiJ9k43/e27BDz5j1vsbN.DYlfnXIxweBvqxkABq',	'Peter',	'Vojtech',	'petak23@gmail.com',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'217.12.48.22',	'2017-05-15 09:11:19',	'2017-07-13 05:39:31'),
+(2,	4,	2,	'$2y$10$xHr8SFTodJJUqNL3SIz52uATlRdRXA2zMelzkknjWpzWTRGOQuk26',	'Róbert',	'Dula',	'lesypp@stonline.sk',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.253.139.152',	'2017-05-15 09:13:38',	'2017-07-11 09:16:18'),
+(3,	4,	3,	'$2y$10$VOeK4y3ozjaUM1aMtiVmcuHRmtcmoVvC6J4yFX4j0LZoNbXlejyMi',	'Jozef',	'Petrenčík',	'jozue@anigraph.eu',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.253.139.152',	'2017-05-15 09:12:22',	'2017-07-11 07:10:29');
+
+DROP TABLE IF EXISTS `user_permission`;
+CREATE TABLE `user_permission` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
+  `id_user_roles` int(11) NOT NULL DEFAULT '0' COMMENT 'Užívateľská rola',
+  `id_user_resource` int(11) NOT NULL COMMENT 'Zdroj',
+  `actions` varchar(100) COLLATE utf8_bin DEFAULT NULL COMMENT 'Povolenie na akciu. (Ak viac oddelené čiarkou, ak null tak všetko)',
+  PRIMARY KEY (`id`),
+  KEY `id_user_roles` (`id_user_roles`),
+  KEY `id_user_resource` (`id_user_resource`),
+  CONSTRAINT `user_permission_ibfk_1` FOREIGN KEY (`id_user_roles`) REFERENCES `user_roles` (`id`),
+  CONSTRAINT `user_permission_ibfk_2` FOREIGN KEY (`id_user_resource`) REFERENCES `user_resource` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Užívateľské oprávnenia';
+
+INSERT INTO `user_permission` (`id`, `id_user_roles`, `id_user_resource`, `actions`) VALUES
+(1,	0,	4,	NULL),
+(2,	0,	6,	NULL),
+(3,	0,	7,	NULL),
+(4,	0,	8,	NULL),
+(5,	0,	1,	NULL),
+(6,	0,	5,	NULL),
+(7,	0,	2,	NULL),
+(8,	0,	9,	'default'),
+(9,	0,	3,	'activateNewEmail'),
+(10,	1,	3,	'default,mailChange,passwordChange'),
+(11,	3,	19,	'default,edit,edit2,add,add2,del'),
+(12,	3,	13,	'default,edit,edit2,add,add2'),
+(13,	3,	10,	NULL),
+(14,	3,	15,	NULL),
+(15,	4,	9,	NULL),
+(16,	4,	19,	'addpol'),
+(17,	4,	13,	'addpol'),
+(18,	4,	12,	'default'),
+(19,	4,	11,	'default'),
+(20,	4,	14,	'default,edit'),
+(21,	4,	18,	NULL),
+(22,	4,	17,	NULL),
+(23,	4,	20,	NULL),
+(24,	4,	16,	'default,edit'),
+(25,	5,	16,	NULL),
+(26,	5,	14,	NULL),
+(27,	5,	11,	NULL),
+(28,	5,	12,	NULL),
+(29,	5,	13,	NULL),
+(30,	5,	19,	NULL);
+
+DROP TABLE IF EXISTS `user_prihlasenie`;
+CREATE TABLE `user_prihlasenie` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
+  `id_user_main` int(11) NOT NULL COMMENT 'Id užívateľa',
+  `log_in_datetime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'Dátum a čas prihlásenia',
+  PRIMARY KEY (`id`),
+  KEY `id_user_profiles` (`id_user_main`),
+  CONSTRAINT `user_prihlasenie_ibfk_1` FOREIGN KEY (`id_user_main`) REFERENCES `user_main` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Evidencia prihlásenia užívateľov';
+
+DROP TABLE IF EXISTS `user_profiles`;
+CREATE TABLE `user_profiles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `rok` int(11) DEFAULT NULL COMMENT 'Rok narodenia',
+  `telefon` varchar(30) COLLATE utf8_bin DEFAULT NULL COMMENT 'Telefón',
+  `poznamka` varchar(255) COLLATE utf8_bin DEFAULT NULL COMMENT 'Poznámka',
+  `pocet_pr` int(11) NOT NULL DEFAULT '0' COMMENT 'Počet prihlásení',
+  `pohl` enum('Z','M') COLLATE utf8_bin NOT NULL DEFAULT 'M' COMMENT 'Pohlavie',
+  `prihlas_teraz` datetime DEFAULT NULL COMMENT 'Posledné prihlásenie',
+  `avatar` varchar(200) COLLATE utf8_bin DEFAULT NULL COMMENT 'Cesta k avatarovi veľkosti 75x75',
+  `news` enum('A','N') COLLATE utf8_bin NOT NULL DEFAULT 'A' COMMENT 'Posielanie info emailou',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+INSERT INTO `user_profiles` (`id`, `pohl`) VALUES
+(1,	'M'),
+(2,	'M'),
+(3,	'M');
+
+DROP TABLE IF EXISTS `user_resource`;
+CREATE TABLE `user_resource` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
+  `name` varchar(30) COLLATE utf8_bin NOT NULL COMMENT 'Názov zdroja',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Zdroje oprávnení';
+
+INSERT INTO `user_resource` (`id`, `name`) VALUES
+(1,	'Front:Homepage'),
+(2,	'Front:User'),
+(3,	'Front:UserLog'),
+(4,	'Front:Dokumenty'),
+(5,	'Front:Error'),
+(6,	'Front:Oznam'),
+(7,	'Front:Clanky'),
+(8,	'Front:Menu'),
+(9,	'Front:Faktury'),
+(10,	'Admin:Homepage'),
+(11,	'Admin:User'),
+(12,	'Admin:Verzie'),
+(13,	'Admin:Menu'),
+(14,	'Admin:Udaje'),
+(15,	'Admin:Dokumenty'),
+(16,	'Admin:Lang'),
+(17,	'Admin:Slider'),
+(18,	'Admin:Oznam'),
+(19,	'Admin:Clanky'),
+(20,	'Admin:Texyla');
+
+DROP TABLE IF EXISTS `user_roles`;
+CREATE TABLE `user_roles` (
+  `id` int(11) NOT NULL COMMENT '[A]Index',
+  `role` varchar(30) COLLATE utf8_bin NOT NULL DEFAULT 'guest' COMMENT 'Rola pre ACL',
+  `inherited` varchar(30) COLLATE utf8_bin DEFAULT NULL COMMENT 'Dedí od roli',
+  `name` varchar(30) COLLATE utf8_bin NOT NULL DEFAULT 'Registracia cez web' COMMENT 'Názov úrovne registrácie',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Úrovne registrácie a ich názvy';
+
+INSERT INTO `user_roles` (`id`, `role`, `inherited`, `name`) VALUES
+(0,	'guest',	NULL,	'Bez registrácie'),
+(1,	'register',	'guest',	'Registrácia cez web'),
+(2,	'passive',	'register',	'Pasívny užívateľ'),
+(3,	'active',	'passive',	'Aktívny užívateľ'),
+(4,	'manager',	'active',	'Správca obsahu'),
+(5,	'admin',	'manager',	'Administrátor');
+
+DROP TABLE IF EXISTS `verzie`;
+CREATE TABLE `verzie` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
+  `id_user_main` int(11) NOT NULL DEFAULT '1' COMMENT 'Id užívateľa',
+  `cislo` varchar(10) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT 'Číslo verzie',
+  `subory` varchar(255) COLLATE utf8_bin DEFAULT NULL COMMENT 'Zmenené súbory',
+  `text` text COLLATE utf8_bin COMMENT 'Popis zmien',
+  `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Dátum a čas zmeny',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `cislo` (`cislo`),
+  KEY `datum` (`modified`),
+  KEY `id_clena` (`id_user_main`),
+  CONSTRAINT `verzie_ibfk_1` FOREIGN KEY (`id_user_main`) REFERENCES `user_main` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Verzie webu';
+
+INSERT INTO `verzie` (`id`, `id_user_main`, `cislo`, `subory`, `text`) VALUES
+(1,	1,	'0.1.0',	NULL,	'Východzia verzia');
+
+-- 2017-07-13 09:28:56
