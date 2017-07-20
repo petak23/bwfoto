@@ -1,9 +1,9 @@
-# [lesypoprad.sk](http://www.lesypoprad.sk)
+# [bwfoto.sk](http://www.bwfoto.sk)
 
-## My Nette project of webside www.lesypoprad.sk
+## My Nette project of webside www.bwfoto.sk
 
-This is my [Nette](https://nette.org) project of webside [lesypoprad.sk](http://www.lesypoprad.sk)...
+This is my [Nette](https://nette.org) project of webside [bwfoto.sk](http://www.bwfoto.sk)...
 
-## Môj Nette projekt stránky www.lesypoprad.sk
+## Môj Nette projekt stránky www.bwfoto.sk
 
-Toto je môj [Nette](https://nette.org) projekt web-stránky [lesypoprad.sk](http://www.lesypoprad.sk)...
+Toto je môj [Nette](https://nette.org) projekt web-stránky [bwfoto.sk](http://www.bwfoto.sk)...

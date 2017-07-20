@@ -1,1 +1,1 @@
-../_sources/apigen generate --config ../lesypoprad/apigen.neon
+../_sources/apigen generate --config ../bwfoto/apigen.neon

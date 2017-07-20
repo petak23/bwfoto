@@ -6,3 +6,5 @@
 /www/checker/
 /webtemp/
 /nbprojest/
+/composer.lock
+/web.config
