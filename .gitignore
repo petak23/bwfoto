@@ -5,6 +5,6 @@
 /app/config/database.neon
 /www/checker/
 /webtemp/
-/nbprojest/
+/nbproject/
 /composer.lock
 /web.config
