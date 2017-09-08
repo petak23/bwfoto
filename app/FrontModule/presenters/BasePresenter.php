@@ -273,6 +273,12 @@ abstract class BasePresenter extends UI\Presenter {
     return new PeterVojtech\Base\CssJsFilesControl($this->nastavenie['web_files'], $this->name, $this->action);
   }
   
+  /** Komponenta pre výpis kodu google-analytics
+   * @return \PeterVojtech\Base\CssJsFilesControl */
+  public function createComponentGoogleAnalytics() {
+    return new PeterVojtech\MainLayout\GoogleAnalyticsControl($this->udaje);
+  }
+  
   /**
    * Vytvorenie komponenty pre menu uzivatela a zaroven panel jazykov
    * @return \App\FrontModule\Components\User\UserLangMenu */

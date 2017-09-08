@@ -1,5 +1,11 @@
-/* AUTHOR: Peter VOJTECH ml. - VZ; CREATION DATE: 03.06.2011 */
-/* UPDATED 17.07.2017 - PV*/
+/* 
+ * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
+ * Last update: 08.09.2017 
+ */
+body {
+  background-color: #000;
+  color: #fff;
+}
 input {
   color: #000;
 }
@@ -47,9 +53,6 @@ input {
 }
 footer .nav li:last-child {
   border-right: 0; 
-}
-body {  
-  background: url(../www/images/bg-obloha.jpg) top left repeat-x fixed rgba(229,247,255,1.00);
 }
 .modal {
   top: 50px;

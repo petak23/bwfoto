@@ -49,6 +49,7 @@ CREATE TABLE `clanok_lang` (
   CONSTRAINT `clanok_lang_ibfk_2` FOREIGN KEY (`id_lang`) REFERENCES `lang` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Jazyková mutácia článku';
 
+
 DROP TABLE IF EXISTS `dlzka_novinky`;
 CREATE TABLE `dlzka_novinky` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
@@ -91,6 +92,7 @@ CREATE TABLE `dokumenty` (
   CONSTRAINT `dokumenty_ibfk_3` FOREIGN KEY (`id_hlavne_menu`) REFERENCES `hlavne_menu` (`id`),
   CONSTRAINT `dokumenty_ibfk_4` FOREIGN KEY (`id_user_roles`) REFERENCES `user_roles` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Prílohy k článkom';
+
 
 DROP TABLE IF EXISTS `druh`;
 CREATE TABLE `druh` (
@@ -135,6 +137,7 @@ CREATE TABLE `faktury` (
   CONSTRAINT `faktury_ibfk_1` FOREIGN KEY (`id_hlavne_menu`) REFERENCES `hlavne_menu` (`id`),
   CONSTRAINT `faktury_ibfk_3` FOREIGN KEY (`id_user_main`) REFERENCES `user_main` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
 
 DROP TABLE IF EXISTS `hlavicka`;
 CREATE TABLE `hlavicka` (
@@ -317,6 +320,7 @@ CREATE TABLE `oznam` (
   CONSTRAINT `oznam_ibfk_5` FOREIGN KEY (`id_user_roles`) REFERENCES `user_roles` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Oznamy';
 
+
 DROP TABLE IF EXISTS `slider`;
 CREATE TABLE `slider` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
@@ -328,6 +332,7 @@ CREATE TABLE `slider` (
   `id_hlavne_menu` int(11) DEFAULT NULL COMMENT 'Odkaz na položku hlavného menu',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Popis obrázkou slideru aj s názvami súborov';
+
 
 DROP TABLE IF EXISTS `udaje`;
 CREATE TABLE `udaje` (
@@ -348,12 +353,12 @@ CREATE TABLE `udaje` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Tabuľka na uschovanie základných údajov o stránke';
 
 INSERT INTO `udaje` (`id`, `id_user_roles`, `id_druh`, `id_udaje_typ`, `nazov`, `text`, `comment`) VALUES
-(1,	5,	NULL,	1,	'titulka-sk',	'Mestské Lesy Poprad',	'Názov zobrazený v titulke'),
+(1,	5,	NULL,	1,	'titulka-sk',	'BWfoto',	'Názov zobrazený v titulke'),
 (2,	5,	NULL,	1,	'titulka_2-sk',	'',	'Druhá časť titulky pre jazyk: sk'),
 (3,	5,	NULL,	1,	'titulka_citat_enable',	'0',	'Povolenie zobrazenia citátu'),
 (4,	5,	NULL,	1,	'titulka_citat_podpis',	'',	'Podpis pod citát na titulke'),
 (5,	5,	NULL,	1,	'titulka_citat-sk',	'',	'Text citátu, ktorý sa zobrazí na titulke pre jazyk: sk'),
-(6,	5,	NULL,	1,	'keywords-sk',	'Mestské lesy Poprad, Turistika, oddych, ochrana životného prostredia.',	'Kľúčové slová'),
+(6,	5,	NULL,	1,	'keywords-sk',	'BWfoto, Spišské Bystré, fotograf',	'Kľúčové slová'),
 (7,	5,	NULL,	1,	'autor',	'Ing. Peter VOJTECH ml. - VZ',	'Autor stránky'),
 (8,	5,	NULL,	1,	'log_out-sk',	'Odhlás sa...',	'Text pre odkaz na odhlásenie sa'),
 (9,	5,	NULL,	1,	'log_in-sk',	'Prihlás sa',	'Text pre odkaz na prihlásenie sa'),
@@ -361,7 +366,7 @@ INSERT INTO `udaje` (`id`, `id_user_roles`, `id_druh`, `id_udaje_typ`, `nazov`, 
 (11,	5,	NULL,	1,	'register-sk',	'Registrácia',	'Text pre odkaz na registráciu'),
 (12,	5,	NULL,	1,	'last_update-sk',	'Posledná aktualizácia',	'Text pre odkaz na poslednú aktualizáciu'),
 (13,	4,	NULL,	1,	'spravca-sk',	'Správca obsahu',	'Text pre odkaz na správcu'),
-(14,	4,	NULL,	1,	'copy',	'MLPP',	'Text, ktorý sa vypíše za znakom copyright-u'),
+(14,	4,	NULL,	1,	'copy',	'BWfoto',	'Text, ktorý sa vypíše za znakom copyright-u'),
 (15,	5,	NULL,	1,	'no_exzist-sk',	'To čo hľadáte nie je ešte v tomto jazyku vytvorené!',	'Text ak položka v danom jazyku neexzistuje pre jazyk:sk'),
 (16,	5,	NULL,	1,	'nazov_uvod-sk',	'Úvod',	'Text pre odkaz na východziu stránku pre jazyk:sk'),
 (17,	5,	NULL,	3,	'komentare',	'0',	'Globálne povolenie komentárov'),
@@ -371,7 +376,8 @@ INSERT INTO `udaje` (`id`, `id_user_roles`, `id_druh`, `id_udaje_typ`, `nazov`, 
 (22,	5,	5,	2,	'oznam_usporiadanie',	'1',	'Usporiadanie aktualít podľa dátumu platnosti. [1=od najstaršieho; 0=od najmladšieho]'),
 (23,	4,	5,	3,	'oznam_ucast',	'0',	'Povolenie potvrdenia účasti.'),
 (24,	5,	5,	1,	'oznam_prva_stranka',	'1',	'Id stránky, ktorá sa zobrazí ako 1. po načítaní webu'),
-(25,	4,	5,	3,	'oznam_title_image_en',	'1',	'Povolenie pridávania titulného obrázku k oznamu. Ak je zakázané používajú sa ikonky.');
+(25,	4,	5,	3,	'oznam_title_image_en',	'1',	'Povolenie pridávania titulného obrázku k oznamu. Ak je zakázané používajú sa ikonky.'),
+(26,	5,	NULL,	1,	'google-analytics',	'UA-52835371-1',	'Id pre google-analytics. Ak sa reťazec nezačína na \"UA-\" nie je akceptovaný.');
 
 DROP TABLE IF EXISTS `udaje_typ`;
 CREATE TABLE `udaje_typ` (
@@ -414,7 +420,7 @@ CREATE TABLE `user_main` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Hlavné údaje užívateľa';
 
 INSERT INTO `user_main` (`id`, `id_user_roles`, `id_user_profiles`, `password`, `meno`, `priezvisko`, `email`, `activated`, `banned`, `ban_reason`, `new_password_key`, `new_password_requested`, `new_email`, `new_email_key`, `last_ip`, `created`, `modified`) VALUES
-(1,	5,	1,	'$2y$10$RnzAjUCyc/B1GgiJ9k43/e27BDz5j1vsbN.DYlfnXIxweBvqxkABq',	'Peter',	'Vojtech',	'petak23@gmail.com',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'217.12.48.22',	'2017-05-15 09:11:19',	'2017-07-13 05:39:31'),
+(1,	5,	1,	'$2y$10$RnzAjUCyc/B1GgiJ9k43/e27BDz5j1vsbN.DYlfnXIxweBvqxkABq',	'Peter',	'Vojtech',	'petak23@gmail.com',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'::1',	'2017-05-15 09:11:19',	'2017-09-07 12:44:56'),
 (2,	4,	2,	'$2y$10$xHr8SFTodJJUqNL3SIz52uATlRdRXA2zMelzkknjWpzWTRGOQuk26',	'Róbert',	'Dula',	'lesypp@stonline.sk',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.253.139.152',	'2017-05-15 09:13:38',	'2017-07-11 09:16:18'),
 (3,	4,	3,	'$2y$10$VOeK4y3ozjaUM1aMtiVmcuHRmtcmoVvC6J4yFX4j0LZoNbXlejyMi',	'Jozef',	'Petrenčík',	'jozue@anigraph.eu',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.253.139.152',	'2017-05-15 09:12:22',	'2017-07-11 07:10:29');
 
@@ -473,6 +479,9 @@ CREATE TABLE `user_prihlasenie` (
   CONSTRAINT `user_prihlasenie_ibfk_1` FOREIGN KEY (`id_user_main`) REFERENCES `user_main` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Evidencia prihlásenia užívateľov';
 
+INSERT INTO `user_prihlasenie` (`id`, `id_user_main`, `log_in_datetime`) VALUES
+(1,	1,	'2017-09-07 14:44:56');
+
 DROP TABLE IF EXISTS `user_profiles`;
 CREATE TABLE `user_profiles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -487,10 +496,10 @@ CREATE TABLE `user_profiles` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
-INSERT INTO `user_profiles` (`id`, `pohl`) VALUES
-(1,	'M'),
-(2,	'M'),
-(3,	'M');
+INSERT INTO `user_profiles` (`id`, `rok`, `telefon`, `poznamka`, `pocet_pr`, `pohl`, `prihlas_teraz`, `avatar`, `news`) VALUES
+(1,	NULL,	NULL,	NULL,	1,	'M',	'2017-09-07 14:44:56',	NULL,	'A'),
+(2,	NULL,	NULL,	NULL,	0,	'M',	NULL,	NULL,	'A'),
+(3,	NULL,	NULL,	NULL,	0,	'M',	NULL,	NULL,	'A');
 
 DROP TABLE IF EXISTS `user_resource`;
 CREATE TABLE `user_resource` (
@@ -553,7 +562,7 @@ CREATE TABLE `verzie` (
   CONSTRAINT `verzie_ibfk_1` FOREIGN KEY (`id_user_main`) REFERENCES `user_main` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Verzie webu';
 
-INSERT INTO `verzie` (`id`, `id_user_main`, `cislo`, `subory`, `text`) VALUES
-(1,	1,	'0.1.0',	NULL,	'Východzia verzia');
+INSERT INTO `verzie` (`id`, `id_user_main`, `cislo`, `subory`, `text`, `modified`) VALUES
+(1,	1,	'0.1.0',	NULL,	'Východzia verzia',	'2017-09-07 12:43:25');
 
--- 2017-07-13 09:28:56
+-- 2017-09-08 03:52:19
