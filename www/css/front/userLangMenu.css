@@ -4,4 +4,12 @@
  */
 .user-lang-menu ul li {
   float: left;
+  
+}
+.user-lang-menu ul li a {
+  background-color: #337ab7;
+  color: #dddbff;
+}
+.user-lang-menu ul li a:hover {
+  color: #777;
 }
