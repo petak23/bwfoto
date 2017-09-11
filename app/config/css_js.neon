@@ -7,7 +7,9 @@
 parameters:
   web_files:
     Front:
-      js: []    
+      js: []
+    Edit:
+      js: []
     Admin:
       js: []
 #      Oznam_add:
@@ -112,5 +114,33 @@ webloader:
         - %wwwDir%/www/js/jquery.ui.datepicker-sk.js
         - %wwwDir%/www/js/datagrid.js
         - %wwwDir%/www/js/pomocne_admin.js
+      filters:
+        - @jsMin
+    texyla:
+      files:
+        - %wwwDir%/www/js/texyla/js/texyla.js
+        - %wwwDir%/www/js/texyla/js/selection.js
+        - %wwwDir%/www/js/texyla/js/texy.js
+        - %wwwDir%/www/js/texyla/js/buttons.js
+        - %wwwDir%/www/js/texyla/js/dom.js
+        - %wwwDir%/www/js/texyla/js/view.js
+        - %wwwDir%/www/js/texyla/js/ajaxupload.js
+        - %wwwDir%/www/js/texyla/js/window.js
+        - %wwwDir%/www/js/texyla/languages/cs.js
+        - %wwwDir%/www/js/texyla/languages/sk.js
+        - %wwwDir%/www/js/texyla/languages/en.js
+        - %wwwDir%/www/js/texyla/plugins/keys/keys.js
+        - %wwwDir%/www/js/texyla/plugins/resizableTextarea/resizableTextarea.js
+        - %wwwDir%/www/js/texyla/plugins/img/img.js
+        - %wwwDir%/www/js/texyla/plugins/table/table.js
+        - %wwwDir%/www/js/texyla/plugins/link/link.js
+        - %wwwDir%/www/js/texyla/plugins/emoticon/emoticon.js
+        - %wwwDir%/www/js/texyla/plugins/symbol/symbol.js
+        - %wwwDir%/www/js/texyla/plugins/files/files.js
+        - %wwwDir%/www/js/texyla/plugins/color/color.js
+        - %wwwDir%/www/js/texyla/plugins/textTransform/textTransform.js
+        - %wwwDir%/www/js/texyla/plugins/youtube/youtube.js
+        - %wwwDir%/www/js/texyla/plugins/gravatar/gravatar.js
+        - %wwwDir%/www/js/texyla/texyla-init.js
       filters:
         - @jsMin

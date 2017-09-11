@@ -2,7 +2,7 @@
 {block content}
   <h2 n:block=title>{$h2}</h2>
   {control clankyEditForm}
-{/block}
+{*/block}
 {block spec_js}
   <script>
     $('.jquery_ckeditor').ckeditor( function() { /* callback code */ }, {
@@ -12,4 +12,4 @@
         filebrowserBrowseUrl: '{php echo $basePath.'/www/editors/filemanager/index.php?bezp_kod='.$bezp_kod }'
       } );
   </script>
-{/block}
+{/block *}

@@ -38,7 +38,7 @@
 
   <header class="">
     <div id="logoMl">
-      <img src="{$basePath}/www/images/logo-mlpp-beztextu.png" class="">
+      {*<img src="{$basePath}/www/images/logo-mlpp-beztextu.png" class="">*}
       <h1>
         {$udaje['titulka']}
         {* <br n:ifset="$udaje['h1part2']" /><small n:ifset="$udaje['h1part2']">{$udaje['h1part2']|striptags}</small>*}
@@ -70,7 +70,7 @@
     {* --- Info o stranke --- *}
 
     <div class="row">
-      <div class="col-xs-12">
+      <div class="col-xs-12 info-layer">
         <ul class="nav footer-info">
           <li n:if="$user_spravca !== FALSE && $user_admin->id != $user_spravca->id">
             {$udaje['spravca']}: {$user_spravca->meno} {$user_spravca->priezvisko|upper}
@@ -86,7 +86,7 @@
           <li>created by <a href="http://anigraph.eu" title="anigraph.eu" target="_new">anigraph</a></li>
         </ul>
       </div>  
-      <div class="col-xs-12">
+      <div class="col-xs-12 admin-layer">
         <span class="vstup-admin" n:if="$view_log_in_link_in_header < 0 && !$user->isLoggedIn()">
           {var $txt_vstup = 'Prihlásenie pre administráciu webu'}
           <a n:href="User:default#prihlas" title="{$txt_vstup}">{$txt_vstup}</a>

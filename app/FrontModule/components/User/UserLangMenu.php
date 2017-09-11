@@ -125,6 +125,14 @@ class UserLangMenuControl extends Control {
         'class'=>'noajax',
         'data'=>['name'=>'ajax', 'value'=>'false'],
                           ]);
+      $menu_user[] = new MenuItem([
+        'odkaz'=> ':Edit:Homepage:', 
+        'nazov'=> 'Editačný mód',
+//        'target'=>'_blank',
+        'ikonka'  => 'pencil',
+        'class'=>'noajax',
+        'data'=>['name'=>'ajax', 'value'=>'false'],
+                          ]);
     }
     $menu_user[] = new MenuItem([
         'odkaz'=>'signOut!',

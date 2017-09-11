@@ -1,14 +1,20 @@
 /* 
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * Last update: 08.09.2017 
+ * Last update: 11.09.2017 
  */
+
+.user-lang-menu {
+  display: inline-block;
+}
 .user-lang-menu ul li {
   float: left;
   
 }
 .user-lang-menu ul li a {
+  padding: .5ex 1ex;
   background-color: #337ab7;
   color: #dddbff;
+  border: 1px solid #337ab7;
 }
 .user-lang-menu ul li a:hover {
   color: #777;

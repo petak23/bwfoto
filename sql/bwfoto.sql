@@ -467,7 +467,10 @@ INSERT INTO `user_permission` (`id`, `id_user_roles`, `id_user_resource`, `actio
 (27,	5,	11,	NULL),
 (28,	5,	12,	NULL),
 (29,	5,	13,	NULL),
-(30,	5,	19,	NULL);
+(30,	5,	19,	NULL),
+(31,	3,	21,	NULL),
+(32,	1,	23,	'default,mailChange,passwordChange,activateNewEmail'),
+(33,	3,	7,	'default');
 
 DROP TABLE IF EXISTS `user_prihlasenie`;
 CREATE TABLE `user_prihlasenie` (
@@ -480,7 +483,8 @@ CREATE TABLE `user_prihlasenie` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Evidencia prihlásenia užívateľov';
 
 INSERT INTO `user_prihlasenie` (`id`, `id_user_main`, `log_in_datetime`) VALUES
-(1,	1,	'2017-09-07 14:44:56');
+(1,	1,	'2017-09-07 14:44:56'),
+(2,	1,	'2017-09-08 13:14:16');
 
 DROP TABLE IF EXISTS `user_profiles`;
 CREATE TABLE `user_profiles` (
@@ -497,7 +501,7 @@ CREATE TABLE `user_profiles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 INSERT INTO `user_profiles` (`id`, `rok`, `telefon`, `poznamka`, `pocet_pr`, `pohl`, `prihlas_teraz`, `avatar`, `news`) VALUES
-(1,	NULL,	NULL,	NULL,	1,	'M',	'2017-09-07 14:44:56',	NULL,	'A'),
+(1,	NULL,	NULL,	NULL,	2,	'M',	'2017-09-08 13:14:15',	NULL,	'A'),
 (2,	NULL,	NULL,	NULL,	0,	'M',	NULL,	NULL,	'A'),
 (3,	NULL,	NULL,	NULL,	0,	'M',	NULL,	NULL,	'A');
 
@@ -528,7 +532,11 @@ INSERT INTO `user_resource` (`id`, `name`) VALUES
 (17,	'Admin:Slider'),
 (18,	'Admin:Oznam'),
 (19,	'Admin:Clanky'),
-(20,	'Admin:Texyla');
+(20,	'Admin:Texyla'),
+(21,	'Edit:Homepage'),
+(22,	'Edit:User'),
+(23,	'Edit:UserLog'),
+(24,	'Edit:Clanky');
 
 DROP TABLE IF EXISTS `user_roles`;
 CREATE TABLE `user_roles` (
@@ -565,4 +573,4 @@ CREATE TABLE `verzie` (
 INSERT INTO `verzie` (`id`, `id_user_main`, `cislo`, `subory`, `text`, `modified`) VALUES
 (1,	1,	'0.1.0',	NULL,	'Východzia verzia',	'2017-09-07 12:43:25');
 
--- 2017-09-08 03:52:19
+-- 2017-09-08 11:16:09

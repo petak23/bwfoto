@@ -1,6 +1,6 @@
 /* 
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * Last update: 08.09.2017 
+ * Last update: 11.09.2017 
  */
 body {
   background-color: #000;
@@ -65,15 +65,6 @@ footer .nav li:last-child {
 }
 .foto-album .thumbnail div{
   text-align: center;
-}
-footer .footer-info {
-  padding-bottom: 0;
-}
-footer .footer-info li, .vstup-admin, footer .user-lang-menu ul.nav li {
-  font-size: 85%;
-}
-footer .user-lang-menu ul.nav {
-  padding: 0;
 }
 .map {
   width: 50%;
