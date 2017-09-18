@@ -7,7 +7,7 @@ use PeterVojtech;
 /**
  * Prezenter pre spravu clankov.
  * 
- * Posledna zmena(last change): 23.06.2017
+ * Posledna zmena(last change): 18.09.2017
  *
  *	Modul: ADMIN
  *
@@ -15,7 +15,7 @@ use PeterVojtech;
  * @copyright Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.2.7
+ * @version 1.2.8
  */
 
 class ClankyPresenter extends ArticlePresenter {
@@ -35,8 +35,6 @@ class ClankyPresenter extends ArticlePresenter {
   /** Vychodzie nastavenia */
   protected function startup() {
     parent::startup();
-    $this->template->bezp_kod	= '4RanoS5689q6-498'; //Bezp. kod pre CKEditor$
-    $this->template->CKtoolbar= "AdminToolbar"; //($this->user->isInRole('admin')) ? "AdminToolbar" : "UserToolbar";
     $this->template->jazyky = $this->lang->findAll();
   }
   
@@ -145,17 +143,22 @@ class ClankyPresenter extends ArticlePresenter {
       $form->addHidden($j->skratka.'_id');
 			$form->addHidden($j->skratka.'_id_lang');
       if ($this->nastavenie['clanky']['zobraz_anotaciu']) {
-        $form->addText($j->skratka.'_anotacia', 'Anotácia článku pre jazyk '.$j->nazov, 80, 255);
+        $form->addText($j->skratka.'_anotacia', 'Anotácia článku pre jazyk '.$j->nazov.':', 0, 255);
       }
-			$form->addTextArea($j->skratka.'_text', 'Text článku pre jazyk '.$j->nazov)
-					 ->setAttribute('cols', 60)
-					 ->setAttribute('class', 'jquery_ckeditor');
+			$form->addTextArea($j->skratka.'_text', 'Text článku pre jazyk '.$j->nazov.':')
+           ->setAttribute('cols', 0)
+           ->setAttribute('rows', 20)
+           ->getControlPrototype()->class("texyla");
     }
 		$form->addGroup();
 		$form->addSubmit('uloz', 'Ulož článok')->setAttribute('class', 'btn btn-success');
 		$form->onSuccess[] = [$this,'clankyEditFormSubmitted'];
-    $form->getRenderer()->wrappers['pair']['.odd'] = 'r1';
-		return $this->_vzhladForm($form);
+		$form = $this->_vzhladForm($form);
+    $renderer = $form->getRenderer();
+    $renderer->wrappers['pair']['.odd'] = 'r1';
+    $renderer->wrappers['control']['container'] = 'div class="col-sm-12 control-field"';
+    $renderer->wrappers['label']['container'] = 'div class="col-sm-12 control-label control-label-clanky"';
+    return $form;
 	}
 
   /** Spracovanie formulara pre editaciu clanku.

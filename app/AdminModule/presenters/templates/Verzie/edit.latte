@@ -3,13 +3,3 @@
 {block content}
   <h2 n:block=title>{$h2}</h2>
   {control verzieEditForm}
-{/block}  
-{block spec_js}
-<script>
-  $('.jquery_ckeditor').ckeditor( function() { /* callback code */ }, {
-      extraPlugins : 'zalomenie',
-      customConfig : '../../js/config_ckeditor.js',
-      toolbar : 'Todo',
-    } );
-</script>
-{/block}

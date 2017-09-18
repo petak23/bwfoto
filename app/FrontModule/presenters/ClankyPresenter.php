@@ -1,13 +1,14 @@
 <?php
 namespace App\FrontModule\Presenters;
 
+use DbTable;
+use Language_support;
 use Nette\Application\UI\Multiplier;
-use DbTable, Language_support;
 
 /**
  * Prezenter pre vypisanie clankov.
  * 
- * Posledna zmena(last change): 27.06.2017
+ * Posledna zmena(last change): 18.09.2017
  *
  *	Modul: FRONT
  *
@@ -15,7 +16,7 @@ use DbTable, Language_support;
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.9
+ * @version 1.1.0
  */
 
 class ClankyPresenter extends \App\FrontModule\Presenters\BasePresenter {
@@ -50,8 +51,7 @@ class ClankyPresenter extends \App\FrontModule\Presenters\BasePresenter {
   }
 
   /** Zobrazenie konkretneho clanku
-   * @param int $id Id hlavneho menu clanku
-   */
+   * @param int $id Id hlavneho menu clanku */
 	public function actionDefault($id = 0, $kotva = "") {
     if (($this->zobraz_clanok = $this->hlavne_menu_lang->getOneArticleId($id, $this->language_id, $this->id_reg)) === FALSE) {
       $this->setView("notFound");
@@ -90,8 +90,7 @@ class ClankyPresenter extends \App\FrontModule\Presenters\BasePresenter {
   }
 
   /** Komponenta pre komentare k clanku
-   * @return Multiplier
-   */
+   * @return Multiplier */
 	public function createComponentKomentar() {
 		return new Multiplier(function ($id_hlavne_menu) {
       $komentar = $this->komentarControlControlFactory->create();
@@ -102,10 +101,9 @@ class ClankyPresenter extends \App\FrontModule\Presenters\BasePresenter {
 	}
 
   /** Komponenta pre zobrazenie clanku
-   * @return \App\FrontModule\Components\Clanky\ZobrazClanok\ZobrazClanokControl
-   */
+   * @return \App\FrontModule\Components\Clanky\ZobrazClanok\ZobrazClanokControl */
   public function createComponentUkazTentoClanok() {
-    $ukaz_clanok = New \App\FrontModule\Components\Clanky\ZobrazClanok\ZobrazClanokControl($this->zobraz_clanok);
+    $ukaz_clanok = New \App\FrontModule\Components\Clanky\ZobrazClanok\ZobrazClanokControl($this->zobraz_clanok, $this->texy);
     $ukaz_clanok->setTexts([
       "not_found"         => $this->trLang('base_template_not_found'),
       "platnost_do"       => $this->trLang('base_platnost_do'),

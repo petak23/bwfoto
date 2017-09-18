@@ -6,7 +6,7 @@ use PeterVojtech;
 /**
  * Prezenter pre spravu verzii.
  * 
- * Posledna zmena(last change): 24.05.2017
+ * Posledna zmena(last change): 18.09.2017
  *
  *	Modul: ADMIN
  *
@@ -14,7 +14,7 @@ use PeterVojtech;
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.9
+ * @version 1.1.0
  */
 
 class VerziePresenter extends BasePresenter {
@@ -48,8 +48,7 @@ class VerziePresenter extends BasePresenter {
 
 	/**
 	 * Edit oznam form component factory.
-	 * @return Nette\Application\UI\Form
-	 */
+	 * @return Nette\Application\UI\Form */
 	protected function createComponentVerzieEditForm() {
     $form = $this->editVerzieForm->create($this->nastavenie['send_e_mail_news']);
     $form['uloz']->onClick[] = function ($button) { 

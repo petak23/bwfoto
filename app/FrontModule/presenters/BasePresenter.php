@@ -1,17 +1,18 @@
 <?php
 namespace App\FrontModule\Presenters;
 
-use Nette\Application\UI\Multiplier;
-use Nette\Utils\Strings;
-use Nette\Http;
-use Nette\Application\UI;
 use DbTable;
+use Nette\Application\UI;
+use Nette\Application\UI\Multiplier;
+use Nette\Http;
+use Nette\Utils\Strings;
 use PeterVojtech;
+use Texy;
 
 /**
  * Zakladny presenter pre vsetky presentery vo FRONT module
  * 
- * Posledna zmena(last change): 13.07.2017
+ * Posledna zmena(last change): 18.09.2017
  *
  *	Modul: FRONT
  *
@@ -19,7 +20,7 @@ use PeterVojtech;
  * @copyright Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link      http://petak23.echo-msz.eu
- * @version 1.3.5
+ * @version 1.3.6
  */
 \Nette\Forms\Container::extensionMethod('addDatePicker', function (\Nette\Forms\Container $container, $name, $label = NULL) {
     return $container[$name] = new \JanTvrdik\Components\DatePicker($label);
@@ -76,7 +77,9 @@ abstract class BasePresenter extends UI\Presenter {
   
   /** @var \WebLoader\Nette\LoaderFactory @inject */
   public $webLoader;
-
+  /** @var Texy\Texy @inject */
+	public $texy;
+  
   /** @var string kmenovy nazov stranky pre rozne ucely typu www.neco.sk*/
   public $nazov_stranky;
   /** @var int Uroven registracie uzivatela  */
@@ -526,7 +529,11 @@ abstract class BasePresenter extends UI\Presenter {
         $out .= "<div>".$v." </div>";
       }
       return $out;
-    }); 
+    });
+            
+    $this->texy->allowedTags = TRUE;
+    $this->texy->headingModule->balancing = "FIXED";
+    $template->addFilter('texy', [$this->texy, 'process']);
     return $template;
 	}
   

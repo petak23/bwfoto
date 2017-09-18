@@ -43,7 +43,7 @@
         <div>
           {*<img n:if="isset($oznam->ikonka->nazov) && !$oznam_title_image_en" src="{$basePath}/www/ikonky/128/{$oznam->ikonka->nazov}128.png" alt="Ikonka" class="oznam-ikonka">*}
           
-          <div>{$oznam->text|noescape}</div>
+          <div>{$oznam->text|noescape|texy}</div>
           <span class="meno">{$oznam->user_main->meno} {$oznam->user_main->priezvisko}</span>
           <div class="row">
             <div n:if="$allow_ucast && $oznam->potvrdenie" class="col-xs-12 col-md-6">

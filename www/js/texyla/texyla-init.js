@@ -1,6 +1,6 @@
 $.texyla.setDefaults({
 	baseDir: '{{$baseUri}}www/js/texyla',
-  iconPath: '{{$baseUri}}www/icons/%var%.png',
+  iconPath: '{{$baseUri}}www/ikonky/icons/%var%.png',
 	previewPath: '{{$previewPath}}',
 	filesPath: '{{$filesPath}}',
 	filesUploadPath: '{{$filesUploadPath}}',
@@ -35,8 +35,10 @@ $(function () {
 		],
 		texyCfg: "admin",
 		bottomLeftToolbar: ['edit', 'preview', 'htmlPreview'],
+    bottomRightPreviewToolbar: [],
 		buttonType: "span",
-		tabs: true
+		tabs: true,
+    language: "sk"
 	});
 
 	$.texyla({
