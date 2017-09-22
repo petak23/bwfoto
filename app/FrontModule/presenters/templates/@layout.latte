@@ -26,17 +26,19 @@
   <meta name="author" content="{$udaje['autor']}" />
   <title n:snippet="title">{$udaje['titulka']} {block title|stripHtml|upper}{/block}</title>
   {control css}
-  <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700|Roboto:300,400,700" rel="stylesheet">
+  {*<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700|Roboto:300,400,700" rel="stylesheet">*}
   {* ----- Favicon ------ *}
   <link rel="shortcut icon" href="{$basePath}/favicon.ico" type="image/x-icon">
   {block head}{/block}
+  <script type="application/javascript" src="{$basePath}/www/js/nittro.min.js" async defer></script>
   {control jsBefore}
 </head>
 
 <body>
-  {control menu templateType=>'tree', templateFile=>'LesyPP_Tree_Main', cast=>1, article_avatar_view_in =>0, ukaz=>TRUE}
+  <div class="container-fluid">
+  {control menu templateType=>'tree', templateFile=>'BWfoto_Tree_Main', cast=>1, article_avatar_view_in =>0, ukaz=>TRUE}
 
-  <header class="">
+  <header class="" n:snippet="header">
     <div id="logoMl">
       {*<img src="{$basePath}/www/images/logo-mlpp-beztextu.png" class="">*}
       <h1>
@@ -49,7 +51,8 @@
   {*<div class="slider-main">{control slider}</div>*}
   {control confirmForm}
   {* ----- ZACIATOK content - centralna cast ----- *}
-  <div n:tag-if="FALSE" n:if="count($flashes)">
+  <div n:flashes></div>
+  {*<div n:tag-if="FALSE" n:if="count($flashes)">
     <div class="flash-messages" n:inner-foreach="$flashes as $flash" n:if="count($flashes)">
       {var $nees = explode(',', $flash->type)}
       <div class="alert alert-{$nees[0]} fade in" role="alert">
@@ -59,14 +62,14 @@
         {if isset($nees[1]) && $nees[1] == 'n'}{$flash->message|noescape}{else}{$flash->message}{/if}
       </div>
     </div>
-  </div>
-  <section id="pageContent">
+  </div>*}
+  <article n:snippet=content n:inner-block="content" class="nittro-transition-auto nittro-transition-fade">
     {include #content}
-  </section>
+  </article>
   {* ----- Spodok stranky - FOOTER ----- *}
   <footer n:snippet=footer>
     {* --- Mapa stranky --- *}
-    {control menu templateType=>'fixed', templateFile=>'LesyPP_footer_Sidemap', cast=>1, article_avatar_view_in =>0}
+    {control menu templateType=>'fixed', templateFile=>'BWfoto_footer_Sidemap', cast=>1, article_avatar_view_in =>0}
     {* --- Info o stranke --- *}
 
     <div class="row">
@@ -95,7 +98,7 @@
       </div>
     </div>
   </footer>
-
+  </div>
   {control jsAfter}
   {control files:js}
   {block spec_js}{/block}

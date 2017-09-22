@@ -23,11 +23,11 @@
 	{/if}
   
 	{if $isDropdown}
-    <ul n:class="$level==1 ? 'inline-ul navbar-nav' : 'dropdown-menu'" {if $level==1}id="topmenuList"{/if}>
+    <ul n:class="$level==1 ? 'nav navbar-nav' : 'dropdown-menu'" {if $level==1}id="topmenuList"{/if}>{* 'inline-ul *}
       {var $level = $level + 1}
       {var $n = $node->poradie_podclankov ? array_reverse($node->nodes) : $node->nodes}
       {foreach $n as $subNode}
-        {include 'LesyPP_Tree_Main_node.latte', node => $subNode, hideName => $hideName, level => $level}
+        {include 'BWfoto_Tree_Main_node.latte', node => $subNode, hideName => $hideName, level => $level}
       {/foreach}
       {var $level = $level - 1}
     </ul>

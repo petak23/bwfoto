@@ -4,6 +4,8 @@
  */
 footer {
   font-size: 85%;
+  text-align: center;
+  background-color: #333;
 }
 .admin-layer, .info-layer {
   text-align: center;
@@ -25,4 +27,12 @@ footer {
 }
 .footer-info li a:hover {
   color: #777;
+}
+footer .navbar {
+  display: inline-block;
+  margin: 0;
+  min-height: inherit;
+}
+footer .navbar .navbar-nav > li > a {
+  padding: 5px 10px;
 }

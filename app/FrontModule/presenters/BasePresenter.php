@@ -2,10 +2,11 @@
 namespace App\FrontModule\Presenters;
 
 use DbTable;
-use Nette\Application\UI;
+//use Nette\Application\UI\Presenter;
 use Nette\Application\UI\Multiplier;
 use Nette\Http;
 use Nette\Utils\Strings;
+use Nittro\Bridges\NittroUI\Presenter;
 use PeterVojtech;
 use Texy;
 
@@ -26,7 +27,7 @@ use Texy;
     return $container[$name] = new \JanTvrdik\Components\DatePicker($label);
 });
 
-abstract class BasePresenter extends UI\Presenter {
+abstract class BasePresenter extends Presenter {
 
   // -- DB
   /** @var DbTable\Dokumenty @inject */
@@ -184,6 +185,7 @@ abstract class BasePresenter extends UI\Presenter {
     $this->upload_size =  intval($ini_v) * ($s[strtolower(substr($ini_v,-1))] ?: 1);
     // -- Povodny: 
     $this->texty_presentera->setLanguage($this->language); //Nastavenie textov podla jazyka
+    $this->setDefaultSnippets(['header', 'content', 'footer']);
 	}
 
   /** Komponenta pre vykreslenie menu
