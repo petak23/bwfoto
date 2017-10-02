@@ -19,16 +19,18 @@
 {block title}{$h2}{/block}
 
 {block content}
-<article class="article-main">
-  <div class="sub-menu" n:if="$view_submenu">
-    {control menu templateType=>'tree',  level=>$uroven_aside, avatar => $avatar_path, anotacia => TRUE, nadpis => $viac_info, divClass => FALSE} {* templateFile=>'Echo_Tree_Clanky',*}
-  </div>
+<article class="article-main">{* dump $zobraz_clanok *}
+  {*<div class="sub-menu" n:if="$view_submenu">
+    {control menu templateType=>'tree',  level=>$uroven_aside, avatar => $avatar_path, anotacia => TRUE, nadpis => $viac_info, divClass => FALSE} { * templateFile=>'Echo_Tree_Clanky',* }
+  </div>*}
   <div class="row main-text">
     <div class="col-xs-12 col-md-12">
       {if $clanok_view}
         {control ukazTentoClanok}
-      {*else}
-        {control menu templateType=>'single', cast => 1, level => $uroven, avatar => $avatar_path, article_avatar_view_in => TRUE, anotacia => TRUE, nadpis => $viac_info, divClass => 'podclanky'*}
+      {else}
+        {*control menu templateType=>'fixed', templateFile=>$clanok_hl_menu->nazov_ul_sub, cast=>$clanok_hl_menu->id_hlavne_menu_cast, article_avatar_view_in =>1, avatar=>'files/menu/'*}
+        
+        {control menu templateType=>'single', templateFile=>$clanok_hl_menu->nazov_ul_sub, cast=>$clanok_hl_menu->id_hlavne_menu_cast, level => $uroven, avatar => $avatar_path, article_avatar_view_in => TRUE, anotacia => TRUE, nadpis => $viac_info}
       {/if}  
     </div>
   </div>

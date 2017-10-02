@@ -23,7 +23,7 @@
 	{/if}
   
 	{if $isDropdown}
-    <ul n:class="$level==1 ? 'nav navbar-nav' : 'dropdown-menu'" {if $level==1}id="topmenuList"{/if}>{* 'inline-ul *}
+    <ul n:class="$level==1 ? 'nav nav-pills nav-stacked' : 'dropdown-menu'" {if $level==1}id="topmenuList"{/if}>{* 'inline-ul *}
       {var $level = $level + 1}
       {var $n = $node->poradie_podclankov ? array_reverse($node->nodes) : $node->nodes}
       {foreach $n as $subNode}

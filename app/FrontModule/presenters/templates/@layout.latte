@@ -4,7 +4,7 @@
  *
  *	Modul: FRONT
  *
- * Posledna zmena(last change): 07.09.2017
+ * Posledna zmena(last change): 02.10.2017
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
@@ -30,74 +30,86 @@
   {* ----- Favicon ------ *}
   <link rel="shortcut icon" href="{$basePath}/favicon.ico" type="image/x-icon">
   {block head}{/block}
-  <script type="application/javascript" src="{$basePath}/www/js/nittro.min.js" async defer></script>
+  {*<script type="application/javascript" src="{$basePath}/www/js/nittro.min.js" async defer></script>*}
   {control jsBefore}
 </head>
 
 <body>
   <div class="container-fluid">
-  {control menu templateType=>'tree', templateFile=>'BWfoto_Tree_Main', cast=>1, article_avatar_view_in =>0, ukaz=>TRUE}
+    <div class="slider-main">{control slider}</div>
+    {* control menu templateType=>'tree', templateFile=>'BWfoto_Tree_Main', cast=>1, article_avatar_view_in =>0, ukaz=>TRUE *}
 
-  <header class="" n:snippet="header">
-    <div id="logoMl">
-      {*<img src="{$basePath}/www/images/logo-mlpp-beztextu.png" class="">*}
-      <h1>
-        {$udaje['titulka']}
-        {* <br n:ifset="$udaje['h1part2']" /><small n:ifset="$udaje['h1part2']">{$udaje['h1part2']|striptags}</small>*}
-      </h1>
-    </div>
-  </header>
-
-  {*<div class="slider-main">{control slider}</div>*}
-  {control confirmForm}
-  {* ----- ZACIATOK content - centralna cast ----- *}
-  <div n:flashes></div>
-  {*<div n:tag-if="FALSE" n:if="count($flashes)">
-    <div class="flash-messages" n:inner-foreach="$flashes as $flash" n:if="count($flashes)">
-      {var $nees = explode(',', $flash->type)}
-      <div class="alert alert-{$nees[0]} fade in" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        {if isset($nees[1]) && $nees[1] == 'n'}{$flash->message|noescape}{else}{$flash->message}{/if}
+    <header class="" n:snippet="header">
+      <div id="logoMl">
+        <a n:href="Homepage:" titile="home">
+          {*<img src="{$basePath}/www/images/logo-mlpp-beztextu.png" class="">*}
+          <h1>
+            {$udaje['titulka']}
+            <br n:ifset="$udaje['h1part2']" /><small n:ifset="$udaje['h1part2']">{$udaje['h1part2']|striptags}</small>
+          </h1>
+        </a>
       </div>
-    </div>
-  </div>*}
-  <article n:snippet=content n:inner-block="content" class="nittro-transition-auto nittro-transition-fade">
-    {include #content}
-  </article>
-  {* ----- Spodok stranky - FOOTER ----- *}
-  <footer n:snippet=footer>
-    {* --- Mapa stranky --- *}
-    {control menu templateType=>'fixed', templateFile=>'BWfoto_footer_Sidemap', cast=>1, article_avatar_view_in =>0}
-    {* --- Info o stranke --- *}
-
+    </header>
+    {* ----- ZACIATOK content - centralna cast ----- *}
     <div class="row">
-      <div class="col-xs-12 info-layer">
-        <ul class="nav footer-info">
-          <li n:if="$user_spravca !== FALSE && $user_admin->id != $user_spravca->id">
-            {$udaje['spravca']}: {$user_spravca->meno} {$user_spravca->priezvisko|upper}
-            ({$user_spravca->email|uprav_email})
-          </li>
-          <li>&copy; {$udaje['copy']} 2017 - {date('Y')}</li>
-          <li>
-            <a href="http://nette.org/cs/" class="logo-nette" title="Nette Framework - populárny nástroj pre vytváranie webových aplikácií v PHP.">
-              <img src="{$basePath}/www/images/nette-powered1.gif" alt="nette powered">
-            </a>
-          </li>
-          <li>{$udaje['last_update']} {$verzia->modified|date:'j.n.Y'}</li>
-          <li>created by <a href="http://anigraph.eu" title="anigraph.eu" target="_new">anigraph</a></li>
-        </ul>
-      </div>  
-      <div class="col-xs-12 admin-layer">
-        <span class="vstup-admin" n:if="$view_log_in_link_in_header < 0 && !$user->isLoggedIn()">
-          {var $txt_vstup = 'Prihlásenie pre administráciu webu'}
-          <a n:href="User:default#prihlas" title="{$txt_vstup}">{$txt_vstup}</a>
-        </span>
-        {control userLangMenu}
+      <div class="col-xs-12 col-md-2">
+        {control menu templateType=>'tree', templateFile=>'BWfoto_Tree_Main', cast=>1, article_avatar_view_in =>0, ukaz=>TRUE}
+      </div>
+      <div class="col-xs-12 col-md-10">
+        {control confirmForm}
+
+        {*<div n:flashes></div>*}
+        <div n:tag-if="FALSE" n:if="count($flashes)">
+          <div class="flash-messages" n:inner-foreach="$flashes as $flash" n:if="count($flashes)">
+            {var $nees = explode(',', $flash->type)}
+            <div class="alert alert-{$nees[0]} fade in" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              {if isset($nees[1]) && $nees[1] == 'n'}{$flash->message|noescape}{else}{$flash->message}{/if}
+            </div>
+          </div>
+        </div>
+        <div class="row top-panel" n:snippet="top-panel">
+          {control menu templateType=>'nav', templateFile=>'BWfoto_Nav_Breadcrumb', level=>1}
+        </div>
+        <article n:snippet=content n:inner-block="content" class="nittro-transition-auto nittro-transition-fade">
+          {include #content}
+        </article>
       </div>
     </div>
-  </footer>
+    {* ----- Spodok stranky - FOOTER ----- *}
+    <footer n:snippet=footer>
+      {* --- Mapa stranky --- *}
+      {control menu templateType=>'fixed', templateFile=>'BWfoto_footer_Sidemap', cast=>1, article_avatar_view_in =>0}
+      {* --- Info o stranke --- *}
+
+      <div class="row">
+        <div class="col-xs-12 info-layer">
+          <ul class="nav footer-info">
+            <li n:if="$user_spravca !== FALSE && $user_admin->id != $user_spravca->id">
+              {$udaje['spravca']}: {$user_spravca->meno} {$user_spravca->priezvisko|upper}
+              ({$user_spravca->email|uprav_email})
+            </li>
+            <li>&copy; {$udaje['copy']} 2017 - {date('Y')}</li>
+            <li>
+              <a href="http://nette.org/cs/" class="logo-nette" title="Nette Framework - populárny nástroj pre vytváranie webových aplikácií v PHP.">
+                <img src="{$basePath}/www/images/nette-powered1.gif" alt="nette powered">
+              </a>
+            </li>
+            <li>{$udaje['last_update']} {$verzia->modified|date:'j.n.Y'}</li>
+            <li>created by <a href="http://anigraph.eu" title="anigraph.eu" target="_new">anigraph</a></li>
+          </ul>
+        </div>  
+        <div class="col-xs-12 admin-layer">
+          <span class="vstup-admin" n:if="$view_log_in_link_in_header < 0 && !$user->isLoggedIn()">
+            {var $txt_vstup = 'Prihlásenie pre administráciu webu'}
+            <a n:href="User:default#prihlas" title="{$txt_vstup}">{$txt_vstup}</a>
+          </span>
+          {control userLangMenu}
+        </div>
+      </div>
+    </footer>
   </div>
   {control jsAfter}
   {control files:js}

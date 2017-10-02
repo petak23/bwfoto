@@ -11,9 +11,9 @@ parameters:
   omrvinky_enabled: TRUE # Globalne povolenie zobrazenia omrviniek TRUE|FALSE
   aktualny_projekt_enabled: FALSE # Globalne povolenie nastavovania aktualneho projektu TRUE|FALSE
   slider:       #Nastavenie slider-u
-    x: 700   #Rozmery slider-u
-    y: 250
-    varianta: 4 #0-nahodne nacitany obrazok, 1-meniace sa obrazky, 2-carousel, 3-scspp
+    x: 1900   #Rozmery slider-u
+    y: 300
+    varianta: 0 #0-nahodne nacitany obrazok, 1-meniace sa obrazky, 2-carousel, 3-scspp
     odkaz: FALSE # Povolenie zobrazenia obrazkov slider-u ako odkazu TRUE|FALSE
   hlavne_menu_obr_ikonky: FALSE # Povolenie obrazovych ikoniek v hl.menu. TRUE|FALSE
   user_panel: #Nastavenie panelu uzivatela
@@ -33,10 +33,10 @@ parameters:
   article_avatar_view_in: 2 
 #  produkt_path: files/produkty # Adresar pre subory prilohy v adresary www
   prilohy_images: #Nastavenie rozmerov obrazku ako prilohy clanku po nahrati na server
-    x: 800        #Zakladny rozmer
-    y: 600
-    tx: 150       #Rozmer nahladu
-    ty: 112
+    x: 1510        #Zakladny rozmer
+    y: 1000
+    tx: 226       #Rozmer nahladu
+    ty: 150
   user_view_fields: #Nastavuje viditelne(volitelne) polozky uzivatela
     rok: FALSE       #Zobrazenie roku narodenia
     telefon: FALSE   #Zobrazenie telefonu

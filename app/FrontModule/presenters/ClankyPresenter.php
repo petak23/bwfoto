@@ -75,6 +75,7 @@ class ClankyPresenter extends \App\FrontModule\Presenters\BasePresenter {
     $this->template->uroven = $this->zobraz_clanok->hlavne_menu->uroven+2;
     $this->template->avatar = $this->zobraz_clanok->hlavne_menu->avatar;
     $this->template->clanok_view = $this->zobraz_clanok->id_clanok_lang == NULL ? FALSE : TRUE;
+    $this->template->clanok_hl_menu = $this->zobraz_clanok->hlavne_menu;
     $this->template->view_submenu = $this->zobraz_clanok->hlavne_menu->id_hlavicka < 3;
     $this->template->viac_info = "";//$this->trLang('viac_info');
     //Zisti, ci su k clanku priradene komponenty
