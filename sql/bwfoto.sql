@@ -57,9 +57,9 @@ INSERT INTO `clanok_lang` (`id`, `id_lang`, `text`, `anotacia`) VALUES
 (5,	1,	'1)  *Niečo nové* - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque. Sed pharetra nibh eget orci.\n2)  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque. Sed pharetra nibh eget orci.\n3)  **Novinka X** - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque. Sed pharetra nibh eget orci.\n\n\n',	'Tu nájdete všetky novinky.'),
 (6,	1,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque. Sed pharetra nibh eget orci convallis at posuere leo convallis. Sed blandit augue vitae augue scelerisque bibendum. Vivamus sit amet libero turpis, non venenatis urna.\n\nIn blandit, odio convallis suscipit venenatis, ante ipsum cursus augue, et mollis nunc diam eget sapien. Nulla facilisi. Etiam feugiat imperdiet rhoncus. Sed suscipit bibendum enim, sed volutpat tortor malesuada non. Morbi fringilla dui non purus porttitor mattis. Suspendisse quis.\n\nVýstava\n-------\n\nVulputate risus. Phasellus erat velit, sagittis sed varius volutpat, placerat nec urna. Nam eu metus vitae dolor fringilla feugiat. Nulla facilisi. Etiam enim metus, luctus in adipiscing at, consectetur quis sapien. Duis imperdiet egestas ligula, quis hendrerit ipsum ullamcorper et.\n\n',	'Tu nás môžete vidieť naživo.'),
 (7,	1,	'Nejaký popis',	NULL),
-(8,	1,	'Popis časti 2', NULL),
+(8,	1,	'Popis časti 2',	NULL),
 (9,	1,	'Niečo k tejto časti',	'Anotácia časti A-1'),
-(10, 1, 'Niečo k tejto časti',	NULL);
+(10,	1,	'Niečo k tejto časti',	NULL);
 
 DROP TABLE IF EXISTS `dlzka_novinky`;
 CREATE TABLE `dlzka_novinky` (
@@ -236,10 +236,10 @@ INSERT INTO `hlavne_menu` (`id`, `spec_nazov`, `id_hlavne_menu_cast`, `id_user_r
 (4,	'produkty',	1,	0,	NULL,	1,	0,	NULL,	1,	2,	0,	2,	0,	0,	0,	NULL,	1,	NULL,	NULL,	NULL,	0,	'2017-10-03 07:58:14',	NULL,	0,	NULL,	1),
 (5,	'novinky',	1,	0,	NULL,	1,	0,	NULL,	1,	3,	0,	2,	0,	0,	0,	NULL,	1,	NULL,	NULL,	NULL,	0,	'2017-10-03 05:15:28',	NULL,	0,	NULL,	1),
 (6,	'vystavy',	1,	0,	NULL,	1,	0,	NULL,	1,	6,	0,	2,	0,	0,	0,	NULL,	1,	NULL,	NULL,	NULL,	0,	'2017-10-03 05:15:28',	NULL,	0,	NULL,	1),
-(7,	'cast-1',	1,	0,	NULL,	1,	1,	4,	1,	1,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'niy5v8swur57hso.jpg',	0,	'2017-10-03 08:01:13',	NULL,	0,	NULL,	1),
-(8,	'cast-2',	1,	0,	NULL,	1,	1,	4,	1,	2,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'ttb9oz7dyd1ynyc.jpg',	0,	'2017-10-03 08:01:26',	NULL,	0,	NULL,	1),
-(9,	'cast-a-1',	1,	0,	NULL,	1,	1,	3,	1,	1,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'3zjqsfzl5baff44.jpg',	0,	'2017-10-03 07:58:48',	NULL,	0,	NULL,	1),
-(10,	'cast-a-2',	1,	0,	NULL,	1,	1,	3,	1,	2,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'qejapifs8ada1do.JPG',	0,	'2017-10-03 07:59:02',	NULL,	0,	NULL,	1);
+(7,	'cast-1',	1,	0,	NULL,	1,	1,	3,	1,	1,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'niy5v8swur57hso.jpg',	0,	'2017-10-03 08:38:08',	NULL,	0,	NULL,	1),
+(8,	'cast-2',	1,	0,	NULL,	1,	1,	3,	1,	2,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'ttb9oz7dyd1ynyc.jpg',	0,	'2017-10-03 08:38:08',	NULL,	0,	NULL,	1),
+(9,	'cast-a-1',	1,	0,	NULL,	1,	1,	2,	1,	1,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'3zjqsfzl5baff44.jpg',	0,	'2017-10-03 08:38:08',	NULL,	0,	NULL,	1),
+(10,	'cast-a-2',	1,	0,	NULL,	1,	1,	2,	1,	2,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'qejapifs8ada1do.JPG',	0,	'2017-10-03 08:38:08',	NULL,	0,	NULL,	1);
 
 DROP TABLE IF EXISTS `hlavne_menu_cast`;
 CREATE TABLE `hlavne_menu_cast` (
@@ -640,4 +640,4 @@ INSERT INTO `verzie` (`id`, `id_user_main`, `cislo`, `subory`, `text`, `modified
 (1,	1,	'0.1.0',	NULL,	'Východzia verzia',	'2017-09-07 12:43:25'),
 (2,	1,	'1.0.1',	'Texy',	'\n- Implementácia texy a texyly\n- Oprava nájdených chýb',	'2017-09-18 07:08:07');
 
--- 2017-10-03 08:18:44
+-- 2017-10-04 11:09:18
