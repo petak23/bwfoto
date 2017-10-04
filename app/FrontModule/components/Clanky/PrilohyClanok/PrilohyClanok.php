@@ -1,23 +1,23 @@
 <?php
-namespace App\FrontModule\Components\Clanky;
+namespace App\FrontModule\Components\Clanky\PrilohyClanok;
 
-use Nette;
+
 use DbTable;
 use Language_support;
+use Nette\Application\UI\Control;
 
 /**
  * Komponenta pre zobrazenie príloh clanku pre FRONT modul
  * 
- * Posledna zmena(last change): 27.06.2017
+ * Posledna zmena(last change): 04.10.2017
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2012 - 2016 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.2
- *
+ * @version 1.0.3
  */
-class PrilohyClanokControl extends Nette\Application\UI\Control {
+class PrilohyClanokControl extends Control {
 
   /** @var DbTable\Dokumenty */
   private $prilohy;
@@ -47,11 +47,11 @@ class PrilohyClanokControl extends Nette\Application\UI\Control {
     return $this;
   }
   
-  /** Render funkcia pre vypisanie odkazu na clanok 
-   * @see Nette\Application\Control#render()
-   */
-  public function render() { 
-    $this->template->setFile(__DIR__ . "/PrilohyClanok.latte");
+  /** Render */
+  public function render($params = []) { 
+    $template_file = (isset($params['templateFile']) && is_file(__DIR__ ."/PrilohyClanok_".$params['templateFile'].".latte"))
+                     ? $params['templateFile'] : "default";
+    $this->template->setFile(__DIR__ . "/PrilohyClanok_".$template_file.".latte");
     $this->template->prilohy = $this->prilohy->getViditelnePrilohy($this->id_article);
     $this->template->texts = $this->texts;
     $this->template->avatar_path = $this->avatar_path;

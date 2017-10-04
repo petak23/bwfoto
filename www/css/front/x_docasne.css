@@ -70,3 +70,28 @@ footer .nav li:last-child {
   border: 1px solid #fff;
   padding: .5ex;
 }
+.slider-panel img {
+  width: 100%;
+}
+
+.article-foto-album img.big-img {
+  width: 100%;
+}
+.bwfoto-foto-album-prilohy img.jslghtbx-thmb {
+  display: none;
+}
+.bwfoto-foto-album-prilohy img.small-img {
+  /*margin: .25ex;*/
+  cursor: pointer;
+}
+@media (max-width: 992px) {
+  .bwfoto-foto-album-prilohy img.jslghtbx-thmb {
+    display: inline-block;
+  }
+  .bwfoto-foto-album-prilohy img.small-img {
+    display: none;
+  }
+  .article-foto-album img.big-img {
+    display: none;
+  }
+}

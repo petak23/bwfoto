@@ -26,7 +26,6 @@
   <meta name="author" content="{$udaje['autor']}" />
   <title n:snippet="title">{$udaje['titulka']} {block title|stripHtml|upper}{/block}</title>
   {control css}
-  {*<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700|Roboto:300,400,700" rel="stylesheet">*}
   {* ----- Favicon ------ *}
   <link rel="shortcut icon" href="{$basePath}/favicon.ico" type="image/x-icon">
   {block head}{/block}
@@ -37,7 +36,6 @@
 <body>
   <div class="container-fluid">
     <div class="slider-main">{control slider}</div>
-    {* control menu templateType=>'tree', templateFile=>'BWfoto_Tree_Main', cast=>1, article_avatar_view_in =>0, ukaz=>TRUE *}
 
     <header class="" n:snippet="header">
       <div id="logoMl">
@@ -114,6 +112,6 @@
   {control jsAfter}
   {control files:js}
   {block spec_js}{/block}
-  {control googleAnalytics}
+  {*control googleAnalytics*}
 </body>
 </html>

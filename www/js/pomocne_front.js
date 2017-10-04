@@ -55,4 +55,20 @@ $(function() {
 		});			  //Skryjem samotný odkaz
 		return false; 					  //Zakážem odkaz
 	});
+  
+  /* Prepínanie obrázkov vrámci fotoalbumu */ 
+  var bigImg = $('.big-img');
+  $('.bwfoto-foto-album-prilohy').find('.small-img').each(function() {
+    var im = $(this);
+    if (im.index() === 1) { // Zobrazenie 1. obrazka vo velkom pri nacitani
+      bigImg.attr('style', 'opacity: 0');
+      bigImg.attr('src', im.attr('data-smallimg')).animate({ opacity: 1 }, 750);
+    }
+    im.click(function(){
+      bigImg.fadeOut(200, function() {
+        $(this).attr('src', im.attr('data-smallimg')).fadeIn(500);
+      });
+    });
+  });
+
 });

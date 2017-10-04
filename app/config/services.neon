@@ -20,6 +20,7 @@ services:
   - DbTable\Hlavne_menu_lang
   - DbTable\Hlavne_menu_cast
   - DbTable\Hlavne_menu_opravnenie
+  - DbTable\Hlavne_menu_template
   - DbTable\Ikonka
   - DbTable\Lang
   - DbTable\News
@@ -55,6 +56,7 @@ services:
   - App\AdminModule\Components\Article\TitleArticle\ZmenDatumPlatnostiFormFactory
   - App\AdminModule\Components\Article\TitleArticle\ZmenDlzkuNovinkyFormFactory
   - App\AdminModule\Components\Article\TitleArticle\ZmenOpravnenieNevlastnikovFormFactory
+  - App\AdminModule\Components\Article\TitleArticle\ZmenSablonuFormFactory
   - App\AdminModule\Components\Article\TitleImage\EditTitleImageFormFactory
   - App\AdminModule\Components\Clanky\PrilohyClanok\EditPrilohyFormFactory
   - App\AdminModule\Components\Oznam\TitleOznam\ZmenPresmerovanieFormFactory
@@ -93,7 +95,7 @@ services:
   - App\FrontModule\Components\Oznam\IAktualneOznamyControl
   - App\FrontModule\Components\Clanky\IAktualneClankyControl
   - App\FrontModule\Components\Clanky\IAktualnyProjektControl
-  - App\FrontModule\Components\Clanky\IPrilohyClanokControl
+  - App\FrontModule\Components\Clanky\PrilohyClanok\IPrilohyClanokControl
   - App\FrontModule\Components\Clanky\OdkazNaClanky\IOdkazNaClankyControl
   - App\FrontModule\Components\Clanky\ZobrazKartyPodclankov\IZobrazKartyPodclankovControl
   - App\FrontModule\Components\Slider\ISliderControl

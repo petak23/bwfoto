@@ -1,0 +1,34 @@
+{* Sablona pre zobrazenie clanku
+ *
+ * Modul: FRONT
+ *
+ * Posledna zmena(last change): 04.10.2017
+ * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
+ * @license
+ * @link       http://petak23.echo-msz.eu
+ *
+ * @param string  $h2 Nadpis
+ * @param int     $uroven Uroven menu
+ * @param string  $avatar_path  cestak obrazku
+ * @param string  $viac_info  Nadpis menu
+ * @param boolean $clanok_view  Zobrazenie
+ * @param array   $komponenty Komponenty pod clankom
+ * @param boolean $komentare_povolene Povolenie komentarov
+*}
+{var $uroven_aside = $uroven > 2 ? $uroven - 1 : 2}
+{block title}{$h2}{/block}
+
+{block content}
+<article class="article-foto-album">{* dump $zobraz_clanok *}
+  <div class="row main-text">
+    <div class="col-xs-12 col-md-6">
+      <small n:if="$user->isInRole('admin')">BWfoto_foto_section</small>
+      {control ukazTentoClanok}
+      <img src="{$basePath}/www/images/cierny_bod.png" alt="Veľký obrázok" class="big-img">
+    </div>
+    <div class="col-xs-12 col-md-6">
+      {control menu templateType=>'single', templateFile=>$clanok_hl_menu->hlavne_menu_template->name, cast=>$clanok_hl_menu->id_hlavne_menu_cast, level => $uroven, avatar => $avatar_path, article_avatar_view_in => TRUE, anotacia => TRUE, nadpis => $viac_info}  
+      {control prilohy templateFile=>$clanok_hl_menu->hlavne_menu_template->name}
+    </div>
+  </div>
+</article>
