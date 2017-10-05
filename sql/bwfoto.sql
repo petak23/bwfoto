@@ -116,9 +116,9 @@ INSERT INTO `dokumenty` (`id`, `id_hlavne_menu`, `id_user_main`, `id_user_roles`
 (6,	8,	2,	0,	'#I-6#',	'image006.jpg',	'jpg',	'image006-jpg',	NULL,	'www/files/prilohy/image006.jpg',	'www/files/prilohy/tb_image006.jpg',	'2017-10-02 09:17:30',	1,	0),
 (7,	8,	2,	0,	'#I-7#',	'image007.jpg',	'jpg',	'image007-jpg',	NULL,	'www/files/prilohy/image007.jpg',	'www/files/prilohy/tb_image007.jpg',	'2017-10-02 09:17:37',	1,	0),
 (8,	8,	2,	0,	'#I-8#',	'image008.jpg',	'jpg',	'image008-jpg',	NULL,	'www/files/prilohy/image008.jpg',	'www/files/prilohy/tb_image008.jpg',	'2017-10-02 09:17:44',	1,	0),
-(9,	9,	2,	0,	'#I-9#',	'imageA01.jpg',	'jpg',	'imagea01-jpg',	NULL,	'www/files/prilohy/imageA01.jpg',	'www/files/prilohy/tb_imageA01.jpg',	'2017-10-02 09:27:53',	1,	0),
-(10,	9,	2,	0,	'#I-10#',	'imageA02.jpg',	'jpg',	'imagea02-jpg',	NULL,	'www/files/prilohy/imageA02.jpg',	'www/files/prilohy/tb_imageA02.jpg',	'2017-10-02 09:28:01',	1,	0),
-(11,	9,	2,	0,	'#I-11#',	'imageA03.jpg',	'jpg',	'imagea03-jpg',	NULL,	'www/files/prilohy/imageA03.jpg',	'www/files/prilohy/tb_imageA03.jpg',	'2017-10-02 09:28:08',	1,	0),
+(9,	9,	1,	0,	'#I-9#',	'imageA01.jpg',	'jpg',	'imagea01-jpg',	'Zámok Plumlov',	'www/files/prilohy/imageA01.jpg',	'www/files/prilohy/tb_imageA01.jpg',	'2017-10-05 12:24:20',	1,	0),
+(10,	9,	1,	0,	'#I-10#',	'imageA02.jpg',	'jpg',	'imagea02-jpg',	'Text na múre zámku Plumlov',	'www/files/prilohy/imageA02.jpg',	'www/files/prilohy/tb_imageA02.jpg',	'2017-10-05 12:24:42',	1,	0),
+(11,	9,	1,	0,	'#I-11#',	'imageA03.jpg',	'jpg',	'imagea03-jpg',	'Freska na 5. poschodí v zámku Plumlov',	'www/files/prilohy/imageA03.jpg',	'www/files/prilohy/tb_imageA03.jpg',	'2017-10-05 12:25:11',	1,	0),
 (12,	10,	2,	0,	'#I-12#',	'imageA05.jpg',	'jpg',	'imagea05-jpg',	NULL,	'www/files/prilohy/imageA05.jpg',	'www/files/prilohy/tb_imageA05.jpg',	'2017-10-02 09:29:33',	1,	0),
 (13,	10,	2,	0,	'#I-13#',	'imageA06.jpg',	'jpg',	'imagea06-jpg',	NULL,	'www/files/prilohy/imageA06.jpg',	'www/files/prilohy/tb_imageA06.jpg',	'2017-10-02 09:29:40',	1,	0),
 (14,	10,	2,	0,	'#I-14#',	'imageA04.jpg',	'jpg',	'imagea04-jpg',	NULL,	'www/files/prilohy/imageA04.jpg',	'www/files/prilohy/tb_imageA04.jpg',	'2017-10-02 09:29:50',	1,	0);
@@ -561,7 +561,8 @@ INSERT INTO `user_prihlasenie` (`id`, `id_user_main`, `log_in_datetime`) VALUES
 (3,	1,	'2017-09-18 09:17:45'),
 (4,	1,	'2017-10-03 07:00:50'),
 (5,	2,	'2017-10-05 07:38:30'),
-(6,	2,	'2017-10-05 07:43:46');
+(6,	2,	'2017-10-05 07:43:46'),
+(7,	1,	'2017-10-05 12:23:40');
 
 DROP TABLE IF EXISTS `user_profiles`;
 CREATE TABLE `user_profiles` (
@@ -578,7 +579,7 @@ CREATE TABLE `user_profiles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 INSERT INTO `user_profiles` (`id`, `rok`, `telefon`, `poznamka`, `pocet_pr`, `pohl`, `prihlas_teraz`, `avatar`, `news`) VALUES
-(1,	NULL,	NULL,	NULL,	4,	'M',	'2017-10-03 07:00:50',	NULL,	'A'),
+(1,	NULL,	NULL,	NULL,	5,	'M',	'2017-10-05 12:23:39',	NULL,	'A'),
 (2,	NULL,	NULL,	NULL,	2,	'M',	'2017-10-05 07:43:46',	NULL,	'A'),
 (3,	NULL,	NULL,	NULL,	0,	'M',	NULL,	NULL,	'A');
 
@@ -651,4 +652,4 @@ INSERT INTO `verzie` (`id`, `id_user_main`, `cislo`, `subory`, `text`, `modified
 (1,	1,	'0.1.0',	NULL,	'Východzia verzia',	'2017-09-07 12:43:25'),
 (2,	1,	'1.0.1',	'Texy',	'\n- Implementácia texy a texyly\n- Oprava nájdených chýb',	'2017-09-18 07:08:07');
 
--- 2017-10-05 06:21:25
+-- 2017-10-05 10:52:29
