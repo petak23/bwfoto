@@ -62,11 +62,11 @@ $(function() {
     var im = $(this);
     if (im.index() === 1) { // Zobrazenie 1. obrazka vo velkom pri nacitani
       bigImg.attr('style', 'opacity: 0');
-      bigImg.attr('src', im.attr('data-smallimg')).animate({ opacity: 1 }, 750);
+      bigImg.attr('src', im.attr('data-smallimg')).animate({ opacity: 1 }, 750, function(){ bigImg.attr('style', null);});
     }
     im.click(function(){
       bigImg.fadeOut(200, function() {
-        $(this).attr('src', im.attr('data-smallimg')).fadeIn(500);
+        $(this).attr('src', im.attr('data-smallimg')).fadeIn(500, function(){ bigImg.attr('style', null);});
       });
     });
   });

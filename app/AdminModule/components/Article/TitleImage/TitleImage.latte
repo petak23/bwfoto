@@ -17,10 +17,10 @@
     <button n:if="$admin_links['edit']" type="button" class="add-title-image btn btn-primary btn-xs" data-toggle="modal" data-target="#myModalTitleImageChange" title="{$title_form}">{$title_form}</button>
   {/if}
   </div>
-  <h2>{$clanok->menu_name} <small>[id={$clanok->id_hlavne_menu}]</small>
-    <button n:if="$admin_links['edit']" type="button" class="edit " data-toggle="modal" data-target="#myModalTitleH2Change" title="Zmena nadpisu">E</button>
+  <h2><small>Názov zobrazený v nadpise:</small>{$clanok->view_name} <small>[id={$clanok->id_hlavne_menu}]</small>
+    <button n:if="FALSE && $admin_links['edit']" type="button" class="edit " data-toggle="modal" data-target="#myModalTitleH2Change" title="Zmena nadpisu">E</button>
     <br />
-    <small>{$clanok->view_name}</small>
+    <small>Názov zobrazený v menu: {$clanok->menu_name}</small>
   </h2>
 </div>
 
