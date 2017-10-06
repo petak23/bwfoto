@@ -141,7 +141,7 @@ class MyTexy extends \Texy {
 		if ($image->width) $params["width"] = $image->width;
 		if ($image->height) $params["height"] = $image->height;
 
-		return $this->protect($this->createTemplate(__DIR__ . "/../templates/inc/@youtube.latte", $params), \Texy::CONTENT_BLOCK);
+		return $this->protect($this->createTemplate(__DIR__ . "/inc/@youtube.latte", $params), \Texy::CONTENT_BLOCK);
 	}
 
 
