@@ -35,8 +35,10 @@ parameters:
   prilohy_images: #Nastavenie rozmerov obrazku ako prilohy clanku po nahrati na server
     x: 1510        #Zakladny rozmer
     y: 1000
+    kvalita: 80    
     tx: 226       #Rozmer nahladu
     ty: 150
+    tkvalita: 80
   user_view_fields: #Nastavuje viditelne(volitelne) polozky uzivatela
     rok: FALSE       #Zobrazenie roku narodenia
     telefon: FALSE   #Zobrazenie telefonu
@@ -65,14 +67,20 @@ latte:
     macros:
         - Nittro\Bridges\NittroLatte\NittroMacros
 
+extensions:
+    fileUpload: Zet\FileUpload\FileUploadExtension
+
+fileUpload:
+#	maxFiles: 10
+#	maxFileSize: 2M
+	fileFilter: Zet\FileUpload\Filter\ImageFilter
+#	uploadModel: App\Model\MyUploadModel
+	uiMode: full # full nebo minimal
+
 session:
   autoStart: true
   expiration: 30 days
 
-#latte:
-#	macros:
-#		- Nittro\Bridges\NittroLatte\NittroMacros
-  
 tracy:
   email: petak23@gmail.com
 

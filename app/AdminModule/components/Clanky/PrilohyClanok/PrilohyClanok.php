@@ -33,6 +33,8 @@ class PrilohyClanokControl extends Nette\Application\UI\Control {
   private $prilohy_images;
   /** &var EditPrilohyFormFactory */
   public $editPrilohyForm;
+  /** &var AddMultiPrilohyFormFactory */
+  public $addMultiPrilohyForm;
   /** @var array */
   private $admin_links;
   /** @var Nette\Security\User */
@@ -43,10 +45,11 @@ class PrilohyClanokControl extends Nette\Application\UI\Control {
   /**
    * @param DbTable\Dokumenty $dokumenty
    * @param EditPrilohyFormFactory $editPrilohyFormFactory */
-  public function __construct(DbTable\Dokumenty $dokumenty, EditPrilohyFormFactory $editPrilohyFormFactory, User $user, DbTable\Hlavne_menu $hlavne_menu) {
+  public function __construct(DbTable\Dokumenty $dokumenty, EditPrilohyFormFactory $editPrilohyFormFactory, AddMultiPrilohyFormFactory $addMultiPrilohyFormFactory, User $user, DbTable\Hlavne_menu $hlavne_menu) {
     parent::__construct();
     $this->dokumenty = $dokumenty;
     $this->editPrilohyForm = $editPrilohyFormFactory;
+    $this->addMultiPrilohyForm = $addMultiPrilohyFormFactory;
     $this->user = $user;
     $this->hlavne_menu = $hlavne_menu;
   }
@@ -105,6 +108,18 @@ class PrilohyClanokControl extends Nette\Application\UI\Control {
     $form->setDefaults(["id"=>0, "id_hlavne_menu"=>$this->clanok->id_hlavne_menu, "id_user_roles"=>$this->clanok->hlavne_menu->id_user_roles]);
     $form['uloz']->onClick[] = function ($button) { 
       $this->presenter->flashOut(!count($button->getForm()->errors), 'this', 'Príloha bola úspešne uložená!', 'Došlo k chybe a zmena sa neuložila. Skúste neskôr znovu...');
+		};
+    return $this->presenter->_vzhladForm($form);
+  }
+  
+  /** 
+   * Komponenta formulara pre pridanie viacerich prílohy polozky.
+   * @return Nette\Application\UI\Form */
+  public function createComponentAddMultiPrilohyForm() {
+    $form = $this->addMultiPrilohyForm->create($this->upload_size, $this->prilohy_adresar, $this->prilohy_images);
+    $form->setDefaults(["id"=>0, "id_hlavne_menu"=>$this->clanok->id_hlavne_menu, "id_user_roles"=>$this->clanok->hlavne_menu->id_user_roles]);
+    $form['uloz']->onClick[] = function ($button) { 
+      $this->presenter->flashOut(!count($button->getForm()->errors), 'this', 'Prílohy boli úspešne uložené!', 'Došlo k chybe a zmena sa neuložila. Skúste neskôr znovu...');
 		};
     return $this->presenter->_vzhladForm($form);
   }

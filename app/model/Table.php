@@ -6,13 +6,13 @@ use Nette\Utils\Strings;
 /**
  * Reprezentuje repozitar pre databázovu tabulku
  * 
- * Posledna zmena(last change): 06.06.2017
+ * Posledna zmena(last change): 09.10.2017
  * 
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.9
+ * @version 1.1.0
 */
 abstract class Table {
 
@@ -143,7 +143,7 @@ abstract class Table {
   /** Opravy v tabulke zaznam s danym id
    * @param int $id
    * @param array $data
-   * @return integer|FALSE */
+   * @return \Nette\Database\Table\ActiveRow|FALSE */
   public function oprav($id, $data) {
     $this->getTable()->get($id)->update($data);
     return $this->find($id);

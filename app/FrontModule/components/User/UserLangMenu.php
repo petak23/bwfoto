@@ -1,21 +1,21 @@
 <?php
 namespace App\FrontModule\Components\User;
 
-use Nette\Application\UI\Control;
-use Nette\Utils\Html;
-use Nette\Security\User;
 use DbTable;
 use Language_support;
+use Nette\Application\UI\Control;
+use Nette\Security\User;
+use Nette\Utils\Html;
 
 /**
  * Plugin pre zobrazenie ponuky o užívateľovi a jazykoch
- * Posledna zmena(last change): 08.09.2017
+ * Posledna zmena(last change): 09.10.2017
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2013 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.8
+ * @version 1.0.9
  */
 class UserLangMenuControl extends Control {
   /** @var Language_support\User Prednastavene texty pre prihlasovaci form */
@@ -125,14 +125,13 @@ class UserLangMenuControl extends Control {
         'class'=>'noajax',
         'data'=>['name'=>'ajax', 'value'=>'false'],
                           ]);
-      $menu_user[] = new MenuItem([
-        'odkaz'=> ':Edit:Homepage:', 
-        'nazov'=> 'Editačný mód',
-//        'target'=>'_blank',
-        'ikonka'  => 'pencil',
-        'class'=>'noajax',
-        'data'=>['name'=>'ajax', 'value'=>'false'],
-                          ]);
+//      $menu_user[] = new MenuItem([
+//        'odkaz'=> ':Edit:Homepage:', 
+//        'nazov'=> 'Editačný mód',
+//        'ikonka'  => 'pencil',
+//        'class'=>'noajax',
+//        'data'=>['name'=>'ajax', 'value'=>'false'],
+//                          ]);
     }
     $menu_user[] = new MenuItem([
         'odkaz'=>'signOut!',

@@ -3,7 +3,10 @@
     <h3>
       Prílohy 
       <button n:if="$admin_links_prilohy['elink']" type="button" class="btn btn-success button-right" data-toggle="modal" data-target="#myModalAddPrilohaChange" title="Pridaj prílohu k položke: {$clanok->view_name}">
-        <i class="fa fa-file-o"></i> Pridaj
+        <i class="fa fa-file-o"></i> Pridaj jednu prílohu
+      </button>
+      <button n:if="$admin_links_prilohy['elink']" type="button" class="btn btn-success button-right" data-toggle="modal" data-target="#myModalAddMultiPrilohaChange" title="Pridanie viacerích príloh k položke: {$clanok->view_name}">
+        <i class="fa fa-file-o"></i> Pridaj naraz viac príloh
       </button>
     </h3>
   </div>
@@ -35,7 +38,7 @@
   </table>
 </div>  
 
-{* -- Modal dialog pre editaciu titulneho obrazku -- *}
+{* -- Modal dialog pre pridanie jednej prílohy -- *}
 <div class="modal fade" id="myModalAddPrilohaChange" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" n:if="$admin_links_prilohy['elink']">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -45,6 +48,21 @@
       </div>
       <div class="modal-body">
         {control editPrilohyForm}
+      </div>
+    </div>
+  </div>
+</div>
+      
+{* -- Modal dialog pre pridanie viacerích priloh -- *}
+<div class="modal fade" id="myModalAddMultiPrilohaChange" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" n:if="$admin_links_prilohy['elink']">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Pridanie viacerích príloh k položke: {$clanok->view_name}</h4>
+      </div>
+      <div class="modal-body">
+        {control addMultiPrilohyForm}
       </div>
     </div>
   </div>

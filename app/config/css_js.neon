@@ -97,9 +97,10 @@ webloader:
         - %wwwDir%/www/js/bootstrap.js
         - %wwwDir%/www/js/netteForms.min.js
         - %wwwDir%/www/js/nette.ajax.js
-        - %wwwDir%/www/js/lightbox.js
         - %wwwDir%/www/js/jquery-ui-1.12.1.js
         - %wwwDir%/www/js/jquery.ui.datepicker-sk.js
+        - %wwwDir%/www/js/lightbox.js
+        - %wwwDir%/www/js/lightbox.config.admin.js
         - %wwwDir%/www/js/datagrid.js
         - %wwwDir%/www/js/pomocne_admin.js
       filters:

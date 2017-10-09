@@ -59,6 +59,7 @@ services:
   - App\AdminModule\Components\Article\TitleArticle\ZmenSablonuFormFactory
   - App\AdminModule\Components\Article\TitleImage\EditTitleImageFormFactory
   - App\AdminModule\Components\Clanky\PrilohyClanok\EditPrilohyFormFactory
+  - App\AdminModule\Components\Clanky\PrilohyClanok\AddMultiPrilohyFormFactory
   - App\AdminModule\Components\Oznam\TitleOznam\ZmenPresmerovanieFormFactory
   - App\AdminModule\Components\Oznam\TitleOznam\EditTitleImageFormFactory
   - App\AdminModule\Presenters\Forms\Slider\EditSliderFormFactory

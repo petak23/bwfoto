@@ -6,13 +6,13 @@ use Nette;
 /**
  * Model, ktory sa stara o tabulku dokumenty
  * 
- * Posledna zmena 06.06.2017
+ * Posledna zmena 09.10.2017
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2016 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.3
+ * @version    1.0.4
  */
 class Dokumenty extends Table {
   /** @var string */
@@ -30,5 +30,19 @@ class Dokumenty extends Table {
    * @return Nette\Database\Table\Selection|FALSE */
   public function getViditelnePrilohy($id) {
     return $this->findBy(["id_hlavne_menu"=>$id, "zobraz_v_texte"=>1])->order("pripona ASC");
+  }
+  
+  /** Uloženie jednej prílohy
+   * @param array $data
+   * @param int $id
+   * @return \Nette\Database\Table\ActiveRow|FALSE */
+  public function ulozPrilohu($data, $id) {
+    $is_image = $data['is_image'];
+    unset($data['is_image']);
+    $vysledok = $this->uloz($data, $id);
+    if ($vysledok !== FALSE && $is_image) { //Ak je to obrazok, tak prida znacku
+      $vysledok = $this->oprav($vysledok['id'], ['znacka'=>'#I-'.$vysledok['id'].'#']);
+    }
+    return $vysledok;
   }
 }
