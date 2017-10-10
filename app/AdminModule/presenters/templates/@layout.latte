@@ -4,7 +4,7 @@
  *
  *	Modul: ADMIN
  *
- * Posledna zmena(last change): 19.05.2017
+ * Posledna zmena(last change): 09.10.2017
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
@@ -30,14 +30,14 @@
 	<title>{$udaje['titulka']} - Administracia</title>
   {control css}
   {block spec_css}{/block}
+  {\Zet\FileUpload\FileUploadControl::getHead($basePath.'\www')}
 	<link rel="shortcut icon" href="{$basePath}/favicon.ico" type="image/x-icon">
-
+  
 	{block head}{/block}
+  {control js}
 </head>
 
 <body>
-	<script> document.body.className+=' js' </script>
-
   <nav class="navbar navbar-default navbar-inverse navbar-hore">
     <div class="container-fluid">
       
@@ -127,8 +127,10 @@
     
   </footer>
   {control js}
+  {control texyla}
   {control files:js}
+  
+  {\Zet\FileUpload\FileUploadControl::getScripts($basePath.'\www')}
   {block spec_js}{/block}
 </body>
-
 </html>

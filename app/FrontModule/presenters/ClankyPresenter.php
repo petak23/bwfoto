@@ -1,13 +1,14 @@
 <?php
 namespace App\FrontModule\Presenters;
 
+use DbTable;
+use Language_support;
 use Nette\Application\UI\Multiplier;
-use DbTable, Language_support;
 
 /**
  * Prezenter pre vypisanie clankov.
  * 
- * Posledna zmena(last change): 27.06.2017
+ * Posledna zmena(last change): 03.10.2017
  *
  *	Modul: FRONT
  *
@@ -15,7 +16,7 @@ use DbTable, Language_support;
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.9
+ * @version 1.1.1
  */
 
 class ClankyPresenter extends \App\FrontModule\Presenters\BasePresenter {
@@ -29,7 +30,7 @@ class ClankyPresenter extends \App\FrontModule\Presenters\BasePresenter {
    * @var Language_support\Clanky */
   public $texty_presentera;
   
-  /** @var \App\FrontModule\Components\Clanky\IPrilohyClanokControl @inject */
+  /** @var \App\FrontModule\Components\Clanky\PrilohyClanok\IPrilohyClanokControl @inject */
   public $prilohyClanokControlFactory;
   /** @var \App\FrontModule\Components\Faktury\IViewFakturyControl @inject */
   public $viewFakturyControlFactory;
@@ -50,8 +51,7 @@ class ClankyPresenter extends \App\FrontModule\Presenters\BasePresenter {
   }
 
   /** Zobrazenie konkretneho clanku
-   * @param int $id Id hlavneho menu clanku
-   */
+   * @param int $id Id hlavneho menu clanku */
 	public function actionDefault($id = 0, $kotva = "") {
     if (($this->zobraz_clanok = $this->hlavne_menu_lang->getOneArticleId($id, $this->language_id, $this->id_reg)) === FALSE) {
       $this->setView("notFound");
@@ -64,17 +64,25 @@ class ClankyPresenter extends \App\FrontModule\Presenters\BasePresenter {
         if (count($nadr)) {
           $this->redirect("Clanky:", [$this->zobraz_clanok->hlavne_menu->id_nadradenej, $this->zobraz_clanok->hlavne_menu->spec_nazov]);
         }
+        else {
+          $this->setView($this->zobraz_clanok->hlavne_menu->hlavne_menu_template->name);
+        }
+      } else {
+        $this->setView($this->zobraz_clanok->hlavne_menu->hlavne_menu_template->name);
       }
     }
 	}
   
   /** Render pre zobrazenie clanku */
-	public function renderDefault()	{
+	public function beforeRender() {
+    parent::beforeRender();
+    //renderDefault()	{
     $this->template->komentare_povolene =  $this->udaje_webu["komentare"] && ($this->user->isAllowed('Front:Clanky', 'komentar') && $this->zobraz_clanok->hlavne_menu->komentar) ? $this->zobraz_clanok->id_hlavne_menu : 0;
 		$this->template->h2 = $this->trLang('h2').$this->zobraz_clanok->view_name;
     $this->template->uroven = $this->zobraz_clanok->hlavne_menu->uroven+2;
     $this->template->avatar = $this->zobraz_clanok->hlavne_menu->avatar;
     $this->template->clanok_view = $this->zobraz_clanok->id_clanok_lang == NULL ? FALSE : TRUE;
+    $this->template->clanok_hl_menu = $this->zobraz_clanok->hlavne_menu;
     $this->template->view_submenu = $this->zobraz_clanok->hlavne_menu->id_hlavicka < 3;
     $this->template->viac_info = "";//$this->trLang('viac_info');
     //Zisti, ci su k clanku priradene komponenty
@@ -90,8 +98,7 @@ class ClankyPresenter extends \App\FrontModule\Presenters\BasePresenter {
   }
 
   /** Komponenta pre komentare k clanku
-   * @return Multiplier
-   */
+   * @return Multiplier */
 	public function createComponentKomentar() {
 		return new Multiplier(function ($id_hlavne_menu) {
       $komentar = $this->komentarControlControlFactory->create();
@@ -102,10 +109,9 @@ class ClankyPresenter extends \App\FrontModule\Presenters\BasePresenter {
 	}
 
   /** Komponenta pre zobrazenie clanku
-   * @return \App\FrontModule\Components\Clanky\ZobrazClanok\ZobrazClanokControl
-   */
+   * @return \App\FrontModule\Components\Clanky\ZobrazClanok\ZobrazClanokControl */
   public function createComponentUkazTentoClanok() {
-    $ukaz_clanok = New \App\FrontModule\Components\Clanky\ZobrazClanok\ZobrazClanokControl($this->zobraz_clanok);
+    $ukaz_clanok = New \App\FrontModule\Components\Clanky\ZobrazClanok\ZobrazClanokControl($this->zobraz_clanok, $this->texy);
     $ukaz_clanok->setTexts([
       "not_found"         => $this->trLang('base_template_not_found'),
       "platnost_do"       => $this->trLang('base_platnost_do'),
@@ -121,7 +127,7 @@ class ClankyPresenter extends \App\FrontModule\Presenters\BasePresenter {
 
 	/** 
    * Komponenta pre zobrazenie priloh
-   * @return \App\FrontModule\Components\Clanky\PrilohyClanokControl */
+   * @return \App\FrontModule\Components\Clanky\PrilohyClanok\PrilohyClanokControl */
   public function createComponentPrilohy() {
     $prilohy = $this->prilohyClanokControlFactory->create();
     $prilohy->setNastav($this->zobraz_clanok->id_hlavne_menu, $this->avatar_path, $this->language_id);

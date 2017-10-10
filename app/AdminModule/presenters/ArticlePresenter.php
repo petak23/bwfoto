@@ -1,16 +1,16 @@
 <?php
 namespace App\AdminModule\Presenters;
 
-use Nette\Forms\Container;
+use DbTable;
 use Nette\Application\UI\Form;
 use Nette\Application\UI\Multiplier;
+use Nette\Forms\Container;
 use PeterVojtech;
-use DbTable;
 
 /**
  * Zakladny presenter pre presentery obsluhujuce polozky hlavneho menu v module ADMIN
  * 
- * Posledna zmena(last change): 23.06.2017
+ * Posledna zmena(last change): 09.10.2017
  *
  * Modul: ADMIN
  *
@@ -18,7 +18,7 @@ use DbTable;
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.2.9
+ * @version 1.3.0
  */
 
 Container::extensionMethod('addDatePicker', function (Container $container, $name, $label = NULL) {
@@ -248,16 +248,15 @@ abstract class ArticlePresenter extends BasePresenter {
 
   /**
    * Edit hlavne menu form component factory.
-   * @return Nette\Application\UI\Form
-   */
+   * @return Nette\Application\UI\Form */
   public function createComponentMenuEditForm()  {
 		$form = $this->editMenuFormFactory->create()->form($this->uroven, $this->menuformuloz["text"], $this->udaje_webu["meno_presentera"]);
     $form['uloz']->onClick[] = function ($button) { $this->menuEditFormSubmitted($button);};
     $form['cancel']->onClick[] = function ($button) {
       $values = $button->getForm()->getValues();
-      $id = $values->id ? $values->id : $values->id_nadradenej;
-      $pol = $this->hlavne_menu->find($id);
-      $this->redirect($pol->druh->presenter.":",$id);
+      $id = $values->id ? $values->id : ($values->uroven ? $values->id_nadradenej : -1*$values->id_hlavne_menu_cast);
+      $pol = ($id > 0) ? $this->hlavne_menu->find($id)->druh->presenter : 'Homepage';
+      $this->redirect($pol.":",$id);
 		};
 		return $this->_vzhladForm($form);
 	}

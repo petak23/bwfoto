@@ -26,7 +26,7 @@
           <a href="{link confirmForm:confirmDelete! id => $ve->id, nazov => $ve->cislo, zdroj_na_zmazanie => 'verziu'}" n:if="$user->isAllowed($control->name, 'del')" title="Vymazanie {$ve->cislo}" class="button-right vymaz-link">
             <i class="fa fa-trash-o fa-2x"></i>Vymaž</a>
         </div>
-        <p class="text-verzie">{$ve->text|noescape}</p>
+        <p class="text-verzie">{$ve->text|noescape|texy}</p>
       </div>
     </div>
   </div>

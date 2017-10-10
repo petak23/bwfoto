@@ -55,4 +55,29 @@ $(function() {
 		});			  //Skryjem samotný odkaz
 		return false; 					  //Zakážem odkaz
 	});
+  
+  /* Prepínanie obrázkov vrámci fotoalbumu */ 
+  var bigImg = $('.big-img');
+  var bigImgCaption = $('.big-img-caption');
+  $('.bwfoto-foto-album-prilohy').find('.small-img').each(function() {
+    var im = $(this);
+    if (im.index() === 1) { // Zobrazenie 1. obrazka vo velkom pri nacitani
+      bigImg.attr('style', 'opacity: 0');
+      bigImg.attr('src', im.attr('data-smallimg')).animate({ opacity: 1 }, 750, function(){ bigImg.attr('style', null);});
+      bigImgCaption.attr('style', 'opacity: 0');
+      bigImgCaption.append('<span class="big-img-caption-in">'+im.attr('data-smallimg-caption'))
+//                   .attr('src', im.attr('data-smallimg'))
+                   .animate({ opacity: 1 }, 750, function(){ bigImgCaption.attr('style', null);});
+    }
+    im.click(function(){
+      bigImg.fadeOut(200, function() {
+        $(this).attr('src', im.attr('data-smallimg')).fadeIn(500, function(){ bigImg.attr('style', null);});
+      });
+      bigImgCaption.find('.big-img-caption-in').remove();
+      bigImgCaption.fadeOut(200, function() {
+        $(this).append('<span class="big-img-caption-in">'+im.attr('data-smallimg-caption')).fadeIn(500, function(){ bigImgCaption.attr('style', null);});
+      });
+    });
+  });
+
 });

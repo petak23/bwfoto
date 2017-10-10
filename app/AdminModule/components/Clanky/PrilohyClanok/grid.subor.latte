@@ -1,0 +1,9 @@
+{var $pr = strtolower($item->pripona)}
+{if $pr == 'jpg' OR $pr == 'png' OR $pr == 'gif' OR $pr == 'bmp'}
+  <img class="jslghtbx-thmb img-rounded" src="{$basePath}/{$item->thumb}" alt="{$item->nazov}" data-jslghtbx="{$basePath}/{$item->subor}" class="noajax" data-ajax="false" data-jslghtbx-group="mygroup1">
+  {*$item->nazov*}
+{else}
+  <a href="{plink Dokumenty: $item->id}" title="{$item->nazov}" target="_blank">
+    <img class="img-rounded" src="{$basePath}/{$item->thumb}" alt="{$item->subor}">
+  </a>
+{/if}     

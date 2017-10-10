@@ -9,7 +9,7 @@ use PeterVojtech;
 /**
  * Prezenter pre spravu oznamov.
  * 
- * Posledna zmena(last change): 21.06.2017
+ * Posledna zmena(last change): 18.09.2017
  *
  * Modul: ADMIN
  *
@@ -17,7 +17,7 @@ use PeterVojtech;
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.6
+ * @version 1.1.7
  */
 
 Container::extensionMethod('addDatePicker', function (Container $container, $name, $label = NULL) {
@@ -35,7 +35,6 @@ class OznamPresenter extends \App\AdminModule\Presenters\BasePresenter {
   public $titleOznamControlFactory;
   /** @var PeterVojtech\Email\IEmailControl @inject */
   public $emailControl;
-
 
   // -- Formulare
   /** @var Forms\Oznam\EditOznamFormFactory @inject*/
@@ -81,8 +80,7 @@ class OznamPresenter extends \App\AdminModule\Presenters\BasePresenter {
 	}
 
   /** Akcia pre editaciu oznamu
-   * @param int $id Id oznamu
-   */
+   * @param int $id Id oznamu */
 	public function actionEdit($id) {
     if (($oznam = $this->oznam->hladaj_id($id, $this->id_reg)) === FALSE) {
       $this->setView('notFound');
@@ -96,15 +94,8 @@ class OznamPresenter extends \App\AdminModule\Presenters\BasePresenter {
     
 	}
   
-  /** Render pre pridanie a editaciu oznamu */
-  public function renderEdit() {
-    $this->template->bezp_kod	= '4RanoS5689q6-498'; //Bezp. kod pre CKEditor$
-    $this->template->CKtoolbar= "OznamToolbar".(($this->user->isInRole('admin')) ? "" : "_Spravca");
-  }
-  
 	/** Formular pre editaciu a pridanie oznamu
-	 * @return Nette\Application\UI\Form
-	 */
+	 * @return Nette\Application\UI\Form */
 	protected function createComponentOznamEditForm() {
     $form = $this->editOznamForm->create($this->udaje_webu['oznam_ucast'], $this->template->oznam_title_image_en, $this->nazov_stranky); 
     $form['uloz']->onClick[] = function ($button) { 
@@ -118,8 +109,7 @@ class OznamPresenter extends \App\AdminModule\Presenters\BasePresenter {
 	}
   
   /** Odoslanie info e-mailu 
-   * @param int $id
-   */
+   * @param int $id */
 	protected function _sendOznamyEmail($id) {
     $values = $this->oznam->find($id);
     $params = [ "site_name"   => $this->nazov_stranky,

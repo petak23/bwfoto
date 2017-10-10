@@ -6,14 +6,14 @@
 #
 parameters:
   homepage_redirect: FALSE # Clanky:default 1 #Presmerovanie na hlavnej stranke Cesta|FALSE
-  add_uroven0: FALSE # Globalne povolenie pre pridavanie do urovne 0 pre spravcu. TRUE|FALSE
-  send_e_mail_news: TRUE # Globalne povolenie posielania info mailov v pripade pridania polozky TRUE|FALSE
+  add_uroven0: TRUE # Globalne povolenie pre pridavanie do urovne 0 pre spravcu. TRUE|FALSE
+  send_e_mail_news: FALSE # Globalne povolenie posielania info mailov v pripade pridania polozky TRUE|FALSE
   omrvinky_enabled: TRUE # Globalne povolenie zobrazenia omrviniek TRUE|FALSE
   aktualny_projekt_enabled: FALSE # Globalne povolenie nastavovania aktualneho projektu TRUE|FALSE
   slider:       #Nastavenie slider-u
-    x: 700   #Rozmery slider-u
-    y: 250
-    varianta: 4 #0-nahodne nacitany obrazok, 1-meniace sa obrazky, 2-carousel, 3-scspp
+    x: 1900   #Rozmery slider-u
+    y: 300
+    varianta: 5 #0-nahodne nacitany obrazok, 1-meniace sa obrazky, 2-carousel, 3-scspp
     odkaz: FALSE # Povolenie zobrazenia obrazkov slider-u ako odkazu TRUE|FALSE
   hlavne_menu_obr_ikonky: FALSE # Povolenie obrazovych ikoniek v hl.menu. TRUE|FALSE
   user_panel: #Nastavenie panelu uzivatela
@@ -33,15 +33,17 @@ parameters:
   article_avatar_view_in: 2 
 #  produkt_path: files/produkty # Adresar pre subory prilohy v adresary www
   prilohy_images: #Nastavenie rozmerov obrazku ako prilohy clanku po nahrati na server
-    x: 800        #Zakladny rozmer
-    y: 600
-    tx: 150       #Rozmer nahladu
-    ty: 112
+    x: 1510        #Zakladny rozmer
+    y: 1000
+    kvalita: 80    
+    tx: 226       #Rozmer nahladu
+    ty: 150
+    tkvalita: 80
   user_view_fields: #Nastavuje viditelne(volitelne) polozky uzivatela
     rok: FALSE       #Zobrazenie roku narodenia
     telefon: FALSE   #Zobrazenie telefonu
     pohl: FALSE      #Zobrazenie pohlavia
-    avatar: TRUE    #Zobrazenie avataru
+    avatar: FALSE    #Zobrazenie avataru
     poznamka: FALSE  #Zobrazenie poznamky
     delete: FALSE    #Zobrazenie moznosti zmazat profil
   oznam: #Nastavuje viditelne(volitelne) polozky oznamu(aktuality)
@@ -60,15 +62,25 @@ application:
   mapping:
     *: App\*Module\Presenters\*Presenter
 
+# Register Nittro Latte macros
+latte:
+    macros:
+        - Nittro\Bridges\NittroLatte\NittroMacros
+
+extensions:
+    fileUpload: Zet\FileUpload\FileUploadExtension
+
+fileUpload:
+#	maxFiles: 10
+#	maxFileSize: 2M
+	fileFilter: Zet\FileUpload\Filter\ImageFilter
+#	uploadModel: App\Model\MyUploadModel
+	uiMode: full # full nebo minimal
 
 session:
   autoStart: true
   expiration: 30 days
 
-#latte:
-#	macros:
-#		- Nittro\Bridges\NittroLatte\NittroMacros
-  
 tracy:
   email: petak23@gmail.com
 

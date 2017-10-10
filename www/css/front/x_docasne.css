@@ -1,5 +1,11 @@
-/* AUTHOR: Peter VOJTECH ml. - VZ; CREATION DATE: 03.06.2011 */
-/* UPDATED 17.07.2017 - PV*/
+/* 
+ * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
+ * Last update: 11.09.2017 
+ */
+body {
+  background-color: #000;
+  color: #fff;
+}
 input {
   color: #000;
 }
@@ -48,9 +54,6 @@ input {
 footer .nav li:last-child {
   border-right: 0; 
 }
-body {  
-  background: url(../www/images/bg-obloha.jpg) top left repeat-x fixed rgba(229,247,255,1.00);
-}
 .modal {
   top: 50px;
 }
@@ -63,16 +66,44 @@ body {
 .foto-album .thumbnail div{
   text-align: center;
 }
-footer .footer-info {
-  padding-bottom: 0;
+.homepage-nav-item {
+  border: 1px solid #fff;
+  padding: .5ex;
 }
-footer .footer-info li, .vstup-admin, footer .user-lang-menu ul.nav li {
-  font-size: 85%;
+.slider-panel img {
+  width: 100%;
 }
-footer .user-lang-menu ul.nav {
-  padding: 0;
+
+.bwfoto-foto-album-prilohy img.jslghtbx-thmb {
+  display: none;
 }
-.map {
-  width: 50%;
-  height: 250px;
+.bwfoto-foto-album-prilohy img.small-img {
+  cursor: pointer;
+}
+.article-foto-album img.big-img {
+  width: 100%;
+  border: 1px solid #999;
+  border-bottom: none;
+}
+.article-foto-album .big-img-caption {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  height: 1.5em;
+  border: 1px solid #999;
+  border-top: none;
+}
+@media (max-width: 992px) {
+  .bwfoto-foto-album-prilohy img.jslghtbx-thmb {
+    display: inline-block;
+  }
+  .bwfoto-foto-album-prilohy img.small-img {
+    display: none;
+  }
+  .article-foto-album img.big-img {
+    display: none;
+  }
+  .article-foto-album .big-img-caption {
+    display: none;
+  }
 }

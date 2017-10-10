@@ -407,3 +407,9 @@ div.alt {
 #footer>.navbar-hore {
   margin-bottom: 0;
 }
+.form-horizontal .control-label-clanky {
+  text-align: left;
+}
+.form-horizontal .control-field textarea, .form-horizontal .control-field input[type=text] {
+  width: 100%;
+}

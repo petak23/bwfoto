@@ -1,0 +1,38 @@
+/* 
+ * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
+ * Last update: 11.09.2017 
+ */
+footer {
+  font-size: 85%;
+  text-align: center;
+  background-color: #333;
+}
+.admin-layer, .info-layer {
+  text-align: center;
+}
+.footer-info {
+  display: inline-block;
+}
+.footer-info li {
+  float: left;
+}
+.footer-info li:after {
+  content: " | ";
+}
+.footer-info li a {
+  display: inline-block;
+  color: #dddbff;
+  margin: 0;
+  padding: 0;
+}
+.footer-info li a:hover {
+  color: #777;
+}
+footer .navbar {
+  display: inline-block;
+  margin: 0;
+  min-height: inherit;
+}
+footer .navbar .navbar-nav > li > a {
+  padding: 5px 10px;
+}

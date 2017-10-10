@@ -3,7 +3,7 @@
 <script n:if="count($pridanie)">
   $(function() {
     {foreach $pridanie as $j}
-    {var $j_mn = '#frm-menuEditForm-'.$j->skratka.'_men_name'}
+    {var $j_mn = '#frm-menuEditForm-'.$j->skratka.'_menu_name'}
     {var $j_vn = '#frm-menuEditForm-'.$j->skratka.'_view_name'}
     $({$j_mn})
       .focusout(function() {

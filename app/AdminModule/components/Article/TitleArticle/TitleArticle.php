@@ -44,6 +44,8 @@ class TitleArticleControl extends Nette\Application\UI\Control {
 	public $zmenDlzkuNovinky;
   /** @var ZmenOpravnenieNevlastnikovFormFactory */
 	public $zmenOpravnenieNevlastnikov;
+  /** @var ZmenSablonuFormFactory */
+	public $zmenSablonu;
 
   /**
    * @param DbTable\Hlavne_menu_lang $hlavne_menu_lang
@@ -56,7 +58,8 @@ class TitleArticleControl extends Nette\Application\UI\Control {
                               ZmenUrovenRegistracieFormFactory $zmenUrovenRegistracieFormFactory,
                               ZmenDatumPlatnostiFormFactory $zmenDatumPlatnostiFormFactory,
                               ZmenDlzkuNovinkyFormFactory $zmenDlzkuNovinkyFormFactory,
-                              ZmenOpravnenieNevlastnikovFormFactory $zmenOpravnenieNevlastnikovFormFactory
+                              ZmenOpravnenieNevlastnikovFormFactory $zmenOpravnenieNevlastnikovFormFactory,
+                              ZmenSablonuFormFactory $zmenSablonuFormFactory
                              ) {
     parent::__construct();
     $this->hlavne_menu_lang = $hlavne_menu_lang;
@@ -65,6 +68,7 @@ class TitleArticleControl extends Nette\Application\UI\Control {
     $this->zmenDatumPlatnosti = $zmenDatumPlatnostiFormFactory;
     $this->zmenDlzkuNovinky = $zmenDlzkuNovinkyFormFactory;
     $this->zmenOpravnenieNevlastnikov = $zmenOpravnenieNevlastnikovFormFactory;
+    $this->zmenSablonu = $zmenSablonuFormFactory;
   }
   
   /** Nastavenie komponenty
@@ -184,6 +188,13 @@ class TitleArticleControl extends Nette\Application\UI\Control {
    * @return Nette\Application\UI\Form */
   public function createComponentZmenDlzkuNovinkyForm() {
     return $this->_formMessage($this->zmenDlzkuNovinky->create($this->clanok->id_hlavne_menu, $this->clanok->hlavne_menu->id_dlzka_novinky));
+  }
+  
+  /** 
+   * Komponenta formulara pre zmenu sablony.
+   * @return Nette\Application\UI\Form */
+  public function createComponentZmenSablonuForm() {
+    return $this->_formMessage($this->zmenSablonu->create($this->clanok->id_hlavne_menu, $this->clanok->hlavne_menu->id_hlavne_menu_template));
   }
   
   /** Signal pre zmenu zoradenia podclanokv podla poradia od 9 do 1 */

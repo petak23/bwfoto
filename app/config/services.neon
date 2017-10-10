@@ -20,6 +20,7 @@ services:
   - DbTable\Hlavne_menu_lang
   - DbTable\Hlavne_menu_cast
   - DbTable\Hlavne_menu_opravnenie
+  - DbTable\Hlavne_menu_template
   - DbTable\Ikonka
   - DbTable\Lang
   - DbTable\News
@@ -37,6 +38,7 @@ services:
 
   - App\RouterFactory 
   router: @App\RouterFactory::createRouter
+  Texy: TexylaExample\MyTexy(@httpRequest)
 
 # services for language support
   - Language_support\Clanky
@@ -54,8 +56,10 @@ services:
   - App\AdminModule\Components\Article\TitleArticle\ZmenDatumPlatnostiFormFactory
   - App\AdminModule\Components\Article\TitleArticle\ZmenDlzkuNovinkyFormFactory
   - App\AdminModule\Components\Article\TitleArticle\ZmenOpravnenieNevlastnikovFormFactory
+  - App\AdminModule\Components\Article\TitleArticle\ZmenSablonuFormFactory
   - App\AdminModule\Components\Article\TitleImage\EditTitleImageFormFactory
   - App\AdminModule\Components\Clanky\PrilohyClanok\EditPrilohyFormFactory
+  - App\AdminModule\Components\Clanky\PrilohyClanok\AddMultiPrilohyFormFactory
   - App\AdminModule\Components\Oznam\TitleOznam\ZmenPresmerovanieFormFactory
   - App\AdminModule\Components\Oznam\TitleOznam\EditTitleImageFormFactory
   - App\AdminModule\Presenters\Forms\Slider\EditSliderFormFactory
@@ -71,6 +75,10 @@ services:
   - App\FrontModule\Presenters\Forms\User\SignInFormFactory
   - App\FrontModule\Presenters\Forms\User\RegisterFormFactory
   - App\FrontModule\Components\Faktury\DokumentFormFactory
+
+  - App\EditModule\Presenters\Forms\User\SignInFormFactory
+  - App\EditModule\Presenters\Forms\User\RegisterFormFactory
+  - App\EditModule\Components\Faktury\DokumentFormFactory
 # component services 
 
   - App\AdminModule\Components\Article\IAdminAddMenu
@@ -88,13 +96,24 @@ services:
   - App\FrontModule\Components\Oznam\IAktualneOznamyControl
   - App\FrontModule\Components\Clanky\IAktualneClankyControl
   - App\FrontModule\Components\Clanky\IAktualnyProjektControl
-  - App\FrontModule\Components\Clanky\IPrilohyClanokControl
+  - App\FrontModule\Components\Clanky\PrilohyClanok\IPrilohyClanokControl
   - App\FrontModule\Components\Clanky\OdkazNaClanky\IOdkazNaClankyControl
   - App\FrontModule\Components\Clanky\ZobrazKartyPodclankov\IZobrazKartyPodclankovControl
   - App\FrontModule\Components\Slider\ISliderControl
   - App\FrontModule\Components\User\IUserLangMenuControl
   - App\FrontModule\Components\News\INewsControl
   - App\FrontModule\Components\Faktury\IViewFakturyControl
+
+  - App\EditModule\Components\Oznam\IAktualneOznamyControl
+  - App\EditModule\Components\Clanky\IAktualneClankyControl
+  - App\EditModule\Components\Clanky\IAktualnyProjektControl
+  - App\EditModule\Components\Clanky\IPrilohyClanokControl
+  - App\EditModule\Components\Clanky\OdkazNaClanky\IOdkazNaClankyControl
+  - App\EditModule\Components\Clanky\ZobrazKartyPodclankov\IZobrazKartyPodclankovControl
+  - App\EditModule\Components\Slider\ISliderControl
+  - App\EditModule\Components\User\IUserLangMenuControl
+  - App\EditModule\Components\News\INewsControl
+  - App\EditModule\Components\Faktury\IViewFakturyControl
 
 # PeterVojtech
   - PeterVojtech\Email\IEmailControl

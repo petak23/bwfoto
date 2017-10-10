@@ -32,6 +32,9 @@ class RouterFactory {
 
     $router[] = $adminRouter = new RouteList('Admin');
     $adminRouter[] = new Route('admin/<presenter>/<action>', 'Homepage:default');
+    
+    $router[] = $editRouter = new RouteList('Edit');
+    $editRouter[] = new Route('edit/<presenter>/<action>', 'Homepage:default');
 
     $router[] = $frontRouter = new RouteList('Front');
     $frontRouter[] = new Route('clanky[/<id>]', [
