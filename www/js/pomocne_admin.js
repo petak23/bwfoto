@@ -1,5 +1,5 @@
 $(function() {
-//  $.nette.init(); //ajax pravdepodobne sa inicializuje v texyle...
+  $.nette.init(); //ajax pravdepodobne sa inicializuje v texyle...
 	$( "#locale" ).change(function() {
 			$( "#datepicker" ).datepicker( "option",
 				$.datepicker.regional[ 'sk' ] );

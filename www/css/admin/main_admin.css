@@ -94,7 +94,7 @@ a {
 .confirm-dialog input[name=no] {
   background-color: #228B22;
 }
-#dispNone {
+#dispNone, .display-none {
   display: none;
 }
 #dispBlock {
@@ -183,4 +183,7 @@ a.button-left {
   width: 50px;
   height: 50px;
   border: 2px solid blueviolet;
+}
+.jslghtbx-thmb {
+  max-width: inherit;
 }
