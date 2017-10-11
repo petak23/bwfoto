@@ -29,13 +29,13 @@
   {* ----- Favicon ------ *}
   <link rel="shortcut icon" href="{$basePath}/favicon.ico" type="image/x-icon">
   {block head}{/block}
-  {*<script type="application/javascript" src="{$basePath}/www/js/nittro.min.js" async defer></script>*}
+  <script type="application/javascript" src="{$basePath}/www/js/nittro.min.js" async defer></script>
   {control jsBefore}
 </head>
 
 <body>
   <div class="container-fluid">
-    <div class="slider-main">{control slider}</div>
+    <div class="slider-main" n:snippet="slider">{control slider}</div>
 
     <header class="" n:snippet="header">
       <div id="logoMl">
@@ -49,15 +49,15 @@
       </div>
     </header>
     {* ----- ZACIATOK content - centralna cast ----- *}
-    <div class="row">
+    <div class="row" n:snippet=content>
       <div class="col-xs-12 col-md-2">
         {control menu templateType=>'tree', templateFile=>'BWfoto_Tree_Main', cast=>2, article_avatar_view_in =>0, ukaz=>TRUE}
       </div>
       <div class="col-xs-12 col-md-10">
         {control confirmForm}
 
-        {*<div n:flashes></div>*}
-        <div n:tag-if="FALSE" n:if="count($flashes)">
+        <div n:flashes></div>
+        {*<div n:tag-if="FALSE" n:if="count($flashes)">
           <div class="flash-messages" n:inner-foreach="$flashes as $flash" n:if="count($flashes)">
             {var $nees = explode(',', $flash->type)}
             <div class="alert alert-{$nees[0]} fade in" role="alert">
@@ -67,11 +67,11 @@
               {if isset($nees[1]) && $nees[1] == 'n'}{$flash->message|noescape}{else}{$flash->message}{/if}
             </div>
           </div>
-        </div>
-        <div class="row top-panel" n:snippet="top-panel">
+        </div>*}
+        <div class="row top-panel" >
           {control menu templateType=>'nav', templateFile=>'BWfoto_Nav_Breadcrumb', level=>1}
         </div>
-        <article n:snippet=content n:inner-block="content" class="nittro-transition-auto nittro-transition-fade">
+        <article n:inner-block="content" class="nittro-transition-auto nittro-transition-fade">
           {include #content}
         </article>
       </div>

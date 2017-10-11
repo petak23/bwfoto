@@ -79,15 +79,15 @@ webloader:
         - @jsMin
     frontAfter:
       files:
-        - %wwwDir%/www/js/jquery-1.12.4.js
-        - %wwwDir%/www/js/bootstrap.js
-        - %wwwDir%/www/js/netteForms.min.js
-        - %wwwDir%/www/js/nette.ajax.js
-        - %wwwDir%/www/js/jquery-ui-1.12.1.js
-        - %wwwDir%/www/js/jquery.ui.datepicker-sk.js
-        - %wwwDir%/www/js/lightbox.js
-        - %wwwDir%/www/js/lightbox.config.front.js
-        - %wwwDir%/www/js/pomocne_front.js
+#        - %wwwDir%/www/js/jquery-1.12.4.js
+#        - %wwwDir%/www/js/bootstrap.js
+#        - %wwwDir%/www/js/netteForms.min.js
+#        - %wwwDir%/www/js/nette.ajax.js
+#        - %wwwDir%/www/js/jquery-ui-1.12.1.js
+#        - %wwwDir%/www/js/jquery.ui.datepicker-sk.js
+#        - %wwwDir%/www/js/lightbox.js
+#        - %wwwDir%/www/js/lightbox.config.front.js
+#        - %wwwDir%/www/js/pomocne_front.js
       filters:
         - @jsMin
 

@@ -4,7 +4,27 @@
   <div class="row">
     <div class="col-md-10 col-md-offset-1">
       <h2 n:inner-block="title"><i class="fa fa-sign-in" aria-hidden="true"></i> {$h2}</h2>
-      <div class="user-forms">{control signInForm}</div> 
+      <div n:flashes></div>
+      <div class="user-forms">
+        <form n:name=signInForm class="form-horizontal" data-ajax="false">
+          <div class="form-group">
+            <div class="col-sm-3 control-label">{label email /}</div>
+            <div class="col-sm-9 control-field">{input email}</div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-3 control-label">{label password /}</div>
+          	<div class="col-sm-9 control-field">{input password}</div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-3 control-label">{label remember /}</div>
+          	<div class="col-sm-9 control-field">{input remember}</div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-3 control-label"></div>
+            <div class="col-sm-9 control-field">{input login}</div>
+          </div>
+        </form>
+      </div> 
     </div>
   </div>
 </article>

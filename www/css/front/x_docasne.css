@@ -1,6 +1,6 @@
 /* 
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * Last update: 11.09.2017 
+ * Last update: 11.10.2017 
  */
 body {
   background-color: #000;
@@ -93,6 +93,33 @@ footer .nav li:last-child {
   border: 1px solid #999;
   border-top: none;
 }
+.nittro-flash {
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+.nittro-flash.nittro-flash-success {
+  color: #3c763d;
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+}
+.nittro-flash.nittro-flash-info {
+  color: #31708f;
+  background-color: #d9edf7;
+  border-color: #bce8f1;
+}
+.nittro-flash.nittro-flash-warning {
+  color: #8a6d3b;
+  background-color: #fcf8e3;
+  border-color: #faebcc;
+}
+.nittro-flash.nittro-flash-error {
+  color: #a94442;
+  background-color: #f2dede;
+  border-color: #ebccd1;
+}
+
 @media (max-width: 992px) {
   .bwfoto-foto-album-prilohy img.jslghtbx-thmb {
     display: inline-block;

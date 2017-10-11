@@ -185,7 +185,7 @@ abstract class BasePresenter extends Presenter {
     $this->upload_size =  intval($ini_v) * ($s[strtolower(substr($ini_v,-1))] ?: 1);
     // -- Povodny: 
     $this->texty_presentera->setLanguage($this->language); //Nastavenie textov podla jazyka
-    $this->setDefaultSnippets(['header', 'content', 'footer']);
+    $this->setDefaultSnippets(['slider', 'header', 'content', 'footer']);
 	}
 
   /** Komponenta pre vykreslenie menu
