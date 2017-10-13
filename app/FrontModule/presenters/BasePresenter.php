@@ -221,7 +221,7 @@ abstract class BasePresenter extends Presenter {
     
   /** Naplnenie spolocnych udajov pre sablony */
   public function beforeRender() {
-    $this->getComponent('menu')->selectByUrl($this->link('this'));
+//    $this->getComponent('menu')->selectByUrl($this->link('this'));
     $this->template->udaje = $this->udaje_webu;
 		$this->template->verzia = $this->verzie->posledna();
 		$this->template->urovregistr = $this->id_reg;

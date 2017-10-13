@@ -4,7 +4,7 @@
  *
  *	Modul: FRONT
  *
- * Posledna zmena(last change): 02.10.2017
+ * Posledna zmena(last change): 12.10.2017
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
@@ -35,7 +35,7 @@
 
 <body>
   <div class="container-fluid">
-    <div class="slider-main" n:snippet="slider">{control slider}</div>
+    <div class="slider-main nittro-transition-aut" n:snippet="slider">{control slider}</div>
 
     <header class="" n:snippet="header">
       <div id="logoMl">
@@ -71,9 +71,7 @@
         <div class="row top-panel" >
           {control menu templateType=>'nav', templateFile=>'BWfoto_Nav_Breadcrumb', level=>1}
         </div>
-        <article n:inner-block="content" class="nittro-transition-auto nittro-transition-fade">
-          {include #content}
-        </article>
+        <article n:inner-block="content" class="nittro-transition-auto nittro-transition-fade"></article>
       </div>
     </div>
     {* ----- Spodok stranky - FOOTER ----- *}

@@ -44,7 +44,7 @@ class RouterFactory {
                     if (is_numeric($id)) {
                       return $id;
                     } else {
-                      $hh = $servis->hlavne_menu->findOneBy(array('spec_nazov'=>$id));
+                      $hh = $servis->hlavne_menu->findOneBy(['spec_nazov'=>$id]);
                       return $hh ? $hh->id : 0;
                     }
                 },

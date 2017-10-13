@@ -62,7 +62,7 @@ class PrilohyClanokControl extends Control {
     $servise = $this;
     $template = parent::createTemplate($class);
     $template->addFilter('odkazdo', function ($id) use($servise){
-      $serv = $servise->presenter->link("Dokumenty:default", array("id"=>$id));
+      $serv = $servise->presenter->link("Dokumenty:default", ["id"=>$id]);
       return $serv;
     });
     
