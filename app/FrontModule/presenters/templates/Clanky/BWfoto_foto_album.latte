@@ -24,11 +24,14 @@
     <div class="col-xs-12 col-md-6">
       <small n:if="$user->isInRole('admin')">BWfoto_foto_section</small>
       {control ukazTentoClanok}
-      <div n:snippet="bigimg">
-        <a href="{link Clanky: id=>$id_hlavne_menu_lang, id_big_img=>$big_img->id}" data-dialog="{snippetId bigimg}" data-history="false" data-transition="false" data-toggle="modal" data-target="#myModalBigImgChange">
-          <img src="{$basePath}/{$big_img->subor}" alt="{$big_img->nazov}" class="big-img">
-        </a>
-        <div class="big-img-caption">{$big_img->popis}</div>
+      <div n:snippet="bigimg" n:if="$prilohy->count()" n:inner-foreach="$prilohy as $subor">
+        {if $subor->id == $big_img->id}
+          <img class="big-img noajax" src="{$basePath}/{$subor->subor}" alt="{$subor->nazov}" data-jslghtbx="{$basePath}/{$subor->subor}" data-ajax="false" data-jslghtbx-caption="{$subor->popis}" data-jslghtbx-group="bigimggroup1">
+          <div class="big-img-caption">{$subor->popis}</div>
+        {else}
+          <img class="small-img noajax img-thumbnail img-rounded" style="display:none" src="{$basePath}/{$subor->thumb}" alt="{$subor->nazov}" data-jslghtbx="{$basePath}/{$subor->subor}" data-ajax="false" data-jslghtbx-caption="{$subor->popis}" data-jslghtbx-group="bigimggroup1">
+        {/if}
+        <script type="application/javascript" src="{$basePath}/www/js/lightbox.config.front.js"></script>
       </div>
     </div>
     <div class="col-xs-12 col-md-6">
@@ -45,7 +48,7 @@
             {if $pr == "jpg" OR $pr == "png" OR $pr == "gif" OR $pr == "bmp"}
               <img class="img-thumbnail img-rounded jslghtbx-thmb noajax" src="{$basePath}/{$subor->thumb}" alt="{$subor->nazov}" data-jslghtbx="{$basePath}/{$subor->subor}" data-ajax="false" {*data-jslghtbx-group="mygroup1"*} data-jslghtbx-caption="{$subor->popis}"> {* img-rounded*}
               {*<img class="small-img noajax img-thumbnail img-rounded" src="{$basePath}/{$subor->thumb}" alt="{$subor->nazov}" data-smallimg="{$basePath}/{$subor->subor}" data-ajax="false" data-smallimg-caption="{$subor->popis}">*}
-              <a href="{link Clanky: id=>$id_hlavne_menu_lang, id_big_img=>$subor->id}">
+              <a href="{link Clanky: id=>$id_hlavne_menu_lang, id_big_img=>$subor->id}" class="nittro-transition-auto nittro-transition-bar" data-transition="false">
                 <img class="small-img img-thumbnail img-rounded" src="{$basePath}/{$subor->thumb}" alt="{$subor->nazov}">
               </a>
             {elseif $pr == "mp3" OR $pr == "wav"}

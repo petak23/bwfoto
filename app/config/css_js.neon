@@ -74,6 +74,7 @@ webloader:
 #        - %wwwDir%/www/js/js-image-slider.js
 #        - %wwwDir%/www/js/forestmap.js
 #        - %wwwDir%/www/js/dropmenuJQ.js
+        - %wwwDir%/www/js/lightbox.js
 
       filters:
         - @jsMin
