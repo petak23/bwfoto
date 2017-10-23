@@ -187,3 +187,12 @@ a.button-left {
 .jslghtbx-thmb {
   max-width: inherit;
 }
+
+.panel-body {
+  position: relative;
+}
+.panel-body .panel-menu {
+  position: absolute;
+  right: 0;
+  top: 0;
+}

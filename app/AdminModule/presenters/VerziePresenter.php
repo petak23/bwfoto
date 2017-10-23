@@ -6,7 +6,7 @@ use PeterVojtech;
 /**
  * Prezenter pre spravu verzii.
  * 
- * Posledna zmena(last change): 18.09.2017
+ * Posledna zmena(last change): 23.10.2017
  *
  *	Modul: ADMIN
  *
@@ -14,7 +14,7 @@ use PeterVojtech;
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.0
+ * @version 1.1.1
  */
 
 class VerziePresenter extends BasePresenter {
@@ -52,20 +52,6 @@ class VerziePresenter extends BasePresenter {
 	protected function createComponentVerzieEditForm() {
     $form = $this->editVerzieForm->create($this->nastavenie['send_e_mail_news']);
     $form['uloz']->onClick[] = function ($button) { 
-      $values = $button->getForm()->getValues();
-      if (!count($button->getForm()->errors) && $values->posli_news) { //Poslanie e-mailu
-				$params = [ "site_name" => $this->nazov_stranky,
-                    "cislo" 		=> $values->cislo,
-                    "text"      => $values->text,
-                    "odkaz" 		=> $this->link("Verzie:default"),
-                  ];
-        try {
-          $send = $this->emailControl->create()->nastav(__DIR__.'/templates/Verzie/verzie-html.latte', 1, 4);
-          $this->flashMessage('E-mail bol odoslany v poriadku na emaily: '.$send->send($params, 'Nová verzia stránky '.$this->nazov_stranky), 'success');
-        } catch (Exception $e) {
-          $this->flashMessage($e->getMessage(), 'danger');
-        }
-      }
       $this->flashOut(!count($button->getForm()->errors), 'Verzie:', 'Verzia bola úspešne uložená!', 'Došlo k chybe a verzia sa neuložila. Skúste neskôr znovu...');
 		};
     $form['cancel']->onClick[] = function () {
@@ -81,4 +67,21 @@ class VerziePresenter extends BasePresenter {
 	function confirmedDelete($id, $nazov = "")	{
     $this->flashOut($this->verzie->zmaz($id) == 1, 'Verzie:', 'Verzia '.$nazov.' bola úspešne vymazaná!', 'Došlo k chybe a verzia '.$nazov.' nebola vymazaná!');
   }
+  
+  /** Signal pre odoslanie informacneho emailu */
+  public function handlePosliEmail($id) {
+    $values = $this->verzie->find($id);
+    $params = [ "site_name" => $this->nazov_stranky,
+                "cislo" 		=> $values->cislo,
+                "text"      => $values->text,
+                "odkaz" 		=> $this->link("Verzie:default"),
+              ];
+    try {
+      $send = $this->emailControl->create()->nastav(__DIR__.'/templates/Verzie/verzie-html.latte', 1, 4);
+      $this->flashMessage('E-mail bol odoslany v poriadku na emaily: '.$send->send($params, 'Nová verzia stránky '.$this->nazov_stranky), 'success');
+    } catch (Exception $e) {
+      $this->flashMessage($e->getMessage(), 'danger');
+    }
+		$this->redirect('this');
+	}
 }
