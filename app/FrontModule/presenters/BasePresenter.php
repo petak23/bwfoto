@@ -59,6 +59,8 @@ abstract class BasePresenter extends Presenter {
   public $aktualneOznamyControlFactory;
   /** @var \App\FrontModule\Components\Slider\ISliderControl @inject */
   public $sliderControlFactory;
+  /** @var \App\FrontModule\Components\User\IKontaktControl @inject */
+  public $kontaktControlFactory;
   /** @var \App\FrontModule\Components\User\IUserLangMenuControl @inject */
   public $userLangMenuControlFactory;
   /** @var \App\FrontModule\Components\Clanky\OdkazNaClanky\IOdkazNaClankyControl @inject */
@@ -381,26 +383,13 @@ abstract class BasePresenter extends Presenter {
   }
   
   /** Komponenta pre vypis kontaktneho formulara
-   * @return \App\FrontModule\Components\User\Kontakt
-   */
+   * @return \App\FrontModule\Components\User\KontaktControl */
 	public function createComponentKontakt() {
-		$kontakt = New \App\FrontModule\Components\User\Kontakt();
-    $kontakt->setSablona([
-        'h4'        => $this->trLang('komponent_kontakt_h4'),
-        'uvod'      => $this->trLang('komponent_kontakt_uvod'),
-        'meno'      => $this->trLang('komponent_kontakt_meno'),
-        'email'     => $this->trLang('komponent_kontakt_email'),
-        'email_ar'	=> $this->trLang('komponent_kontakt_email_ar'),
-        'email_sr'	=> $this->trLang('komponent_kontakt_email_sr'),
-        'text'      => $this->trLang('komponent_kontakt_text'),
-        'text_sr'   => $this->trLang('komponent_kontakt_text_sr'),
-        'uloz'      => $this->trLang('komponent_kontakt_uloz'),
-        'send_ok'   => $this->trLang('komponent_kontakt_send_ok'),
-        'send_er'   => $this->trLang('komponent_kontakt_send_er') 
-      ]);
     $spravca = $this->user_main->findOneBy(["user_roles.role" => "manager"]);
-		$kontakt->setSpravca($spravca->email);
-    $kontakt->setNazovStranky($this->nazov_stranky);
+		$kontakt = $this->kontaktControlFactory->create();
+    $kontakt->setNastav($this->language_id)
+            ->setEmailsToSend($spravca->email)
+            ->setNazovStranky($this->nazov_stranky);
 		return $kontakt;	
 	}
   

@@ -10,7 +10,7 @@ use PeterVojtech;
 /**
  * Zakladny presenter pre presentery obsluhujuce polozky hlavneho menu v module ADMIN
  * 
- * Posledna zmena(last change): 09.10.2017
+ * Posledna zmena(last change): 25.10.2017
  *
  * Modul: ADMIN
  *
@@ -18,7 +18,7 @@ use PeterVojtech;
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.3.0
+ * @version 1.3.1
  */
 
 Container::extensionMethod('addDatePicker', function (Container $container, $name, $label = NULL) {
@@ -54,6 +54,8 @@ abstract class ArticlePresenter extends BasePresenter {
   public $titleImageControlFactory;
   /** @var \App\AdminModule\Components\Faktury\IViewFakturyControl @inject */
   public $viewFakturyControlFactory;
+    /** @var \App\AdminModule\Components\User\IKontaktControl @inject */
+  public $kontaktControlFactory;
   
   /** @var int hodnota id pre pridanie do menu */
   public $add_menu_id;
@@ -405,11 +407,9 @@ abstract class ArticlePresenter extends BasePresenter {
   }
   
   /** Komponenta pre vypis kontaktneho formulara
-   * @return \App\AdminModule\Components\User\Kontakt
-   */
+   * @return \App\AdminModule\Components\User\KontaktControl */
 	public function createComponentKontakt() {
-		$kontakt = New \App\AdminModule\Components\User\Kontakt();
-		return $kontakt;	
+    return $this->kontaktControlFactory->create();
 	}
   
   /** Univerzalny formular pre pridanie komponenty k clanku.

@@ -89,8 +89,8 @@
             </li>
             <li>&copy; {$udaje['copy']} 2017 - {date('Y')}</li>
             <li>
-              <a href="http://nette.org/cs/" class="logo-nette" title="Nette Framework - populárny nástroj pre vytváranie webových aplikácií v PHP.">
-                <img src="{$basePath}/www/images/nette-powered1.gif" alt="nette powered">
+              <a href="http://nette.org/cs/" class="logo-nette" title="{('base_nette_title')|trLang}">
+                <img src="{$basePath}/www/images/nette-powered1.gif" alt="{('base_nette_powered')|trLang}">
               </a>
             </li>
             <li>{$udaje['last_update']} {$verzia->modified|date:'j.n.Y'}</li>
@@ -99,8 +99,7 @@
         </div>  
         <div class="col-xs-12 admin-layer">
           <span class="vstup-admin" n:if="$view_log_in_link_in_header < 0 && !$user->isLoggedIn()">
-            {var $txt_vstup = 'Prihlásenie pre administráciu webu'}
-            <a n:href="User:default#prihlas" title="{$txt_vstup}">{$txt_vstup}</a>
+            <a n:href="User:default#prihlas" title="{('base_link_to_admin_log_in')|trLang}">{('base_link_to_admin_log_in')|trLang}</a>
           </span>
           {control userLangMenu}
         </div>

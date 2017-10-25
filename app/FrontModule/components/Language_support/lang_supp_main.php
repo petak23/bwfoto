@@ -8,13 +8,13 @@ use DbTable;
 /**
  * Hlavna trieda pre podporu jazykov lang_supp_main pre presentre vo FrontModule.
  * 
- * Posledna zmena(last change): 27.06.2017
+ * Posledna zmena(last change): 24.10.2017
  * 
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.8
+ * @version 1.0.9
  */
 abstract class lang_supp_main extends Nette\Object {
   /** @var string Skratka jazyka */
@@ -34,6 +34,9 @@ abstract class lang_supp_main extends Nette\Object {
         'base_loged_in_bad'           => 'Daná akcia je určená pre neprihláseného užívateľa!',  
         'base_internal_error'         => 'Je nám ľúto, ale došlo k vnútornej chybe! Prosím skúste úpredošlú operáciu neskôr znovu...',
         'base_log_out_mess'           => 'Boli ste odhlásený...',
+        'base_nette_title'            => 'Nette Framework - populárny nástroj pre vytváranie webových aplikácií v PHP.',
+        'base_nette_powered'          => 'vytvorené v nette',  
+        'base_link_to_admin_log_in'   => 'Prihlásenie pre administráciu webu',
         'base_delete_text'            => 'Naozaj chceš zmazať %s: %s ?',
         'base_SignInForm_email'       => 'Email:',
         'base_SignInForm_email_req'   => 'Uveďte, prosím, užívateľský email.',
@@ -73,6 +76,8 @@ abstract class lang_supp_main extends Nette\Object {
         'komponent_kontakt_uloz'      => 'Pošli dotaz',
         'komponent_kontakt_send_ok'   => 'Váš dotaz bol zaslaný v poriadku. Ďakujeme za zaslanie dotazu.',
         'komponent_kontakt_send_er'   => 'Váš dotaz nebol zaslaný!. Došlo k chybe. Prosím skúste to neskôr znovu.<br />',
+        'komponent_kontakt_email_web' => 'Správa z kontaktného formulará stránky %s', 
+        'komponent_kontakt_email_msg' => 'Užívateľ %s poslal nasledujúcu správu:',
         'komponent_nahodna_notFound'  => 'Žiadna fotka sa nenašla!',
         'komponent_nahodna_h4'        => 'niečo z galérie ...',
         'base_kontakt_h2'             => 'Kontakt',
@@ -86,6 +91,9 @@ abstract class lang_supp_main extends Nette\Object {
         'base_lang_not_def'           => 'Language you require is not defined for this site!',
         'base_nie_je_opravnenie1'     => 'You do not have enough privileges for this operation!',
         'base_prihlaste_sa'           => 'Please log in!',
+        'base_nette_title'            => 'Nette Framework - popular framework for creating a web aplications in PHP.',
+        'base_nette_powered'          => 'nette powered',
+        'base_link_to_admin_log_in'   => 'Log in for administration of web',
         'base_SignInForm_email'       => 'Email:',
         'base_SignInForm_email_req'   => 'Please indicate email.',
         'base_SignInForm_password'    => 'Password:',
@@ -114,6 +122,8 @@ abstract class lang_supp_main extends Nette\Object {
         'komponent_kontakt_uloz'      => 'Send query',
         'komponent_kontakt_send_ok'   => 'Your query has been sent okay. Thank you for posting your query.',
         'komponent_kontakt_send_er'   => 'Your query has been sent!. An error has occurred. Please try again later.<br />',
+        'komponent_kontakt_email_web' => 'Message from contact form from web %s',   
+        'komponent_kontakt_email_msg' => 'User %s send you next message:',  
         'komponent_nahodna_notFound'  => 'No photo could not be found!',
         'komponent_nahodna_h4'        => 'something from the gallery ...',
         'base_kontakt_h2'             => 'Contact',
