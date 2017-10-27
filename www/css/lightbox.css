@@ -164,12 +164,27 @@
     -ms-transition: all 0.3s ease-in-out;
 }
 
-.jslghtbx-close:hover {
+/* Controls */
+.jslghtbx-eshop {
+    position: fixed;
+    left: 23px;
+    bottom: 23px;
+    margin-top: -4px;
+    font-size: 2em;
+    color: #FFFFFF;
+    cursor: pointer;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+}
+
+.jslghtbx-close:hover, .jslghtbx-eshop:hover {
     text-shadow: 0 0 10px #fff;
 }
 
 @media screen and (max-width: 1060px) {
-    .jslghtbx-close {
+    .jslghtbx-close, .jslghtbx-eshop {
         font-size: 1.5em;
     }
 }

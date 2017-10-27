@@ -26,7 +26,7 @@
       {control ukazTentoClanok}
       <div n:snippet="bigimg" n:if="$prilohy->count()" n:inner-foreach="$prilohy as $subor">
         {if $subor->id == $big_img->id}
-          <img class="big-img noajax" src="{$basePath}/{$subor->subor}" alt="{$subor->nazov}" data-jslghtbx="{$basePath}/{$subor->subor}" data-ajax="false" data-jslghtbx-caption="{$subor->popis}" data-jslghtbx-group="bigimggroup1">
+          <img class="big-img noajax" src="{$basePath}/{$subor->subor}" alt="{$subor->nazov}" data-jslghtbx="{$basePath}/{$subor->subor}" data-ajax="false" data-jslghtbx-caption="{$subor->popis}" data-jslghtbx-group="bigimggroup1" data-id-priloha="{$subor->id}">
           <div class="big-img-caption">{$subor->popis}</div>
         {else}
           <img class="small-img noajax img-thumbnail img-rounded" style="display:none" src="{$basePath}/{$subor->thumb}" alt="{$subor->nazov}" data-jslghtbx="{$basePath}/{$subor->subor}" data-ajax="false" data-jslghtbx-caption="{$subor->popis}" data-jslghtbx-group="bigimggroup1">
