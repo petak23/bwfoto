@@ -6,8 +6,8 @@
 #
 services:
 # forms
-  - App\FrontModule\Presenters\Forms\User\SignInFormFactory
-  - App\FrontModule\Presenters\Forms\User\RegisterFormFactory
+  - App\FrontModule\Forms\User\SignInFormFactory
+  - App\FrontModule\Forms\User\RegisterFormFactory
   - App\FrontModule\Components\Faktury\DokumentFormFactory
 
 # component services 

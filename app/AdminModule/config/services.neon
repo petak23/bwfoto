@@ -18,15 +18,16 @@ services:
   - App\AdminModule\Components\Clanky\PrilohyClanok\AddMultiPrilohyFormFactory
   - App\AdminModule\Components\Oznam\TitleOznam\ZmenPresmerovanieFormFactory
   - App\AdminModule\Components\Oznam\TitleOznam\EditTitleImageFormFactory
+  - App\AdminModule\Presenters\Forms\Oznam\EditOznamFormFactory
   - App\AdminModule\Presenters\Forms\Slider\EditSliderFormFactory
   - App\AdminModule\Presenters\Forms\Udaje\EditUdajeFormFactory
   - App\AdminModule\Presenters\Forms\Udaje\AddTypeUdajeFormFactory
-  - App\AdminModule\Presenters\Forms\User\AddUserFormFactory
-  - App\AdminModule\Presenters\Forms\User\EditUserMainFormFactory
-  - App\AdminModule\Presenters\Forms\User\EditUserProfilesFormFactory
-  - App\AdminModule\Presenters\Forms\User\EditCategoriFormFactory
-  - App\AdminModule\Presenters\Forms\Verzie\EditVerzieFormFactory
-  - App\AdminModule\Presenters\Forms\Oznam\EditOznamFormFactory
+  - App\AdminModule\Forms\User\AddUserFormFactory
+  - App\AdminModule\Forms\User\EditCategoriFormFactory
+  - App\AdminModule\Forms\User\EditUserMainFormFactory
+  - App\AdminModule\Forms\User\EditUserProfilesFormFactory
+  - App\AdminModule\Forms\Verzie\EditVerzieFormFactory
+
 
 # component services 
   - App\AdminModule\Components\Article\IAdminAddMenu
