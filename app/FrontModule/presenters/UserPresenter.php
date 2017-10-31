@@ -1,17 +1,19 @@
 <?php
 namespace App\FrontModule\Presenters;
 
+use App\FrontModule\Forms\User;
+use DbTable;
+use Language_support;
+use Latte;
 use Nette\Application\UI\Form;
 use Nette\Mail\Message;
 use Nette\Mail\SendmailMailer;
 use Nette\Security\Passwords;
 use Nette\Utils\Random;
-use Latte;
-use DbTable, Language_support;
 
 /**
  * Prezenter pre prihlasenie, registraciu a aktiváciu uzivatela, obnovenie zabudnutého hesla a zresetovanie hesla.
- * Posledna zmena(last change): 06.06.2017
+ * Posledna zmena(last change): 31.10.2017
  *
  *	Modul: FRONT
  *
@@ -19,27 +21,29 @@ use DbTable, Language_support;
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.2
+ * @version 1.1.3
  */
-class UserPresenter extends \App\FrontModule\Presenters\BasePresenter {
-	/**
-   * @inject
-   * @var Language_support\User */
+class UserPresenter extends BasePresenter {
+	
+  // -- Lang
+  /** @var Language_support\User @inject */
   public $texty_presentera;
-  /** 
-   * @inject
-   * @var DbTable\User_main */
+  
+  // -- DB
+  /** @var DbTable\User_main @inject */
 	public $user_main;
+  
+  // -- Forms
+  /** @var User\SignInFormFactory @inject*/
+	public $signInForm;
+  /** @var User\RegisterFormFactory @inject*/
+	public $registerForm;
+  
   /** @var mix */
   private $clen;
 
   /** @var array Nastavenie zobrazovania volitelnych poloziek */
   private $user_view_fields;
-  // -- Forms
-  /** @var Forms\User\SignInFormFactory @inject*/
-	public $signInForm;
-  /** @var Forms\User\RegisterFormFactory @inject*/
-	public $registerForm;
   
 	protected function startup() {
     parent::startup();

@@ -6,7 +6,7 @@
 #
 services:
 # forms
-  - App\AdminModule\Presenters\Forms\Article\IEditMenuFormFactory
+
   - App\AdminModule\Components\Article\TitleArticle\ZmenVlastnikaFormFactory
   - App\AdminModule\Components\Article\TitleArticle\ZmenUrovenRegistracieFormFactory
   - App\AdminModule\Components\Article\TitleArticle\ZmenDatumPlatnostiFormFactory
@@ -14,18 +14,27 @@ services:
   - App\AdminModule\Components\Article\TitleArticle\ZmenOpravnenieNevlastnikovFormFactory
   - App\AdminModule\Components\Article\TitleArticle\ZmenSablonuFormFactory
   - App\AdminModule\Components\Article\TitleImage\EditTitleImageFormFactory
+
   - App\AdminModule\Components\Clanky\PrilohyClanok\EditPrilohyFormFactory
   - App\AdminModule\Components\Clanky\PrilohyClanok\AddMultiPrilohyFormFactory
+
   - App\AdminModule\Components\Oznam\TitleOznam\ZmenPresmerovanieFormFactory
   - App\AdminModule\Components\Oznam\TitleOznam\EditTitleImageFormFactory
-  - App\AdminModule\Presenters\Forms\Oznam\EditOznamFormFactory
-  - App\AdminModule\Presenters\Forms\Slider\EditSliderFormFactory
-  - App\AdminModule\Presenters\Forms\Udaje\EditUdajeFormFactory
-  - App\AdminModule\Presenters\Forms\Udaje\AddTypeUdajeFormFactory
+
+  - App\AdminModule\Forms\Article\IEditMenuFormFactory
+
+  - App\AdminModule\Forms\Oznam\EditOznamFormFactory
+
+  - App\AdminModule\Forms\Slider\EditSliderFormFactory
+
+  - App\AdminModule\Forms\Udaje\AddTypeUdajeFormFactory
+  - App\AdminModule\Forms\Udaje\EditUdajeFormFactory
+
   - App\AdminModule\Forms\User\AddUserFormFactory
   - App\AdminModule\Forms\User\EditCategoriFormFactory
   - App\AdminModule\Forms\User\EditUserMainFormFactory
   - App\AdminModule\Forms\User\EditUserProfilesFormFactory
+
   - App\AdminModule\Forms\Verzie\EditVerzieFormFactory
 
 
@@ -34,11 +43,15 @@ services:
   - App\AdminModule\Components\Article\TitleArticle\ITitleArticleControl
   - App\AdminModule\Components\Article\TitleImage\ITitleImageControl
   #  arguments: [%wwwDir%]
+
   - App\AdminModule\Components\Oznam\IAktualneOznamyControl
   - App\AdminModule\Components\Oznam\TitleOznam\ITitleOznamControl
+
   - App\AdminModule\Components\User\IKontaktControl
   - App\AdminModule\Components\User\IUserLastControl
+
   - App\AdminModule\Components\Clanky\IZobrazClanokControl
   - App\AdminModule\Components\Clanky\PrilohyClanok\IPrilohyClanokControl
   - App\AdminModule\Components\Clanky\ZobrazKartyPodclankov\IZobrazKartyPodclankovControl
+
   - App\AdminModule\Components\Faktury\IViewFakturyControl

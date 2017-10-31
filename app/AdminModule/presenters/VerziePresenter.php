@@ -1,12 +1,14 @@
 <?php
 namespace App\AdminModule\Presenters;
 
-use PeterVojtech;
+use App\AdminModule\Forms\Verzie;
+use PeterVojtech\Email;
+
 
 /**
  * Prezenter pre spravu verzii.
  * 
- * Posledna zmena(last change): 23.10.2017
+ * Posledna zmena(last change): 31.10.2017
  *
  *	Modul: ADMIN
  *
@@ -14,14 +16,16 @@ use PeterVojtech;
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.1
+ * @version 1.1.2
  */
-
 class VerziePresenter extends BasePresenter {
-
-  /** @var Forms\Verzie\EditVerzieFormFactory @inject*/
+  
+  // -- Forms
+  /** @var Verzie\EditVerzieFormFactory @inject*/
 	public $editVerzieForm;
-  /** @var PeterVojtech\Email\IEmailControl @inject */
+  
+  // -- Components
+  /** @var Email\IEmailControl @inject */
   public $emailControl;
   
 	public function renderDefault()	{

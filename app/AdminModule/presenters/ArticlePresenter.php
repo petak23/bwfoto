@@ -1,6 +1,8 @@
 <?php
 namespace App\AdminModule\Presenters;
 
+use App\AdminModule\Components;
+use App\AdminModule\Forms\Article;
 use DbTable;
 use Nette\Application\UI\Form;
 use Nette\Application\UI\Multiplier;
@@ -10,7 +12,7 @@ use PeterVojtech;
 /**
  * Zakladny presenter pre presentery obsluhujuce polozky hlavneho menu v module ADMIN
  * 
- * Posledna zmena(last change): 25.10.2017
+ * Posledna zmena(last change): 31.10.2017
  *
  * Modul: ADMIN
  *
@@ -18,7 +20,7 @@ use PeterVojtech;
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.3.1
+ * @version 1.3.2
  */
 
 Container::extensionMethod('addDatePicker', function (Container $container, $name, $label = NULL) {
@@ -42,19 +44,19 @@ abstract class ArticlePresenter extends BasePresenter {
   public $hlavne_menu_lang;
   
   // -- Formulare
-  /** @var Forms\Article\IEditMenuFormFactory @inject */
+  /** @var Article\IEditMenuFormFactory @inject */
 	public $editMenuFormFactory;
   
   // -- Komponenty
-  /** @var \App\AdminModule\Components\Article\IAdminAddMenu @inject */
+  /** @var Components\Article\IAdminAddMenu @inject */
   public $adminAddMenuControlFactory;
-  /** @var \App\AdminModule\Components\Article\TitleArticle\ITitleArticleControl @inject */
+  /** @var Components\Article\TitleArticle\ITitleArticleControl @inject */
   public $titleArticleControlFactory;
-  /** @var \App\AdminModule\Components\Article\TitleImage\ITitleImageControl @inject */
+  /** @var Components\Article\TitleImage\ITitleImageControl @inject */
   public $titleImageControlFactory;
-  /** @var \App\AdminModule\Components\Faktury\IViewFakturyControl @inject */
+  /** @var Components\Faktury\IViewFakturyControl @inject */
   public $viewFakturyControlFactory;
-    /** @var \App\AdminModule\Components\User\IKontaktControl @inject */
+  /** @var Components\User\IKontaktControl @inject */
   public $kontaktControlFactory;
   
   /** @var int hodnota id pre pridanie do menu */
