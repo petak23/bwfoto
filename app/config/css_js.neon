@@ -28,12 +28,16 @@ webloader:
       files:
         - %wwwDir%/www/css/font-awesome.css
         - %wwwDir%/www/css/bootstrap.css
-        - %wwwDir%/www/css/bootstrap-theme.css
+#        - %wwwDir%/www/css/bootstrap-theme.css
         - %wwwDir%/www/css/nittro.min.css
+        - %wwwDir%/www/css/lightbox.css
+        - %wwwDir%/www/fonts/css/open-iconic-bootstrap.css
+        - %wwwDir%/www/css/front/fonts.css
+        - %wwwDir%/www/css/front/bw.css
+        - %wwwDir%/www/css/front/responsive.css
 #        - %wwwDir%/www/css/jquery-ui.css
 #        - %wwwDir%/www/css/datagrid.css
-        - %wwwDir%/www/css/lightbox.css
-        - {files: ["*.css", "*.less"], from: %wwwDir%/www/css/front} # Nette\Utils\Finder support
+#        - {files: ["*.css", "*.less"], from: %wwwDir%/www/css/front} # Nette\Utils\Finder support
       filters:
         - @jwlCssMinFilter
 #      fileFilters:
@@ -45,8 +49,8 @@ webloader:
     admin:
       files:
         - %wwwDir%/www/css/font-awesome.css
-        - %wwwDir%/www/css/bootstrap.css
-        - %wwwDir%/www/css/bootstrap-theme.css
+#        - %wwwDir%/www/css/bootstrap.css
+#        - %wwwDir%/www/css/bootstrap-theme.css
         - %wwwDir%/www/css/jquery-ui.css
         - %wwwDir%/www/css/datagrid.css
         - %wwwDir%/www/css/lightbox.css
@@ -95,6 +99,7 @@ webloader:
     admin:
       files:
         - %wwwDir%/www/js/jquery-1.12.4.js
+        - %wwwDir%/www/js/popper.js
         - %wwwDir%/www/js/bootstrap.js
         - %wwwDir%/www/js/netteForms.min.js
         - %wwwDir%/www/js/nette.ajax.js

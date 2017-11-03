@@ -1,0 +1,22 @@
+@charset "utf-8";
+
+@font-face
+{
+    font-family: "Fira Bold";
+    src: url(../../fonts/firasans-bold.woff) format('woff');
+}
+@font-face
+{
+    font-family: Fira;
+    src: url(../../fonts/firasans-regular.woff) format('woff');
+}
+@font-face 
+{
+    font-family: Fira-extrabold;
+    src: url(../../fonts/firasans-extrabold.woff) format('woff');
+}
+@font-face
+{
+    font-family: "Fira Light";
+    src: url(../../fonts/firasans-light.woff) format('woff');
+}

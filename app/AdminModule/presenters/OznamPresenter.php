@@ -1,8 +1,8 @@
 <?php
 namespace App\AdminModule\Presenters;
 
-use App\AdminModule\Components\Oznam;
-use App\AdminModule\Forms\Oznam;
+use App\AdminModule\Components;
+use App\AdminModule\Forms;
 use DbTable;
 use Nette\Application\UI\Multiplier;
 use Nette\Forms\Container;
@@ -32,15 +32,15 @@ class OznamPresenter extends BasePresenter {
 	public $oznam;
   
   // -- Components
-  /** @var Oznam\TitleOznam\ITitleOznamControl @inject */
+  /** @var Components\Oznam\TitleOznam\ITitleOznamControl @inject */
   public $titleOznamControlFactory;
   /** @var Email\IEmailControl @inject */
   public $emailControl;
 
   // -- Forms
-  /** @var Oznam\EditOznamFormFactory @inject*/
+  /** @var Forms\Oznam\EditOznamFormFactory @inject*/
 	public $editOznamForm;
-  /** @var Oznam\TitleOznam\EditTitleImageFormFactory @inject*/
+  /** @var Components\Oznam\TitleOznam\EditTitleImageFormFactory @inject*/
   public $editTitleImageFormFactory;
   
 	/** @var boolean|FALSE */

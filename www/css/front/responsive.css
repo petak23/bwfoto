@@ -1,0 +1,81 @@
+@charset "utf-8";
+
+@media screen and (min-width: 961px) 
+{
+	#colorPhoto
+	{
+		display: flex;
+		align-items: flex-end;
+	}
+	#colorPhoto h2
+	{
+		width: 100%;
+	}
+}
+
+@media screen and (max-width: 960px) 
+{
+	/* hlavicka */
+	.logo { top: 10px; left: 50px;}
+		.navbar { background-color: rgba(255,255,255,0.8); }
+	/* obsah */
+	h1
+	{	font-size: 200%;}
+	h2
+	{	font-size: 170%;}
+	#webParts { }
+	#webParts .hide-column
+	{
+		display: flex;
+		flex-direction: column;
+		justify-content: space-around;
+	}
+	.web-part { display: none; }
+	.home-column, .hide-column
+	{
+		margin: 0 1%;
+		width: 48%; 
+	}
+	.hide-column > .web-part
+	{
+		display: flex;
+		flex-grow: 1;
+		width: 100%;
+		height: 32%;
+		margin: 1.3% 0;
+	}
+	#webContent { width: 88%; }
+}
+
+@media screen and (max-width: 640px) 
+{
+	/* hlavicka */
+	.logo { top: 10px; left: 20px;}
+	/* obsah */
+	h1
+	{	font-size: 170%;}
+	h2
+	{	font-size: 150%;}
+	#webContent { width: 95%; }
+	#webParts { }
+	#webParts .hide-column
+	{
+		display: none;
+	}
+	.form-inline
+	{
+		flex-flow: nowrap;
+		justify-content: space-around;
+	}
+	.form-inline input{ margin-right: 1%;}
+	.home-column { width: 100%; }
+	.reverse { flex-direction: column; }
+	.web-part { display: flex; }
+	.hide-column > .web-part
+	{display: none;}
+	/* footer */
+	footer #contact 
+	{font-size: 90%;}
+	#footerContent div
+	{padding: 1em;}
+}
