@@ -8,13 +8,13 @@ use DbTable;
 /**
  * Hlavna trieda pre podporu jazykov lang_supp_main pre presentre vo FrontModule.
  * 
- * Posledna zmena(last change): 24.10.2017
+ * Posledna zmena(last change): 03.11.2017
  * 
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.9
+ * @version 1.1.0
  */
 abstract class lang_supp_main extends Nette\Object {
   /** @var string Skratka jazyka */
@@ -65,6 +65,7 @@ abstract class lang_supp_main extends Nette\Object {
         "base_text_title_image"       => "Titulný obrázok",
         "base_error_bad_link"         => "Pokúšate sa dostať na neexzistujúcu stránku!",
         "base_template_not_found"     => "Chyba zobrazenia! Nesprávny názov šablóny[%s]...",
+        "base_search"                 => "Hľadaj",
         'komponent_kontakt_h4'        => 'Kontaktný formulár',
         'komponent_kontakt_uvod'      => '',
         'komponent_kontakt_meno'      => 'Vaše meno:',
@@ -111,6 +112,7 @@ abstract class lang_supp_main extends Nette\Object {
         "base_title"                  => "Show more",
         "base_text_title_image"       => "Title image",
         "base_template_not_found"     => "Display error! Incorect name of template[%s]...",
+        "base_search"                 => "Search",
         'komponent_kontakt_h4'        => 'Contact form',
         'komponent_kontakt_uvod'      => '',
         'komponent_kontakt_meno'      => 'Your name:',

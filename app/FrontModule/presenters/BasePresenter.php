@@ -351,7 +351,7 @@ abstract class BasePresenter extends Presenter {
       } else {
         $clanok = $servise->hlavne_menu_lang->getOneArticleSp($id, $servise->language_id, 0);
       }
-      $ukaz_clanok = New \App\FrontModule\Components\Clanky\ZobrazClanok\ZobrazClanokControl($clanok);
+      $ukaz_clanok = New \App\FrontModule\Components\Clanky\ZobrazClanok\ZobrazClanokControl($clanok, $this->texy);
       $ukaz_clanok->setTexts([
         "not_found"         =>$servise->trLang('base_not_found'),
         "platnost_do"       =>$servise->trLang('base_platnost_do'),

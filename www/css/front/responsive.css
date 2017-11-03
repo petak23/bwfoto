@@ -2,12 +2,12 @@
 
 @media screen and (min-width: 961px) 
 {
-	#colorPhoto
+	/*#colorPhoto, */.reverse .main-part
 	{
 		display: flex;
 		align-items: flex-end;
 	}
-	#colorPhoto h2
+	/*#colorPhoto h2, */.reverse .main-part h2
 	{
 		width: 100%;
 	}

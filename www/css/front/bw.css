@@ -24,6 +24,7 @@ p
 header
 {
 	/*background: url(../www/images/bg-bw.png) repeat-x;*/
+  background-repeat: repeat-x;
 	height: 260px;
 }
 nav
@@ -53,15 +54,15 @@ body { background-color: #000000; }
 	flex-flow: wrap;
 	align-content: center;
 }
-#bwPhoto
+/*#bwPhoto
 {	background-image: url(../../images/ciernobiela.jpg); }
 #colorPhoto
 {	background-image: url(../../images/farebna.jpg);}
 #architecture
-{	background-image: url(../../images/architektura.jpg);}
+{	background-image: url(../../images/architektura.jpg);}*/
 #webParts .hide-column 
 { display: none; }
-#colorPhoto h2
+/*#colorPhoto h2,*/ .reverse .main-part h2
 {	padding: 1em 0 1.5em 0;}
 #popisDole
 {

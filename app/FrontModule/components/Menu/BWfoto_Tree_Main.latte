@@ -1,3 +1,39 @@
-<nav class="navbar navbar-default" n:if="$startNode">
-  {include 'BWfoto_Tree_Main_node.latte' node => $startNode, hideName => true, level=>1}
-</nav>  
+{define #node}
+{if $node}
+  {var $isDropdown = count($node->nodes) > 1}
+	{if !isset($hideName) || !$hideName}
+    <li class="nav-item{if $isDropdown} dropdown{/if} {$node->itemClass}">
+      {if $node->link}
+        <a href="{$node->link}" title="{$node->name}" class="{$level > 2 ? 'dropdown-item' : ($isDropdown ? 'dropdown-toggle' : 'nav-link')}" {if $isDropdown} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" {/if}>
+          {$node->name}
+          <br n:if="isset($node->tooltip)" />
+          <small n:if="isset($node->tooltip)">{$node->tooltip}</small>
+        </a>
+      {else}
+        <span>{$node->name}</span>
+      {/if}
+ 	{else}
+		{var $hideName = false}
+	{/if}
+  
+	{if $isDropdown}
+    <ul n:class="$level==1 ? 'navbar-nav' : 'dropdown-menu'">
+      {var $level = $level + 1}
+      {var $n = $node->poradie_podclankov ? array_reverse($node->nodes) : $node->nodes}
+      {foreach $n as $subNode}
+        {include #node, node => $subNode, hideName => $hideName, level => $level}
+      {/foreach}
+      {var $level = $level - 1}
+    </ul>
+	{/if}
+  {if !isset($hideName) || !$hideName}
+    </li>
+  {else}
+		{var $hideName = false}
+	{/if}
+{/if}
+{/define}
+
+{if $startNode}
+  {include #node node => $startNode, hideName => true, level=>1}
+{/if} 

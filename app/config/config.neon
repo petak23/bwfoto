@@ -11,8 +11,8 @@ parameters:
   omrvinky_enabled: TRUE # Globalne povolenie zobrazenia omrviniek TRUE|FALSE
   aktualny_projekt_enabled: FALSE # Globalne povolenie nastavovania aktualneho projektu TRUE|FALSE
   slider:       #Nastavenie slider-u
-    x: 1977   #Rozmery slider-u
-    y: 290
+    x: 1280   #Rozmery slider-u
+    y: 260
     varianta: 5 #0-nahodne nacitany obrazok, 1-meniace sa obrazky, 2-carousel, 3-scspp
     odkaz: FALSE # Povolenie zobrazenia obrazkov slider-u ako odkazu TRUE|FALSE
   hlavne_menu_obr_ikonky: FALSE # Povolenie obrazovych ikoniek v hl.menu. TRUE|FALSE

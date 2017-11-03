@@ -1,13 +1,29 @@
 /* 
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * Last update: 11.10.2017 
+ * Last update: 03.11.2017 
  */
-body {
+/*body {
   background-color: #000;
   color: #fff;
-}
+}*/
 input {
   color: #000;
+}
+label {
+  color: #ccc;
+}
+.fa-1_5x { 
+  font-size: 1.5em;
+}
+.pv-footer {
+  font-size: 70%;
+  color: #999;
+}
+.pv-footer ul {
+  padding: 0;
+}
+footer .nav li:last-child {
+  border: 0;
 }
 .user-info {
   padding-bottom: 1ex;
@@ -16,10 +32,12 @@ input {
   margin: 0;
 }
 .user-info dt {
+  color: #ccc;
   font-weight: normal;
 }
 .user-info dd {
   font-weight: bold;
+  color: #999;
   margin: 0 0 1ex 1ex;
   padding: .75ex; 
   border: 1px solid #ccc;
@@ -35,7 +53,11 @@ input {
 .user-info input[type="submit"] {
   width: 49%;
 }
-.datagrid {
+.popis p {
+	font-family: "Fira Light", "sans-serif";
+	color: #ccc;
+}
+/*.datagrid {
   background-color: transparent;
 }
 .table-hover > tbody > tr:hover {
@@ -50,9 +72,6 @@ input {
 }
 .datagrid .btn-primary:active, .datagrid .btn-primary.active {
   background-color: #006400;
-}
-footer .nav li:last-child {
-  border-right: 0; 
 }
 .modal {
   top: 50px;
@@ -72,7 +91,7 @@ footer .nav li:last-child {
 }
 .slider-panel img {
   width: 100%;
-}
+}*/
 
 .bwfoto-foto-album-prilohy img.jslghtbx-thmb {
   display: none;

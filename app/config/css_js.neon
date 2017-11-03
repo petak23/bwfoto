@@ -35,6 +35,7 @@ webloader:
         - %wwwDir%/www/css/front/fonts.css
         - %wwwDir%/www/css/front/bw.css
         - %wwwDir%/www/css/front/responsive.css
+        - %wwwDir%/www/css/front/x_docasne.css
 #        - %wwwDir%/www/css/jquery-ui.css
 #        - %wwwDir%/www/css/datagrid.css
 #        - {files: ["*.css", "*.less"], from: %wwwDir%/www/css/front} # Nette\Utils\Finder support
@@ -98,12 +99,12 @@ webloader:
 
     admin:
       files:
-        - %wwwDir%/www/js/jquery-1.12.4.js
-        - %wwwDir%/www/js/popper.js
-        - %wwwDir%/www/js/bootstrap.js
+        - %wwwDir%/www/js/admin/jquery-1.12.4.js
+#        - %wwwDir%/www/js/popper.js
+        - %wwwDir%/www/js/admin/bootstrap.js
         - %wwwDir%/www/js/netteForms.min.js
         - %wwwDir%/www/js/nette.ajax.js
-        - %wwwDir%/www/js/jquery-ui-1.12.1.js
+        - %wwwDir%/www/js/admin/jquery-ui-1.12.1.js
         - %wwwDir%/www/js/jquery.ui.datepicker-sk.js
         - %wwwDir%/www/js/lightbox.js
         - %wwwDir%/www/js/lightbox.config.admin.js

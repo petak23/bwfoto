@@ -1,12 +1,21 @@
-{* Posledna zmena(last change): 02.10.2017
+{* Posledna zmena(last change): 03.11.2017
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.4
+ * @version 1.0.5
  *}
 {block content}
-<div class="row">
+<!-- text nad nahladmi-->
+<div id="uvodnyText">
+  {control ukazClanok-14}
+</div>
+<!-- obsahove stlpce titulky 6 casti webu -->
+<section id="webParts">
   {control menu templateType=>'fixed', templateFile=>'BWfoto_Fixed_Homepage', cast=>1, article_avatar_view_in =>1, avatar=>'files/menu/'}
-</div>     
+  <!-- text pod nahladmi-->
+	<div id="popisDole">
+    {control ukazClanok-15}
+	</div>
+</section>
