@@ -14,7 +14,7 @@
 <nav n:if="isset($startNode) && count($startNode->nodes)" class="foto-album-nav">
   {foreach $startNode->nodes as $subNode}
     {first}<div class="row">{/first}
-      <div class="col-xs-6 col-md-3">
+      <div class="col-6 col-md-3">
         <div class="homepage-nav-item {if $iterator->isOdd()}odd{/if}">
           {include #link node => $subNode}
         </div>

@@ -2,7 +2,7 @@
  *
  * Modul: FRONT
  *
- * Posledna zmena(last change): 13.10.2017
+ * Posledna zmena(last change): 06.11.2017
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
@@ -19,11 +19,14 @@
 {block title}{$h2}{/block}
 
 {block content}
+<div id="uvodnyText">
+  {control ukazTentoClanok}
+</div>
 <article class="article-foto-album">
   <div class="row main-text">
-    <div class="col-xs-12 col-md-6">
-      <small n:if="$user->isInRole('admin')">BWfoto_foto_section</small>
-      {control ukazTentoClanok}
+    <div class="col-12 col-md-6">
+      {*<small n:if="$user->isInRole('admin')">BWfoto_foto_section</small>*}
+      {*control ukazTentoClanok*}
       <div n:snippet="bigimg" n:if="$prilohy->count()" n:inner-foreach="$prilohy as $subor">
         {if $subor->id == $big_img->id}
           <img class="big-img noajax" src="{$basePath}/{$subor->subor}" alt="{$subor->nazov}" data-jslghtbx="{$basePath}/{$subor->subor}" data-ajax="false" data-jslghtbx-caption="{$subor->popis}" data-jslghtbx-group="bigimggroup1" data-id-priloha="{$subor->id}">
@@ -34,25 +37,23 @@
         <script type="application/javascript" src="{$basePath}/www/js/lightbox.config.front.js"></script>
       </div>
     </div>
-    <div class="col-xs-12 col-md-6">
+    <div class="col-12 col-md-6 bwfoto-foto-album-prilohy">
       {control menu templateType=>'single', templateFile=>$clanok_hl_menu->hlavne_menu_template->name, cast=>$clanok_hl_menu->id_hlavne_menu_cast, level => $uroven, avatar => $avatar_path, article_avatar_view_in => TRUE, anotacia => TRUE, nadpis => $viac_info}  
-      <div n:snippet="prilohyClanok" class="row bwfoto-foto-album-prilohy" n:if="$prilohy->count()">
+      <div n:snippet="prilohyClanok" class="{*row*} bwfoto-foto-album-prilohy" n:if="$prilohy->count()" n:tag-if="FALSE">
         <h3 n:if="$texts->trText('h3') !== 'h3'">{$texts->trText('h3')}</h3>
-        <small n:if="$user->isInRole('admin')">BWfoto_foto_album - prílohy</small>
-        <div class="col-xs-12 col-md-12" n:inner-foreach="$prilohy as $subor">
+        <div class="row" n:inner-foreach="$prilohy as $subor">
           {var $pr = strtolower($subor->pripona)}
           {if $pr == "mp4" OR $pr == "ogv" OR $pr == "webm" OR $pr == "wmv"}
             <video class="video-priloha" width="320" height="180" src="{$basePath}/{$subor->subor}" type="video/mp4" 
                controls="controls" preload="none"></video>
           {else}
             {if $pr == "jpg" OR $pr == "png" OR $pr == "gif" OR $pr == "bmp"}
-              <img class="img-thumbnail img-rounded jslghtbx-thmb noajax" src="{$basePath}/{$subor->thumb}" alt="{$subor->nazov}" data-jslghtbx="{$basePath}/{$subor->subor}" data-ajax="false" {*data-jslghtbx-group="mygroup1"*} data-jslghtbx-caption="{$subor->popis}"> {* img-rounded*}
-              {*<img class="small-img noajax img-thumbnail img-rounded" src="{$basePath}/{$subor->thumb}" alt="{$subor->nazov}" data-smallimg="{$basePath}/{$subor->subor}" data-ajax="false" data-smallimg-caption="{$subor->popis}">*}
-              <a href="{link Clanky: id=>$id_hlavne_menu_lang, id_big_img=>$subor->id}" class="nittro-transition-auto nittro-transition-bar" data-transition="false">
+              <img class="img-thumbnail img-rounded jslghtbx-thmb noajax" src="{$basePath}/{$subor->thumb}" alt="{$subor->nazov}" data-jslghtbx="{$basePath}/{$subor->subor}" data-ajax="false" {*data-jslghtbx-group="mygroup1"*} data-jslghtbx-caption="{$subor->popis}">
+              <a href="{link Clanky: id=>$id_hlavne_menu_lang, id_big_img=>$subor->id}" class="nittro-transition-auto nittro-transition-bar col-md-4" data-transition="false">
                 <img class="small-img img-thumbnail img-rounded" src="{$basePath}/{$subor->thumb}" alt="{$subor->nazov}">
               </a>
             {elseif $pr == "mp3" OR $pr == "wav"}
-              <div class="col-sm-12 col-md-6">
+              <div class="col-12 col-md-4">
                 <div class="thumbnail">
                   <audio src="{$basePath}/{$subor->subor}" width="320" type="audio/mp3" controls="controls" preload="none"></audio>
                   <div>
@@ -62,11 +63,11 @@
                 </div>
               </div>
             {else}
-              <div class="col-sm-12 col-md-3">
-                <div class="thumbnail">
+              <div class="col-12 col-md-4">
+                <div class="img-thumbnail" n:tag-if="FALSE">
                   <a href="{$subor->id|odkazdo}" title="{$subor->nazov} - {$subor->popis}" target="_blank">
-                    <img src="{$basePath}/{$subor->thumb}" alt="{$subor->nazov}">
-                    <strong>{$subor->nazov}</strong>
+                    <img src="{$basePath}/{$subor->thumb}" alt="{$subor->nazov}" class="small-img img-thumbnail img-rounded"><br>
+                    <span>{$subor->nazov}</span>
                     <div n:ifset="$subor->popis" class="popis">{$subor->popis}</div>
                   </a>
                 </div>
@@ -84,10 +85,10 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">{$big_img->popis}</h4>
+        <h4 class="modal-title" id="myModalLabel" n:if="isset($big_img->popis)">{$big_img->popis}</h4>
         {*<p>Aktuálna šablóna: {$clanok->hlavne_menu->hlavne_menu_template->description}</p>*}
       </div>
-      <div class="modal-body">
+      <div class="modal-body" n:if="isset($big_img->subor)">
         <img src="{$basePath}/{$big_img->subor}" alt="{$big_img->nazov}" class="big-img" {*data-jslghtbx*}>
         {*control zmenSablonuForm*}
       </div>

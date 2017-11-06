@@ -9,7 +9,7 @@ use Nette\Application\UI\Control;
 /**
  * Komponenta pre zobrazenie príloh clanku pre FRONT modul
  * 
- * Posledna zmena(last change): 04.10.2017
+ * Posledna zmena(last change): 06.11.2017
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2012 - 2016 Ing. Peter VOJTECH ml.
@@ -52,7 +52,7 @@ class PrilohyClanokControl extends Control {
     $template_file = (isset($params['templateFile']) && is_file(__DIR__ ."/PrilohyClanok_".$params['templateFile'].".latte"))
                      ? $params['templateFile'] : "default";
     $this->template->setFile(__DIR__ . "/PrilohyClanok_".$template_file.".latte");
-    $this->template->prilohy = $this->prilohy->getViditelnePrilohy($this->id_article);
+    $this->template->prilohy = $this->prilohy->getViditelnePrilohy($this->id_article, "pripona DESC");
     $this->template->texts = $this->texts;
     $this->template->avatar_path = $this->avatar_path;
     $this->template->render();

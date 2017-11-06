@@ -57,6 +57,9 @@ footer .nav li:last-child {
 	font-family: "Fira Light", "sans-serif";
 	color: #ccc;
 }
+.jslghtbx {
+  z-index: 2000;
+}
 /*.datagrid {
   background-color: transparent;
 }
@@ -78,7 +81,7 @@ footer .nav li:last-child {
 }
 .modal-content {
   color: #000;
-}
+}*/
 .foto-album .thumbnail {
   border: none;
 }
@@ -89,7 +92,16 @@ footer .nav li:last-child {
   border: 1px solid #fff;
   padding: .5ex;
 }
-.slider-panel img {
+.breadcrumb-main {
+  background-color: black;
+}
+.foto-album-nav {
+  background-color: black;
+}
+.foto-album-nav a.thumbnail img {
+  width: 100%;
+}
+/*.slider-panel img {
   width: 100%;
 }*/
 
@@ -111,6 +123,7 @@ footer .nav li:last-child {
   height: 1.5em;
   border: 1px solid #999;
   border-top: none;
+  color: #ccc;
 }
 .nittro-flash {
   padding: 15px;

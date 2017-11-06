@@ -27,9 +27,10 @@ class Dokumenty extends Table {
   
   /** Vracia vsetky viditelne prilohy polozky
    * @param int $id - id_hlavne_menu prislusnej polozky
+   * @param type $order Sposob zoradenia
    * @return Nette\Database\Table\Selection|FALSE */
-  public function getViditelnePrilohy($id) {
-    return $this->findBy(["id_hlavne_menu"=>$id, "zobraz_v_texte"=>1])->order("pripona ASC");
+  public function getViditelnePrilohy($id, $order = "pripona ASC") {
+    return $this->findBy(["id_hlavne_menu"=>$id, "zobraz_v_texte"=>1])->order($order);
   }
   
   /** Uloženie jednej prílohy

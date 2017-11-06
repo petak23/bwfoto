@@ -59,11 +59,17 @@ INSERT INTO `clanok_lang` (`id`, `id_lang`, `text`, `anotacia`) VALUES
 (6,	1,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque. Sed pharetra nibh eget orci convallis at posuere leo convallis. Sed blandit augue vitae augue scelerisque bibendum. Vivamus sit amet libero turpis, non venenatis urna.\n\nIn blandit, odio convallis suscipit venenatis, ante ipsum cursus augue, et mollis nunc diam eget sapien. Nulla facilisi. Etiam feugiat imperdiet rhoncus. Sed suscipit bibendum enim, sed volutpat tortor malesuada non. Morbi fringilla dui non purus porttitor mattis. Suspendisse quis.\n\nVýstava\n-------\n\nVulputate risus. Phasellus erat velit, sagittis sed varius volutpat, placerat nec urna. Nam eu metus vitae dolor fringilla feugiat. Nulla facilisi. Etiam enim metus, luctus in adipiscing at, consectetur quis sapien. Duis imperdiet egestas ligula, quis hendrerit ipsum ullamcorper et.\n\n',	'Tu nás môžete vidieť naživo.'),
 (7,	1,	'Nejaký popis',	NULL),
 (8,	1,	'Popis časti 2',	NULL),
-(9,	1,	'Niečo k tejto časti',	'Anotácia časti A-1'),
+(9,	1,	'Niečo k tejto časti. A tiež to bude radšej dlhé:\n\nLorem ipsum dolor sit amet, **consectetur** adipiscing elit. Phasellus quis lectus metus, at posuere neque. Sed adaf((toto je vysvetlenie)) \npharetra nibh eget orci convallis at posuere leo convallis. Sed blandit augue vitae augue scelerisque bibendum. Vivamus sit amet libero turpis, non venenatis urna. In blandit, odio convallis suscipit venenatis, ante ipsum cursus augue.\n\n',	'Anotácia časti A-1, ktorá bude veľmi dlhá aby sme videli, či to naozaj dobre zalamuje text.'),
 (10,	1,	'Niečo k tejto časti',	NULL),
 (11,	1,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque. Sed pharetra nibh eget orci convallis at posuere leo convallis. Sed blandit augue vitae augue scelerisque bibendum. Vivamus sit amet libero turpis, non venenatis urna. In blandit, odio convallis suscipit venenatis, ante ipsum cursus augue.\n\nEt mollis nunc diam eget sapien. Nulla facilisi. Etiam feugiat imperdiet rhoncus. Sed suscipit bibendum enim, sed volutpat tortor malesuada non. Morbi fringilla dui non purus porttitor mattis. Suspendisse quis vulputate risus. Phasellus erat velit, sagittis sed varius volutpat, placerat nec urna. Nam eu metus vitae dolor fringilla feugiat. Nulla.\n\nFacilisi. Etiam enim metus, luctus in adipiscing at, consectetur quis sapien. Duis imperdiet egestas ligula, quis hendrerit ipsum ullamcorper et. Phasellus id tristique orci. Proin consequat mi at felis scelerisque ullamcorper. Etiam tempus, felis vel eleifend porta, velit nunc mattis urna, at ullamcorper erat diam dignissim ante. Pellentesque justo risus.\n\nRutrum ac semper a, faucibus nec lorem. Nullam eget quam tellus, eget sagittis justo.Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Proin ante enim, tincidunt ut interdum in, adipiscing quis tortor. Nulla turpis lacus, rutrum in adipiscing ut, porttitor ac ante. Sed euismod, mauris a.\n\n',	''),
 (12,	1,	'**Juraj Zámečník**\n\nSpišské Bystré 256\n\n000 00',	''),
-(13,	1,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque. Sed pharetra nibh eget orci convallis at posuere leo convallis. Sed blandit augue vitae augue scelerisque bibendum. Vivamus sit amet libero turpis, non venenatis urna. In blandit, odio convallis suscipit venenatis, ante ipsum cursus augue.\n\n-------------------\n\nEt mollis nunc diam eget sapien. Nulla facilisi. Etiam feugiat imperdiet rhoncus. Sed suscipit bibendum enim, sed volutpat tortor malesuada non. Morbi fringilla dui non purus porttitor mattis. Suspendisse quis vulputate risus. Phasellus erat velit, sagittis sed varius volutpat, placerat nec urna. Nam eu metus vitae dolor fringilla feugiat. Nulla.\n\n|* A	| 12	| 0.125	|\n|* B	| 13	| 1.45	|\n|* C	| 19	| 2.14	|\n|* D	| 22	| 0.658	|\n|* E	| 11	| 3.14	|\n\n\n\n',	'');
+(13,	1,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque. Sed pharetra nibh eget orci convallis at posuere leo convallis. Sed blandit augue vitae augue scelerisque bibendum. Vivamus sit amet libero turpis, non venenatis urna. In blandit, odio convallis suscipit venenatis, ante ipsum cursus augue.\n\n-------------------\n\nEt mollis nunc diam eget sapien. Nulla facilisi. Etiam feugiat imperdiet rhoncus. Sed suscipit bibendum enim, sed volutpat tortor malesuada non. Morbi fringilla dui non purus porttitor mattis. Suspendisse quis vulputate risus. Phasellus erat velit, sagittis sed varius volutpat, placerat nec urna. Nam eu metus vitae dolor fringilla feugiat. Nulla.\n\n|* A	| 12	| 0.125	|\n|* B	| 13	| 1.45	|\n|* C	| 19	| 2.14	|\n|* D	| 22	| 0.658	|\n|* E	| 11	| 3.14	|\n\n\n\n',	''),
+(14,	1,	'> Úvodný popis stránky na domovskej stránke.\nNam aliquet augue a augue posuere, eget dapibus enim pharetra. Aliquam tempus metus sed sodales malesuada. Sed mattis metus id arcu rutrum congue. Fusce in est eget sapien tristique commodo. Aliquam erat volutpat. Nunc tincidunt fermentum dui, ut tempor turpis imperdiet quis. Mauris ultricies metus ut elit porttitor pellentesue. Nunc luctus sagittis bibendum. Donec iaculis nec arcu in feugiat.',	''),
+(15,	1,	'Nam aliquet augue a augue posuere, eget dapibus enim pharetra. Aliquam tempus metus sed sodales malesuada. Sed mattis metus id arcu rutrum congue. Fusce in est eget sapien tristique commodo. Aliquam erat volutpat. Nunc tincidunt fermentum dui, ut tempor turpis imperdiet quis. Mauris ultricies metus ut elit porttitor pellentesue. Nunc luctus sagittis bibendum. Donec iaculis nec arcu in feugiat.\n\n',	''),
+(16,	1,	'Toto je časť A3',	'Anotácia pre časť A3'),
+(17,	1,	'Toto je časť A4',	'Tu nájdete všetky novinky.'),
+(18,	1,	'ydfgydf ydfgy str  gzus v',	'Spevní nášho zboru.'),
+(19,	1,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n\n*Phasellus quis lectus metus, at posuere neque*. \n8-O\nSed pharetra nibh eget orci convallis at posuere leo convallis. ΩSed blandit augue vitae augue scelerisque bibendum. VIVAMUS SIT amet libero turpis, non venenatis urna. In blandit, odio convallis suscipit venenatis, ante ipsum cursus augue.\n\n> Lorem ipsum dolor sit amet, consectetur adipiscing elit. \n\n\n\n',	'Ešte niečo iné');
 
 DROP TABLE IF EXISTS `dlzka_novinky`;
 CREATE TABLE `dlzka_novinky` (
@@ -122,7 +128,11 @@ INSERT INTO `dokumenty` (`id`, `id_hlavne_menu`, `id_user_main`, `id_user_roles`
 (11,	9,	1,	0,	'#I-11#',	'Freska',	'jpg',	'imagea03-jpg',	'Freska na 5. poschodí v zámku Plumlov je veľmi pekná.',	'www/files/prilohy/imageA03.jpg',	'www/files/prilohy/tb_imageA03.jpg',	'2017-10-05 12:25:11',	1,	0),
 (12,	10,	2,	0,	'#I-12#',	'imageA05.jpg',	'jpg',	'imagea05-jpg',	NULL,	'www/files/prilohy/imageA05.jpg',	'www/files/prilohy/tb_imageA05.jpg',	'2017-10-02 09:29:33',	1,	0),
 (13,	10,	2,	0,	'#I-13#',	'imageA06.jpg',	'jpg',	'imagea06-jpg',	NULL,	'www/files/prilohy/imageA06.jpg',	'www/files/prilohy/tb_imageA06.jpg',	'2017-10-02 09:29:40',	1,	0),
-(14,	10,	2,	0,	'#I-14#',	'imageA04.jpg',	'jpg',	'imagea04-jpg',	NULL,	'www/files/prilohy/imageA04.jpg',	'www/files/prilohy/tb_imageA04.jpg',	'2017-10-02 09:29:50',	1,	0);
+(14,	10,	2,	0,	'#I-14#',	'imageA04.jpg',	'jpg',	'imagea04-jpg',	NULL,	'www/files/prilohy/imageA04.jpg',	'www/files/prilohy/tb_imageA04.jpg',	'2017-10-02 09:29:50',	1,	0),
+(15,	9,	1,	0,	NULL,	'D102-T-102-Pril.-c.-6.pdf',	'pdf',	'd102-t-102-pril-c-6-pdf',	NULL,	'www/files/prilohy/D102-T-102-Pril.-c.-6.pdf',	'www/ikonky/Free-file-icons-master/48px/pdf.png',	'2017-11-06 13:40:57',	1,	1),
+(16,	9,	1,	0,	NULL,	'T-115.pdf',	'pdf',	't-115-pdf',	NULL,	'www/files/prilohy/T-115.pdf',	'www/ikonky/Free-file-icons-master/48px/pdf.png',	'2017-11-06 13:40:57',	1,	0),
+(17,	9,	1,	0,	NULL,	'T-115-4.pdf',	'pdf',	't-115-4-pdf',	NULL,	'www/files/prilohy/T-115-4.pdf',	'www/ikonky/Free-file-icons-master/48px/pdf.png',	'2017-11-06 13:40:57',	1,	0),
+(18,	9,	1,	0,	NULL,	'Usmernenie-k-SR1023.pdf',	'pdf',	'usmernenie-k-sr1023-pdf',	NULL,	'www/files/prilohy/Usmernenie-k-SR1023.pdf',	'www/ikonky/Free-file-icons-master/48px/pdf.png',	'2017-11-06 13:40:57',	1,	1);
 
 DROP TABLE IF EXISTS `druh`;
 CREATE TABLE `druh` (
@@ -234,19 +244,25 @@ CREATE TABLE `hlavne_menu` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Položky hlavného menu';
 
 INSERT INTO `hlavne_menu` (`id`, `spec_nazov`, `id_hlavne_menu_cast`, `id_user_roles`, `id_ikonka`, `id_druh`, `uroven`, `id_nadradenej`, `id_user_main`, `poradie`, `poradie_podclankov`, `id_hlavicka`, `id_hlavne_menu_opravnenie`, `zvyrazni`, `pocitadlo`, `nazov_ul_sub`, `id_hlavne_menu_template`, `absolutna`, `ikonka`, `avatar`, `komentar`, `modified`, `datum_platnosti`, `aktualny_projekt`, `redirect_id`, `id_dlzka_novinky`) VALUES
-(1,	'bw-fotografia',	1,	0,	NULL,	1,	0,	NULL,	2,	1,	0,	1,	0,	0,	0,	NULL,	3,	NULL,	NULL,	'1m0bmm4ks04iqxx.JPG',	0,	'2017-10-05 05:42:11',	NULL,	0,	NULL,	1),
-(2,	'architekura',	1,	0,	NULL,	1,	0,	NULL,	2,	4,	0,	1,	0,	0,	0,	NULL,	3,	NULL,	NULL,	'58cmin56e8tkdks.jpg',	0,	'2017-10-05 05:42:11',	NULL,	0,	NULL,	1),
-(3,	'foto-rgb',	1,	0,	NULL,	1,	0,	NULL,	2,	5,	0,	1,	0,	0,	0,	NULL,	3,	NULL,	NULL,	'qvtsu40ra3abz1u.JPG',	0,	'2017-10-05 05:42:11',	NULL,	0,	NULL,	1),
-(4,	'produkty',	1,	0,	NULL,	1,	0,	NULL,	2,	2,	0,	2,	0,	0,	0,	NULL,	1,	NULL,	NULL,	NULL,	0,	'2017-10-05 05:42:11',	NULL,	0,	NULL,	1),
-(5,	'novinky',	1,	0,	NULL,	1,	0,	NULL,	2,	3,	0,	2,	0,	0,	0,	NULL,	1,	NULL,	NULL,	NULL,	0,	'2017-10-05 05:42:11',	NULL,	0,	NULL,	1),
-(6,	'vystavy',	1,	0,	NULL,	1,	0,	NULL,	2,	6,	0,	2,	0,	0,	0,	NULL,	1,	NULL,	NULL,	NULL,	0,	'2017-10-05 05:42:11',	NULL,	0,	NULL,	1),
+(1,	'bw-fotografia',	1,	0,	NULL,	1,	0,	NULL,	2,	1,	0,	1,	0,	0,	0,	NULL,	3,	NULL,	NULL,	'zqqzqharq0m1h9j.jpg',	0,	'2017-11-03 07:56:48',	NULL,	0,	NULL,	1),
+(2,	'architekura',	1,	0,	NULL,	1,	0,	NULL,	2,	3,	0,	1,	0,	0,	0,	NULL,	3,	NULL,	NULL,	'93eca27ct6k1szj.jpg',	0,	'2017-11-03 07:56:59',	NULL,	0,	NULL,	1),
+(3,	'foto-rgb',	1,	0,	NULL,	1,	0,	NULL,	2,	5,	0,	1,	0,	0,	0,	NULL,	3,	NULL,	NULL,	'jlhbvumzttwtah7.jpg',	0,	'2017-11-03 07:57:10',	NULL,	0,	NULL,	1),
+(4,	'produkty',	1,	0,	NULL,	1,	0,	NULL,	2,	2,	0,	2,	0,	0,	0,	NULL,	1,	NULL,	NULL,	'5663at38ptotbps.png',	0,	'2017-11-03 07:50:20',	NULL,	0,	NULL,	1),
+(5,	'novinky',	1,	0,	NULL,	1,	0,	NULL,	2,	4,	0,	2,	0,	0,	0,	NULL,	1,	NULL,	NULL,	'adpkihqqxy4pihf.png',	0,	'2017-11-03 07:49:47',	NULL,	0,	NULL,	1),
+(6,	'vystavy',	1,	0,	NULL,	1,	0,	NULL,	2,	6,	0,	2,	0,	0,	0,	NULL,	1,	NULL,	NULL,	'hfgdcjheatw7xe8.png',	0,	'2017-11-03 07:50:38',	NULL,	0,	NULL,	1),
 (7,	'cast-1',	1,	0,	NULL,	1,	1,	3,	2,	1,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'niy5v8swur57hso.jpg',	0,	'2017-10-05 05:42:11',	NULL,	0,	NULL,	1),
 (8,	'cast-2',	1,	0,	NULL,	1,	1,	3,	2,	2,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'ttb9oz7dyd1ynyc.jpg',	0,	'2017-10-05 05:42:11',	NULL,	0,	NULL,	1),
 (9,	'cast-a-1',	1,	0,	NULL,	1,	1,	2,	2,	1,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'3zjqsfzl5baff44.jpg',	0,	'2017-10-05 05:42:11',	NULL,	0,	NULL,	1),
 (10,	'cast-a-2',	1,	0,	NULL,	1,	1,	2,	2,	2,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'qejapifs8ada1do.JPG',	0,	'2017-10-05 05:42:11',	NULL,	0,	NULL,	1),
 (11,	'obchodne-podmienky',	2,	0,	NULL,	1,	0,	NULL,	2,	1,	0,	0,	0,	0,	0,	NULL,	1,	NULL,	NULL,	NULL,	0,	'2017-10-05 05:54:09',	NULL,	0,	NULL,	1),
 (12,	'kontakt',	2,	0,	NULL,	1,	0,	NULL,	2,	2,	0,	0,	0,	0,	0,	NULL,	1,	NULL,	NULL,	NULL,	0,	'2017-10-05 06:04:46',	NULL,	0,	NULL,	1),
-(13,	'kalibracia',	2,	0,	NULL,	1,	0,	NULL,	2,	3,	0,	0,	0,	0,	0,	NULL,	1,	NULL,	NULL,	NULL,	0,	'2017-10-05 06:14:20',	NULL,	0,	NULL,	1);
+(13,	'kalibracia',	2,	0,	NULL,	1,	0,	NULL,	2,	3,	0,	0,	0,	0,	0,	NULL,	1,	NULL,	NULL,	NULL,	0,	'2017-10-05 06:14:20',	NULL,	0,	NULL,	1),
+(14,	'homepage',	3,	0,	NULL,	1,	0,	NULL,	1,	1,	0,	0,	0,	0,	0,	NULL,	4,	NULL,	NULL,	NULL,	0,	'2017-11-03 09:22:01',	NULL,	0,	NULL,	1),
+(15,	'homepage-dole',	3,	0,	NULL,	1,	0,	NULL,	1,	2,	0,	0,	0,	0,	0,	NULL,	5,	NULL,	NULL,	NULL,	0,	'2017-11-03 09:31:22',	NULL,	0,	NULL,	1),
+(16,	'cast-a-3',	1,	0,	NULL,	1,	1,	2,	1,	3,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'kp0x78f0j5xot9x.jpg',	0,	'2017-11-06 10:14:49',	NULL,	0,	NULL,	1),
+(17,	'cast-a-4',	1,	0,	NULL,	1,	1,	2,	1,	4,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'29pxn9zg3h8mk1s.jpg',	0,	'2017-11-06 10:15:38',	NULL,	0,	NULL,	1),
+(18,	'cast-a-5',	1,	0,	NULL,	1,	1,	2,	1,	5,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	NULL,	0,	'2017-11-06 10:29:42',	NULL,	0,	NULL,	1),
+(19,	'cast-a-1-1',	1,	0,	NULL,	1,	2,	9,	1,	1,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	NULL,	0,	'2017-11-06 12:59:14',	NULL,	0,	NULL,	1);
 
 DROP TABLE IF EXISTS `hlavne_menu_cast`;
 CREATE TABLE `hlavne_menu_cast` (
@@ -261,7 +277,8 @@ CREATE TABLE `hlavne_menu_cast` (
 
 INSERT INTO `hlavne_menu_cast` (`id`, `view_name`, `id_user_roles`, `mapa_stranky`) VALUES
 (1,	'Hlavná ponuka',	4,	1),
-(2,	'Druhá časť',	4,	1);
+(2,	'Druhá časť',	4,	1),
+(3,	'Home',	5,	0);
 
 DROP TABLE IF EXISTS `hlavne_menu_lang`;
 CREATE TABLE `hlavne_menu_lang` (
@@ -282,7 +299,7 @@ CREATE TABLE `hlavne_menu_lang` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Popis položiek hlavného menu pre iný jazyk';
 
 INSERT INTO `hlavne_menu_lang` (`id`, `id_lang`, `id_hlavne_menu`, `id_clanok_lang`, `menu_name`, `h1part2`, `view_name`) VALUES
-(1,	1,	1,	1,	'BW fotografia',	NULL,	'BW fotografia'),
+(1,	1,	1,	1,	'Čiernobiela fotografia',	NULL,	'Čiernobiela fotografia'),
 (2,	1,	2,	2,	'Architektúra',	NULL,	'Architektúra'),
 (3,	1,	3,	3,	'Farebná fotografia',	NULL,	'Farebná fotografia'),
 (4,	1,	4,	4,	'Produkty',	NULL,	'Produkty'),
@@ -294,7 +311,13 @@ INSERT INTO `hlavne_menu_lang` (`id`, `id_lang`, `id_hlavne_menu`, `id_clanok_la
 (10,	1,	10,	10,	'Časť A-2',	NULL,	'Časť A-2'),
 (11,	1,	11,	11,	'Obchodné podmienky',	NULL,	'Naše obchodné podmienky'),
 (12,	1,	12,	12,	'Kontakt',	NULL,	'Kontakt'),
-(13,	1,	13,	13,	'Kalibrácia',	NULL,	'Kalibrácia');
+(13,	1,	13,	13,	'Kalibrácia',	NULL,	'Kalibrácia'),
+(14,	1,	14,	14,	'Homepage hore',	NULL,	'Ateliér architektúry a fotografie'),
+(15,	1,	15,	15,	'Homepage dole',	NULL,	'Popis dole'),
+(16,	1,	16,	16,	'Časť A-3',	NULL,	'Časť A-3'),
+(17,	1,	17,	17,	'Časť A-4',	NULL,	'Časť A-4'),
+(18,	1,	18,	18,	'Časť A-5',	NULL,	'Časť A-5'),
+(19,	1,	19,	19,	'Časť A-1-1',	NULL,	'Časť A-1-1');
 
 DROP TABLE IF EXISTS `hlavne_menu_opravnenie`;
 CREATE TABLE `hlavne_menu_opravnenie` (
@@ -320,7 +343,9 @@ CREATE TABLE `hlavne_menu_template` (
 INSERT INTO `hlavne_menu_template` (`id`, `name`, `description`) VALUES
 (1,	'default',	'Základný vzhľad'),
 (2,	'BWfoto_foto_album',	'Obsah foto albumu'),
-(3,	'BWfoto_foto_section',	'Zoznam foto albumov danej časti');
+(3,	'BWfoto_foto_section',	'Zoznam foto albumov danej časti'),
+(4,	'BWfoto_homepage_up',	'Článok na vrchu homepage'),
+(5,	'BWfoto_homepage_dwn',	'Článok na spodku homepage');
 
 DROP TABLE IF EXISTS `ikonka`;
 CREATE TABLE `ikonka` (
@@ -406,10 +431,8 @@ CREATE TABLE `slider` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Popis obrázkou slideru aj s názvami súborov';
 
 INSERT INTO `slider` (`id`, `poradie`, `nadpis`, `popis`, `subor`, `zobrazenie`, `id_hlavne_menu`) VALUES
-(1,	1,	'',	'',	'2017-09-02-12-15-35.JPG',	NULL,	NULL),
-(2,	2,	'',	'',	'pozadie-2.JPG',	'1,2,3',	NULL),
-(3,	3,	'',	'',	'pozadie-3.JPG',	'11,12,13',	NULL),
-(4,	4,	'',	'',	'pozadie-4.JPG',	'4,5,6',	NULL);
+(6,	1,	'',	'',	'bg-bw.png',	NULL,	NULL),
+(7,	2,	'',	'',	'bg-bwb.png',	'2',	NULL);
 
 DROP TABLE IF EXISTS `udaje`;
 CREATE TABLE `udaje` (
@@ -497,7 +520,7 @@ CREATE TABLE `user_main` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Hlavné údaje užívateľa';
 
 INSERT INTO `user_main` (`id`, `id_user_roles`, `id_user_profiles`, `password`, `meno`, `priezvisko`, `email`, `activated`, `banned`, `ban_reason`, `new_password_key`, `new_password_requested`, `new_email`, `new_email_key`, `last_ip`, `created`, `modified`) VALUES
-(1,	5,	1,	'$2y$10$RnzAjUCyc/B1GgiJ9k43/e27BDz5j1vsbN.DYlfnXIxweBvqxkABq',	'Peter',	'Vojtech',	'petak23@gmail.com',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'217.12.48.22',	'2017-05-15 09:11:19',	'2017-10-10 09:38:43'),
+(1,	5,	1,	'$2y$10$RnzAjUCyc/B1GgiJ9k43/e27BDz5j1vsbN.DYlfnXIxweBvqxkABq',	'Peter',	'Vojtech',	'petak23@gmail.com',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'::1',	'2017-05-15 09:11:19',	'2017-11-03 08:53:01'),
 (2,	4,	2,	'$2y$10$FvhA/KkVmKR4lrVftRYch.4ER1Lc4H6sl0/NK5VuJ5keSrMg8kbay',	'Juraj',	'Zámečník',	'bwfoto@bwfoto.sk',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'::1',	'2017-05-15 09:13:38',	'2017-10-05 05:40:05'),
 (3,	4,	3,	'$2y$10$VOeK4y3ozjaUM1aMtiVmcuHRmtcmoVvC6J4yFX4j0LZoNbXlejyMi',	'Jozef',	'Petrenčík',	'jozue@anigraph.eu',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.253.139.152',	'2017-05-15 09:12:22',	'2017-07-11 07:10:29');
 
@@ -569,7 +592,17 @@ INSERT INTO `user_prihlasenie` (`id`, `id_user_main`, `log_in_datetime`) VALUES
 (7,	1,	'2017-10-05 12:23:40'),
 (8,	1,	'2017-10-06 10:16:14'),
 (9,	1,	'2017-10-07 11:32:03'),
-(10,	1,	'2017-10-10 11:38:43');
+(10,	1,	'2017-10-10 11:38:43'),
+(11,	1,	'2017-10-11 12:16:27'),
+(12,	1,	'2017-10-11 12:26:24'),
+(13,	1,	'2017-10-11 12:28:18'),
+(14,	1,	'2017-10-11 12:40:12'),
+(15,	1,	'2017-10-11 12:42:33'),
+(16,	1,	'2017-10-13 11:40:46'),
+(17,	1,	'2017-10-30 13:20:44'),
+(18,	1,	'2017-11-03 08:37:57'),
+(19,	1,	'2017-11-03 09:53:01'),
+(20,	1,	'2017-11-03 09:57:28');
 
 DROP TABLE IF EXISTS `user_profiles`;
 CREATE TABLE `user_profiles` (
@@ -586,7 +619,7 @@ CREATE TABLE `user_profiles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 INSERT INTO `user_profiles` (`id`, `rok`, `telefon`, `poznamka`, `pocet_pr`, `pohl`, `prihlas_teraz`, `avatar`, `news`) VALUES
-(1,	NULL,	NULL,	NULL,	8,	'M',	'2017-10-10 11:38:43',	NULL,	'A'),
+(1,	NULL,	NULL,	NULL,	18,	'M',	'2017-11-03 09:57:28',	NULL,	'A'),
 (2,	NULL,	NULL,	NULL,	2,	'M',	'2017-10-05 07:43:46',	NULL,	'A'),
 (3,	NULL,	NULL,	NULL,	0,	'M',	NULL,	NULL,	'A');
 
@@ -660,4 +693,4 @@ INSERT INTO `verzie` (`id`, `id_user_main`, `cislo`, `subory`, `text`, `modified
 (2,	1,	'0.1.1',	'Texy',	'- Implementácia texy a texyly\n- Oprava nájdených chýb',	'2017-10-10 09:52:04'),
 (3,	1,	'0.1.3',	'Prílohy, slider',	'Testovacia verzia, v ktorej bolo opravené:\n\n- **Administrácia - Prílohy článkov:** možnosť pridať súčasne viac príloh, inline editácia popisu a názvu prílohy.\n- **Administrácia - Slider:** pridaná možnosť upravovať zobrazenie jednotlivých položiek.\n- **Administrácia:** náhrada ckeditora za texylu.\n- **Web - Slider:** zobrazovanie obrázku podľa príslušnej časti.\n- **Web - Lightbox:** upgrade na verziu 0.5.6 a pridanie popisu k obrázkom.',	'2017-10-10 09:51:40');
 
--- 2017-10-10 10:02:32
+-- 2017-11-06 13:15:09
