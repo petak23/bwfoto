@@ -33,6 +33,23 @@ class Dokumenty extends Table {
     return $this->findBy(["id_hlavne_menu"=>$id, "zobraz_v_texte"=>1])->order($order);
   }
   
+  /** Vracia vsetky viditelne prilohy - obrazky polozky
+   * @param int $id id_hlavne_menu prislusnej polozky
+   * @param type $order Sposob zoradenia
+   * @return Nette\Database\Table\Selection|FALSE */
+  public function getVisibleImages($id, $order = "pripona ASC") {
+    return $this->findBy(["id_hlavne_menu"=>$id, "zobraz_v_texte"=>1, "pripona"=>["jpg", "png", "gif", "bmp", "tiff"]])->order($order);
+  }
+  
+  /** Vracia vsetky viditelne prilohy - obrazky polozky
+   * @param int $id id_hlavne_menu prislusnej polozky
+   * @param type $order Sposob zoradenia
+   * @return Nette\Database\Table\Selection|FALSE */
+  public function getVisibleVideos($id, $order = "pripona ASC") {
+    return $this->findBy(["id_hlavne_menu"=>$id, "zobraz_v_texte"=>1, "pripona"=>["mp4", "mpg"]])->order($order);
+  }
+  
+  
   /** Uloženie jednej prílohy
    * @param array $data
    * @param int $id
