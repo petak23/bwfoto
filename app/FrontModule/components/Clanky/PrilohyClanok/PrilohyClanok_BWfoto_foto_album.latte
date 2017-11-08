@@ -1,7 +1,6 @@
 <div n:snippet="prilohyClanok" class="row bwfoto-foto-album-prilohy" n:if="$prilohy->count()">
 	<h3 n:if="$texts->trText('h3') !== 'h3'">{$texts->trText('h3')}</h3>
-  <small n:if="$user->isInRole('admin')">BWfoto_foto_album - prílohy</small>
-  <div class="col-xs-12 col-md-12" n:inner-foreach="$prilohy as $subor">
+  <div class="col-12" n:inner-foreach="$prilohy as $subor">
     {var $pr = strtolower($subor->pripona)}
     {if $pr == "mp4" OR $pr == "ogv" OR $pr == "webm" OR $pr == "wmv"}
       <video class="video-priloha" width="320" height="180" src="{$basePath}/{$subor->subor}" type="video/mp4" 

@@ -54,7 +54,7 @@ class PrilohyClanokControl extends Control {
     $template_file = (isset($params['templateFile']) && is_file(__DIR__ ."/PrilohyClanok_".$params['templateFile'].".latte"))
                      ? $params['templateFile'] : "default";
     $this->template->setFile(__DIR__ . "/PrilohyClanok_".$template_file.".latte");
-    $this->template->prilohy = $this->attachments != NULL ? $this->attachments : $this->prilohy->getViditelnePrilohy($this->id_article, "pripona DESC");
+    $this->template->prilohy = $this->attachments != NULL ? $this->attachments : $this->prilohy->getViditelnePrilohy($this->id_article);
     $this->template->texts = $this->texts;
     $this->template->avatar_path = $this->avatar_path;
     $this->template->render();
@@ -62,6 +62,16 @@ class PrilohyClanokControl extends Control {
 
   public function renderImages($params = []) {
     $this->attachments = $this->prilohy->getVisibleImages($this->id_article);
+    $this->render($params);
+  }
+  
+  public function renderOther($params = []) {
+    $this->attachments = $this->prilohy->getVisibleOther($this->id_article);
+    $this->render($params);
+  }
+  
+  public function renderVideo($params = []) {
+    $this->attachments = $this->prilohy->getVisibleVideos($this->id_article);
     $this->render($params);
   }
 

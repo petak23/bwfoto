@@ -2,7 +2,7 @@
  *
  * Modul: FRONT
  *
- * Posledna zmena(last change): 06.11.2017
+ * Posledna zmena(last change): 08.11.2017
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
@@ -38,23 +38,26 @@
       </div>
     </div>
     <div class="col-12 col-md-6 bwfoto-foto-album-prilohy">
-      {control menu templateType=>'single', templateFile=>$clanok_hl_menu->hlavne_menu_template->name, cast=>$clanok_hl_menu->id_hlavne_menu_cast, level => $uroven, avatar => $avatar_path, article_avatar_view_in => TRUE, anotacia => TRUE, nadpis => $viac_info}  
-      <div n:snippet="prilohyClanok" class="{*row*} bwfoto-foto-album-prilohy" n:if="$prilohy->count()" n:tag-if="FALSE">
-        <h3 n:if="$texts->trText('h3') !== 'h3'">{$texts->trText('h3')}</h3>
-        <div class="row" n:inner-foreach="$prilohy as $subor">
+      <h3 n:if="$texts->trText('h3') !== 'h3'">{$texts->trText('h3')}</h3>
+      <div n:snippet="prilohyClanok" class="row bwfoto-foto-album-prilohy" n:if="$prilohy->count()">
+        {control menu templateType=>'single', templateFile=>$clanok_hl_menu->hlavne_menu_template->name, cast=>$clanok_hl_menu->id_hlavne_menu_cast, level => $uroven, avatar => $avatar_path, article_avatar_view_in => TRUE, anotacia => TRUE, nadpis => $viac_info}
+        {foreach $prilohy as $subor}
+        {*<div class="row" n:inner-foreach="$prilohy as $subor">*}
           {var $pr = strtolower($subor->pripona)}
           {if $pr == "mp4" OR $pr == "ogv" OR $pr == "webm" OR $pr == "wmv"}
             <video class="video-priloha" width="320" height="180" src="{$basePath}/{$subor->subor}" type="video/mp4" 
                controls="controls" preload="none"></video>
           {else}
             {if $pr == "jpg" OR $pr == "png" OR $pr == "gif" OR $pr == "bmp"}
-              <img class="img-thumbnail img-rounded jslghtbx-thmb noajax" src="{$basePath}/{$subor->thumb}" alt="{$subor->nazov}" data-jslghtbx="{$basePath}/{$subor->subor}" data-ajax="false" {*data-jslghtbx-group="mygroup1"*} data-jslghtbx-caption="{$subor->popis}">
-              <a href="{link Clanky: id=>$id_hlavne_menu_lang, id_big_img=>$subor->id}" class="nittro-transition-auto nittro-transition-bar col-md-4" data-transition="false">
-                <img class="small-img img-thumbnail img-rounded" src="{$basePath}/{$subor->thumb}" alt="{$subor->nazov}">
-              </a>
+              <div class="col-12 col-md-4 foto-album-images">
+                <img class="img-thumbnail img-rounded jslghtbx-thmb noajax" src="{$basePath}/{$subor->thumb}" alt="{$subor->nazov}" data-jslghtbx="{$basePath}/{$subor->subor}" data-ajax="false" {*data-jslghtbx-group="mygroup1"*} data-jslghtbx-caption="{$subor->popis}">
+                <a href="{link Clanky: id=>$id_hlavne_menu_lang, id_big_img=>$subor->id}" class="{*nittro-transition-auto nittro-transition-bar*} col-md-4" data-transition="false">
+                  <img class="small-img img-thumbnail img-rounded" src="{$basePath}/{$subor->thumb}" alt="{$subor->nazov}">
+                </a>
+              </div>
             {elseif $pr == "mp3" OR $pr == "wav"}
-              <div class="col-12 col-md-4">
-                <div class="thumbnail">
+              <div class="col-12 col-md-4 foto-album-audio">
+                <div class="thumbnail" n:tag-if="FALSE">
                   <audio src="{$basePath}/{$subor->subor}" width="320" type="audio/mp3" controls="controls" preload="none"></audio>
                   <div>
                     <strong>{$subor->nazov}</strong>
@@ -63,7 +66,7 @@
                 </div>
               </div>
             {else}
-              <div class="col-12 col-md-4">
+              <div class="col-12 col-md-4 foto-album-other">
                 <div class="img-thumbnail" n:tag-if="FALSE">
                   <a href="{$subor->id|odkazdo}" title="{$subor->nazov} - {$subor->popis}" target="_blank">
                     <img src="{$basePath}/{$subor->thumb}" alt="{$subor->nazov}" class="small-img img-thumbnail img-rounded"><br>
@@ -74,7 +77,8 @@
               </div>
             {/if}
           {/if}
-        </div>
+        {*</div>*}
+        {/foreach}
       </div>
     </div>
   </div>
