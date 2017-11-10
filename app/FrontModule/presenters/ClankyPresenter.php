@@ -30,6 +30,8 @@ class ClankyPresenter extends \App\FrontModule\Presenters\BasePresenter {
    * @var Language_support\Clanky */
   public $texty_presentera;
   
+  /** @var \App\FrontModule\Components\Clanky\PrilohyClanok\IPrilohyClanokControl @inject */
+  public $prilohyClanokControlFactory;
   /** @var \App\FrontModule\Components\Faktury\IViewFakturyControl @inject */
   public $viewFakturyControlFactory;
   /** @var \App\FrontModule\Components\Clanky\ZobrazKartyPodclankov\IZobrazKartyPodclankovControl @inject */
@@ -134,6 +136,15 @@ class ClankyPresenter extends \App\FrontModule\Presenters\BasePresenter {
 
   /** 
    * Komponenta pre zobrazenie priloh
+   * @return \App\FrontModule\Components\Clanky\PrilohyClanok\PrilohyClanokControl */
+  public function createComponentPrilohy() {
+    $prilohy = $this->prilohyClanokControlFactory->create();
+    $prilohy->setNastav($this->zobraz_clanok, $this->avatar_path, $this->language_id);
+    return $prilohy;
+  }
+  
+  /** 
+   * Komponenta pre zobrazenie faktur
    * @return \App\FrontModule\Components\Faktury\ViewFakturyControl */
   public function createComponentViewFaktury() {
     $viewFaktury = $this->viewFakturyControlFactory->create();

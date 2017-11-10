@@ -1,0 +1,13 @@
+{if $prilohy->count()}
+  {foreach $prilohy as $subor}
+    <div class="col-12 col-md-4 foto-album-other">
+      {*<div class="img-thumbnail" n:tag-if="FALSE">*}
+        <a href="{$subor->id|odkazdo}" title="{$subor->nazov} - {$subor->popis}" target="_blank">
+          <img src="{$basePath}/{$subor->thumb}" alt="{$subor->nazov}" class="small-img img-thumbnail img-rounded"><br>
+          <span>{$subor->nazov}</span>
+          <div n:ifset="$subor->popis" class="popis">{$subor->popis}</div>
+        </a>
+      {*</div>*}
+    </div>
+  {/foreach}
+{/if}

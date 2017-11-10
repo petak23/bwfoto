@@ -9,13 +9,13 @@ use Nette\Application\UI\Control;
 /**
  * Komponenta pre zobrazenie príloh clanku pre FRONT modul
  * 
- * Posledna zmena(last change): 07.11.2017
+ * Posledna zmena(last change): 10.11.2017
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2012 - 2016 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.4
+ * @version 1.0.5
  */
 class PrilohyClanokControl extends Control {
 
@@ -24,7 +24,7 @@ class PrilohyClanokControl extends Control {
   /** @var Language_support\Clanky */
   public $texts;
   /** @var int */
-  private $id_article;
+  private $article;
   /** @var string */
   private $avatar_path;
   /** @var Nette\Database\Table\Selection|FALSE */
@@ -40,39 +40,42 @@ class PrilohyClanokControl extends Control {
   }
 
   /** Nastavenie id polozky, ku ktorej patria prilohy
-   * @param int $id
-   * @return \App\FrontModule\Components\Clanky\PrilohyClanokControl  */
-  public function setNastav($id_article, $avatar_path, $id_lang) {
-    $this->id_article = $id_article;
+   * @param Nette\Database\Table\ActiveRow $article Polozka menu ku ktorej je priradeny
+   * @param type $avatar_path Adresar avatara
+   * @param int $id_lang Id jazyka
+   * @return \App\FrontModule\Components\Clanky\PrilohyClanok\PrilohyClanokControl  */
+  public function setNastav($article, $avatar_path, $id_lang) {
+    $this->article = $article;
     $this->avatar_path = $avatar_path;
     $this->texts->setLanguage($id_lang);
     return $this;
   }
 
   /** Render */
-  public function render($params = []) {
-    $template_file = (isset($params['templateFile']) && is_file(__DIR__ ."/PrilohyClanok_".$params['templateFile'].".latte"))
-                     ? $params['templateFile'] : "default";
-    $this->template->setFile(__DIR__ . "/PrilohyClanok_".$template_file.".latte");
-    $this->template->prilohy = $this->attachments != NULL ? $this->attachments : $this->prilohy->getViditelnePrilohy($this->id_article);
+  public function render($params = [], $template = '') {
+    $template = ($template != '' ? "_" : "").$template;
+    $template_file = ((isset($params['templateFile']) && is_file(__DIR__ ."/".$params['templateFile'].$template.".latte")) ? $params['templateFile'].$template : "default");
+    $this->template->setFile(__DIR__ . "/".$template_file.".latte");
+    $this->template->prilohy = $this->attachments != NULL ? $this->attachments : $this->prilohy->getViditelnePrilohy($this->article->id_hlavne_menu);
     $this->template->texts = $this->texts;
     $this->template->avatar_path = $this->avatar_path;
+    $this->template->id_hlavne_menu_lang = $this->article->id;
     $this->template->render();
   }
 
   public function renderImages($params = []) {
-    $this->attachments = $this->prilohy->getVisibleImages($this->id_article);
-    $this->render($params);
+    $this->attachments = $this->prilohy->getVisibleImages($this->article->id_hlavne_menu);
+    $this->render($params, 'images');
   }
   
-  public function renderOther($params = []) {
-    $this->attachments = $this->prilohy->getVisibleOther($this->id_article);
-    $this->render($params);
+  public function renderOthers($params = []) {
+    $this->attachments = $this->prilohy->getVisibleOther($this->article->id_hlavne_menu);
+    $this->render($params, 'others');
   }
   
-  public function renderVideo($params = []) {
-    $this->attachments = $this->prilohy->getVisibleVideos($this->id_article);
-    $this->render($params);
+  public function renderVideos($params = []) {
+    $this->attachments = $this->prilohy->getVisibleVideos($this->article->id_hlavne_menu);
+    $this->render($params, 'videos');
   }
 
   protected function createTemplate($class = NULL) {
