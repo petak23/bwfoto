@@ -3,10 +3,9 @@
   <img class="jslghtbx-thmb img-rounded" src="{$basePath}/{$item->thumb}" alt="{$item->nazov}" data-jslghtbx="{$basePath}/{$item->subor}" class="noajax" data-ajax="false" data-jslghtbx-group="mygroup1">
   {*$item->nazov*}
 {else}
-  {var src=isset($item->thumb) ? $item->thumb : 'www/ikonky/Free-file-icons-master/48px/'.(is_file('www/ikonky/Free-file-icons-master/48px/'.$item->pripona.'.png') ? $item->pripona : '_page').'.png'}
   <a href="{plink Dokumenty: $item->id}" title="{$item->nazov}" target="_blank">
     <img class="img-rounded" 
-         src="{$basePath}/{ifset $item->thumb}{$item->thumb}{else}www/ikonky/Free-file-icons-master/48px/{if is_file('www/ikonky/Free-file-icons-master/48px/'.$item->pripona.'.png')}{$item->pripona}{else}'_page'{/if}.png{/ifset}" 
+         src="{$basePath}/{ifset $item->thumb}{$item->thumb}{else}www/ikonky/Free-file-icons-master/48px/{if is_file('www/ikonky/Free-file-icons-master/48px/'.strtolower($item->pripona).'.png')}{$item->pripona|lower}{else}_page{/if}.png{/ifset}" 
          alt="{$item->subor}">
   </a>
 {/if}     
