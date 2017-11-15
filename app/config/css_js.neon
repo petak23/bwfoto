@@ -94,8 +94,9 @@ webloader:
 #        - %wwwDir%/www/js/lightbox.js
 #        - %wwwDir%/www/js/lightbox.config.front.js
 #        - %wwwDir%/www/js/pomocne_front.js
-      filters:
-        - @jsMin
+        - %wwwDir%/www/js/nav-shrink.js
+#      filters:
+#        - @jsMin
 
     admin:
       files:

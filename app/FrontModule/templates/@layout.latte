@@ -42,20 +42,19 @@
 <body>
   <header class="nittro-transition-aut" n:snippet="header">
     {control slider}
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top navbar-toggleable-xs">
+    <nav id="topNav" class="navbar navbar-expand-md navbar-light fixed-top navbar-toggleable-xs">
       <a class="navbar-brand" n:href="Homepage:" title="home"><img src="{$basePath}/www/images/logo_bw.png" alt="logo bw foto" class="logo"></a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <button id="topMenuButton" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
       <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
         {control menu templateType=>'tree', templateFile=>'BWfoto_Tree_Main', cast=>2, article_avatar_view_in =>0, ukaz=>TRUE}
         <form class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" type="text" placeholder="Hľadaj" aria-label="Search">
-          <button class="btn my-2 my-sm-0" type="submit"><span class="fa fa-search" title="hladaj" aria-hidden="true"></span></button>
+          <input class="form-control mr-sm-2" type="search" aria-label="Search">
+          <button class="btn my-2 my-sm-0" type="submit"><span class="oi oi-magnifying-glass" title="hladaj" aria-hidden="true"></span></button>
         </form>
       </div>
-
     </nav>
     {*<a n:href="Homepage:" titile="home">
         <h1>
@@ -67,9 +66,7 @@
   {* ----- ZACIATOK content - centralna cast ----- *}
   <div n:snippet=content class="nittro-transition-auto nittro-transition-fade">
     <section id="webContent">
-      <div class="row top-panel">
-        {control menu templateType=>'nav', templateFile=>'BWfoto_Nav_Breadcrumb', level=>1}
-      </div>
+      {control menu templateType=>'nav', templateFile=>'BWfoto_Nav_Breadcrumb', level=>1}
       {control confirmForm}
       <div n:flashes></div>
       {block content}{/block}
