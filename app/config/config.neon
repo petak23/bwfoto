@@ -11,8 +11,8 @@ parameters:
   omrvinky_enabled: TRUE # Globalne povolenie zobrazenia omrviniek TRUE|FALSE
   aktualny_projekt_enabled: FALSE # Globalne povolenie nastavovania aktualneho projektu TRUE|FALSE
   slider:       #Nastavenie slider-u
-    x: 1900   #Rozmery slider-u
-    y: 300
+    x: 1280   #Rozmery slider-u
+    y: 260
     varianta: 5 #0-nahodne nacitany obrazok, 1-meniace sa obrazky, 2-carousel, 3-scspp
     odkaz: FALSE # Povolenie zobrazenia obrazkov slider-u ako odkazu TRUE|FALSE
   hlavne_menu_obr_ikonky: FALSE # Povolenie obrazovych ikoniek v hl.menu. TRUE|FALSE
@@ -64,8 +64,8 @@ application:
 
 # Register Nittro Latte macros
 latte:
-    macros:
-        - Nittro\Bridges\NittroLatte\NittroMacros
+  macros:
+    - Nittro\Bridges\NittroLatte\NittroMacros
 
 extensions:
     fileUpload: Zet\FileUpload\FileUploadExtension
@@ -86,6 +86,8 @@ tracy:
 
 includes:
   - services.neon
+  - ../AdminModule/config/config.neon
+  - ../FrontModule/config/config.neon
   - css_js.neon
   - komponenty.neon
   - database.neon

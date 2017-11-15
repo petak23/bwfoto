@@ -1,0 +1,14 @@
+{if $prilohy->count()}
+  {foreach $prilohy as $subor}
+    <div class="col-12 col-md-4 foto-album-other">
+      {*<div class="img-thumbnail" n:tag-if="FALSE">*}
+        <a href="{$subor->id|odkazdo}" title="{$subor->nazov} - {$subor->popis}" target="_blank">
+          <img src="{$basePath}/{ifset $subor->thumb}{$subor->thumb}{else}www/ikonky/Free-file-icons-master/48px/{if is_file('www/ikonky/Free-file-icons-master/48px/'.strtolower($subor->pripona).'.png')}{$subor->pripona|lower}{else}_page{/if}.png{/ifset}"
+               alt="{$subor->nazov}" class="small-img img-thumbnail img-rounded"><br>
+          <span>{$subor->nazov}</span>
+          <div n:ifset="$subor->popis" class="popis">{$subor->popis}</div>
+        </a>
+      {*</div>*}
+    </div>
+  {/foreach}
+{/if}

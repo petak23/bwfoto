@@ -1,0 +1,131 @@
+{**
+ * Hlavné rozloženie stránky pre FRONT modul aplikácie
+ * My Application layout template for FRONT module.
+ *
+ *	Modul: FRONT
+ *
+ * Posledna zmena(last change): 12.10.2017
+ * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
+ * @license
+ * @link       http://petak23.echo-msz.eu
+ *
+ * @param string   $basePath web base path
+ * @param string   $robots   tell robots how to index the content of a page (optional)
+ * @param array    $flashes  flash messages
+ *}
+<!DOCTYPE html>
+<html>
+<head>	{* ----- Hlavicka stranky ----- *}
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+	<meta name="HandheldFriendly" content="true" />
+  <meta name="robots" content="{ifset $robots}{$robots}{else}index, follow{/ifset}" />
+  <meta name="description" content="{$udaje['description']}" />
+  <meta name="keywords" content="{$udaje['keywords']}" />
+  <meta name="author" content="{$udaje['autor']}" />
+  <title n:snippet="title">{$udaje['titulka']} {block title|stripHtml|upper}{/block}</title>
+  {control css}
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+  {* ----- Favicon ------ *}
+  <link rel="shortcut icon" href="{$basePath}/favicon.ico" type="image/x-icon">
+  {block head}{/block}
+  <script type="application/javascript" src="{$basePath}/www/js/nittro.min.js" async defer></script>
+  {control jsBefore}
+</head>
+
+<body>
+  <header class="nittro-transition-aut" n:snippet="header">
+    {control slider}
+    <nav id="topNav" class="navbar navbar-expand-md navbar-light fixed-top navbar-toggleable-xs">
+      <a class="navbar-brand" n:href="Homepage:" title="home"><img src="{$basePath}/www/images/logo_bw.png" alt="logo bw foto" class="logo"></a>
+      <button id="topMenuButton" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+        {control menu templateType=>'tree', templateFile=>'BWfoto_Tree_Main', cast=>2, article_avatar_view_in =>0, ukaz=>TRUE}
+        <form class="form-inline my-2 my-lg-0">
+          <input class="form-control mr-sm-2" type="search" aria-label="Search">
+          <button class="btn my-2 my-sm-0" type="submit"><span class="oi oi-magnifying-glass" title="hladaj" aria-hidden="true"></span></button>
+        </form>
+      </div>
+    </nav>
+    {*<a n:href="Homepage:" titile="home">
+        <h1>
+          {$udaje['titulka']}
+          <br n:ifset="$udaje['h1part2']" /><small n:ifset="$udaje['h1part2']">{$udaje['h1part2']|striptags}</small>
+        </h1>
+      </a>*}
+  </header>
+  {* ----- ZACIATOK content - centralna cast ----- *}
+  <div n:snippet=content class="nittro-transition-auto nittro-transition-fade">
+    <section id="webContent">
+      {control menu templateType=>'nav', templateFile=>'BWfoto_Nav_Breadcrumb', level=>1}
+      {control confirmForm}
+      <div n:flashes></div>
+      {block content}{/block}
+    </section>
+    {* <article n:inner-block="content" class="nittro-transition-auto nittro-transition-fade"></article> *}
+  </div>
+  {* ----- Spodok stranky - FOOTER ----- *}
+  <footer n:snippet=footer>
+    {* --- Mapa stranky --- *}
+    {control menu templateType=>'fixed', templateFile=>'BWfoto_footer_Sidemap', cast=>1, article_avatar_view_in =>0}
+    {* --- Info o stranke --- *}
+    <div class="row" id="footerContent">
+      <div id="logoBWfoto" class="col-5 d-flex justify-content-end">
+        <img src="{$basePath}/www/images/logo_bw-w.png" title="Logo BWfoto" alt="Logo Bwfoto" class="img-responsive">
+      </div>
+      <div id="contact">
+        <h4 class="text-left">Ateliér Zámečník</h4>
+        <ul class="list-group text-left">
+          <li class="list-unstyled"><span class="fa fa-home"></span> Spišské Bystré</li>
+          <li class="list-unstyled"><span class="fa fa-mobile fa-1_5x"></span> 0905 150 400</li>
+          <li class="list-unstyled"><span class="fa fa-envelope"></span> bwfoto@bwfoto.sk</li>
+        </ul>
+      </div>
+    </div>
+    <div class="row pv-footer">
+      <div class="col info-layer">
+        <ul class="nav text-center">
+          <li n:if="FALSE && $user_spravca !== FALSE && $user_admin->id != $user_spravca->id">
+            {$udaje['spravca']}: {$user_spravca->meno} {$user_spravca->priezvisko|upper}
+            ({$user_spravca->email|uprav_email})
+          </li>
+          <li>&copy; {$udaje['copy']} 2017{if date('Y') != '2017'} - {date('Y')}{/if}</li>
+          <li>
+            <a href="http://nette.org/cs/" class="logo-nette" title="{('base_nette_title')|trLang}">
+              <img src="{$basePath}/www/images/nette-powered1.gif" alt="{('base_nette_powered')|trLang}">
+            </a>
+          </li>
+          <li>{$udaje['last_update']} {$verzia->modified|date:'j.n.Y'}</li>
+          <li>created by <a href="http://anigraph.eu" title="anigraph.eu" target="_new">anigraph</a></li>
+        </ul>
+      </div> 
+    </div> 
+    <div class="row pv-footer">      
+      <div class="col admin-layer">
+        <ul class="nav text-center">
+          <li n:if="$view_log_in_link_in_header < 0 && !$user->isLoggedIn()">
+            <a n:href="User:default#prihlas" title="{('base_link_to_admin_log_in')|trLang}">{('base_link_to_admin_log_in')|trLang}</a>
+          </li>
+        </ul>
+        {control userLangMenu}
+      </div>
+    </div>
+
+
+  </footer>
+
+  {control jsAfter}
+  {control files:js}
+  {block spec_js}{/block}
+  {*control googleAnalytics*}
+</body>
+</html>

@@ -434,6 +434,7 @@ function Lightbox() {
       prevImg: typeof opt.prevImg === 'string' ? opt.prevImg : false,
       nextImg: typeof opt.nextImg === 'string' ? opt.nextImg : false,
       hideCloseBtn: opt.hideCloseBtn || false,
+      hideEshopBtn: opt.hideEshopBtn || false,
       closeOnClick: typeof opt.closeOnClick === 'boolean' ? opt.closeOnClick : true,
       nextOnClick: setTrueDef(opt.nextOnClick),
       loadingAnimation: opt.loadingAnimation === undefined ? true : opt.loadingAnimation,
@@ -492,6 +493,24 @@ function Lightbox() {
       addEvent(closeBtn, 'click', function (e) {
         stopPropagation(e);
         CTX.close();
+      }, false);
+    }
+    
+    // init regular eshopbutton
+    if (!CTX.opt.hideEshopBtn) {
+      var eshopBtn = document.createElement('a');
+      eshopBtn.setAttribute('id', _const_id_prefix + '-eshop');
+      eshopBtn.setAttribute('class', _const_class_prefix + '-eshop');
+      eshopBtn.setAttribute('target', '_blank');
+      eshopBtn.innerHTML = 'Eshop';
+      CTX.box.appendChild(eshopBtn);
+      addEvent(eshopBtn, 'click', function (e) {
+        stopPropagation(e);
+        var img = document.getElementsByClassName('jslghtbx-animate-init')[0];
+        var pom = getAttr(img, 'src');
+        eshopBtn.setAttribute('href', pom);
+//        console.log(pom);
+//        CTX.close();
       }, false);
     }
     

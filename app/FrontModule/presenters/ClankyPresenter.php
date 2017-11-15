@@ -8,7 +8,7 @@ use Nette\Application\UI\Multiplier;
 /**
  * Prezenter pre vypisanie clankov.
  * 
- * Posledna zmena(last change): 03.10.2017
+ * Posledna zmena(last change): 13.10.2017
  *
  *	Modul: FRONT
  *
@@ -16,7 +16,7 @@ use Nette\Application\UI\Multiplier;
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.1
+ * @version 1.1.2
  */
 
 class ClankyPresenter extends \App\FrontModule\Presenters\BasePresenter {
@@ -40,6 +40,8 @@ class ClankyPresenter extends \App\FrontModule\Presenters\BasePresenter {
 	/** @var \Nette\Database\Table\ActiveRow|FALSE */
 	public $zobraz_clanok = FALSE;
   private $kotva = "";
+  public $viditelnePrilohy;
+  protected $big_img;
 
   /** Vychodzie nastavenia */
 	protected function startup() {
@@ -52,7 +54,7 @@ class ClankyPresenter extends \App\FrontModule\Presenters\BasePresenter {
 
   /** Zobrazenie konkretneho clanku
    * @param int $id Id hlavneho menu clanku */
-	public function actionDefault($id = 0, $kotva = "") {
+	public function actionDefault($id = 0, $kotva = "", $id_big_img = 0) {
     if (($this->zobraz_clanok = $this->hlavne_menu_lang->getOneArticleId($id, $this->language_id, $this->id_reg)) === FALSE) {
       $this->setView("notFound");
     } else {
@@ -63,20 +65,22 @@ class ClankyPresenter extends \App\FrontModule\Presenters\BasePresenter {
         $nadr = $this->clanok_komponenty->findBy(['id_hlavne_menu' => $this->zobraz_clanok->hlavne_menu->id_nadradenej, 'spec_nazov' => 'zobrazKartyPodclankov']);
         if (count($nadr)) {
           $this->redirect("Clanky:", [$this->zobraz_clanok->hlavne_menu->id_nadradenej, $this->zobraz_clanok->hlavne_menu->spec_nazov]);
-        }
-        else {
+        } else {
           $this->setView($this->zobraz_clanok->hlavne_menu->hlavne_menu_template->name);
         }
       } else {
         $this->setView($this->zobraz_clanok->hlavne_menu->hlavne_menu_template->name);
       }
+      //Spracovanie priloh
+      $this->viditelnePrilohy = $this->dokumenty->getViditelnePrilohy($this->zobraz_clanok->id_hlavne_menu);
+      $this->big_img = $id_big_img ? $id_big_img : ((count($pom = $this->viditelnePrilohy)) ? $pom->fetch()->id : 0);
     }
 	}
-  
+ 
   /** Render pre zobrazenie clanku */
 	public function beforeRender() {
     parent::beforeRender();
-    //renderDefault()	{
+    $this->getComponent('menu')->selectByUrl($this->link('Clanky:', ["id"=>$this->zobraz_clanok->id_hlavne_menu]));
     $this->template->komentare_povolene =  $this->udaje_webu["komentare"] && ($this->user->isAllowed('Front:Clanky', 'komentar') && $this->zobraz_clanok->hlavne_menu->komentar) ? $this->zobraz_clanok->id_hlavne_menu : 0;
 		$this->template->h2 = $this->trLang('h2').$this->zobraz_clanok->view_name;
     $this->template->uroven = $this->zobraz_clanok->hlavne_menu->uroven+2;
@@ -87,6 +91,11 @@ class ClankyPresenter extends \App\FrontModule\Presenters\BasePresenter {
     $this->template->viac_info = "";//$this->trLang('viac_info');
     //Zisti, ci su k clanku priradene komponenty
     $this->template->komponenty = $this->clanok_komponenty->getKomponenty($this->zobraz_clanok->id_hlavne_menu, $this->nastavenie["komponenty"]);
+    $this->template->prilohy = $this->viditelnePrilohy;
+    $this->template->avatar_path = $this->avatar_path;
+    $this->template->texts = $this->texty_presentera;
+    $this->template->big_img = $this->dokumenty->find($this->big_img);
+    $this->template->id_hlavne_menu_lang = $this->zobraz_clanok->id;
 	}
 
   /** Render v prípade nenájdenia článku */
@@ -125,17 +134,17 @@ class ClankyPresenter extends \App\FrontModule\Presenters\BasePresenter {
     return $ukaz_clanok;
   }
 
-	/** 
+  /** 
    * Komponenta pre zobrazenie priloh
    * @return \App\FrontModule\Components\Clanky\PrilohyClanok\PrilohyClanokControl */
   public function createComponentPrilohy() {
     $prilohy = $this->prilohyClanokControlFactory->create();
-    $prilohy->setNastav($this->zobraz_clanok->id_hlavne_menu, $this->avatar_path, $this->language_id);
+    $prilohy->setNastav($this->zobraz_clanok, $this->avatar_path, $this->language_id);
     return $prilohy;
   }
   
   /** 
-   * Komponenta pre zobrazenie priloh
+   * Komponenta pre zobrazenie faktur
    * @return \App\FrontModule\Components\Faktury\ViewFakturyControl */
   public function createComponentViewFaktury() {
     $viewFaktury = $this->viewFakturyControlFactory->create();
@@ -151,4 +160,14 @@ class ClankyPresenter extends \App\FrontModule\Presenters\BasePresenter {
     $odkaz->setArticle($this->zobraz_clanok->id_hlavne_menu, $this->language_id, $this->kotva);
     return $odkaz;
   }
+  
+  protected function createTemplate($class = NULL) {
+    $servise = $this;
+    $template = parent::createTemplate($class);
+    $template->addFilter('odkazdo', function ($id) use($servise){
+      $serv = $servise->link("Dokumenty:default", ["id"=>$id]);
+      return $serv;
+    });
+    return $template;
+	}
 }

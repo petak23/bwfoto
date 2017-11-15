@@ -1,15 +1,17 @@
 <?php
 namespace App\AdminModule\Presenters;
 
-use Nette\Forms\Container;
-use Nette\Application\UI\Multiplier;
+use App\AdminModule\Components;
+use App\AdminModule\Forms;
 use DbTable;
-use PeterVojtech;
+use Nette\Application\UI\Multiplier;
+use Nette\Forms\Container;
+use PeterVojtech\Email;
 
 /**
  * Prezenter pre spravu oznamov.
  * 
- * Posledna zmena(last change): 18.09.2017
+ * Posledna zmena(last change): 31.10.2017
  *
  * Modul: ADMIN
  *
@@ -17,29 +19,28 @@ use PeterVojtech;
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.7
+ * @version 1.1.8
  */
 
 Container::extensionMethod('addDatePicker', function (Container $container, $name, $label = NULL) {
     return $container[$name] = new \JanTvrdik\Components\DatePicker($label);
 });
 
-class OznamPresenter extends \App\AdminModule\Presenters\BasePresenter {
-	/** 
-   * @inject
-   * @var DbTable\Oznam */
+class OznamPresenter extends BasePresenter {
+	// -- DB
+  /** @var DbTable\Oznam @inject */
 	public $oznam;
   
-  // -- Komponenty
-  /** @var \App\AdminModule\Components\Oznam\TitleOznam\ITitleOznamControl @inject */
+  // -- Components
+  /** @var Components\Oznam\TitleOznam\ITitleOznamControl @inject */
   public $titleOznamControlFactory;
-  /** @var PeterVojtech\Email\IEmailControl @inject */
+  /** @var Email\IEmailControl @inject */
   public $emailControl;
 
-  // -- Formulare
+  // -- Forms
   /** @var Forms\Oznam\EditOznamFormFactory @inject*/
 	public $editOznamForm;
-  /** @var \App\AdminModule\Components\Oznam\TitleOznam\EditTitleImageFormFactory @inject*/
+  /** @var Components\Oznam\TitleOznam\EditTitleImageFormFactory @inject*/
   public $editTitleImageFormFactory;
   
 	/** @var boolean|FALSE */

@@ -1,27 +1,29 @@
-{define #link}
-  {var $avatar = strlen($nastav['avatar']) && isset($node->avatar) ? $nastav['avatar'].$node->avatar : FALSE}
-  <a n:if="($avatar && is_file('www/'.$avatar)) && ($nastav['article_avatar_view_in'] & 1)"  href="{$node->link}" title="{$node->name}" class="thumbnail">
-    <i n:if="isset($node->node_class)" class="{$node->node_class}"> </i>
-    {*if strlen($nastav['avatar']) && ($nastav['article_avatar_view_in'] & 1)*}
-    <img n:if="($avatar && is_file('www/'.$avatar))" src="{$basePath}/www/{$avatar}" alt="{$nastav['text_title_image']}">
-    {*/if*}
-  </a>
-  <div class="caption" >
-    <h3><a href="{$node->link}" title="{$node->name}">{$node->name}</a></h3>
-    <p n:if="$nastav['anotacia'] && isset($node->anotacia)">{$node->anotacia}</p>
-    <p n:if="$nastav['anotacia'] && isset($node->anotacia)"><a n:if="$node->link" href="{$node->link}" class="btn btn-primary" role="button" title="more">»»»</a></p>
-  </div>
-{/define}
-
-<nav n:if="isset($startNode) && count($startNode->nodes)" class="homepage-nav">
-  <div class="row">
-  {foreach $startNode->nodes as $subNode}
-    {first}<div class="col-xs-6 col-md-3">{/first}
-      <div class="homepage-nav-item {if $iterator->isOdd()}odd{/if}">
-      {include #link node => $subNode}
-    </div>
-    {if $iterator->counter % 2 == 0 && !$iterator->last}</div><div class="col-xs-6 col-md-3">{/if}  
-    {last}</div>{/last}
+{if isset($startNode) && count($startNode->nodes)}
+  {var scount = TRUE}
+  {foreach $startNode->nodes as $node}
+    {var $avatar = strlen($nastav['avatar']) && isset($node->avatar) ? $nastav['avatar'].$node->avatar : FALSE}
+    {first}<div class="home-column">{/first}
+      <a href="{$node->link}" title="{$node->name}">
+      {if $iterator->odd}
+        <div class="main-part" style="background-image: url({$basePath}/www/{$avatar});">
+          <h2>{$node->name}</h2>
+        </div>
+      {else}
+        <div class="web-part">
+        <img src="{$basePath}/www/{$avatar}" alt="{$node->name}" class="img-responsive"/>
+          <h2>{$node->name}</h2>
+        </div>
+      {/if}
+      </a>
+    {if $iterator->counter % 2 == 0 && !$iterator->last}</div><div class="home-column {if $scount}reverse{/if}">{if $scount}{var $scount = FALSE}{/if}{/if}
+    {last}</div>{/last} 
   {/foreach}
+  <!--skryty stlpec, zobrazi sa len pri dvojstlpcovom zobrazeni-->
+  <div class="hide-column" n:inner-foreach="$startNode->nodes as $node">
+    {var $avatar = strlen($nastav['avatar']) && isset($node->avatar) ? $nastav['avatar'].$node->avatar : FALSE}
+    <a n:if="$iterator->even" href="{$node->link}" title="{$node->name}" class="web-part">
+      <img src="{$basePath}/www/{$avatar}" alt="{$node->name}" class="img-responsive"/>
+      <h2>{$node->name}</h2>
+    </a>
   </div>
-</nav>
+{/if}

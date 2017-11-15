@@ -5,7 +5,8 @@ var options = {
 	prevImg: 			true,
 	nextImg: 			true,
 	hideCloseBtn: 		false,
-//	closeOnClick: 		true,
+  hideEshopBtn:     false,
+	closeOnClick: 		false,
 //	loadingAnimation: 	200,
 //	animElCount: 		4,
 //	preload: 			true,
@@ -14,17 +15,20 @@ var options = {
 	nextOnClick: 		true,
 	responsive: 		true,
 	maxImgSize:			0.8,
-	keyControls: 		true
+	keyControls: 		true,
 	// callbacks
-//	onopen: function(){
-//		// ...
-//	},
+	onopen: function(){
+		// ...
+//    var img = document.getElementsByClassName('jslghtbx-animate-init');
+//    console.log(img.getAttribute(src));
+	},
 //	onclose: function(){
 //		// ...
 //	},
-//	onload: function(){
-//		// ...
-//	},
+	onload: function(){
+		// ...
+    
+	}//,
 //	onresize: function(event){
 //		// ...
 //	},

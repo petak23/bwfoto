@@ -1,0 +1,239 @@
+@charset "utf-8";
+h1
+{
+	font-family: "Fira Bold", "sans-serif";
+	color: #A56F30;
+	margin: 2% 0 0 0;
+}
+h2
+{
+	font-family: "Fira Bold", "sans-serif";
+	color: #467;
+}
+h3
+{
+	font-family: 'Fira Light', 'sans-serif';
+	color: #ddd;
+}
+p
+{
+	font-family: 'Fira Light', 'sans-serif';
+	color: #eee;
+}
+/* hlavicka */
+.logo 
+{ 
+	position: relative;
+	top: 0; left: 100px;
+	width: 100%;
+	transition: width .5s;
+}
+header
+{
+	/*background: url(../www/images/bg-bw.png) repeat-x;*/
+  background-repeat: repeat-x;
+	height: 260px;
+}
+/* horna navigacia */
+nav.navbar
+{
+	background-color: #fff;
+	overflow: hidden;
+	height: 150px;
+	transition: height .5s;
+}
+nav.shrink
+{	height: 80px; }
+nav.shrink .logo
+{	width: 60%; }
+
+.navbar-nav 
+{ 
+	padding-left: 5%;
+	text-align: right;
+	margin-right: 5%;
+}
+.navbar-nav li
+{ }
+#navbarSupportedContent form .btn
+{ display: none;}
+#navbarSupportedContent form {
+	justify-content: flex-end;
+	margin-right: 1em;
+}
+#navbarSupportedContent form input[type=search] {
+	background: #ededed url(../www/images/icons/lupa_32.png) no-repeat top 4px right 8px;
+	border: solid 1px #ccc;
+	padding: 9px 40px 9px 10px;
+	width: 50px;
+	-webkit-border-radius: 5em;
+	-moz-border-radius: 5em;
+	border-radius: .5em;
+	-webkit-transition: all .5s;
+	-moz-transition: all .5s;
+	transition: all .5s;
+}
+#navbarSupportedContent form input[type=search]:focus {
+	width: 250px;
+	background-color: #fff;
+	border-color: #A56F30;
+	-webkit-box-shadow: 0 0 5px rgba(94,58,13,0.60);
+	-moz-box-shadow: 0 0 5px rgba(94,58,13,0.60);
+	box-shadow: 0 0 5px rgba(94,58,13,0.60);
+}
+
+/* odrobinky */
+.breadcrumb 
+{
+	background: none;
+	border-radius: 0;
+	border-bottom: 1px dotted #212121;
+}
+.breadcrumb-item + .breadcrumb-item::before 
+{ content: "•"; }
+
+#webContent, #footerContent, footer nav
+{	
+	width: 80%;
+	margin: 2% auto 0;
+	max-width: 1440px;
+}
+
+/* obsah titulka */
+body { background-color: #000000; }
+#webParts, #webAlbums
+{
+	display: flex;
+	flex-direction: row;
+	flex-flow: wrap;
+	align-content: center;
+}
+/*#bwPhoto
+{	background-image: url(../../images/ciernobiela.jpg); }
+#colorPhoto
+{	background-image: url(../../images/farebna.jpg);}
+#architecture
+{	background-image: url(../../images/architektura.jpg);}*/
+#webParts .hide-column 
+{ display: none; }
+/*#colorPhoto h2,*/ .reverse .main-part h2
+{	padding: 1em 0 1.5em 0;}
+#popisDole
+{
+	margin: 2em 0 1em;
+}
+.home-column
+{
+	display: flex;
+	flex-direction: column;
+	width: 32%;
+	margin: 0.6%;
+}
+.home-column div
+{	margin: 0.4rem 0;}
+.reverse { flex-direction: column-reverse; }
+.web-part
+{
+	height: 100px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	background-color: #47371A;
+}
+.web-part h2
+{
+	background: none;
+	font-family: "Fira";
+	font-size: 130%;
+	margin: 2ex 0 0 2ex;
+	color: #bba;
+}
+.web-part img
+{	opacity: 0.5;}
+.main-part
+{
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center bottom;
+	min-height: 300px;
+	outline: .6em solid rgba(225,225,225,0.7);
+  outline-offset: -.6em;
+}
+.main-part h2
+{
+	text-align: center;
+	background-color:rgba(225,225,225,0.6);
+	color: #222;
+	padding: 1.5em 0 1em 0;
+	margin: 0;
+	font-size: 120%;
+}
+.popis
+{
+	font-family: "Fira Light", "sans-serif";
+	color: #ccc;
+}
+/* obsah nahlady albumov */
+#webAlbums
+{
+	width: 100%;
+	justify-content: left;
+}
+#webAlbums .album
+{
+	width: 30%;
+	margin: 2.5% 0 0 2.5%;
+}
+#webAlbums .album img
+{
+	object-fit: cover;
+	width: 100%;
+	outline: .7rem solid rgba(225,225,225,0.7);
+  outline-offset: -.7rem;
+}
+#webAlbums .album img:hover
+{
+	outline: .8rem solid rgba(225,225,225,1);
+	outline-offset: -.8rem;
+}
+.album h3
+{
+	text-align: center;
+	margin: 1ex 0;
+}
+/* footer */
+footer, footer nav { background-color: #222; }
+footer nav
+{
+	color: #ccc;
+	border-bottom: 1px dotted #555;
+	text-align: center;
+}
+footer .nav
+{
+	padding: 1em 0;
+  width: auto;
+	background: none;
+	display: block;
+}
+footer .nav li 
+{
+	display: inline-block;
+	border-right: 1px solid #777;
+	padding: 2px 7px;
+}
+#footerContent 
+{
+	color: #999; 
+	align-items: center;
+}
+#footerContent div
+{	padding: 2em;}
+#footerContent .nav
+{	display: block;}
+#footerContent div img
+{	width: 75px; height: 57px}
+#footerContent div:first-child
+{	border-right: dotted 1px #777;}
+

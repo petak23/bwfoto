@@ -1,11 +1,11 @@
-<div n:if="count($path) > 1" class="col-xs-12 col-md-12 breadcrumb-main">
+<nav n:if="count($path) > 1" aria-label="breadcrumb" role="navigation" class="col breadcrumb-main">
   <ol class="breadcrumb">
-    <li n:if="count($path) > 1"><a href="{plink 'Homepage:'}" title="home">home</a></li>
+    <li n:if="count($path) > 1" class="breadcrumb-item"><a href="{plink 'Homepage:'}" title="home">Úvod</a></li>
     {foreach $path as $k => $node}
-    <li n:if="$k >= $startLevel" n:class="$node->itemClass == ' selected' ? active">
+    <li n:if="$k >= $startLevel" class="breadcrumb-item {if $node->itemClass == ' selected'}active{/if}" {if $node->itemClass == ' selected'}aria-current="page"{/if}>
       <a n:tag-if="$node->itemClass != ' selected'" href="{$node->link}" title="{$node->name}">{$node->name}</a>
     </li>
-    <li n:if="count($path) == 1 && $k < $startLevel"> </li>
+    <li n:if="count($path) == 1 && $k < $startLevel" class="breadcrumb-item"> </li>
     {/foreach}
   </ol>
-</div>
+</nav>

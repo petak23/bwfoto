@@ -1,0 +1,10 @@
+{if $prilohy->count()}
+  {foreach $prilohy as $subor}
+    <div class="col-12 col-md-4 foto-album-images">
+      <img class="img-thumbnail img-rounded jslghtbx-thmb noajax" src="{$basePath}/{$subor->thumb}" alt="{$subor->nazov}" data-jslghtbx="{$basePath}/{$subor->subor}" data-ajax="false" {*data-jslghtbx-group="mygroup1"*} data-jslghtbx-caption="{$subor->popis}">
+      <a href="{plink Clanky: id=>$id_hlavne_menu_lang, id_big_img=>$subor->id}" class="{*nittro-transition-auto nittro-transition-bar*} col-md-4" data-transition="false">
+        <img class="small-img img-thumbnail img-rounded" src="{$basePath}/{$subor->thumb}" alt="{$subor->nazov}">
+      </a>
+    </div>
+  {/foreach}
+{/if}

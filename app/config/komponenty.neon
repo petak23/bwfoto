@@ -6,36 +6,36 @@
 #
 parameters:
   komponenty:
-    odkazNaClanky:
-      nazov: 'Odkaz na článok'
-      jedinecna: FALSE  # Ci je mozne pridat len raz k clanku
-      fa_ikonka: 'link'
-      parametre: 
-        id_hlavne_menu: 
-          nazov: 'Id článku'
-        template:
-          nazov: 'Názov vzhľadu'
-          hodnoty: 
-            default: 'Základný'
-            bez_avatara: 'Len odkaz bez avatara'
-            to_foto_galery: 'Odkaz na fotogalériu'
-            to_article: 'Odkaz na článok'
-            foto_album: 'Odkaz pre fotogalériu'
-    aktualne:
-      nazov: 'Aktualne oznamy(aktuality)'
-      fa_ikonka: 'newspaper-o'
-      jedinecna: TRUE
-      parametre: NULL
-    viewFaktury:
-      nazov: 'Zobrazenie faktúr'
-      jedinecna: TRUE
-      fa_ikonka: 'id-card-o'
-      parametre: NULL
-    zobrazKartyPodclankov:
-      nazov: 'Zobrazenie podčlánokv na kartách'
-      jedinecna: FALSE
-      fa_ikonka: 'columns'
-      parametre: NULL
+#    odkazNaClanky:
+#      nazov: 'Odkaz na článok'
+#      jedinecna: FALSE  # Ci je mozne pridat len raz k clanku
+#      fa_ikonka: 'link'
+#      parametre: 
+#        id_hlavne_menu: 
+#          nazov: 'Id článku'
+#        template:
+#          nazov: 'Názov vzhľadu'
+#          hodnoty: 
+#            default: 'Základný'
+#            bez_avatara: 'Len odkaz bez avatara'
+#            to_foto_galery: 'Odkaz na fotogalériu'
+#            to_article: 'Odkaz na článok'
+#            foto_album: 'Odkaz pre fotogalériu'
+#    aktualne:
+#      nazov: 'Aktualne oznamy(aktuality)'
+#      fa_ikonka: 'newspaper-o'
+#      jedinecna: TRUE
+#      parametre: NULL
+#    viewFaktury:
+#      nazov: 'Zobrazenie faktúr'
+#      jedinecna: TRUE
+#      fa_ikonka: 'id-card-o'
+#      parametre: NULL
+#    zobrazKartyPodclankov:
+#      nazov: 'Zobrazenie podčlánokv na kartách'
+#      jedinecna: FALSE
+#      fa_ikonka: 'columns'
+#      parametre: NULL
     kontakt:
       nazov: 'Kontaktný formulár'
       fa_ikonka: 'comments'

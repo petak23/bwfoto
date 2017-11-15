@@ -1,0 +1,82 @@
+{* Sablona pre zobrazenie clanku
+ *
+ * Modul: FRONT
+ *
+ * Posledna zmena(last change): 13.10.2017
+ * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
+ * @license
+ * @link       http://petak23.echo-msz.eu
+ *
+ * @param string  $h2 Nadpis
+ * @param int     $uroven Uroven menu
+ * @param string  $avatar_path  cestak obrazku
+ * @param string  $viac_info  Nadpis menu
+ * @param boolean $clanok_view  Zobrazenie
+ * @param array   $komponenty Komponenty pod clankom
+ * @param boolean $komentare_povolene Povolenie komentarov
+*}
+{var $uroven_aside = $uroven > 2 ? $uroven - 1 : 2}
+{block title}{$h2}{/block}
+
+{block content}
+<article class="article-main">
+  <div class="row main-text">
+    <div class="col-xs-12 col-md-12">
+      <small n:if="$user->isInRole('admin')">default</small>
+      {if $clanok_view}
+        {control ukazTentoClanok}
+      {else}
+        {control menu templateType=>'single', templateFile=>$clanok_hl_menu->nazov_ul_sub, cast=>$clanok_hl_menu->id_hlavne_menu_cast, level => $uroven, avatar => $avatar_path, article_avatar_view_in => TRUE, anotacia => TRUE, nadpis => $viac_info}
+      {/if}  
+    </div>
+  </div>
+  <div n:snippet="prilohyClanok" class="row" n:if="$prilohy->count()">
+    <h3 n:if="$texts->trText('h3') !== 'h3'">{$texts->trText('h3')}</h3>
+    <div class="col-xs-12 col-md-12" n:inner-foreach="$prilohy as $subor">
+      {var $pr = strtolower($subor->pripona)}
+      {if $pr == "mp4" OR $pr == "ogv" OR $pr == "webm" OR $pr == "wmv"}
+        <video class="video-priloha" width="320" height="180" src="{$basePath}/{$subor->subor}" type="video/mp4" 
+           controls="controls" preload="none"></video>
+      {else}
+        {if $pr == "jpg" OR $pr == "png" OR $pr == "gif" OR $pr == "bmp"}
+          <img class="jslghtbx-thmb" src="{$basePath}/{$subor->thumb}" alt="{$subor->nazov}" data-jslghtbx="{$basePath}/{$subor->subor}" class="noajax" data-ajax="false" data-jslghtbx-group="mygroup1"> {* img-rounded*}
+        {elseif $pr == "mp3" OR $pr == "wav"}
+          <div class="col-sm-12 col-md-6">
+            <div class="thumbnail">
+              <audio src="{$basePath}/{$subor->subor}" width="320" type="audio/mp3" controls="controls" preload="none"></audio>
+              <div>
+                <strong>{$subor->nazov}</strong>
+                <div n:ifset="$subor->popis" class="popis">{$subor->popis}</div>
+              </div>
+            </div>
+          </div>
+        {else}
+          <div class="col-sm-12 col-md-3">
+            <div class="thumbnail">
+              <a href="{$subor->id|odkazdo}" title="{$subor->nazov} - {$subor->popis}" target="_blank">
+                <img src="{$basePath}/{$subor->thumb}" alt="{$subor->nazov}">
+                <strong>{$subor->nazov}</strong>
+                <div n:ifset="$subor->popis" class="popis">{$subor->popis}</div>
+              </a>
+            </div>
+          </div>
+        {/if}
+      {/if}
+    </div>
+  </div>
+  <div class="row" n:if="(isset($komponenty) && count($komponenty)) || $komentare_povolene">
+    <div class="col-xs-12 col-md-12">
+      <section id="nahlady" n:if="isset($komponenty) && count($komponenty)">
+        {foreach $komponenty as $komp}
+          {ifset $komp["parametre"]}
+            {var $nazov_komp = $komp['nazov'].'-'.$iterator->counter}
+            {control $nazov_komp, $komp["parametre"]}
+          {else}
+            {control $komp["nazov"]}
+          {/ifset}
+        {/foreach}
+      </section>
+      {if $komentare_povolene}{control komentar-$komentare_povolene}{/if}
+    </div>
+  </div>
+</article>
