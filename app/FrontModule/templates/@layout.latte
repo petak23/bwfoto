@@ -4,7 +4,7 @@
  *
  *	Modul: FRONT
  *
- * Posledna zmena(last change): 12.10.2017
+ * Posledna zmena(last change): 15.11.2017
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
@@ -16,10 +16,13 @@
 <!DOCTYPE html>
 <html>
 <head>	{* ----- Hlavicka stranky ----- *}
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  {*<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-	<meta name="HandheldFriendly" content="true" />
+	<meta name="HandheldFriendly" content="true" />*}
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
   <meta name="robots" content="{ifset $robots}{$robots}{else}index, follow{/ifset}" />
   <meta name="description" content="{$udaje['description']}" />
   <meta name="keywords" content="{$udaje['keywords']}" />
@@ -56,6 +59,14 @@
         </form>
       </div>
     </nav>
+    <script>
+      var topNav = document.getElementById("topNav");
+      if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
+        topNav.classList.add('shrink');
+      }/* else {
+        topNav.classList.remove("shrink");
+      }*/
+    </script>
     {*<a n:href="Homepage:" titile="home">
         <h1>
           {$udaje['titulka']}

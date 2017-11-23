@@ -43,7 +43,7 @@ nav.navbar
 	transition: height .5s;
 }
 nav.shrink
-{	height: 80px; }
+{	height: 50px; }
 nav.shrink .logo
 {	width: 60%; }
 
@@ -175,7 +175,7 @@ body { background-color: #000000; }
 	color: #ccc;
 }
 /* obsah nahlady albumov */
-#webAlbums
+#webAlbums, #webThumbnails
 {
 	width: 100%;
 	justify-content: left;
@@ -202,6 +202,83 @@ body { background-color: #000000; }
 	text-align: center;
 	margin: 1ex 0;
 }
+/* obsah nahlady */
+#webThumbnails
+{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+}
+#webThumbnails .col
+{
+	flex-basis: auto;
+}
+.detail
+{
+	width: 66%; 
+	text-align: center;
+	align-self: flex-start;
+}
+.detail div
+{
+	background: radial-gradient(#000, #333);
+	padding: 5%;
+}
+.detail h3
+{	
+	text-align: left;
+	margin-top: 1em;
+}
+.detail p
+{
+	text-align: left;
+	font-size: 95%;
+	line-height: 1.1;
+}
+.detail img
+{
+	border: 16px white solid;
+	max-width: 100%; max-height: 640px;
+	margin: 0 auto;
+}
+.thumbnails
+{
+	width: 33%;
+	overflow: auto;
+}
+.thumbnails .thumb
+{
+	display: inline-block;
+	position: relative;
+	width: 32%; padding-top: 32%;
+	margin: 0;
+	background: radial-gradient(#000, #222);
+}
+.vline
+{
+	height: 100%;
+	border-right: 1px dotted #777;
+	width: 1%;
+}
+.thumbnails .thumb img
+{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-right: -50%;
+	transform: translate(-50%, -50%);
+	max-width: 95%; max-height: 95%;
+	border: 1ex solid #fff;
+	border-radius: 2px;
+}
+.thumbnails .video img
+{	
+	border: 0;
+	opacity: 0.5;
+}
+.thumbnails .video .img-play
+{	width: 60%;}
+
 /* footer */
 footer, footer nav { background-color: #222; }
 footer nav

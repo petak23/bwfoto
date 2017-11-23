@@ -32,7 +32,7 @@ parameters:
 #      fa_ikonka: 'id-card-o'
 #      parametre: NULL
 #    zobrazKartyPodclankov:
-#      nazov: 'Zobrazenie podčlánokv na kartách'
+#      nazov: 'Zobrazenie podčlánkov na kartách'
 #      jedinecna: FALSE
 #      fa_ikonka: 'columns'
 #      parametre: NULL

@@ -8,13 +8,13 @@ use DbTable;
 /**
  * Hlavna trieda pre podporu jazykov lang_supp_main pre presentre vo FrontModule.
  * 
- * Posledna zmena(last change): 03.11.2017
+ * Posledna zmena(last change): 23.11.2017
  * 
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.0
+ * @version 1.1.1
  */
 abstract class lang_supp_main extends Nette\Object {
   /** @var string Skratka jazyka */
@@ -51,18 +51,19 @@ abstract class lang_supp_main extends Nette\Object {
         'base_save'                   => 'Ulož',
         'base_save_ok'                => 'Údaje boli uložené v poriadku!',
         'base_form_required'          => '<span class="form_required">Červeno</span> označené položky sú povinné!',
-        "base_not_found"              => "Položka sa žiaľ nenašla! Možná príčina: %s",
-        "base_platnost_do"            => "Platnosť do: ",
+        'base_not_found'              => "Položka sa žiaľ nenašla! Možná príčina: %s",
+        'base_platnost_do'            => "Platnosť do: ",
         "base_platil_do"              => "Platil do: ",
         "base_neplatny"               => "Článok už nie je platný!",
-        "base_zadal"                  => "Zadal: ",
+        'base_zadal'                  => "Zadal: ",
         "base_zobrazeny"              => "Zobrazený: ",  
         "base_anotacia"               => "Anotácia:",
 				"base_aktualny_projekt"       => "Aktuálny projekt",
         "base_aktualne_clanky"        => "Aktuálne",
-        "base_viac"                   => "viac",
+        'base_viac'                   => "viac",
         "base_title"                  => "Zobrazenie celého obsahu.",
-        "base_text_title_image"       => "Titulný obrázok",
+        'base_view_all'               => "Zobrazenie celého obsahu.",
+        'base_text_title_image'       => "Titulný obrázok",
         "base_error_bad_link"         => "Pokúšate sa dostať na neexzistujúcu stránku!",
         "base_template_not_found"     => "Chyba zobrazenia! Nesprávny názov šablóny[%s]...",
         "base_search"                 => "Hľadaj",
@@ -103,14 +104,15 @@ abstract class lang_supp_main extends Nette\Object {
         'base_SignInForm_login'       => 'Login ...',
         'base_AdminLink_name'         => "Administration",
         'base_save'                   => 'Save',
-        "base_not_found"              => "Article not found! msg: %s",
-        "base_platnost_do"            => "Expiration date: ",
-        "base_zadal"                  => "Entered: ",
+        'base_not_found'              => "Article not found! msg: %s",
+        'base_platnost_do'            => "Expiration date: ",
+        'base_zadal'                  => "Entered: ",
         "base_zobrazeny"              => "Displayed: ",  
         "base_anotacia"               => "Annotation:",
-        "base_viac"                   => "more",
+        'base_viac'                   => "more",
         "base_title"                  => "Show more",
-        "base_text_title_image"       => "Title image",
+        'base_view_all'               => "View all content.",
+        'base_text_title_image'       => "Title image",
         "base_template_not_found"     => "Display error! Incorect name of template[%s]...",
         "base_search"                 => "Search",
         'komponent_kontakt_h4'        => 'Contact form',
@@ -131,6 +133,15 @@ abstract class lang_supp_main extends Nette\Object {
         'base_kontakt_h2'             => 'Contact',
         'base_aktualne_h2'            => 'NEWS',
         'base_component_news_h4'      => "News:",
+      ],
+      'de'=>[
+        'base_aktualne_h2'            => "CURRENT",
+        'base_viac'                   => "mehr",
+        'base_view_all'               => "Sehen Sie den gesamten Inhalt.",
+        'base_not_found'              => "Ihr Artikel wurde leider nicht gefunden! Mögliche Ursache:% s",
+        'base_text_title_image'       => "Cover-Bild",
+        'base_platnost_do'            => "Ablaufdatum: ",
+        'base_zadal'                  => "Zugeordnet: ",
       ],
     ];
   
@@ -153,7 +164,7 @@ abstract class lang_supp_main extends Nette\Object {
   /** Nastavenie aktualneho jazyka
    * @param string|int $language Skratka jazyka alebo jeho id*/
   public function setLanguage($language) {
-    $this->jazyk = is_numeric($language) ? $this->lang->find($language)->skratka: $language;
+    $this->jazyk = is_numeric($language) ? $this->lang->find($language)->skratka : $language;
     $this->out_texty = array_merge($this->texty_base[$this->jazyk], $this->texty[$this->jazyk]);
   }
 

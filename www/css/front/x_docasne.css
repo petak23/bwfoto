@@ -12,6 +12,10 @@ input {
 label {
   color: #ccc;
 }
+a[href^="#error:"] {
+    background: red;
+    color: white;
+}
 .fa-1_5x { 
   font-size: 1.5em;
 }
@@ -105,10 +109,10 @@ footer .nav li:last-child {
   width: 100%;
 }*/
 
-.bwfoto-foto-album-prilohy img.jslghtbx-thmb {
+.bwfoto-foto-album-prilohy img.jslghtbx-thmb, .thumb img.jslghtbx-thmb {
   display: none;
 }
-.bwfoto-foto-album-prilohy img.small-img {
+.bwfoto-foto-album-prilohy img.small-img, .thumb img.small-img {
   cursor: pointer;
 }
 .article-foto-album img.big-img {

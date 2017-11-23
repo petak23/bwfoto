@@ -8,7 +8,7 @@ use PeterVojtech\Email;
 /**
  * Prezenter pre spravu verzii.
  * 
- * Posledna zmena(last change): 31.10.2017
+ * Posledna zmena(last change): 15.11.2017
  *
  *	Modul: ADMIN
  *
@@ -16,7 +16,7 @@ use PeterVojtech\Email;
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.2
+ * @version 1.1.3
  */
 class VerziePresenter extends BasePresenter {
   
@@ -81,7 +81,7 @@ class VerziePresenter extends BasePresenter {
                 "odkaz" 		=> $this->link("Verzie:default"),
               ];
     try {
-      $send = $this->emailControl->create()->nastav(__DIR__.'/templates/Verzie/verzie-html.latte', 1, 4);
+      $send = $this->emailControl->create()->nastav(__DIR__.'/../templates/Verzie/verzie-html.latte', 1, 4);
       $this->flashMessage('E-mail bol odoslany v poriadku na emaily: '.$send->send($params, 'Nová verzia stránky '.$this->nazov_stranky), 'success');
     } catch (Exception $e) {
       $this->flashMessage($e->getMessage(), 'danger');

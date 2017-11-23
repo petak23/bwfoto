@@ -13,7 +13,14 @@
 //});
 
 // --- pure js equivalent
-document.addEventListener('DOMContentLoaded', function(){ 
+document.addEventListener('DOMContentLoaded', function(){
+  var topNav = document.getElementById("topNav");
+  if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
+    topNav.classList.add('shrink');
+  } else {
+    topNav.classList.remove("shrink");
+  }
+  
   window.onscroll = function() {
     var topNav = document.getElementById("topNav");
     if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
