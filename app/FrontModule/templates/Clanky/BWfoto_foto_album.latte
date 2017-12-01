@@ -2,7 +2,7 @@
  *
  * Modul: FRONT
  *
- * Posledna zmena(last change): 23.11.2017
+ * Posledna zmena(last change): 27.11.2017
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
@@ -23,25 +23,27 @@
   {control ukazTentoClanok}
 </div>
 <section id="webThumbnails">
-  <div class="detail nittro-transition-auto nittro-transition-fade" n:snippet="bigimg" n:if="$prilohy->count()" n:inner-foreach="$prilohy as $subor">
-    <div n:if="$subor->type == 2" {if $subor->id != $big_img->id}style="display:none"{/if}>
-        {if $subor->id == $big_img->id}
-          <img class="big-img noajax" src="{$basePath}/{$subor->subor}" alt="{$subor->nazov}" data-jslghtbx="{$basePath}/{$subor->subor}" data-ajax="false" data-jslghtbx-caption="{$subor->popis}" data-jslghtbx-group="bigimggroup1" data-id-priloha="{$subor->id}">
-          {*<div class="big-img-caption">{$subor->popis}</div>*}
-        {else}
-          <img class="small-img noajax img-thumbnail img-rounded" style="display:none" src="{$basePath}/{$subor->thumb}" alt="{$subor->nazov}" data-jslghtbx="{$basePath}/{$subor->subor}" data-ajax="false" data-jslghtbx-caption="{$subor->popis}" data-jslghtbx-group="bigimggroup1">
-        {/if}
-    </div>
-    <h3 n:if="$subor->type == 2 && $subor->id == $big_img->id">{$subor->nazov}</h3>
-    <span n:if="$subor->type == 2 && $subor->id == $big_img->id" class="popis">{$subor->popis}</span>
+  <div class="detail nittro-transition-auto nittro-transition-fade" n:snippet=bigimg n:if="$prilohy->count()">
+    {foreach $prilohy as $subor}
+      <div n:if="$subor->type == 2" {if $subor->id != $big_img->id}style="display:none"{/if}>
+          {if $subor->id == $big_img->id}
+            <img class="big-img noajax" src="{$basePath}/{$subor->subor}" alt="{$subor->nazov}" data-jslghtbx="{$basePath}/{$subor->subor}" data-ajax="false" data-jslghtbx-caption="{$subor->popis}" data-jslghtbx-group="bigimggroup1" data-id-priloha="{$subor->id}">
+          {else}
+            <img class="small-img noajax img-thumbnail img-rounded" style="display:none" src="{$basePath}/{$subor->thumb}" alt="{$subor->nazov}" data-jslghtbx="{$basePath}/{$subor->subor}" data-ajax="false" data-jslghtbx-caption="{$subor->popis}" data-jslghtbx-group="bigimggroup1">
+          {/if}
+      </div>
+      <h3 n:if="$subor->type == 2 && $subor->id == $big_img->id">{$subor->nazov}</h3>
+      <span n:if="$subor->type == 2 && $subor->id == $big_img->id" class="popis">{$subor->popis}</span>
+    {/foreach}
+    <script type="application/javascript" src="{$basePath}/www/js/lightbox.config.front.js"></script>
   </div>
-  <script type="application/javascript" src="{$basePath}/www/js/lightbox.config.front.js"></script>
-  <div class="thumbnails" n:snippet="prilohyClanok" n:if="$prilohy->count()">
+  
+  <div class="thumbnails" n:snippet="prilohyClanok" n:if="$prilohy->count()" data-dynamic-mask="snippet--priloha-\d+">
     {control menu templateType=>'single', templateFile=>$clanok_hl_menu->hlavne_menu_template->name, cast=>$clanok_hl_menu->id_hlavne_menu_cast, level => $uroven, avatar => $avatar_path, article_avatar_view_in => TRUE, anotacia => TRUE, nadpis => $viac_info}
     {foreach $prilohy as $subor}
       {var $pr = strtolower($subor->pripona)}
       {if $pr == "mp4" OR $pr == "ogv" OR $pr == "webm" OR $pr == "wmv"}
-        <div class="thumb video">
+        <div class="thumb video" n:snippet="priloha-$subor->id">
           <a href="#">
             <img src="{$basePath}/{$subor->thumb}" alt="" class="img-responsive img-square"/>
             <img src="{$basePath}/www/images/icons/play-arrow_200.png" alt="" class="img-responsive img-square img-play"/>
@@ -60,9 +62,16 @@
             </div>
           </div>
         {/if *}
+      {elseif $subor->type == 2}
+        <div class="thumb" n:snippet="priloha-$subor->id">
+          <img class="img-thumbnail img-rounded jslghtbx-thmb noajax" src="{$basePath}/{$subor->thumb}" alt="{$subor->nazov}" data-jslghtbx="{$basePath}/{$subor->subor}" data-ajax="false" data-jslghtbx-caption="{$subor->popis}">
+          <a href="{plink bigImg! $subor->id}" title="{$subor->nazov}">
+            <img class="img-responsive img-square" src="{$basePath}/{$subor->thumb}" alt="{$subor->nazov}">
+          </a>
+        </div>
       {/if}
     {/foreach}
     {control prilohy:others templateFile=>$clanok_hl_menu->hlavne_menu_template->name}
-    {control prilohy:images templateFile=>$clanok_hl_menu->hlavne_menu_template->name}
+    {*control prilohy:images templateFile=>$clanok_hl_menu->hlavne_menu_template->name*}
   </div>
 </section>

@@ -8,7 +8,7 @@ use Nette\Application\UI\Multiplier;
 /**
  * Prezenter pre vypisanie clankov.
  * 
- * Posledna zmena(last change): 23.11.2017
+ * Posledna zmena(last change): 29.11.2017
  *
  *	Modul: FRONT
  *
@@ -16,10 +16,10 @@ use Nette\Application\UI\Multiplier;
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.3
+ * @version 1.1.4
  */
 
-class ClankyPresenter extends \App\FrontModule\Presenters\BasePresenter {
+class ClankyPresenter extends BasePresenter {
 	/** 
    * @inject
    * @var DbTable\Clanok_komponenty */
@@ -104,16 +104,19 @@ class ClankyPresenter extends \App\FrontModule\Presenters\BasePresenter {
     $this->template->text = [
       1 => $this->trLang('ospravedln_clanok'),
       2 => $this->trLang('ospravedln_clanok_1')];
+    $this->getHttpResponse()->setCode(\Nette\Http\IResponse::S404_NOT_FOUND);
   }
   
   public function handleBigImg($id_big_img = 0) {
     $this->big_img = $id_big_img ? $id_big_img : ((count($pom = $this->viditelnePrilohy)) ? $pom->fetch()->id : 0);
     $this->template->big_img = $this->dokumenty->find($this->big_img);
-    if ($this->isAjax()) {
-      $this->redrawControl('bigimg');
-    } else {
-      $this->redirect('this');
-    }
+//    $this->postGet('this');
+    $this->redrawControl('bigimg');
+//    if ($this->isAjax()) {
+//      $this->redrawControl('bigimg');
+//    } else {
+//      $this->redirect('this');
+//    }
   }
 
   /** Komponenta pre komentare k clanku
@@ -124,7 +127,6 @@ class ClankyPresenter extends \App\FrontModule\Presenters\BasePresenter {
       $komentar->setParametre($id_hlavne_menu);
 			return $komentar;
 		});
-		
 	}
 
   /** Komponenta pre zobrazenie clanku

@@ -38,12 +38,13 @@
   {* ----- Favicon ------ *}
   <link rel="shortcut icon" href="{$basePath}/favicon.ico" type="image/x-icon">
   {block head}{/block}
+  <script type="application/javascript">window._stack = [];</script>
   <script type="application/javascript" src="{$basePath}/www/js/nittro.min.js" async defer></script>
   {control jsBefore}
 </head>
 
 <body>
-  <header class="nittro-transition-aut" n:snippet="header">
+  <header class="nittro-transition-auto" n:snippet="header">
     {control slider}
     <nav id="topNav" class="navbar navbar-expand-md navbar-light fixed-top navbar-toggleable-xs">
       <a class="navbar-brand" n:href="Homepage:" title="home"><img src="{$basePath}/www/images/logo_bw.png" alt="logo bw foto" class="logo"></a>
@@ -60,12 +61,9 @@
       </div>
     </nav>
     <script>
-      var topNav = document.getElementById("topNav");
       if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
-        topNav.classList.add('shrink');
-      }/* else {
-        topNav.classList.remove("shrink");
-      }*/
+        document.getElementById("topNav").classList.add('shrink');
+      }
     </script>
     {*<a n:href="Homepage:" titile="home">
         <h1>

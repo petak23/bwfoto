@@ -1,6 +1,6 @@
 {if $prilohy->count()}
   {foreach $prilohy as $subor}
-    <div class="thumb">
+    <div class="thumb" n:snippet="priloha-$subor->id">
       <img class="img-thumbnail img-rounded jslghtbx-thmb noajax" src="{$basePath}/{$subor->thumb}" alt="{$subor->nazov}" data-jslghtbx="{$basePath}/{$subor->subor}" data-ajax="false" {*data-jslghtbx-group="mygroup1"*} data-jslghtbx-caption="{$subor->popis}">
       <a href="{plink bigImg! $subor->id}" {*data-transition="false"*}>
         <img class="img-responsive img-square" src="{$basePath}/{$subor->thumb}" alt="{$subor->nazov}">
