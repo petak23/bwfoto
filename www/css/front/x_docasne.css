@@ -64,6 +64,11 @@ footer .nav li:last-child {
 .jslghtbx {
   z-index: 2000;
 }
+.jslghtbx-border-main {
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
+}
 /*.datagrid {
   background-color: transparent;
 }
@@ -108,7 +113,27 @@ footer .nav li:last-child {
 /*.slider-panel img {
   width: 100%;
 }*/
-
+.detail {
+  margin-right: 2.5rem;
+}
+.detail img {
+  border-width: 2px;
+}
+.detail div {
+	padding: 0;
+}
+.detail div.big-img-container {
+  padding: 5%;
+}
+.thumbnails .thumb img {
+  border-width: 0.1rem;
+}
+.thumbnails .thumb a.selected img {
+  border: 0.2rem solid #ffeb3b; 
+}
+.bigimg-name, .bigimg-description{
+  color: #faebcc;
+}
 .bwfoto-foto-album-prilohy img.jslghtbx-thmb, .thumb img.jslghtbx-thmb {
   display: none;
 }

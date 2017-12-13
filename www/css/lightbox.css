@@ -11,12 +11,12 @@
     display: block;
 }
 
-.jslghtbx-ie8.jslghtbx .jslghtbx-contentwrapper > img {
+.jslghtbx-ie8.jslghtbx .jslghtbx-contentwrapper .jslghtbx-border-a > img {
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
     display: block;
 }
 
-.jslghtbx-ie8.jslghtbx .jslghtbx-contentwrapper.jslghtbx-wrapper-active > img {
+.jslghtbx-ie8.jslghtbx .jslghtbx-contentwrapper.jslghtbx-wrapper-active .jslghtbx-border-a > img {
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 }
 
@@ -82,21 +82,23 @@
     visibility: hidden;
 }
 
-.jslghtbx-contentwrapper > img {
-    background: #fff;
-    padding: .5em;
+.jslghtbx-contentwrapper .jslghtbx-border-a > img/*,  .jslghtbx-contentwrapper .jslghtbx-border-c*/ {
+/*    background: #fff;
+    padding: .5em;*/
     display: none;
     height: auto;
     margin-left: auto;
     margin-right: auto;
     opacity: 0;
+    width: 100%;
+    
 }
 
 .jslghtbx-contentwrapper.jslghtbx-wrapper-active {
     visibility: visible;
 }
 
-.jslghtbx-contentwrapper.jslghtbx-wrapper-active > img {
+.jslghtbx-contentwrapper.jslghtbx-wrapper-active .jslghtbx-border-a > img {
     display: block;
     opacity: 1;
 }
@@ -123,29 +125,29 @@
     opacity: 0;
 }
 
-.jslghtbx-contentwrapper > img.jslghtbx-animate-transition {
+.jslghtbx-contentwrapper .jslghtbx-border-a > img.jslghtbx-animate-transition {
     -webkit-transition: opacity 0.2s ease-in-out;
     -moz-transition: opacity 0.2s ease-in-out;
     -o-transition: opacity 0.2s ease-in-out;
     -ms-transition: opacity 0.2s ease-in-out;
 }
 
-.jslghtbx-contentwrapper > img.jslghtbx-animating-next {
+.jslghtbx-contentwrapper .jslghtbx-border-a > img.jslghtbx-animating-next {
     opacity: 1;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 }
 
-.jslghtbx-contentwrapper > img.jslghtbx-animating-prev {
+.jslghtbx-contentwrapper .jslghtbx-border-a > img.jslghtbx-animating-prev {
     opacity: 1;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 }
 
-.jslghtbx-contentwrapper > img.jslghtbx-animate-init {
+.jslghtbx-contentwrapper .jslghtbx-border-a > img.jslghtbx-animate-init {
     opacity: 1;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 }
 
-.jslghtbx-contentwrapper > img.jslghtbx-animate-transition {
+.jslghtbx-contentwrapper .jslghtbx-border-a > img.jslghtbx-animate-transition {
     cursor: pointer;
 }
 

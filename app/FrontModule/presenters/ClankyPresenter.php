@@ -41,6 +41,7 @@ class ClankyPresenter extends BasePresenter {
 	public $zobraz_clanok = FALSE;
   private $kotva = "";
   public $viditelnePrilohy;
+  public $prilohy_for_big_img;
   protected $big_img;
 
   /** Vychodzie nastavenia */
@@ -73,7 +74,9 @@ class ClankyPresenter extends BasePresenter {
       }
       //Spracovanie priloh
       $this->viditelnePrilohy = $this->dokumenty->getViditelnePrilohy($this->zobraz_clanok->id_hlavne_menu);
+      $this->prilohy_for_big_img = $this->dokumenty->getVisibleImages($this->zobraz_clanok->id_hlavne_menu);
       $this->big_img = $id_big_img ? $id_big_img : ((count($pom = $this->viditelnePrilohy)) ? $pom->fetch()->id : 0);
+      $this->template->big_img = $this->dokumenty->find($this->big_img);
     }
 	}
  
@@ -92,9 +95,11 @@ class ClankyPresenter extends BasePresenter {
     //Zisti, ci su k clanku priradene komponenty
     $this->template->komponenty = $this->clanok_komponenty->getKomponenty($this->zobraz_clanok->id_hlavne_menu, $this->nastavenie["komponenty"]);
     $this->template->prilohy = $this->viditelnePrilohy;
+    if (!isset($this->template->prilohy_for_big_img)) {
+      $this->template->prilohy_for_big_img = $this->prilohy_for_big_img;
+    }
     $this->template->avatar_path = $this->avatar_path;
     $this->template->texts = $this->texty_presentera;
-    $this->template->big_img = $this->dokumenty->find($this->big_img);
     $this->template->id_hlavne_menu_lang = $this->zobraz_clanok->id;
 	}
 
@@ -108,15 +113,19 @@ class ClankyPresenter extends BasePresenter {
   }
   
   public function handleBigImg($id_big_img = 0) {
-    $this->big_img = $id_big_img ? $id_big_img : ((count($pom = $this->viditelnePrilohy)) ? $pom->fetch()->id : 0);
-    $this->template->big_img = $this->dokumenty->find($this->big_img);
+//    $this->template->prilohy_for_big_img = /*$this->isAjax() ? [] : */$this->dokumenty->getVisibleImages($this->zobraz_clanok->id_hlavne_menu);
+//    $this->template->prilohy_for_big_img[$this->big_img] = $this->dokumenty->find($this->big_img);
+//    $this->big_img = $id_big_img/* ? $id_big_img : ((count($pom = $this->viditelnePrilohy)) ? $pom->fetch()->id : 0)*/;
+//    $this->template->prilohy_for_big_img[$this->big_img] = $this->dokumenty->find($this->big_img);
+    $this->template->big_img = $this->dokumenty->find($id_big_img);
 //    $this->postGet('this');
-    $this->redrawControl('bigimg');
-//    if ($this->isAjax()) {
-//      $this->redrawControl('bigimg');
-//    } else {
-//      $this->redirect('this');
-//    }
+    if ($this->isAjax()) {
+      $this->redrawControl('bigimgName');
+      $this->redrawControl('bigimgContainer');
+      $this->redrawControl('prilohyClanok');
+    } else {
+      $this->redirect('this');
+    }
   }
 
   /** Komponenta pre komentare k clanku
@@ -179,6 +188,24 @@ class ClankyPresenter extends BasePresenter {
     $template->addFilter('odkazdo', function ($id) use($servise){
       $serv = $servise->link("Dokumenty:default", ["id"=>$id]);
       return $serv;
+    });
+    $template->addFilter('border_x', function ($text){
+      $pom = $text != null & strlen($text)>2 ? explode("|", $text) : ['','0'];
+      $xs = 'style="border: '.$pom[1].'px solid '.(strlen($pom[0])>2 ? ('#'.$pom[0]):'inherit').'"';
+      return $xs;
+    });
+    $template->addFilter('border_css_x', function ($text){
+      $pom = $text != null & strlen($text)>2 ? explode("|", $text) : ['','0'];
+      $xs = 'border: '.$pom[1].'px solid '.(strlen($pom[0])>2 ? ('#'.$pom[0]):'inherit').';';
+      return $xs;
+    });
+    $template->addFilter('border_width', function ($text){
+      $pom = $text != null & strlen($text)>2 ? explode("|", $text) : ['','1'];
+      return $pom[1];
+    });
+    $template->addFilter('border_color', function ($text){
+      $pom = $text != null & strlen($text)>2 ? explode("|", $text) : ['','0'];
+      return strlen($pom[0])>2 ? ('#'.$pom[0]):'inherit';
     });
     return $template;
 	}

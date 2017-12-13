@@ -452,7 +452,13 @@ function Lightbox() {
       onload: opt.onload || false,
       onresize: opt.onresize || false,
       onloaderror: opt.onloaderror || false,
-      onimageclick: typeof opt.onimageclick === 'function' ? opt.onimageclick : false
+      onimageclick: typeof opt.onimageclick === 'function' ? opt.onimageclick : false,
+      border_a_width: opt.border_a_width || 1,
+      border_a_color: typeof opt.border_a_color === 'string' ? opt.border_a_color : '#f9f',
+      border_b_width: opt.border_b_width || 1,
+      border_b_color: typeof opt.border_b_color === 'string' ? opt.border_b_color : '#000',
+      border_c_width: opt.border_c_width || 1,
+      border_c_color: typeof opt.border_c_color === 'string' ? opt.border_c_color : '#333'
     };
     
     // load box in custom element
@@ -646,7 +652,23 @@ function Lightbox() {
     
     CTX.box.setAttribute('style', 'padding-top: 0');
     CTX.wrapper.innerHTML = '';
-    CTX.wrapper.appendChild(currImage.img);
+    var borderMain = document.createElement('div');
+    borderMain.setAttribute('class', _const_class_prefix + '-border-main');
+    borderMain.setAttribute('id', _const_id_prefix + '-border-main');
+    var borderC = document.createElement('div');
+    borderC.setAttribute('class', _const_class_prefix + '-border-c');
+    borderC.setAttribute('style', 'border: '+CTX.opt.border_c_width+'px solid '+CTX.opt.border_c_color);
+    var borderB = document.createElement('div');
+    borderB.setAttribute('class', _const_class_prefix + '-border-b');
+    borderB.setAttribute('style', 'border: '+CTX.opt.border_b_width+'px solid '+CTX.opt.border_b_color);
+    var borderA = document.createElement('div');
+    borderA.setAttribute('class', _const_class_prefix + '-border-a ');
+    borderA.setAttribute('style', 'border: '+CTX.opt.border_a_width+'px solid '+CTX.opt.border_a_color);
+    borderA.appendChild(currImage.img);
+    borderB.appendChild(borderA);
+    borderC.appendChild(borderB);
+    borderMain.appendChild(borderC);
+    CTX.wrapper.appendChild(borderMain);
     // set animation class
     if (CTX.opt.animation) {
       addClass(CTX.wrapper, _const_class_prefix + '-animate');
@@ -702,7 +724,8 @@ function Lightbox() {
           addClass(CTX.wrapper, _const_class_prefix + '-wrapper-active');
           // set animation
           if (typeof CTX.opt.animation === 'number') {
-            addClass(currImage.img, _const_class_prefix + '-animate-transition');
+//            addClass(currImage.img, _const_class_prefix + '-animate-transition');
+            addClass(borderMain, _const_class_prefix + '-animate-transition');
           }
           if (cb) {
             cb();
@@ -718,7 +741,8 @@ function Lightbox() {
           // set clickhandler on image to show next image
           if (CTX.opt.nextOnClick) {
             // add cursor pointer
-            addClass(currImage.img, _const_class_prefix + '-next-on-click');
+//            addClass(currImage.img, _const_class_prefix + '-next-on-click');
+            addClass(borderMain, _const_class_prefix + '-next-on-click');
             addEvent(currImage.img, 'click', function (e) {
               stopPropagation(e);
               CTX.next();
@@ -833,9 +857,11 @@ function Lightbox() {
       newImgHeight = currImage.originalHeight;
       newImgWidth = currImage.originalWidth;
     }
-    currImage.img.setAttribute('width', newImgWidth);
+//    currImage.img.setAttribute('width', newImgWidth);
     currImage.img.setAttribute('height', newImgHeight);
-    currImage.img.setAttribute('style', 'margin-top:' + ((getHeight() - newImgHeight) / 2) + 'px');
+//    currImage.img.setAttribute('style', 'margin-top:' + ((getHeight() - newImgHeight) / 2) + 'px');
+    var borderMain = document.getElementById(_const_id_prefix + '-border-main');
+    borderMain.setAttribute('style', 'margin-top:' + ((getHeight() - newImgHeight) / 2) + 'px; width: '+newImgWidth+'px; height: '+newImgHeight+'px;');
     
     // reposition controls after timeout
     setTimeout(repositionControls, 200);
@@ -866,11 +892,14 @@ function Lightbox() {
         return;
       }
     if (typeof CTX.opt.animation === 'number') {
-      removeClass(currImage.img, _const_class_prefix + '-animating-next');
+      var borderMain = document.getElementById(_const_id_prefix + '-border-main');
+//      removeClass(currImage.img, _const_class_prefix + '-animating-next');
+      removeClass(borderMain, _const_class_prefix + '-animating-next');
       setTimeout(function () {
         var cb = function () {
           setTimeout(function () {
-            addClass(currImage.img, _const_class_prefix + '-animating-next');
+//            addClass(currImage.img, _const_class_prefix + '-animating-next');
+            addClass(borderMain, _const_class_prefix + '-animating-next');
           }, CTX.opt.animation / 2);
         };
         openBox(currThumbnail, false, cb, 'next');

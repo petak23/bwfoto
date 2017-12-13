@@ -44,7 +44,7 @@
 </head>
 
 <body>
-  <header class="nittro-transition-auto" n:snippet="header">
+  <header class="{*nittro-transition-auto *}nittro-transition-fade" n:snippet="header">
     {control slider}
     <nav id="topNav" class="navbar navbar-expand-md navbar-light fixed-top navbar-toggleable-xs">
       <a class="navbar-brand" n:href="Homepage:" title="home"><img src="{$basePath}/www/images/logo_bw.png" alt="logo bw foto" class="logo"></a>
@@ -73,7 +73,7 @@
       </a>*}
   </header>
   {* ----- ZACIATOK content - centralna cast ----- *}
-  <div n:snippet=content class="nittro-transition-auto nittro-transition-fade">
+  <div n:snippet=content class="{*nittro-transition-auto*}nittro-transition-fade">
     <section id="webContent">
       {control menu templateType=>'nav', templateFile=>'BWfoto_Nav_Breadcrumb', level=>1}
       {control confirmForm}

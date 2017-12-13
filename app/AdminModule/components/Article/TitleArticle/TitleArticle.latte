@@ -48,6 +48,14 @@
       <i class="fa fa-pencil"></i>
     </button>
   </div>
+  <div n:snippet="okraje" class="btn-group edit-link-bar" role="group" aria-label="okraje-link" n:if="$clanok->hlavne_menu->id_hlavne_menu_template == 2">
+    {*<div class="btn btn-success disabled" role="button" title="Šablóna pre Front modul: {$clanok->hlavne_menu->hlavne_menu_template->description}">
+      Šablóna pre Front modul: <strong>{$clanok->hlavne_menu->hlavne_menu_template->description}</strong>
+    </div>*}
+    <button n:if="$admin_links['vlastnik']" type="button" class="btn btn-info" data-toggle="modal" data-target="#myModalBorderChange" title="Zmeň okrajový rámček">
+      <i class="fa fa-pencil"></i> Okrajový rámček
+    </button>
+  </div>
   <div n:snippet="platnost" class="btn-group edit-link-bar" role="group" aria-label="platnost-link">
     {var $cl='primary'}
     {if $clanok->hlavne_menu->datum_platnosti}
@@ -192,6 +200,25 @@
       </div>
       <div class="modal-body">
         {control zmenSablonuForm}
+      </div>
+    </div>
+  </div>
+</div>
+{* -- Modal dialog pre zmenu okrajov -- *}
+<div class="modal fade" id="myModalBorderChange" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Zmena okrajového rámčeka príloh</h4>
+        <p>Aktuálne nastavenie:<br>
+          - Okraj A:{$clanok->hlavne_menu->border_a} <span class="border_x" {if $clanok->hlavne_menu->border_a}{$clanok->hlavne_menu->border_a|border_x|noescape}>{/if}</span><br>
+          - Okraj B:{$clanok->hlavne_menu->border_b} <span class="border_x" {if $clanok->hlavne_menu->border_b}{$clanok->hlavne_menu->border_b|border_x|noescape}{/if}></span><br>
+          - Okraj C:{$clanok->hlavne_menu->border_c} <span class="border_x" {if $clanok->hlavne_menu->border_c}{$clanok->hlavne_menu->border_c|border_x|noescape}{/if}></span><br>
+        </p>
+      </div>
+      <div class="modal-body">
+        {*control zmenSablonuForm*}
       </div>
     </div>
   </div>

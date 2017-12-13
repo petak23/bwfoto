@@ -196,3 +196,9 @@ a.button-left {
   right: 0;
   top: 0;
 }
+.border_x{
+  display: inline-block;
+  border: 1px solid #999;
+  min-height: 1rem;
+  min-width: 2rem;
+}

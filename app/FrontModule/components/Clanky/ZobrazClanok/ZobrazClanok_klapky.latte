@@ -12,6 +12,6 @@
     <span n:if="$clanok_hlavicka & 2">{$texty["zadal"]}{$clanok->hlavne_menu->user_profiles->priezvisko}</span>
   </div>
   <div n:if="$clanok->clanok_lang->text" class="text-clanku">
-    {$clanok->clanok_lang->text|noescape|obr_v_txt|koncova_znacka|texy}
+    {$clanok->clanok_lang->text|texy|noescape|obr_v_txt|koncova_znacka|texy}
   </div>
 </div>

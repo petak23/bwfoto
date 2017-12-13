@@ -2,7 +2,7 @@
  *
  * Modul: FRONT
  *
- * Posledna zmena(last change): 27.11.2017
+ * Posledna zmena(last change): 08.12.2017
  * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
@@ -22,56 +22,92 @@
 <div id="uvodnyText">
   {control ukazTentoClanok}
 </div>
-<section id="webThumbnails">
-  <div class="detail nittro-transition-auto nittro-transition-fade" n:snippet=bigimg n:if="$prilohy->count()">
-    {foreach $prilohy as $subor}
-      <div n:if="$subor->type == 2" {if $subor->id != $big_img->id}style="display:none"{/if}>
-          {if $subor->id == $big_img->id}
-            <img class="big-img noajax" src="{$basePath}/{$subor->subor}" alt="{$subor->nazov}" data-jslghtbx="{$basePath}/{$subor->subor}" data-ajax="false" data-jslghtbx-caption="{$subor->popis}" data-jslghtbx-group="bigimggroup1" data-id-priloha="{$subor->id}">
-          {else}
-            <img class="small-img noajax img-thumbnail img-rounded" style="display:none" src="{$basePath}/{$subor->thumb}" alt="{$subor->nazov}" data-jslghtbx="{$basePath}/{$subor->subor}" data-ajax="false" data-jslghtbx-caption="{$subor->popis}" data-jslghtbx-group="bigimggroup1">
-          {/if}
-      </div>
-      <h3 n:if="$subor->type == 2 && $subor->id == $big_img->id">{$subor->nazov}</h3>
-      <span n:if="$subor->type == 2 && $subor->id == $big_img->id" class="popis">{$subor->popis}</span>
-    {/foreach}
-    <script type="application/javascript" src="{$basePath}/www/js/lightbox.config.front.js"></script>
-  </div>
-  
-  <div class="thumbnails" n:snippet="prilohyClanok" n:if="$prilohy->count()" data-dynamic-mask="snippet--priloha-\d+">
-    {control menu templateType=>'single', templateFile=>$clanok_hl_menu->hlavne_menu_template->name, cast=>$clanok_hl_menu->id_hlavne_menu_cast, level => $uroven, avatar => $avatar_path, article_avatar_view_in => TRUE, anotacia => TRUE, nadpis => $viac_info}
-    {foreach $prilohy as $subor}
-      {var $pr = strtolower($subor->pripona)}
-      {if $pr == "mp4" OR $pr == "ogv" OR $pr == "webm" OR $pr == "wmv"}
-        <div class="thumb video" n:snippet="priloha-$subor->id">
-          <a href="#">
-            <img src="{$basePath}/{$subor->thumb}" alt="" class="img-responsive img-square"/>
-            <img src="{$basePath}/www/images/icons/play-arrow_200.png" alt="" class="img-responsive img-square img-play"/>
-          </a>
+<div n:snippet=bigimgContainer class="nittro-transition-auto nittro-transition-fade" n:if="$prilohy->count()">
+  <h4 class="bigimg-name">{$big_img->nazov}</h4>
+  <section id="webThumbnails">
+    <div class="detail{* nittro-transition-auto nittro-transition-fade*}"{* n:snippet=bigimgContainer *}>
+      {foreach $prilohy_for_big_img as $subor}
+        <div class="big-img-container" {if $subor->id != $big_img->id}style="display:none"{/if}>
+            {if $subor->id == $big_img->id}
+              {*<div class="border-c" {ifset $clanok_hl_menu->border_c}{$clanok_hl_menu->border_c|border_x|noescape}{/ifset}>
+                <div class="border-b" {ifset $clanok_hl_menu->border_b}{$clanok_hl_menu->border_b|border_x|noescape}{/ifset}>
+                  <div class="border-a" {ifset $clanok_hl_menu->border_a}{$clanok_hl_menu->border_a|border_x|noescape}{/ifset}>*}
+                    <img class="big-img noajax" src="{$basePath}/{$subor->subor}" alt="{$subor->nazov}" data-jslghtbx="{$basePath}/{$subor->subor}" data-ajax="false" data-jslghtbx-caption="{$subor->popis}" data-jslghtbx-group="bigimggroup1" data-id-priloha="{$subor->id}">
+                  {*</div>
+                </div>
+              </div>*}
+            {else}
+              <img class="small-img noajax img-thumbnail img-rounded" style="display:none" src="{$basePath}/{$subor->thumb}" alt="{$subor->nazov}" data-jslghtbx="{$basePath}/{$subor->subor}" data-ajax="false" data-jslghtbx-caption="{$subor->popis}" data-jslghtbx-group="bigimggroup1">
+            {/if}
         </div>
-        {* <video class="video-priloha" width="320" height="180" src="{$basePath}/{$subor->subor}" type="video/mp4" controls="controls" preload="none"></video>*}
-      {* else}
-        {if $pr == "mp3" OR $pr == "wav"}
-          <div class="col-12 col-md-4 foto-album-audio">
-            <div class="thumbnail" n:tag-if="FALSE">
-              <audio src="{$basePath}/{$subor->subor}" width="320" type="audio/mp3" controls="controls" preload="none"></audio>
-              <div>
-                <strong>{$subor->nazov}</strong>
-                <div n:ifset="$subor->popis" class="popis">{$subor->popis}</div>
+      {/foreach}
+      {*<style>
+        .jslghtbx-border-a {{ {if $clanok_hl_menu->border_a}{$clanok_hl_menu->border_a|border_css_x|noescape}{/if} }}
+        .jslghtbx-border-b {{ {if $clanok_hl_menu->border_b}{$clanok_hl_menu->border_b|border_css_x|noescape}{/if} }}
+        .jslghtbx-border-c {{ {if $clanok_hl_menu->border_c}{$clanok_hl_menu->border_c|border_css_x|noescape}{/if} }}
+      </style>*}
+      <script>
+        var options = {
+          prevImg: 			true,
+          nextImg: 			true,
+          hideCloseBtn: 		false,
+          hideEshopBtn:     true,
+          closeOnClick: 		true,
+          carousel: 			true,
+          animation: 			400,
+          nextOnClick: 		true,
+          responsive: 		true,
+          maxImgSize:			0.8,
+          keyControls: 		true,
+          border_a_width: {$clanok_hl_menu->border_a|border_width|noescape},
+          border_a_color: '{$clanok_hl_menu->border_a|border_color|noescape}',
+          border_b_width: {$clanok_hl_menu->border_b|border_width|noescape},
+          border_b_color: '{$clanok_hl_menu->border_b|border_color|noescape}',
+          border_c_width: {$clanok_hl_menu->border_c|border_width|noescape},
+          border_c_color: '{$clanok_hl_menu->border_c|border_color|noescape}'
+        };
+        var lightbox = new Lightbox();
+        lightbox.load(options);
+      </script>
+      {*<script type="application/javascript" src="{$basePath}/www/js/lightbox.config.front.js"></script>*}
+    </div>
+
+    <div class="thumbnails" data-transition="false" n:snippet="prilohyClanok" n:if="$prilohy->count()" {*data-dynamic-mask="snippet--priloha-\d+"*}>
+      {control menu templateType=>'single', templateFile=>$clanok_hl_menu->hlavne_menu_template->name, cast=>$clanok_hl_menu->id_hlavne_menu_cast, level => $uroven, avatar => $avatar_path, article_avatar_view_in => TRUE, anotacia => TRUE, nadpis => $viac_info}
+      {foreach $prilohy as $subor}
+        {var $pr = strtolower($subor->pripona)}
+        {if $pr == "mp4" OR $pr == "ogv" OR $pr == "webm" OR $pr == "wmv"}
+          <div class="thumb video"{* n:snippet="priloha-$subor->id"*}>
+            <a href="#">
+              <img src="{$basePath}/{$subor->thumb}" alt="" class="img-responsive img-square"/>
+              <img src="{$basePath}/www/images/icons/play-arrow_200.png" alt="" class="img-responsive img-square img-play"/>
+            </a>
+          </div>
+          {* <video class="video-priloha" width="320" height="180" src="{$basePath}/{$subor->subor}" type="video/mp4" controls="controls" preload="none"></video>*}
+        {* else}
+          {if $pr == "mp3" OR $pr == "wav"}
+            <div class="col-12 col-md-4 foto-album-audio">
+              <div class="thumbnail" n:tag-if="FALSE">
+                <audio src="{$basePath}/{$subor->subor}" width="320" type="audio/mp3" controls="controls" preload="none"></audio>
+                <div>
+                  <strong>{$subor->nazov}</strong>
+                  <div n:ifset="$subor->popis" class="popis">{$subor->popis}</div>
+                </div>
               </div>
             </div>
+          {/if *}
+        {elseif $subor->type == 2}
+          <div class="thumb"{* n:snippet="priloha-$subor->id"*}>
+            <img class="img-thumbnail img-rounded jslghtbx-thmb noajax" src="{$basePath}/{$subor->thumb}" alt="{$subor->nazov}" data-jslghtbx="{$basePath}/{$subor->subor}" data-ajax="false" data-jslghtbx-caption="{$subor->popis}">
+            <a href="{plink bigImg! $subor->id}" title="{$subor->nazov}" n:class="$subor->id == $big_img->id ? selected">
+              <img class="img-responsive img-square" src="{$basePath}/{$subor->thumb}" alt="{$subor->nazov}">
+            </a>
           </div>
-        {/if *}
-      {elseif $subor->type == 2}
-        <div class="thumb" n:snippet="priloha-$subor->id">
-          <img class="img-thumbnail img-rounded jslghtbx-thmb noajax" src="{$basePath}/{$subor->thumb}" alt="{$subor->nazov}" data-jslghtbx="{$basePath}/{$subor->subor}" data-ajax="false" data-jslghtbx-caption="{$subor->popis}">
-          <a href="{plink bigImg! $subor->id}" title="{$subor->nazov}">
-            <img class="img-responsive img-square" src="{$basePath}/{$subor->thumb}" alt="{$subor->nazov}">
-          </a>
-        </div>
-      {/if}
-    {/foreach}
-    {control prilohy:others templateFile=>$clanok_hl_menu->hlavne_menu_template->name}
-    {*control prilohy:images templateFile=>$clanok_hl_menu->hlavne_menu_template->name*}
-  </div>
-</section>
+        {/if}
+      {/foreach}
+      {control prilohy:others templateFile=>$clanok_hl_menu->hlavne_menu_template->name}
+      {*control prilohy:images templateFile=>$clanok_hl_menu->hlavne_menu_template->name*}
+    </div>  
+  </section>
+  <div class="bigimg-description"{* snippet="bigimg-description"*}>{$big_img->popis}</div>
+</div>

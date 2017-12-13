@@ -86,6 +86,8 @@ webloader:
     frontAfter:
       files:
 #        - %wwwDir%/www/js/jquery-1.12.4.js
+#        - %wwwDir%/www/js/jquery-slim.min.js
+#        - %wwwDir%/www/js/popper.min.js
 #        - %wwwDir%/www/js/bootstrap.js
 #        - %wwwDir%/www/js/netteForms.min.js
 #        - %wwwDir%/www/js/nette.ajax.js
