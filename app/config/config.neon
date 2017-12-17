@@ -67,15 +67,15 @@ latte:
   macros:
     - Nittro\Bridges\NittroLatte\NittroMacros
 
-extensions:
-    fileUpload: Zet\FileUpload\FileUploadExtension
+#extensions:
+#    fileUpload: Zet\FileUpload\FileUploadExtension
 
-fileUpload:
+#fileUpload:
 #	maxFiles: 10
 #	maxFileSize: 2M
-	fileFilter: Zet\FileUpload\Filter\ImageFilter
+#	fileFilter: Zet\FileUpload\Filter\ImageFilter
 #	uploadModel: App\Model\MyUploadModel
-	uiMode: full # full nebo minimal
+#	uiMode: full # full nebo minimal
 
 session:
   autoStart: true

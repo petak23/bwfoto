@@ -503,7 +503,7 @@ function Lightbox() {
     }
     
     // init regular eshopbutton
-    if (!CTX.opt.hideEshopBtn) {
+/*    if (!CTX.opt.hideEshopBtn) {
       var eshopBtn = document.createElement('a');
       eshopBtn.setAttribute('id', _const_id_prefix + '-eshop');
       eshopBtn.setAttribute('class', _const_class_prefix + '-eshop');
@@ -518,7 +518,7 @@ function Lightbox() {
 //        console.log(pom);
 //        CTX.close();
       }, false);
-    }
+    }*/
     
     // close lightbox on background-click by default / if true
     if (!isIE8 && CTX.opt.closeOnClick) {
@@ -931,11 +931,14 @@ function Lightbox() {
       }
     // animation stuff
     if (typeof CTX.opt.animation === 'number') {
-      removeClass(currImage.img, _const_class_prefix + '-animating-prev');
+      var borderMain = document.getElementById(_const_id_prefix + '-border-main');
+//      removeClass(currImage.img, _const_class_prefix + '-animating-prev');
+      removeClass(borderMain, _const_class_prefix + '-animating-next');
       setTimeout(function () {
         var cb = function () {
           setTimeout(function () {
-            addClass(currImage.img, _const_class_prefix + '-animating-next');
+//            addClass(currImage.img, _const_class_prefix + '-animating-next');
+            addClass(borderMain, _const_class_prefix + '-animating-next');
           }, CTX.opt.animation / 2);
         };
         openBox(currThumbnail, false, cb, 'prev');
@@ -982,4 +985,3 @@ function Lightbox() {
     }
   };
 }
-
