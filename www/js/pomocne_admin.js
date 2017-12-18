@@ -98,4 +98,20 @@ $(function() {
 		return false;
 	});
   $('[data-toggle="tooltip"]').tooltip();
+  
+  var okraj_nahlad = $(".pv-okraj-nahlad");
+  var form_change = $("#pv-borders-change");
+  
+  form_change.find("input[type=number]").each(function(){
+    var el = $(this);
+//    var cl = el.attr('name').split("_");
+    el.change(function(){
+      var val = el.val();
+      var cl = el.attr('name').split("_");
+      okraj_nahlad.find("okraj-" + cl[1]).each(function(){
+        console.log($(this).css());
+        $(this).css("border-size", val+"px");
+      });
+    });
+  });
 });

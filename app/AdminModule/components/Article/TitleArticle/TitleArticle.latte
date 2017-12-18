@@ -211,11 +211,44 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">Zmena okrajového rámčeka príloh</h4>
-        <p>Aktuálne nastavenie:<br>
-          - Okraj A:{$clanok->hlavne_menu->border_a} <span class="border_x" {if $clanok->hlavne_menu->border_a}{$clanok->hlavne_menu->border_a|border_x|noescape}>{/if}</span><br>
-          - Okraj B:{$clanok->hlavne_menu->border_b} <span class="border_x" {if $clanok->hlavne_menu->border_b}{$clanok->hlavne_menu->border_b|border_x|noescape}{/if}></span><br>
-          - Okraj C:{$clanok->hlavne_menu->border_c} <span class="border_x" {if $clanok->hlavne_menu->border_c}{$clanok->hlavne_menu->border_c|border_x|noescape}{/if}></span><br>
-        </p>
+        <div class="row">
+          <div class="col-xs-6">
+            {var $p_a = explode('|', $clanok->hlavne_menu->border_a)}
+            {var $p_b = explode('|', $clanok->hlavne_menu->border_b)}
+            {var $p_c = explode('|', $clanok->hlavne_menu->border_c)}
+            Aktuálne nastavenie:<br>
+            <form id="pv-borders-change">
+              <label>Okraj A:</label>
+              <input type="number" name="border_a_width" value="{$p_a[1]}" size="5" min="0" max="20" class="input_number"> <input type="color" name="border_a_color" value="#{$p_a[0]}">
+              <br>
+              <label>Okraj B:</label><input type="number" name="border_b_width" value="{$p_b[1]}" size="5" min="0" max="20" class="input_number"> <input type="color" name="border_b_color" value="#{$p_b[0]}">
+              <br>
+              <label>Okraj C:</label><input type="number" name="border_c_width" value="{$p_c[1]}" size="5" min="0" max="20" class="input_number"> <input type="color" name="border_c_color" value="#{$p_c[0]}">
+              <br>
+              <input type="submit" value="Ulož">
+            </form>
+          </div>
+          <div class="col-xs-6 pv-okraj-nahlad">
+            <div class="okraj-nahlad-tmavy">
+              <div class="border_x2 okraj-c" {if $clanok->hlavne_menu->border_c}{$clanok->hlavne_menu->border_c|border_x|noescape}{/if}>
+                <div class="border_x2 okraj-b" {if $clanok->hlavne_menu->border_b}{$clanok->hlavne_menu->border_b|border_x|noescape}{/if}>
+                  <div class="border_x2 okraj-a" {if $clanok->hlavne_menu->border_a}{$clanok->hlavne_menu->border_a|border_x|noescape}{/if}>
+                    <img src="{$basePath}/www/images/okraj_temp.png" alt="okraj">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="okraj-nahlad-svetly">
+              <div class="border_x2 okraj-c" {if $clanok->hlavne_menu->border_c}{$clanok->hlavne_menu->border_c|border_x|noescape}{/if}>
+                <div class="border_x2 okraj-b" {if $clanok->hlavne_menu->border_b}{$clanok->hlavne_menu->border_b|border_x|noescape}{/if}>
+                  <div class="border_x2 okraj-a" {if $clanok->hlavne_menu->border_a}{$clanok->hlavne_menu->border_a|border_x|noescape}{/if}>
+                    <img src="{$basePath}/www/images/okraj_temp.png" alt="okraj">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="modal-body">
         {*control zmenSablonuForm*}

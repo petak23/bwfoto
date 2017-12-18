@@ -81,8 +81,8 @@ webloader:
 #        - %wwwDir%/www/js/dropmenuJQ.js
         - %wwwDir%/www/js/lightbox.js
 
-      filters:
-        - @jsMin
+#      filters:
+#        - @jsMin
     frontAfter:
       files:
 #        - %wwwDir%/www/js/jquery-1.12.4.js

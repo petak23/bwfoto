@@ -211,8 +211,8 @@ class TitleArticleControl extends Nette\Application\UI\Control {
     $template = parent::createTemplate($class);
     $template->addFilter('border_x', function ($text){
       $pom = $text != null & strlen($text)>2 ? explode("|", $text) : ['','0'];
-//      $xs = 'style="border: '.$pom[1].'px solid '.(strlen($pom[0])>2 ? ('#'.$pom[0]):'inherit').'"';
-      $xs = 'style="background-color: '.(strlen($pom[0])>2 ? ('#'.$pom[0]):'inherit').'"';
+      $xs = 'style="border: '.$pom[1].'px solid '.(strlen($pom[0])>2 ? ('#'.$pom[0]):'inherit').'"';
+//      $xs = 'style="background-color: '.(strlen($pom[0])>2 ? ('#'.$pom[0]):'inherit').'"';
       return $xs;
     });
     return $template;

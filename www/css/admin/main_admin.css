@@ -202,3 +202,23 @@ a.button-left {
   min-height: 1rem;
   min-width: 2rem;
 }
+.border_x2{
+  display: inline-block;
+/*  border: 1px solid #999;*/
+  min-height: 1rem;
+  min-width: 4rem;
+  /*margin: 0 1rem;*/
+}
+.okraj-nahlad-tmavy {
+  background-color: black;
+  padding: 1rem;
+  border: 1px solid #999;
+}
+.okraj-nahlad-svetly {
+  background-color: white;
+  padding: 1rem;
+  border: 1px solid #999;
+}
+.input_number {
+  width: 5rem;
+}
