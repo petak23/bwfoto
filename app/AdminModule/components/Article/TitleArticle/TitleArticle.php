@@ -7,13 +7,13 @@ use DbTable;
 /**
  * Komponenta pre vytvorenie hlavičky polozky.
  * 
- * Posledna zmena(last change): 12.12.2017
+ * Posledna zmena(last change): 21.12.2017
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
  * @copyright Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.9
+ * @version 1.1.0
  */
 
 class TitleArticleControl extends Nette\Application\UI\Control {
@@ -212,7 +212,6 @@ class TitleArticleControl extends Nette\Application\UI\Control {
     $template->addFilter('border_x', function ($text){
       $pom = $text != null & strlen($text)>2 ? explode("|", $text) : ['','0'];
       $xs = 'style="border: '.$pom[1].'px solid '.(strlen($pom[0])>2 ? ('#'.$pom[0]):'inherit').'"';
-//      $xs = 'style="background-color: '.(strlen($pom[0])>2 ? ('#'.$pom[0]):'inherit').'"';
       return $xs;
     });
     return $template;

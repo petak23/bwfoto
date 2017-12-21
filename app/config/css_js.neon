@@ -113,8 +113,8 @@ webloader:
         - %wwwDir%/www/js/lightbox.config.admin.js
         - %wwwDir%/www/js/datagrid.js
         - %wwwDir%/www/js/pomocne_admin.js
-      filters:
-        - @jsMin
+#      filters:
+#        - @jsMin
     texyla:
       files:
         - %wwwDir%/www/js/texyla/js/texyla.js
