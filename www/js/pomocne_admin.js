@@ -101,22 +101,22 @@ $(function() {
   
 
   /* pre zmenu náhľadu pri zmenách okrajového rámčeka */
-  $("#pv-borders-change").find("input[type=number]").each(function(){
+  $("#frm-titleArticle-zmenOkrajForm").find("input.input_number").each(function(){
     var el = $(this);
     el.change(function(){
       var val = el.val();
-      var cl = el.attr('name').split("-");
+      var cl = el.attr('name').split("_");
       $(".okraj-"+cl[1]).each(function(){
         $(this).css("border-width", val+"px");
       });
     });
   });
   
-  $("#pv-borders-change").find("input[type=color]").each(function(){
+  $("#frm-titleArticle-zmenOkrajForm").find("input[type=color]").each(function(){
     var el = $(this);
     el.change(function(){
       var val = el.val();
-      var cl = el.attr('name').split("-");
+      var cl = el.attr('name').split("_");
       $(".okraj-"+cl[1]).each(function(){
         $(this).css("border-color", val);
       });

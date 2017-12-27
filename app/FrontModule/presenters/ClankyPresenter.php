@@ -205,7 +205,7 @@ class ClankyPresenter extends BasePresenter {
     });
     $template->addFilter('border_color', function ($text){
       $pom = $text != null & strlen($text)>2 ? explode("|", $text) : ['','0'];
-      return strlen($pom[0])>2 ? ('#'.$pom[0]):'inherit';
+      return strlen($pom[0])>2 ? $pom[0]:'inherit';
     });
     return $template;
 	}

@@ -41,11 +41,6 @@
             {/if}
         </div>
       {/foreach}
-      {*<style>
-        .jslghtbx-border-a {{ {if $clanok_hl_menu->border_a}{$clanok_hl_menu->border_a|border_css_x|noescape}{/if} }}
-        .jslghtbx-border-b {{ {if $clanok_hl_menu->border_b}{$clanok_hl_menu->border_b|border_css_x|noescape}{/if} }}
-        .jslghtbx-border-c {{ {if $clanok_hl_menu->border_c}{$clanok_hl_menu->border_c|border_css_x|noescape}{/if} }}
-      </style>*}
       <script>
         var options = {
           prevImg: 			true,
@@ -69,15 +64,14 @@
         var lightbox = new Lightbox();
         lightbox.load(options);
       </script>
-      {*<script type="application/javascript" src="{$basePath}/www/js/lightbox.config.front.js"></script>*}
     </div>
 
-    <div class="thumbnails" data-transition="false" n:snippet="prilohyClanok" n:if="$prilohy->count()" {*data-dynamic-mask="snippet--priloha-\d+"*}>
+    <div class="thumbnails" data-transition="false" n:snippet="prilohyClanok" n:if="$prilohy->count()">
       {control menu templateType=>'single', templateFile=>$clanok_hl_menu->hlavne_menu_template->name, cast=>$clanok_hl_menu->id_hlavne_menu_cast, level => $uroven, avatar => $avatar_path, article_avatar_view_in => TRUE, anotacia => TRUE, nadpis => $viac_info}
       {foreach $prilohy as $subor}
         {var $pr = strtolower($subor->pripona)}
         {if $pr == "mp4" OR $pr == "ogv" OR $pr == "webm" OR $pr == "wmv"}
-          <div class="thumb video"{* n:snippet="priloha-$subor->id"*}>
+          <div class="thumb video">
             <a href="#">
               <img src="{$basePath}/{$subor->thumb}" alt="" class="img-responsive img-square"/>
               <img src="{$basePath}/www/images/icons/play-arrow_200.png" alt="" class="img-responsive img-square img-play"/>
@@ -96,18 +90,11 @@
               </div>
             </div>
           {/if *}
-        {elseif $subor->type == 2}
-          <div class="thumb"{* n:snippet="priloha-$subor->id"*}>
-            <img class="img-thumbnail img-rounded jslghtbx-thmb noajax" src="{$basePath}/{$subor->thumb}" alt="{$subor->nazov}" data-jslghtbx="{$basePath}/{$subor->subor}" data-ajax="false" data-jslghtbx-caption="{$subor->popis}">
-            <a href="{plink bigImg! $subor->id}" title="{$subor->nazov}" n:class="$subor->id == $big_img->id ? selected">
-              <img class="img-responsive img-square" src="{$basePath}/{$subor->thumb}" alt="{$subor->nazov}">
-            </a>
-          </div>
         {/if}
       {/foreach}
       {control prilohy:others templateFile=>$clanok_hl_menu->hlavne_menu_template->name}
-      {*control prilohy:images templateFile=>$clanok_hl_menu->hlavne_menu_template->name*}
+      {control prilohy:images templateFile=>$clanok_hl_menu->hlavne_menu_template->name, big_img_id=>$big_img->id}
     </div>  
   </section>
-  <div class="bigimg-description"{* snippet="bigimg-description"*}>{$big_img->popis}</div>
+  <div class="bigimg-description">{$big_img->popis}</div>
 </div>

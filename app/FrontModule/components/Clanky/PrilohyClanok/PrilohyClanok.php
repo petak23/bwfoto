@@ -9,13 +9,13 @@ use Nette\Application\UI\Control;
 /**
  * Komponenta pre zobrazenie príloh clanku pre FRONT modul
  * 
- * Posledna zmena(last change): 10.11.2017
+ * Posledna zmena(last change): 27.12.2017
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2012 - 2016 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.5
+ * @version 1.0.6
  */
 class PrilohyClanokControl extends Control {
 
@@ -60,6 +60,7 @@ class PrilohyClanokControl extends Control {
     $this->template->texts = $this->texts;
     $this->template->avatar_path = $this->avatar_path;
     $this->template->id_hlavne_menu_lang = $this->article->id;
+    $this->template->big_img_id = isset($params['big_img_id']) ? $params['big_img_id'] : 0;
     $this->template->render();
   }
 
