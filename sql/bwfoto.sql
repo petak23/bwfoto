@@ -119,23 +119,16 @@ CREATE TABLE `dokumenty` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Prílohy k článkom';
 
 INSERT INTO `dokumenty` (`id`, `id_hlavne_menu`, `id_user_main`, `id_user_roles`, `znacka`, `nazov`, `pripona`, `spec_nazov`, `popis`, `subor`, `thumb`, `zmena`, `zobraz_v_texte`, `type`, `pocitadlo`) VALUES
-(1,	23,	1,	0,	'#I-1#',	'budovy1.JPG',	'JPG',	'budovy1-jpg',	NULL,	'www/files/prilohy/budovy1.JPG',	'www/files/prilohy/tb_budovy1.JPG',	'2017-11-15 06:30:21',	1,	2,	0),
-(2,	23,	1,	0,	'#I-2#',	'budovy2.JPG',	'JPG',	'budovy2-jpg',	NULL,	'www/files/prilohy/budovy2.JPG',	'www/files/prilohy/tb_budovy2.JPG',	'2017-11-15 06:30:21',	1,	2,	0),
-(3,	24,	1,	0,	'#I-3#',	'oblaky.JPG',	'JPG',	'oblaky-jpg',	NULL,	'www/files/prilohy/oblaky.JPG',	'www/files/prilohy/tb_oblaky.JPG',	'2017-11-15 06:34:43',	1,	2,	0),
-(4,	24,	1,	0,	'#I-4#',	'protisvelo2.jpg',	'jpg',	'protisvelo2-jpg',	NULL,	'www/files/prilohy/protisvelo2.jpg',	'www/files/prilohy/tb_protisvelo2.jpg',	'2017-11-15 06:34:43',	1,	2,	0),
-(5,	24,	1,	0,	'#I-5#',	'protisvetlo1.JPG',	'JPG',	'protisvetlo1-jpg',	NULL,	'www/files/prilohy/protisvetlo1.JPG',	'www/files/prilohy/tb_protisvetlo1.JPG',	'2017-11-15 06:34:43',	1,	2,	0),
-(6,	20,	2,	0,	'#I-6#',	'krajina11.jpg',	'jpg',	'krajina11-jpg',	NULL,	'www/files/prilohy/krajina11.jpg',	'www/files/prilohy/tb_krajina11.jpg',	'2017-11-23 12:50:39',	1,	2,	0),
-(7,	20,	2,	0,	'#I-7#',	'krajina12.jpg',	'jpg',	'krajina12-jpg',	NULL,	'www/files/prilohy/krajina12.jpg',	'www/files/prilohy/tb_krajina12.jpg',	'2017-11-23 12:50:39',	1,	2,	0),
-(8,	20,	2,	0,	'#I-8#',	'krajina13.jpg',	'jpg',	'krajina13-jpg',	NULL,	'www/files/prilohy/krajina13.jpg',	'www/files/prilohy/tb_krajina13.jpg',	'2017-11-23 12:50:39',	1,	2,	0),
-(9,	20,	2,	0,	'#I-9#',	'krajina14.jpg',	'jpg',	'krajina14-jpg',	NULL,	'www/files/prilohy/krajina14.jpg',	'www/files/prilohy/tb_krajina14.jpg',	'2017-11-23 12:50:39',	1,	2,	0),
-(10,	20,	2,	0,	'#I-10#',	'krajina15.jpg',	'jpg',	'krajina15-jpg',	NULL,	'www/files/prilohy/krajina15.jpg',	'www/files/prilohy/tb_krajina15.jpg',	'2017-11-23 12:50:39',	1,	2,	0),
-(11,	20,	2,	0,	'#I-11#',	'krajina16.jpg',	'jpg',	'krajina16-jpg',	NULL,	'www/files/prilohy/krajina16.jpg',	'www/files/prilohy/tb_krajina16.jpg',	'2017-11-23 12:50:39',	1,	2,	0),
-(12,	20,	2,	0,	'#I-12#',	'krajina17.jpg',	'jpg',	'krajina17-jpg',	NULL,	'www/files/prilohy/krajina17.jpg',	'www/files/prilohy/tb_krajina17.jpg',	'2017-11-23 12:50:39',	1,	2,	0),
-(13,	22,	2,	0,	'#I-13#',	'obr01.JPG',	'JPG',	'obr01-jpg',	NULL,	'www/files/prilohy/obr01.JPG',	'www/files/prilohy/tb_obr01.JPG',	'2017-11-23 12:51:13',	1,	2,	0),
-(14,	22,	2,	0,	'#I-14#',	'obr02.JPG',	'JPG',	'obr02-jpg',	NULL,	'www/files/prilohy/obr02.JPG',	'www/files/prilohy/tb_obr02.JPG',	'2017-11-23 12:51:13',	1,	2,	0),
-(15,	22,	2,	0,	'#I-15#',	'obr03.JPG',	'JPG',	'obr03-jpg',	NULL,	'www/files/prilohy/obr03.JPG',	'www/files/prilohy/tb_obr03.JPG',	'2017-11-23 12:51:13',	1,	2,	0),
-(16,	22,	2,	0,	'#I-16#',	'obr05.JPG',	'JPG',	'obr05-jpg',	NULL,	'www/files/prilohy/obr05.JPG',	'www/files/prilohy/tb_obr05.JPG',	'2017-11-23 12:51:13',	1,	2,	0),
-(17,	22,	2,	0,	'#I-17#',	'obr09.JPG',	'JPG',	'obr09-jpg',	NULL,	'www/files/prilohy/obr09.JPG',	'www/files/prilohy/tb_obr09.JPG',	'2017-11-23 12:51:13',	1,	2,	0);
+(43,	24,	1,	0,	'#I-43#',	'protisvelo2',	'jpg',	'protisvelo2',	NULL,	'www/files/prilohy/protisvelo2.jpg',	'www/files/prilohy/tb_protisvelo2.jpg',	'2017-12-18 08:48:37',	1,	2,	0),
+(44,	24,	1,	0,	'#I-44#',	'protisvetlo1',	'JPG',	'protisvetlo1',	NULL,	'www/files/prilohy/protisvetlo1.JPG',	'www/files/prilohy/tb_protisvetlo1.JPG',	'2017-12-18 08:48:37',	1,	2,	0),
+(45,	23,	1,	0,	'#I-45#',	'budovy1',	'JPG',	'budovy1',	NULL,	'www/files/prilohy/budovy1.JPG',	'www/files/prilohy/tb_budovy1.JPG',	'2017-12-18 08:49:12',	1,	2,	0),
+(46,	23,	1,	0,	'#I-46#',	'budovy2',	'JPG',	'budovy2',	NULL,	'www/files/prilohy/budovy2.JPG',	'www/files/prilohy/tb_budovy2.JPG',	'2017-12-18 08:49:12',	1,	2,	0),
+(47,	23,	1,	0,	'#I-47#',	'dedina1',	'JPG',	'dedina1',	NULL,	'www/files/prilohy/dedina1.JPG',	'www/files/prilohy/tb_dedina1.JPG',	'2017-12-18 08:49:12',	1,	2,	0),
+(48,	22,	1,	0,	'#I-48#',	'krajina1',	'JPG',	'krajina1',	'popis  sdfasd sdfasdwdf',	'www/files/prilohy/krajina1.JPG',	'www/files/prilohy/tb_krajina1.JPG',	'2017-12-18 08:49:31',	1,	2,	0),
+(49,	22,	1,	0,	'#I-49#',	'krajina11',	'jpg',	'krajina11',	'aasdfadsa asdasd aaasddf',	'www/files/prilohy/krajina11.jpg',	'www/files/prilohy/tb_krajina11.jpg',	'2017-12-18 08:49:31',	1,	2,	0),
+(50,	22,	1,	0,	'#I-50#',	'krajina13',	'jpg',	'krajina13',	NULL,	'www/files/prilohy/krajina13.jpg',	'www/files/prilohy/tb_krajina13.jpg',	'2017-12-18 08:49:31',	1,	2,	0),
+(51,	22,	1,	0,	'#I-51#',	'obr07',	'jpg',	'obr07',	NULL,	'www/files/prilohy/obr07.jpg',	'www/files/prilohy/tb_obr07.jpg',	'2017-12-18 08:49:31',	1,	2,	0),
+(52,	22,	1,	0,	'#I-52#',	'stromy',	'JPG',	'stromy',	NULL,	'www/files/prilohy/stromy.JPG',	'www/files/prilohy/tb_stromy.JPG',	'2017-12-18 08:49:31',	1,	2,	0);
 
 DROP TABLE IF EXISTS `druh`;
 CREATE TABLE `druh` (
@@ -225,6 +218,9 @@ CREATE TABLE `hlavne_menu` (
   `aktualny_projekt` tinyint(4) NOT NULL DEFAULT '0' COMMENT 'Označenie aktuálneho projektu',
   `redirect_id` int(11) DEFAULT NULL COMMENT 'Id článku na ktorý sa má presmerovať',
   `id_dlzka_novinky` int(11) NOT NULL DEFAULT '1' COMMENT 'Do kedy je to novinka',
+  `border_a` varchar(15) COLLATE utf8_bin DEFAULT NULL COMMENT 'Okraj A: ffffff|hhh f-farba h-hrúbka',
+  `border_b` varchar(15) COLLATE utf8_bin DEFAULT NULL COMMENT 'Okraj B: ffffff|hhh f-farba h-hrúbka',
+  `border_c` varchar(15) COLLATE utf8_bin DEFAULT NULL COMMENT 'Okraj C: ffffff|hhh f-farba h-hrúbka',
   PRIMARY KEY (`id`),
   KEY `id_reg` (`id_user_roles`),
   KEY `druh` (`id_druh`),
@@ -246,29 +242,29 @@ CREATE TABLE `hlavne_menu` (
   CONSTRAINT `hlavne_menu_ibfk_9` FOREIGN KEY (`id_user_main`) REFERENCES `user_main` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Položky hlavného menu';
 
-INSERT INTO `hlavne_menu` (`id`, `spec_nazov`, `id_hlavne_menu_cast`, `id_user_roles`, `id_ikonka`, `id_druh`, `uroven`, `id_nadradenej`, `id_user_main`, `poradie`, `poradie_podclankov`, `id_hlavicka`, `id_hlavne_menu_opravnenie`, `zvyrazni`, `pocitadlo`, `nazov_ul_sub`, `id_hlavne_menu_template`, `absolutna`, `ikonka`, `avatar`, `komentar`, `modified`, `datum_platnosti`, `aktualny_projekt`, `redirect_id`, `id_dlzka_novinky`) VALUES
-(1,	'bw-fotografia',	1,	0,	NULL,	1,	0,	NULL,	2,	1,	0,	1,	0,	0,	0,	NULL,	3,	NULL,	NULL,	'zqqzqharq0m1h9j.jpg',	0,	'2017-11-03 07:56:48',	NULL,	0,	NULL,	1),
-(2,	'architekura',	1,	0,	NULL,	1,	0,	NULL,	2,	3,	0,	1,	0,	0,	0,	NULL,	3,	NULL,	NULL,	'93eca27ct6k1szj.jpg',	0,	'2017-11-03 07:56:59',	NULL,	0,	NULL,	1),
-(3,	'foto-rgb',	1,	0,	NULL,	1,	0,	NULL,	2,	5,	0,	1,	0,	0,	0,	NULL,	3,	NULL,	NULL,	'jlhbvumzttwtah7.jpg',	0,	'2017-11-03 07:57:10',	NULL,	0,	NULL,	1),
-(4,	'produkty',	1,	0,	NULL,	1,	0,	NULL,	2,	2,	0,	2,	0,	0,	0,	NULL,	1,	NULL,	NULL,	'5663at38ptotbps.png',	0,	'2017-11-03 07:50:20',	NULL,	0,	NULL,	1),
-(5,	'novinky',	1,	0,	NULL,	1,	0,	NULL,	2,	4,	0,	2,	0,	0,	0,	NULL,	1,	NULL,	NULL,	'adpkihqqxy4pihf.png',	0,	'2017-11-03 07:49:47',	NULL,	0,	NULL,	1),
-(6,	'vystavy',	1,	0,	NULL,	1,	0,	NULL,	2,	6,	0,	2,	0,	0,	0,	NULL,	1,	NULL,	NULL,	'hfgdcjheatw7xe8.png',	0,	'2017-11-03 07:50:38',	NULL,	0,	NULL,	1),
-(9,	'cast-a-1',	1,	0,	NULL,	1,	1,	2,	2,	1,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'3zjqsfzl5baff44.jpg',	0,	'2017-10-05 05:42:11',	NULL,	0,	NULL,	1),
-(10,	'cast-a-2',	1,	0,	NULL,	1,	1,	2,	2,	2,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'qejapifs8ada1do.JPG',	0,	'2017-10-05 05:42:11',	NULL,	0,	NULL,	1),
-(11,	'obchodne-podmienky',	2,	0,	NULL,	1,	0,	NULL,	2,	1,	0,	0,	0,	0,	0,	NULL,	1,	NULL,	NULL,	NULL,	0,	'2017-10-05 05:54:09',	NULL,	0,	NULL,	1),
-(12,	'kontakt',	2,	0,	NULL,	1,	0,	NULL,	2,	2,	0,	0,	0,	0,	0,	NULL,	1,	NULL,	NULL,	NULL,	0,	'2017-10-05 06:04:46',	NULL,	0,	NULL,	1),
-(13,	'kalibracia',	2,	0,	NULL,	1,	0,	NULL,	2,	3,	0,	0,	0,	0,	0,	NULL,	1,	NULL,	NULL,	NULL,	0,	'2017-10-05 06:14:20',	NULL,	0,	NULL,	1),
-(14,	'homepage',	3,	0,	NULL,	1,	0,	NULL,	2,	1,	0,	0,	0,	0,	0,	NULL,	4,	NULL,	NULL,	NULL,	0,	'2017-11-23 11:49:33',	NULL,	0,	NULL,	1),
-(15,	'homepage-dole',	3,	0,	NULL,	1,	0,	NULL,	2,	2,	0,	0,	0,	0,	0,	NULL,	5,	NULL,	NULL,	NULL,	0,	'2017-11-23 11:49:33',	NULL,	0,	NULL,	1),
-(16,	'cast-a-3',	1,	0,	NULL,	1,	1,	2,	2,	3,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'kp0x78f0j5xot9x.jpg',	0,	'2017-11-23 11:49:33',	NULL,	0,	NULL,	1),
-(17,	'cast-a-4',	1,	0,	NULL,	1,	1,	2,	2,	4,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'29pxn9zg3h8mk1s.jpg',	0,	'2017-11-23 11:49:33',	NULL,	0,	NULL,	1),
-(18,	'cast-a-5',	1,	0,	NULL,	1,	1,	2,	2,	5,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	NULL,	0,	'2017-11-23 11:49:33',	NULL,	0,	NULL,	1),
-(19,	'cast-a-1-1',	1,	0,	NULL,	1,	2,	9,	2,	1,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	NULL,	0,	'2017-11-23 11:49:33',	NULL,	0,	NULL,	1),
-(20,	'krajina',	1,	0,	NULL,	1,	1,	3,	2,	1,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'n6ulnlj97dzydn2.JPG',	0,	'2017-11-23 11:49:33',	NULL,	0,	NULL,	1),
-(21,	'kostoly',	1,	0,	NULL,	1,	1,	3,	2,	2,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'hi0a9wovlqrbgdv.JPG',	0,	'2017-11-23 11:49:33',	NULL,	0,	NULL,	1),
-(22,	'stromy',	1,	0,	NULL,	1,	1,	3,	2,	3,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'lebld9nagwmbdn3.JPG',	0,	'2017-11-23 11:49:33',	NULL,	0,	NULL,	1),
-(23,	'budovy',	1,	0,	NULL,	1,	1,	3,	2,	4,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'rubrr55ww87q8z2.JPG',	0,	'2017-11-23 11:49:33',	NULL,	0,	NULL,	1),
-(24,	'protisvetlo',	1,	0,	NULL,	1,	1,	3,	2,	5,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'9e1gm84fckjtsos.JPG',	0,	'2017-11-23 11:49:33',	NULL,	0,	NULL,	1);
+INSERT INTO `hlavne_menu` (`id`, `spec_nazov`, `id_hlavne_menu_cast`, `id_user_roles`, `id_ikonka`, `id_druh`, `uroven`, `id_nadradenej`, `id_user_main`, `poradie`, `poradie_podclankov`, `id_hlavicka`, `id_hlavne_menu_opravnenie`, `zvyrazni`, `pocitadlo`, `nazov_ul_sub`, `id_hlavne_menu_template`, `absolutna`, `ikonka`, `avatar`, `komentar`, `modified`, `datum_platnosti`, `aktualny_projekt`, `redirect_id`, `id_dlzka_novinky`, `border_a`, `border_b`, `border_c`) VALUES
+(1,	'bw-fotografia',	1,	0,	NULL,	1,	0,	NULL,	2,	1,	0,	1,	0,	0,	0,	NULL,	3,	NULL,	NULL,	'zqqzqharq0m1h9j.jpg',	0,	'2017-11-03 07:56:48',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL),
+(2,	'architekura',	1,	0,	NULL,	1,	0,	NULL,	2,	3,	0,	1,	0,	0,	0,	NULL,	3,	NULL,	NULL,	'93eca27ct6k1szj.jpg',	0,	'2017-11-03 07:56:59',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL),
+(3,	'foto-rgb',	1,	0,	NULL,	1,	0,	NULL,	2,	5,	0,	1,	0,	0,	0,	NULL,	3,	NULL,	NULL,	'jlhbvumzttwtah7.jpg',	0,	'2017-11-03 07:57:10',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL),
+(4,	'produkty',	1,	0,	NULL,	1,	0,	NULL,	2,	2,	0,	2,	0,	0,	0,	NULL,	1,	NULL,	NULL,	'5663at38ptotbps.png',	0,	'2017-11-03 07:50:20',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL),
+(5,	'novinky',	1,	0,	NULL,	1,	0,	NULL,	2,	4,	0,	2,	0,	0,	0,	NULL,	1,	NULL,	NULL,	'adpkihqqxy4pihf.png',	0,	'2017-11-03 07:49:47',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL),
+(6,	'vystavy',	1,	0,	NULL,	1,	0,	NULL,	2,	6,	0,	2,	0,	0,	0,	NULL,	1,	NULL,	NULL,	'hfgdcjheatw7xe8.png',	0,	'2017-11-03 07:50:38',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL),
+(9,	'cast-a-1',	1,	0,	NULL,	1,	1,	2,	2,	1,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'3zjqsfzl5baff44.jpg',	0,	'2017-10-05 05:42:11',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL),
+(10,	'cast-a-2',	1,	0,	NULL,	1,	1,	2,	2,	2,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'qejapifs8ada1do.JPG',	0,	'2017-10-05 05:42:11',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL),
+(11,	'obchodne-podmienky',	2,	0,	NULL,	1,	0,	NULL,	2,	1,	0,	0,	0,	0,	0,	NULL,	1,	NULL,	NULL,	NULL,	0,	'2017-10-05 05:54:09',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL),
+(12,	'kontakt',	2,	0,	NULL,	1,	0,	NULL,	2,	2,	0,	0,	0,	0,	0,	NULL,	1,	NULL,	NULL,	NULL,	0,	'2017-10-05 06:04:46',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL),
+(13,	'kalibracia',	2,	0,	NULL,	1,	0,	NULL,	2,	3,	0,	0,	0,	0,	0,	NULL,	1,	NULL,	NULL,	NULL,	0,	'2017-10-05 06:14:20',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL),
+(14,	'homepage',	3,	0,	NULL,	1,	0,	NULL,	2,	1,	0,	0,	0,	0,	0,	NULL,	4,	NULL,	NULL,	NULL,	0,	'2017-11-23 11:49:33',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL),
+(15,	'homepage-dole',	3,	0,	NULL,	1,	0,	NULL,	2,	2,	0,	0,	0,	0,	0,	NULL,	5,	NULL,	NULL,	NULL,	0,	'2017-11-23 11:49:33',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL),
+(16,	'cast-a-3',	1,	0,	NULL,	1,	1,	2,	2,	3,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'kp0x78f0j5xot9x.jpg',	0,	'2017-11-23 11:49:33',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL),
+(17,	'cast-a-4',	1,	0,	NULL,	1,	1,	2,	2,	4,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'29pxn9zg3h8mk1s.jpg',	0,	'2017-11-23 11:49:33',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL),
+(18,	'cast-a-5',	1,	0,	NULL,	1,	1,	2,	2,	5,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	NULL,	0,	'2017-11-23 11:49:33',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL),
+(19,	'cast-a-1-1',	1,	0,	NULL,	1,	2,	9,	2,	1,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	NULL,	0,	'2017-11-23 11:49:33',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL),
+(20,	'krajina',	1,	0,	NULL,	1,	1,	3,	2,	1,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'n6ulnlj97dzydn2.JPG',	0,	'2017-11-23 11:49:33',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL),
+(21,	'kostoly',	1,	0,	NULL,	1,	1,	3,	2,	2,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'hi0a9wovlqrbgdv.JPG',	0,	'2017-11-23 11:49:33',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL),
+(22,	'stromy',	1,	0,	NULL,	1,	1,	3,	2,	3,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'lebld9nagwmbdn3.JPG',	0,	'2017-12-27 11:58:22',	NULL,	0,	NULL,	1,	'#ffffc1|3',	'#5c5c5c|4',	'#333399|3'),
+(23,	'budovy',	1,	0,	NULL,	1,	1,	3,	2,	4,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'rubrr55ww87q8z2.JPG',	0,	'2017-12-27 11:24:02',	NULL,	0,	NULL,	1,	'#525252|1',	'#5063e4|2',	'#9b9b00|3'),
+(24,	'protisvetlo',	1,	0,	NULL,	1,	1,	3,	2,	5,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'9e1gm84fckjtsos.JPG',	0,	'2017-11-23 11:49:33',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL);
 
 DROP TABLE IF EXISTS `hlavne_menu_cast`;
 CREATE TABLE `hlavne_menu_cast` (
@@ -529,8 +525,8 @@ CREATE TABLE `user_main` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Hlavné údaje užívateľa';
 
 INSERT INTO `user_main` (`id`, `id_user_roles`, `id_user_profiles`, `password`, `meno`, `priezvisko`, `email`, `activated`, `banned`, `ban_reason`, `new_password_key`, `new_password_requested`, `new_email`, `new_email_key`, `last_ip`, `created`, `modified`) VALUES
-(1,	5,	1,	'$2y$10$RnzAjUCyc/B1GgiJ9k43/e27BDz5j1vsbN.DYlfnXIxweBvqxkABq',	'Peter',	'Vojtech',	'petak23@gmail.com',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'::1',	'2017-05-15 09:11:19',	'2017-11-03 08:53:01'),
-(2,	4,	2,	'$2y$10$FvhA/KkVmKR4lrVftRYch.4ER1Lc4H6sl0/NK5VuJ5keSrMg8kbay',	'Juraj',	'Zámečník',	'bwfoto@bwfoto.sk',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'::1',	'2017-05-15 09:13:38',	'2017-10-05 05:40:05'),
+(1,	5,	1,	'$2y$10$RnzAjUCyc/B1GgiJ9k43/e27BDz5j1vsbN.DYlfnXIxweBvqxkABq',	'Peter',	'Vojtech',	'petak23@gmail.com',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'217.12.48.22',	'2017-05-15 09:11:19',	'2017-12-27 11:58:49'),
+(2,	4,	2,	'$2y$10$FvhA/KkVmKR4lrVftRYch.4ER1Lc4H6sl0/NK5VuJ5keSrMg8kbay',	'Juraj',	'Zámečník',	'bwfoto@bwfoto.sk',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'217.12.48.22',	'2017-05-15 09:13:38',	'2017-12-27 11:57:41'),
 (3,	4,	3,	'$2y$10$VOeK4y3ozjaUM1aMtiVmcuHRmtcmoVvC6J4yFX4j0LZoNbXlejyMi',	'Jozef',	'Petrenčík',	'jozue@anigraph.eu',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.253.139.152',	'2017-05-15 09:12:22',	'2017-07-11 07:10:29');
 
 DROP TABLE IF EXISTS `user_permission`;
@@ -611,7 +607,11 @@ INSERT INTO `user_prihlasenie` (`id`, `id_user_main`, `log_in_datetime`) VALUES
 (17,	1,	'2017-10-30 13:20:44'),
 (18,	1,	'2017-11-03 08:37:57'),
 (19,	1,	'2017-11-03 09:53:01'),
-(20,	1,	'2017-11-03 09:57:28');
+(20,	1,	'2017-11-03 09:57:28'),
+(21,	1,	'2017-12-18 08:32:00'),
+(22,	1,	'2017-12-27 09:32:49'),
+(23,	2,	'2017-12-27 12:57:41'),
+(24,	1,	'2017-12-27 12:58:49');
 
 DROP TABLE IF EXISTS `user_profiles`;
 CREATE TABLE `user_profiles` (
@@ -628,8 +628,8 @@ CREATE TABLE `user_profiles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 INSERT INTO `user_profiles` (`id`, `rok`, `telefon`, `poznamka`, `pocet_pr`, `pohl`, `prihlas_teraz`, `avatar`, `news`) VALUES
-(1,	NULL,	NULL,	NULL,	18,	'M',	'2017-11-03 09:57:28',	NULL,	'A'),
-(2,	NULL,	NULL,	NULL,	2,	'M',	'2017-10-05 07:43:46',	NULL,	'A'),
+(1,	NULL,	NULL,	NULL,	21,	'M',	'2017-12-27 12:58:49',	NULL,	'A'),
+(2,	NULL,	NULL,	NULL,	3,	'M',	'2017-12-27 12:57:41',	NULL,	'A'),
 (3,	NULL,	NULL,	NULL,	0,	'M',	NULL,	NULL,	'A');
 
 DROP TABLE IF EXISTS `user_resource`;
@@ -701,6 +701,8 @@ INSERT INTO `verzie` (`id`, `id_user_main`, `cislo`, `subory`, `text`, `modified
 (1,	1,	'0.1.0',	NULL,	'Východzia verzia',	'2017-09-07 12:43:25'),
 (2,	1,	'0.1.1',	'Texy',	'- Implementácia texy a texyly\n- Oprava nájdených chýb',	'2017-10-10 09:52:04'),
 (3,	1,	'0.1.3',	'Prílohy, slider',	'Testovacia verzia, v ktorej bolo opravené:\n\n- **Administrácia - Prílohy článkov:** možnosť pridať súčasne viac príloh, inline editácia popisu a názvu prílohy.\n- **Administrácia - Slider:** pridaná možnosť upravovať zobrazenie jednotlivých položiek.\n- **Administrácia:** náhrada ckeditora za texylu.\n- **Web - Slider:** zobrazovanie obrázku podľa príslušnej časti.\n- **Web - Lightbox:** upgrade na verziu 0.5.6 a pridanie popisu k obrázkom.',	'2017-10-10 09:51:40'),
-(4,	1,	'0.1.4',	'Merge pull request #2 from petak23/nittro',	'Testovacia verzia v ktorej bolo zmenené:\n- Aplikácia \"nittra\":https://www.nittro.org/ .\n- Úprava požitia lightbox-u.\n- Úprava administračnej časti evidencie verzií.\n- Rozdelenie konfigurácie pre jednotlivé moduly.\n- Úprava adresárovej štruktúry.\n- Aktualizácia vzhľadu.\n- Aktualizácia vzhľadu príloh.\n- Pridanie možnosti pridania náhľadového obrázka pre neobrázkové prílohy.\n- Úprava sekcie zoznamu albumov podľa JP.\n',	'2017-11-15 10:47:16');
+(4,	1,	'0.1.4',	'Merge pull request #2 from petak23/nittro',	'Testovacia verzia v ktorej bolo zmenené:\n- Aplikácia \"nittra\":https://www.nittro.org/ .\n- Úprava požitia lightbox-u.\n- Úprava administračnej časti evidencie verzií.\n- Rozdelenie konfigurácie pre jednotlivé moduly.\n- Úprava adresárovej štruktúry.\n- Aktualizácia vzhľadu.\n- Aktualizácia vzhľadu príloh.\n- Pridanie možnosti pridania náhľadového obrázka pre neobrázkové prílohy.\n- Úprava sekcie zoznamu albumov podľa JP.\n',	'2017-11-15 10:47:16'),
+(5,	1,	'0.1.5',	'rôzne',	'Prispôsobenie vzhľadu úrovne 3',	'2017-12-27 11:59:49'),
+(6,	1,	'0.1.6',	'úroveň 3 a 4',	'- Prispôsobenie vzhľadu úrovne 3. a 4..\n- Aktualizácia nittra a lightbox-u.\n- Odstránenie koncovky z názvu prílohy.\n- Práca na admin časti pre rámčeky - pridaná časť pre fotoalbum zmeny rámčekov obrázkových príloh v úrovni 4. pre každú časť zvlášť.\n- Prispôsobenie 4. úrovne pre prehliadanie obrázkov s rámčekmi.',	'2017-12-27 12:04:06');
 
--- 2017-12-01 11:17:58
+-- 2017-12-27 12:09:42
