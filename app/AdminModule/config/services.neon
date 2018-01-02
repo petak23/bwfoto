@@ -7,20 +7,24 @@
 services:
 # forms
 
-  - App\AdminModule\Components\Article\TitleArticle\ZmenVlastnikaFormFactory
-  - App\AdminModule\Components\Article\TitleArticle\ZmenUrovenRegistracieFormFactory
   - App\AdminModule\Components\Article\TitleArticle\ZmenDatumPlatnostiFormFactory
   - App\AdminModule\Components\Article\TitleArticle\ZmenDlzkuNovinkyFormFactory
   - App\AdminModule\Components\Article\TitleArticle\ZmenOkrajFormFactory
   - App\AdminModule\Components\Article\TitleArticle\ZmenOpravnenieNevlastnikovFormFactory
   - App\AdminModule\Components\Article\TitleArticle\ZmenSablonuFormFactory
+  - App\AdminModule\Components\Article\TitleArticle\ZmenUrovenRegistracieFormFactory
+  - App\AdminModule\Components\Article\TitleArticle\ZmenVlastnikaFormFactory
+
   - App\AdminModule\Components\Article\TitleImage\EditTitleImageFormFactory
 
-  - App\AdminModule\Components\Clanky\PrilohyClanok\EditPrilohyFormFactory
   - App\AdminModule\Components\Clanky\PrilohyClanok\AddMultiPrilohyFormFactory
+  - App\AdminModule\Components\Clanky\PrilohyClanok\EditPrilohyFormFactory
 
-  - App\AdminModule\Components\Oznam\TitleOznam\ZmenPresmerovanieFormFactory
+  - App\AdminModule\Components\Clanky\Products\AddMultiProductsFormFactory
+  - App\AdminModule\Components\Clanky\Products\EditProoductFormFactory
+
   - App\AdminModule\Components\Oznam\TitleOznam\EditTitleImageFormFactory
+  - App\AdminModule\Components\Oznam\TitleOznam\ZmenPresmerovanieFormFactory
 
   - App\AdminModule\Forms\Article\IEditMenuFormFactory
 
@@ -53,6 +57,7 @@ services:
 
   - App\AdminModule\Components\Clanky\IZobrazClanokControl
   - App\AdminModule\Components\Clanky\PrilohyClanok\IPrilohyClanokControl
+  - App\AdminModule\Components\Clanky\Products\IProductsControl
   - App\AdminModule\Components\Clanky\ZobrazKartyPodclankov\IZobrazKartyPodclankovControl
 
   - App\AdminModule\Components\Faktury\IViewFakturyControl

@@ -127,7 +127,7 @@ INSERT INTO `dokumenty` (`id`, `id_hlavne_menu`, `id_user_main`, `id_user_roles`
 (48,	22,	1,	0,	'#I-48#',	'krajina1',	'JPG',	'krajina1',	'popis  sdfasd sdfasdwdf',	'www/files/prilohy/krajina1.JPG',	'www/files/prilohy/tb_krajina1.JPG',	'2017-12-18 08:49:31',	1,	2,	0),
 (49,	22,	1,	0,	'#I-49#',	'krajina11',	'jpg',	'krajina11',	'aasdfadsa asdasd aaasddf',	'www/files/prilohy/krajina11.jpg',	'www/files/prilohy/tb_krajina11.jpg',	'2017-12-18 08:49:31',	1,	2,	0),
 (50,	22,	1,	0,	'#I-50#',	'krajina13',	'jpg',	'krajina13',	NULL,	'www/files/prilohy/krajina13.jpg',	'www/files/prilohy/tb_krajina13.jpg',	'2017-12-18 08:49:31',	1,	2,	0),
-(51,	22,	1,	0,	'#I-51#',	'obr07',	'jpg',	'obr07',	NULL,	'www/files/prilohy/obr07.jpg',	'www/files/prilohy/tb_obr07.jpg',	'2017-12-18 08:49:31',	1,	2,	0),
+(51,	22,	2,	0,	'#I-51#',	'obr07',	'jpg',	'obr07',	'AHOJ XXXXX',	'www/files/prilohy/obr07.jpg',	'www/files/prilohy/tb_obr07.jpg',	'2017-12-30 16:41:17',	1,	2,	0),
 (52,	22,	1,	0,	'#I-52#',	'stromy',	'JPG',	'stromy',	NULL,	'www/files/prilohy/stromy.JPG',	'www/files/prilohy/tb_stromy.JPG',	'2017-12-18 08:49:31',	1,	2,	0);
 
 DROP TABLE IF EXISTS `druh`;
@@ -262,7 +262,7 @@ INSERT INTO `hlavne_menu` (`id`, `spec_nazov`, `id_hlavne_menu_cast`, `id_user_r
 (19,	'cast-a-1-1',	1,	0,	NULL,	1,	2,	9,	2,	1,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	NULL,	0,	'2017-11-23 11:49:33',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL),
 (20,	'krajina',	1,	0,	NULL,	1,	1,	3,	2,	1,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'n6ulnlj97dzydn2.JPG',	0,	'2017-11-23 11:49:33',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL),
 (21,	'kostoly',	1,	0,	NULL,	1,	1,	3,	2,	2,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'hi0a9wovlqrbgdv.JPG',	0,	'2017-11-23 11:49:33',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL),
-(22,	'stromy',	1,	0,	NULL,	1,	1,	3,	2,	3,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'lebld9nagwmbdn3.JPG',	0,	'2017-12-27 11:58:22',	NULL,	0,	NULL,	1,	'#ffffc1|3',	'#5c5c5c|4',	'#333399|3'),
+(22,	'stromy',	1,	0,	NULL,	1,	1,	3,	2,	3,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'lebld9nagwmbdn3.JPG',	0,	'2017-12-30 15:46:35',	NULL,	0,	NULL,	1,	'#e5e5e5|6',	'#5c5c5c|4',	'#9d9d9d|20'),
 (23,	'budovy',	1,	0,	NULL,	1,	1,	3,	2,	4,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'rubrr55ww87q8z2.JPG',	0,	'2017-12-27 11:24:02',	NULL,	0,	NULL,	1,	'#525252|1',	'#5063e4|2',	'#9b9b00|3'),
 (24,	'protisvetlo',	1,	0,	NULL,	1,	1,	3,	2,	5,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'9e1gm84fckjtsos.JPG',	0,	'2017-11-23 11:49:33',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL);
 
@@ -526,7 +526,7 @@ CREATE TABLE `user_main` (
 
 INSERT INTO `user_main` (`id`, `id_user_roles`, `id_user_profiles`, `password`, `meno`, `priezvisko`, `email`, `activated`, `banned`, `ban_reason`, `new_password_key`, `new_password_requested`, `new_email`, `new_email_key`, `last_ip`, `created`, `modified`) VALUES
 (1,	5,	1,	'$2y$10$RnzAjUCyc/B1GgiJ9k43/e27BDz5j1vsbN.DYlfnXIxweBvqxkABq',	'Peter',	'Vojtech',	'petak23@gmail.com',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'217.12.48.22',	'2017-05-15 09:11:19',	'2017-12-27 11:58:49'),
-(2,	4,	2,	'$2y$10$FvhA/KkVmKR4lrVftRYch.4ER1Lc4H6sl0/NK5VuJ5keSrMg8kbay',	'Juraj',	'Zámečník',	'bwfoto@bwfoto.sk',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'217.12.48.22',	'2017-05-15 09:13:38',	'2017-12-27 11:57:41'),
+(2,	4,	2,	'$2y$10$FvhA/KkVmKR4lrVftRYch.4ER1Lc4H6sl0/NK5VuJ5keSrMg8kbay',	'Juraj',	'Zámečník',	'bwfoto@bwfoto.sk',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'90.64.108.248',	'2017-05-15 09:13:38',	'2017-12-30 15:38:26'),
 (3,	4,	3,	'$2y$10$VOeK4y3ozjaUM1aMtiVmcuHRmtcmoVvC6J4yFX4j0LZoNbXlejyMi',	'Jozef',	'Petrenčík',	'jozue@anigraph.eu',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.253.139.152',	'2017-05-15 09:12:22',	'2017-07-11 07:10:29');
 
 DROP TABLE IF EXISTS `user_permission`;
@@ -611,7 +611,10 @@ INSERT INTO `user_prihlasenie` (`id`, `id_user_main`, `log_in_datetime`) VALUES
 (21,	1,	'2017-12-18 08:32:00'),
 (22,	1,	'2017-12-27 09:32:49'),
 (23,	2,	'2017-12-27 12:57:41'),
-(24,	1,	'2017-12-27 12:58:49');
+(24,	1,	'2017-12-27 12:58:49'),
+(25,	2,	'2017-12-30 16:38:26'),
+(26,	2,	'2017-12-30 23:27:12'),
+(27,	1,	'2018-01-02 07:22:37');
 
 DROP TABLE IF EXISTS `user_profiles`;
 CREATE TABLE `user_profiles` (
@@ -628,8 +631,8 @@ CREATE TABLE `user_profiles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 INSERT INTO `user_profiles` (`id`, `rok`, `telefon`, `poznamka`, `pocet_pr`, `pohl`, `prihlas_teraz`, `avatar`, `news`) VALUES
-(1,	NULL,	NULL,	NULL,	21,	'M',	'2017-12-27 12:58:49',	NULL,	'A'),
-(2,	NULL,	NULL,	NULL,	3,	'M',	'2017-12-27 12:57:41',	NULL,	'A'),
+(1,	NULL,	NULL,	NULL,	22,	'M',	'2018-01-02 07:22:37',	NULL,	'A'),
+(2,	NULL,	NULL,	NULL,	5,	'M',	'2017-12-30 23:27:11',	NULL,	'A'),
 (3,	NULL,	NULL,	NULL,	0,	'M',	NULL,	NULL,	'A');
 
 DROP TABLE IF EXISTS `user_resource`;
@@ -705,4 +708,4 @@ INSERT INTO `verzie` (`id`, `id_user_main`, `cislo`, `subory`, `text`, `modified
 (5,	1,	'0.1.5',	'rôzne',	'Prispôsobenie vzhľadu úrovne 3',	'2017-12-27 11:59:49'),
 (6,	1,	'0.1.6',	'úroveň 3 a 4',	'- Prispôsobenie vzhľadu úrovne 3. a 4..\n- Aktualizácia nittra a lightbox-u.\n- Odstránenie koncovky z názvu prílohy.\n- Práca na admin časti pre rámčeky - pridaná časť pre fotoalbum zmeny rámčekov obrázkových príloh v úrovni 4. pre každú časť zvlášť.\n- Prispôsobenie 4. úrovne pre prehliadanie obrázkov s rámčekmi.',	'2017-12-27 12:04:06');
 
--- 2017-12-27 12:09:42
+-- 2018-01-02 06:24:17

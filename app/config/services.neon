@@ -25,6 +25,7 @@ services:
   - DbTable\Lang
   - DbTable\News
   - DbTable\Oznam
+  - DbTable\Products
   - DbTable\Slider
   - DbTable\Udaje
   - DbTable\Udaje_typ

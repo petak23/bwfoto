@@ -1,5 +1,5 @@
 <?php
-namespace App\AdminModule\Components\Clanky\PrilohyClanok;
+namespace App\AdminModule\Components\Clanky\Products;
 
 use DbTable;
 use Nette;
@@ -9,7 +9,7 @@ use Ublaboo\DataGrid\DataGrid;
 use Ublaboo\DataGrid\Localization\SimpleTranslator;
 
 /**
- * Komponenta pre spravu priloh clanku.
+ * Komponenta pre spravu produktov clanku.
  * 
  * Posledna zmena(last change): 02.01.2018
  *
@@ -17,13 +17,13 @@ use Ublaboo\DataGrid\Localization\SimpleTranslator;
  * @copyright Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.6
+ * @version 1.0.0
  */
 
-class PrilohyClanokControl extends Nette\Application\UI\Control {
+class ProductsControl extends Nette\Application\UI\Control {
 
-  /** @var DbTable\Dokumenty $clanok Info o clanku */
-  public $dokumenty;
+  /** @var DbTable\Products */
+  public $products;
   /** @var string $nazov_stranky */
   private $nazov_stranky;
   /** @var Nette\Database\Table\ActiveRow $clanok Info o clanku */
@@ -31,28 +31,33 @@ class PrilohyClanokControl extends Nette\Application\UI\Control {
   /** @var int */
   private $upload_size;
   /** @var string */
-  private $prilohy_adresar;
-  /** @var array */
-  private $prilohy_images;
-  /** &var EditPrilohyFormFactory */
-  public $editPrilohyForm;
-  /** &var AddMultiPrilohyFormFactory */
-  public $addMultiPrilohyForm;
+  private $products_dir;
+  /** &var EditProductFormFactory */
+  public $editProductForm;
+  /** &var AddMultiProductsFormFactory */
+  public $addMultiProductsForm;
   /** @var array */
   private $admin_links;
   /** @var Nette\Security\User */
   private $user;
   /** @var DbTable\Hlavne_menu */
   private $hlavne_menu;
+  /** @var string */
+  private $templateFile = "Products";
+  /** @var int */
+  protected $editId = 0;
 
   /**
-   * @param DbTable\Dokumenty $dokumenty
-   * @param EditPrilohyFormFactory $editPrilohyFormFactory */
-  public function __construct(DbTable\Dokumenty $dokumenty, EditPrilohyFormFactory $editPrilohyFormFactory, AddMultiPrilohyFormFactory $addMultiPrilohyFormFactory, User $user, DbTable\Hlavne_menu $hlavne_menu) {
+   * @param DbTable\Products $products
+   * @param \App\AdminModule\Components\Clanky\Products\EditProoductFormFactory $editProductFormFactory
+   * @param \App\AdminModule\Components\Clanky\Products\AddMultiProductsFormFactory $addMultiProductsFormFactory
+   * @param User $user
+   * @param DbTable\Hlavne_menu $hlavne_menu */
+  public function __construct(DbTable\Products $products, EditProoductFormFactory $editProductFormFactory, AddMultiProductsFormFactory $addMultiProductsFormFactory, User $user, DbTable\Hlavne_menu $hlavne_menu) {
     parent::__construct();
-    $this->dokumenty = $dokumenty;
-    $this->editPrilohyForm = $editPrilohyFormFactory;
-    $this->addMultiPrilohyForm = $addMultiPrilohyFormFactory;
+    $this->products = $products;
+    $this->editProductForm = $editProductFormFactory;
+    $this->addMultiProductsForm = $addMultiProductsFormFactory;
     $this->user = $user;
     $this->hlavne_menu = $hlavne_menu;
   }
@@ -62,15 +67,13 @@ class PrilohyClanokControl extends Nette\Application\UI\Control {
    * @param Nette\Database\Table\ActiveRow $clanok
    * @param string $nazov_stranky
    * @param int $upload_size
-   * @param string $prilohy_adresar
-   * @param array $prilohy_images Nastavenie obrazkov pre prilohy
+   * @param string $products_dir
    * @return \App\AdminModule\Components\Clanky\PrilohyClanok\PrilohyClanokControl */
-  public function setTitle(Nette\Database\Table\ActiveRow $clanok, $nazov_stranky, $upload_size, $prilohy_adresar, $prilohy_images, $name) {
+  public function setTitle(Nette\Database\Table\ActiveRow $clanok, $nazov_stranky, $upload_size, $products_dir, $name) {
     $this->clanok = $clanok;
     $this->nazov_stranky = $nazov_stranky;
     $this->upload_size = $upload_size;
-    $this->prilohy_adresar = $prilohy_adresar;
-    $this->prilohy_images = $prilohy_images;
+    $this->products_dir = $products_dir;
     
     $hlm = $this->clanok->hlavne_menu; // Pre skratenie zapisu
     $vlastnik = $this->user->isInRole('admin') ? TRUE : $this->user->getIdentity()->id == $hlm->id_user_main;//$this->vlastnik($hlm->id_user_main);
@@ -84,7 +87,7 @@ class PrilohyClanokControl extends Nette\Application\UI\Control {
       "alink" => ["druh_opravnenia" => $druh_opravnenia,
                   "link"    => $druh_opravnenia ? ($druh_opravnenia == 1 ? ['main'=>$this->presenter->name.':addpol']
                                                                          : ['main'=>'Clanky:add', 'uroven'=>$hlm->uroven+1]) : NULL,
-                  "text"    => "Pridaj podčlánok"
+                  "text"    => "Pridaj produkt"
                  ],
       "elink" => $opravnenie_edit && $this->user->isAllowed($name, 'edit'),
       "dlink" => $opravnenie_del && $this->user->isAllowed($name, 'del') && !$this->hlavne_menu->maPodradenu($this->clanok->id_hlavne_menu),
@@ -96,44 +99,36 @@ class PrilohyClanokControl extends Nette\Application\UI\Control {
   /** 
    * Render */
 	public function render() {
-    $this->template->setFile(__DIR__ . '/PrilohyClanok.latte');
+    $this->template->setFile(__DIR__ . '/'.$this->templateFile.'.latte');
     $this->template->clanok = $this->clanok;
     $this->template->admin_links_prilohy = $this->admin_links;
-//    $this->template->dokumenty = $this->dokumenty->findBy(['id_hlavne_menu'=>$this->clanok->id_hlavne_menu]);
 		$this->template->render();
 	}
   
-  public function createComponentPrilohyGrid($name) {
+  public function createComponentProductsGrid($name) {
 		$grid = new DataGrid($this, $name);
 
-		$grid->setDataSource($this->dokumenty->findBy(['id_hlavne_menu'=>$this->clanok->id_hlavne_menu]));
-    $grid->addColumnText('znacka', 'Značka');
-    $grid->addColumnText('subor', 'Súbor')
+		$grid->setDataSource($this->products->findBy(['id_hlavne_menu'=>$this->clanok->id_hlavne_menu]));
+    $grid->addColumnText('main_file', 'Obrázok')
          ->setTemplate(__DIR__ . '/grid.subor.latte');
-    $grid->addColumnText('nazov', 'Názov')
+    $grid->addColumnText('name', 'Názov')
          ->setEditableCallback(function($id, $value) {
-           $this->dokumenty->oprav($id, ['nazov'=>$value]);
+           $this->products->oprav($id, ['name'=>$value]);
          });
-    $grid->addColumnText('popis', 'Popis')
+    $grid->addColumnText('description', 'Popis')
          ->setEditableCallback(function($id, $value) {
-           $this->dokumenty->oprav($id, ['popis'=>$value]);
+           $this->products->oprav($id, ['description'=>$value]);
          });
     if ($this->admin_links['elink']) {
       $grid->addAction('edit', '')
            ->setIcon('pencil fa-1_5x')
            ->setClass('btn btn-success btn-sm')
            ->setTitle('Editácia položky');
-      $grid->addAction('delete', '', 'confirmDeletePrilohaForm:confirmDelete!')
+      $grid->addAction('delete', '', 'confirmedDelete!')
            ->setIcon('trash-o fa-1_5x')
-           ->setClass('btn btn-danger btn-sm')
-           ->setTitle('Vymazanie položky');
-      $grid->addAction('showInText', '')
-           ->setIcon('adjust fa-1_5x')
-           ->setClass(function($item) { 
-                        $pr = strtolower($item->pripona);
-                        return ($pr == 'jpg' OR $pr == 'png' OR $pr == 'gif' OR $pr == 'bmp') ? ("btn ".($item->zobraz_v_texte ? 'btn-success' : 'btn-warning')." btn-sm ajax") : 'display-none' ; 
-                      })
-           ->setTitle('Nezobraz obrázok v prílohách');
+           ->setClass('btn btn-danger btn-sm ajax')
+           ->setTitle('Vymazanie položky')
+           ->setConfirm('Naozaj chceš zmazať položku %s?', 'name');
     }
     
     $translator = new SimpleTranslator([
@@ -159,87 +154,56 @@ class PrilohyClanokControl extends Nette\Application\UI\Control {
 	}
   
   public function handleEdit($id) {
-    $this->presenter->redirect('Dokumenty:edit', $id);
+//    $this->presenter->redirect('Dokumenty:edit', $id);
+    $this->templateFile = "Edit";
+    $this->editId = $id;
+    $this['editProductForm']->setDefaults($this->products->find($id));
   }
   
   /** 
-   * Komponenta formulara pre pridanie a editaciu prílohy polozky.
+   * Komponenta formulara pre pridanie a editaciu produktu polozky.
    * @return Nette\Application\UI\Form */
-  public function createComponentEditPrilohyForm() {
-    $form = $this->editPrilohyForm->create($this->upload_size, $this->prilohy_adresar, $this->prilohy_images);
+  public function createComponentEditProductForm() {
+    $form = $this->editProductForm->create($this->upload_size, $this->products_dir);
     $form->setDefaults(["id"=>0, "id_hlavne_menu"=>$this->clanok->id_hlavne_menu, "id_user_roles"=>$this->clanok->hlavne_menu->id_user_roles]);
     $form['uloz']->onClick[] = function ($button) { 
-      $this->presenter->flashOut(!count($button->getForm()->errors), ['this',['tab'=>'prilohy-tab']], 'Príloha bola úspešne uložená!', 'Došlo k chybe a zmena sa neuložila. Skúste neskôr znovu...');
+      $this->presenter->flashOut(!count($button->getForm()->errors), ['this',['tab'=>'products-tab']], 'Produkt bol úspešne uložený!', 'Došlo k chybe a zmena sa neuložila. Skúste neskôr znovu...');
 		};
     return $this->presenter->_vzhladForm($form);
   }
   
   /** 
-   * Komponenta formulara pre pridanie viacerich prílohy polozky.
+   * Komponenta formulara pre pridanie viacerich produktov polozky.
    * @return Nette\Application\UI\Form */
-  public function createComponentAddMultiPrilohyForm() {
-    $form = $this->addMultiPrilohyForm->create($this->upload_size, $this->prilohy_adresar, $this->prilohy_images);
+  public function createComponentAddMultiProductsForm() {
+    $form = $this->addMultiProductsForm->create($this->upload_size, $this->products_dir);
     $form->setDefaults(["id"=>0, "id_hlavne_menu"=>$this->clanok->id_hlavne_menu, "id_user_roles"=>$this->clanok->hlavne_menu->id_user_roles]);
     $form['uloz']->onClick[] = function ($button) { 
-      $this->presenter->flashOut(!count($button->getForm()->errors), ['this',['tab'=>'prilohy-tab']], 'Prílohy boli úspešne uložené!', 'Došlo k chybe a zmena sa neuložila. Skúste neskôr znovu...');
+      $this->presenter->flashOut(!count($button->getForm()->errors), ['this',['tab'=>'products-tab']], 'Produkty boli úspešne uložené!', 'Došlo k chybe a zmena sa neuložila. Skúste neskôr znovu...');
 		};
     return $this->presenter->_vzhladForm($form);
   }
-  
-  public function handleShowInText($id) {
-    $priloha = $this->dokumenty->find($id);
-    $priloha->update(['zobraz_v_texte'=>(1 - $priloha->zobraz_v_texte)]);
-		if (!$this->presenter->isAjax()) {
-      $this->redirect('this');
-    } else {
-      $this->redrawControl('flashes');
-      $this->redrawControl('prilohy');
-    }
-  }
-  
-  /**
-   * Komponenta Confirmation Dialog 
-   * @return Nette\Application\UI\Form */
-  public function createComponentConfirmDeletePrilohaForm() {
-    $form = new PeterVojtech\Confirm\ConfirmationDialog($this->presenter->getSession('news'));
-    $form->addConfirmer(
-        'delete', // názov signálu bude confirmDelete!
-        [$this, 'confirmedDeletePriloha'], // callback na funkciu pri kliknutí na YES
-        [$this, 'questionDeletePriloha'] // otázka
-    );
-    return $form;
-  }
-  
-  /**
-   * Zostavenie otázky pre ConfDialog s parametrom
-   * @param Nette\Utils\Html $dialog
-   * @param array $params
-   * @return string $question */
-  public function questionDeletePriloha($dialog, $params) {
-     $dialog->getQuestionPrototype();
-     $temp_del = $this->dokumenty->find($params['id']);
-     return sprintf("Naozaj chceš zmazať prílohu '%s'?", $temp_del->nazov);
-  }
-  
+    
   /** 
    * Spracovanie signálu vymazavania
-	 * @param int $id - id polozky slideru */
-	function confirmedDeletePriloha($id)	{
-    $pr = $this->dokumenty->find($id);//najdenie prislusnej polozky menu, ku ktorej priloha patri
+	 * @param int $id Id polozky */
+	function handleConfirmedDelete($id)	{
+    $pr = $this->products->find($id);//najdenie prislusnej polozky menu, ku ktorej priloha patri
     $pthis = $this->presenter;
     if ($pr !== FALSE) {
-      $vysledok = $this->_vymazSubor($pr->subor) ? (in_array(strtolower($pr->pripona), ['png', 'gif', 'jpg']) ? $this->_vymazSubor($pr->thumb) : TRUE) : FALSE;
+      $vysledok = $this->_vymazSubor($pr->main_file) ? $this->_vymazSubor($pr->thumb_file) : FALSE;
       if (($vysledok ? $pr->delete() : FALSE)) { 
-        $pthis->flashMessage('Príloha bola vymazaná!', 'success'); 
+        $this->flashMessage('Produkt bol vymazaný!', 'success'); 
       } else { 
-        $pthis->flashMessage('Došlo k chybe a príloha nebola vymazaná!', 'danger'); 
+        $this->flashMessage('Došlo k chybe a produkt nebol vymazaný!', 'danger'); 
       }
-    } else { $pthis->flashMessage('Došlo k chybe a príloha nebola vymazaná!', 'danger');}
+    } else { $this->flashMessage('Došlo k chybe a produkt nebol vymazaný!', 'danger');}
     if (!$pthis->isAjax()) {
-      $this->redirect('this');
+      $pthis->redirect('this', ['tab'=>'products-tab']);
     } else {
       $this->redrawControl('flashes');
-      $this->redrawControl('prilohy');
+      $this->redrawControl('products');
+      $this['productsGrid']->reload();
     }
   }
   
@@ -252,7 +216,7 @@ class PrilohyClanokControl extends Nette\Application\UI\Control {
 	}
 }
 
-interface IPrilohyClanokControl {
-  /** @return PrilohyClanokControl */
+interface IProductsControl {
+  /** @return ProductsControl */
   function create();
 }

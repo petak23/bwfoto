@@ -25,12 +25,17 @@ class ClankyPresenter extends ArticlePresenter {
   public $zobrazClanokControlFactory;
   /** @var \App\AdminModule\Components\Clanky\PrilohyClanok\IPrilohyClanokControl @inject */
   public $prilohyClanokControlFactory;
+  /** @var \App\AdminModule\Components\Clanky\Products\IProductsControl @inject */
+  public $productsControlFactory;
   
 	/** @var string */
   protected $nadpis_h2 = "";
 	
   /** @var mixed */
 	public $priloha;
+  
+  /** @persistent */
+  public $tabs_clanky = 'prilohy-tab';
 
   /** Vychodzie nastavenia */
   protected function startup() {
@@ -46,6 +51,9 @@ class ClankyPresenter extends ArticlePresenter {
     $this->template->komponenty = $this->clanok_komponenty->getKomponenty($this->zobraz_clanok->id_hlavne_menu, $this->nastavenie["komponenty"]);
     //Kontrola jedinecnych komponent. Ak uz su priradene tak sa vypustia
     $this->template->zoznam_komponent = $this->clanok_komponenty->testJedinecnosti($this->nastavenie["komponenty"], $this->zobraz_clanok->id_hlavne_menu);
+//    dump($this->params);
+//    products-tab
+    $this->template->tabs = isset($this->params["tab"]) ? $this->params["tab"] : "prilohy-tab";
 	}
 
   /** Akcia pre 1. krok pridania clanku - udaje pre hl. menu.
@@ -229,13 +237,22 @@ class ClankyPresenter extends ArticlePresenter {
     
   }
   
-  /** Komponenta pre ukazanie obsahu clanku.
+  /** Komponenta pre ukazanie priloh clanku.
    * @return \App\AdminModule\Components\Clanky\PrilohyClanok\PrilohyClanokControl
    */
 	public function createComponentPrilohyClanok() {
     $prilohyClanok = $this->prilohyClanokControlFactory->create(); 
     $prilohyClanok->setTitle($this->zobraz_clanok, $this->nazov_stranky, $this->upload_size, $this->prilohy_adresar, $this->nastavenie['prilohy_images']/*, $this->admin_links*/, $this->name);
     return $prilohyClanok;
+  }
+  
+  /** Komponenta pre ukazanie produktov k clanku.
+   * @return \App\AdminModule\Components\Clanky\Products\ProductsControl
+   */
+	public function createComponentProducts() {
+    $products = $this->productsControlFactory->create(); 
+    $products->setTitle($this->zobraz_clanok, $this->nazov_stranky, $this->upload_size, $this->prilohy_adresar/*, $this->nastavenie['prilohy_images']/*, $this->admin_links*/, $this->name);
+    return $products;
   }
   
   /** Signal pre pridanie komponenty, ktora nema parametre
