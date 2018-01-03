@@ -33,9 +33,9 @@
             <a href="#" class="btn btn-primary disabled" role="button">Posledná zmena: {$oznam->datum_zadania|date:'j.n.Y'}</a>
             
             <a n:href="posliEmail! id => $oznam->id" class="btn btn-info" role="button">Pošli info. e-mail</a>
-            <a n:if="$vlastnik" n:href="Oznam:edit $oznam->id" title="Editácia {$oznam->nazov}" class="btn btn-success"><i class="fa fa-pencil"></i>Editácia oznamu</a>
+            <a n:if="$vlastnik" n:href="Oznam:edit $oznam->id" title="Editácia {$oznam->nazov}" class="btn btn-success"><i class="fas fa-pencil-alt"></i>Editácia oznamu</a>
             <a n:if="$vlastnik" href="{link confirmForm:confirmDelete! id => $oznam->id, nazov => $oznam->nazov, zdroj_na_zmazanie => 'oznam'}" title="Vymazanie {$oznam->nazov}" class="btn btn-danger">
-              <i class="fa fa-trash-o"></i>Vymazanie oznamu
+              <i class="far fa-trash-alt"></i>Vymazanie oznamu
             </a>
           </div>
         </div>

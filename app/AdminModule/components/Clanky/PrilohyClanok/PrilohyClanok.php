@@ -4,14 +4,13 @@ namespace App\AdminModule\Components\Clanky\PrilohyClanok;
 use DbTable;
 use Nette;
 use Nette\Security\User;
-use PeterVojtech;
 use Ublaboo\DataGrid\DataGrid;
 use Ublaboo\DataGrid\Localization\SimpleTranslator;
 
 /**
  * Komponenta pre spravu priloh clanku.
  * 
- * Posledna zmena(last change): 02.01.2018
+ * Posledna zmena(last change): 03.01.2018
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
  * @copyright Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
@@ -99,13 +98,13 @@ class PrilohyClanokControl extends Nette\Application\UI\Control {
     $this->template->setFile(__DIR__ . '/PrilohyClanok.latte');
     $this->template->clanok = $this->clanok;
     $this->template->admin_links_prilohy = $this->admin_links;
-//    $this->template->dokumenty = $this->dokumenty->findBy(['id_hlavne_menu'=>$this->clanok->id_hlavne_menu]);
 		$this->template->render();
 	}
   
   public function createComponentPrilohyGrid($name) {
 		$grid = new DataGrid($this, $name);
-
+//    dump($grid);die();
+//    $grid->icon_prefix = 'fas fa-';
 		$grid->setDataSource($this->dokumenty->findBy(['id_hlavne_menu'=>$this->clanok->id_hlavne_menu]));
     $grid->addColumnText('znacka', 'Značka');
     $grid->addColumnText('subor', 'Súbor')
@@ -120,15 +119,16 @@ class PrilohyClanokControl extends Nette\Application\UI\Control {
          });
     if ($this->admin_links['elink']) {
       $grid->addAction('edit', '')
-           ->setIcon('pencil fa-1_5x')
+           ->setIcon('pencil-alt fa-2x')
            ->setClass('btn btn-success btn-sm')
            ->setTitle('Editácia položky');
-      $grid->addAction('delete', '', 'confirmDeletePrilohaForm:confirmDelete!')
-           ->setIcon('trash-o fa-1_5x')
-           ->setClass('btn btn-danger btn-sm')
-           ->setTitle('Vymazanie položky');
+      $grid->addAction('delete', '', 'confirmedDelete!')
+           ->setIcon('trash-alt fa-2x')
+           ->setClass('btn btn-danger btn-sm ajax')
+           ->setTitle('Vymazanie položky')
+           ->setConfirm('Naozaj chceš zmazať položku %s?', 'nazov');
       $grid->addAction('showInText', '')
-           ->setIcon('adjust fa-1_5x')
+           ->setIcon('adjust fa-2x')
            ->setClass(function($item) { 
                         $pr = strtolower($item->pripona);
                         return ($pr == 'jpg' OR $pr == 'png' OR $pr == 'gif' OR $pr == 'bmp') ? ("btn ".($item->zobraz_v_texte ? 'btn-success' : 'btn-warning')." btn-sm ajax") : 'display-none' ; 
@@ -155,9 +155,11 @@ class PrilohyClanokControl extends Nette\Application\UI\Control {
       'ublaboo_datagrid.short' => 'Usporiadaj',
     ]);
     $grid->setTranslator($translator);
-//    dump($grid);die();
 	}
   
+  /**
+   * Signal na editaciu
+   * @param int $id Id polozky na editaciu */
   public function handleEdit($id) {
     $this->presenter->redirect('Dokumenty:edit', $id);
   }
@@ -193,53 +195,30 @@ class PrilohyClanokControl extends Nette\Application\UI\Control {
       $this->redirect('this');
     } else {
       $this->redrawControl('flashes');
-      $this->redrawControl('prilohy');
+      $this->redrawControl('prilohy-in');
     }
   }
   
-  /**
-   * Komponenta Confirmation Dialog 
-   * @return Nette\Application\UI\Form */
-  public function createComponentConfirmDeletePrilohaForm() {
-    $form = new PeterVojtech\Confirm\ConfirmationDialog($this->presenter->getSession('news'));
-    $form->addConfirmer(
-        'delete', // názov signálu bude confirmDelete!
-        [$this, 'confirmedDeletePriloha'], // callback na funkciu pri kliknutí na YES
-        [$this, 'questionDeletePriloha'] // otázka
-    );
-    return $form;
-  }
-  
-  /**
-   * Zostavenie otázky pre ConfDialog s parametrom
-   * @param Nette\Utils\Html $dialog
-   * @param array $params
-   * @return string $question */
-  public function questionDeletePriloha($dialog, $params) {
-     $dialog->getQuestionPrototype();
-     $temp_del = $this->dokumenty->find($params['id']);
-     return sprintf("Naozaj chceš zmazať prílohu '%s'?", $temp_del->nazov);
-  }
-  
   /** 
-   * Spracovanie signálu vymazavania
-	 * @param int $id - id polozky slideru */
-	function confirmedDeletePriloha($id)	{
+   * Signal vymazavania
+	 * @param int $id Id polozky na zmazanie */
+	function handleConfirmedDelete($id)	{
     $pr = $this->dokumenty->find($id);//najdenie prislusnej polozky menu, ku ktorej priloha patri
     $pthis = $this->presenter;
     if ($pr !== FALSE) {
       $vysledok = $this->_vymazSubor($pr->subor) ? (in_array(strtolower($pr->pripona), ['png', 'gif', 'jpg']) ? $this->_vymazSubor($pr->thumb) : TRUE) : FALSE;
       if (($vysledok ? $pr->delete() : FALSE)) { 
-        $pthis->flashMessage('Príloha bola vymazaná!', 'success'); 
+        $this->flashMessage('Príloha bola vymazaná!', 'success'); 
       } else { 
-        $pthis->flashMessage('Došlo k chybe a príloha nebola vymazaná!', 'danger'); 
+        $this->flashMessage('Došlo k chybe a príloha nebola vymazaná!', 'danger'); 
       }
-    } else { $pthis->flashMessage('Došlo k chybe a príloha nebola vymazaná!', 'danger');}
+    } else { $this->flashMessage('Došlo k chybe a príloha nebola vymazaná!', 'danger');}
     if (!$pthis->isAjax()) {
       $this->redirect('this');
     } else {
       $this->redrawControl('flashes');
       $this->redrawControl('prilohy');
+      $this['prilohyGrid']->reload();
     }
   }
   

@@ -12,7 +12,7 @@
  * @param array    $user    Data o uzivatelovy
 *}
 <div class="last-login">
-  <h4>{$h3}<small><a n:href="ZoznamErase!" title="Vymazanie zoznamu"><i class="fa fa-trash-o"></i></a></small></h4>
+  <h4>{$h3}<small><a n:href="ZoznamErase!" title="Vymazanie zoznamu"><i class="far fa-trash-alt"></i></a></small></h4>
   <table n:inner-foreach="$last as $c">
     <tr n:class="$iterator->isOdd() ? r1 : r2">
       <td n:class="$user->id == $c->id_user_main ? zvyrazni">

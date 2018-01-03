@@ -4,10 +4,10 @@
 {control titleImage}
 
 {control zobrazClanok}
-{dump $tabs}
+
 <div>
   <!-- Nav tabs -->
-  <ul class="nav nav-tabs" role="tablist">
+  <ul class="nav nav-tabs clanky-tabs" role="tablist">
     <li role="presentation" n:class="$tabs == 'prilohy-tab' ? active"><a href="#prilohy-tab" aria-controls="home" role="tab" data-toggle="tab">Prílohy</a></li>
     <li role="presentation" n:class="$tabs == 'products-tab' ? active"><a href="#products-tab" aria-controls="profile" role="tab" data-toggle="tab">Produkty</a></li>
     <li role="presentation" n:class="$tabs == 'components-tab' ? active"><a href="#components-tab" aria-controls="messages" role="tab" data-toggle="tab">Komponenty</a></li>
@@ -18,9 +18,9 @@
     <div role="tabpanel" class="tab-pane{if $tabs == 'prilohy-tab'} active{/if}" id="prilohy-tab">{snippet prilohy}{control prilohyClanok}{/snippet}</div>
     <div role="tabpanel" class="tab-pane{if $tabs == 'products-tab'} active{/if}" id="products-tab">{snippet products}{control products}{/snippet}</div>
     <div role="tabpanel" class="tab-pane{if $tabs == 'components-tab'} active{/if}" id="components-tab">
-      <div class="panel panel-default">
+      <div class="panel panel-success">
         <div class="panel-heading">
-          <h3>Komponenty</h3>
+          {*<h3>Komponenty</h3>*}
         </div>
         <div class="panel-body komponenty" n:if="$user->isAllowed('Admin:Clanky', 'komponenty') && count($zoznam_komponent)">
           <div class="col-xs-12 col-md-12">
@@ -28,7 +28,7 @@
           <ul n:inner-foreach="$zoznam_komponent as $zkk=>$zkv">
             <li n:if="$zkv['parametre'] == NULL">
               <a href="{link addKomponenta! komponenta_spec_nazov=>$zkk, id_hlavne_menu => $clanok->id_hlavne_menu}" title="Pridaj komponentu: {$zkv['nazov']}" class="btn btn-lg btn-success">
-                <i class="fa fa-{$zkv['fa_ikonka']} fa-2x fa-border pull-left"></i>{$zkv['nazov']}
+                <i class="fas fa-{$zkv['fa_ikonka']} fa-2x fa-border pull-left"></i>{$zkv['nazov']}
               </a>
             </li>
             <li n:if="$zkv['parametre'] !== NULL" class="s-parametrami">

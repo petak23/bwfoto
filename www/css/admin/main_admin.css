@@ -222,3 +222,8 @@ a.button-left {
 .input_number {
   width: 5rem;
 }
+
+.clanky-tabs li a {
+  font-weight: bold;
+  font-size: 120%;
+}

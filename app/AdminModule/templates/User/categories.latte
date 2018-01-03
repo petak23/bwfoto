@@ -14,7 +14,7 @@
 
 <div class="col-xs-12 col-md-12">
   <a n:if="$user->isInRole('admin')" n:href="User:editCategori"  title="Pridanie novej kategórie užívateľov" class="button-right edit-link">
-    <i class="fa fa-user-plus fa-2x"></i>Pridanie novej kategorie</a>
+    <i class="fas fa-user-plus fa-2x"></i>Pridanie novej kategorie</a>
 </div>
 <div class="col-xs-12 col-md-12 table-responsive">
   <table class="table table-bordered table-striped table-hover table-clenovia">
@@ -32,7 +32,7 @@
       <td class="editacne center" n:if="$user->isInRole('admin')">
         <a href="{link confirmForm:confirmDelete! id => $ca->id, nazov => $ca->nazov, druh =>'categori', zdroj_na_zmazanie => 'kategóriu'}"
           n:if="$ca->id_user_roles <= $user->getIdentity()->id_user_roles" title="Vymazanie kategórie {$ca->nazov}" class="button-right">
-          <i class="fa fa-trash-o fa-1_5x"></i></a>
+          <i class="far fa-trash-alt fa-1_5x"></i></a>
       </td>
     </tr>
   </table>

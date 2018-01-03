@@ -7,15 +7,15 @@ use PeterVojtech;
 /**
  * Prezenter pre spravu clankov.
  * 
- * Posledna zmena(last change): 18.09.2017
+ * Posledna zmena(last change): 03.01.2018
  *
  *	Modul: ADMIN
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @copyright Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.2.8
+ * @version 1.2.9
  */
 
 class ClankyPresenter extends ArticlePresenter {
@@ -25,7 +25,7 @@ class ClankyPresenter extends ArticlePresenter {
   public $zobrazClanokControlFactory;
   /** @var \App\AdminModule\Components\Clanky\PrilohyClanok\IPrilohyClanokControl @inject */
   public $prilohyClanokControlFactory;
-  /** @var \App\AdminModule\Components\Clanky\Products\IProductsControl @inject */
+  /** @var \App\AdminModule\Components\Products\IProductsControl @inject */
   public $productsControlFactory;
   
 	/** @var string */

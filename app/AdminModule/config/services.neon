@@ -20,15 +20,15 @@ services:
   - App\AdminModule\Components\Clanky\PrilohyClanok\AddMultiPrilohyFormFactory
   - App\AdminModule\Components\Clanky\PrilohyClanok\EditPrilohyFormFactory
 
-  - App\AdminModule\Components\Clanky\Products\AddMultiProductsFormFactory
-  - App\AdminModule\Components\Clanky\Products\EditProoductFormFactory
-
   - App\AdminModule\Components\Oznam\TitleOznam\EditTitleImageFormFactory
   - App\AdminModule\Components\Oznam\TitleOznam\ZmenPresmerovanieFormFactory
 
   - App\AdminModule\Forms\Article\IEditMenuFormFactory
 
   - App\AdminModule\Forms\Oznam\EditOznamFormFactory
+
+  - App\AdminModule\Forms\Products\AddMultiProductsFormFactory
+  - App\AdminModule\Forms\Products\EditProoductFormFactory
 
   - App\AdminModule\Forms\Slider\EditSliderFormFactory
 
@@ -49,15 +49,16 @@ services:
   - App\AdminModule\Components\Article\TitleImage\ITitleImageControl
   #  arguments: [%wwwDir%]
 
-  - App\AdminModule\Components\Oznam\IAktualneOznamyControl
-  - App\AdminModule\Components\Oznam\TitleOznam\ITitleOznamControl
-
-  - App\AdminModule\Components\User\IKontaktControl
-  - App\AdminModule\Components\User\IUserLastControl
-
   - App\AdminModule\Components\Clanky\IZobrazClanokControl
   - App\AdminModule\Components\Clanky\PrilohyClanok\IPrilohyClanokControl
-  - App\AdminModule\Components\Clanky\Products\IProductsControl
   - App\AdminModule\Components\Clanky\ZobrazKartyPodclankov\IZobrazKartyPodclankovControl
 
   - App\AdminModule\Components\Faktury\IViewFakturyControl
+
+  - App\AdminModule\Components\Oznam\IAktualneOznamyControl
+  - App\AdminModule\Components\Oznam\TitleOznam\ITitleOznamControl
+
+  - App\AdminModule\Components\Products\IProductsControl
+
+  - App\AdminModule\Components\User\IKontaktControl
+  - App\AdminModule\Components\User\IUserLastControl

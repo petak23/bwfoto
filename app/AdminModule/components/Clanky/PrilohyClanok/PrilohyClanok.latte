@@ -1,16 +1,25 @@
-<div class="panel panel-default" n:snippet="prilohy">
+<div class="panel panel-default" n:snippet="prilohy-in">
   <div class="panel-heading">
-    <h3>
-      Prílohy 
-      <button n:if="$admin_links_prilohy['elink']" type="button" class="btn btn-success button-right" data-toggle="modal" data-target="#myModalAddPrilohaChange" title="Pridaj prílohu k položke: {$clanok->view_name}">
-        <i class="fa fa-file-o"></i> Pridaj jednu prílohu
+    <div class="btn-group" role="group"> 
+      <button n:if="$admin_links_prilohy['elink']" type="button" class="btn btn-success" data-toggle="modal" data-target="#myModalAddPrilohaChange" title="Pridaj prílohu k položke: {$clanok->view_name}">
+        <i class="fas fa-file-alt"></i> Pridaj jednu prílohu
       </button>
-      <button n:if="$admin_links_prilohy['elink']" type="button" class="btn btn-success button-right" data-toggle="modal" data-target="#myModalAddMultiPrilohaChange" title="Pridanie viacerích príloh k položke: {$clanok->view_name}">
-        <i class="fa fa-file-o"></i> Pridaj naraz viac príloh
+      <button n:if="$admin_links_prilohy['elink']" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalAddMultiPrilohaChange" title="Pridanie viacerích príloh k položke: {$clanok->view_name}">
+        <i class="far fa-copy"></i> Pridaj naraz viac príloh
       </button>
-    </h3>
+    </div>
   </div>
-  {control confirmDeletePrilohaForm}
+  <div class="row" n:snippet="flashes"> 
+    <div class="col-md-6 col-md-offset-3" n:inner-foreach="$flashes as $flash">
+      {var $nees = explode(',', $flash->type)}
+      <div class="alert alert-{$nees[0]} fade in" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        {if isset($nees[1]) && $nees[1] == 'n'}{$flash->message|noescape}{else}{$flash->message}{/if}
+      </div>
+    </div>
+  </div>
   {control prilohyGrid}
 </div>  
 

@@ -49,7 +49,7 @@ webloader:
         - {files: ["*.css", "*.less"], in: %wwwDir%/www/css/front}
     admin:
       files:
-        - %wwwDir%/www/css/font-awesome.css
+#        - %wwwDir%/www/css/font-awesome.css
 #        - %wwwDir%/www/css/bootstrap.css
 #        - %wwwDir%/www/css/bootstrap-theme.css
         - %wwwDir%/www/css/jquery-ui.css
@@ -109,6 +109,8 @@ webloader:
         - %wwwDir%/www/js/nette.ajax.js
         - %wwwDir%/www/js/admin/jquery-ui-1.12.1.js
         - %wwwDir%/www/js/jquery.ui.datepicker-sk.js
+        - %wwwDir%/www/js/admin/fontawesome-all.min.js
+        - %wwwDir%/www/js/admin/fa-v4-shims.min.js
         - %wwwDir%/www/js/lightbox.js
         - %wwwDir%/www/js/lightbox.config.admin.js
         - %wwwDir%/www/js/datagrid.js

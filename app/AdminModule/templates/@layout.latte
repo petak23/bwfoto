@@ -54,14 +54,14 @@
 
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav navbar-right">
-          <li><a n:href=":Front:Homepage:" title="Zmeny"><i class="fa fa-eye"></i> Skontroluj zmeny na webe...</a></li>
+          <li><a n:href=":Front:Homepage:" title="Zmeny"><i class="fas fa-eye"></i> Skontroluj zmeny na webe...</a></li>
           <li>
             <a href="http://fontawesome.io/icons/" title="FontAwesome" target="_blank">
-              <i class="fa fa-flag"></i> Font Awesome
+              <i class="fas fa-flag"></i> Font Awesome
             </a>
           </li>
           <li n:if="$user->isInRole('admin')">
-            <a href="{$basePath}/www/adminer/?server={$udaje['host']}&db={$udaje['dbname']}" title="Adminer" target="_blank"><i class="fa fa-tasks"></i> Adminer</a>
+            <a href="{$basePath}/www/adminer/?server={$udaje['host']}&db={$udaje['dbname']}" title="Adminer" target="_blank"><i class="fas fa-database"></i> Adminer</a>
           </li>
         </ul>
       </div>  {* /.navbar-collapse *}

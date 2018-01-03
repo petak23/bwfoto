@@ -1,0 +1,54 @@
+<div class="panel panel-info" n:snippet="products-in">
+  <div class="panel-heading">
+    <div class="btn-group" role="group">
+      <button n:if="$admin_links_prilohy['elink']" type="button" class="btn btn-success" data-toggle="modal" data-target="#myModalAddProductChange" title="Pridaj produkt k položke: {$clanok->view_name}">
+        <i class="fas fa-file-alt"></i> Pridaj jeden produkt
+      </button>
+      <button n:if="$admin_links_prilohy['elink']" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalAddMultiProductsChange" title="Pridaj viacej produktov k položke: {$clanok->view_name}">
+        <i class="far fa-copy"></i> Pridaj naraz viac produktov
+      </button>
+    </div>
+  </div>
+  <div class="row" n:snippet="flashes"> 
+    <div class="col-md-6 col-md-offset-3" n:inner-foreach="$flashes as $flash">
+      {var $nees = explode(',', $flash->type)}
+      <div class="alert alert-{$nees[0]} fade in" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        {if isset($nees[1]) && $nees[1] == 'n'}{$flash->message|noescape}{else}{$flash->message}{/if}
+      </div>
+    </div>
+  </div>
+  {control productsGrid}
+</div>
+  
+{* -- Modal dialog pre pridanie jedneho produktu -- *}
+<div class="modal fade" id="myModalAddProductChange" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" n:if="$admin_links_prilohy['elink']">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Pridanie produktu k položke: {$clanok->view_name}</h4>
+      </div>
+      <div class="modal-body">
+        {control editProductForm}
+      </div>
+    </div>
+  </div>
+</div>
+      
+{* -- Modal dialog pre pridanie viacerích produktov -- *}
+<div class="modal fade" id="myModalAddMultiProductsChange" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" n:if="$admin_links_prilohy['elink']">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Pridanie viacerích produktov k položke: {$clanok->view_name}</h4>
+      </div>
+      <div class="modal-body">
+        {control addMultiProductsForm}
+      </div>
+    </div>
+  </div>
+</div>

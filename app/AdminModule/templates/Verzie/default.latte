@@ -2,7 +2,7 @@
 
 <div class="page-header">
   <a n:href="Verzie:add" n:if="$user->isAllowed($control->name, 'add')" title="Pridanie verzie" class="button-right edit-link">
-		<i class="fa fa-file-o fa-2x"></i>Pridaj novú verziu
+		<i class="far fa-file fa-2x"></i>Pridaj novú verziu
 	</a>
   <h2 n:block=title>Verzie:</h2>
 </div>
@@ -23,12 +23,12 @@
       <div class="panel-body">
         <div class="panel-menu btn-group btn-group-sm" role="group">
           <a n:href="Verzie:edit $ve->id" n:if="$user->isAllowed($control->name, 'edit')"	title="Editácia popisu verzie {$ve->cislo}" class="btn button-right edit-link">
-            <i class="fa fa-pencil fa-1_5x"></i>Editacia</a>
+            <i class="fas fa-pencil-alt fa-1_5x"></i>Editacia</a>
           <a n:href="posliEmail! id => $ve->id" class="btn button-right info-link" title="Pošli informačný e-mail o verzii {$ve->cislo}">
-            <i class="fa fa-envelope-o fa-1_5x"></i>Info. e-mail</a>
+            <i class="far fa-envelope fa-1_5x"></i>Info. e-mail</a>
           <a href="{link confirmForm:confirmDelete! id => $ve->id, nazov => $ve->cislo, zdroj_na_zmazanie => 'verziu'}" n:if="$user->isAllowed($control->name, 'del')" 
              title="Vymazanie popisu verzie{$ve->cislo}" class="btn button-right vymaz-link">
-            <i class="fa fa-trash-o fa-1_5x"></i>Vymaž</a>
+            <i class="far fa-trash-alt fa-1_5x"></i>Vymaž</a>
         </div>
         <p class="text-verzie">{$ve->text|noescape|texy}</p>
       </div>
