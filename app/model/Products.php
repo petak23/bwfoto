@@ -6,13 +6,13 @@ use Nette;
 /**
  * Model, ktory sa stara o tabulku products
  * 
- * Posledna zmena 02.01.2018
+ * Posledna zmena 15.01.2018
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.0
+ * @version    1.0.1
  */
 class Products extends Table {
   /** @var string */
@@ -21,8 +21,8 @@ class Products extends Table {
   /** Vracia vsetky produkty polozky
    * @param int $id - id_hlavne_menu prislusnej polozky
    * @return Nette\Database\Table\Selection|FALSE */
-  public function getProducts($id) {  
-    return $this->findBy(["id_hlavne_menu", $id]);
+  public function getProducts($id) {
+    return $this->findBy(["id_hlavne_menu" => $id]);
   }
   
   /** Uloženie jedneho produktu

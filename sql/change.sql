@@ -41,3 +41,7 @@ INSERT INTO `udaje` (`id_user_roles`, `id_druh`, `id_udaje_typ`, `nazov`, `text`
 (4,	8,	1,	'product_thumb_x',	'226',	'Šírka náhľadového obrázku produktu'),
 (4,	8,	1,	'product_thumb_y',	'150',	'Výška náhľadového obrázku produktu'),
 (4,	8,	1,	'product_thumb_quality',	'70',	'Kvalita kompresie náhľadového obrázku');
+
+ALTER TABLE `dokumenty`
+CHANGE `nazov` `name` varchar(50) COLLATE 'utf8_bin' NOT NULL COMMENT 'Názov titulku pre daný dokument' AFTER `znacka`,
+CHANGE `popis` `description` varchar(255) COLLATE 'utf8_bin' NULL COMMENT 'Popis dokumentu' AFTER `spec_nazov`;

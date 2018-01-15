@@ -1,9 +1,9 @@
 {if $prilohy->count()}
   {foreach $prilohy as $subor}
     <div class="thumb">
-      <img class="img-thumbnail img-rounded jslghtbx-thmb noajax" src="{$basePath}/{$subor->thumb}" alt="{$subor->nazov}" data-jslghtbx="{$basePath}/{$subor->subor}" data-ajax="false" data-jslghtbx-caption="{$subor->popis}">
-      <a href="{plink bigImg! $subor->id}" title="{$subor->nazov}" n:class="$subor->id == $big_img_id ? selected">
-        <img class="img-responsive img-square" src="{$basePath}/{$subor->thumb}" alt="{$subor->nazov}">
+      <img class="img-thumbnail img-rounded jslghtbx-thmb noajax" src="{$basePath}/{$subor->thumb}" alt="{$subor->name}" data-jslghtbx="{$basePath}/{$subor->subor}" data-ajax="false" data-jslghtbx-caption="{$subor->description}">
+      <a href="{plink bigImg! $subor->id}" title="{$subor->name}" n:class="$subor->id == $big_img_id ? selected">
+        <img class="img-responsive img-square" src="{$basePath}/{$subor->thumb}" alt="{$subor->name}">
       </a>
     </div>
   {/foreach}

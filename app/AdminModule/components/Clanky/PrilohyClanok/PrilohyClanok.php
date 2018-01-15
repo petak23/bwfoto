@@ -10,13 +10,13 @@ use Ublaboo\DataGrid\Localization\SimpleTranslator;
 /**
  * Komponenta pre spravu priloh clanku.
  * 
- * Posledna zmena(last change): 03.01.2018
+ * Posledna zmena(last change): 15.01.2018
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
  * @copyright Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.6
+ * @version 1.0.7
  */
 
 class PrilohyClanokControl extends Nette\Application\UI\Control {
@@ -109,13 +109,13 @@ class PrilohyClanokControl extends Nette\Application\UI\Control {
     $grid->addColumnText('znacka', 'Značka');
     $grid->addColumnText('subor', 'Súbor')
          ->setTemplate(__DIR__ . '/grid.subor.latte');
-    $grid->addColumnText('nazov', 'Názov')
+    $grid->addColumnText('name', 'Názov')
          ->setEditableCallback(function($id, $value) {
-           $this->dokumenty->oprav($id, ['nazov'=>$value]);
+           $this->dokumenty->oprav($id, ['name'=>$value]);
          });
-    $grid->addColumnText('popis', 'Popis')
+    $grid->addColumnText('description', 'Popis')
          ->setEditableCallback(function($id, $value) {
-           $this->dokumenty->oprav($id, ['popis'=>$value]);
+           $this->dokumenty->oprav($id, ['description'=>$value]);
          });
     if ($this->admin_links['elink']) {
       $grid->addAction('edit', '')

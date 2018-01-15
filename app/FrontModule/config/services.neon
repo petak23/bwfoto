@@ -17,6 +17,7 @@ services:
   - App\FrontModule\Components\Clanky\PrilohyClanok\IPrilohyClanokControl
   - App\FrontModule\Components\Clanky\OdkazNaClanky\IOdkazNaClankyControl
   - App\FrontModule\Components\Clanky\ZobrazKartyPodclankov\IZobrazKartyPodclankovControl
+  - App\FrontModule\Components\Products\IProductsViewControl
   - App\FrontModule\Components\Slider\ISliderControl
   - App\FrontModule\Components\User\IKontaktControl
   - App\FrontModule\Components\User\IUserLangMenuControl

@@ -8,15 +8,15 @@ use Nette\Application\UI\Multiplier;
 /**
  * Prezenter pre vypisanie clankov.
  * 
- * Posledna zmena(last change): 29.11.2017
+ * Posledna zmena(last change): 15.01.2018
  *
  *	Modul: FRONT
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.4
+ * @version 1.1.5
  */
 
 class ClankyPresenter extends BasePresenter {
@@ -24,6 +24,10 @@ class ClankyPresenter extends BasePresenter {
    * @inject
    * @var DbTable\Clanok_komponenty */
 	public $clanok_komponenty;
+  /** 
+   * @inject
+   * @var DbTable\Products */
+	public $products;
 
   /**
    * @inject
@@ -32,6 +36,8 @@ class ClankyPresenter extends BasePresenter {
   
   /** @var \App\FrontModule\Components\Clanky\PrilohyClanok\IPrilohyClanokControl @inject */
   public $prilohyClanokControlFactory;
+    /** @var \App\FrontModule\Components\Products\IProductsViewControl @inject */
+  public $productsViewControlFactory;
   /** @var \App\FrontModule\Components\Faktury\IViewFakturyControl @inject */
   public $viewFakturyControlFactory;
   /** @var \App\FrontModule\Components\Clanky\ZobrazKartyPodclankov\IZobrazKartyPodclankovControl @inject */
@@ -55,7 +61,7 @@ class ClankyPresenter extends BasePresenter {
 
   /** Zobrazenie konkretneho clanku
    * @param int $id Id hlavneho menu clanku */
-	public function actionDefault($id = 0, $kotva = "", $id_big_img = 0) {
+	public function actionDefault($id = 0, $kotva = "", $id_big_img = 0, $product = 0) {
     if (($this->zobraz_clanok = $this->hlavne_menu_lang->getOneArticleId($id, $this->language_id, $this->id_reg)) === FALSE) {
       $this->setView("notFound");
     } else {
@@ -74,9 +80,9 @@ class ClankyPresenter extends BasePresenter {
       }
       //Spracovanie priloh
       $this->viditelnePrilohy = $this->dokumenty->getViditelnePrilohy($this->zobraz_clanok->id_hlavne_menu);
-      $this->prilohy_for_big_img = $this->dokumenty->getVisibleImages($this->zobraz_clanok->id_hlavne_menu);
+      $this->prilohy_for_big_img = $product == 1 ? $this->products->findBy(["id_hlavne_menu"=>$this->zobraz_clanok->id_hlavne_menu]) : $this->dokumenty->getVisibleImages($this->zobraz_clanok->id_hlavne_menu);
       $this->big_img = $id_big_img ? $id_big_img : ((count($pom = $this->viditelnePrilohy)) ? $pom->fetch()->id : 0);
-      $this->template->big_img = $this->dokumenty->find($this->big_img);
+      $this->template->big_img = $product == 1 ? $this->products->find($id_big_img): $this->dokumenty->find($id_big_img);
     }
 	}
  
@@ -112,13 +118,8 @@ class ClankyPresenter extends BasePresenter {
     $this->getHttpResponse()->setCode(\Nette\Http\IResponse::S404_NOT_FOUND);
   }
   
-  public function handleBigImg($id_big_img = 0) {
-//    $this->template->prilohy_for_big_img = /*$this->isAjax() ? [] : */$this->dokumenty->getVisibleImages($this->zobraz_clanok->id_hlavne_menu);
-//    $this->template->prilohy_for_big_img[$this->big_img] = $this->dokumenty->find($this->big_img);
-//    $this->big_img = $id_big_img/* ? $id_big_img : ((count($pom = $this->viditelnePrilohy)) ? $pom->fetch()->id : 0)*/;
-//    $this->template->prilohy_for_big_img[$this->big_img] = $this->dokumenty->find($this->big_img);
-    $this->template->big_img = $this->dokumenty->find($id_big_img);
-//    $this->postGet('this');
+  public function handleBigImg($id_big_img = 0, $product = 0) {
+    $this->template->big_img = $product == 1 ? $this->products->find($id_big_img): $this->dokumenty->find($id_big_img);
     if ($this->isAjax()) {
       $this->redrawControl('bigimgName');
       $this->redrawControl('bigimgContainer');
@@ -162,6 +163,15 @@ class ClankyPresenter extends BasePresenter {
     $prilohy = $this->prilohyClanokControlFactory->create();
     $prilohy->setNastav($this->zobraz_clanok, $this->avatar_path, $this->language_id);
     return $prilohy;
+  }
+  
+  /** 
+   * Komponenta pre zobrazenie produktov
+   * @return \App\FrontModule\Components\Products\ProductsViewControl */
+  public function createComponentViewProducts() {
+    $products = $this->productsViewControlFactory->create();
+    $products->setNastav($this->zobraz_clanok, $this->language_id);
+    return $products;
   }
   
   /** 

@@ -7,24 +7,24 @@
          controls="controls" preload="none"></video>
     {else}
       {if $pr == "jpg" OR $pr == "png" OR $pr == "gif" OR $pr == "bmp"}
-        <img class="jslghtbx-thmb" src="{$basePath}/{$subor->thumb}" alt="{$subor->nazov}" data-jslghtbx="{$basePath}/{$subor->subor}" class="noajax" data-ajax="false" data-jslghtbx-group="mygroup1"> {* img-rounded*}
+        <img class="jslghtbx-thmb" src="{$basePath}/{$subor->thumb}" alt="{$subor->name}" data-jslghtbx="{$basePath}/{$subor->subor}" class="noajax" data-ajax="false" data-jslghtbx-group="mygroup1"> {* img-rounded*}
       {elseif $pr == "mp3" OR $pr == "wav"}
         <div class="col-sm-12 col-md-6">
           <div class="thumbnail">
             <audio src="{$basePath}/{$subor->subor}" width="320" type="audio/mp3" controls="controls" preload="none"></audio>
             <div>
-              <strong>{$subor->nazov}</strong>
-              <div n:ifset="$subor->popis" class="popis">{$subor->popis}</div>
+              <strong>{$subor->name}</strong>
+              <div n:ifset="$subor->description" class="popis">{$subor->description}</div>
             </div>
           </div>
         </div>
       {else}
         <div class="col-sm-12 col-md-3">
           <div class="thumbnail">
-            <a href="{$subor->id|odkazdo}" title="{$subor->nazov} - {$subor->popis}" target="_blank">
-              <img src="{$basePath}/{$subor->thumb}" alt="{$subor->nazov}">
-              <strong>{$subor->nazov}</strong>
-              <div n:ifset="$subor->popis" class="popis">{$subor->popis}</div>
+            <a href="{$subor->id|odkazdo}" title="{$subor->name} - {$subor->description}" target="_blank">
+              <img src="{$basePath}/{$subor->thumb}" alt="{$subor->name}">
+              <strong>{$subor->name}</strong>
+              <div n:ifset="$subor->description" class="popis">{$subor->description}</div>
             </a>
           </div>
         </div>
