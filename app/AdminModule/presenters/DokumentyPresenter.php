@@ -32,7 +32,7 @@ class DokumentyPresenter extends BasePresenter {
 		if (($this->dokument = $this->dokumenty->find($id)) === FALSE) {
       $this->error('Dokument, ktorý hľadáte, sa žiaľ nenašiel!');
     }
-		$this->redirectUrl("http://".$this->nazov_stranky."/".$this->dokument->subor);
+		$this->redirectUrl("http://".$this->nazov_stranky."/".$this->dokument->main_file);
 		exit;
 	}
 
@@ -47,7 +47,7 @@ class DokumentyPresenter extends BasePresenter {
   
   /** Render pre editaciu prilohy. */
 	public function renderEdit() {
-		$this->template->h2 = 'Editácia údajov dokumentu:'.$this->dokument->nazov;
+		$this->template->h2 = 'Editácia údajov dokumentu:'.$this->dokument->name;
 	}
 
   /** Formular pre editaciu info. o dokumente.

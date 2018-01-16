@@ -9,13 +9,13 @@ use Nette\Application\UI\Control;
 /**
  * Komponenta pre zobrazenie príloh clanku pre FRONT modul
  * 
- * Posledna zmena(last change): 27.12.2017
+ * Posledna zmena(last change): 16.01.2018
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @copyright Copyright (c) 2012 - 2016 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.6
+ * @version 1.0.7
  */
 class PrilohyClanokControl extends Control {
 
@@ -54,7 +54,7 @@ class PrilohyClanokControl extends Control {
   /** Render */
   public function render($params = [], $template = '') {
     $template = ($template != '' ? "_" : "").$template;
-    $template_file = ((isset($params['templateFile']) && is_file(__DIR__ ."/".$params['templateFile'].$template.".latte")) ? $params['templateFile'].$template : "default");
+    $template_file = ((isset($params['templateFile']) && is_file(__DIR__ ."/".$params['templateFile'].$template.".latte")) ? $params['templateFile'].$template : "PrilohyClanok_default");
     $this->template->setFile(__DIR__ . "/".$template_file.".latte");
     $this->template->prilohy = $this->attachments != NULL ? $this->attachments : $this->prilohy->getViditelnePrilohy($this->article->id_hlavne_menu);
     $this->template->texts = $this->texts;
@@ -93,7 +93,6 @@ class PrilohyClanokControl extends Control {
 }
 
 interface IPrilohyClanokControl {
-
   /** @return PrilohyClanokControl */
   function create();
 }

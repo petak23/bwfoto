@@ -140,6 +140,9 @@ footer .nav li:last-child {
 .bwfoto-foto-album-prilohy img.small-img, .thumb img.small-img {
   cursor: pointer;
 }
+.video-priloha{
+  width: 100%;
+}
 .article-foto-album img.big-img {
   width: 100%;
   border: 1px solid #999;

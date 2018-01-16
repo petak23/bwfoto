@@ -107,7 +107,7 @@ class PrilohyClanokControl extends Nette\Application\UI\Control {
 //    $grid->icon_prefix = 'fas fa-';
 		$grid->setDataSource($this->dokumenty->findBy(['id_hlavne_menu'=>$this->clanok->id_hlavne_menu]));
     $grid->addColumnText('znacka', 'Značka');
-    $grid->addColumnText('subor', 'Súbor')
+    $grid->addColumnText('main_file', 'Súbor')
          ->setTemplate(__DIR__ . '/grid.subor.latte');
     $grid->addColumnText('name', 'Názov')
          ->setEditableCallback(function($id, $value) {
@@ -126,7 +126,7 @@ class PrilohyClanokControl extends Nette\Application\UI\Control {
            ->setIcon('trash-alt fa-2x')
            ->setClass('btn btn-danger btn-sm ajax')
            ->setTitle('Vymazanie položky')
-           ->setConfirm('Naozaj chceš zmazať položku %s?', 'nazov');
+           ->setConfirm('Naozaj chceš zmazať položku %s?', 'name');
       $grid->addAction('showInText', '')
            ->setIcon('adjust fa-2x')
            ->setClass(function($item) { 

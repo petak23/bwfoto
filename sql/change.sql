@@ -45,3 +45,9 @@ INSERT INTO `udaje` (`id_user_roles`, `id_druh`, `id_udaje_typ`, `nazov`, `text`
 ALTER TABLE `dokumenty`
 CHANGE `nazov` `name` varchar(50) COLLATE 'utf8_bin' NOT NULL COMMENT 'Názov titulku pre daný dokument' AFTER `znacka`,
 CHANGE `popis` `description` varchar(255) COLLATE 'utf8_bin' NULL COMMENT 'Popis dokumentu' AFTER `spec_nazov`;
+
+ALTER TABLE `dokumenty`
+CHANGE `spec_nazov` `web_name` varchar(50) COLLATE 'utf8_bin' NOT NULL COMMENT 'Špecifický názov dokumentu pre URL' AFTER `pripona`,
+CHANGE `subor` `main_file` varchar(255) COLLATE 'utf8_bin' NOT NULL COMMENT 'Názov súboru s relatívnou cestou' AFTER `description`,
+CHANGE `thumb` `thumb_file` varchar(255) COLLATE 'utf8_bin' NULL COMMENT 'Názov súboru thumb pre obrázky a iné ' AFTER `main_file`,
+CHANGE `zmena` `change` datetime NOT NULL COMMENT 'Dátum uloženia alebo opravy - časová pečiatka' AFTER `thumb_file`;

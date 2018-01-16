@@ -4,7 +4,7 @@ namespace App\FrontModule\Presenters;
 use Language_support;
 /**
  * Prezenter pre smerovanie na dokumenty.
- * Posledna zmena(last change): 15.01.2018
+ * Posledna zmena(last change): 16.01.2018
  *
  *	Modul: FRONT
  *
@@ -12,7 +12,7 @@ use Language_support;
  * @copyright  Copyright (c) 2012 - 2018, Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.4
+ * @version 1.0.5
  */
 
 class DokumentyPresenter extends \App\FrontModule\Presenters\BasePresenter {
@@ -39,7 +39,7 @@ class DokumentyPresenter extends \App\FrontModule\Presenters\BasePresenter {
     } 
 		$dokument->update(['pocitadlo'=>$dokument->pocitadlo + 1]);
 
-		$this->redirectUrl("http://".$this->nazov_stranky."/".$dokument->subor);
+		$this->redirectUrl("http://".$this->nazov_stranky."/".$dokument->main_file);
 		exit;
 	}
 }
