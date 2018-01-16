@@ -98,18 +98,18 @@ CREATE TABLE `dokumenty` (
   `id_user_main` int(11) NOT NULL DEFAULT '1' COMMENT 'Id užívateľa',
   `id_user_roles` int(11) NOT NULL DEFAULT '0' COMMENT 'Id min úrovne registrácie pre zobrazenie',
   `znacka` varchar(20) COLLATE utf8_bin DEFAULT NULL COMMENT 'Značka súboru pre vloženie do textu',
-  `nazov` varchar(50) COLLATE utf8_bin NOT NULL COMMENT 'Názov titulku pre daný dokument',
+  `name` varchar(50) COLLATE utf8_bin NOT NULL COMMENT 'Názov titulku pre daný dokument',
   `pripona` varchar(20) COLLATE utf8_bin NOT NULL COMMENT 'Prípona súboru',
-  `spec_nazov` varchar(50) COLLATE utf8_bin NOT NULL COMMENT 'Špecifický názov dokumentu pre URL',
-  `popis` varchar(255) COLLATE utf8_bin DEFAULT NULL COMMENT 'Popis dokumentu',
-  `subor` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'Názov súboru s relatívnou cestou',
-  `thumb` varchar(255) COLLATE utf8_bin DEFAULT NULL COMMENT 'Názov súboru thumb pre obrázky a iné ',
-  `zmena` datetime NOT NULL COMMENT 'Dátum uloženia alebo opravy - časová pečiatka',
+  `web_name` varchar(50) COLLATE utf8_bin NOT NULL COMMENT 'Špecifický názov dokumentu pre URL',
+  `description` varchar(255) COLLATE utf8_bin DEFAULT NULL COMMENT 'Popis dokumentu',
+  `main_file` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'Názov súboru s relatívnou cestou',
+  `thumb_file` varchar(255) COLLATE utf8_bin DEFAULT NULL COMMENT 'Názov súboru thumb pre obrázky a iné ',
+  `change` datetime NOT NULL COMMENT 'Dátum uloženia alebo opravy - časová pečiatka',
   `zobraz_v_texte` tinyint(4) NOT NULL DEFAULT '1' COMMENT 'Zobrazenie obrázku v texte',
   `type` tinyint(4) NOT NULL DEFAULT '1' COMMENT 'Typ prílohy',
   `pocitadlo` int(11) NOT NULL DEFAULT '0' COMMENT 'Počítadlo stiahnutí',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `spec_nazov` (`spec_nazov`),
+  UNIQUE KEY `spec_nazov` (`web_name`),
   KEY `id_user_profiles` (`id_user_main`),
   KEY `id_registracia` (`id_user_roles`),
   KEY `id_hlavne_menu` (`id_hlavne_menu`),
@@ -118,17 +118,12 @@ CREATE TABLE `dokumenty` (
   CONSTRAINT `dokumenty_ibfk_4` FOREIGN KEY (`id_user_roles`) REFERENCES `user_roles` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Prílohy k článkom';
 
-INSERT INTO `dokumenty` (`id`, `id_hlavne_menu`, `id_user_main`, `id_user_roles`, `znacka`, `nazov`, `pripona`, `spec_nazov`, `popis`, `subor`, `thumb`, `zmena`, `zobraz_v_texte`, `type`, `pocitadlo`) VALUES
+INSERT INTO `dokumenty` (`id`, `id_hlavne_menu`, `id_user_main`, `id_user_roles`, `znacka`, `name`, `pripona`, `web_name`, `description`, `main_file`, `thumb_file`, `change`, `zobraz_v_texte`, `type`, `pocitadlo`) VALUES
 (43,	24,	1,	0,	'#I-43#',	'protisvelo2',	'jpg',	'protisvelo2',	NULL,	'www/files/prilohy/protisvelo2.jpg',	'www/files/prilohy/tb_protisvelo2.jpg',	'2017-12-18 08:48:37',	1,	2,	0),
 (44,	24,	1,	0,	'#I-44#',	'protisvetlo1',	'JPG',	'protisvetlo1',	NULL,	'www/files/prilohy/protisvetlo1.JPG',	'www/files/prilohy/tb_protisvetlo1.JPG',	'2017-12-18 08:48:37',	1,	2,	0),
-(45,	23,	1,	0,	'#I-45#',	'budovy1',	'JPG',	'budovy1',	NULL,	'www/files/prilohy/budovy1.JPG',	'www/files/prilohy/tb_budovy1.JPG',	'2017-12-18 08:49:12',	1,	2,	0),
-(46,	23,	1,	0,	'#I-46#',	'budovy2',	'JPG',	'budovy2',	NULL,	'www/files/prilohy/budovy2.JPG',	'www/files/prilohy/tb_budovy2.JPG',	'2017-12-18 08:49:12',	1,	2,	0),
-(47,	23,	1,	0,	'#I-47#',	'dedina1',	'JPG',	'dedina1',	NULL,	'www/files/prilohy/dedina1.JPG',	'www/files/prilohy/tb_dedina1.JPG',	'2017-12-18 08:49:12',	1,	2,	0),
-(48,	22,	1,	0,	'#I-48#',	'krajina1',	'JPG',	'krajina1',	'popis  sdfasd sdfasdwdf',	'www/files/prilohy/krajina1.JPG',	'www/files/prilohy/tb_krajina1.JPG',	'2017-12-18 08:49:31',	1,	2,	0),
-(49,	22,	1,	0,	'#I-49#',	'krajina11',	'jpg',	'krajina11',	'aasdfadsa asdasd aaasddf',	'www/files/prilohy/krajina11.jpg',	'www/files/prilohy/tb_krajina11.jpg',	'2017-12-18 08:49:31',	1,	2,	0),
-(50,	22,	1,	0,	'#I-50#',	'krajina13',	'jpg',	'krajina13',	NULL,	'www/files/prilohy/krajina13.jpg',	'www/files/prilohy/tb_krajina13.jpg',	'2017-12-18 08:49:31',	1,	2,	0),
-(51,	22,	2,	0,	'#I-51#',	'obr07',	'jpg',	'obr07',	'AHOJ XXXXX',	'www/files/prilohy/obr07.jpg',	'www/files/prilohy/tb_obr07.jpg',	'2017-12-30 16:41:17',	1,	2,	0),
-(52,	22,	1,	0,	'#I-52#',	'stromy',	'JPG',	'stromy',	NULL,	'www/files/prilohy/stromy.JPG',	'www/files/prilohy/tb_stromy.JPG',	'2017-12-18 08:49:31',	1,	2,	0);
+(53,	22,	1,	0,	NULL,	'Dokument',	'pdf',	'usmernenie-k-sr1023',	NULL,	'www/files/prilohy/Usmernenie-k-SR1023.pdf',	'www/files/prilohy/tb_Usmernenie-k-SR1023.jpg',	'2018-01-03 09:16:58',	1,	1,	2),
+(54,	22,	1,	0,	NULL,	'video',	'MOV',	'dsc-1566',	NULL,	'www/files/prilohy/DSC-1566.MOV',	'www/files/prilohy/tb_DSC-1566.jpg',	'2018-01-16 11:24:09',	1,	3,	2),
+(55,	22,	1,	0,	NULL,	'thfg dfghfgh dfgfd ',	'pdf',	't-115',	'dfgfdd dfddf ',	'www/files/prilohy/T-115.pdf',	'www/files/prilohy/tb_T-115.jpg',	'2018-01-16 11:31:00',	1,	1,	1);
 
 DROP TABLE IF EXISTS `druh`;
 CREATE TABLE `druh` (
@@ -147,7 +142,8 @@ INSERT INTO `druh` (`id`, `druh`, `modul`, `presenter`, `popis`, `povolene`, `je
 (1,	'clanky',	NULL,	'Clanky',	'Články - Stredná časť je ako článok, alebo je sub-menu',	1,	1,	1),
 (3,	'menupol',	NULL,	'Menu',	'Položka menu - nerobí nič, len zobrazí všetky položky, ktoré sú v nej zaradené',	1,	1,	1),
 (5,	'oznam',	NULL,	'Oznam',	'Vypísanie oznamov',	0,	0,	1),
-(7,	'dokumenty',	NULL,	'Dokumenty',	'Vkladanie dokumentov do stránky',	0,	0,	0);
+(7,	'dokumenty',	NULL,	'Dokumenty',	'Vkladanie dokumentov do stránky',	0,	0,	0),
+(8,	'products',	NULL,	'Products',	'Produkty',	1,	0,	0);
 
 DROP TABLE IF EXISTS `faktury`;
 CREATE TABLE `faktury` (
@@ -262,7 +258,7 @@ INSERT INTO `hlavne_menu` (`id`, `spec_nazov`, `id_hlavne_menu_cast`, `id_user_r
 (19,	'cast-a-1-1',	1,	0,	NULL,	1,	2,	9,	2,	1,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	NULL,	0,	'2017-11-23 11:49:33',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL),
 (20,	'krajina',	1,	0,	NULL,	1,	1,	3,	2,	1,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'n6ulnlj97dzydn2.JPG',	0,	'2017-11-23 11:49:33',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL),
 (21,	'kostoly',	1,	0,	NULL,	1,	1,	3,	2,	2,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'hi0a9wovlqrbgdv.JPG',	0,	'2017-11-23 11:49:33',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL),
-(22,	'stromy',	1,	0,	NULL,	1,	1,	3,	2,	3,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'lebld9nagwmbdn3.JPG',	0,	'2017-12-30 15:46:35',	NULL,	0,	NULL,	1,	'#e5e5e5|6',	'#5c5c5c|4',	'#9d9d9d|20'),
+(22,	'stromy',	1,	0,	NULL,	1,	1,	3,	2,	3,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'lebld9nagwmbdn3.JPG',	0,	'2018-01-16 10:34:03',	NULL,	0,	NULL,	1,	'#e5e5e5|3',	'#454545|5',	'#9d9d9d|2'),
 (23,	'budovy',	1,	0,	NULL,	1,	1,	3,	2,	4,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'rubrr55ww87q8z2.JPG',	0,	'2017-12-27 11:24:02',	NULL,	0,	NULL,	1,	'#525252|1',	'#5063e4|2',	'#9b9b00|3'),
 (24,	'protisvetlo',	1,	0,	NULL,	1,	1,	3,	2,	5,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'9e1gm84fckjtsos.JPG',	0,	'2017-11-23 11:49:33',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL);
 
@@ -423,6 +419,34 @@ CREATE TABLE `oznam` (
 INSERT INTO `oznam` (`id`, `id_user_main`, `id_user_roles`, `id_ikonka`, `datum_platnosti`, `datum_zadania`, `nazov`, `text`, `oznam_kluc`, `title_image`, `title_fa_class`, `title_image_url`) VALUES
 (1,	1,	0,	NULL,	'2017-09-21',	'2017-09-18',	'pokus',	'Toto je len pokus.\n\n#REG2# Tak toto chcem aby videl len reg 2 a viac #REG-A2# Tak toto chcem aby videl reg 1 a menej #/REG2#',	'tq7v9ja10t',	NULL,	NULL,	NULL);
 
+DROP TABLE IF EXISTS `products`;
+CREATE TABLE `products` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A] Index',
+  `id_hlavne_menu` int(11) NOT NULL DEFAULT '1' COMMENT 'Id položky hl. menu ku ktorej patrí',
+  `id_user_main` int(11) NOT NULL DEFAULT '1' COMMENT 'Id užívateľa',
+  `id_user_roles` int(11) NOT NULL DEFAULT '0' COMMENT 'Id min úrovne registrácie pre zobrazenie',
+  `name` varchar(50) COLLATE utf8_bin NOT NULL COMMENT 'Názov pre daný produkt',
+  `web_name` varchar(50) COLLATE utf8_bin NOT NULL COMMENT 'Špecifický názov produktu pre URL',
+  `description` varchar(255) COLLATE utf8_bin DEFAULT NULL COMMENT 'Popis produktu',
+  `main_file` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'Názov súboru produktu s relatívnou cestou',
+  `thumb_file` varchar(255) COLLATE utf8_bin DEFAULT NULL COMMENT 'Názov súboru náhľadu pre obrázky a iné',
+  `change` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Čas zmeny',
+  PRIMARY KEY (`id`),
+  KEY `id_hlavne_menu` (`id_hlavne_menu`),
+  KEY `id_user_main` (`id_user_main`),
+  KEY `id_user_roles` (`id_user_roles`),
+  CONSTRAINT `products_ibfk_1` FOREIGN KEY (`id_hlavne_menu`) REFERENCES `hlavne_menu` (`id`),
+  CONSTRAINT `products_ibfk_2` FOREIGN KEY (`id_user_main`) REFERENCES `user_main` (`id`),
+  CONSTRAINT `products_ibfk_3` FOREIGN KEY (`id_user_roles`) REFERENCES `user_roles` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Produkty';
+
+INSERT INTO `products` (`id`, `id_hlavne_menu`, `id_user_main`, `id_user_roles`, `name`, `web_name`, `description`, `main_file`, `thumb_file`, `change`) VALUES
+(1,	23,	1,	0,	'budovy11',	'budovy11',	NULL,	'www/files/prilohy/budovy11.JPG',	'www/files/prilohy/tb_budovy11.JPG',	'2018-01-02 09:40:44'),
+(10,	23,	1,	0,	'Naša búda',	'dedina12',	'adf ysdfdsf yxvyyasdfgasd ysdfgysy sd dsxfysdydfv afgsd a a',	'www/files/prilohy/dedina12.JPG',	'www/files/prilohy/tb_dedina12.JPG',	'2018-01-03 07:26:17'),
+(11,	23,	1,	0,	'dedina11 sdfg',	'dedina11',	'ghjgh dfdd',	'www/files/prilohy/dedina11.JPG',	'www/files/prilohy/tb_dedina11.JPG',	'2018-01-03 07:28:39'),
+(15,	22,	1,	0,	'krajina1',	'krajina1',	NULL,	'www/files/prilohy/krajina1.JPG',	'www/files/prilohy/tb_krajina1.JPG',	'2018-01-03 08:13:05'),
+(16,	22,	1,	0,	'obr07 yssd',	'obr07',	'dfgdf  ffxd ',	'www/files/prilohy/obr07.jpg',	'www/files/prilohy/tb_obr07.jpg',	'2018-01-16 10:32:49');
+
 DROP TABLE IF EXISTS `slider`;
 CREATE TABLE `slider` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
@@ -445,7 +469,7 @@ CREATE TABLE `udaje` (
   `id_user_roles` int(11) NOT NULL DEFAULT '5' COMMENT 'Id min úrovne pre editáciu',
   `id_druh` int(11) DEFAULT NULL COMMENT 'Druhová skupina pre nastavenia',
   `id_udaje_typ` int(11) NOT NULL DEFAULT '1' COMMENT 'Typ input-u',
-  `nazov` varchar(20) COLLATE utf8_bin NOT NULL DEFAULT 'nazov' COMMENT 'Názov prvku',
+  `nazov` varchar(30) COLLATE utf8_bin NOT NULL DEFAULT 'nazov' COMMENT 'Názov prvku',
   `text` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT 'Definícia' COMMENT 'Hodnota prvku',
   `comment` varchar(255) COLLATE utf8_bin DEFAULT NULL COMMENT 'Komentár k hodnote',
   PRIMARY KEY (`id`),
@@ -482,7 +506,13 @@ INSERT INTO `udaje` (`id`, `id_user_roles`, `id_druh`, `id_udaje_typ`, `nazov`, 
 (23,	4,	5,	3,	'oznam_ucast',	'0',	'Povolenie potvrdenia účasti.'),
 (24,	5,	5,	1,	'oznam_prva_stranka',	'1',	'Id stránky, ktorá sa zobrazí ako 1. po načítaní webu'),
 (25,	4,	5,	3,	'oznam_title_image_en',	'1',	'Povolenie pridávania titulného obrázku k oznamu. Ak je zakázané používajú sa ikonky.'),
-(26,	5,	NULL,	1,	'google-analytics',	'UA-52835371-1',	'Id pre google-analytics. Ak sa reťazec nezačína na \"UA-\" nie je akceptovaný.');
+(26,	5,	NULL,	1,	'google-analytics',	'UA-52835371-1',	'Id pre google-analytics. Ak sa reťazec nezačína na \"UA-\" nie je akceptovaný.'),
+(27,	4,	8,	1,	'product_main_x',	'1510',	'Šírka hlavného obrázku produktu'),
+(28,	4,	8,	1,	'product_main_y',	'1000',	'Výška hlavného obrázku produktu'),
+(29,	4,	8,	1,	'product_main_quality',	'80',	'Kvalita kompresie hlavného obrázku'),
+(30,	4,	8,	1,	'product_thumb_x',	'226',	'Šírka náhľadového obrázku produktu'),
+(31,	4,	8,	1,	'product_thumb_y',	'150',	'Výška náhľadového obrázku produktu'),
+(32,	4,	8,	1,	'product_thumb_quality',	'70',	'Kvalita kompresie náhľadového obrázku');
 
 DROP TABLE IF EXISTS `udaje_typ`;
 CREATE TABLE `udaje_typ` (
@@ -525,7 +555,7 @@ CREATE TABLE `user_main` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Hlavné údaje užívateľa';
 
 INSERT INTO `user_main` (`id`, `id_user_roles`, `id_user_profiles`, `password`, `meno`, `priezvisko`, `email`, `activated`, `banned`, `ban_reason`, `new_password_key`, `new_password_requested`, `new_email`, `new_email_key`, `last_ip`, `created`, `modified`) VALUES
-(1,	5,	1,	'$2y$10$RnzAjUCyc/B1GgiJ9k43/e27BDz5j1vsbN.DYlfnXIxweBvqxkABq',	'Peter',	'Vojtech',	'petak23@gmail.com',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'217.12.48.22',	'2017-05-15 09:11:19',	'2017-12-27 11:58:49'),
+(1,	5,	1,	'$2y$10$RnzAjUCyc/B1GgiJ9k43/e27BDz5j1vsbN.DYlfnXIxweBvqxkABq',	'Peter',	'Vojtech',	'petak23@gmail.com',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'::1',	'2017-05-15 09:11:19',	'2018-01-15 10:00:41'),
 (2,	4,	2,	'$2y$10$FvhA/KkVmKR4lrVftRYch.4ER1Lc4H6sl0/NK5VuJ5keSrMg8kbay',	'Juraj',	'Zámečník',	'bwfoto@bwfoto.sk',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'90.64.108.248',	'2017-05-15 09:13:38',	'2017-12-30 15:38:26'),
 (3,	4,	3,	'$2y$10$VOeK4y3ozjaUM1aMtiVmcuHRmtcmoVvC6J4yFX4j0LZoNbXlejyMi',	'Jozef',	'Petrenčík',	'jozue@anigraph.eu',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.253.139.152',	'2017-05-15 09:12:22',	'2017-07-11 07:10:29');
 
@@ -575,7 +605,8 @@ INSERT INTO `user_permission` (`id`, `id_user_roles`, `id_user_resource`, `actio
 (30,	5,	19,	NULL),
 (31,	3,	21,	NULL),
 (32,	1,	23,	'default,mailChange,passwordChange,activateNewEmail'),
-(33,	3,	7,	'default');
+(33,	3,	7,	'default'),
+(34,	4,	25,	NULL);
 
 DROP TABLE IF EXISTS `user_prihlasenie`;
 CREATE TABLE `user_prihlasenie` (
@@ -614,7 +645,8 @@ INSERT INTO `user_prihlasenie` (`id`, `id_user_main`, `log_in_datetime`) VALUES
 (24,	1,	'2017-12-27 12:58:49'),
 (25,	2,	'2017-12-30 16:38:26'),
 (26,	2,	'2017-12-30 23:27:12'),
-(27,	1,	'2018-01-02 07:22:37');
+(27,	1,	'2018-01-02 07:22:37'),
+(28,	1,	'2018-01-15 11:00:41');
 
 DROP TABLE IF EXISTS `user_profiles`;
 CREATE TABLE `user_profiles` (
@@ -631,7 +663,7 @@ CREATE TABLE `user_profiles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 INSERT INTO `user_profiles` (`id`, `rok`, `telefon`, `poznamka`, `pocet_pr`, `pohl`, `prihlas_teraz`, `avatar`, `news`) VALUES
-(1,	NULL,	NULL,	NULL,	22,	'M',	'2018-01-02 07:22:37',	NULL,	'A'),
+(1,	NULL,	NULL,	NULL,	23,	'M',	'2018-01-15 11:00:41',	NULL,	'A'),
 (2,	NULL,	NULL,	NULL,	5,	'M',	'2017-12-30 23:27:11',	NULL,	'A'),
 (3,	NULL,	NULL,	NULL,	0,	'M',	NULL,	NULL,	'A');
 
@@ -666,7 +698,8 @@ INSERT INTO `user_resource` (`id`, `name`) VALUES
 (21,	'Edit:Homepage'),
 (22,	'Edit:User'),
 (23,	'Edit:UserLog'),
-(24,	'Edit:Clanky');
+(24,	'Edit:Clanky'),
+(25,	'Admin:Products');
 
 DROP TABLE IF EXISTS `user_roles`;
 CREATE TABLE `user_roles` (
@@ -708,4 +741,4 @@ INSERT INTO `verzie` (`id`, `id_user_main`, `cislo`, `subory`, `text`, `modified
 (5,	1,	'0.1.5',	'rôzne',	'Prispôsobenie vzhľadu úrovne 3',	'2017-12-27 11:59:49'),
 (6,	1,	'0.1.6',	'úroveň 3 a 4',	'- Prispôsobenie vzhľadu úrovne 3. a 4..\n- Aktualizácia nittra a lightbox-u.\n- Odstránenie koncovky z názvu prílohy.\n- Práca na admin časti pre rámčeky - pridaná časť pre fotoalbum zmeny rámčekov obrázkových príloh v úrovni 4. pre každú časť zvlášť.\n- Prispôsobenie 4. úrovne pre prehliadanie obrázkov s rámčekmi.',	'2017-12-27 12:04:06');
 
--- 2018-01-02 06:24:17
+-- 2018-01-16 10:41:21

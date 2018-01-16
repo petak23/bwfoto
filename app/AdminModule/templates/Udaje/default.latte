@@ -35,9 +35,9 @@
       <td n:if="$user->isInRole('admin')">{ifset $u->id_druh}{$u->druh->presenter}{/ifset}</td>
       <td n:if="$user->isInRole('admin')">{$u->udaje_typ->nazov}</td>
       <td class="editacne center" n:if="$user->isAllowed('Admin:Udaje', 'edit')">
-        <a n:href="Udaje:edit $u->id" title="Editacia údaja {$u->nazov}" class="button-right edit-ikon"><i class="fas fa-pencil-alt-square fa-1_5x"></i></a>
+        <a n:href="Udaje:edit $u->id" title="Editacia údaja {$u->nazov}" class="button-right edit-ikon"><i class="fas fa-pencil-alt fa-2x"></i></a>
         <a href="{link confirmForm:confirmDelete! id => $u->id, nazov => $u->nazov}"
-          title="Vymazanie údaja {$u->nazov}" class="button-right"><i class="far fa-trash-alt fa-1_5x"></i></a>
+          title="Vymazanie údaja {$u->nazov}" class="button-right"><i class="far fa-trash-alt fa-2x"></i></a>
       </td>
     </tr>
   </table>

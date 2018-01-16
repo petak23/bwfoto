@@ -47,9 +47,9 @@
         <small>{$clen->user_profiles->prihlas_teraz|date:'%d.%m.%Y %H:%M:%S'}</small>
       </td>
       <td class="editacne center" n:if="$user->isAllowed('Admin:User', 'edit')">
-        <a n:href="User:edit $clen->id" title="Edituj {$clen->priezvisko|upper}" n:if="$clen->id_user_roles <= $user->getIdentity()->id_user_roles" class="button-right edit-ikon"><i class="fas fa-pencil-alt-square fa-1_5x"></i></a>
+        <a n:href="User:edit $clen->id" title="Edituj {$clen->priezvisko|upper}" n:if="$clen->id_user_roles <= $user->getIdentity()->id_user_roles" class="button-right edit-ikon"><i class="fas fa-pencil-alt fa-2x"></i></a>
         <a href="{link confirmForm:confirmDelete! id => $clen->id, nazov => $clen->meno.' '.$clen->priezvisko, druh =>'admin', zdroj_na_zmazanie => 'užívateľa'}"
-          n:if="$clen->id_user_roles <= $user->getIdentity()->id_user_roles" title="Vymazanie člena {$clen->priezvisko}" class="button-right"><i class="far fa-trash-alt fa-1_5x"></i></a>
+          n:if="$clen->id_user_roles <= $user->getIdentity()->id_user_roles" title="Vymazanie člena {$clen->priezvisko}" class="button-right"><i class="far fa-trash-alt fa-2x"></i></a>
       </td>
     </tr>
   </table>
