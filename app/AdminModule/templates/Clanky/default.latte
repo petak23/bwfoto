@@ -10,14 +10,14 @@
   <ul class="nav nav-tabs clanky-tabs" role="tablist">
     <li role="presentation" n:class="$tabs == 'prilohy-tab' ? active"><a href="#prilohy-tab" aria-controls="home" role="tab" data-toggle="tab">Prílohy</a></li>
     <li role="presentation" n:class="$tabs == 'products-tab' ? active"><a href="#products-tab" aria-controls="profile" role="tab" data-toggle="tab">Produkty</a></li>
-    <li role="presentation" n:class="$tabs == 'components-tab' ? active"><a href="#components-tab" aria-controls="messages" role="tab" data-toggle="tab">Komponenty</a></li>
+    <li role="presentation" n:class="$tabs == 'components-tab' ? active" n:if="$user->isInRole('admin')"><a href="#components-tab" aria-controls="messages" role="tab" data-toggle="tab">Komponenty</a></li>
   </ul>
 
   <!-- Tab panes -->
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane{if $tabs == 'prilohy-tab'} active{/if}" id="prilohy-tab">{snippet prilohy}{control prilohyClanok}{/snippet}</div>
     <div role="tabpanel" class="tab-pane{if $tabs == 'products-tab'} active{/if}" id="products-tab">{snippet products}{control products}{/snippet}</div>
-    <div role="tabpanel" class="tab-pane{if $tabs == 'components-tab'} active{/if}" id="components-tab">
+    <div role="tabpanel" class="tab-pane{if $tabs == 'components-tab'} active{/if}" id="components-tab" n:if="$user->isInRole('admin')">
       <div class="panel panel-success">
         <div class="panel-heading">
           {*<h3>Komponenty</h3>*}

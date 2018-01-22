@@ -2,8 +2,8 @@
  *
  * Modul: ADMIN
  *
- * Posledna zmena(last change): 10.07.2017
- * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
+ * Posledna zmena(last change): 22.01.2018
+ * @copyright  Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
  *
@@ -19,7 +19,7 @@
   <table class="table table-bordered table-striped table-hover table-clenovia">
     <tr>
       <th>Komentár</th>
-      <th>Názov</th>
+      <th n:if="$user->isInRole('admin')">Názov</th>
       <th>Hodnota</th>
       <th n:if="$user->isInRole('admin')">Prístup</th>
       <th n:if="$user->isInRole('admin')">Druh</th>
@@ -28,7 +28,7 @@
     </tr>
     <tr n:foreach="$udaje_w as $u">
       <td>{$u->comment}</td>
-      <td>{$u->nazov}</td>
+      <td n:if="$user->isInRole('admin')">{$u->nazov}</td>
       <td n:if="$u->id_udaje_typ == 3 " n:class="$u->text == 1 ? success : danger">{$p = $u->text == 1 ? 'Povolene' : 'Zakázané'}</td>
       <td n:if="$u->id_udaje_typ <> 3 ">{$u->text}</td>
       <td n:if="$user->isInRole('admin')">{$u->user_roles->role}</td>
