@@ -38,8 +38,10 @@
   {* ----- Favicon ------ *}
   <link rel="shortcut icon" href="{$basePath}/favicon.ico" type="image/x-icon">
   {block head}{/block}
-  <script type="application/javascript">window._stack = [];</script>
-  <script type="application/javascript" src="{$basePath}/www/js/nittro.min.js" async defer></script>
+  <!--[if !IE]>
+    <script type="application/javascript">window._stack = [];</script>
+    <script type="application/javascript" src="{$basePath}/www/js/nittro.min.js" async defer></script>
+  <![endif]-->
   {control jsBefore}
 </head>
 
