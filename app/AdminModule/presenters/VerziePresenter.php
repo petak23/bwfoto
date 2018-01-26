@@ -8,15 +8,15 @@ use PeterVojtech\Email;
 /**
  * Prezenter pre spravu verzii.
  * 
- * Posledna zmena(last change): 15.11.2017
+ * Posledna zmena(last change): 26.01.2018
  *
  *	Modul: ADMIN
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.3
+ * @version 1.1.4
  */
 class VerziePresenter extends BasePresenter {
   
@@ -77,7 +77,7 @@ class VerziePresenter extends BasePresenter {
     $values = $this->verzie->find($id);
     $params = [ "site_name" => $this->nazov_stranky,
                 "cislo" 		=> $values->cislo,
-                "text"      => $values->text,
+                "text"      => $this->texy->process($values->text),
                 "odkaz" 		=> $this->link("Verzie:default"),
               ];
     try {

@@ -8,13 +8,13 @@ use DbTable;
 
 /**
  * Komponenta pre zjedndusenie odoslania emailu
- * Posledna zmena(last change): 06.07.2017
+ * Posledna zmena(last change): 26.01.2018
  * 
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
- * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.6
+ * @version 1.0.7
  */
 
 class EmailControl extends UI\Control {
@@ -40,8 +40,8 @@ class EmailControl extends UI\Control {
   
   /** 
    * @param string $template Kompletná cesta k súboru template
-   * @param type $from
-   * @param type $id_user_roles 
+   * @param type $from Od koho
+   * @param type $id_user_roles Minimalna uroven registracie
    * @return \PeterVojtech\Email\EmailControl */
   public function nastav($template, $from, $id_user_roles) {
     $this->template = $template;

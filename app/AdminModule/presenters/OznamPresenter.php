@@ -11,15 +11,15 @@ use PeterVojtech\Email;
 /**
  * Prezenter pre spravu oznamov.
  * 
- * Posledna zmena(last change): 31.10.2017
+ * Posledna zmena(last change): 26.01.2018
  *
  * Modul: ADMIN
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.8
+ * @version 1.1.9
  */
 
 Container::extensionMethod('addDatePicker', function (Container $container, $name, $label = NULL) {
@@ -115,7 +115,7 @@ class OznamPresenter extends BasePresenter {
     $values = $this->oznam->find($id);
     $params = [ "site_name"   => $this->nazov_stranky,
                 "nazov"       => $values->nazov,
-                "text"        => $values->text,
+                "text"        => $this->texy->process($values->text),
                 "odkaz"       => $this->link("//:Front:Oznam:default"),
                 "datum_platnosti" => $values->datum_platnosti,
                 "oznam_ucast" => $this->user->isAllowed('Admin:Oznam', 'ucast') && $this->udaje->getKluc("oznam_ucast") && $values->potvrdenie,
