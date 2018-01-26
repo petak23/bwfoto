@@ -1,10 +1,10 @@
 {block content}
 
 <div class="page-header">
-  <a n:href="Verzie:add" n:if="$user->isAllowed($control->name, 'add')" title="Pridanie verzie" class="button-right edit-link">
-		<i class="far fa-file fa-2x"></i>Pridaj novú verziu
+  <a n:href="Verzie:add" n:if="$user->isAllowed($control->name, 'add')" title="Pridanie verzie" class="button-right btn btn-success">
+		<i class="far fa-file fa-lg"></i> Pridaj novú verziu
 	</a>
-  <h2 n:block=title>Verzie:</h2>
+  <h2>Verzie:</h2>
 </div>
   
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
@@ -22,13 +22,13 @@
       <div id="collapse{$iterator->counter}" class="panel-collapse collapse {first}in{/first}" role="tabpanel" aria-labelledby="heading{$iterator->counter}">
       <div class="panel-body">
         <div class="panel-menu btn-group btn-group-sm" role="group">
-          <a n:href="Verzie:edit $ve->id" n:if="$user->isAllowed($control->name, 'edit')"	title="Editácia popisu verzie {$ve->cislo}" class="btn button-right edit-link">
-            <i class="fas fa-pencil-alt fa-2x"></i> Editacia</a>
-          <a n:href="posliEmail! id => $ve->id" n:if="$user->isAllowed($control->name, 'mail')" class="btn button-right info-link" title="Pošli informačný e-mail o verzii {$ve->cislo}">
-            <i class="far fa-envelope fa-2x"></i> Info. e-mail</a>
+          <a n:href="Verzie:edit $ve->id" n:if="$user->isAllowed($control->name, 'edit')"	title="Editácia popisu verzie {$ve->cislo}" class="button-right btn btn-success">
+            <i class="fas fa-pencil-alt fa-lg"></i> Editacia</a>
+          <a n:href="posliEmail! id => $ve->id" n:if="$user->isAllowed($control->name, 'mail')" class="button-right btn btn-primary" title="Pošli informačný e-mail o verzii {$ve->cislo}">
+            <i class="far fa-envelope fa-lg"></i> Info. e-mail</a>
           <a href="{link confirmForm:confirmDelete! id => $ve->id, nazov => $ve->cislo, zdroj_na_zmazanie => 'verziu'}" n:if="$user->isAllowed($control->name, 'del')" 
-             title="Vymazanie popisu verzie{$ve->cislo}" class="btn button-right vymaz-link">
-            <i class="far fa-trash-alt fa-2x"></i> Vymaž</a>
+             title="Vymazanie popisu verzie{$ve->cislo}" class="button-right btn btn-danger">
+            <i class="far fa-trash-alt fa-lg"></i> Vymaž</a>
         </div>
         <p class="text-verzie">{$ve->text|noescape|texy}</p>
       </div>

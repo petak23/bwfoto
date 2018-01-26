@@ -6,7 +6,7 @@ use DbTable;
 /**
  * Prezenter pre smerovanie na dokumenty a editaciu produktov.
  * 
- * Posledna zmena(last change): 03.01.2018
+ * Posledna zmena(last change): 26.01.2018
  *
  * Modul: ADMIN
  *
@@ -26,6 +26,10 @@ class ProductsPresenter extends BasePresenter {
   /** @var \Nette\Database\Table\ActiveRow */
   private $product;
   
+  /** @var \Nette\Database\Table\Selection */
+  protected $products_data;
+
+
   /** Vychodzia akcia
    * @param int $id Id produktu na zobrazenie */
 	public function actionDefault($id) {
@@ -36,6 +40,17 @@ class ProductsPresenter extends BasePresenter {
 		exit;
 	}
 
+  /** Akcia pre nastavenie časti produktov */
+  public function actionSetup() {
+		$this->products_data = $this->udaje->getDruh("Products");
+	}
+  
+  /** Render pre nastavenie časti produktov. */
+	public function renderSetup() {
+		$this->template->h2 = 'Nastavenia časti produktov';
+    $this->template->products_data = $this->products_data;
+	}
+  
   /** Akcia pre editaciu informacii
    * @param int $id Id produktu na editaciu */
   public function actionEdit($id) {
@@ -45,11 +60,26 @@ class ProductsPresenter extends BasePresenter {
     $this["editForm"]->setDefaults($this->product);
   }
   
-  /** Render pre editaciu prilohy. */
+  /** Render pre editaciu produktu. */
 	public function renderEdit() {
 		$this->template->h2 = 'Editácia údajov produktu:'.$this->product->name;
 	}
 
+  /** Formular pre editaciu info. o dokumente.
+	 * @return Nette\Application\UI\Form */
+	protected function createComponentSetupForm() {
+    $ft = new \App\AdminModule\Forms\Products\SetupProductDataFormFactory($this->udaje, $this->user/*, $this->nastavenie['wwwDir']*/);
+    $form = $ft->create(/*$this->upload_size, $this->prilohy_adresar*/);
+//    $form->setDefaults($this->product);
+    $form['uloz']->onClick[] = function ($button) {
+      $this->flashOut(!count($button->getForm()->errors), 'Products:setup', 'Nastavenia boli úspešne uložené!', 'Došlo k chybe a zmena sa neuložila. Skúste neskôr znovu...');
+		};
+    $form['cancel']->onClick[] = function () {
+			$this->redirect('Products:setup');
+		};
+		return $this->_vzhladForm($form);
+	}
+  
   /** Formular pre editaciu info. o dokumente.
 	 * @return Nette\Application\UI\Form */
 	protected function createComponentEditForm() {
