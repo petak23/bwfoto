@@ -11,11 +11,11 @@
 <li class="pol-li-{$akoLi}" n:tag-if="isset($akoLi) && $akoLi">
   <div class="menu-link-in">
     {if $node->link}
-      <a href="{$node->link}" n:class="$node->itemClass" title="{$node->name}">
+      <a href="{$node->link}" n:class="$node->getItemClass()" title="{$node->name}">
         {include #link_in node => $node}
       </a>
     {else}
-      <span n:class="$node->itemClass">
+      <span n:class="$node->getItemClass()">
         {include #link_in node => $node}
       </span>
     {/if}

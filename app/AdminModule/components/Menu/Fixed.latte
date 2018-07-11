@@ -16,7 +16,7 @@
 {/define}
 
 {define #link}
-<li n:tag-if="isset($akoLi) && $akoLi" class="pol-li-{$akoLi} {$node->itemClass}">
+<li n:tag-if="isset($akoLi) && $akoLi" class="pol-li-{$akoLi} {$node->getItemClass()}">
   {var $avatar = strlen($nastav['avatar']) && isset($node->avatar) ? $nastav['avatar'].$node->avatar : FALSE}
   <span>
     {if $node->link}
