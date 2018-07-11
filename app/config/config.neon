@@ -10,11 +10,13 @@ parameters:
   send_e_mail_news: FALSE # Globalne povolenie posielania info mailov v pripade pridania polozky TRUE|FALSE
   omrvinky_enabled: TRUE # Globalne povolenie zobrazenia omrviniek TRUE|FALSE
   aktualny_projekt_enabled: FALSE # Globalne povolenie nastavovania aktualneho projektu TRUE|FALSE
+  dir_to_images: www/images/ # Globalne nastanenie adresara pre "pevne obrazky webu" 
   slider:       #Nastavenie slider-u
     x: 1280   #Rozmery slider-u
     y: 260
     varianta: 5 #0-nahodne nacitany obrazok, 1-meniace sa obrazky, 2-carousel, 3-scspp
     odkaz: FALSE # Povolenie zobrazenia obrazkov slider-u ako odkazu TRUE|FALSE
+    dir: www/files/slider/
   hlavne_menu_obr_ikonky: FALSE # Povolenie obrazovych ikoniek v hl.menu. TRUE|FALSE
   user_panel: #Nastavenie panelu uzivatela
     view_avatar: FALSE # Zobrazenie avataru v panely uzivatela. TRUE|FALSE

@@ -6,7 +6,7 @@
 {ifset $sucasny}
 <h4>Súčasný obrázok:</h4>
 <p class="text-center">
-  <img src="{$basePath}/www/{is_file('www/files/slider/'.$sucasny->subor) ? 'files/slider/'.$sucasny->subor : 'images/otaznik.png'}" class="img-rounded" style="width: {$slider_i['x']}px;" alt="obrazok">
+  <img src="{$basePath}/{is_file($slider_i['dir'].$sucasny->subor) ? $slider_i['dir'].$sucasny->subor : $dir_to_images.'otaznik.png'}" class="img-rounded" style="width: {$slider_i['x']}px;" alt="obrazok">
 </p>
 <h4>Zmeň: </h4>
 {/ifset}
