@@ -9,13 +9,13 @@ use Nette\Utils\Html;
 
 /**
  * Plugin pre zobrazenie ponuky o užívateľovi a jazykoch
- * Posledna zmena(last change): 09.10.2017
+ * Posledna zmena(last change): 13.07.2018
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2013 - 2017 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2013 - 2018 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.9
+ * @version 1.1.2
  */
 class UserLangMenuControl extends Control {
   /** @var Language_support\User Prednastavene texty pre prihlasovaci form */
@@ -56,30 +56,32 @@ class UserLangMenuControl extends Control {
         'class'=>'log-in'.(($vlnh) ? "" : " prazdny fa fa-lock"),
         'title'=>$udaje_webu['log_in'].$vlnh,
         'nazov'=>($vlnh & 1) ? $udaje_webu['log_in'] : ($vlnh ? NULL : ""),
-        'ikonka'=>($vlnh & 2) ? "sign-in" : NULL,
-        'class'=>'noajax',
+        'ikonka'=>($vlnh & 2) ? "fas fa-sign-in-alt" : NULL,
+        'class'=>'btn-default noajax',
         'data'=>['name'=>'ajax', 'value'=>'false'],
                         ]);
     if ($vlnh > 0) {//Ak je >0 zobraz link
       $menu_user[] = new MenuItem([
           'odkaz'=>'User:forgottenPassword',
           'title'=>$udaje_webu['forgot_password'],
-          'ikonka'=>($this->nastavenie['view_log_in_link_in_header'] & 2) ? "frown-o" : NULL,
+          'ikonka'=>($this->nastavenie['view_log_in_link_in_header'] & 2) ? "far fa-frown" : NULL,
           'nazov'=>($this->nastavenie['view_log_in_link_in_header'] & 1) ? $udaje_webu['forgot_password'] : NULL,
+          'class'=>"btn-warning",
                           ]);
     } else {//Ak je 0 nezobraz link
       $this->template->fl = new MenuItem([
         'odkaz'=>'User:forgottenPassword',
         'title'=>$udaje_webu['forgot_password'],
-        'class'=>'fl',
-        'ikonka'=>"frown-o",
+        'class'=>'btn-warning fl',
+        'ikonka'=>"far fa-frown",
         'nazov'=>$udaje_webu['forgot_password'],
                         ]);
     }
     if (isset($udaje_webu['registracia_enabled']) && $udaje_webu['registracia_enabled']) {
       $menu_user[] = new MenuItem([
           'odkaz'=>'User:registracia', 
-          'nazov'=>$udaje_webu['register']
+          'nazov'=>$udaje_webu['register'],
+          'class'=>'btn-default',
                           ]);
     }
     return $menu_user;
@@ -104,14 +106,16 @@ class UserLangMenuControl extends Control {
     $menu_user[] = new MenuItem([
           'odkaz'=>'UserLog:', 
           'nazov'=>$obb." ".$udata->meno.' '.$udata->priezvisko,
-          'title'=>$udata->meno.' '.$udata->priezvisko]);
+          'title'=>$udata->meno.' '.$udata->priezvisko,
+          'class'=>"btn-primary",
+        ]);
     if ($this->user->isAllowed('Admin:Homepage', 'default')) {
       $menu_user[] = new MenuItem([
         'odkaz'=>':Admin:Homepage:',
         'title'=>'Administrácia',
-        'ikonka'  => ($this->nastavenie['admin_link'] & 1) ? 'pencil' : '',
+        'ikonka'  => ($this->nastavenie['admin_link'] & 1) ? 'fas fa-pencil-alt' : '',
         'nazov'=>($this->nastavenie['admin_link'] & 2) ? $this->texty->trText('base_AdminLink_name') : '',
-        'class'=>'noajax',
+        'class'=>'btn-info noajax',
         'data'=>['name'=>'ajax', 'value'=>'false'],
       ]);
     }
@@ -121,8 +125,8 @@ class UserLangMenuControl extends Control {
         'abs_link'=>$baseUrl."/www/adminer/?server=".$hl_m_db_info['host']."&db=".$hl_m_db_info['dbname'], 
         'title'=>'Adminer',
         'target'=>'_blank',
-        'ikonka'  => 'database',
-        'class'=>'noajax',
+        'ikonka'  => 'fas fa-database',
+        'class'=>'btn-warning noajax',
         'data'=>['name'=>'ajax', 'value'=>'false'],
                           ]);
 //      $menu_user[] = new MenuItem([
@@ -135,9 +139,9 @@ class UserLangMenuControl extends Control {
     }
     $menu_user[] = new MenuItem([
         'odkaz'=>'signOut!',
-        'ikonka'=>"sign-out",
+        'ikonka'=>"fas fa-sign-out-alt",
         'nazov'=>$log_out,
-        'class'=>'noajax',
+        'class'=>'btn-primary noajax',
         'data'=>['name'=>'ajax', 'value'=>'false'],
                         ]);
     return $menu_user;
@@ -176,7 +180,7 @@ class UserLangMenuControl extends Control {
 		
 }
 
-class MenuItem extends \Nette\Object {
+class MenuItem /*extends \Nette\Object*/ {
   public $odkaz;
   public $abs_link;
   public $nazov = "";

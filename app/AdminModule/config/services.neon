@@ -60,5 +60,6 @@ services:
 
   - App\AdminModule\Components\Products\IProductsControl
 
+  - App\AdminModule\Components\User\ContactCategori\IContactCategoriControl
   - App\AdminModule\Components\User\IKontaktControl
   - App\AdminModule\Components\User\IUserLastControl

@@ -2,33 +2,41 @@
 namespace PeterVojtech\MainLayout;
 
 use DbTable;
-use Nette\Application\UI;
+use Nette\Application\UI\Control;
+use Nette\Http\Request;
 
 /**
  * Komponenta pre vlozenie kodu pre google analytics do stranky
- * Posledna zmena(last change): 07.09.2017
+ * Posledna zmena(last change): 18.07.2018
  * 
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
- * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.0
+ * @version 1.0.2
  */
 
-class GoogleAnalyticsControl extends UI\Control {
-  /** @var DbTable\Udaje */
-  private $udaje;
+class GoogleAnalyticsControl extends Control {
+  /** @var \Nette\Database\Table\ActiveRow|FALSE */
+  private $udaj;
+  /** @var string */
+  private $host;
   
   /** @param DbTable\Udaje $udaje */
-  public function __construct(DbTable\Udaje $udaje) {
+  public function __construct(DbTable\Udaje $udaje, Request $request) {
     parent::__construct();
-    $this->udaje = $udaje;
+    $this->udaj = $udaje->getKluc("google-analytics");
+    $this->host = $request->getUrl()->host;
   }
   
   public function render() {
     $this->template->setFile(__DIR__ . '/GoogleAnalytics.latte');
-    $tmp = $this->udaje->getKluc("google-analytics")->text;
-    $this->template->id_google_analytics = strpos($tmp, "UA-") === 0 ? $tmp : FALSE;
+    $this->template->id_google_analytics = ($this->udaj != FALSE & $this->host != "localhost") ? (strpos($this->udaj->text, "UA-") === 0 ? $this->udaj->text : FALSE) : FALSE;
     $this->template->render();
   }
+}
+
+interface IGoogleAnalyticsControl {
+  /** @return GoogleAnalyticsControl */
+  function create();
 }

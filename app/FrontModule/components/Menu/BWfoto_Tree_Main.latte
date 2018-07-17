@@ -3,7 +3,7 @@
   {var $isDropdown = count($node->nodes) > 1}
   {var $see = !isset($hideName) || !$hideName}
 	{if $see}
-    <li class="nav-item{if $isDropdown} dropdown{/if} {$node->itemClass}">
+    <li class="nav-item{if $isDropdown} dropdown{/if} {$node->getItemClass()}">
       {if $node->link}
         <a href="{$node->link}" title="{$node->name}" class="{$level > 2 ? 'dropdown-item' : ($isDropdown ? 'dropdown-toggle' : 'nav-link')}" {if $isDropdown} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" {/if}>
           {$node->name}

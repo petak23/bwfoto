@@ -1,5 +1,3 @@
--- Adminer 4.6.1 MySQL dump
-
 SET NAMES utf8;
 SET time_zone = '+00:00';
 SET foreign_key_checks = 0;
@@ -19,13 +17,11 @@ CREATE TABLE `admin_menu` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Administračné menu';
 
 INSERT INTO `admin_menu` (`id`, `odkaz`, `nazov`, `id_user_roles`, `avatar`, `view`) VALUES
-(1,	'Homepage:',	'Úvod',	3,	'ikonky/Matrilineare_icon_set/png/Places user home.png',	1),
-(2,	'Lang:',	'Editácia jazykov',	5,	'ikonky/Matrilineare_icon_set/png/Apps gwibber.png',	1),
-(3,	'Slider:',	'Editácia slider-u',	4,	'ikonky/Matrilineare_icon_set/png/Places folder pictures.png',	1),
-(4,	'User:',	'Editácia užívateľov',	5,	'ikonky/Matrilineare_icon_set/png/Places folder publicshare.png',	1),
-(5,	'Verzie:',	'Verzie webu',	4,	'ikonky/Matrilineare_icon_set/png/Apps terminator.png',	1),
-(6,	'Udaje:',	'Údaje webu',	4,	'ikonky/Matrilineare_icon_set/png/Categories preferences desktop.png',	1),
-(7,	'Oznam:',	'Aktuality(oznamy)',	5,	'ikonky/Matrilineare_icon_set/png/Apps web browser.png',	0),
-(8,	'Products:setup',	'Nastavenie produktov',	4,	'ikonky/Matrilineare_icon_set/png/Mimes package x generic.png',	1);
-
--- 2018-07-11 10:20:51
+(1,	'Homepage:',	'Úvod',	3,	'Matrilineare_icon_set/png/Places user home.png',	1),
+(2,	'Lang:',	'Editácia jazykov',	5,	'Matrilineare_icon_set/png/Apps gwibber.png',	1),
+(3,	'Slider:',	'Editácia slider-u',	4,	'Matrilineare_icon_set/png/Places folder pictures.png',	1),
+(4,	'User:',	'Editácia užívateľov',	5,	'Matrilineare_icon_set/png/Places folder publicshare.png',	1),
+(5,	'Verzie:',	'Verzie webu',	4,	'Matrilineare_icon_set/png/Apps terminator.png',	1),
+(6,	'Udaje:',	'Údaje webu',	4,	'Matrilineare_icon_set/png/Categories preferences desktop.png',	1),
+(7,	'Oznam:',	'Aktuality(oznamy)',	5,	'Matrilineare_icon_set/png/Apps web browser.png',	0),
+(8,	'Products:setup',	'Nastavenie produktov',	4,	'Matrilineare_icon_set/png/Mimes package x generic.png',	1);

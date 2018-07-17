@@ -15,10 +15,16 @@
           {else}
             Platil do: {$oznam->datum_platnosti|date:'j.n.Y'}
           {/if}
-        </span>
+        </span>&nbsp;|&nbsp;
         <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{$iterator->counter}" aria-expanded="{if $ozn['aktualny']}true{else}false{/if}" aria-controls="collapse{$iterator->counter}" {if $ozn['aktualny']}class="collapsed"{/if}>
           <s n:tag-if="!$ozn['aktualny']">{$oznam->nazov}</s>
         </a>
+        {if $oznam->id_user_roles > 0}
+          &nbsp;|&nbsp;Viditeľný od úrovne:
+          <span class="uroven-registracie uroven-registracie-{$oznam->id_user_roles}">
+            {$oznam->id_user_roles} - {$oznam->user_roles->name}
+          </span>
+        {/if}
       </h4>
     </div>
       <div id="collapse{$iterator->counter}" class="panel-collapse collapse {if $ozn['aktualny']}in{/if}" role="tabpanel" aria-labelledby="heading{$iterator->counter}">

@@ -6,7 +6,7 @@
       <li n:if="$am->id_user_roles <= $user->getIdentity()->id_user_roles">
         <a n:href="$am->odkaz" title="{$am->nazov}">
           <div class="avatar-img">
-            <img src="{$basePath}/www/{$am->avatar}" n:ifset="$am->avatar" alt="{$am->nazov}">
+            <img src="{$basePath}/{$dir_to_icons}{$am->avatar}" n:ifset="$am->avatar" alt="{$am->nazov}">
           </div>
           <div>{$am->nazov}</div>
         </a>

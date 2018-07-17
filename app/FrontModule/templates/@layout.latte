@@ -4,8 +4,8 @@
  *
  *	Modul: FRONT
  *
- * Posledna zmena(last change): 15.11.2017
- * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
+ * Posledna zmena(last change): 13.07.2018
+ * @copyright  Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
  *
@@ -16,10 +16,6 @@
 <!DOCTYPE html>
 <html>
 <head>	{* ----- Hlavicka stranky ----- *}
-  {*<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-	<meta name="HandheldFriendly" content="true" />*}
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
   <meta charset="utf-8">
@@ -112,7 +108,7 @@
           <li>&copy; {$udaje['copy']} 2017{if date('Y') != '2017'} - {date('Y')}{/if}</li>
           <li>
             <a href="http://nette.org/cs/" class="logo-nette" title="{('base_nette_title')|trLang}">
-              <img src="{$basePath}/www/images/nette-powered1.gif" alt="{('base_nette_powered')|trLang}">
+              <img src="{$basePath}/{$dir_to_images}nette-powered1.gif" alt="{('base_nette_powered')|trLang}">
             </a>
           </li>
           <li>{$udaje['last_update']} {$verzia->modified|date:'j.n.Y'}</li>
@@ -120,15 +116,11 @@
         </ul>
       </div> 
     </div> 
-    <div class="row pv-footer">      
-      <div class="col admin-layer">
-        <ul class="nav text-center">
-          <li n:if="$view_log_in_link_in_header < 0 && !$user->isLoggedIn()">
-            <a n:href="User:default#prihlas" title="{('base_link_to_admin_log_in')|trLang}">{('base_link_to_admin_log_in')|trLang}</a>
-          </li>
-        </ul>
-        {control userLangMenu}
+    <div class="row justify-content-center">      
+      <div n:if="$view_log_in_link_in_header < 0 && !$user->isLoggedIn()">
+        <a n:href="User:default#prihlas" title="{('base_link_to_admin_log_in')|trLang}">{('base_link_to_admin_log_in')|trLang}</a>
       </div>
+      {control userLangMenu}
     </div>
 
 
@@ -137,6 +129,6 @@
   {control jsAfter}
   {control files:js}
   {block spec_js}{/block}
-  {*control googleAnalytics*}
+  {control googleAnalytics}
 </body>
 </html>

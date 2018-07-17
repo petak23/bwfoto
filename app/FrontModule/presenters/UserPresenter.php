@@ -13,15 +13,15 @@ use Nette\Utils\Random;
 
 /**
  * Prezenter pre prihlasenie, registraciu a aktiváciu uzivatela, obnovenie zabudnutého hesla a zresetovanie hesla.
- * Posledna zmena(last change): 31.10.2017
+ * Posledna zmena(last change): 06.03.2018
  *
  *	Modul: FRONT
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.3
+ * @version 1.1.5
  */
 class UserPresenter extends BasePresenter {
 	
@@ -176,9 +176,9 @@ class UserPresenter extends BasePresenter {
         "odkaz" 		=> 'http://'.$this->nazov_stranky.$this->link("User:activateUser", $uloz_user_profiles['id'], $new_password_key),
       ];
       $mail = new Message;
-      $mail->setFrom($this->nazov_stranky.' <'.$this->clen->user_main->email.'>')
+      $mail->setFrom($this->nazov_stranky.' <'.$this->clen->email.'>')
            ->addTo($values->email)->setSubject($this->trLang('register_aktivacia'))
-           ->setHtmlBody($templ->renderToString(__DIR__ . '/templates/User/email_activate-html.latte', $params));
+           ->setHtmlBody($templ->renderToString(__DIR__ . '/../templates/User/email_activate-html.latte', $params));
       try {
         $sendmail = new SendmailMailer;
         $sendmail->send($mail);
@@ -229,9 +229,9 @@ class UserPresenter extends BasePresenter {
         "odkaz" 		=> 'http://'.$this->nazov_stranky.$this->link("User:resetPassword", $clen->id, $new_password_key),
       ];
       $mail = new Message;
-      $mail->setFrom($this->nazov_stranky.' <'.$this->clen->user_main->email.'>')
+      $mail->setFrom($this->nazov_stranky.' <'.$this->clen->email.'>')
            ->addTo($values->email)->setSubject($this->trLang('forgot_pass'))
-           ->setHtmlBody($templ->renderToString(__DIR__ . '/templates/User/forgot_password-html.latte', $params));
+           ->setHtmlBody($templ->renderToString(__DIR__ . '/../templates/User/forgot_password-html.latte', $params));
       try {
         $sendmail = new SendmailMailer;
         $sendmail->send($mail);
@@ -279,4 +279,15 @@ class UserPresenter extends BasePresenter {
 			$this->flashRedirect('Homepage:', $this->trLang('reset_pass_err').$e->getMessage(), 'danger,n');
 		}
 	}
+  
+  public function actionNewsUnsubscribe($id_user_main, $news_key) {
+    $user_for_unsubscribe = $this->user_main->find($id_user_main);
+    if ($user_for_unsubscribe !== FALSE && $user_for_unsubscribe->user_profiles->news_key == $news_key) {
+      $user_for_unsubscribe->user_profiles->update(['news'=>"N", 'news_key'=>NULL]);
+      $this->flashMessage(sprintf($this->trLang('unsubscribe_news_ok'), $user_for_unsubscribe->email), 'success');
+    } else {
+      $this->flashMessage($this->trLang('unsubscribe_news_err'), 'danger');
+    }
+    $this->redirect('Homepage:');
+  }
 }

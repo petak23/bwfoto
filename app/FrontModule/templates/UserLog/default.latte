@@ -2,31 +2,33 @@
 {block content}
 
 <article class="article-main row user-info">
-  <div class="col-md-6"> {*  bg-info *}
+  <div class="col-md-6">
     {*control confirmForm*}
-    <h2 n:inner-block="title">{$h2}</h2>
+    <h2 n:inner-block="title">{_'default_h2_edit'}</h2>
     {control userEditForm}
   </div>
-  <div class="col-md-6"> {* bg-success *}
-    <h2>Doplňujúce údaje:</h2>
+  <div class="col-md-6">
+    <h2>{_'default_h2_additional'}</h2>
     <dl>
-      <dt>Úroveň registrácie:</dt>
+      <dt>{_'default_registracia'}:</dt>
       <dd>{$uzivatel->id_user_roles} - {$uzivatel->user_roles->name} ({$uzivatel->user_roles->role})</dd>
-      <dt>Posledné prihlásenie:</dt>
+      <dt>{_'default_last_log'}:</dt>
       <dd>{$uzivatel->user_profiles->prihlas_teraz|date:'d.m.Y H:i:s'}</dd>
-      <dt>Počet prihlásení:</dt>
+      <dt>{_'default_count_log'}:</dt>
       <dd>{$uzivatel->user_profiles->pocet_pr}</dd>
-      <dt>Vytvorenie účtu:</dt>
+      <dt>{_'default_modified'}:</dt>
+      <dd>{$uzivatel->modified|date:'d.m.Y H:i:s'}</dd>
+      <dt>{_'default_created'}:</dt>
       <dd>{$uzivatel->created|date:'d.m.Y H:i:s'}</dd>
     </dl>
-    <a n:href="UserLog:mailChange" title="{$default_email_change}" class="btn btn-info" role="button">
-      <i class="fa fa-edit"></i> {$default_email_change}
+    <a n:href="UserLog:mailChange" title="{_'default_email_change'}" class="btn btn-info" role="button">
+      <i class="fa fa-edit"></i> {_'default_email_change'}
     </a>
-    <a n:href="UserLog:passwordChange" title="{$pass_change}" class="btn btn-warning" role="button">
-      <i class="fa fa-key"></i> {$pass_change}
+    <a n:href="UserLog:passwordChange" title="{_'default_pass_change'}" class="btn btn-warning" role="button">
+      <i class="fa fa-key"></i> {_'default_pass_change'}
     </a>
-    <a n:if="$uzivatel->id >= 1 && $user_view_fields['delete']" href="{link confirmForm:confirmDelete! id => $uzivatel->id, nazov => $uzivatel->priezvisko, zdroj_na_zmazanie => $zdroj_na_zmazanie}" title="{$default_delete} {$uzivatel->priezvisko}" class="btn btn-danger" role="button">
-      <i class="fa fa-remove"></i> {$default_delete}
+    <a n:if="$uzivatel->id >= 1 && $user_view_fields['delete']" href="{link confirmForm:confirmDelete! id => $uzivatel->id, nazov => $uzivatel->priezvisko, zdroj_na_zmazanie => $zdroj_na_zmazanie}" title="{_'default_delete'} {$uzivatel->priezvisko}" class="btn btn-danger" role="button">
+      <i class="fa fa-remove"></i> {_'default_delete'}
     </a>
   </div>
 </article>

@@ -5,13 +5,13 @@ use Nette;
 /**
  * Model, ktory sa stara o tabulku oznam
  * 
- * Posledna zmena 21.06.2017
+ * Posledna zmena 08.03.2018
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.5
+ * @version    1.0.7
  */
 class Oznam extends Table {
   /** @var string */
@@ -19,16 +19,19 @@ class Oznam extends Table {
   
   /** Vypisanie vsetkych aktualnych oznamov
    * @param boolean $usporiadanie Urcuje usporiadane podla datumu platnosti
+   * @param int $id_user_roles Minimalna uroven registracie
    * @return \Nette\Database\Table\Selection */
-  public function aktualne($usporiadanie = FALSE) {
-  	return $this->findBy(["datum_platnosti >= '".StrFTime("%Y-%m-%d",strtotime("0 day"))."'"])
+  public function aktualne($usporiadanie = FALSE, $id_user_roles = 5) {
+  	return $this->findBy(["datum_platnosti >= '".StrFTime("%Y-%m-%d",strtotime("0 day"))."'", "id_user_roles <=".$id_user_roles])
                 ->order('datum_platnosti '.($usporiadanie ? 'ASC' : 'DESC'));
 	}
 
-  /** Vrati uz neaktualne oznamy
+  /** 
+   * Vrati uz neaktualne oznamy
+   * @param int $id_registracia Minimalna uroven registracie
    * @return \Nette\Database\Table\Selection */
-	public function neaktualne() {
-  	return $this->findBy(["datum_platnosti < '".StrFTime("%Y-%m-%d",strtotime("0 day"))."'"])->order('datum_platnosti DESC');
+	public function neaktualne($id_user_roles = 5) {
+  	return $this->findBy(["datum_platnosti < '".StrFTime("%Y-%m-%d",strtotime("0 day"))."'", "id_user_roles <=".$id_user_roles])->order('datum_platnosti DESC');
 	}
   
   /** Vypisanie vsetkych oznamov aj s priznakom aktualnosti

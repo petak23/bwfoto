@@ -26,7 +26,7 @@ webloader:
   css:
     front:
       files:
-        - %wwwDir%/www/css/font-awesome.css
+        - %wwwDir%/www/css/all.css #font-awesome.css
         - %wwwDir%/www/css/bootstrap.css
 #        - %wwwDir%/www/css/bootstrap-theme.css
         - %wwwDir%/www/css/nittro.min.css
@@ -85,17 +85,18 @@ webloader:
 #        - @jsMin
     frontAfter:
       files:
-#        - %wwwDir%/www/js/jquery-1.12.4.js
+        - %wwwDir%/www/js/jquery-1.12.4.js
 #        - %wwwDir%/www/js/jquery-slim.min.js
-#        - %wwwDir%/www/js/popper.min.js
-#        - %wwwDir%/www/js/bootstrap.js
-#        - %wwwDir%/www/js/netteForms.min.js
+        - %wwwDir%/www/js/popper.min.js
+        - %wwwDir%/www/js/bootstrap.js
+        - %wwwDir%/www/js/netteForms.min.js
 #        - %wwwDir%/www/js/nette.ajax.js
 #        - %wwwDir%/www/js/jquery-ui-1.12.1.js
 #        - %wwwDir%/www/js/jquery.ui.datepicker-sk.js
 #        - %wwwDir%/www/js/lightbox.js
 #        - %wwwDir%/www/js/lightbox.config.front.js
-#        - %wwwDir%/www/js/pomocne_front.js
+        - %wwwDir%/www/js/Naja.js
+        - %wwwDir%/www/js/pomocne_front.js
         - %wwwDir%/www/js/nav-shrink.js
 #      filters:
 #        - @jsMin
@@ -103,7 +104,7 @@ webloader:
     admin:
       files:
         - %wwwDir%/www/js/admin/jquery-1.12.4.js
-#        - %wwwDir%/www/js/popper.js
+        - %wwwDir%/www/js/popper.js
         - %wwwDir%/www/js/admin/bootstrap.js
         - %wwwDir%/www/js/netteForms.min.js
         - %wwwDir%/www/js/nette.ajax.js

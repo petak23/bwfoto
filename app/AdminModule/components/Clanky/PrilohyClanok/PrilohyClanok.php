@@ -206,7 +206,7 @@ class PrilohyClanokControl extends Nette\Application\UI\Control {
     $pr = $this->dokumenty->find($id);//najdenie prislusnej polozky menu, ku ktorej priloha patri
     $pthis = $this->presenter;
     if ($pr !== FALSE) {
-      $vysledok = $this->_vymazSubor($pr->subor) ? (in_array(strtolower($pr->pripona), ['png', 'gif', 'jpg']) ? $this->_vymazSubor($pr->thumb) : TRUE) : FALSE;
+      $vysledok = $this->_vymazSubor($pr->main_file) ? (in_array(strtolower($pr->pripona), ['png', 'gif', 'jpg']) ? $this->_vymazSubor($pr->thumb_file) : TRUE) : FALSE;
       if (($vysledok ? $pr->delete() : FALSE)) { 
         $this->flashMessage('Príloha bola vymazaná!', 'success'); 
       } else { 

@@ -1,7 +1,5 @@
-{if $id_google_analytics}
-<script>
+<script n:if="$id_google_analytics">
   ga=function(){ ga.q.push(arguments) };ga.q=[];ga.l=+new Date;
   ga('create','{php echo $id_google_analytics}','auto');ga('send','pageview');
 </script>
-<script src="https://www.google-analytics.com/analytics.js" async defer></script>
-{/if}
+<script n:if="$id_google_analytics" src="https://www.google-analytics.com/analytics.js" async defer></script>

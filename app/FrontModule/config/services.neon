@@ -9,6 +9,7 @@ services:
   - App\FrontModule\Forms\User\SignInFormFactory
   - App\FrontModule\Forms\User\RegisterFormFactory
   - App\FrontModule\Components\Faktury\DokumentFormFactory
+  - App\FrontModule\Forms\UserLog\UserEditFormFactory
 
 # component services 
   - App\FrontModule\Components\Oznam\IAktualneOznamyControl
@@ -17,9 +18,12 @@ services:
   - App\FrontModule\Components\Clanky\PrilohyClanok\IPrilohyClanokControl
   - App\FrontModule\Components\Clanky\OdkazNaClanky\IOdkazNaClankyControl
   - App\FrontModule\Components\Clanky\ZobrazKartyPodclankov\IZobrazKartyPodclankovControl
+  - App\FrontModule\Components\Clanky\ZobrazClanok\IZobrazClanokControl
   - App\FrontModule\Components\Products\IProductsViewControl
   - App\FrontModule\Components\Slider\ISliderControl
   - App\FrontModule\Components\User\IKontaktControl
   - App\FrontModule\Components\User\IUserLangMenuControl
   - App\FrontModule\Components\News\INewsControl
   - App\FrontModule\Components\Faktury\IViewFakturyControl
+
+  - PeterVojtech\MainLayout\IGoogleAnalyticsControl

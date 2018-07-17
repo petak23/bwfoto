@@ -10,7 +10,10 @@ parameters:
   send_e_mail_news: FALSE # Globalne povolenie posielania info mailov v pripade pridania polozky TRUE|FALSE
   omrvinky_enabled: TRUE # Globalne povolenie zobrazenia omrviniek TRUE|FALSE
   aktualny_projekt_enabled: FALSE # Globalne povolenie nastavovania aktualneho projektu TRUE|FALSE
-  dir_to_images: www/images/ # Globalne nastanenie adresara pre "pevne obrazky webu" 
+  dir_to_images: www/images/ # Globalne nastanenie adresara pre "pevne" obrazky webu 
+  dir_to_icons: www/ikonky/ # Globalne nastanenie adresara pre ikonky webu 
+  dir_to_user: www/files/ # Globalne nastanenie adresara pre obrazky uzivatelov 
+  dir_to_menu: www/files/menu # Globalne nastanenie adresara pre obrazky menu 
   slider:       #Nastavenie slider-u
     x: 1280   #Rozmery slider-u
     y: 260
@@ -33,7 +36,7 @@ parameters:
 #			1 = v hl. menu
 # 		2 = v titulke clanku
   article_avatar_view_in: 2 
-#  produkt_path: files/produkty # Adresar pre subory prilohy v adresary www
+  produkt_path: files/produkty # Adresar pre subory prilohy v adresary www
   prilohy_images: #Nastavenie rozmerov obrazku ako prilohy clanku po nahrati na server
     x: 1510        #Zakladny rozmer
     y: 1000
@@ -41,11 +44,12 @@ parameters:
     tx: 226       #Rozmer nahladu
     ty: 150
     tkvalita: 80
+  prilohy_dir: www/files/prilohy/ #Adresar pre prilohy
   user_view_fields: #Nastavuje viditelne(volitelne) polozky uzivatela
     rok: FALSE       #Zobrazenie roku narodenia
     telefon: FALSE   #Zobrazenie telefonu
     pohl: FALSE      #Zobrazenie pohlavia
-    avatar: FALSE    #Zobrazenie avataru
+    avatar: TRUE    #Zobrazenie avataru
     poznamka: FALSE  #Zobrazenie poznamky
     delete: FALSE    #Zobrazenie moznosti zmazat profil
   oznam: #Nastavuje viditelne(volitelne) polozky oznamu(aktuality)

@@ -1,48 +1,46 @@
 <?php
 namespace App\FrontModule\Presenters;
 
+use DbTable;
+use Language_support;
+use Latte;
 use Nette\Application\UI\Form;
-use Nette\Utils\Image;
-use Nette\Utils\Html;
-use Nette\Utils\Random;
-use Nette\Security\Passwords;
 use Nette\Mail\Message;
 use Nette\Mail\SendmailMailer;
-use Latte;
-use DbTable, Language_support;
+use Nette\Security\Passwords;
+use Nette\Utils\Random;
 
 /**
  * Prezenter pre spravu uzivatela po prihlásení.
  * (c) Ing. Peter VOJTECH ml.
- * Posledna zmena(last change): 06.06.2017
+ * Posledna zmena(last change): 17.06.2018
  *
  *	Modul: FRONT
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.3
+ * @version 1.1.5
  */
-class UserLogPresenter extends \App\FrontModule\Presenters\BasePresenter {
+class UserLogPresenter extends BasePresenter {
   
-  /** 
-   * @inject
-   * @var DbTable\User_main */
+  // -- DB
+  /** @var DbTable\User_main @inject */
 	public $user_main;
-    /** 
-   * @inject
-   * @var DbTable\User_profiles */
+  /** @var DbTable\User_profiles @inject */
 	public $user_profiles;
-  /**
-   * @inject
-   * @var Language_support\UserLog */
+  /** @var Language_support\UserLog @inject */
   public $texty_presentera;
   
   /** @var \Nette\Database\Table\ActiveRow|FALSE */
   private $uzivatel;
   /** @var array Nastavenie zobrazovania volitelnych poloziek */
   private $user_view_fields;
+
+  // -- Forms
+  /** @var \App\FrontModule\Forms\UserLog\UserEditFormFactory @inject*/
+	public $userEditFormFactory;
 
 	protected function startup() {
     parent::startup();
@@ -62,16 +60,14 @@ class UserLogPresenter extends \App\FrontModule\Presenters\BasePresenter {
   
   public function actionDefault() {
     $this["userEditForm"]->setDefaults($this->uzivatel);
+    $this["userEditForm"]->setDefaults(['news'=> $this->uzivatel->user_profile->news]);
   }
   
   public function renderDefault() {
     $this->template->uzivatel = $this->uzivatel;
-    $this->template->h2 = $this->trLang('h2');
-    $this->template->pass_change = $this->trLang('default_pass_change');
     $this->template->zdroj_na_zmazanie = $this->trLang('zdroj_na_zmazanie');
-    $this->template->default_delete = $this->trLang('default_delete');
-    $this->template->default_email_change = $this->trLang('default_email_change');
     $this->template->user_view_fields = $this->user_view_fields;
+    $this->template->setTranslator($this->texty_presentera);
   }
 
   /**
@@ -79,92 +75,20 @@ class UserLogPresenter extends \App\FrontModule\Presenters\BasePresenter {
 	 * @return Nette\Application\UI\Form
 	 */
 	protected function createComponentUserEditForm() {
-		$form = new Form();
-		$form->addProtection();
-    $form->addHidden('id');$form->addHidden('id_user_profiles');
-		$form->addText('meno', $this->trLang('UserEditForm_meno'), 0, 50)
-				 ->addRule(Form::MIN_LENGTH, $this->trLang('UserEditForm_meno_ar'), 3)
-				 ->setRequired($this->trLang('UserEditForm_meno_sr'));
-    $form->addText('priezvisko', $this->trLang('UserEditForm_priezvisko'), 0, 50)
-				 ->addRule(Form::MIN_LENGTH, $this->trLang('UserEditForm_priezvisko_ar'), 3)
-				 ->setRequired($this->trLang('UserEditForm_priezvisko_sr'));
-    $form->addText('email', $this->trLang('default_email').":", 0)->setDisabled(TRUE);
-    if ($this->user_view_fields["rok"]) {
-      $form->addText('rok', $this->trLang('UserEditForm_rok'), 0, 5)->setRequired(FALSE)
-           ->addRule(Form::RANGE, $this->trLang('UserEditForm_rok_ar'), [1900, StrFTime("%Y", Time())]);
-    }
-    if ($this->user_view_fields["telefon"]) { $form->addText('telefon', $this->trLang('UserEditForm_telefon'), 0, 20); }
-    if ($this->user_view_fields["poznamka"]) { $form->addText('poznamka', $this->trLang('UserEditForm_poznamka'), 0, 250); }
-    if ($this->user_view_fields["pohl"]) {
-      $form->addSelect('pohl', $this->trLang('UserEditForm_pohl'),
-                     ['M'=>$this->trLang('UserEditForm_m'),'Z'=>$this->trLang('UserEditForm_z')]);
-    }
-    if ($this->nastavenie['send_e_mail_news']) {
-      $form->addSelect('news', $this->trLang('UserEditForm_news'),
-                       ['A'=>$this->trLang('UserEditForm_news_a'),'N'=>$this->trLang('UserEditForm_news_n')]);
-    }
-    if ($this->user_view_fields["avatar"]) {
-      $src = ($this->uzivatel->user_profiles->avatar && is_file('www/'.$this->uzivatel->user_profiles->avatar)) ? $this->uzivatel->user_profiles->avatar : 'ikonky/64/figurky_64.png';
-      $form->addUpload('avatar', $this->trLang('UserEditForm_avatar').":")
-         ->setOption('description', Html::el('p')->setHtml(
-              Html::el('img')->src($this->template->basePath.'/www/'.$src)->alt('avatar').
-              " ".$this->trLang('default_avatar_txt')))
-         ->addCondition(Form::FILLED)
-            ->addRule(Form::IMAGE, $this->trLang('UserEditForm_avatar_oi'))
-            ->addRule(Form::MAX_FILE_SIZE, $this->trLang('UserEditForm_avatar_ar'), 300 * 1024 /* v bytech */);
-    }
-		$form->addSubmit('uloz', $this->trLang('base_save'))
-         ->setAttribute('class', 'btn btn-success')
-         ->onClick[] = [$this, 'userEditFormSubmitted'];
-    $form->addSubmit('cancel', 'Cancel')->setAttribute('class', 'btn btn-default')
-         ->setValidationScope([])
-         ->onClick[] = function () { $this->redirect('UserLog:'); };
-		return $this->_vzhladForm($form);
+    $form = $this->userEditFormFactory->create($this->user_view_fields, $this->nastavenie, $this->template->basePath, $this->uzivatel);  
+    $form['uloz']->onClick[] = function ($form) {
+      $this->flashOut(!count($form->errors), 'UserLog:', $this->trLang('user_edit_save_ok'), $this->trLang('user_edit_save_err'));
+		};
+    $form['cancel']->onClick[] = function () {
+			$this->redirect('UserLog:');
+		};
+    $form = $this->_vzhladForm($form);
+    $renderer = $form->getRenderer();
+    $renderer->wrappers['control']['container'] = 'div class="col-sm-8 control-field"';
+    $renderer->wrappers['label']['container'] = 'div class="col-sm-4 control-label"';
+		return $form;
 	}
   
-  public function userEditFormSubmitted($button) {
-		$values = $button->getForm()->getValues(TRUE); 	//Nacitanie hodnot formulara
-		$id = $values['id']; // Ak je == 0 tak sa pridava
-
-    $values['modified'] = StrFTime("%Y-%m-%d %H:%M:%S", Time());
-    $user_profiles_data =[
-      'rok' => $this->user_view_fields["rok"] ? $values["rok"] : NULL,
-      'telefon'=> $this->user_view_fields["telefon"] ? $values["telefon"] : NULL,
-      'poznamka'=> $this->user_view_fields["poznamka"] ? $values["poznamka"] : NULL,
-      'pohl'=> $this->user_view_fields["pohl"] ? $values["pohl"] : 'M',
-      'news'=> $this->nastavenie['send_e_mail_news'] ? $values["news"] : 'A',
-    ];
-    unset($values["rok"], $values["telefon"], $values["poznamka"], $values["pohl"], $values["news"]);
-    if (isset($values['avatar']) && $values['avatar'] && $values['avatar']->name != "") {
-      if ($values['avatar']->isImage()){
-        $avatar_path = "files/".$id."/";
-        $path = $this->context->parameters['wwwDir']."/www/".$avatar_path;
-        $pi = pathinfo($values['avatar']->getSanitizedName());
-        $ext = $pi['extension'];
-        if (is_dir($path)) {
-          foreach (glob("$path*.{jpg,jpeg,gif,png}", GLOB_BRACE) as $file) {
-            @unlink($file);
-          }
-        }	else { mkdir($path, 0777); }
-        $avatar_name = Random::generate(25).".".$ext;
-        $values['avatar']->move($path.$avatar_name);
-        $image = Image::fromFile($path.$avatar_name);
-        $image->resize(75, 75, Image::SHRINK_ONLY);
-        $image->save($path.$avatar_name, 90);
-        $this->user_profiles->uloz(array_merge($user_profiles_data, ['avatar'=>$avatar_path.$avatar_name]), $values['id_user_profiles']);
-      } else {
-        $this->flashMessage($this->trLang('user_edit_avatar_err'), 'danger');
-      }
-    }
-    unset($values['id'], $values['avatar']);
-    $uloz = $this->user_main->uloz($values, $id);
-    if (isset($uloz['id'])) { //Ulozenie v poriadku
-      $this->flashRedirect('UserLog:', $this->trLang('user_edit_save_ok'),'success');
-    } else {													//Ulozenie sa nepodarilo
-      $this->flashMessage($this->trLang('user_edit_save_err'), 'danger');
-    }
-  }
-
   public function actionMailChange() {
     $this->template->h2 = sprintf($this->trLang('mail_change_h2'),$this->uzivatel->meno, $this->uzivatel->priezvisko);
     $this->template->email = sprintf($this->trLang('mail_change_txt'),$this->uzivatel->email);

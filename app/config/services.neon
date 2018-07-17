@@ -12,7 +12,6 @@ services:
   - DbTable\Clanok_lang
   - DbTable\Dlzka_novinky
   - DbTable\Dokumenty
-  - DbTable\OldDokumenty
   - DbTable\Druh
   - DbTable\Faktury
   - DbTable\Hlavicka

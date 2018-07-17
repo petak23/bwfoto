@@ -4,8 +4,8 @@
  *
  *	Modul: ADMIN
  *
- * Posledna zmena(last change): 18.12.2017
- * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
+ * Posledna zmena(last change): 16.07.2018
+ * @copyright  Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
  *
@@ -13,6 +13,8 @@
  * @param array                           $flashes        Flash messages
  * @param array                           $udaje          Rozne udaje webu
  * @param string                          $nazov_stranky  Nazov stranky
+ * @param string                          $dir_to_images  Adresar k obrazkom
+ * @param string                          $dir_to_icons   Adresar pre ikonky
  * @param Nette\Security\User             $user           Info o uzivatelovi
  * @param Nette\Database\Table\Selection  $admin_menu     Menu administracie
  * @param Nette\Database\Table\ActiveRow  $verzia         Info o aktualnej verzii
@@ -30,7 +32,6 @@
 	<title>{$udaje['titulka']} - Administracia</title>
   {control css}
   {block spec_css}{/block}
-  {*\Zet\FileUpload\FileUploadControl::getHead($basePath.'\www')*}
 	<link rel="shortcut icon" href="{$basePath}/favicon.ico" type="image/x-icon">
   
 	{block head}{/block}
@@ -118,7 +119,7 @@
             {ifset $_SERVER['SERVER_SOFTWARE']}Server {$_SERVER['SERVER_SOFTWARE']}&nbsp;|&nbsp;{/ifset}
           {/if}
           <a href="http://nette.org/cs/" class="logo-nette" title="Nette Framework - populárny nástroj pre vytváranie webových aplikacií v PHP 5.">
-            <img src="{$basePath}/www/images/nette-powered1.gif" alt="nette powered">
+            <img src="{$basePath}/{$dir_to_images}nette-powered1.gif" alt="nette powered">
           </a>
         </p>
       </div>
@@ -129,8 +130,6 @@
   {control js}
   {control texyla}
   {control files:js}
-  
-  {*\Zet\FileUpload\FileUploadControl::getScripts($basePath.'\www')*}
   {block spec_js}{/block}
 </body>
 </html>

@@ -7,21 +7,21 @@ use DbTable;
 /**
  * Komponenta pre titulku polozky(titulny obrazok a nadpis).
  * 
- * Posledna zmena(last change): 01.06.2017
+ * Posledna zmena(last change): 16.07.2018
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
- * @copyright Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.3
+ * @version 1.0.4
  */
 
 class TitleImageControl extends Nette\Application\UI\Control {
 
   /** @var Nette\Database\Table\ActiveRow $clanok Info o clanku */
   private $clanok;
-  /** @var string $avatar_path */
-  private $avatar_path;
+  /** @var string $dir_to_menu */
+  private $dir_to_menu;
   /** @var string $www_dir */
   private $www_dir;
   /** @var array */
@@ -47,12 +47,12 @@ class TitleImageControl extends Nette\Application\UI\Control {
   
   /** Nastavenie komponenty
    * @param Nette\Database\Table\ActiveRow $clanok
-   * @param string $avatar_path
+   * @param array $nastavenie
    * @return \App\AdminModule\Components\Article\TitleArticleControl */
-  public function setTitle(Nette\Database\Table\ActiveRow $clanok, $avatar_path, $www_dir, $name) {
+  public function setTitle(Nette\Database\Table\ActiveRow $clanok, $nastavenie, $name) {
     $this->clanok = $clanok;
-    $this->avatar_path = $avatar_path;
-    $this->www_dir = $www_dir;
+    $this->dir_to_menu = $nastavenie["dir_to_menu"];
+    $this->www_dir = $nastavenie["wwwDir"];
     
     //Test opravneni
     $hlm = $this->clanok->hlavne_menu; // Pre skratenie zapisu
@@ -73,7 +73,6 @@ class TitleImageControl extends Nette\Application\UI\Control {
     $this->template->setFile(__DIR__ . '/TitleImage.latte');
     $this->template->clanok = $this->clanok;
     $this->template->admin_links = $this->admin_links;
-//    dump($this->admin_links);die();
 		$this->template->render();
 	}
   
@@ -81,7 +80,7 @@ class TitleImageControl extends Nette\Application\UI\Control {
    * Komponenta formulara pre zmenu vlastnika.
    * @return Nette\Application\UI\Form */
   public function createComponentEditTitleImageForm() {
-    $form = $this->editTitleImage->create($this->avatar_path, $this->www_dir);
+    $form = $this->editTitleImage->create($this->dir_to_menu, $this->www_dir);
     $form->setDefaults(["id" => $this->clanok->id_hlavne_menu,
                         "old_avatar" => $this->clanok->hlavne_menu->avatar,
                         "ikonka"=> $this->clanok->hlavne_menu->ikonka,

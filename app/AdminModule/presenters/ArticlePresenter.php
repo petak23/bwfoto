@@ -58,6 +58,8 @@ abstract class ArticlePresenter extends BasePresenter {
   public $viewFakturyControlFactory;
   /** @var Components\User\IKontaktControl @inject */
   public $kontaktControlFactory;
+  /** @var Components\User\ContactCategori\IContactCategoriControl @inject */
+  public $contactCategoriControlFactory;
   
   /** @var int hodnota id pre pridanie do menu */
   public $add_menu_id;
@@ -294,7 +296,7 @@ abstract class ArticlePresenter extends BasePresenter {
    * @return \App\AdminModule\Components\Article\TitleArticle */
   public function createComponentTitleImage() {
     $title = $this->titleImageControlFactory->create();
-    $title->setTitle($this->zobraz_clanok, $this->avatar_path, $this->context->parameters["wwwDir"], $this->name);
+    $title->setTitle($this->zobraz_clanok, $this->nastavenie, $this->name);
     return $title;
   }
   
@@ -326,7 +328,7 @@ abstract class ArticlePresenter extends BasePresenter {
       $presenter = $hl_m->hlavne_menu->druh->presenter;
     }
     if ($druh == 'avatar') {
-      $uloz = $this->hlavne_menu->zmazTitleImage($id, $this->avatar_path, $this->context->parameters["wwwDir"]);
+      $uloz = $this->hlavne_menu->zmazTitleImage($id, $this->menu_avatar, $this->context->parameters["wwwDir"]);
       $this->_ifMessage($uloz !== FALSE ? TRUE : FALSE, 'Titulný obrázok bol vymazaný!', 'Došlo k chybe a titulný obrázok nebol vymazaný!');
       $this->redirect($presenter.':', $id);
     } elseif ($druh == 'priloha') { //Poziadavka na zmazanie prilohy
@@ -384,7 +386,7 @@ abstract class ArticlePresenter extends BasePresenter {
   protected function _delClanok($id) {
     $dokumenty = $this->dokumenty->findBy(["id_hlavne_menu"=>$id]);
     $komponenty = $this->clanok_komponenty->findBy(["id_hlavne_menu"=>$id]);
-    $this->hlavne_menu->zmazTitleImage($id, $this->avatar_path, $this->context->parameters["wwwDir"]);
+    $this->hlavne_menu->zmazTitleImage($id, $this->menu_avatar, $this->context->parameters["wwwDir"]);
     $hl_m_m = $this->hlavne_menu_lang->findBy(["id_hlavne_menu"=>$id])->fetchPairs("id", "id_clanok_lang");
     if ($dokumenty !== FALSE && ($pocita = count($dokumenty))) {
       $do = 0;
@@ -438,6 +440,13 @@ abstract class ArticlePresenter extends BasePresenter {
     $out["parametre"] = substr($out["parametre"], 0, strlen($out["parametre"])-1);
     $this->clanok_komponenty->pridaj($out);
     $this->flashRedirect("this", "Komponenta bola pridaná", "success");
+  }
+  
+  /** 
+   * Komponenta pre vykreslenie kontaktov pre skupinu uzivatelov
+   * @return \App\AdminModule\Components\User\ContactCategori\IContactCategoriControl */
+  public function createComponentContactCategori() {
+    return $this->contactCategoriControlFactory->create();
   }
   
   /** 

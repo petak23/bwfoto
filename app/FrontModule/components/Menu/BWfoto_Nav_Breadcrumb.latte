@@ -2,8 +2,8 @@
   <ol class="breadcrumb">
     <li n:if="count($path) > 1" class="breadcrumb-item"><a href="{plink 'Homepage:'}" title="home">Úvod</a></li>
     {foreach $path as $k => $node}
-    <li n:if="$k >= $startLevel" class="breadcrumb-item {if $node->itemClass == ' selected'}active{/if}" {if $node->itemClass == ' selected'}aria-current="page"{/if}>
-      <a n:tag-if="$node->itemClass != ' selected'" href="{$node->link}" title="{$node->name}">{$node->name}</a>
+    <li n:if="$k >= $startLevel" class="breadcrumb-item {if $node->getItemClass() == ' selected'}active{/if}" {if $node->getItemClass() == ' selected'}aria-current="page"{/if}>
+      <a n:tag-if="$node->getItemClass() != ' selected'" href="{$node->link}" title="{$node->name}">{$node->name}</a>
     </li>
     <li n:if="count($path) == 1 && $k < $startLevel" class="breadcrumb-item"> </li>
     {/foreach}

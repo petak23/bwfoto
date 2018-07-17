@@ -2,26 +2,26 @@
 namespace App\FrontModule\Presenters;
 
 use DbTable;
-//use Nette\Application\UI\Presenter;
 use Nette\Application\UI\Multiplier;
+use Nette\Application\UI\Presenter;
 use Nette\Http;
+use Nette\Utils\Html;
 use Nette\Utils\Strings;
-use Nittro\Bridges\NittroUI\Presenter;
 use PeterVojtech;
 use Texy;
 
 /**
  * Zakladny presenter pre vsetky presentery vo FRONT module
  * 
- * Posledna zmena(last change): 18.09.2017
+ * Posledna zmena(last change): 17.07.2018
  *
  *	Modul: FRONT
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
  * @license
  * @link      http://petak23.echo-msz.eu
- * @version 1.3.6
+ * @version 1.4.0
  */
 \Nette\Forms\Container::extensionMethod('addDatePicker', function (\Nette\Forms\Container $container, $name, $label = NULL) {
     return $container[$name] = new \JanTvrdik\Components\DatePicker($label);
@@ -67,9 +67,14 @@ abstract class BasePresenter extends Presenter {
   public $odkazNaClankyControlFactory;
   /** @var \App\FrontModule\Components\News\INewsControl @inject */
   public $newsControlFactory;
+  /** @var \App\FrontModule\Components\Clanky\ZobrazClanok\IZobrazClanokControl @inject */
+  public $zobrazClanokControlFactory;
+  /** @var \App\FrontModule\Components\Clanky\IAktualneClankyControl @inject */
+  public $aktualneClankyControlFactory;
+  /** @var \PeterVojtech\MainLayout\IGoogleAnalyticsControl @inject */
+  public $googleAnalyticsFactory;
 
 
-  // -- Premenne z o stareho CommonBasePresentera
   /** @persistent */
   public $language = 'sk';
   /** @persistent */
@@ -103,10 +108,10 @@ abstract class BasePresenter extends Presenter {
   /** @var int Maximalna velkost suboru pre upload */
   public $upload_size = 0;
   
-  /** Vratenie textu pre dany kluc a jazyk
-   * @param string $key - kluc daneho textu
-   * @return string - hodnota pre dany text
-   */
+  /** 
+   * Vratenie textu pre dany kluc a jazyk
+   * @param string $key Kluc daneho textu
+   * @return string Dany text */
   public function trLang($key) {
     return ($this->texty_presentera == NULL) ? $key : $this->texty_presentera->trText($key);
   }
@@ -116,7 +121,7 @@ abstract class BasePresenter extends Presenter {
     // Sprava uzivatela
     $user = $this->getUser(); //Nacitanie uzivatela
     // Kontrola prihlasenia a nacitania urovne registracie
-    $this->id_reg = ($user->isLoggedIn()) ? $user->getIdentity()->id_user_roles : 0;
+    $this->id_reg = ($user->isLoggedIn()) ? ($user->getIdentity()->id_user_roles === NULL ? 0 : $user->getIdentity()->id_user_roles) : 0;
     // Nastavenie z config-u
     $this->nastavenie = $this->context->parameters;
     $modul_presenter = explode(":", $this->name);
@@ -187,7 +192,6 @@ abstract class BasePresenter extends Presenter {
     $this->upload_size =  intval($ini_v) * ($s[strtolower(substr($ini_v,-1))] ?: 1);
     // -- Povodny: 
     $this->texty_presentera->setLanguage($this->language); //Nastavenie textov podla jazyka
-    $this->setDefaultSnippets(['slider', 'header', 'content', 'footer']);
 	}
 
   /** Komponenta pre vykreslenie menu
@@ -237,6 +241,8 @@ abstract class BasePresenter extends Presenter {
 		$this->template->article_avatar_view_in = $this->nastavenie["article_avatar_view_in"];
     $this->template->omrvinky_enabled = $this->nastavenie["omrvinky_enabled"];
     $this->template->view_log_in_link_in_header = $this->nastavenie['user_panel']["view_log_in_link_in_header"];
+    $this->template->dir_to_images = $this->nastavenie['dir_to_images'];
+    $this->template->dir_to_icons = $this->nastavenie['dir_to_icons'];
 	}
   
   /** Signal pre odhlasenie sa */
@@ -252,9 +258,7 @@ abstract class BasePresenter extends Presenter {
   public function handleSetLang($language) {
     if ($this->language != $language) { //Cokolvek rob len ak sa meni
       //Najdi v DB pozadovany jazyk
-      $la_tmp = $this->lang->findOneBy(['skratka'=>$language]);
-      //Ak existuje tak akceptuj
-      if (isset($la_tmp->skratka) && $la_tmp->skratka == $language) { $this->language = $language; }
+      if (($this->lang->findOneBy(['skratka'=>$language])) !== FALSE) { $this->language = $language;}
     }
     $this->redirect('this');
 	}
@@ -283,7 +287,7 @@ abstract class BasePresenter extends Presenter {
   /** Komponenta pre výpis kodu google-analytics
    * @return \PeterVojtech\Base\CssJsFilesControl */
   public function createComponentGoogleAnalytics() {
-    return new PeterVojtech\MainLayout\GoogleAnalyticsControl($this->udaje);
+    return $this->googleAnalyticsFactory->create();
   }
   
   /**
@@ -340,9 +344,9 @@ abstract class BasePresenter extends Presenter {
 		});
   }
   
-  /** Komponenta pre zobrazenie clanku
-   * @return \App\FrontModule\Components\Clanky\ZobrazClanok\ZobrazClanokControl
-   */
+  /** 
+   * Komponenta pre zobrazenie clanku
+   * @return Multiplier */
   public function createComponentUkazClanok() {
     $servise = $this;
 		return new Multiplier(function ($id) use ($servise) {
@@ -351,17 +355,11 @@ abstract class BasePresenter extends Presenter {
       } else {
         $clanok = $servise->hlavne_menu_lang->getOneArticleSp($id, $servise->language_id, 0);
       }
-      $ukaz_clanok = New \App\FrontModule\Components\Clanky\ZobrazClanok\ZobrazClanokControl($clanok, $this->texy);
-      $ukaz_clanok->setTexts([
-        "not_found"         =>$servise->trLang('base_not_found'),
-        "platnost_do"       =>$servise->trLang('base_platnost_do'),
-        "zadal"             =>$servise->trLang('base_zadal'),
-        "zobrazeny"         =>$servise->trLang('base_zobrazeny'),  
-        "anotacia"          =>$servise->trLang('base_anotacia'),
-        "viac"              =>$servise->trLang('base_viac'),
-        "text_title_image"  =>$servise->trLang("base_text_title_image"),
-        ]);
-      $ukaz_clanok->setClanokHlavicka($servise->udaje_webu['clanok_hlavicka']);
+      $ukaz_clanok = $servise->zobrazClanokControlFactory->create();
+      $ukaz_clanok->setArticle($clanok)
+                  ->setLanguage($servise->language_id)
+                  ->setClanokHlavicka($servise->udaje_webu['clanok_hlavicka']);
+      if ($clanok->hlavne_menu->nazov_ul_sub !== null) {$ukaz_clanok->setClanokTemplate($clanok->hlavne_menu->nazov_ul_sub);}
       return $ukaz_clanok;
     });
   }
@@ -374,6 +372,16 @@ abstract class BasePresenter extends Presenter {
     $aktualne->setNastavenie($this->context->parameters['oznam']);
     return $aktualne;
 	}
+  
+  /** 
+   * Komponenta pre zobrazenie aktualnych clankov 
+   * @return \App\FrontModule\Components\Clanky\AktualneClankyControl */
+  public function createComponentAktualneClanky() {
+    $aktualne_clanky = $this->aktualneClankyControlFactory->create();
+    $aktualne_clanky->setLanguage($this->language_id)
+		                ->setAvatarPath($this->avatar_path);
+		return $aktualne_clanky;
+  }
   
   /** 
    * Komponenta pre zobrazenie noviniek
@@ -448,8 +456,24 @@ abstract class BasePresenter extends Presenter {
         if (substr($cast, 0, 2) == "I-") {
           $obr = $serv->dokumenty->find((int)substr($cast, 2));
 					if ($obr !== FALSE) {
-            $cast = \Nette\Utils\Html::el('a class="fotky" rel="fotky"')->href($cesta.$obr->subor)->title($obr->nazov)
-                                  ->setHtml(\Nette\Utils\Html::el('img')->src($cesta.$obr->thumb)->alt($obr->nazov));
+            $cast = Html::el('a class="fotky" rel="fotky"')->href($cesta.$obr->subor)->title($obr->nazov)
+                                  ->setHtml(Html::el('img')->src($cesta.$obr->thumb)->alt($obr->nazov));
+					}
+        }
+        $vysledok .= $cast;
+      }
+      return $vysledok;
+    });
+    $template->addFilter('sponzor', function ($text) use($servise){
+      $rozloz = explode("#", $text);
+      $serv = $servise->presenter;
+      $vysledok = '';
+      $cesta = 'http://'.$serv->nazov_stranky."/";
+      foreach ($rozloz as $k=>$cast) {
+        if (substr($cast, 0, 2) == "I-") {
+          $obr = $serv->dokumenty->find((int)substr($cast, 2));
+					if ($obr !== FALSE) {
+            $cast = Html::el('img', ['class'=>'img-center img-responsive'])->src($cesta.$obr->thumb)->alt($obr->nazov);
 					}
         }
         $vysledok .= $cast;

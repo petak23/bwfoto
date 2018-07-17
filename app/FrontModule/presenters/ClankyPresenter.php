@@ -8,7 +8,7 @@ use Nette\Application\UI\Multiplier;
 /**
  * Prezenter pre vypisanie clankov.
  * 
- * Posledna zmena(last change): 15.01.2018
+ * Posledna zmena(last change): 13.07.2018
  *
  *	Modul: FRONT
  *
@@ -16,7 +16,7 @@ use Nette\Application\UI\Multiplier;
  * @copyright  Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.5
+ * @version 1.1.6
  */
 
 class ClankyPresenter extends BasePresenter {
@@ -139,20 +139,14 @@ class ClankyPresenter extends BasePresenter {
 		});
 	}
 
-  /** Komponenta pre zobrazenie clanku
+  /** 
+   * Komponenta pre zobrazenie clanku
    * @return \App\FrontModule\Components\Clanky\ZobrazClanok\ZobrazClanokControl */
   public function createComponentUkazTentoClanok() {
-    $ukaz_clanok = New \App\FrontModule\Components\Clanky\ZobrazClanok\ZobrazClanokControl($this->zobraz_clanok, $this->texy);
-    $ukaz_clanok->setTexts([
-      "not_found"         => $this->trLang('base_template_not_found'),
-      "platnost_do"       => $this->trLang('base_platnost_do'),
-      "zadal"             => $this->trLang('base_zadal'),
-      "zobrazeny"         => $this->trLang('base_zobrazeny'),  
-      "anotacia"          => $this->trLang('base_anotacia'),
-      "viac"              => $this->trLang('base_viac'),
-      "text_title_image"  => $this->trLang("base_text_title_image"),
-      ]);
-    $ukaz_clanok->setClanokHlavicka($this->udaje_webu['clanok_hlavicka']);
+    $ukaz_clanok = $this->zobrazClanokControlFactory->create();
+    $ukaz_clanok->setArticle($this->zobraz_clanok)
+                ->setLanguage($this->language_id)
+                ->setClanokHlavicka($this->udaje_webu['clanok_hlavicka']);
     return $ukaz_clanok;
   }
 

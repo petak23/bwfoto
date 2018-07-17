@@ -6,13 +6,13 @@ use Nette;
 /**
  * Model starajuci sa o tabulku hlavne_menu_lang
  * 
- * Posledna zmena 23.06.2017
+ * Posledna zmena 12.03.2018
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.6
+ * @version    1.0.7
  */
 class Hlavne_menu_lang extends Table {
   /** @var string */
@@ -114,5 +114,15 @@ class Hlavne_menu_lang extends Table {
       $pol = $this->findOneBy(["id_hlavne_menu"=>$id_hlavne_menu, "id_lang"=>$id_lang]);
       $this->uloz(["id_clanok_lang"=>$id_clanok_lang], $pol->id);
     } 
+  }
+  
+  /**
+   * Pre danu polozku vrati len platne podclanky
+   * @param int $id_lang Id jazyka
+   * @param int $id_nadradenej
+   * @return Nette\Database\Table\Selection */
+  public function subArticleToView($id_lang, $id_nadradenej) {
+    return $this->findBy(["id_lang"=>$id_lang, "hlavne_menu.id_nadradenej"=>$id_nadradenej])
+                ->where("datum_platnosti ? OR datum_platnosti >= ? ", NULL, StrFTime("%Y-%m-%d",strtotime("0 day")));
   }
 }

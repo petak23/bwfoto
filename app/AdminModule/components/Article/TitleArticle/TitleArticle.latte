@@ -1,10 +1,10 @@
 <div class="page-header edit-link-bar" data-toggle="tooltip" data-placement="bottom">
   {var $al = $admin_links['alink']}
   <a n:if="$al['druh_opravnenia']" href="{if $al['druh_opravnenia'] == 1}{plink $al['link']['main'] id=>$clanok->id_hlavne_menu}{else}{plink $al['link']['main'] id=>$clanok->id_hlavne_menu, uroven=>$al['link']['uroven']}{/if}" title="Pridanie podčlánku" class="btn btn-success">
-    <i class="far fa-file"></i>{$admin_links['alink']['text']}
+    <i class="far fa-file"></i> {$admin_links['alink']['text']}
   </a>
-  <a n:if="$admin_links['elink']" href="{plink $clanok->hlavne_menu->druh->presenter.':edit' $clanok->id_hlavne_menu}" title="Zmeň nastavenie článku" class="btn btn-success"><i class="fas fa-pencil-alt"></i>Zmeň nastavenie</a>
-  <a n:if="$admin_links['elink'] && isset($clanok->id_clanok_lang)" href="{plink Clanky:edit2 $clanok->id_hlavne_menu}" title="Zmeň text článku" class="btn btn-success"><i class="fas fa-file-alt"></i>Zmeň text</a>
+  <a n:if="$admin_links['elink']" href="{plink $clanok->hlavne_menu->druh->presenter.':edit' $clanok->id_hlavne_menu}" title="Zmeň nastavenie článku" class="btn btn-success"><i class="fas fa-pencil-alt"></i> Zmeň nastavenie</a>
+  <a n:if="$admin_links['elink'] && isset($clanok->id_clanok_lang)" href="{plink Clanky:edit2 $clanok->id_hlavne_menu}" title="Zmeň text článku" class="btn btn-success"><i class="fas fa-file-alt"></i> Zmeň text</a>
   <a n:if="$admin_links['dlink']" href="{plink confirmForm:confirmDelete! id => $clanok->id_hlavne_menu, druh=>'', nazov=>$clanok->view_name, zdroj_na_zmazanie=>'článok'}" title="Vymazanie článku" class="btn btn-danger" href="#" role="button">
     <i class="far fa-trash-alt"></i>
   </a>
@@ -22,7 +22,7 @@
       Poradie podčlánkov <i class="fas fa-sort-numeric-{$c = $clanok->hlavne_menu->poradie_podclankov ? 'up' : 'down'}"></i>
     </div>
     <a n:if="$admin_links['vlastnik']" n:href="podclankyZoradenie!" title="Zmeň zoradenie podclankov podľa dátumu platnosti od {$clanok->hlavne_menu->poradie_podclankov ? 'najskoršieho' : 'najneskoršieho'}." class="btn btn-info" role="button">
-      Nastav na <i class="fas fa-sort-numeric-{$c = $clanok->hlavne_menu->poradie_podclankov ? 'down' : 'uo'}"></i>
+      Nastav na <i class="fas fa-sort-numeric-{$c = $clanok->hlavne_menu->poradie_podclankov ? 'down' : 'up'}"></i>
     </a>
   </div>
   <div n:snippet="uroven" class="btn-group edit-link-bar" role="group" aria-label="uroven-link">
@@ -90,7 +90,7 @@
   <div n:if="$komentare_enabled" n:snippet="komentare" class="btn-group edit-link-bar" role="group" aria-label="komentare-enabled-link">
     {var $kom_enab = $clanok->hlavne_menu->komentar}
     {var $kom_text = $kom_enab ? 'Zakázať' : 'Povoliť'}
-    <div class="btn btn-{if $kom_enab}warning{else}info{/if} disabled" title="Komentáre k článku sú {if $kom_enab}dovolené{else}zakázané{/if}."><i class="fas fa-commenting-alt"></i>{*Komentáre k článku sú {if $kom_enab}dovolené{else}zakázané{/if}.*}</div>
+    <div class="btn btn-{if $kom_enab}warning{else}info{/if} disabled" title="Komentáre k článku sú {if $kom_enab}dovolené{else}zakázané{/if}."><i class="far fa-comment-alt"></i>{*Komentáre k článku sú {if $kom_enab}dovolené{else}zakázané{/if}.*}</div>
     <a n:if="$vlastnik" n:href="komentare! volba => (1-$kom_enab)" title="{$kom_text}" class="btn btn-info"><i class="fas fa-{if $kom_enab}times{else}check{/if}"></i>{*$kom_text*}</a>
   </div>
   <div n:snippet="aktualnyProjekt" n:if="$aktualny_projekt_enabled" class="btn-group edit-link-bar" role="group" aria-label="aktualny-projekt-link">

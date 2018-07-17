@@ -1,5 +1,5 @@
 {define #link}
-<li class="nav-item {$n->itemClass}">
+<li class="nav-item {$n->getItemClass()}">
   {if $n->link}
     <a href="{$n->link}" title="{$n->name}">{$n->name}</a>
   {else}

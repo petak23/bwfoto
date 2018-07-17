@@ -1,5 +1,6 @@
+document.addEventListener('DOMContentLoaded', naja.initialize.bind(naja));
 $(function() {
-  $.nette.init();
+//  $.nette.init();
 //	$( "#locale" ).change(function() {
 //			$( "#datepicker" ).datepicker( "option",
 //				$.datepicker.regional[ 'sk' ] );

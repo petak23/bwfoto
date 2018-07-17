@@ -4,14 +4,16 @@ namespace App\AdminModule\Presenters;
 use App\AdminModule\Components;
 use App\AdminModule\Forms;
 use DbTable;
+use Latte;
 use Nette\Application\UI\Multiplier;
 use Nette\Forms\Container;
+use Nette\Mail;
 use PeterVojtech\Email;
 
 /**
  * Prezenter pre spravu oznamov.
  * 
- * Posledna zmena(last change): 26.01.2018
+ * Posledna zmena(last change): 06.03.2018
  *
  * Modul: ADMIN
  *
@@ -19,7 +21,7 @@ use PeterVojtech\Email;
  * @copyright  Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.9
+ * @version 1.2.0
  */
 
 Container::extensionMethod('addDatePicker', function (Container $container, $name, $label = NULL) {
@@ -30,9 +32,15 @@ class OznamPresenter extends BasePresenter {
 	// -- DB
   /** @var DbTable\Oznam @inject */
 	public $oznam;
+  /** @var DbTable\User_main @inject */
+	public $user_main;
   
-  // -- Components
-  /** @var Components\Oznam\TitleOznam\ITitleOznamControl @inject */
+  // -- Komponenty
+  /** @var \App\AdminModule\Components\Oznam\PotvrdUcast\IPotvrdUcastControl @inject */
+//  public $potvrdUcastControlFactory;
+  /** @var \App\AdminModule\Components\Oznam\IKomentarControl @inject */
+//  public $komentarControlControlFactory;
+  /** @var \App\AdminModule\Components\Oznam\TitleOznam\ITitleOznamControl @inject */
   public $titleOznamControlFactory;
   /** @var Email\IEmailControl @inject */
   public $emailControl;
@@ -120,16 +128,66 @@ class OznamPresenter extends BasePresenter {
                 "datum_platnosti" => $values->datum_platnosti,
                 "oznam_ucast" => $this->user->isAllowed('Admin:Oznam', 'ucast') && $this->udaje->getKluc("oznam_ucast") && $values->potvrdenie,
                 "oznam_id"    => $values->id,
-                "volby"       => [],
+                "oznam_kluc"  => $values->oznam_kluc,
               ];
-    $send = $this->emailControl->create()->nastav(__DIR__.'/templates/Oznam/email_oznamy_html.latte', 1, $values->id_user_roles);
+
     try {
-      $this->flashMessage('E-mail bol odoslany v poriadku na emaily: '.$send->send($params, 'Nový oznam na stránke '.$this->nazov_stranky), 'success');
+      $send = $this->sendJednotlivci(__DIR__.'/../templates/Oznam/email_oznamy_html.latte', 1, $values->id_user_roles, $params, 'Nový oznam na stránke '.$this->nazov_stranky);
+      $this->flashMessage('E-mail bol odoslany v poriadku na emaily: '.$send, 'success');
     } catch (Exception $e) {
       $this->flashMessage($e->getMessage(), 'danger');
     }
 	}
 
+  /** 
+   * Funkcia pre odoslanie emailov pre skupinu príjemcov po jednom
+   * @param string $template Kompletná cesta k súboru template
+   * @param type $from
+   * @param type $id_user_roles
+   * @param array $params Parametre správy
+   * @param string $subjekt Subjekt emailu
+   * @return string Zoznam komu bol odoslany email
+   * @throws SendException   */
+  public function sendJednotlivci($template, $from, $id_user_roles, $params, $subjekt) {
+    $templ = new Latte\Engine;
+    $email_to_array = $this->user_main->emailUsersListArray($id_user_roles);
+    $email_list = "";
+    $from = $this->nazov_stranky.' <'.  $this->user_main->find($from)->email.'>';
+    $sum = count($email_to_array); $iter = 0;
+    foreach ($email_to_array as $id_user_main=>$users_email) {
+      $mail = new Mail\Message;
+      $mail->setFrom($from);
+      $mail->setSubject($subjekt);
+      $mail->addTo(trim($users_email));
+      $params['id_user_main'] = $id_user_main;
+      $params['volby'] = $this->_volby($params);
+      $params["odhlasenie"] = ['odkaz'=>$this->link('//:Front:User:NewsUnsubscribe', ['id_user_main'=>$id_user_main, 'news_key'=>$this->user_main->find($id_user_main)->user_profiles->news_key]),
+                               'text'=>"Odhlásenie z odberu noviniek."];
+      $params["text"] = $this->texy->process($params["text"]);
+      $mail->setHtmlBody($templ->renderToString($template, $params));
+      try {
+        $sendmail = new Mail\SendmailMailer;
+        $sendmail->send($mail);
+        $email_list .= $users_email.($sum == $iter ? '' : ', '); 
+      } catch (Exception $e) {
+        throw new SendException('Došlo k chybe pri odosielaní e-mailu. Skúste neskôr znovu...'.$e->getMessage());
+      }
+      unset($mail);
+    }
+    return $email_list;
+  }
+  
+  private function _volby($params) {
+    $volby = $this->oznam_volba->volby();
+    $out = [];
+    foreach ($volby as $k => $v) {
+      $out[] = ['nazov' => $v,
+                'odkaz' => $this->link('//:Front:Oznam:UcastFromEmail', ['id_user_main'=>$params['id_user_main'], 'id_oznam'=>$params['oznam_id'], 'id_volba_oznam'=>$k, 'oznam_kluc'=>$params['oznam_kluc']])
+             ];
+    }
+    return $out;
+  }
+  
   /** Signal pre odoslanie informacneho emailu */
   public function handlePosliEmail($id) {
     $this->_sendOznamyEmail($id);
@@ -148,7 +206,17 @@ class OznamPresenter extends BasePresenter {
     $title = $this->titleOznamControlFactory->create();
     return $title;
   }
-  
+  /** Komponenta na obsluhu potvrdenia ucasti */
+//	public function createComponentPotvrdUcast() {
+//		return new Multiplier(function ($id_oznam) {
+//      $potvrd = $this->potvrdUcastControlFactory->create();
+//      $potvrd->setParametre($id_oznam, $this->user->isAllowed('Admin:Oznam', 'ucast'));
+//			return $potvrd;
+//
+//
+//		});
+//	}
+
   /** Komponenta pre tvorbu titulku oznamov.
    * @return \App\AdminModule\Components\Oznam\TitleOznam */
   public function createComponentTitleImage() {
@@ -159,6 +227,15 @@ class OznamPresenter extends BasePresenter {
 			return $odkaz;
 		});
   }
+  /** Obsluha komentara
+   * @return Multiplier */
+//	public function createComponentKomentar() {
+//		return new Multiplier(function ($id_oznam) {
+//      $komentar = $this->komentarControlControlFactory->create();
+//      $komentar->setParametre($id_oznam, $this->user->isInRole('admin'));
+//			return $komentar;
+//		});
+//	}
   
   /** Funkcia pre spracovanie signálu vymazavania
 	  * @param int $id Id oznamu */

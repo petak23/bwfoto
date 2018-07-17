@@ -44,7 +44,7 @@ class ZobrazKartyPodclankovControl extends Nette\Application\UI\Control {
    * @return \App\FrontModule\Components\Clanky\ZobrazKartyPodclankov\ZobrazKartyPodclankovControl */
   public function setArticle($id, $id_lang = 1, $kotva = "") {
     $this->texts->setLanguage($id_lang);
-    $this->articles = $this->hlavne_menu_lang->findBy(["id_lang"=>$id_lang, "hlavne_menu.id_nadradenej"=>$id]);
+    $this->articles = $this->hlavne_menu_lang->subArticleToView($id_lang, $id);
     $this->kotva = $kotva;
     return $this;
   }
@@ -55,7 +55,7 @@ class ZobrazKartyPodclankovControl extends Nette\Application\UI\Control {
    * @see Nette\Application\Control#render() */
   public function render($p = []) {
     $this->template->setFile(__DIR__ . "/ZobrazKartyPodclankov".(isset($p["template"]) && strlen($p["template"]) ? "_".$p["template"] : "_default").".latte");
-    $this->template->texty = $this->texts;
+    $this->template->texts = $this->texts;
     $this->template->articles = $this->articles;
     $this->template->kotva = $this->kotva;
     $this->template->dokumenty = $this->dokumenty;
