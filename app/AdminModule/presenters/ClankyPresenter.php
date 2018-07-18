@@ -7,7 +7,7 @@ use PeterVojtech;
 /**
  * Prezenter pre spravu clankov.
  * 
- * Posledna zmena(last change): 03.01.2018
+ * Posledna zmena(last change): 17.07.2018
  *
  *	Modul: ADMIN
  *
@@ -15,7 +15,7 @@ use PeterVojtech;
  * @copyright Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.2.9
+ * @version 1.3.0
  */
 
 class ClankyPresenter extends ArticlePresenter {
@@ -51,31 +51,29 @@ class ClankyPresenter extends ArticlePresenter {
     $this->template->komponenty = $this->clanok_komponenty->getKomponenty($this->zobraz_clanok->id_hlavne_menu, $this->nastavenie["komponenty"]);
     //Kontrola jedinecnych komponent. Ak uz su priradene tak sa vypustia
     $this->template->zoznam_komponent = $this->clanok_komponenty->testJedinecnosti($this->nastavenie["komponenty"], $this->zobraz_clanok->id_hlavne_menu);
-//    dump($this->params);
-//    products-tab
     $this->template->tabs = isset($this->params["tab"]) ? $this->params["tab"] : "prilohy-tab";
 	}
 
-  /** Akcia pre 1. krok pridania clanku - udaje pre hl. menu.
+  /** 
+   * Akcia pre 1. krok pridania clanku - udaje pre hl. menu.
    * @param int $id - id nadradenej polozky
-   * @param int $uroven - uroven menu
-   */
+   * @param int $uroven - uroven menu */
   public function actionAdd($id, $uroven) {
 		$this->menuformuloz = ["text"=>"Ulož základ a pokračuj na texty >>","redirect"=>"Clanky:add2"];
     parent::actionAdd($id, $uroven);
 	}
 	
-  /** Akcia pre 1. krok editovania clanku - udaje pre hl. menu.
-   * @param int $id - id editovanej polozky
-   */
+  /** 
+   * Akcia pre 1. krok editovania clanku - udaje pre hl. menu.
+   * @param int $id - id editovanej polozky */
   public function actionEdit($id) {
     $this->menuformuloz = ["text"=>"Ulož","redirect"=>"Clanky:default"];
     parent::actionEdit($id);
 	}
   
-	/** Akcia pre 2. krok pridania clanku - udaje pre clanok.
-   * @param int $id - id pridavanej polozky v hl. menu
-   */
+	/** 
+   * Akcia pre 2. krok pridania clanku - udaje pre clanok.
+   * @param int $id - id pridavanej polozky v hl. menu */
 	public function actionAdd2($id) {
     $this->nadpis_h2 = 'Pridanie textov k článku: ';
     //Najdi pozadovany clanok
@@ -96,9 +94,9 @@ class ClankyPresenter extends ArticlePresenter {
     }
 	}
 	
-  /** Akcia pre 2. krok editovania clanku - udaje pre clanok.
-   * @param int $id - id editovaneho clanku v hl. menu
-   */
+  /** 
+   * Akcia pre 2. krok editovania clanku - udaje pre clanok.
+   * @param int $id - id editovaneho clanku v hl. menu */
 	public function actionEdit2($id) {
     $this->nadpis_h2 = 'Editácia textov k článku: ';
     //Najdi pozadovany clanok
@@ -133,11 +131,10 @@ class ClankyPresenter extends ArticlePresenter {
   public function renderKrok2() {
 		$this->template->h2 = $this->nadpis_h2.$this->zobraz_clanok->view_name;
 	}
-  
 	
-	/** Formular pre editaciu clanku.
-	 * @return Nette\Application\UI\Form
-	 */
+	/** 
+   * Formular pre editaciu clanku.
+	 * @return Nette\Application\UI\Form */
 	protected function createComponentClankyEditForm() {
 		$form = new Form();
 		$form->addProtection();
@@ -169,9 +166,9 @@ class ClankyPresenter extends ArticlePresenter {
     return $form;
 	}
 
-  /** Spracovanie formulara pre editaciu clanku.
-   * @param Nette\Application\UI\Form $form Hodnoty formulara
-   */
+  /** 
+   * Spracovanie formulara pre editaciu clanku.
+   * @param Nette\Application\UI\Form $form Hodnoty formulara */
 	public function clankyEditFormSubmitted($form) {
 		$values = $form->getValues(TRUE);             //Nacitanie hodnot formulara
 		//Inicializacia
@@ -200,36 +197,9 @@ class ClankyPresenter extends ArticlePresenter {
     }
 	}
   
-	/** Komponenta pre PlUpload.
-   * @return type
-   */
-//	public function createComponentPlupload() {
-//    // Main object
-//    $uploader = new \Echo511\Plupload\Rooftop();
-//    $www_dir = $this->context->parameters['wwwDir'];
-//    // Configuring paths
-//    $uploader->setWwwDir($www_dir) // Full path to your frontend directory
-//             ->setBasePath($this->template->basePath) // BasePath provided by Nette
-//             ->setTempLibsDir($www_dir . '/www/plupload511/test'); // Full path to the location of plupload libs (js, css)
-//
-//    // Configuring plupload
-//    $uploader->createSettings()
-//             ->setRuntimes(['html5']) // Available: gears, flash, silverlight, browserplus, html5
-//             ->setMaxFileSize('2mb')
-//             ->setMaxChunkSize('1mb'); // What is chunk you can find here: http://www.plupload.com/documentation.php
-//
-//    // Configuring uploader
-//    $uploader->createUploader()
-//             ->setTempUploadsDir($www_dir . '/www/plupload511/tempDir') // Where should be placed temporaly files
-//             ->setToken("ahoj") // Resolves file names collisions in temp directory
-//             ->setOnSuccess([$this, 'uploadOk']); // Callback when upload is successful: returns Nette\Http\FileUpload
-//
-//    return $uploader->getComponent();
-//	}
-
-  /** Komponenta pre ukazanie obsahu clanku.
-   * @return \App\AdminModule\Components\Clanky\ZobrazClanokControl
-   */
+  /** 
+   * Komponenta pre ukazanie obsahu clanku.
+   * @return \App\AdminModule\Components\Clanky\ZobrazClanokControl */
 	public function createComponentZobrazClanok() {
     $zobrazClanok = $this->zobrazClanokControlFactory->create();
     $zobrazClanok->setZobraz($this->zobraz_clanok->id_hlavne_menu, $this->nastavenie['clanky']['zobraz_anotaciu']);
@@ -237,28 +207,28 @@ class ClankyPresenter extends ArticlePresenter {
     
   }
   
-  /** Komponenta pre ukazanie priloh clanku.
-   * @return \App\AdminModule\Components\Clanky\PrilohyClanok\PrilohyClanokControl
-   */
+  /** 
+   * Komponenta pre ukazanie priloh clanku.
+   * @return \App\AdminModule\Components\Clanky\PrilohyClanok\PrilohyClanokControl */
 	public function createComponentPrilohyClanok() {
     $prilohyClanok = $this->prilohyClanokControlFactory->create(); 
-    $prilohyClanok->setTitle($this->zobraz_clanok, $this->nazov_stranky, $this->upload_size, $this->prilohy_adresar, $this->nastavenie['prilohy_images']/*, $this->admin_links*/, $this->name);
+    $prilohyClanok->setTitle($this->zobraz_clanok, $this->nazov_stranky, $this->upload_size, $this->nastavenie["dir_to_products"], $this->nastavenie['prilohy_images'], $this->name);
     return $prilohyClanok;
   }
   
-  /** Komponenta pre ukazanie produktov k clanku.
-   * @return \App\AdminModule\Components\Clanky\Products\ProductsControl
-   */
+  /** 
+   * Komponenta pre ukazanie produktov k clanku.
+   * @return \App\AdminModule\Components\Clanky\Products\ProductsControl */
 	public function createComponentProducts() {
     $products = $this->productsControlFactory->create(); 
-    $products->setTitle($this->zobraz_clanok, $this->nazov_stranky, $this->upload_size, $this->prilohy_adresar/*, $this->nastavenie['prilohy_images']/*, $this->admin_links*/, $this->name);
+    $products->setTitle($this->zobraz_clanok, $this->nazov_stranky, $this->upload_size, $this->nastavenie["dir_to_products"], $this->name);
     return $products;
   }
   
-  /** Signal pre pridanie komponenty, ktora nema parametre
+  /** 
+   * Signal pre pridanie komponenty, ktora nema parametre
    * @param string $komponenta_spec_nazov Specificky nazov komponenty
-   * @param int $id_hlavne_menu Id clanku
-   */
+   * @param int $id_hlavne_menu Id clanku */
   public function handleAddKomponenta($komponenta_spec_nazov, $id_hlavne_menu = 0) {
     $k = $this->nastavenie["komponenty"][$komponenta_spec_nazov];
     $this->clanok_komponenty->pridaj(["id_hlavne_menu"=>(int)$id_hlavne_menu, "spec_nazov"=>$komponenta_spec_nazov]);

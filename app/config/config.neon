@@ -36,7 +36,7 @@ parameters:
 #			1 = v hl. menu
 # 		2 = v titulke clanku
   article_avatar_view_in: 2 
-  produkt_path: files/produkty # Adresar pre subory prilohy v adresary www
+  dir_to_products: www/files/prilohy/ # Adresar pre subory produktov
   prilohy_images: #Nastavenie rozmerov obrazku ako prilohy clanku po nahrati na server
     x: 1510        #Zakladny rozmer
     y: 1000
@@ -49,7 +49,7 @@ parameters:
     rok: FALSE       #Zobrazenie roku narodenia
     telefon: FALSE   #Zobrazenie telefonu
     pohl: FALSE      #Zobrazenie pohlavia
-    avatar: TRUE    #Zobrazenie avataru
+    avatar: FALSE    #Zobrazenie avataru
     poznamka: FALSE  #Zobrazenie poznamky
     delete: FALSE    #Zobrazenie moznosti zmazat profil
   oznam: #Nastavuje viditelne(volitelne) polozky oznamu(aktuality)
@@ -69,9 +69,9 @@ application:
     *: App\*Module\Presenters\*Presenter
 
 # Register Nittro Latte macros
-latte:
-  macros:
-    - Nittro\Bridges\NittroLatte\NittroMacros
+#latte:
+#  macros:
+#    - Nittro\Bridges\NittroLatte\NittroMacros
 
 #extensions:
 #    fileUpload: Zet\FileUpload\FileUploadExtension
