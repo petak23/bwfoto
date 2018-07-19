@@ -101,7 +101,7 @@ $(function() {
   
 
   /* pre zmenu náhľadu pri zmenách okrajového rámčeka */
-  $("#frm-titleArticle-zmenOkrajForm").find("input.input_number").each(function(){
+  $("#frm-products-zmenOkrajForm").find("input.input_number").each(function(){
     var el = $(this);
     el.change(function(){
       var val = el.val();
@@ -112,7 +112,7 @@ $(function() {
     });
   });
   
-  $("#frm-titleArticle-zmenOkrajForm").find("input[type=color]").each(function(){
+  $("#frm-products-zmenOkrajForm").find("input[type=color]").each(function(){
     var el = $(this);
     el.change(function(){
       var val = el.val();

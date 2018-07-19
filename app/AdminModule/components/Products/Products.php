@@ -10,13 +10,13 @@ use Ublaboo\DataGrid\Localization\SimpleTranslator;
 /**
  * Komponenta pre spravu produktov clanku.
  * 
- * Posledna zmena(last change): 03.01.2018
+ * Posledna zmena(last change): 19.07.2018
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
  * @copyright Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.1
+ * @version 1.0.2
  */
 
 class ProductsControl extends Nette\Application\UI\Control {
@@ -41,6 +41,9 @@ class ProductsControl extends Nette\Application\UI\Control {
   private $user;
   /** @var DbTable\Hlavne_menu */
   private $hlavne_menu;
+  
+  /** @var ZmenOkrajFormFactory */
+	public $zmenOkraj;
 
   /**
    * @param DbTable\Hlavne_menu $hlavne_menu
@@ -52,6 +55,7 @@ class ProductsControl extends Nette\Application\UI\Control {
                               DbTable\Products $products, 
                               \App\AdminModule\Forms\Products\AddMultiProductsFormFactory $addMultiProductsFormFactory,
                               \App\AdminModule\Forms\Products\EditProoductFormFactory $editProductFormFactory, 
+                              ZmenOkrajFormFactory $zmenOkrajFormFactory,
                               User $user) {
     parent::__construct();
     $this->hlavne_menu = $hlavne_menu;
@@ -59,7 +63,7 @@ class ProductsControl extends Nette\Application\UI\Control {
     $this->addMultiProductsForm = $addMultiProductsFormFactory;
     $this->editProductForm = $editProductFormFactory;
     $this->user = $user;
-    
+    $this->zmenOkraj = $zmenOkrajFormFactory;
   }
   
   /** 
@@ -185,6 +189,23 @@ class ProductsControl extends Nette\Application\UI\Control {
   }
     
   /** 
+   * @param Nette\Application\UI\Form $form
+   * @return Nette\Application\UI\Form */
+  protected function _formMessage($form) {
+    $form['uloz']->onClick[] = function ($button) { 
+      $this->presenter->flashOut(!count($button->getForm()->errors), 'this', 'Zmena bola úspešne uložená!', 'Došlo k chybe a zmena sa neuložila. Skúste neskôr znovu...');
+		};
+    return $this->presenter->_vzhladForm($form);
+  }
+  
+  /** 
+   * Komponenta formulara pre zmenu okraja obrázkových príloh polozky.
+   * @return Nette\Application\UI\Form */
+  public function createComponentZmenOkrajForm() {
+    return $this->_formMessage($this->zmenOkraj->create($this->clanok->hlavne_menu));
+  }
+  
+  /** 
    * Spracovanie signálu vymazavania
 	 * @param int $id Id polozky */
 	function handleConfirmedDelete($id)	{
@@ -213,6 +234,16 @@ class ProductsControl extends Nette\Application\UI\Control {
 	 * @return int Ak zmaze alebo neexistuje(nie je co mazat) tak 1 inak 0 */
 	private function _vymazSubor($subor) {
 		return (is_file($subor)) ? unlink($this->presenter->context->parameters["wwwDir"]."/".$subor) : -1;
+	}
+  
+  protected function createTemplate($class = NULL) {
+    $template = parent::createTemplate($class);
+    $template->addFilter('border_x', function ($text){
+      $pom = $text != null & strlen($text)>2 ? explode("|", $text) : ['#000000','0'];
+      $xs = 'style="border: '.$pom[1].'px solid '.(strlen($pom[0])>2 ? $pom[0]:'inherit').'"';
+      return $xs;
+    });
+    return $template;
 	}
 }
 

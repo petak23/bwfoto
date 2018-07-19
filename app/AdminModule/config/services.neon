@@ -9,7 +9,7 @@ services:
 
   - App\AdminModule\Components\Article\TitleArticle\ZmenDatumPlatnostiFormFactory
   - App\AdminModule\Components\Article\TitleArticle\ZmenDlzkuNovinkyFormFactory
-  - App\AdminModule\Components\Article\TitleArticle\ZmenOkrajFormFactory
+#  - App\AdminModule\Components\Article\TitleArticle\ZmenOkrajFormFactory
   - App\AdminModule\Components\Article\TitleArticle\ZmenOpravnenieNevlastnikovFormFactory
   - App\AdminModule\Components\Article\TitleArticle\ZmenSablonuFormFactory
   - App\AdminModule\Components\Article\TitleArticle\ZmenUrovenRegistracieFormFactory
@@ -22,6 +22,8 @@ services:
 
   - App\AdminModule\Components\Oznam\TitleOznam\EditTitleImageFormFactory
   - App\AdminModule\Components\Oznam\TitleOznam\ZmenPresmerovanieFormFactory
+
+  - App\AdminModule\Components\Products\ZmenOkrajFormFactory
 
   - App\AdminModule\Forms\Article\IEditMenuFormFactory
 

@@ -7,13 +7,13 @@ use DbTable;
 /**
  * Komponenta pre vytvorenie hlavičky polozky.
  * 
- * Posledna zmena(last change): 27.12.2017
+ * Posledna zmena(last change): 19.07.2018
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
- * @copyright Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.1
+ * @version 1.1.2
  */
 
 class TitleArticleControl extends Nette\Application\UI\Control {
@@ -42,8 +42,8 @@ class TitleArticleControl extends Nette\Application\UI\Control {
 	public $zmenDatumPlatnosti;
   /** @var ZmenDlzkuNovinkyFormFactory */
 	public $zmenDlzkuNovinky;
-  /** @var ZmenOkrajFormFactory */
-	public $zmenOkraj;
+//  /** @var ZmenOkrajFormFactory */
+//	public $zmenOkraj;
   /** @var ZmenOpravnenieNevlastnikovFormFactory */
 	public $zmenOpravnenieNevlastnikov;
   /** @var ZmenSablonuFormFactory */
@@ -60,7 +60,7 @@ class TitleArticleControl extends Nette\Application\UI\Control {
                               ZmenUrovenRegistracieFormFactory $zmenUrovenRegistracieFormFactory,
                               ZmenDatumPlatnostiFormFactory $zmenDatumPlatnostiFormFactory,
                               ZmenDlzkuNovinkyFormFactory $zmenDlzkuNovinkyFormFactory,
-                              ZmenOkrajFormFactory $zmenOkrajFormFactory,
+//                              ZmenOkrajFormFactory $zmenOkrajFormFactory,
                               ZmenOpravnenieNevlastnikovFormFactory $zmenOpravnenieNevlastnikovFormFactory,
                               ZmenSablonuFormFactory $zmenSablonuFormFactory
                              ) {
@@ -70,7 +70,7 @@ class TitleArticleControl extends Nette\Application\UI\Control {
     $this->zmenUrovenRegistracie = $zmenUrovenRegistracieFormFactory;
     $this->zmenDatumPlatnosti = $zmenDatumPlatnostiFormFactory;
     $this->zmenDlzkuNovinky = $zmenDlzkuNovinkyFormFactory;
-    $this->zmenOkraj = $zmenOkrajFormFactory;
+//    $this->zmenOkraj = $zmenOkrajFormFactory;
     $this->zmenOpravnenieNevlastnikov = $zmenOpravnenieNevlastnikovFormFactory;
     $this->zmenSablonu = $zmenSablonuFormFactory;
   }
@@ -183,9 +183,9 @@ class TitleArticleControl extends Nette\Application\UI\Control {
   /** 
    * Komponenta formulara pre zmenu okraja obrázkových príloh polozky.
    * @return Nette\Application\UI\Form */
-  public function createComponentZmenOkrajForm() {
-    return $this->_formMessage($this->zmenOkraj->create($this->clanok->hlavne_menu));
-  }
+//  public function createComponentZmenOkrajForm() {
+//    return $this->_formMessage($this->zmenOkraj->create($this->clanok->hlavne_menu));
+//  }
   
   /** 
    * Komponenta formulara pre zmenu opravnenia nevlastnikov polozky.
@@ -218,15 +218,15 @@ class TitleArticleControl extends Nette\Application\UI\Control {
     }
 	}
   
-  protected function createTemplate($class = NULL) {
-    $template = parent::createTemplate($class);
-    $template->addFilter('border_x', function ($text){
-      $pom = $text != null & strlen($text)>2 ? explode("|", $text) : ['#000000','0'];
-      $xs = 'style="border: '.$pom[1].'px solid '.(strlen($pom[0])>2 ? $pom[0]:'inherit').'"';
-      return $xs;
-    });
-    return $template;
-	}
+//  protected function createTemplate($class = NULL) {
+//    $template = parent::createTemplate($class);
+//    $template->addFilter('border_x', function ($text){
+//      $pom = $text != null & strlen($text)>2 ? explode("|", $text) : ['#000000','0'];
+//      $xs = 'style="border: '.$pom[1].'px solid '.(strlen($pom[0])>2 ? $pom[0]:'inherit').'"';
+//      return $xs;
+//    });
+//    return $template;
+//	}
 }
 
 interface ITitleArticleControl {
