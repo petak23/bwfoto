@@ -4,13 +4,7 @@
 {control clankyEditForm}
 
 <script>
-  $('.jquery_ckeditor').ckeditor( function() { /* callback code */ }, {
-      extraPlugins : 'zalomenie',
-      customConfig : '../../js/config_ckeditor.js',
-      toolbar : '{php echo $CKtoolbar }',
-      filebrowserBrowseUrl: '{php echo $basePath.'/www/editors/filemanager/index.php?bezp_kod='.$bezp_kod }'
-    } );
-   /*var clanok = $('#frmclankyEditForm-text');
+  /*var clanok = $('#frmclankyEditForm-text');
    var dopln = $('.dopln');
    dopln.click(function(){
 //      console.log(dopln.text());

@@ -7,7 +7,7 @@ use PeterVojtech;
 /**
  * Prezenter pre spravu clankov.
  * 
- * Posledna zmena(last change): 17.07.2018
+ * Posledna zmena(last change): 19.07.2018
  *
  *	Modul: ADMIN
  *
@@ -15,7 +15,7 @@ use PeterVojtech;
  * @copyright Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.3.0
+ * @version 1.3.1
  */
 
 class ClankyPresenter extends ArticlePresenter {
@@ -221,7 +221,7 @@ class ClankyPresenter extends ArticlePresenter {
    * @return \App\AdminModule\Components\Clanky\Products\ProductsControl */
 	public function createComponentProducts() {
     $products = $this->productsControlFactory->create(); 
-    $products->setTitle($this->zobraz_clanok, $this->nazov_stranky, $this->upload_size, $this->nastavenie["dir_to_products"], $this->name);
+    $products->setTitle($this->zobraz_clanok, $this->nazov_stranky, $this->upload_size, $this->nastavenie, $this->name);
     return $products;
   }
   

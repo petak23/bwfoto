@@ -10,7 +10,7 @@
     <i class="fas fa-{$clanok->hlavne_menu->ikonka} fa-4x"></i>
     {include #links}
   {elseif $clanok->hlavne_menu->avatar}
-    <img src="{$basePath}/www/files/menu/{$clanok->hlavne_menu->avatar}" alt="{$clanok->view_name}">
+    <img src="{$basePath}/{$dir_to_menu}{$clanok->hlavne_menu->avatar}" alt="{$clanok->view_name}">
     {include #links}
   {else}
     {var $title_form = 'Pridanie titulného obrázku/ikonky'}

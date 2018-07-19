@@ -13,7 +13,7 @@ parameters:
   dir_to_images: www/images/ # Globalne nastanenie adresara pre "pevne" obrazky webu 
   dir_to_icons: www/ikonky/ # Globalne nastanenie adresara pre ikonky webu 
   dir_to_user: www/files/ # Globalne nastanenie adresara pre obrazky uzivatelov 
-  dir_to_menu: www/files/menu # Globalne nastanenie adresara pre obrazky menu 
+  dir_to_menu: www/files/menu/ # Globalne nastanenie adresara pre obrazky menu 
   slider:       #Nastavenie slider-u
     x: 1280   #Rozmery slider-u
     y: 260

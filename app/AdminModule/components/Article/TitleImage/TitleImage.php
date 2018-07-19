@@ -7,13 +7,13 @@ use DbTable;
 /**
  * Komponenta pre titulku polozky(titulny obrazok a nadpis).
  * 
- * Posledna zmena(last change): 16.07.2018
+ * Posledna zmena(last change): 19.07.2018
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
  * @copyright Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.4
+ * @version 1.0.5
  */
 
 class TitleImageControl extends Nette\Application\UI\Control {
@@ -73,6 +73,7 @@ class TitleImageControl extends Nette\Application\UI\Control {
     $this->template->setFile(__DIR__ . '/TitleImage.latte');
     $this->template->clanok = $this->clanok;
     $this->template->admin_links = $this->admin_links;
+    $this->template->dir_to_menu = $this->dir_to_menu;
 		$this->template->render();
 	}
   

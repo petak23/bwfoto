@@ -14,6 +14,6 @@
     </ul>
   {else}
     <a n:if="$view_add_link" href="{plink Menu:addpol -1*$id_menu}" title="Pridanie položky do časti" class="button-right edit-link"><i class="fas fa-plus fa-2x"></i>Pridanie položky do časti</a>
-    {control menu:fixed, cast=>$id_menu, divClass => main-admin-menu, avatar=>$avatar_path, anotacia => FALSE, article_avatar_view_in=>1}
+    {control menu:fixed, cast=>$id_menu, divClass => main-admin-menu, anotacia => TRUE, article_avatar_view_in=>1}
   {/if}
 </div>

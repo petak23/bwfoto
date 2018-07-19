@@ -1,4 +1,4 @@
--- Adminer 4.6.1 MySQL dump
+-- Adminer 4.6.3 MySQL dump
 
 SET NAMES utf8;
 SET time_zone = '+00:00';
@@ -19,14 +19,14 @@ CREATE TABLE `admin_menu` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Administračné menu';
 
 INSERT INTO `admin_menu` (`id`, `odkaz`, `nazov`, `id_user_roles`, `avatar`, `view`) VALUES
-(1,	'Homepage:',	'Úvod',	3,	'ikonky/AzulLustre_icons/Cerrada.png',	1),
-(2,	'Lang:',	'Editácia jazykov',	5,	'ikonky/AzulLustre_icons/Webfolder.png',	1),
-(3,	'Slider:',	'Editácia slider-u',	4,	'ikonky/AzulLustre_icons/Imagenes.png',	1),
-(4,	'User:',	'Editácia užívateľov',	5,	'ikonky/AzulLustre_icons/Fuentes.png',	1),
-(5,	'Verzie:',	'Verzie webu',	4,	'ikonky/AzulLustre_icons/URL_historial.png',	1),
-(6,	'Udaje:',	'Údaje webu',	4,	'ikonky/AzulLustre_icons/Admin.png',	1),
-(7,	'Oznam:',	'Aktuality(oznamy)',	5,	'ikonky/AzulLustre_icons/Documentos_azul.png',	0),
-(8,	'Products:setup',	'Nastavenie produktov',	4,	'ikonky/AzulLustre_icons/Programas.png',	1);
+(1,	'Homepage:',	'Úvod',	3,	'Matrilineare_icon_set/png/Places user home.png',	1),
+(2,	'Lang:',	'Editácia jazykov',	5,	'Matrilineare_icon_set/png/Apps gwibber.png',	1),
+(3,	'Slider:',	'Editácia slider-u',	4,	'Matrilineare_icon_set/png/Places folder pictures.png',	1),
+(4,	'User:',	'Editácia užívateľov',	5,	'Matrilineare_icon_set/png/Places folder publicshare.png',	1),
+(5,	'Verzie:',	'Verzie webu',	4,	'Matrilineare_icon_set/png/Apps terminator.png',	1),
+(6,	'Udaje:',	'Údaje webu',	4,	'Matrilineare_icon_set/png/Categories preferences desktop.png',	1),
+(7,	'Oznam:',	'Aktuality(oznamy)',	5,	'Matrilineare_icon_set/png/Apps web browser.png',	0),
+(8,	'Products:setup',	'Nastavenie produktov',	4,	'Matrilineare_icon_set/png/Mimes package x generic.png',	1);
 
 DROP TABLE IF EXISTS `clanok_komponenty`;
 CREATE TABLE `clanok_komponenty` (
@@ -61,7 +61,7 @@ INSERT INTO `clanok_lang` (`id`, `id_lang`, `text`, `anotacia`) VALUES
 (9,	1,	'Niečo k tejto časti. A tiež to bude radšej dlhé:\n\nLorem ipsum dolor sit amet, **consectetur** adipiscing elit. Phasellus quis lectus metus, at posuere neque. Sed adaf((toto je vysvetlenie)) \npharetra nibh eget orci convallis at posuere leo convallis. Sed blandit augue vitae augue scelerisque bibendum. Vivamus sit amet libero turpis, non venenatis urna. In blandit, odio convallis suscipit venenatis, ante ipsum cursus augue.\n\n',	'Anotácia časti A-1, ktorá bude veľmi dlhá aby sme videli, či to naozaj dobre zalamuje text.'),
 (10,	1,	'Niečo k tejto časti',	NULL),
 (11,	1,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque. Sed pharetra nibh eget orci convallis at posuere leo convallis. Sed blandit augue vitae augue scelerisque bibendum. Vivamus sit amet libero turpis, non venenatis urna. In blandit, odio convallis suscipit venenatis, ante ipsum cursus augue.\n\nEt mollis nunc diam eget sapien. Nulla facilisi. Etiam feugiat imperdiet rhoncus. Sed suscipit bibendum enim, sed volutpat tortor malesuada non. Morbi fringilla dui non purus porttitor mattis. Suspendisse quis vulputate risus. Phasellus erat velit, sagittis sed varius volutpat, placerat nec urna. Nam eu metus vitae dolor fringilla feugiat. Nulla.\n\nFacilisi. Etiam enim metus, luctus in adipiscing at, consectetur quis sapien. Duis imperdiet egestas ligula, quis hendrerit ipsum ullamcorper et. Phasellus id tristique orci. Proin consequat mi at felis scelerisque ullamcorper. Etiam tempus, felis vel eleifend porta, velit nunc mattis urna, at ullamcorper erat diam dignissim ante. Pellentesque justo risus.\n\nRutrum ac semper a, faucibus nec lorem. Nullam eget quam tellus, eget sagittis justo.Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Proin ante enim, tincidunt ut interdum in, adipiscing quis tortor. Nulla turpis lacus, rutrum in adipiscing ut, porttitor ac ante. Sed euismod, mauris a.\n\n',	''),
-(12,	1,	'**Juraj Zámečník**\n\nSpišské Bystré 256\n\n0905 150 400\n\nbwfoto@bwfoto.sk',	''),
+(12,	1,	'**Juraj Zámečník**\n\nSpišské Bystré 256\n\n0905 150 400\n\nbwfoto@bwfoto.sk',	'pokusná anotácia'),
 (13,	1,	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque. Sed pharetra nibh eget orci convallis at posuere leo convallis. Sed blandit augue vitae augue scelerisque bibendum. Vivamus sit amet libero turpis, non venenatis urna. In blandit, odio convallis suscipit venenatis, ante ipsum cursus augue.\n\n-------------------\n\nEt mollis nunc diam eget sapien. Nulla facilisi. Etiam feugiat imperdiet rhoncus. Sed suscipit bibendum enim, sed volutpat tortor malesuada non. Morbi fringilla dui non purus porttitor mattis. Suspendisse quis vulputate risus. Phasellus erat velit, sagittis sed varius volutpat, placerat nec urna. Nam eu metus vitae dolor fringilla feugiat. Nulla.\n\n|* A	| 12	| 0.125	|\n|* B	| 13	| 1.45	|\n|* C	| 19	| 2.14	|\n|* D	| 22	| 0.658	|\n|* E	| 11	| 3.14	|\n\n\n\n',	''),
 (14,	1,	'> Úvodný popis stránky na domovskej stránke.\nNam aliquet augue a augue posuere, eget dapibus enim pharetra. Aliquam tempus metus sed sodales malesuada. Sed mattis metus id arcu rutrum congue. Fusce in est eget sapien tristique commodo. Aliquam erat volutpat. Nunc tincidunt fermentum dui, ut tempor turpis imperdiet quis. Mauris ultricies metus ut elit porttitor pellentesue. Nunc luctus sagittis bibendum. Donec iaculis nec arcu in feugiat.',	''),
 (15,	1,	'Nam aliquet augue a augue posuere, eget dapibus enim pharetra. Aliquam tempus metus sed sodales malesuada. Sed mattis metus id arcu rutrum congue. Fusce in est eget sapien tristique commodo. Aliquam erat volutpat. Nunc tincidunt fermentum dui, ut tempor turpis imperdiet quis. Mauris ultricies metus ut elit porttitor pellentesue. Nunc luctus sagittis bibendum. Donec iaculis nec arcu in feugiat.\n\n',	''),
@@ -249,7 +249,7 @@ INSERT INTO `hlavne_menu` (`id`, `spec_nazov`, `id_hlavne_menu_cast`, `id_user_r
 (9,	'cast-a-1',	1,	0,	NULL,	1,	1,	2,	2,	1,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'3zjqsfzl5baff44.jpg',	0,	'2017-10-05 05:42:11',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL),
 (10,	'cast-a-2',	1,	0,	NULL,	1,	1,	2,	2,	2,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'qejapifs8ada1do.JPG',	0,	'2017-10-05 05:42:11',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL),
 (11,	'obchodne-podmienky',	2,	0,	NULL,	1,	0,	NULL,	2,	1,	0,	0,	0,	0,	0,	NULL,	1,	NULL,	NULL,	NULL,	0,	'2017-10-05 05:54:09',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL),
-(12,	'kontakt',	2,	0,	NULL,	1,	0,	NULL,	2,	2,	0,	0,	0,	0,	0,	NULL,	1,	NULL,	NULL,	NULL,	0,	'2017-10-05 06:04:46',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL),
+(12,	'kontakt',	2,	0,	NULL,	1,	0,	NULL,	2,	2,	0,	0,	0,	0,	0,	NULL,	1,	NULL,	NULL,	'x8jx3wr9rxs47fc.jpg',	0,	'2018-07-19 09:19:35',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL),
 (13,	'kalibracia',	2,	0,	NULL,	1,	0,	NULL,	2,	3,	0,	0,	0,	0,	0,	NULL,	1,	NULL,	NULL,	NULL,	0,	'2017-10-05 06:14:20',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL),
 (14,	'homepage',	3,	0,	NULL,	1,	0,	NULL,	2,	1,	0,	0,	0,	0,	0,	NULL,	4,	NULL,	NULL,	NULL,	0,	'2017-11-23 11:49:33',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL),
 (15,	'homepage-dole',	3,	0,	NULL,	1,	0,	NULL,	2,	2,	0,	0,	0,	0,	0,	NULL,	5,	NULL,	NULL,	NULL,	0,	'2017-11-23 11:49:33',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL),
@@ -530,6 +530,29 @@ INSERT INTO `udaje_typ` (`id`, `nazov`, `comment`) VALUES
 (3,	'checkbox',	'Áno alebo nie'),
 (4,	'number',	'Číslo');
 
+DROP TABLE IF EXISTS `user_categories`;
+CREATE TABLE `user_categories` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A] Index',
+  `name` varchar(60) COLLATE utf8_bin NOT NULL COMMENT 'Názov',
+  `shortcut` varchar(6) COLLATE utf8_bin NOT NULL COMMENT 'Skratka',
+  `main_category` enum('V','R','O') COLLATE utf8_bin NOT NULL DEFAULT 'R' COMMENT 'Hlavný druh kategórie(V-Vedenie; R-rodičia; O-ostatné',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+
+DROP TABLE IF EXISTS `user_in_categories`;
+CREATE TABLE `user_in_categories` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A] Index',
+  `id_user_main` int(11) NOT NULL COMMENT 'Id užívateľa',
+  `id_user_categories` int(11) NOT NULL COMMENT 'Id_kategórie',
+  PRIMARY KEY (`id`),
+  KEY `id_user_main` (`id_user_main`),
+  KEY `id_user_categories` (`id_user_categories`),
+  CONSTRAINT `user_in_categories_ibfk_1` FOREIGN KEY (`id_user_main`) REFERENCES `user_main` (`id`),
+  CONSTRAINT `user_in_categories_ibfk_2` FOREIGN KEY (`id_user_categories`) REFERENCES `user_categories` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+
 DROP TABLE IF EXISTS `user_main`;
 CREATE TABLE `user_main` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
@@ -717,4 +740,4 @@ INSERT INTO `verzie` (`id`, `id_user_main`, `cislo`, `subory`, `text`, `modified
 (5,	1,	'0.1.5',	'rôzne',	'Prispôsobenie vzhľadu úrovne 3',	'2017-12-27 11:59:49'),
 (6,	1,	'0.1.6',	'úroveň 3 a 4',	'- Prispôsobenie vzhľadu úrovne 3. a 4..\n- Aktualizácia nittra a lightbox-u.\n- Odstránenie koncovky z názvu prílohy.\n- Práca na admin časti pre rámčeky - pridaná časť pre fotoalbum zmeny rámčekov obrázkových príloh v úrovni 4. pre každú časť zvlášť.\n- Prispôsobenie 4. úrovne pre prehliadanie obrázkov s rámčekmi.',	'2017-12-27 12:04:06');
 
--- 2018-02-13 12:43:54
+-- 2018-07-19 10:26:04

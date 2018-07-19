@@ -30,7 +30,7 @@ class ProductsControl extends Nette\Application\UI\Control {
   /** @var int */
   private $upload_size;
   /** @var string */
-  private $products_dir;
+  private $nastavenie;
   /** &var EditProductFormFactory */
   public $editProductForm;
   /** &var AddMultiProductsFormFactory */
@@ -50,6 +50,7 @@ class ProductsControl extends Nette\Application\UI\Control {
    * @param DbTable\Products $products
    * @param \App\AdminModule\Forms\Products\AddMultiProductsFormFactory $addMultiProductsFormFactory
    * @param \App\AdminModule\Forms\Products\EditProoductFormFactory $editProductFormFactory
+   * @param \App\AdminModule\Components\Products\ZmenOkrajFormFactory $zmenOkrajFormFactory
    * @param User $user */
   public function __construct(DbTable\Hlavne_menu $hlavne_menu,
                               DbTable\Products $products, 
@@ -71,14 +72,14 @@ class ProductsControl extends Nette\Application\UI\Control {
    * @param Nette\Database\Table\ActiveRow $clanok
    * @param type $nazov_stranky
    * @param type $upload_size
-   * @param type $products_dir
+   * @param type $nastanenie
    * @param type $name
    * @return \App\AdminModule\Products\ProductsControl */
-  public function setTitle(Nette\Database\Table\ActiveRow $clanok, $nazov_stranky, $upload_size, $products_dir, $name) {
+  public function setTitle(Nette\Database\Table\ActiveRow $clanok, $nazov_stranky, $upload_size, $nastanenie, $name) {
     $this->clanok = $clanok;
     $this->nazov_stranky = $nazov_stranky;
     $this->upload_size = $upload_size;
-    $this->products_dir = $products_dir;
+    $this->nastavenie = $nastanenie;
     
     $hlm = $this->clanok->hlavne_menu; // Pre skratenie zapisu
     $vlastnik = $this->user->isInRole('admin') ? TRUE : $this->user->getIdentity()->id == $hlm->id_user_main;//$this->vlastnik($hlm->id_user_main);
@@ -107,6 +108,7 @@ class ProductsControl extends Nette\Application\UI\Control {
     $this->template->setFile(__DIR__ . '/Products.latte');
     $this->template->clanok = $this->clanok;
     $this->template->admin_links_prilohy = $this->admin_links;
+    $this->template->dir_to_images = $this->nastavenie["dir_to_images"];
 		$this->template->render();
 	}
   
@@ -168,7 +170,7 @@ class ProductsControl extends Nette\Application\UI\Control {
    * Komponenta formulara pre pridanie a editaciu produktu polozky.
    * @return Nette\Application\UI\Form */
   public function createComponentEditProductForm() {
-    $form = $this->editProductForm->create($this->upload_size, $this->products_dir);
+    $form = $this->editProductForm->create($this->upload_size, $this->nastavenie["dir_to_products"]);
     $form->setDefaults(["id"=>0, "id_hlavne_menu"=>$this->clanok->id_hlavne_menu, "id_user_roles"=>$this->clanok->hlavne_menu->id_user_roles]);
     $form['uloz']->onClick[] = function ($button) { 
       $this->presenter->flashOut(!count($button->getForm()->errors), ['this',['tab'=>'products-tab']], 'Produkt bol úspešne uložený!', 'Došlo k chybe a zmena sa neuložila. Skúste neskôr znovu...');
@@ -180,7 +182,7 @@ class ProductsControl extends Nette\Application\UI\Control {
    * Komponenta formulara pre pridanie viacerich produktov polozky.
    * @return Nette\Application\UI\Form */
   public function createComponentAddMultiProductsForm() {
-    $form = $this->addMultiProductsForm->create($this->upload_size, $this->products_dir);
+    $form = $this->addMultiProductsForm->create($this->upload_size, $this->nastavenie["dir_to_products"]);
     $form->setDefaults(["id"=>0, "id_hlavne_menu"=>$this->clanok->id_hlavne_menu, "id_user_roles"=>$this->clanok->hlavne_menu->id_user_roles]);
     $form['uloz']->onClick[] = function ($button) { 
       $this->presenter->flashOut(!count($button->getForm()->errors), ['this',['tab'=>'products-tab']], 'Produkty boli úspešne uložené!', 'Došlo k chybe a zmena sa neuložila. Skúste neskôr znovu...');
