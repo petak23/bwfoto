@@ -1,7 +1,7 @@
 <div n:if="$prilohy->count()" class="thumb" n:foreach="$prilohy as $subor">
-  <img class="img-thumbnail img-rounded jslghtbx-thmb noajax" src="{$basePath}/{$subor->thumb_file}" 
-       alt="{$subor->name}" data-jslghtbx="{$basePath}/{$subor->main_file}" data-ajax="false" data-jslghtbx-caption="{$subor->description}">
+  <img class="img-thumbnail img-rounded jslghtbx-thmb noajax" src="{$basePath}/{$nastavenie['prilohy_dir']}{$subor->thumb_file}" 
+       alt="{$subor->name}" data-jslghtbx="{$basePath}/{$nastavenie['prilohy_dir']}{$subor->main_file}" data-ajax="false" data-jslghtbx-caption="{$subor->description}">
   <a href="{plink bigImg! $subor->id, 0}" title="{$subor->name}" n:class="$subor->id == $big_img_id ? selected">
-    <img class="img-responsive img-square" src="{$basePath}/{$subor->thumb_file}" alt="{$subor->name}">
+    <img class="img-responsive img-square" src="{$basePath}/{$nastavenie['prilohy_dir']}{$subor->thumb_file}" alt="{$subor->name}">
   </a>
 </div>

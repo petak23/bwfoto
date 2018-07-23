@@ -2,14 +2,14 @@
  *
  * Modul: FRONT
  *
- * Posledna zmena(last change): 16.01.2018
+ * Posledna zmena(last change): 20.07.2018
  * @copyright  Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
  *
  * @param string  $h2 Nadpis
  * @param int     $uroven Uroven menu
- * @param string  $avatar_path  cestak obrazku
+ * @param string  $nastavenie Nastavenie z configu
  * @param string  $viac_info  Nadpis menu
  * @param boolean $clanok_view  Zobrazenie
  * @param array   $komponenty Komponenty pod clankom
@@ -29,8 +29,8 @@
       {foreach $prilohy_for_big_img as $subor}
         <div class="big-img-container" {if $subor->id != $big_img->id}style="display:none"{/if}>
             {if $subor->id == $big_img->id}
-              <img class="big-img noajax" src="{$basePath}/{$subor->main_file}" 
-                   alt="{$subor->name}" data-jslghtbx="{$basePath}/{$subor->main_file}" 
+              <img class="big-img noajax" src="{$basePath}/{$nastavenie['prilohy_dir']}{$subor->main_file}" 
+                   alt="{$subor->name}" data-jslghtbx="{$basePath}/{$nastavenie['prilohy_dir']}{$subor->main_file}" 
                    data-ajax="false" data-jslghtbx-caption="{$subor->description}" data-jslghtbx-group="bigimggroup1" data-id-priloha="{$subor->id}">
               {*<div class="border-c" {ifset $clanok_hl_menu->border_c}{$clanok_hl_menu->border_c|border_x|noescape}{/ifset}>
                 <div class="border-b" {ifset $clanok_hl_menu->border_b}{$clanok_hl_menu->border_b|border_x|noescape}{/ifset}>
@@ -43,7 +43,7 @@
               </div>*}
             {else}
               <img class="small-img noajax img-thumbnail img-rounded" style="display:none" 
-                   src="{$basePath}/{$subor->thumb_file}" alt="{$subor->name}" data-jslghtbx="{$basePath}/{$subor->main_file}" 
+                   src="{$basePath}/{$nastavenie['prilohy_dir']}{$subor->thumb_file}" alt="{$subor->name}" data-jslghtbx="{$basePath}/{$nastavenie['prilohy_dir']}{$subor->main_file}" 
                    data-ajax="false" data-jslghtbx-caption="{$subor->description}" data-jslghtbx-group="bigimggroup1">
             {/if}
         </div>
@@ -73,12 +73,12 @@
       </script>
     </div>
     <div class="detail" n:if="isset($big_img->type) && $big_img->type == 3">
-      <video class="video-priloha" {*width="320" height="180"*} src="{$basePath}/{$big_img->main_file}" poster="{$basePath}/{$big_img->thumb_file}" type="video/mp4" controls="controls" preload="none"></video>
+      <video class="video-priloha" {*width="320" height="180"*} src="{$basePath}/{$nastavenie['prilohy_dir']}{$big_img->main_file}" poster="{$basePath}/{$nastavenie['prilohy_dir']}{$big_img->thumb_file}" type="video/mp4" controls="controls" preload="none"></video>
     </div>
           
 
     <div class="thumbnails" data-transition="false" n:snippet="prilohyClanok" {*n:if="$prilohy->count()"*}>
-      {control menu templateType=>'single', templateFile=>$clanok_hl_menu->hlavne_menu_template->name, cast=>$clanok_hl_menu->id_hlavne_menu_cast, level => $uroven, avatar => $avatar_path, article_avatar_view_in => TRUE, anotacia => TRUE, nadpis => $viac_info}
+      {control menu templateType=>'single', templateFile=>$clanok_hl_menu->hlavne_menu_template->name, cast=>$clanok_hl_menu->id_hlavne_menu_cast, level => $uroven, avatar => $nastavenie['dir_to_menu'], article_avatar_view_in => TRUE, anotacia => TRUE, nadpis => $viac_info}
       {var $big_img_id = isset($big_img->id) ? $big_img->id : 0}
       {control prilohy:others templateFile=>$clanok_hl_menu->hlavne_menu_template->name}
       {control prilohy:videos templateFile=>$clanok_hl_menu->hlavne_menu_template->name, big_img_id=>$big_img_id}

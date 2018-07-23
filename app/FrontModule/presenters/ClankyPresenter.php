@@ -8,7 +8,7 @@ use Nette\Application\UI\Multiplier;
 /**
  * Prezenter pre vypisanie clankov.
  * 
- * Posledna zmena(last change): 13.07.2018
+ * Posledna zmena(last change): 20.07.2018
  *
  *	Modul: FRONT
  *
@@ -16,24 +16,21 @@ use Nette\Application\UI\Multiplier;
  * @copyright  Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.6
+ * @version 1.1.7
  */
 
 class ClankyPresenter extends BasePresenter {
-	/** 
-   * @inject
-   * @var DbTable\Clanok_komponenty */
+  
+  // -- DB
+	/** @var DbTable\Clanok_komponenty @inject */ 
 	public $clanok_komponenty;
-  /** 
-   * @inject
-   * @var DbTable\Products */
+  /** @var DbTable\Products @inject */
 	public $products;
 
-  /**
-   * @inject
-   * @var Language_support\Clanky */
+  /** @var Language_support\Clanky @inject */
   public $texty_presentera;
   
+  // -- Komponenty
   /** @var \App\FrontModule\Components\Clanky\PrilohyClanok\IPrilohyClanokControl @inject */
   public $prilohyClanokControlFactory;
     /** @var \App\FrontModule\Components\Products\IProductsViewControl @inject */
@@ -104,7 +101,6 @@ class ClankyPresenter extends BasePresenter {
     if (!isset($this->template->prilohy_for_big_img)) {
       $this->template->prilohy_for_big_img = $this->prilohy_for_big_img;
     }
-    $this->template->avatar_path = $this->avatar_path;
     $this->template->texts = $this->texty_presentera;
     $this->template->id_hlavne_menu_lang = $this->zobraz_clanok->id;
 	}
@@ -155,7 +151,7 @@ class ClankyPresenter extends BasePresenter {
    * @return \App\FrontModule\Components\Clanky\PrilohyClanok\PrilohyClanokControl */
   public function createComponentPrilohy() {
     $prilohy = $this->prilohyClanokControlFactory->create();
-    $prilohy->setNastav($this->zobraz_clanok, $this->avatar_path, $this->language_id);
+    $prilohy->setNastav($this->zobraz_clanok, $this->nastavenie, $this->language_id);
     return $prilohy;
   }
   

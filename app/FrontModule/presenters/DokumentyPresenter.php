@@ -4,7 +4,7 @@ namespace App\FrontModule\Presenters;
 use Language_support;
 /**
  * Prezenter pre smerovanie na dokumenty.
- * Posledna zmena(last change): 16.01.2018
+ * Posledna zmena(last change): 23.07.2018
  *
  *	Modul: FRONT
  *
@@ -12,10 +12,10 @@ use Language_support;
  * @copyright  Copyright (c) 2012 - 2018, Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.5
+ * @version 1.0.6
  */
 
-class DokumentyPresenter extends \App\FrontModule\Presenters\BasePresenter {
+class DokumentyPresenter extends BasePresenter {
 	/**
    * @inject
    * @var Language_support\Dokumenty */
@@ -37,9 +37,9 @@ class DokumentyPresenter extends \App\FrontModule\Presenters\BasePresenter {
 		if (($dokument = $this->dokumenty->find($id)) === FALSE) {
       $this->error($this->trLang('dokument_not_found')); 
     } 
-		$dokument->update(['pocitadlo'=>$dokument->pocitadlo + 1]);
+		$dokument->update(['pocitadlo'=>($dokument->pocitadlo + 1)]);
 
-		$this->redirectUrl("http://".$this->nazov_stranky."/".$dokument->main_file);
+		$this->redirectUrl("http://".$this->nazov_stranky."/". $this->nastavenie['prilohy_dir'].$dokument->main_file);
 		exit;
 	}
 }

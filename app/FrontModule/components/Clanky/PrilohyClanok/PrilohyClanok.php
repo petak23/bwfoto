@@ -25,8 +25,8 @@ class PrilohyClanokControl extends Control {
   public $texts;
   /** @var int */
   private $article;
-  /** @var string */
-  private $avatar_path;
+  /** @var array */
+  private $nastavenie;
   /** @var Nette\Database\Table\Selection|FALSE */
   private $attachments = NULL;
 
@@ -41,12 +41,12 @@ class PrilohyClanokControl extends Control {
 
   /** Nastavenie id polozky, ku ktorej patria prilohy
    * @param Nette\Database\Table\ActiveRow $article Polozka menu ku ktorej je priradeny
-   * @param type $avatar_path Adresar avatara
+   * @param type $nastavenie Adresar avatara
    * @param int $id_lang Id jazyka
    * @return \App\FrontModule\Components\Clanky\PrilohyClanok\PrilohyClanokControl  */
-  public function setNastav($article, $avatar_path, $id_lang) {
+  public function setNastav($article, $nastavenie, $id_lang) {
     $this->article = $article;
-    $this->avatar_path = $avatar_path;
+    $this->nastavenie = $nastavenie;
     $this->texts->setLanguage($id_lang);
     return $this;
   }
@@ -58,7 +58,7 @@ class PrilohyClanokControl extends Control {
     $this->template->setFile(__DIR__ . "/".$template_file.".latte");
     $this->template->prilohy = $this->attachments != NULL ? $this->attachments : $this->prilohy->getViditelnePrilohy($this->article->id_hlavne_menu);
     $this->template->texts = $this->texts;
-    $this->template->avatar_path = $this->avatar_path;
+    $this->template->nastavenie = $this->nastavenie;
     $this->template->id_hlavne_menu_lang = $this->article->id;
     $this->template->big_img_id = isset($params['big_img_id']) ? $params['big_img_id'] : 0;
     $this->template->render();

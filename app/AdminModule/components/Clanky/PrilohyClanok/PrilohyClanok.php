@@ -10,13 +10,13 @@ use Ublaboo\DataGrid\Localization\SimpleTranslator;
 /**
  * Komponenta pre spravu priloh clanku.
  * 
- * Posledna zmena(last change): 15.01.2018
+ * Posledna zmena(last change): 20.07.2018
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
  * @copyright Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.7
+ * @version 1.0.8
  */
 
 class PrilohyClanokControl extends Nette\Application\UI\Control {
@@ -29,10 +29,8 @@ class PrilohyClanokControl extends Nette\Application\UI\Control {
   private $clanok;
   /** @var int */
   private $upload_size;
-  /** @var string */
-  private $prilohy_adresar;
   /** @var array */
-  private $prilohy_images;
+  private $nastavenie;
   /** &var EditPrilohyFormFactory */
   public $editPrilohyForm;
   /** &var AddMultiPrilohyFormFactory */
@@ -61,15 +59,13 @@ class PrilohyClanokControl extends Nette\Application\UI\Control {
    * @param Nette\Database\Table\ActiveRow $clanok
    * @param string $nazov_stranky
    * @param int $upload_size
-   * @param string $prilohy_adresar
-   * @param array $prilohy_images Nastavenie obrazkov pre prilohy
+   * @param array $nastavenie
    * @return \App\AdminModule\Components\Clanky\PrilohyClanok\PrilohyClanokControl */
-  public function setTitle(Nette\Database\Table\ActiveRow $clanok, $nazov_stranky, $upload_size, $prilohy_adresar, $prilohy_images, $name) {
+  public function setTitle(Nette\Database\Table\ActiveRow $clanok, $nazov_stranky, $upload_size, $nastavenie, $name) {
     $this->clanok = $clanok;
     $this->nazov_stranky = $nazov_stranky;
     $this->upload_size = $upload_size;
-    $this->prilohy_adresar = $prilohy_adresar;
-    $this->prilohy_images = $prilohy_images;
+    $this->nastavenie = $nastavenie;
     
     $hlm = $this->clanok->hlavne_menu; // Pre skratenie zapisu
     $vlastnik = $this->user->isInRole('admin') ? TRUE : $this->user->getIdentity()->id == $hlm->id_user_main;//$this->vlastnik($hlm->id_user_main);
@@ -108,7 +104,9 @@ class PrilohyClanokControl extends Nette\Application\UI\Control {
 		$grid->setDataSource($this->dokumenty->findBy(['id_hlavne_menu'=>$this->clanok->id_hlavne_menu]));
     $grid->addColumnText('znacka', 'Značka');
     $grid->addColumnText('main_file', 'Súbor')
-         ->setTemplate(__DIR__ . '/grid.subor.latte');
+         ->setTemplate(__DIR__ . '/grid.subor.latte', 
+                       [ 'dir_to_icons' => $this->nastavenie["dir_to_icons"],
+                         'prilohy_dir'  => $this->nastavenie["prilohy_dir"]]);
     $grid->addColumnText('name', 'Názov')
          ->setEditableCallback(function($id, $value) {
            $this->dokumenty->oprav($id, ['name'=>$value]);
@@ -168,7 +166,7 @@ class PrilohyClanokControl extends Nette\Application\UI\Control {
    * Komponenta formulara pre pridanie a editaciu prílohy polozky.
    * @return Nette\Application\UI\Form */
   public function createComponentEditPrilohyForm() {
-    $form = $this->editPrilohyForm->create($this->upload_size, $this->prilohy_adresar, $this->prilohy_images);
+    $form = $this->editPrilohyForm->create($this->upload_size, $this->nastavenie);
     $form->setDefaults(["id"=>0, "id_hlavne_menu"=>$this->clanok->id_hlavne_menu, "id_user_roles"=>$this->clanok->hlavne_menu->id_user_roles]);
     $form['uloz']->onClick[] = function ($button) { 
       $this->presenter->flashOut(!count($button->getForm()->errors), ['this',['tab'=>'prilohy-tab']], 'Príloha bola úspešne uložená!', 'Došlo k chybe a zmena sa neuložila. Skúste neskôr znovu...');
@@ -180,7 +178,7 @@ class PrilohyClanokControl extends Nette\Application\UI\Control {
    * Komponenta formulara pre pridanie viacerich prílohy polozky.
    * @return Nette\Application\UI\Form */
   public function createComponentAddMultiPrilohyForm() {
-    $form = $this->addMultiPrilohyForm->create($this->upload_size, $this->prilohy_adresar, $this->prilohy_images);
+    $form = $this->addMultiPrilohyForm->create($this->upload_size, $this->nastavenie);
     $form->setDefaults(["id"=>0, "id_hlavne_menu"=>$this->clanok->id_hlavne_menu, "id_user_roles"=>$this->clanok->hlavne_menu->id_user_roles]);
     $form['uloz']->onClick[] = function ($button) { 
       $this->presenter->flashOut(!count($button->getForm()->errors), ['this',['tab'=>'prilohy-tab']], 'Prílohy boli úspešne uložené!', 'Došlo k chybe a zmena sa neuložila. Skúste neskôr znovu...');

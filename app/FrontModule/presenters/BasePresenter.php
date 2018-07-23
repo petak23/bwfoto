@@ -13,7 +13,7 @@ use Texy;
 /**
  * Zakladny presenter pre vsetky presentery vo FRONT module
  * 
- * Posledna zmena(last change): 17.07.2018
+ * Posledna zmena(last change): 20.07.2018
  *
  *	Modul: FRONT
  *
@@ -21,7 +21,7 @@ use Texy;
  * @copyright Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
  * @license
  * @link      http://petak23.echo-msz.eu
- * @version 1.4.0
+ * @version 1.4.1
  */
 \Nette\Forms\Container::extensionMethod('addDatePicker', function (\Nette\Forms\Container $container, $name, $label = NULL) {
     return $container[$name] = new \JanTvrdik\Components\DatePicker($label);
@@ -236,7 +236,7 @@ abstract class BasePresenter extends Presenter {
     $this->template->user_admin = $this->user_main->findOneBy(['user_roles.role'=>'admin']);
     $this->template->user_spravca = $this->user_main->findOneBy(['user_roles.role'=>'manager']);
     $this->template->nazov_stranky = $this->nazov_stranky;
-		$this->template->avatar_path = $this->avatar_path;
+		$this->template->nastavenie = $this->nastavenie;
     $this->template->text_title_image = $this->trLang("base_text_title_image");
 		$this->template->article_avatar_view_in = $this->nastavenie["article_avatar_view_in"];
     $this->template->omrvinky_enabled = $this->nastavenie["omrvinky_enabled"];

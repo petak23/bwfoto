@@ -7,7 +7,7 @@ use PeterVojtech;
 /**
  * Prezenter pre spravu clankov.
  * 
- * Posledna zmena(last change): 19.07.2018
+ * Posledna zmena(last change): 20.07.2018
  *
  *	Modul: ADMIN
  *
@@ -15,7 +15,7 @@ use PeterVojtech;
  * @copyright Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.3.1
+ * @version 1.3.2
  */
 
 class ClankyPresenter extends ArticlePresenter {
@@ -212,7 +212,7 @@ class ClankyPresenter extends ArticlePresenter {
    * @return \App\AdminModule\Components\Clanky\PrilohyClanok\PrilohyClanokControl */
 	public function createComponentPrilohyClanok() {
     $prilohyClanok = $this->prilohyClanokControlFactory->create(); 
-    $prilohyClanok->setTitle($this->zobraz_clanok, $this->nazov_stranky, $this->upload_size, $this->nastavenie["dir_to_products"], $this->nastavenie['prilohy_images'], $this->name);
+    $prilohyClanok->setTitle($this->zobraz_clanok, $this->nazov_stranky, $this->upload_size, $this->nastavenie, $this->name);
     return $prilohyClanok;
   }
   
