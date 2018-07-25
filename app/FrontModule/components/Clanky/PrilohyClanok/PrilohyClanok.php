@@ -9,13 +9,13 @@ use Nette\Application\UI\Control;
 /**
  * Komponenta pre zobrazenie príloh clanku pre FRONT modul
  * 
- * Posledna zmena(last change): 16.01.2018
+ * Posledna zmena(last change): 23.07.2018
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.7
+ * @version 1.0.8
  */
 class PrilohyClanokControl extends Control {
 
@@ -29,6 +29,8 @@ class PrilohyClanokControl extends Control {
   private $nastavenie;
   /** @var Nette\Database\Table\Selection|FALSE */
   private $attachments = NULL;
+  /** @var string */
+  private $nazov_stranky;
 
   /**
    * @param DbTable\Dokumenty $dokumenty
@@ -41,13 +43,14 @@ class PrilohyClanokControl extends Control {
 
   /** Nastavenie id polozky, ku ktorej patria prilohy
    * @param Nette\Database\Table\ActiveRow $article Polozka menu ku ktorej je priradeny
-   * @param type $nastavenie Adresar avatara
+   * @param type $nastavenie Nastavenia z configu
    * @param int $id_lang Id jazyka
    * @return \App\FrontModule\Components\Clanky\PrilohyClanok\PrilohyClanokControl  */
-  public function setNastav($article, $nastavenie, $id_lang) {
+  public function setNastav($article, $nastavenie, $id_lang, $nazov_stranky) {
     $this->article = $article;
     $this->nastavenie = $nastavenie;
     $this->texts->setLanguage($id_lang);
+    $this->nazov_stranky = $nazov_stranky;
     return $this;
   }
 
@@ -79,17 +82,25 @@ class PrilohyClanokControl extends Control {
     $this->render($params, 'videos');
   }
 
+  public function handleViewPriloha($id) {
+    if (($dokument = $this->prilohy->find($id)) === FALSE) {
+      $this->error($this->texts->trText('dokument_not_found')); 
+    } 
+		$dokument->update(['pocitadlo'=>($dokument->pocitadlo + 1)]);
+
+		$this->presenter->redirectUrl("http://".$this->nazov_stranky."/". $this->nastavenie['prilohy_dir'].$dokument->main_file);
+  }
+  
   protected function createTemplate($class = NULL) {
     $servise = $this;
     $template = parent::createTemplate($class);
     $template->addFilter('odkazdo', function ($id) use($servise) {
-      $serv = $servise->presenter->link("Dokumenty:default", ["id" => $id]);
+      $serv = $servise->link("viewPriloha!", ["id" => $id]);
       return $serv;
     });
 
     return $template;
   }
-
 }
 
 interface IPrilohyClanokControl {

@@ -120,11 +120,11 @@ CREATE TABLE `dokumenty` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Prílohy k článkom';
 
 INSERT INTO `dokumenty` (`id`, `id_hlavne_menu`, `id_user_main`, `id_user_roles`, `znacka`, `name`, `pripona`, `web_name`, `description`, `main_file`, `thumb_file`, `change`, `zobraz_v_texte`, `type`, `pocitadlo`) VALUES
-(43,	24,	1,	0,	'#I-43#',	'protisvelo2',	'jpg',	'protisvelo2',	NULL,	'www/files/prilohy/protisvelo2.jpg',	'www/files/prilohy/tb_protisvelo2.jpg',	'2017-12-18 08:48:37',	1,	2,	0),
-(44,	24,	1,	0,	'#I-44#',	'protisvetlo1',	'JPG',	'protisvetlo1',	NULL,	'www/files/prilohy/protisvetlo1.JPG',	'www/files/prilohy/tb_protisvetlo1.JPG',	'2017-12-18 08:48:37',	1,	2,	0),
-(53,	22,	1,	0,	NULL,	'Dokument',	'pdf',	'usmernenie-k-sr1023',	NULL,	'www/files/prilohy/Usmernenie-k-SR1023.pdf',	'www/files/prilohy/tb_Usmernenie-k-SR1023.jpg',	'2018-01-03 09:16:58',	1,	1,	2),
-(54,	22,	1,	0,	NULL,	'video',	'MOV',	'dsc-1566',	NULL,	'www/files/prilohy/DSC-1566.MOV',	'www/files/prilohy/tb_DSC-1566.jpg',	'2018-01-16 11:24:09',	1,	3,	2),
-(55,	22,	1,	0,	NULL,	'thfg dfghfgh dfgfd ',	'pdf',	't-115',	'dfgfdd dfddf ',	'www/files/prilohy/T-115.pdf',	'www/files/prilohy/tb_T-115.jpg',	'2018-01-16 11:31:00',	1,	1,	1);
+(43,	24,	1,	0,	'#I-43#',	'protisvelo2',	'jpg',	'protisvelo2',	NULL,	'protisvelo2.jpg',	'tb_protisvelo2.jpg',	'2017-12-18 08:48:37',	1,	2,	0),
+(44,	24,	1,	0,	'#I-44#',	'protisvetlo1',	'JPG',	'protisvetlo1',	NULL,	'protisvetlo1.JPG',	'tb_protisvetlo1.JPG',	'2017-12-18 08:48:37',	1,	2,	0),
+(53,	22,	1,	0,	NULL,	'Dokument',	'pdf',	'usmernenie-k-sr1023',	NULL,	'Usmernenie-k-SR1023.pdf',	'tb_Usmernenie-k-SR1023.jpg',	'2018-01-03 09:16:58',	1,	1,	2),
+(54,	22,	1,	0,	NULL,	'video',	'MOV',	'dsc-1566',	NULL,	'DSC-1566.MOV',	'tb_DSC-1566.jpg',	'2018-01-16 11:24:09',	1,	3,	2),
+(55,	22,	1,	0,	NULL,	'thfg dfghfgh dfgfd ',	'pdf',	't-115',	'dfgfdd dfddf ',	'T-115.pdf',	'tb_T-115.jpg',	'2018-01-16 11:31:00',	1,	1,	1);
 
 DROP TABLE IF EXISTS `druh`;
 CREATE TABLE `druh` (
@@ -442,11 +442,11 @@ CREATE TABLE `products` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Produkty';
 
 INSERT INTO `products` (`id`, `id_hlavne_menu`, `id_user_main`, `id_user_roles`, `name`, `web_name`, `description`, `main_file`, `thumb_file`, `change`) VALUES
-(1,	23,	1,	0,	'budovy11',	'budovy11',	NULL,	'www/files/prilohy/budovy11.JPG',	'www/files/prilohy/tb_budovy11.JPG',	'2018-01-02 09:40:44'),
-(10,	23,	1,	0,	'Naša búda',	'dedina12',	'adf ysdfdsf yxvyyasdfgasd ysdfgysy sd dsxfysdydfv afgsd a a',	'www/files/prilohy/dedina12.JPG',	'www/files/prilohy/tb_dedina12.JPG',	'2018-01-03 07:26:17'),
-(11,	23,	1,	0,	'dedina11 sdfg',	'dedina11',	'ghjgh dfdd',	'www/files/prilohy/dedina11.JPG',	'www/files/prilohy/tb_dedina11.JPG',	'2018-01-03 07:28:39'),
-(15,	22,	1,	0,	'krajina1',	'krajina1',	NULL,	'www/files/prilohy/krajina1.JPG',	'www/files/prilohy/tb_krajina1.JPG',	'2018-01-03 08:13:05'),
-(16,	22,	1,	0,	'obr07 yssd',	'obr07',	'dfgdf  ffxd ',	'www/files/prilohy/obr07.jpg',	'www/files/prilohy/tb_obr07.jpg',	'2018-01-16 10:32:49');
+(1,	23,	1,	0,	'budovy11',	'budovy11',	NULL,	'budovy11.JPG',	'tb_budovy11.JPG',	'2018-01-02 09:40:44'),
+(10,	23,	1,	0,	'Naša búda',	'dedina12',	'adf ysdfdsf yxvyyasdfgasd ysdfgysy sd dsxfysdydfv afgsd a a',	'dedina12.JPG',	'tb_dedina12.JPG',	'2018-01-03 07:26:17'),
+(11,	23,	1,	0,	'dedina11 sdfg',	'dedina11',	'ghjgh dfdd',	'dedina11.JPG',	'tb_dedina11.JPG',	'2018-01-03 07:28:39'),
+(15,	22,	1,	0,	'krajina1',	'krajina1',	NULL,	'krajina1.JPG',	'tb_krajina1.JPG',	'2018-01-03 08:13:05'),
+(16,	22,	1,	0,	'obr07 yssd',	'obr07',	'dfgdf  ffxd ',	'obr07.jpg',	'tb_obr07.jpg',	'2018-01-16 10:32:49');
 
 DROP TABLE IF EXISTS `slider`;
 CREATE TABLE `slider` (

@@ -7,7 +7,6 @@ use Nette\Application\UI\Presenter;
 use Nette\Http;
 use Nette\Utils\Html;
 use Nette\Utils\Strings;
-use PeterVojtech;
 use Texy;
 
 /**
@@ -243,6 +242,13 @@ abstract class BasePresenter extends Presenter {
     $this->template->view_log_in_link_in_header = $this->nastavenie['user_panel']["view_log_in_link_in_header"];
     $this->template->dir_to_images = $this->nastavenie['dir_to_images'];
     $this->template->dir_to_icons = $this->nastavenie['dir_to_icons'];
+    $this->template->fa = [
+      'success' => 'far fa-check-circle',
+      'warning' => 'fas fa-exclamation-triangle',
+      'info'    => 'fas fa-info-circle',
+      'danger'  => 'fas fa-exclamation-circle',
+    ];
+    $this->template->setTranslator($this->texty_presentera);
 	}
   
   /** Signal pre odhlasenie sa */
@@ -276,12 +282,6 @@ abstract class BasePresenter extends Presenter {
   /** @return JavaScriptLoader */
   protected function createComponentJsAfter(){
     return $this->webLoader->createJavaScriptLoader('frontAfter');
-  }
-  
-  /** Komponenta pre výpis css a js súborov
-   * @return \PeterVojtech\Base\CssJsFilesControl */
-  public function createComponentFiles() {
-    return new PeterVojtech\Base\CssJsFilesControl($this->nastavenie['web_files'], $this->name, $this->action);
   }
   
   /** Komponenta pre výpis kodu google-analytics

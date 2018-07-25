@@ -4,7 +4,7 @@
  *
  *	Modul: FRONT
  *
- * Posledna zmena(last change): 13.07.2018
+ * Posledna zmena(last change): 23.07.2018
  * @copyright  Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
@@ -34,18 +34,14 @@
   {* ----- Favicon ------ *}
   <link rel="shortcut icon" href="{$basePath}/favicon.ico" type="image/x-icon">
   {block head}{/block}
-  <!--[if !IE]>
-    <script type="application/javascript">window._stack = [];</script>
-    <script type="application/javascript" src="{$basePath}/www/js/nittro.min.js" async defer></script>
-  <![endif]-->
   {control jsBefore}
 </head>
 
 <body>
-  <header class="{*nittro-transition-auto *}nittro-transition-fade" n:snippet="header">
+  <header>
     {control slider}
     <nav id="topNav" class="navbar navbar-expand-md navbar-light fixed-top navbar-toggleable-xs">
-      <a class="navbar-brand" n:href="Homepage:" title="home"><img src="{$basePath}/www/images/logo_bw.png" alt="logo bw foto" class="logo"></a>
+      <a class="navbar-brand" n:href="Homepage:" title="home"><img src="{$basePath}/{$dir_to_images}logo_bw.png" alt="logo bw foto" class="logo"></a>
       <button id="topMenuButton" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -63,22 +59,27 @@
         document.getElementById("topNav").classList.add('shrink');
       }
     </script>
-    {*<a n:href="Homepage:" titile="home">
-        <h1>
-          {$udaje['titulka']}
-          <br n:ifset="$udaje['h1part2']" /><small n:ifset="$udaje['h1part2']">{$udaje['h1part2']|striptags}</small>
-        </h1>
-      </a>*}
   </header>
   {* ----- ZACIATOK content - centralna cast ----- *}
-  <div n:snippet=content class="{*nittro-transition-auto*}nittro-transition-fade">
+  <div>
     <section id="webContent">
       {control menu templateType=>'nav', templateFile=>'BWfoto_Nav_Breadcrumb', level=>1}
       {control confirmForm}
-      <div n:flashes></div>
+      <div class="row top-panel" n:if="count($flashes)">
+        <div class="col-md-10 col-md-offset-1" n:inner-foreach="$flashes as $flash" n:if="count($flashes)">
+          {var $nees = explode(',', $flash->type)}
+          {var $fa_code = (array_key_exists($nees[0], $fa) ? $fa[$nees[0]] : FALSE)}
+          <div class="alert alert-{$nees[0]} fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <i n:if="$fa_code" class="{$fa_code}"></i>
+            {if isset($nees[1]) && $nees[1] == 'n'}{_$flash->message|noescape}{else}{_$flash->message}{/if}
+          </div>
+        </div>
+      </div>
       {block content}{/block}
     </section>
-    {* <article n:inner-block="content" class="nittro-transition-auto nittro-transition-fade"></article> *}
   </div>
   {* ----- Spodok stranky - FOOTER ----- *}
   <footer n:snippet=footer>
@@ -87,7 +88,7 @@
     {* --- Info o stranke --- *}
     <div class="row" id="footerContent">
       <div id="logoBWfoto" class="col-5 d-flex justify-content-end">
-        <img src="{$basePath}/www/images/logo_bw-w.png" title="Logo BWfoto" alt="Logo Bwfoto" class="img-responsive">
+        <img src="{$basePath}/{$dir_to_images}logo_bw-w.png" title="Logo BWfoto" alt="Logo Bwfoto" class="img-responsive">
       </div>
       <div id="contact">
         <h4 class="text-left">Ateliér Zámečník</h4>
@@ -122,12 +123,9 @@
       </div>
       {control userLangMenu}
     </div>
-
-
   </footer>
 
   {control jsAfter}
-  {control files:js}
   {block spec_js}{/block}
   {control googleAnalytics}
 </body>

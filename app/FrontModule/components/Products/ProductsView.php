@@ -25,6 +25,8 @@ class ProductsViewControl extends Control {
   public $texts;
   /** @var int */
   private $article;
+  /** @var array */
+  private $nastavenie;
 
   /**
    * @param DbTable\Products $products
@@ -38,10 +40,12 @@ class ProductsViewControl extends Control {
   /** Nastavenie id polozky, ku ktorej patria produkty
    * @param Nette\Database\Table\ActiveRow $article Polozka menu ku ktorej je priradeny
    * @param int $id_lang Id jazyka
-   * @return \App\FrontModule\Components\Products\PrilohyClanokControl */
-  public function setNastav($article, $id_lang) {
+   * @param array $nastavenie Nastavenia z configu
+   * @return \App\FrontModule\Components\Products\ProductsViewControl */
+  public function setNastav($article, $id_lang, $nastavenie) {
     $this->article = $article;
     $this->texts->setLanguage($id_lang);
+    $this->nastavenie = $nastavenie;
     return $this;
   }
 
@@ -52,6 +56,7 @@ class ProductsViewControl extends Control {
     $this->template->products = $this->products->getProducts($this->article->id_hlavne_menu);
     $this->template->texts = $this->texts;
     $this->template->big_img_id = isset($params['big_img_id']) ? $params['big_img_id'] : 0;
+    $this->template->nastavenie = $this->nastavenie;
     $this->template->render();
   }
 

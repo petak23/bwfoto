@@ -8,7 +8,7 @@ use Nette\Application\UI\Multiplier;
 /**
  * Prezenter pre vypisanie clankov.
  * 
- * Posledna zmena(last change): 20.07.2018
+ * Posledna zmena(last change): 23.07.2018
  *
  *	Modul: FRONT
  *
@@ -16,7 +16,7 @@ use Nette\Application\UI\Multiplier;
  * @copyright  Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.7
+ * @version 1.1.8
  */
 
 class ClankyPresenter extends BasePresenter {
@@ -151,7 +151,7 @@ class ClankyPresenter extends BasePresenter {
    * @return \App\FrontModule\Components\Clanky\PrilohyClanok\PrilohyClanokControl */
   public function createComponentPrilohy() {
     $prilohy = $this->prilohyClanokControlFactory->create();
-    $prilohy->setNastav($this->zobraz_clanok, $this->nastavenie, $this->language_id);
+    $prilohy->setNastav($this->zobraz_clanok, $this->nastavenie, $this->language_id, $this->nazov_stranky);
     return $prilohy;
   }
   
@@ -160,7 +160,7 @@ class ClankyPresenter extends BasePresenter {
    * @return \App\FrontModule\Components\Products\ProductsViewControl */
   public function createComponentViewProducts() {
     $products = $this->productsViewControlFactory->create();
-    $products->setNastav($this->zobraz_clanok, $this->language_id);
+    $products->setNastav($this->zobraz_clanok, $this->language_id, $this->nastavenie);
     return $products;
   }
   

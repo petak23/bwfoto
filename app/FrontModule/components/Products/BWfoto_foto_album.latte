@@ -1,12 +1,8 @@
-{if $products->count()}
-  <div n:foreach="$products as $product" class="thumb">
-    <img class="img-thumbnail img-rounded jslghtbx-thmb noajax" 
-         src="{$basePath}/{$product->thumb_file}" alt="{$product->name}" 
-         data-jslghtbx="{$basePath}/{$product->main_file}" 
-         data-ajax="false" 
-         data-jslghtbx-caption="{$product->description}">
-    <a href="{plink bigImg! $product->id, 1}" title="{$product->name}" class="ajax{if $product->id == $big_img_id} selected{/if}">
-      <img class="img-responsive img-square" src="{$basePath}/{$product->thumb_file}" alt="{$product->name}">
-    </a>
-  </div>
-{/if}
+<div n:if="$products->count()" n:foreach="$products as $product" class="thumb">
+  <img class="img-thumbnail img-rounded jslghtbx-thmb" src="{$basePath}/{$nastavenie['prilohy_dir']}{$product->thumb_file}" alt="{$product->name}" 
+       data-jslghtbx="{$basePath}/{$nastavenie['prilohy_dir']}{$product->main_file}" 
+       data-jslghtbx-caption="{$product->description}">
+  <a href="{plink bigImg! $product->id, 1}" title="{$product->name}" class="ajax small-img{if $product->id == $big_img_id} selected{/if}">
+    <img class="img-responsive img-square" src="{$basePath}/{$nastavenie['prilohy_dir']}{$product->thumb_file}" alt="{$product->name}">
+  </a>
+</div>

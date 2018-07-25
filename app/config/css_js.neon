@@ -5,13 +5,6 @@
 # http://nette.org/security-warning
 #
 parameters:
-  web_files:
-    Front:
-      js: []
-    Edit:
-      js: []
-    Admin:
-      js: []
 
 services:
 #    wlCssFilter: WebLoader\Filter\CssUrlsFilter(%wwwDir%)
@@ -29,7 +22,6 @@ webloader:
         - %wwwDir%/www/css/all.css #font-awesome.css
         - %wwwDir%/www/css/bootstrap.css
 #        - %wwwDir%/www/css/bootstrap-theme.css
-        - %wwwDir%/www/css/nittro.min.css
         - %wwwDir%/www/css/lightbox.css
         - %wwwDir%/www/fonts/css/open-iconic-bootstrap.css
         - %wwwDir%/www/css/front/fonts.css
@@ -38,7 +30,7 @@ webloader:
         - %wwwDir%/www/css/front/x_docasne.css
 #        - %wwwDir%/www/css/jquery-ui.css
 #        - %wwwDir%/www/css/datagrid.css
-#        - {files: ["*.css", "*.less"], from: %wwwDir%/www/css/front} # Nette\Utils\Finder support
+        - {files: ["*.css", "*.less"], from: %wwwDir%/www/css/front} # Nette\Utils\Finder support
       filters:
         - @jwlCssMinFilter
 #      fileFilters:
