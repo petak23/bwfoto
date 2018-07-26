@@ -204,7 +204,7 @@ class PrilohyClanokControl extends Nette\Application\UI\Control {
     $pr = $this->dokumenty->find($id);//najdenie prislusnej polozky menu, ku ktorej priloha patri
     $pthis = $this->presenter;
     if ($pr !== FALSE) {
-      $vysledok = $this->_vymazSubor($pr->main_file) ? (in_array(strtolower($pr->pripona), ['png', 'gif', 'jpg']) ? $this->_vymazSubor($pr->thumb_file) : TRUE) : FALSE;
+      $vysledok = $this->_vymazSubor($this->nastavenie["dir_to_products"].$pr->main_file) ? $this->_vymazSubor($this->nastavenie["dir_to_products"].$pr->thumb_file) : FALSE;
       if (($vysledok ? $pr->delete() : FALSE)) { 
         $this->flashMessage('Príloha bola vymazaná!', 'success'); 
       } else { 
@@ -223,9 +223,9 @@ class PrilohyClanokControl extends Nette\Application\UI\Control {
   /** 
    * Funkcia vymaze subor ak exzistuje
 	 * @param string $subor Nazov suboru aj srelativnou cestou
-	 * @return int Ak zmaze alebo neexistuje(nie je co mazat) tak 1 inak 0 */
+	 * @return boolean Ak nezmaze alebo neexistuje(nie je co mazat) tak FALSE inak TRUE */
 	private function _vymazSubor($subor) {
-		return (is_file($subor)) ? unlink($this->presenter->context->parameters["wwwDir"]."/".$subor) : -1;
+		return (is_file($subor)) ? unlink($this->presenter->context->parameters["wwwDir"]."/".$subor) : FALSE;
 	}
 }
 

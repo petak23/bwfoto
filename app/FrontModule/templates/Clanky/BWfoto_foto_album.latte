@@ -2,7 +2,7 @@
  *
  * Modul: FRONT
  *
- * Posledna zmena(last change): 23.07.2018
+ * Posledna zmena(last change): 26.07.2018
  * @copyright  Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
@@ -21,31 +21,28 @@
 {block content}
 <div id="uvodnyText">
   {control ukazTentoClanok}
-</div>
-<div n:snippet=bigimgContainer class="nittro-transition-auto nittro-transition-fade" n:if="$prilohy->count()">
+</div>{dump $prilohy->count()}
+<div n:snippet=bigimgContainer>
   <h4 class="bigimg-name" n:ifset="$big_img->name">{$big_img->name}</h4>
   <section id="webThumbnails">
-    <div class="detail" n:if="(isset($big_img->type) && $big_img->type < 3) || (!isset($big_img->type))">
-      {foreach $prilohy_for_big_img as $subor}
-        <div class="big-img-container" {if $subor->id != $big_img->id}style="display:none"{/if}>
-            {if $subor->id == $big_img->id}
-              <img class="big-img noajax" src="{$basePath}/{$nastavenie['prilohy_dir']}{$subor->main_file}" 
-                   alt="{$subor->name}" data-jslghtbx="{$basePath}/{$nastavenie['prilohy_dir']}{$subor->main_file}" 
-                   data-ajax="false" data-jslghtbx-caption="{$subor->description}" data-jslghtbx-group="bigimggroup1" data-id-priloha="{$subor->id}">
-            {else}
-              <img class="small-img noajax img-thumbnail img-rounded" style="display:none" 
-                   src="{$basePath}/{$nastavenie['prilohy_dir']}{$subor->thumb_file}" alt="{$subor->name}" data-jslghtbx="{$basePath}/{$nastavenie['prilohy_dir']}{$subor->main_file}" 
-                   data-ajax="false" data-jslghtbx-caption="{$subor->description}" data-jslghtbx-group="bigimggroup1">
-            {/if}
-        </div>
-      {/foreach}
+    <div class="detail" n:if="$big_img != FALSE && (isset($big_img->type) && $big_img->type < 3) || (!isset($big_img->type))">
+      <div class="big-img-container" n:inner-foreach="$prilohy_for_big_img as $subor">
+        {if $big_img != FALSE && $subor->id == $big_img->id}
+          <img class="big-img noajax" src="{$basePath}/{$nastavenie['prilohy_dir']}{$subor->main_file}" 
+               alt="{$subor->name}" data-jslghtbx="{$basePath}/{$nastavenie['prilohy_dir']}{$subor->main_file}" 
+               data-ajax="false" data-jslghtbx-caption="{$subor->description}" data-jslghtbx-group="bigimggroup1" data-id-priloha="{$subor->id}">
+        {else}
+          <img class="small-img noajax img-thumbnail img-rounded" style="display:none" 
+               src="{$basePath}/{$nastavenie['prilohy_dir']}{$subor->thumb_file}" alt="{$subor->name}" data-jslghtbx="{$basePath}/{$nastavenie['prilohy_dir']}{$subor->main_file}" 
+               data-ajax="false" data-jslghtbx-caption="{$subor->description}" data-jslghtbx-group="bigimggroup1">
+        {/if}
+      </div>
     </div>
     <div class="detail" n:if="isset($big_img->type) && $big_img->type == 3">
       <video class="video-priloha" src="{$basePath}/{$nastavenie['prilohy_dir']}{$big_img->main_file}" poster="{$basePath}/{$nastavenie['prilohy_dir']}{$big_img->thumb_file}" type="video/mp4" controls="controls" preload="none"></video>
-    </div>
-          
+    </div>          
 
-    <div class="thumbnails bwfoto-foto-album-prilohy" data-transition="false" n:snippet="prilohyClanok" {*n:if="$prilohy->count()"*}>
+    <div class="thumbnails bwfoto-foto-album-prilohy" n:snippet="prilohyClanok">
       {control menu templateType=>'single', templateFile=>$clanok_hl_menu->hlavne_menu_template->name, cast=>$clanok_hl_menu->id_hlavne_menu_cast, level => $uroven, avatar => $nastavenie['dir_to_menu'], article_avatar_view_in => TRUE, anotacia => TRUE, nadpis => $viac_info}
       {var $big_img_id = isset($big_img->id) ? $big_img->id : 0}
       {control prilohy:others templateFile=>$clanok_hl_menu->hlavne_menu_template->name}
