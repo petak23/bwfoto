@@ -4,9 +4,9 @@
 /app/config/config.local.neon
 /app/config/database.neon
 /www/checker/
-/webtemp/
 /nbproject/
 /composer.lock
 /web.config
 /api/
 /_doc/
+/www/webtemp/

@@ -19,122 +19,122 @@ webloader:
   css:
     front:
       files:
-        - %wwwDir%/www/css/all.css #font-awesome.css
-        - %wwwDir%/www/css/bootstrap.css
-#        - %wwwDir%/www/css/bootstrap-theme.css
-        - %wwwDir%/www/css/lightbox.css
-        - %wwwDir%/www/fonts/css/open-iconic-bootstrap.css
-        - %wwwDir%/www/css/front/fonts.css
-        - %wwwDir%/www/css/front/bw.css
-        - %wwwDir%/www/css/front/responsive.css
-        - %wwwDir%/www/css/front/x_docasne.css
-#        - %wwwDir%/www/css/jquery-ui.css
-#        - %wwwDir%/www/css/datagrid.css
-        - {files: ["*.css", "*.less"], from: %wwwDir%/www/css/front} # Nette\Utils\Finder support
+        - %wwwDir%/css/all.css #font-awesome.css
+        - %wwwDir%/css/bootstrap.css
+#        - %wwwDir%/css/bootstrap-theme.css
+        - %wwwDir%/css/lightbox.css
+        - %wwwDir%/fonts/css/open-iconic-bootstrap.css
+        - %wwwDir%/css/front/fonts.css
+        - %wwwDir%/css/front/bw.css
+        - %wwwDir%/css/front/responsive.css
+        - %wwwDir%/css/front/x_docasne.css
+#        - %wwwDir%/css/jquery-ui.css
+#        - %wwwDir%/css/datagrid.css
+        - {files: ["*.css", "*.less"], from: %wwwDir%/css/front} # Nette\Utils\Finder support
       filters:
         - @jwlCssMinFilter
 #      fileFilters:
 #        - @lessFilter
 #        - @wlCssFilter
       watchFiles:     # only watch modify file
-        - {files: ["*.css", "*.less"], from: %wwwDir%/www/css/front}
-        - {files: ["*.css", "*.less"], in: %wwwDir%/www/css/front}
+        - {files: ["*.css", "*.less"], from: %wwwDir%/css/front}
+        - {files: ["*.css", "*.less"], in: %wwwDir%/css/front}
     admin:
       files:
-#        - %wwwDir%/www/css/font-awesome.css
-#        - %wwwDir%/www/css/bootstrap.css
-#        - %wwwDir%/www/css/bootstrap-theme.css
-        - %wwwDir%/www/css/jquery-ui.css
-        - %wwwDir%/www/css/datagrid.css
-        - %wwwDir%/www/css/lightbox.css
-        - {files: ["*.css", "*.less"], from: %wwwDir%/www/css/admin} # Nette\Utils\Finder support
+#        - %wwwDir%/css/font-awesome.css
+#        - %wwwDir%/css/bootstrap.css
+#        - %wwwDir%/css/bootstrap-theme.css
+        - %wwwDir%/css/jquery-ui.css
+        - %wwwDir%/css/datagrid.css
+        - %wwwDir%/css/lightbox.css
+        - {files: ["*.css", "*.less"], from: %wwwDir%/css/admin} # Nette\Utils\Finder support
       filters:
         - @jwlCssMinFilter
 #      fileFilters:
 #        - @lessFilter
 #        - @wlCssFilter
       watchFiles:     # only watch modify file
-        - {files: ["*.css", "*.less"], from: %wwwDir%/www/css/admin}
-        - {files: ["*.css", "*.less"], in: %wwwDir%/www/css/admin}
+        - {files: ["*.css", "*.less"], from: %wwwDir%/css/admin}
+        - {files: ["*.css", "*.less"], in: %wwwDir%/css/admin}
 
   js:
     frontBefore:
       files:
-#        - %wwwDir%/www/js/jquery-1.12.4.js
-#        - %wwwDir%/www/js/bootstrap.js
-#        - %wwwDir%/www/js/netteForms.min.js
-#        - %wwwDir%/www/js/nette.ajax.js
-#        - %wwwDir%/www/js/jquery-ui-1.12.1.min.js #Only datepicker & sortable
-#        - %wwwDir%/www/js/jquery.ui.datepicker-sk.js
-#        - %wwwDir%/www/js/nittro.min.js
-#        - %wwwDir%/www/js/datagrid.js
-#        - %wwwDir%/www/js/js-image-slider.js
-#        - %wwwDir%/www/js/forestmap.js
-#        - %wwwDir%/www/js/dropmenuJQ.js
-        - %wwwDir%/www/js/lightbox.js
+#        - %wwwDir%/js/jquery-1.12.4.js
+#        - %wwwDir%/js/bootstrap.js
+#        - %wwwDir%/js/netteForms.min.js
+#        - %wwwDir%/js/nette.ajax.js
+#        - %wwwDir%/js/jquery-ui-1.12.1.min.js #Only datepicker & sortable
+#        - %wwwDir%/js/jquery.ui.datepicker-sk.js
+#        - %wwwDir%/js/nittro.min.js
+#        - %wwwDir%/js/datagrid.js
+#        - %wwwDir%/js/js-image-slider.js
+#        - %wwwDir%/js/forestmap.js
+#        - %wwwDir%/js/dropmenuJQ.js
+        - %wwwDir%/js/lightbox.js
 
 #      filters:
 #        - @jsMin
     frontAfter:
       files:
-        - %wwwDir%/www/js/jquery-1.12.4.js
-#        - %wwwDir%/www/js/jquery-slim.min.js
-        - %wwwDir%/www/js/popper.min.js
-        - %wwwDir%/www/js/bootstrap.js
-        - %wwwDir%/www/js/netteForms.min.js
-#        - %wwwDir%/www/js/nette.ajax.js
-#        - %wwwDir%/www/js/jquery-ui-1.12.1.js
-#        - %wwwDir%/www/js/jquery.ui.datepicker-sk.js
-#        - %wwwDir%/www/js/lightbox.js
-#        - %wwwDir%/www/js/lightbox.config.front.js
-        - %wwwDir%/www/js/Naja.js
-        - %wwwDir%/www/js/pomocne_front.js
-        - %wwwDir%/www/js/nav-shrink.js
+        - %wwwDir%/js/jquery-1.12.4.js
+#        - %wwwDir%/js/jquery-slim.min.js
+        - %wwwDir%/js/popper.min.js
+        - %wwwDir%/js/bootstrap.js
+        - %wwwDir%/js/netteForms.min.js
+#        - %wwwDir%/js/nette.ajax.js
+#        - %wwwDir%/js/jquery-ui-1.12.1.js
+#        - %wwwDir%/js/jquery.ui.datepicker-sk.js
+#        - %wwwDir%/js/lightbox.js
+#        - %wwwDir%/js/lightbox.config.front.js
+        - %wwwDir%/js/Naja.js
+        - %wwwDir%/js/pomocne_front.js
+        - %wwwDir%/js/nav-shrink.js
 #      filters:
 #        - @jsMin
 
     admin:
       files:
-        - %wwwDir%/www/js/admin/jquery-1.12.4.js
-        - %wwwDir%/www/js/popper.js
-        - %wwwDir%/www/js/admin/bootstrap.js
-        - %wwwDir%/www/js/netteForms.min.js
-        - %wwwDir%/www/js/nette.ajax.js
-        - %wwwDir%/www/js/admin/jquery-ui-1.12.1.js
-        - %wwwDir%/www/js/jquery.ui.datepicker-sk.js
-        - %wwwDir%/www/js/admin/fontawesome-all.min.js
-        - %wwwDir%/www/js/admin/fa-v4-shims.min.js
-        - %wwwDir%/www/js/lightbox.js
-        - %wwwDir%/www/js/lightbox.config.admin.js
-        - %wwwDir%/www/js/datagrid.js
-        - %wwwDir%/www/js/pomocne_admin.js
+        - %wwwDir%/js/admin/jquery-1.12.4.js
+        - %wwwDir%/js/popper.js
+        - %wwwDir%/js/admin/bootstrap.js
+        - %wwwDir%/js/netteForms.min.js
+        - %wwwDir%/js/nette.ajax.js
+        - %wwwDir%/js/admin/jquery-ui-1.12.1.js
+        - %wwwDir%/js/jquery.ui.datepicker-sk.js
+        - %wwwDir%/js/admin/fontawesome-all.min.js
+        - %wwwDir%/js/admin/fa-v4-shims.min.js
+        - %wwwDir%/js/lightbox.js
+        - %wwwDir%/js/lightbox.config.admin.js
+        - %wwwDir%/js/datagrid.js
+        - %wwwDir%/js/pomocne_admin.js
 #      filters:
 #        - @jsMin
     texyla:
       files:
-        - %wwwDir%/www/js/texyla/js/texyla.js
-        - %wwwDir%/www/js/texyla/js/selection.js
-        - %wwwDir%/www/js/texyla/js/texy.js
-        - %wwwDir%/www/js/texyla/js/buttons.js
-        - %wwwDir%/www/js/texyla/js/dom.js
-        - %wwwDir%/www/js/texyla/js/view.js
-        - %wwwDir%/www/js/texyla/js/ajaxupload.js
-        - %wwwDir%/www/js/texyla/js/window.js
-        - %wwwDir%/www/js/texyla/languages/cs.js
-        - %wwwDir%/www/js/texyla/languages/sk.js
-        - %wwwDir%/www/js/texyla/languages/en.js
-        - %wwwDir%/www/js/texyla/plugins/keys/keys.js
-        - %wwwDir%/www/js/texyla/plugins/resizableTextarea/resizableTextarea.js
-        - %wwwDir%/www/js/texyla/plugins/img/img.js
-        - %wwwDir%/www/js/texyla/plugins/table/table.js
-        - %wwwDir%/www/js/texyla/plugins/link/link.js
-        - %wwwDir%/www/js/texyla/plugins/emoticon/emoticon.js
-        - %wwwDir%/www/js/texyla/plugins/symbol/symbol.js
-        - %wwwDir%/www/js/texyla/plugins/files/files.js
-        - %wwwDir%/www/js/texyla/plugins/color/color.js
-        - %wwwDir%/www/js/texyla/plugins/textTransform/textTransform.js
-        - %wwwDir%/www/js/texyla/plugins/youtube/youtube.js
-        - %wwwDir%/www/js/texyla/plugins/gravatar/gravatar.js
-        - %wwwDir%/www/js/texyla/texyla-init.js
+        - %wwwDir%/js/texyla/js/texyla.js
+        - %wwwDir%/js/texyla/js/selection.js
+        - %wwwDir%/js/texyla/js/texy.js
+        - %wwwDir%/js/texyla/js/buttons.js
+        - %wwwDir%/js/texyla/js/dom.js
+        - %wwwDir%/js/texyla/js/view.js
+        - %wwwDir%/js/texyla/js/ajaxupload.js
+        - %wwwDir%/js/texyla/js/window.js
+        - %wwwDir%/js/texyla/languages/cs.js
+        - %wwwDir%/js/texyla/languages/sk.js
+        - %wwwDir%/js/texyla/languages/en.js
+        - %wwwDir%/js/texyla/plugins/keys/keys.js
+        - %wwwDir%/js/texyla/plugins/resizableTextarea/resizableTextarea.js
+        - %wwwDir%/js/texyla/plugins/img/img.js
+        - %wwwDir%/js/texyla/plugins/table/table.js
+        - %wwwDir%/js/texyla/plugins/link/link.js
+        - %wwwDir%/js/texyla/plugins/emoticon/emoticon.js
+        - %wwwDir%/js/texyla/plugins/symbol/symbol.js
+        - %wwwDir%/js/texyla/plugins/files/files.js
+        - %wwwDir%/js/texyla/plugins/color/color.js
+        - %wwwDir%/js/texyla/plugins/textTransform/textTransform.js
+        - %wwwDir%/js/texyla/plugins/youtube/youtube.js
+        - %wwwDir%/js/texyla/plugins/gravatar/gravatar.js
+        - %wwwDir%/js/texyla/texyla-init.js
       filters:
         - @jsMin

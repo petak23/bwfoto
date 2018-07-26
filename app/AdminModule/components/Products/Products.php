@@ -10,13 +10,13 @@ use Ublaboo\DataGrid\Localization\SimpleTranslator;
 /**
  * Komponenta pre spravu produktov clanku.
  * 
- * Posledna zmena(last change): 19.07.2018
+ * Posledna zmena(last change): 26.07.2018
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
  * @copyright Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.2
+ * @version 1.0.3
  */
 
 class ProductsControl extends Nette\Application\UI\Control {
@@ -117,7 +117,7 @@ class ProductsControl extends Nette\Application\UI\Control {
 
 		$grid->setDataSource($this->products->findBy(['id_hlavne_menu'=>$this->clanok->id_hlavne_menu]));
     $grid->addColumnText('main_file', 'Obrázok')
-         ->setTemplate(__DIR__ . '/grid.subor.latte');
+         ->setTemplate(__DIR__ . '/grid.subor.latte',['dir_to_product' => $this->nastavenie['dir_to_products']]);
     $grid->addColumnText('name', 'Názov')
          ->setEditableCallback(function($id, $value) {
            $this->products->oprav($id, ['name'=>$value]);

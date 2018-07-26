@@ -10,16 +10,16 @@ parameters:
   send_e_mail_news: FALSE # Globalne povolenie posielania info mailov v pripade pridania polozky TRUE|FALSE
   omrvinky_enabled: TRUE # Globalne povolenie zobrazenia omrviniek TRUE|FALSE
   aktualny_projekt_enabled: FALSE # Globalne povolenie nastavovania aktualneho projektu TRUE|FALSE
-  dir_to_images: www/images/ # Globalne nastanenie adresara pre "pevne" obrazky webu 
-  dir_to_icons: www/ikonky/ # Globalne nastanenie adresara pre ikonky webu 
-  dir_to_user: www/files/ # Globalne nastanenie adresara pre obrazky uzivatelov 
-  dir_to_menu: www/files/menu/ # Globalne nastanenie adresara pre obrazky menu 
+  dir_to_images: images/ # Globalne nastanenie adresara pre "pevne" obrazky webu 
+  dir_to_icons: ikonky/ # Globalne nastanenie adresara pre ikonky webu 
+  dir_to_user: files/ # Globalne nastanenie adresara pre obrazky uzivatelov 
+  dir_to_menu: files/menu/ # Globalne nastanenie adresara pre obrazky menu 
   slider:       #Nastavenie slider-u
     x: 1280   #Rozmery slider-u
     y: 260
     varianta: 5 #0-nahodne nacitany obrazok, 1-meniace sa obrazky, 2-carousel, 3-scspp
     odkaz: FALSE # Povolenie zobrazenia obrazkov slider-u ako odkazu TRUE|FALSE
-    dir: www/files/slider/
+    dir: files/slider/
   hlavne_menu_obr_ikonky: FALSE # Povolenie obrazovych ikoniek v hl.menu. TRUE|FALSE
   user_panel: #Nastavenie panelu uzivatela
     view_avatar: FALSE # Zobrazenie avataru v panely uzivatela. TRUE|FALSE
@@ -36,7 +36,7 @@ parameters:
 #			1 = v hl. menu
 # 		2 = v titulke clanku
   article_avatar_view_in: 2 
-  dir_to_products: www/files/prilohy/ # Adresar pre subory produktov
+  dir_to_products: files/prilohy/ # Adresar pre subory produktov
   prilohy_images: #Nastavenie rozmerov obrazku ako prilohy clanku po nahrati na server
     x: 1510        #Zakladny rozmer
     y: 1000
@@ -44,7 +44,7 @@ parameters:
     tx: 226       #Rozmer nahladu
     ty: 150
     tkvalita: 80
-  prilohy_dir: www/files/prilohy/ #Adresar pre prilohy
+  prilohy_dir: files/prilohy/ #Adresar pre prilohy
   user_view_fields: #Nastavuje viditelne(volitelne) polozky uzivatela
     rok: FALSE       #Zobrazenie roku narodenia
     telefon: FALSE   #Zobrazenie telefonu
@@ -67,21 +67,6 @@ application:
   errorPresenter: Front:Error
   mapping:
     *: App\*Module\Presenters\*Presenter
-
-# Register Nittro Latte macros
-#latte:
-#  macros:
-#    - Nittro\Bridges\NittroLatte\NittroMacros
-
-#extensions:
-#    fileUpload: Zet\FileUpload\FileUploadExtension
-
-#fileUpload:
-#	maxFiles: 10
-#	maxFileSize: 2M
-#	fileFilter: Zet\FileUpload\Filter\ImageFilter
-#	uploadModel: App\Model\MyUploadModel
-#	uiMode: full # full nebo minimal
 
 session:
   autoStart: true
