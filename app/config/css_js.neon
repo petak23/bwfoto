@@ -19,9 +19,8 @@ webloader:
   css:
     front:
       files:
-        - %wwwDir%/css/all.css #font-awesome.css
-        - %wwwDir%/css/bootstrap.css
-#        - %wwwDir%/css/bootstrap-theme.css
+        - %wwwDir%/css/all.min.css #font-awesome.css
+        - %wwwDir%/../node_modules/bootstrap/dist/css/bootstrap.min.css
         - %wwwDir%/css/lightbox.css
         - %wwwDir%/fonts/css/open-iconic-bootstrap.css
         - %wwwDir%/css/front/fonts.css
@@ -41,9 +40,7 @@ webloader:
         - {files: ["*.css", "*.less"], in: %wwwDir%/css/front}
     admin:
       files:
-#        - %wwwDir%/css/font-awesome.css
-#        - %wwwDir%/css/bootstrap.css
-#        - %wwwDir%/css/bootstrap-theme.css
+        - %wwwDir%/css/all.min.css #font-awesome.css
         - %wwwDir%/css/jquery-ui.css
         - %wwwDir%/css/datagrid.css
         - %wwwDir%/css/lightbox.css
@@ -72,15 +69,15 @@ webloader:
 #        - %wwwDir%/js/forestmap.js
 #        - %wwwDir%/js/dropmenuJQ.js
         - %wwwDir%/js/lightbox.js
-
 #      filters:
 #        - @jsMin
     frontAfter:
       files:
-        - %wwwDir%/js/jquery-1.12.4.js
+#        - %wwwDir%/js/jquery-1.12.4.js
 #        - %wwwDir%/js/jquery-slim.min.js
+        - %wwwDir%/../node_modules/jquery/dist/jquery.min.js
         - %wwwDir%/js/popper.min.js
-        - %wwwDir%/js/bootstrap.js
+        - %wwwDir%/../node_modules/bootstrap/dist/js/bootstrap.min.js
         - %wwwDir%/js/netteForms.min.js
 #        - %wwwDir%/js/nette.ajax.js
 #        - %wwwDir%/js/jquery-ui-1.12.1.js
@@ -96,14 +93,12 @@ webloader:
     admin:
       files:
         - %wwwDir%/js/admin/jquery-1.12.4.js
-        - %wwwDir%/js/popper.js
+        - %wwwDir%/js/popper.min.js
         - %wwwDir%/js/admin/bootstrap.js
         - %wwwDir%/js/netteForms.min.js
-        - %wwwDir%/js/nette.ajax.js
+        - %wwwDir%/js/admin/nette.ajax.js
         - %wwwDir%/js/admin/jquery-ui-1.12.1.js
         - %wwwDir%/js/jquery.ui.datepicker-sk.js
-        - %wwwDir%/js/admin/fontawesome-all.min.js
-        - %wwwDir%/js/admin/fa-v4-shims.min.js
         - %wwwDir%/js/lightbox.js
         - %wwwDir%/js/lightbox.config.admin.js
         - %wwwDir%/js/datagrid.js

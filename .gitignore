@@ -10,3 +10,5 @@
 /api/
 /_doc/
 /www/webtemp/
+/node_modules/
+/www/webfonts/

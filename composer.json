@@ -36,8 +36,7 @@
     "oyejorge/less.php": "^1.7",
     "ublaboo/datagrid": "^5.2",
     "ublaboo/datagrid-nette-database-data-source": "^1.0",
-    "texy/texy": "^2.9",
-		"twbs/bootstrap": "^4.1.1"
+    "texy/texy": "^2.9"
 	},
 	"require-dev": {
 		"nette/tester": "^1.6"
