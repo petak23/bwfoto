@@ -19,7 +19,7 @@ webloader:
   css:
     front:
       files:
-        - %wwwDir%/css/all.min.css #font-awesome.css
+        - %wwwDir%/../node_modules/@fortawesome/fontawesome-free/css/all.min.css
         - %wwwDir%/../node_modules/bootstrap/dist/css/bootstrap.min.css
         - %wwwDir%/css/lightbox.css
         - %wwwDir%/fonts/css/open-iconic-bootstrap.css
@@ -40,7 +40,7 @@ webloader:
         - {files: ["*.css", "*.less"], in: %wwwDir%/css/front}
     admin:
       files:
-        - %wwwDir%/css/all.min.css #font-awesome.css
+        - %wwwDir%/../node_modules/@fortawesome/fontawesome-free/css/all.min.css
         - %wwwDir%/css/jquery-ui.css
         - %wwwDir%/css/datagrid.css
         - %wwwDir%/css/lightbox.css
@@ -76,15 +76,14 @@ webloader:
 #        - %wwwDir%/js/jquery-1.12.4.js
 #        - %wwwDir%/js/jquery-slim.min.js
         - %wwwDir%/../node_modules/jquery/dist/jquery.min.js
-        - %wwwDir%/js/popper.min.js
+        - %wwwDir%/../node_modules/popper.js/dist/popper.min.js
         - %wwwDir%/../node_modules/bootstrap/dist/js/bootstrap.min.js
-        - %wwwDir%/js/netteForms.min.js
-#        - %wwwDir%/js/nette.ajax.js
+        - %wwwDir%/../node_modules/nette-forms/src/assets/netteForms.min.js
 #        - %wwwDir%/js/jquery-ui-1.12.1.js
 #        - %wwwDir%/js/jquery.ui.datepicker-sk.js
 #        - %wwwDir%/js/lightbox.js
 #        - %wwwDir%/js/lightbox.config.front.js
-        - %wwwDir%/js/Naja.js
+        - %wwwDir%/../node_modules/naja/dist/Naja.js
         - %wwwDir%/js/pomocne_front.js
         - %wwwDir%/js/nav-shrink.js
 #      filters:
@@ -93,10 +92,11 @@ webloader:
     admin:
       files:
         - %wwwDir%/js/admin/jquery-1.12.4.js
-        - %wwwDir%/js/popper.min.js
+        - %wwwDir%/../node_modules/popper.js/dist/popper.min.js
         - %wwwDir%/js/admin/bootstrap.js
-        - %wwwDir%/js/netteForms.min.js
-        - %wwwDir%/js/admin/nette.ajax.js
+        - %wwwDir%/../node_modules/nette-forms/src/assets/netteForms.min.js
+        - %wwwDir%/../node_modules/naja/dist/Naja.js
+#        - %wwwDir%/js/admin/nette.ajax.js
         - %wwwDir%/js/admin/jquery-ui-1.12.1.js
         - %wwwDir%/js/jquery.ui.datepicker-sk.js
         - %wwwDir%/js/lightbox.js
