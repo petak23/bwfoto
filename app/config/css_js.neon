@@ -73,10 +73,8 @@ webloader:
 #        - @jsMin
     frontAfter:
       files:
-#        - %wwwDir%/js/jquery-1.12.4.js
-#        - %wwwDir%/js/jquery-slim.min.js
         - %wwwDir%/../node_modules/jquery/dist/jquery.min.js
-        - %wwwDir%/../node_modules/popper.js/dist/popper.min.js
+        - %wwwDir%/../node_modules/popper.js/dist/umd/popper.min.js
         - %wwwDir%/../node_modules/bootstrap/dist/js/bootstrap.min.js
         - %wwwDir%/../node_modules/nette-forms/src/assets/netteForms.min.js
 #        - %wwwDir%/js/jquery-ui-1.12.1.js
@@ -92,11 +90,12 @@ webloader:
     admin:
       files:
         - %wwwDir%/js/admin/jquery-1.12.4.js
-        - %wwwDir%/../node_modules/popper.js/dist/popper.min.js
-        - %wwwDir%/js/admin/bootstrap.js
+        - %wwwDir%/../node_modules/jquery/dist/jquery.min.js
+        - %wwwDir%/../node_modules/popper.js/dist/umd/popper.min.js
+#        - %wwwDir%/../node_modules/bootstrap/dist/js/bootstrap.min.js
         - %wwwDir%/../node_modules/nette-forms/src/assets/netteForms.min.js
+        - %wwwDir%/js/admin/bootstrap.js
         - %wwwDir%/../node_modules/naja/dist/Naja.js
-#        - %wwwDir%/js/admin/nette.ajax.js
         - %wwwDir%/js/admin/jquery-ui-1.12.1.js
         - %wwwDir%/js/jquery.ui.datepicker-sk.js
         - %wwwDir%/js/lightbox.js
