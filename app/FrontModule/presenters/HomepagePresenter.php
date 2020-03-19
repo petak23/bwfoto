@@ -6,20 +6,18 @@ use Language_support;
 /**
  * Prezenter pre homepage.
  * 
- * Posledna zmena(last change): 19.05.2017
+ * Posledna zmena(last change): 16.12.2019
  *
  *	Modul: FRONT
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2019 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.1
+ * @version 1.1.2
  */
-class HomepagePresenter extends \App\FrontModule\Presenters\BasePresenter {
-  /** @var Language_support\Homepage @inject */
-  public $texty_presentera;
- 
+class HomepagePresenter extends BasePresenter {
+  
   /** Vychodzie nestavenia */
 	protected function startup() {
     parent::startup();

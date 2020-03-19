@@ -1,10 +1,10 @@
 {var $pr = strtolower($item->pripona)}
 {if $pr == 'jpg' OR $pr == 'png' OR $pr == 'gif' OR $pr == 'bmp'}
-  <img class="jslghtbx-thmb img-rounded noajax" src="{$basePath}/{$prilohy_dir}{$item->thumb_file}" alt="{$item->name}" data-jslghtbx="{$basePath}/{$prilohy_dir}{$item->main_file}" data-ajax="false" data-jslghtbx-group="prilohygroup">
+  <img class="jslghtbx-thmb img-rounded noajax" src="{$basePath}/{$item->thumb_file}" alt="{$item->name}" data-jslghtbx="{$basePath}/{$item->main_file}" data-ajax="false" data-jslghtbx-group="prilohygroup">
 {else}
   <a href="{plink Dokumenty: $item->id}" title="{$item->name}" target="_blank">
     <img class="img-rounded" 
-         src="{$basePath}/{if $item->thumb_file && is_file($prilohy_dir.$item->thumb_file)}{$prilohy_dir}{$item->thumb_file}{else}{$dir_to_icons}Free-file-icons-master/48px/{if is_file($dir_to_icons.'Free-file-icons-master/48px/'.strtolower($item->pripona).'.png')}{$item->pripona|lower}{else}_page{/if}.png{/if}" 
+         src="{$basePath}/{ifset $item->thumb_file}{$item->thumb_file}{else}www/ikonky/Free-file-icons-master/48px/{if is_file('www/ikonky/Free-file-icons-master/48px/'.strtolower($item->pripona).'.png')}{$item->pripona|lower}{else}_page{/if}.png{/ifset}" 
          alt="{$item->main_file}">
   </a>
 {/if}     

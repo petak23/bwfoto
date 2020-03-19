@@ -1,82 +1,82 @@
 <?php
 
 namespace App\FrontModule\Forms\User;
+
 use DbTable;
 use Language_support;
 use Nette\Application\UI\Form;
 use Nette\Security\User;
 
-
-
 /**
  * Registracny formular
- * Posledna zmena 24.01.2018
+ * Posledna zmena 16.12.2019
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2019 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.3
+ * @version    1.0.8
  */
 class RegisterFormFactory {
   /** @var Security\User */
   protected $user;
-  /** @var Language_support\User */
-  private $user_texts;
+  /** @var Language_support\LanguageMain */
+  private $texts;
   /** @var DbTable\User_main */
   private $user_main;
   /** @var string */
-  private $link_forgot;
-  
+  private $link_forgot;  
 
   /**
    * @param User $user
-   * @param Language_support\User $user_texts
+   * @param Language_support\LanguageMain $language_main
    * @param DbTable\User_main $user_main */
-  public function __construct(User $user, Language_support\User $user_texts, DbTable\User_main $user_main) {
+  public function __construct(User $user, Language_support\LanguageMain $language_main, DbTable\User_main $user_main) {
     $this->user = $user;
-    $this->user_texts = $user_texts;
+    $this->texts = $language_main;
     $this->user_main = $user_main;
 	}
   
-  /** Vratenie textu pre dany kluc a jazyk
-   * @param string $key - kluc daneho textu
-   * @return string - hodnota pre dany text */
-  private function trLang($key) {
-    return $this->user_texts->trText($key);
-  }
-  
   /** Prihlasovaci formular
    * @return Nette\Application\UI\Form */
-  public function create($user_view_fields, $link_forgot)  {
+  public function create($user_view_fields, $link_forgot, string $language)  {
     $this->link_forgot = $link_forgot;
+    $this->texts->setLanguage($language);
     $form = new Form();
 		$form->addProtection();
-    $form->addText('meno', $this->trLang('RegistraciaForm_meno'), 50, 50)
-				 ->addRule(Form::MIN_LENGTH, $this->trLang('RegistraciaForm_meno_ar'), 2)
+    $form->setTranslator($this->texts);
+    $form->addText('meno', 'RegistraciaForm_meno')
+         ->setHtmlAttribute('size', 0)->setHtmlAttribute('maxlength', 50)
+				 ->addRule(Form::MIN_LENGTH, 'RegistraciaForm_meno_ar', 2)
          ->setAttribute('autofocus', 'autofocus')
-				 ->setRequired($this->trLang('RegistraciaForm_meno_sr'));
-    $form->addText('priezvisko', $this->trLang('RegistraciaForm_priezvisko'), 50, 50)
-				 ->addRule(Form::MIN_LENGTH, $this->trLang('RegistraciaForm_priezvisko_ar'), 3)
-				 ->setRequired($this->trLang('RegistraciaForm_priezvisko_sr'));
-    $form->addText('email', $this->trLang('Form_email'), 50, 50)
+				 ->setRequired('RegistraciaForm_meno_sr');
+    $form->addText('priezvisko', 'RegistraciaForm_priezvisko')
+         ->setHtmlAttribute('size', 0)->setHtmlAttribute('maxlength', 50)
+				 ->addRule(Form::MIN_LENGTH, 'RegistraciaForm_priezvisko_ar', 3)
+				 ->setRequired('RegistraciaForm_priezvisko_sr');
+    $form->addText('email', 'Form_email')
          ->setType('email')
-				 ->addRule(Form::EMAIL, $this->trLang('Form_email_ar'))
-				 ->setRequired($this->trLang('Form_email_sr'));
-    $form->addPassword('heslo', $this->trLang('RegistraciaForm_heslo'), 50, 50)
-				 ->addRule(Form::MIN_LENGTH, $this->trLang('RegistraciaForm_heslo_ar'), 5)
-				 ->setRequired($this->trLang('RegistraciaForm_heslo_sr'));
-    $form->addPassword('heslo2', $this->trLang('RegistraciaForm_heslo2'), 50, 50)
-         ->addRule(Form::EQUAL, $this->trLang('RegistraciaForm_heslo2_ar'), $form['heslo'])
-				 ->setRequired($this->trLang('RegistraciaForm_heslo2_sr'));
+         ->setHtmlAttribute('size', 0)->setHtmlAttribute('maxlength', 100)
+				 ->addRule(Form::EMAIL, 'Form_email_ar')
+				 ->setRequired('Form_email_sr');
+    $form->addPassword('heslo', 'RegistraciaForm_heslo')
+         ->setHtmlAttribute('size', 0)->setHtmlAttribute('maxlength', 100)
+				 ->addRule(Form::MIN_LENGTH, 'RegistraciaForm_heslo_ar', 5)
+				 ->setRequired('RegistraciaForm_heslo_sr');
+    $form->addPassword('heslo2', 'RegistraciaForm_heslo2')
+         ->setHtmlAttribute('size', 0)->setHtmlAttribute('maxlength', 100)
+         ->addRule(Form::EQUAL, 'RegistraciaForm_heslo2_ar', $form['heslo'])
+				 ->setRequired('RegistraciaForm_heslo2_sr');
     if ($user_view_fields["pohl"]) {
-      $form->addSelect('pohl', $this->trLang('RegistraciaForm_pohl'),
-        							 ['M'=>$this->trLang('RegistraciaForm_m'),'Z'=>$this->trLang('RegistraciaForm_z')]);
+      $form->addSelect('pohl', 'RegistraciaForm_pohl', ['M'=>'RegistraciaForm_m','Z'=>'RegistraciaForm_z']);
     }
+		$form->addReCaptcha('recaptcha', $label = 'Captcha')
+				 ->setRequired('Táto položka je požadovaná!')
+				 ->setMessage('Are you a bot?');
+				 
     $form->onValidate[] = [$this, 'validateRegisterForm'];
-		$form->addSubmit('uloz', $this->trLang('RegistraciaForm_uloz'))
-         ->setAttribute('class', 'btn btn-success')
-         ->onClick[] = [$this, 'userRegisterFormSubmitted'];
+		$form->addSubmit('uloz', 'RegistraciaForm_uloz')
+         ->setAttribute('class', 'btn btn-success');
 		return $form;
 	}
   
@@ -87,7 +87,7 @@ class RegisterFormFactory {
     if ($button->isSubmitted()->name == 'uloz') {
       // Over, ci dany email uz existuje.
       if ($this->user_main->testEmail($values->email)) {
-        $button->addError(sprintf($this->trLang('registracia_email_duble2'), $values->email, $this->link_forgot));
+        $button->addError(sprintf($this->texts->translate('registracia_email_duble2'), $values->email, $this->link_forgot));
       }
     } 
   }

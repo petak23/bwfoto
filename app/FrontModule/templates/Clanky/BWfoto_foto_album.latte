@@ -21,33 +21,33 @@
 {block content}
 <div id="uvodnyText">
   {control ukazTentoClanok}
-</div>{dump $prilohy->count()}
+</div>
 <div n:snippet=bigimgContainer>
   <h4 class="bigimg-name" n:ifset="$big_img->name">{$big_img->name}</h4>
   <section id="webThumbnails">
     <div class="detail" n:if="$big_img != FALSE && (isset($big_img->type) && $big_img->type < 3) || (!isset($big_img->type))">
       <div class="big-img-container" n:inner-foreach="$prilohy_for_big_img as $subor">
         {if $big_img != FALSE && $subor->id == $big_img->id}
-          <img class="big-img noajax" src="{$basePath}/{$nastavenie['prilohy_dir']}{$subor->main_file}" 
-               alt="{$subor->name}" data-jslghtbx="{$basePath}/{$nastavenie['prilohy_dir']}{$subor->main_file}" 
+          <img class="big-img noajax" src="{$basePath}/{$subor->main_file}" 
+               alt="{$subor->name}" data-jslghtbx="{$basePath}/{$subor->main_file}" 
                data-ajax="false" data-jslghtbx-caption="{$subor->description}" data-jslghtbx-group="bigimggroup1" data-id-priloha="{$subor->id}">
         {else}
           <img class="small-img noajax img-thumbnail img-rounded" style="display:none" 
-               src="{$basePath}/{$nastavenie['prilohy_dir']}{$subor->thumb_file}" alt="{$subor->name}" data-jslghtbx="{$basePath}/{$nastavenie['prilohy_dir']}{$subor->main_file}" 
+               src="{$basePath}/{$subor->thumb_file}" alt="{$subor->name}" data-jslghtbx="{$basePath}/{$subor->main_file}" 
                data-ajax="false" data-jslghtbx-caption="{$subor->description}" data-jslghtbx-group="bigimggroup1">
         {/if}
       </div>
     </div>
     <div class="detail" n:if="isset($big_img->type) && $big_img->type == 3">
-      <video class="video-priloha" src="{$basePath}/{$nastavenie['prilohy_dir']}{$big_img->main_file}" poster="{$basePath}/{$nastavenie['prilohy_dir']}{$big_img->thumb_file}" type="video/mp4" controls="controls" preload="none"></video>
+      <video class="video-priloha" src="{$basePath}/{$big_img->main_file}" poster="{$basePath}/{$big_img->thumb_file}" type="video/mp4" controls="controls" preload="none"></video>
     </div>          
 
     <div class="thumbnails bwfoto-foto-album-prilohy" n:snippet="prilohyClanok">
       {control menu templateType=>'single', templateFile=>$clanok_hl_menu->hlavne_menu_template->name, cast=>$clanok_hl_menu->id_hlavne_menu_cast, level => $uroven, avatar => $nastavenie['dir_to_menu'], article_avatar_view_in => TRUE, anotacia => TRUE, nadpis => $viac_info}
       {var $big_img_id = isset($big_img->id) ? $big_img->id : 0}
-      {control prilohy:others templateFile=>$clanok_hl_menu->hlavne_menu_template->name}
-      {control prilohy:videos templateFile=>$clanok_hl_menu->hlavne_menu_template->name, big_img_id=>$big_img_id}
-      {control prilohy:images templateFile=>$clanok_hl_menu->hlavne_menu_template->name, big_img_id=>$big_img_id}
+      {control attachments:others templateFile=>$clanok_hl_menu->hlavne_menu_template->name}
+      {control attachments:videos templateFile=>$clanok_hl_menu->hlavne_menu_template->name, big_img_id=>$big_img_id}
+      {control attachments:images templateFile=>$clanok_hl_menu->hlavne_menu_template->name, big_img_id=>$big_img_id}
       {control viewProducts templateFile=>$clanok_hl_menu->hlavne_menu_template->name, big_img_id=>$big_img_id}
     </div>  
   </section>

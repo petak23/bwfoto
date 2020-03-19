@@ -7,13 +7,13 @@ use DbTable;
 /**
  * Komponenta pre vytvorenie hlavičky polozky.
  * 
- * Posledna zmena(last change): 19.07.2018
+ * Posledna zmena(last change): 05.10.2018
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
  * @copyright Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.2
+ * @version 1.1.3
  */
 
 class TitleArticleControl extends Nette\Application\UI\Control {
@@ -42,24 +42,35 @@ class TitleArticleControl extends Nette\Application\UI\Control {
 	public $zmenDatumPlatnosti;
   /** @var ZmenDlzkuNovinkyFormFactory */
 	public $zmenDlzkuNovinky;
+  /** @var ZmenOkrajFormFactory */
+	public $zmenOkraj;
   /** @var ZmenOpravnenieNevlastnikovFormFactory */
 	public $zmenOpravnenieNevlastnikov;
+  /** @var ZmenOpravnenieKategoriaFormFactory */
+	public $zmenOpravnenieKategoria;
   /** @var ZmenSablonuFormFactory */
 	public $zmenSablonu;
 
-  /**
+  /** 
+   * @param boolean $aktualny_projekt_enabled Povolenie aktualneho projektu - Nastavenie priamo cez servises.neon
+   * @param boolean $zobraz_anotaciu Povolenie zobrazenia anotacie - Nastavenie priamo cez servises.neon
    * @param DbTable\Hlavne_menu_lang $hlavne_menu_lang
    * @param \App\AdminModule\Components\Article\TitleArticle\ZmenVlastnikaFormFactory $zmenVlastnikaFormFactory
    * @param \App\AdminModule\Components\Article\TitleArticle\ZmenUrovenRegistracieFormFactory $zmenUrovenRegistracieFormFactory
    * @param \App\AdminModule\Components\Article\TitleArticle\ZmenDatumPlatnostiFormFactory $zmenDatumPlatnostiFormFactory
    * @param \App\AdminModule\Components\Article\TitleArticle\ZmenDlzkuNovinkyFormFactory $zmenDlzkuNovinkyFormFactory
+   * @param \App\AdminModule\Components\Article\TitleArticle\ZmenOkrajFormFactory $zmenOkrajFormFactory
+   * @param \App\AdminModule\Components\Article\TitleArticle\ZmenOpravnenieKategoriaFormFactory $zmenOpravnenieKategoriaFormFactory
    * @param \App\AdminModule\Components\Article\TitleArticle\ZmenOpravnenieNevlastnikovFormFactory $zmenOpravnenieNevlastnikovFormFactory
    * @param \App\AdminModule\Components\Article\TitleArticle\ZmenSablonuFormFactory $zmenSablonuFormFactory */
-  public function __construct(DbTable\Hlavne_menu_lang $hlavne_menu_lang, 
+  public function __construct($aktualny_projekt_enabled, $zobraz_anotaciu,
+                              DbTable\Hlavne_menu_lang $hlavne_menu_lang, 
                               ZmenVlastnikaFormFactory $zmenVlastnikaFormFactory, 
                               ZmenUrovenRegistracieFormFactory $zmenUrovenRegistracieFormFactory,
                               ZmenDatumPlatnostiFormFactory $zmenDatumPlatnostiFormFactory,
                               ZmenDlzkuNovinkyFormFactory $zmenDlzkuNovinkyFormFactory,
+                              ZmenOkrajFormFactory $zmenOkrajFormFactory,
+                              ZmenOpravnenieKategoriaFormFactory $zmenOpravnenieKategoriaFormFactory,
                               ZmenOpravnenieNevlastnikovFormFactory $zmenOpravnenieNevlastnikovFormFactory,
                               ZmenSablonuFormFactory $zmenSablonuFormFactory
                              ) {
@@ -69,23 +80,23 @@ class TitleArticleControl extends Nette\Application\UI\Control {
     $this->zmenUrovenRegistracie = $zmenUrovenRegistracieFormFactory;
     $this->zmenDatumPlatnosti = $zmenDatumPlatnostiFormFactory;
     $this->zmenDlzkuNovinky = $zmenDlzkuNovinkyFormFactory;
+    $this->zmenOkraj = $zmenOkrajFormFactory;
+    $this->zmenOpravnenieKategoria = $zmenOpravnenieKategoriaFormFactory;
     $this->zmenOpravnenieNevlastnikov = $zmenOpravnenieNevlastnikovFormFactory;
     $this->zmenSablonu = $zmenSablonuFormFactory;
+    $this->aktualny_projekt_enabled = $aktualny_projekt_enabled;
+    $this->zobraz_anotaciu = $zobraz_anotaciu;
   }
   
   /** Nastavenie komponenty
    * @param Nette\Database\Table\ActiveRow $clanok
    * @param string $odkaz
    * @param boolean $komentare Povolenie komentarov
-   * @param boolean $aktualny_projekt_enabled Povolenie aktualneho projektu
-   * @param boolean $zobraz_anotaciu Zobrazenie anotacie polozky
    * @return \App\AdminModule\Components\Article\TitleArticleControl */
-  public function setTitle(Nette\Database\Table\ActiveRow $clanok, $odkaz, $komentare = FALSE, $aktualny_projekt_enabled = FALSE, $zobraz_anotaciu = FALSE) {
+  public function setTitle(Nette\Database\Table\ActiveRow $clanok, $odkaz, $komentare = FALSE) {
     $this->clanok = $clanok;
     $this->odkaz = $odkaz;
     $this->komentare = $komentare;
-    $this->aktualny_projekt_enabled = $aktualny_projekt_enabled;
-    $this->zobraz_anotaciu = $zobraz_anotaciu;
     $this->hlavne_menu_nadradeny = $this->hlavne_menu_lang->findOneBy(["id_hlavne_menu" => $this->clanok->hlavne_menu->id_nadradenej]);
     return $this;
   }
@@ -179,6 +190,20 @@ class TitleArticleControl extends Nette\Application\UI\Control {
   }
   
   /** 
+   * Komponenta formulara pre zmenu okraja obrázkových príloh polozky.
+   * @return Nette\Application\UI\Form */
+  public function createComponentZmenOkrajForm() {
+    return $this->_formMessage($this->zmenOkraj->create($this->clanok->hlavne_menu));
+  }
+  
+  /** 
+   * Komponenta formulara pre zmenu opravnenia podla kategorie polozky.
+   * @return Nette\Application\UI\Form */
+  public function createComponentZmenOpravnenieKategoriaForm() {
+    return $this->_formMessage($this->zmenOpravnenieKategoria->create($this->clanok->hlavne_menu));
+  }
+  
+  /** 
    * Komponenta formulara pre zmenu opravnenia nevlastnikov polozky.
    * @return Nette\Application\UI\Form */
   public function createComponentZmenOpravnenieNevlastnikovForm() {
@@ -207,6 +232,16 @@ class TitleArticleControl extends Nette\Application\UI\Control {
     } else {
       $this->redrawControl('');
     }
+	}
+  
+  protected function createTemplate($class = NULL) {
+    $template = parent::createTemplate($class);
+    $template->addFilter('border_x', function ($text){
+      $pom = $text != null & strlen($text)>2 ? explode("|", $text) : ['#000000','0'];
+      $xs = 'style="border: '.$pom[1].'px solid '.(strlen($pom[0])>2 ? $pom[0]:'inherit').'"';
+      return $xs;
+    });
+    return $template;
 	}
 }
 

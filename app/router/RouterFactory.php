@@ -2,12 +2,23 @@
 
 namespace App;
 
-use Nette;
-use Nette\Application\Routers\RouteList;
-use Nette\Application\Routers\Route;
 use DbTable;
+use Nette;
+use Nette\Application\Routers\Route;
+use Nette\Application\Routers\RouteList;
 
 
+
+/**
+ * Router
+ * Posledna zmena 26.03.2020
+ * 
+ * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
+ * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
+ * @license
+ * @link       http://petak23.echo-msz.eu
+ * @version    1.0.2
+ */
 class RouterFactory {
 
   /** @var DbTable\Hlavne_menu */
@@ -31,10 +42,30 @@ class RouterFactory {
     $router[] = new Route('clanky/home', 'Front:Homepage:default', Route::ONE_WAY);
 
     $router[] = $adminRouter = new RouteList('Admin');
+    $adminRouter[] = new Route('admin/clanky[/<action=default>]/<id>', [
+      'presenter' => 'Clanky',
+      'id' => [ Route::FILTER_IN => function ($id) use ($servis) {
+                    if (is_numeric($id)) {
+                      return $id;
+                    } else {
+                      $hh = $servis->hlavne_menu->findOneBy(['spec_nazov'=>$id]);
+                      return $hh ? $hh->id : 0;
+                    }
+                },
+                Route::FILTER_OUT => function ($id) use ($servis) {
+                    if (!is_numeric($id)) {
+                      return $id;
+                    } else {
+                      $hh = $servis->hlavne_menu->find($id);
+                      return $hh ? $hh->spec_nazov : "";
+                    }
+                }
+            ],
+    ]);
     $adminRouter[] = new Route('admin/<presenter>/<action>', 'Homepage:default');
     
-    $router[] = $editRouter = new RouteList('Edit');
-    $editRouter[] = new Route('edit/<presenter>/<action>', 'Homepage:default');
+
+
 
     $router[] = $frontRouter = new RouteList('Front');
     $frontRouter[] = new Route('clanky[/<id>]', [

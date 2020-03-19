@@ -23,12 +23,14 @@ class ProductsPresenter extends BasePresenter {
   /** @var DbTable\Products @inject */
 	public $products;
   
+  /** @var DbTable\Dokumenty @inject */
+	public $documents;
+  
   /** @var \Nette\Database\Table\ActiveRow */
   private $product;
   
   /** @var \Nette\Database\Table\Selection */
   protected $products_data;
-
 
   /** Vychodzia akcia
    * @param int $id Id produktu na zobrazenie */
@@ -40,6 +42,27 @@ class ProductsPresenter extends BasePresenter {
 		exit;
 	}
 
+  public function actionUpdate() {
+    $docc = $this->documents->findAll();
+    foreach ($docc as $do) {
+      $out = [
+         'main_file' => $this->nastavenie['prilohy_dir'].$do->main_file,
+         'thumb_file' => $this->nastavenie['prilohy_dir'].$do->thumb_file
+      ];
+      $this->documents->oprav($do->id, $out);
+    }
+    $proc = $this->products->findBy(['id < 17']);
+    foreach ($proc as $do) {
+      $out = [
+         'main_file' => $this->nastavenie['dir_to_products'].$do->main_file,
+         'thumb_file' => $this->nastavenie['dir_to_products'].$do->thumb_file
+      ];
+      $this->products->oprav($do->id, $out);
+    }
+    $this->flashRedirect('Products:setup', "Opravené oba", "succese");
+  }
+  
+    
   /** Akcia pre nastavenie časti produktov */
   public function actionSetup() {
 		$this->products_data = $this->udaje->getDruh("Products");

@@ -9,10 +9,23 @@
  *
 *}
 {block content}
-<h2>Výpis všetkých členov</h2>
-
-<div class="col-xs-12 col-md-12">
-  <a n:if="$user->isAllowed('Admin:User', 'add')" n:href="User:add"  title="Pridanie nového užívateľa" class="button-right edit-link">
-    <i class="fas fa-user-plus fa-2x"></i>Pridanie nového užívateľa</a>
+<div class="col-12">
+  <h2>Výpis všetkých členov</h2>
+  <div class="row">
+    <div class="col-12">
+      <a n:if="$user->isAllowed('Admin:User', 'add')" n:href="User:add"  title="Pridanie nového užívateľa" class="button-right edit-link">
+        <i class="fas fa-user-plus fa-2x"></i>Pridanie nového užívateľa</a>
+      {control addPasswordLessControl}
+    </div>
+  </div>
+  {control usersGrid}
 </div>
-{control usersGrid}
+{/block}
+
+{block spec_js}
+<script>
+  if ($('.error-form').length > 0) {
+    $('#modalUserAddPasswordLess').modal('show');
+  }
+</script>
+{/block}

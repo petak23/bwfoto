@@ -1,32 +1,34 @@
 <?php
 namespace App\FrontModule\Presenters;
 
+use App\FrontModule\Forms\User;
 use DbTable;
+use Language_support;
 use Nette\Application\UI\Multiplier;
 use Nette\Application\UI\Presenter;
 use Nette\Http;
 use Nette\Utils\Html;
 use Nette\Utils\Strings;
+use PeterVojtech;
 use Texy;
 
 /**
  * Zakladny presenter pre vsetky presentery vo FRONT module
  * 
- * Posledna zmena(last change): 20.07.2018
+ * Posledna zmena(last change): 26.03.2020
  *
  *	Modul: FRONT
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link      http://petak23.echo-msz.eu
- * @version 1.4.1
+ * @version 1.5.4
  */
-\Nette\Forms\Container::extensionMethod('addDatePicker', function (\Nette\Forms\Container $container, $name, $label = NULL) {
-    return $container[$name] = new \JanTvrdik\Components\DatePicker($label);
-});
-
 abstract class BasePresenter extends Presenter {
+  
+  use PeterVojtech\MainLayout\Favicon\faviconTrait;
+  use PeterVojtech\MainLayout\GoogleAnalytics\googleAnalyticsTrait;
 
   // -- DB
   /** @var DbTable\Dokumenty @inject */
@@ -50,31 +52,30 @@ abstract class BasePresenter extends Presenter {
   /** @var DbTable\Verzie @inject */
 	public $verzie;
 
-  /** @var mix */
+  /** @var Language_support\LanguageMain @inject */
   public $texty_presentera;
   
   // -- Komponenty
-  /** @var \App\FrontModule\Components\Oznam\IAktualneOznamyControl @inject */
-  public $aktualneOznamyControlFactory;
   /** @var \App\FrontModule\Components\Slider\ISliderControl @inject */
   public $sliderControlFactory;
   /** @var \App\FrontModule\Components\User\IKontaktControl @inject */
   public $kontaktControlFactory;
-  /** @var \App\FrontModule\Components\User\IUserLangMenuControl @inject */
+  /** @var \App\FrontModule\Components\User\UserLangMenu\IUserLangMenuControl @inject */
   public $userLangMenuControlFactory;
-  /** @var \App\FrontModule\Components\Clanky\OdkazNaClanky\IOdkazNaClankyControl @inject */
-  public $odkazNaClankyControlFactory;
   /** @var \App\FrontModule\Components\News\INewsControl @inject */
   public $newsControlFactory;
   /** @var \App\FrontModule\Components\Clanky\ZobrazClanok\IZobrazClanokControl @inject */
   public $zobrazClanokControlFactory;
   /** @var \App\FrontModule\Components\Clanky\IAktualneClankyControl @inject */
   public $aktualneClankyControlFactory;
-  /** @var \PeterVojtech\MainLayout\IGoogleAnalyticsControl @inject */
-  public $googleAnalyticsFactory;
+
+  // -- Forms
+  /** @var User\SignInFormFactory @inject*/
+  public $signInForm;
 
 
-  /** @persistent */
+  /** @var string Skratka aktualneho jazyka 
+   * @persistent */
   public $language = 'sk';
   /** @persistent */
   public $backlink = '';
@@ -102,54 +103,35 @@ abstract class BasePresenter extends Presenter {
   
   /** @var array nastavenie z config-u */
   public $nastavenie;
-	/** @var string - relatívna cesta pre avatar poloziek menu */
-	public $avatar_path = "files/menu/";
+
+
   /** @var int Maximalna velkost suboru pre upload */
   public $upload_size = 0;
   
-  /** 
-   * Vratenie textu pre dany kluc a jazyk
-   * @param string $key Kluc daneho textu
-   * @return string Dany text */
-  public function trLang($key) {
-    return ($this->texty_presentera == NULL) ? $key : $this->texty_presentera->trText($key);
-  }
-
-	protected function startup() {
+  protected function startup() {
     parent::startup();
-    // Sprava uzivatela
-    $user = $this->getUser(); //Nacitanie uzivatela
     // Kontrola prihlasenia a nacitania urovne registracie
-    $this->id_reg = ($user->isLoggedIn()) ? ($user->getIdentity()->id_user_roles === NULL ? 0 : $user->getIdentity()->id_user_roles) : 0;
+    $this->id_reg = ($this->user->isLoggedIn()) ? ($this->user->getIdentity()->id_user_roles === NULL ? 0 : $this->user->getIdentity()->id_user_roles) : 0;
     // Nastavenie z config-u
     $this->nastavenie = $this->context->parameters;
     $modul_presenter = explode(":", $this->name);
-    // Skontroluj ci je nastaveny jazyk a ci pozadovany jazyk existuje ak ano akceptuj
-    if (!isset($this->language)) {//Prednastavim hodnotu jazyka
-      $lang_temp = $this->lang->find(1);
-      $this->language = $lang_temp->skratka; 
+
+    // Nastav jazyk
+    $lang_temp = $this->lang->findOneBy(['skratka'=>$this->params['language']]);
+    if(isset($lang_temp->skratka) && $lang_temp->skratka == $this->params['language']) {
+      $this->language = $this->params['language'];
       $this->language_id = $lang_temp->id;
     }
-    if (isset($this->params['language'])) {
-      $lang_temp = $this->lang->findOneBy(['skratka'=>$this->params['language']]);
-      if(isset($lang_temp->skratka) && $lang_temp->skratka == $this->params['language']) {
-        $this->language = $this->params['language'];
-        $this->language_id = $lang_temp->id;
-      } else { //Inak nastav Slovencinu
-        $this->language = 'sk';
-        $this->language_id = 1;
-      }
-    } 
-    //Nacitanie a spracovanie hlavnych udajov webu
-    $this->udaje_webu = $this->udaje->findAll()->fetchPairs('nazov', 'text');
-    $vysledok = [];
-    //Nacitanie len tych premennych, ktore platia pre danu jazykovu mutaciu
-    foreach ($this->udaje_webu as $key => $value) { 
-      $kluc = explode("-", $key);
-      if (count($kluc) == 2 && $kluc[1] == $this->language) { $vysledok[substr($key, 0, strlen($key)-strlen($this->language)-1)] = $value; } 
-      if (count($kluc) == 1) {$vysledok[$key] = $value;}
+    //Nastavenie textov podla jazyka 
+    $this->texty_presentera->setLanguage($this->language); 
+
+    // Kontrola ACL
+    if (!$this->user->isAllowed($this->name, $this->action)) {
+      $this->flashRedirect('Homepage:notAllowed', sprintf($this->texty_presentera->translate('base_nie_je_opravnenie'), $this->action), 'danger');
     }
-    $this->udaje_webu = $vysledok;
+
+    //Nacitanie hlavnych udajov webu
+    $this->udaje_webu = $this->udaje->hlavneUdaje($this->language);
     // Nacitanie pomocnych premennych
     $this->udaje_webu['meno_presentera'] = strtolower($modul_presenter[1]); //Meno aktualneho presentera
     $httpR = $this->httpRequest->getUrl();
@@ -169,7 +151,7 @@ abstract class BasePresenter extends Presenter {
     } else { $hl_udaje = FALSE; }
     if ($hl_udaje !== FALSE) { //Ak sa hl. udaje nasli
       //Nacitanie textov hl_udaje pre dany jazyk 
-      $lang_hl_udaje = $this->hlavne_menu_lang->findOneBy(['id_lang'=>$this->language_id, 
+      $lang_hl_udaje = $this->hlavne_menu_lang->findOneBy(['lang.skratka'=>$this->language, 
                                                            'id_hlavne_menu'=>$hl_udaje->id]);
       if ($lang_hl_udaje !== FALSE){ //Nasiel som udaje a tak aktualizujem
         $this->udaje_webu["nazov"] = $lang_hl_udaje->menu_name;
@@ -189,8 +171,6 @@ abstract class BasePresenter extends Presenter {
     $ini_v = trim(ini_get("upload_max_filesize"));
     $s = ['g'=> 1<<30, 'm' => 1<<20, 'k' => 1<<10];
     $this->upload_size =  intval($ini_v) * ($s[strtolower(substr($ini_v,-1))] ?: 1);
-    // -- Povodny: 
-    $this->texty_presentera->setLanguage($this->language); //Nastavenie textov podla jazyka
 	}
 
   /** Komponenta pre vykreslenie menu
@@ -198,8 +178,8 @@ abstract class BasePresenter extends Presenter {
    */
   public function createComponentMenu() {
     $menu = new \App\FrontModule\Components\Menu\Menu;
-    $menu->setTextTitleImage($this->trLang("base_text_title_image"));
-    $hl_m = $this->hlavne_menu->getMenuFront($this->id_reg, $this->language_id);
+    $menu->setTextTitleImage($this->texty_presentera->translate("base_text_title_image"));
+    $hl_m = $this->hlavne_menu->getMenuFront($this->language);
     if ($hl_m !== FALSE) {
       $servise = $this;
       $menu->fromTable($hl_m, function($node, $row) use($servise) {
@@ -226,7 +206,7 @@ abstract class BasePresenter extends Presenter {
     
   /** Naplnenie spolocnych udajov pre sablony */
   public function beforeRender() {
-//    $this->getComponent('menu')->selectByUrl($this->link('this'));
+    $this->getComponent('menu')->selectByUrl($this->link('this'));
     $this->template->udaje = $this->udaje_webu;
 		$this->template->verzia = $this->verzie->posledna();
 		$this->template->urovregistr = $this->id_reg;
@@ -235,13 +215,15 @@ abstract class BasePresenter extends Presenter {
     $this->template->user_admin = $this->user_main->findOneBy(['user_roles.role'=>'admin']);
     $this->template->user_spravca = $this->user_main->findOneBy(['user_roles.role'=>'manager']);
     $this->template->nazov_stranky = $this->nazov_stranky;
-		$this->template->nastavenie = $this->nastavenie;
-    $this->template->text_title_image = $this->trLang("base_text_title_image");
+    $this->template->nastavenie = $this->nastavenie;
+//		$this->template->avatar_path = $this->nastavenie["dir_to_menu"];
+    $this->template->text_title_image = $this->texty_presentera->translate("base_text_title_image");
 		$this->template->article_avatar_view_in = $this->nastavenie["article_avatar_view_in"];
     $this->template->omrvinky_enabled = $this->nastavenie["omrvinky_enabled"];
     $this->template->view_log_in_link_in_header = $this->nastavenie['user_panel']["view_log_in_link_in_header"];
-    $this->template->dir_to_images = $this->nastavenie['dir_to_images'];
-    $this->template->dir_to_icons = $this->nastavenie['dir_to_icons'];
+//    $this->template->dir_to_images = $this->nastavenie['dir_to_images'];
+//    $this->template->dir_to_icons = $this->nastavenie['dir_to_icons'];
+    $this->template->setTranslator($this->texty_presentera);
     $this->template->fa = [
       'success' => 'far fa-check-circle',
       'warning' => 'fas fa-exclamation-triangle',
@@ -251,11 +233,12 @@ abstract class BasePresenter extends Presenter {
     $this->template->setTranslator($this->texty_presentera);
 	}
   
-  /** Signal pre odhlasenie sa */
-	public function handleSignOut() {
+  /** 
+   * Akcia pre odhlasenie - spolocna pre vsetky presentery */
+	public function actionSignOut(): void {
 		$this->getUser()->logout(TRUE);
-    $this->id_reg = 0;
-		$this->flashRedirect('Homepage:', $this->trLang('base_log_out_mess'), 'success');
+    $this->id_reg = 0;    
+		$this->flashRedirect('Homepage:', $this->texty_presentera->translate('base_log_out_mess'), 'success');
 	}
 
   /** 
@@ -264,7 +247,9 @@ abstract class BasePresenter extends Presenter {
   public function handleSetLang($language) {
     if ($this->language != $language) { //Cokolvek rob len ak sa meni
       //Najdi v DB pozadovany jazyk
-      if (($this->lang->findOneBy(['skratka'=>$language])) !== FALSE) { $this->language = $language;}
+      $la_tmp = $this->lang->findOneBy(['skratka'=>$language]);
+      //Ak existuje tak akceptuj
+      if (isset($la_tmp->skratka) && $la_tmp->skratka == $language) { $this->language = $language; }
     }
     $this->redirect('this');
 	}
@@ -284,24 +269,26 @@ abstract class BasePresenter extends Presenter {
     return $this->webLoader->createJavaScriptLoader('frontAfter');
   }
   
-  /** Komponenta pre výpis kodu google-analytics
+  /** Komponenta pre výpis css a js súborov
    * @return \PeterVojtech\Base\CssJsFilesControl */
-  public function createComponentGoogleAnalytics() {
-    return $this->googleAnalyticsFactory->create();
+  public function createComponentFiles() {
+    return new PeterVojtech\Base\CssJsFilesControl($this->nastavenie['web_files'], $this->name, $this->action);
   }
   
   /**
    * Vytvorenie komponenty pre menu uzivatela a zaroven panel jazykov
    * @return \App\FrontModule\Components\User\UserLangMenu */
   public function createComponentUserLangMenu() {
-    return $this->userLangMenuControlFactory->create();
+    $ulm = $this->userLangMenuControlFactory->create();
+    $ulm->setLanguage($this->language)->setStoreRequest($this->storeRequest());
+    return $ulm;
   }
 
   /** 
    * Vytvorenie komponenty pre potvrdzovaci dialog
    * @return Nette\Application\UI\Form */
   public function createComponentConfirmForm() {
-    $form = new \PeterVojtech\Confirm\ConfirmationDialog($this->getSession('news'));
+    $form = new PeterVojtech\Confirm\ConfirmationDialog($this->getSession('news'));
     $form->addConfirmer(
         'delete', // názov signálu bude confirmDelete!
         [$this, 'confirmedDelete'], // callback na funkciu pri kliknutí na YES
@@ -318,31 +305,31 @@ abstract class BasePresenter extends Presenter {
    */
   public function questionDelete($dialog, $params) {
      $dialog->getQuestionPrototype();
-     return sprintf($this->trLang('base_delete_text'),
+     return sprintf($this->texty_presentera->translate('base_delete_text'),
                     isset($params['zdroj_na_zmazanie']) ? $params['zdroj_na_zmazanie'] : "položku",
                     isset($params['nazov']) ? $params['nazov'] : '');
   }
   
   /** Vytvorenie komponenty slideru
-   * @return \App\FrontModule\Components\Slider\Slider
-   */
+   * @return \App\FrontModule\Components\Slider\Slider */
+
 	public function createComponentSlider() {
-    $slider = $this->sliderControlFactory->create();
-    $slider->setNastavenie($this->nastavenie["slider"]);
-    return $slider;
+    return $this->sliderControlFactory->create();
+
+
 	}
-  
-  /** 
-   * Komponenta pre vykreslenie odkazu na clanok s anotaciou
-   * @return \App\FrontModule\Components\Clanky\OdkazNaClankyControl */
-  public function createComponentOdkazNaClanky() {
-    $servise = $this;
-		return new Multiplier(function ($id) use ($servise) {
-			$odkaz = $servise->odkazNaClankyControlFactory->create();
-      $odkaz->setArticle($id, $servise->language_id);
-			return $odkaz;
-		});
-  }
+
+
+
+
+
+
+
+
+
+
+
+
   
   /** 
    * Komponenta pre zobrazenie clanku
@@ -357,7 +344,7 @@ abstract class BasePresenter extends Presenter {
       }
       $ukaz_clanok = $servise->zobrazClanokControlFactory->create();
       $ukaz_clanok->setArticle($clanok)
-                  ->setLanguage($servise->language_id)
+                  ->setLanguage($servise->language)
                   ->setClanokHlavicka($servise->udaje_webu['clanok_hlavicka']);
       if ($clanok->hlavne_menu->nazov_ul_sub !== null) {$ukaz_clanok->setClanokTemplate($clanok->hlavne_menu->nazov_ul_sub);}
       return $ukaz_clanok;
@@ -378,8 +365,8 @@ abstract class BasePresenter extends Presenter {
    * @return \App\FrontModule\Components\Clanky\AktualneClankyControl */
   public function createComponentAktualneClanky() {
     $aktualne_clanky = $this->aktualneClankyControlFactory->create();
-    $aktualne_clanky->setLanguage($this->language_id)
-		                ->setAvatarPath($this->avatar_path);
+    $aktualne_clanky->setLanguage($this->language);
+
 		return $aktualne_clanky;
   }
   
@@ -387,7 +374,9 @@ abstract class BasePresenter extends Presenter {
    * Komponenta pre zobrazenie noviniek
    * @return \App\FrontModule\Components\News\INewsControl */
   public function createComponentNews() {
-    return $this->newsControlFactory->create();
+    $news = $this->newsControlFactory->create();
+    $news->setLanguage($this->language);
+    return $news;
   }
   
   /** Komponenta pre vypis kontaktneho formulara
@@ -395,17 +384,40 @@ abstract class BasePresenter extends Presenter {
 	public function createComponentKontakt() {
     $spravca = $this->user_main->findOneBy(["user_roles.role" => "manager"]);
 		$kontakt = $this->kontaktControlFactory->create();
-    $kontakt->setNastav($this->language_id)
+    $kontakt->setNastav($this->language)
             ->setEmailsToSend($spravca->email)
             ->setNazovStranky($this->nazov_stranky);
 		return $kontakt;	
 	}
+  /** 
+   * Formular pre prihlasenie uzivatela.
+   * @return Nette\Application\UI\Form */
+  protected function createComponentSignInForm() {
+    $form = $this->signInForm->create($this->language);
+    $servise = $this;
+    $form['login']->onClick[] = function ($form) use ($servise) {
+      $ok_txt = $servise->texty_presentera->translate('base_login_ok');
+      $er_txt = $servise->texty_presentera->translate('base_login_error');
+      $servise->restoreRequest($servise->backlink);
+//      $servise->flashOut(!count($form->errors), 'Homepage:', $ok_txt, sprintf($er_txt, isset($form->errors[0]) ? $form->errors[0] : 'Ch'));
+      if (!count($form->errors)) {
+        $servise->flashMessage($ok_txt, 'success');
+        $servise->redirect('Homepage:');
+      } else {
+        $servise->flashMessage($er_txt, 'danger');
+      }
+    };
+    $form['forgottenPassword']->onClick[] = function () {
+      $this->redirect('User:forgottenPassword');
+    };
+    return $this->_vzhladForm($form);
+  }
   
   /** Funkcia pre zjednodusenie vypisu flash spravy a presmerovania
    * @param array|string $redirect Adresa presmerovania
    * @param string $text Text pre vypis hlasenia
-   * @param string $druh - druh hlasenia
-   */
+   * @param string $druh - druh hlasenia */
+
   public function flashRedirect($redirect, $text = "", $druh = "info") {
 		$this->flashMessage($text, $druh);
     if (is_array($redirect)) {
@@ -429,8 +441,8 @@ abstract class BasePresenter extends Presenter {
    * @param boolean $ok Podmienka
    * @param array|string $redirect Adresa presmerovania
    * @param string $textOk Text pre vypis hlasenia ak je podmienka splnena
-   * @param string $textEr Text pre vypis hlasenia ak NIE je podmienka splnena
-   */
+   * @param string $textEr Text pre vypis hlasenia ak NIE je podmienka splnena  */
+
   public function flashOut($ok, $redirect, $textOk = "", $textEr = "") {
     if ($ok) {
       $this->flashRedirect($redirect, $textOk, "success");
@@ -442,8 +454,8 @@ abstract class BasePresenter extends Presenter {
     /**
    * Vytvorenie spolocnych helperov pre sablony
    * @param type $class
-   * @return type
-   */
+   * @return type */
+
   protected function createTemplate($class = NULL) {
     $servise = $this;
     $template = parent::createTemplate($class);
@@ -484,8 +496,8 @@ abstract class BasePresenter extends Presenter {
       $rozloz = explode("{end}", $text);
       $vysledok = $text;
 			if (count($rozloz)>1) {		 //Ak som nasiel znacku
-				$vysledok = $rozloz[0].\Nette\Utils\Html::el('a class="cely_clanok"')->href($servise->link("this"))->title($servise->trLang("base_title"))
-                ->setHtml('&gt;&gt;&gt; '.$servise->trLang("base_viac")).'<div class="ostatok">'.$rozloz[1].'</div>';
+				$vysledok = $rozloz[0].\Nette\Utils\Html::el('a class="cely_clanok"')->href($servise->link("this"))->title($servise->texty_presentera->translate("base_title"))
+                ->setHtml('&gt;&gt;&gt; '.$servise->texty_presentera->translate("base_viac")).'<div class="ostatok">'.$rozloz[1].'</div>';
 			}
       return $vysledok;
     });
@@ -534,10 +546,10 @@ abstract class BasePresenter extends Presenter {
       $pom = $servise->hlavne_menu_lang->findOneBy(['id_hlavne_menu'=>$id, 'id_lang'=>$servise->language_id]);
       return $pom !== FALSE ? $pom->h1part2 : $id;
     });
-    $template->addFilter('trLang', function ($key) use($servise){
+   /*$template->addFilter('texty_presentera->translate', function ($key) use($servise){
       if ($servise->texty_presentera == NULL) { return $key; }
       return ($servise->user->isInRole("Admin")) ? $key."-".$servise->texty_presentera->trText($key) : $servise->texty_presentera->trText($key);
-    });
+    });*/
     $template->addFilter('nadpisH1', function ($key){
       $out = "";
       foreach (explode(" ", $key) as $v) {
@@ -553,22 +565,25 @@ abstract class BasePresenter extends Presenter {
 	}
   
   /**
-   * Nastavenie vzhľadu formulara
-   * @param \Nette\Application\UI\Form $form
+   * Uprava vzhladu formularov
+   * @param \Nette\Application\UI\Form $form Formular
+   * @param string $form_class Doplnkovy class pre tag form
    * @return \Nette\Application\UI\Form */
-  public function _vzhladForm($form) {
+  public function _vzhladForm($form, $form_class = "") {
+    $form->getElementPrototype()->class('form-horizontal'.(strlen($form_class)?" ".$form_class:""));
     $renderer = $form->getRenderer();
     $renderer->wrappers['error']['container'] = 'div class="row"';
     $renderer->wrappers['error']['item'] = 'div class="col-md-6 col-md-offset-3 alert alert-danger"';
     $renderer->wrappers['controls']['container'] = NULL;
     $renderer->wrappers['pair']['container'] = 'div class=form-group';
     $renderer->wrappers['pair']['.error'] = 'has-error';
-    $renderer->wrappers['control']['container'] = 'div class="col-sm-9 control-field"';
-    $renderer->wrappers['label']['container'] = 'div class="col-sm-3 control-label"';
+    $renderer->wrappers['pair']['container'] = 'div class="form-group row"';
+    $renderer->wrappers['label']['container'] = 'div class="col-12 col-sm-3 control-label"';
+    $renderer->wrappers['control']['container'] = 'div class="col-12 col-sm-9 control-field"';
     $renderer->wrappers['control']['description'] = 'span class="help-block alert alert-info"';
     $renderer->wrappers['control']['errorcontainer'] = 'span class="help-block alert alert-danger"';
     // make form and controls compatible with Twitter Bootstrap
-    $form->getElementPrototype()->class('form-horizontal');
+    
     foreach ($form->getControls() as $control) {
       if ($control instanceof Controls\Button) {
         $control->getControlPrototype()->addClass(empty($usedPrimary) ? 'btn btn-primary' : 'btn btn-default');

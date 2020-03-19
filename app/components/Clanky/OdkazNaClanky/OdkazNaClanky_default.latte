@@ -1,5 +1,5 @@
 <div n:snippet="odkazNaClanky" class="odkaz-na-clanky">
-  <a href="{$odkaz}" title="{$nazov}">
+  <a href="{if $to_link->je_spec_naz}{plink $link_presenter $id_hlavne_menu}{else}{plink $link_presenter}{/if}" title="{$nazov}">
     <span class="fa fa-arrow-right"> </span> {$nazov}
   </a>
   {if $datum_platnosti != NULL}

@@ -6,24 +6,45 @@
 #
 services:
 # forms
+  - App\FrontModule\Forms\User\ForgottenPasswordFormFactory
   - App\FrontModule\Forms\User\SignInFormFactory
   - App\FrontModule\Forms\User\RegisterFormFactory
+  - App\FrontModule\Forms\User\ResetPasswordFormFactory
   - App\FrontModule\Components\Faktury\DokumentFormFactory
   - App\FrontModule\Forms\UserLog\UserEditFormFactory
 
 # component services 
-  - App\FrontModule\Components\Oznam\IAktualneOznamyControl
-  - App\FrontModule\Components\Clanky\IAktualneClankyControl
+  AktualneClankyControl:
+    implement: App\FrontModule\Components\Clanky\IAktualneClankyControl
+    arguments:
+      dir_to_menu: %dir_to_menu%
   - App\FrontModule\Components\Clanky\IAktualnyProjektControl
-  - App\FrontModule\Components\Clanky\PrilohyClanok\IPrilohyClanokControl
-  - App\FrontModule\Components\Clanky\OdkazNaClanky\IOdkazNaClankyControl
-  - App\FrontModule\Components\Clanky\ZobrazKartyPodclankov\IZobrazKartyPodclankovControl
-  - App\FrontModule\Components\Clanky\ZobrazClanok\IZobrazClanokControl
+  AttachmentsControl:
+    implement: App\FrontModule\Components\Clanky\Attachments\IAttachmentsControl
+    arguments:
+      dir_to_menu: %dir_to_menu%´
+
+  ZobrazClanokControl:
+    implement: App\FrontModule\Components\Clanky\ZobrazClanok\IZobrazClanokControl
+    arguments:
+      dir_to_menu: %dir_to_menu%
+
+  SliderControl:
+    implement: App\FrontModule\Components\Slider\ISliderControl
+    arguments:
+      nastavenie: %slider%
+#  - App\FrontModule\Components\Clanky\OdkazNaClanky\IOdkazNaClankyControl
+#  - App\FrontModule\Components\Clanky\ZobrazKartyPodclankov\IZobrazKartyPodclankovControl
   - App\FrontModule\Components\Products\IProductsViewControl
-  - App\FrontModule\Components\Slider\ISliderControl
   - App\FrontModule\Components\User\IKontaktControl
-  - App\FrontModule\Components\User\IUserLangMenuControl
+
   - App\FrontModule\Components\News\INewsControl
   - App\FrontModule\Components\Faktury\IViewFakturyControl
+  UserLangMenuControl:
+    implement: App\FrontModule\Components\User\UserLangMenu\IUserLangMenuControl
+    arguments:
+      nastavenie: %user_panel%
+      dir_to_user: %dir_to_user%
+      avatar_view: %user_view_fields.avatar%
 
-  - PeterVojtech\MainLayout\IGoogleAnalyticsControl
+  - PeterVojtech\MainLayout\GoogleAnalytics\IGoogleAnalyticsControl

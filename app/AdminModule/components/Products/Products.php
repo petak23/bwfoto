@@ -75,10 +75,12 @@ class ProductsControl extends Nette\Application\UI\Control {
    * @param type $nastanenie
    * @param type $name
    * @return \App\AdminModule\Products\ProductsControl */
-  public function setTitle(Nette\Database\Table\ActiveRow $clanok, $nazov_stranky, $upload_size, $nastanenie, $name) {
+  public function setTitle(Nette\Database\Table\ActiveRow $clanok, $nazov_stranky, $nastanenie, $name) {
     $this->clanok = $clanok;
     $this->nazov_stranky = $nazov_stranky;
-    $this->upload_size = $upload_size;
+    $ini_v = trim(ini_get("upload_max_filesize"));
+    $s = ['g'=> 1<<30, 'm' => 1<<20, 'k' => 1<<10];
+    $this->upload_size =  intval($ini_v) * ($s[strtolower(substr($ini_v,-1))] ?: 1);
     $this->nastavenie = $nastanenie;
     
     $hlm = $this->clanok->hlavne_menu; // Pre skratenie zapisu

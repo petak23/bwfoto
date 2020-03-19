@@ -5,8 +5,9 @@
 /app/config/database.neon
 /www/checker/
 /nbproject/
-/composer.lock
 /web.config
 /api/
 /_doc/
 /www/webtemp/
+/node_modules/
+/www/files/

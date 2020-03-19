@@ -2,65 +2,65 @@
 namespace App\FrontModule\Presenters;
 
 use DbTable;
-use Language_support;
+//use Language_support;
 use Nette\Application\UI\Multiplier;
+use PeterVojtech;
 
 /**
  * Prezenter pre vypisanie clankov.
  * 
- * Posledna zmena(last change): 23.07.2018
+ * Posledna zmena(last change): 27.03.2020
  *
  *	Modul: FRONT
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.8
+ * @version 1.3.2
  */
 
 class ClankyPresenter extends BasePresenter {
+
+//  use PeterVojtech\Clanky\ZobrazKartyPodclankov\zobrazKartyPodclankovTrait;
+  use PeterVojtech\Clanky\OdkazNaClanky\odkazNaClankyTrait;
   
-  // -- DB
-	/** @var DbTable\Clanok_komponenty @inject */ 
+	/** @var DbTable\Clanok_komponenty @inject*/
 	public $clanok_komponenty;
   /** @var DbTable\Products @inject */
 	public $products;
-
-  /** @var Language_support\Clanky @inject */
-  public $texty_presentera;
   
   // -- Komponenty
-  /** @var \App\FrontModule\Components\Clanky\PrilohyClanok\IPrilohyClanokControl @inject */
-  public $prilohyClanokControlFactory;
-    /** @var \App\FrontModule\Components\Products\IProductsViewControl @inject */
+  /** @var \App\FrontModule\Components\Clanky\Attachments\IAttachmentsControl @inject */
+  public $attachmentsClanokControlFactory;
+  /** @var \App\FrontModule\Components\Products\IProductsViewControl @inject */
   public $productsViewControlFactory;
   /** @var \App\FrontModule\Components\Faktury\IViewFakturyControl @inject */
   public $viewFakturyControlFactory;
-  /** @var \App\FrontModule\Components\Clanky\ZobrazKartyPodclankov\IZobrazKartyPodclankovControl @inject */
-  public $zobrazKartyPodclankovControlFactory;
   
-	/** @var \Nette\Database\Table\ActiveRow|FALSE */
+  /** @var \Nette\Database\Table\ActiveRow|FALSE */
 	public $zobraz_clanok = FALSE;
   private $kotva = "";
   public $viditelnePrilohy;
   public $prilohy_for_big_img;
   protected $big_img;
-
-  /** Vychodzie nastavenia */
-	protected function startup() {
-    parent::startup();
-    // Kontrola ACL
-    if (!$this->user->isAllowed($this->name, $this->action)) {
-      $this->flashRedirect('Homepage:notAllowed', sprintf($this->trLang('base_nie_je_opravnenie'), $this->action), 'danger');
-    }
-  }
-
+  
   /** Zobrazenie konkretneho clanku
    * @param int $id Id hlavneho menu clanku */
 	public function actionDefault($id = 0, $kotva = "", $id_big_img = 0, $product = 0) {
-    if (($this->zobraz_clanok = $this->hlavne_menu_lang->getOneArticleId($id, $this->language_id, $this->id_reg)) === FALSE) {
-      $this->setView("notFound");
+		// Vsuvka pre presmerovanie ak nemam ziadnu aktualitu
+		if (in_array("aktualne", $this->clanok_komponenty->getKomponentyName($id)) &&  //Mam k clanku priradenu komponentu aktualne
+				isset($this["aktualne"]) && 																							 //Mam je vytvorenu
+				is_array($re = $this["aktualne"]->getPresmerovanie())) {									 //Je nastavene presmerovanie
+			$this->flashRedirect(['Clanky:', $re['id']], $re['txt'], 'info');
+		}
+		
+    if (($this->zobraz_clanok = $this->hlavne_menu_lang->getOneArticleId($id, $this->language_id, $this->id_reg)) === FALSE) {  
+      if ($this->hlavne_menu_lang->find($id) !== FALSE && $this->id_reg == 0) { //Clanok existuje ale je potrebne sa prihlasit
+        $this->flashRedirect(["User:", ['backlink' => $this->storeRequest()]], 'clanky_najdeny_neprihlaseny', "warning");
+      } else {
+        $this->setView("notFound");
+      }
     } else {
       $this->kotva = $kotva;
       if ($this->zobraz_clanok->hlavne_menu->redirect_id) { //Ak mám presmerovanie na podclanok
@@ -77,40 +77,38 @@ class ClankyPresenter extends BasePresenter {
       }
       //Spracovanie priloh
       $this->viditelnePrilohy = $this->dokumenty->getViditelnePrilohy($this->zobraz_clanok->id_hlavne_menu);
-      $this->prilohy_for_big_img = $product == 1 ? $this->products->findBy(["id_hlavne_menu"=>$this->zobraz_clanok->id_hlavne_menu]) : $this->dokumenty->getVisibleImages($this->zobraz_clanok->id_hlavne_menu);
+      $this->prilohy_for_big_img = $product == 1 ? $this->products->findBy(["id_hlavne_menu"=>$this->zobraz_clanok->id_hlavne_menu]) : $this->dokumenty->getVisibleImages($this->zobraz_clanok->id_hlavne_menu);      
       $this->big_img = $id_big_img ? $id_big_img : ((count($pom = $this->viditelnePrilohy)) ? $pom->fetch()->id : 0);
-      $this->template->big_img = $product == 1 ? $this->products->find($id_big_img): $this->dokumenty->find($id_big_img);
+      $this->template->big_img = $product == 1 ? $this->products->find($this->big_img): $this->dokumenty->find($this->big_img);
     }
 	}
  
   /** Render pre zobrazenie clanku */
 	public function beforeRender() {
     parent::beforeRender();
-    $this->getComponent('menu')->selectByUrl($this->link('Clanky:', ["id"=>$this->zobraz_clanok->id_hlavne_menu]));
-    $this->template->komentare_povolene =  $this->udaje_webu["komentare"] && ($this->user->isAllowed('Front:Clanky', 'komentar') && $this->zobraz_clanok->hlavne_menu->komentar) ? $this->zobraz_clanok->id_hlavne_menu : 0;
-		$this->template->h2 = $this->trLang('h2').$this->zobraz_clanok->view_name;
-    $this->template->uroven = $this->zobraz_clanok->hlavne_menu->uroven+2;
-    $this->template->avatar = $this->zobraz_clanok->hlavne_menu->avatar;
-    $this->template->clanok_view = $this->zobraz_clanok->id_clanok_lang == NULL ? FALSE : TRUE;
-    $this->template->clanok_hl_menu = $this->zobraz_clanok->hlavne_menu;
-    $this->template->view_submenu = $this->zobraz_clanok->hlavne_menu->id_hlavicka < 3;
-    $this->template->viac_info = "";//$this->trLang('viac_info');
-    //Zisti, ci su k clanku priradene komponenty
-    $this->template->komponenty = $this->clanok_komponenty->getKomponenty($this->zobraz_clanok->id_hlavne_menu, $this->nastavenie["komponenty"]);
-    $this->template->prilohy = $this->viditelnePrilohy;
-    if (!isset($this->template->prilohy_for_big_img)) {
-      $this->template->prilohy_for_big_img = $this->prilohy_for_big_img;
+    if ($this->zobraz_clanok !== FALSE) {
+      $this->getComponent('menu')->selectByUrl($this->link('Clanky:', ["id"=>$this->zobraz_clanok->id_hlavne_menu]));
+      $this->template->komentare_povolene =  $this->udaje_webu["komentare"] && ($this->user->isAllowed('Front:Clanky', 'komentar') && $this->zobraz_clanok->hlavne_menu->komentar) ? $this->zobraz_clanok->id_hlavne_menu : 0;
+      $this->template->h2 = $this->zobraz_clanok->view_name;
+      $this->template->uroven = $this->zobraz_clanok->hlavne_menu->uroven+2;
+      $this->template->avatar = $this->zobraz_clanok->hlavne_menu->avatar;
+      $this->template->clanok_view = $this->zobraz_clanok->id_clanok_lang == NULL ? FALSE : TRUE;
+      $this->template->clanok_hl_menu = $this->zobraz_clanok->hlavne_menu;
+      $this->template->podclanky = $this->hlavne_menu->maPodradenu($this->zobraz_clanok->id);
+      $this->template->view_submenu = $this->zobraz_clanok->hlavne_menu->id_hlavicka < 3;
+      $this->template->viac_info = $this->texty_presentera->translate('clanky_viac_info');
+      //Zisti, ci su k clanku priradene komponenty
+      $this->template->komponenty = $this->clanok_komponenty->getKomponenty($this->zobraz_clanok->id_hlavne_menu, $this->nastavenie["komponenty"]);
+      $this->template->prilohy = $this->viditelnePrilohy;
+      if (!isset($this->template->prilohy_for_big_img)) {
+         $this->template->prilohy_for_big_img = $this->prilohy_for_big_img;
+      }
+      $this->template->id_hlavne_menu_lang = $this->zobraz_clanok->id;
     }
-    $this->template->texts = $this->texty_presentera;
-    $this->template->id_hlavne_menu_lang = $this->zobraz_clanok->id;
 	}
 
   /** Render v prípade nenájdenia článku */
   public function renderNotFound() {
-    $this->template->h2 = $this->trLang('nenajdeny_clanok_h2');
-    $this->template->text = [
-      1 => $this->trLang('ospravedln_clanok'),
-      2 => $this->trLang('ospravedln_clanok_1')];
     $this->getHttpResponse()->setCode(\Nette\Http\IResponse::S404_NOT_FOUND);
   }
   
@@ -129,13 +127,13 @@ class ClankyPresenter extends BasePresenter {
    * @return Multiplier */
 	public function createComponentKomentar() {
 		return new Multiplier(function ($id_hlavne_menu) {
-      $komentar = $this->komentarControlControlFactory->create();
+      $komentar = $this->komentarControlFactory->create();
       $komentar->setParametre($id_hlavne_menu);
 			return $komentar;
 		});
 	}
 
-  /** 
+  /**
    * Komponenta pre zobrazenie clanku
    * @return \App\FrontModule\Components\Clanky\ZobrazClanok\ZobrazClanokControl */
   public function createComponentUkazTentoClanok() {
@@ -148,11 +146,11 @@ class ClankyPresenter extends BasePresenter {
 
   /** 
    * Komponenta pre zobrazenie priloh
-   * @return \App\FrontModule\Components\Clanky\PrilohyClanok\PrilohyClanokControl */
-  public function createComponentPrilohy() {
-    $prilohy = $this->prilohyClanokControlFactory->create();
-    $prilohy->setNastav($this->zobraz_clanok, $this->nastavenie, $this->language_id, $this->nazov_stranky);
-    return $prilohy;
+   * @return \App\FrontModule\Components\Clanky\Attachments\AttachmentsControl */
+  public function createComponentAttachments() {
+    $attachments = $this->attachmentsClanokControlFactory->create();
+    $attachments->setNastav($this->zobraz_clanok, $this->language);
+    return $attachments;
   }
   
   /** 

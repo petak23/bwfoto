@@ -4,7 +4,7 @@
       {if $node->link}
         <a href="{$node->link}" title="{$node->name}">{$node->name}</a>
       {else}
-        <span n:class="$node->itemClass">{$node->name}</span>
+        <span n:class="$node->getItemClass()">{$node->name}</span>
       {/if}
       {sep} {$navSeparator} {/sep}
     {/if}

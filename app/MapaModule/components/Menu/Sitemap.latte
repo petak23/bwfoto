@@ -1,12 +1,9 @@
-{define #link}
-<url>
-  <loc>{$node->link}</loc>
-</url>
-{/define}
 {define #node}
 {if $node}
   {if !isset($hideName) || !$hideName }
-    {include #link node => $node}
+    <url>
+      <loc>{$node->link}</loc>
+    </url>
   {else}
     {var $hideName = false}
   {/if}
@@ -17,6 +14,7 @@
   {var $level = $level - 1}
 {/if}
 {/define}
+
 {var $level = 1}
 {foreach $startNode->nodes as $noo}
     {include #node node => $noo, hideName => true, showSubnodes => true}

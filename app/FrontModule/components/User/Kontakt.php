@@ -11,13 +11,13 @@ use Nette\Mail\SendmailMailer;
 /**
  * Komponenta pre vytvorenie kontaktneho formulara a odoslanie e-mailu
  * 
- * Posledna zmena(last change): 24.10.2017
+ * Posledna zmena(last change): 16.12.2019
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2019 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.4
+ * @version 1.0.5
  */
 
 class KontaktControl extends Control {
@@ -28,23 +28,24 @@ class KontaktControl extends Control {
   /** @var int */
   private $textA_cols = 60;
 	
-  /** @var Language_support\Clanky */
+  /** @var Language_support\LanguageMain */
 	protected $texts;
   
   /** @var string */
   private $nazov_stranky = "";
   
-  /** @param Language_support\Clanky $texts */
-  public function __construct(Language_support\Clanky $texts) {
+  /** @param Language_support\LanguageMain $texts */
+  public function __construct(Language_support\LanguageMain $texts) {
     parent::__construct();
     $this->texts = $texts;
     $this->texts->setLanguage("sk");
   }
 
   /** Funkcia pre nastavenie 
-   * @param int $rows - pocet riadkov textarea
-   * @param int $cols - pocet stlpcov textarea */
-  public function setNastav($language = 'sk', $rows = 8, $cols = 60) {
+   * @param string $language Skratka Jazyka
+   * @param int $rows Pocet riadkov textarea
+   * @param int $cols Pocet stlpcov textarea */
+  public function setNastav(string $language = 'sk', int $rows = 8, int $cols = 60) {
     $this->texts->setLanguage($language);
     $this->textA_rows = (int)$rows;
     $this->textA_cols = (int)$cols;
@@ -77,21 +78,22 @@ class KontaktControl extends Control {
   protected function createComponentKontaktForm() {
       $form = new Form;
       $form->addProtection();
-      $form->addText('meno', $this->texts->trText('komponent_kontakt_meno'), 30, 50);
-      $form->addText('email', $this->texts->trText('komponent_kontakt_email'), 30, 50)
+      $form->setTranslator($this->texts);
+      $form->addText('meno', 'komponent_kontakt_meno', 30, 50);
+      $form->addText('email', 'komponent_kontakt_email', 30, 50)
          ->setType('email')
-				 ->addRule(Form::EMAIL, $this->texts->trText('komponent_kontakt_email_ar'))
-				 ->setRequired($this->texts->trText('komponent_kontakt_email_sr'));
-      $form->addTextArea('text', $this->texts->trText('komponent_kontakt_text'))
+				 ->addRule(Form::EMAIL, 'komponent_kontakt_email_ar')
+				 ->setRequired('komponent_kontakt_email_sr');
+      $form->addTextArea('text', 'komponent_kontakt_text')
            ->setAttribute('rows', $this->textA_rows)
            ->setAttribute('cols', $this->textA_cols)
-           ->setRequired($this->texts->trText('komponent_kontakt_text_sr'));
+           ->setRequired('komponent_kontakt_text_sr');
       $renderer = $form->getRenderer();
       $renderer->wrappers['controls']['container'] = 'dl';
       $renderer->wrappers['pair']['container'] = NULL;
       $renderer->wrappers['label']['container'] = 'dt';
       $renderer->wrappers['control']['container'] = 'dd';
-      $form->addSubmit('uloz', $this->texts->trText('komponent_kontakt_uloz'));
+      $form->addSubmit('uloz', 'komponent_kontakt_uloz');
       $form->onSuccess[] = [$this, 'onZapisDotaz'];
       return $form;
   }
@@ -102,21 +104,21 @@ class KontaktControl extends Control {
     $values = $form->getValues();
     $templ = new Latte\Engine;
     $params = array(
-      "nadpis"      => sprintf($this->texts->trText('komponent_kontakt_email_web'), $this->nazov_stranky),
-      "dotaz_meno"  => sprintf($this->texts->trText('komponent_kontakt_email_msg'), $values->meno),
+      "nadpis"      => sprintf($this->texts->translate('komponent_kontakt_email_web'), $this->nazov_stranky),
+      "dotaz_meno"  => sprintf($this->texts->translate('komponent_kontakt_email_msg'), $values->meno),
       "dotaz_text"  => $values->text,
     );
     $mail = new Message;
     $mail->setFrom($values->meno.' <'.$values->email.'>')
          ->addTo($this->email_to_send)
-         ->setSubject(sprintf($this->texts->trText('komponent_kontakt_email_web'), $this->nazov_stranky))
+         ->setSubject(sprintf($this->texts->translate('komponent_kontakt_email_web'), $this->nazov_stranky))
          ->setHtmlBody($templ->renderToString(__DIR__ . '/Kontakt_email-html.latte', $params));
     try {
       $sendmail = new SendmailMailer;
       $sendmail->send($mail);
-      $this->presenter->flashMessage($this->texts->trText('komponent_kontakt_send_ok'), 'success');
+      $this->presenter->flashMessage($this->texts->translate('komponent_kontakt_send_ok'), 'success');
     } catch (Exception $e) {
-      $this->presenter->flashMessage($this->texts->trText('komponent_kontakt_send_er').$e->getMessage(), 'danger,n');
+      $this->presenter->flashMessage($this->texts->translate('komponent_kontakt_send_er').$e->getMessage(), 'danger,n');
     }
     $this->redirect('this');
   }

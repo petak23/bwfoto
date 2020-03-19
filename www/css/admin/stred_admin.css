@@ -1,5 +1,83 @@
 /* AUTHOR: Peter VOJTECH ml. - VZ; CREATION DATE: 03.06.2011 */
-/* UPDATED 26.01.2017 - PV*/
+/* UPDATED 12.11.2018 - PV*/
+.middle-content .card {
+  width: 10rem;
+  min-height: 12rem;
+}
+.col-last {
+  display: none;
+}
+.last-login {
+  max-height: 12rem;
+  overflow: auto;
+}
+.last-login .erase {
+  position: absolute;
+  top: .5rem;
+  right: .5rem;
+}
+.last-login .card-body {
+  padding: .5rem;
+}
+.last-login table {
+  font-size: 70%;
+  margin: 0;
+}
+.last-login table td {
+  padding: .1rem .2rem;
+}
+.last-login .zvyrazni {
+  font-weight: bold;
+}
+
+.card-a-white {
+  color: #eee;
+}
+.card-fa {
+  margin-top: 2rem;
+}
+
+@media (min-width: 576px){ 
+  .col-last {
+    display: inherit;
+  }
+  .middle-content .card {
+    width: 12rem;
+    min-height: 16rem;
+  }
+  .last-login {
+    max-height: 16rem;
+  }
+}
+@media (min-width: 768px){
+  .middle-content .card {
+    width: 14rem;
+    min-height: 19rem;
+  }
+  .last-login {
+    max-height: 19rem;
+  }
+}
+@media (min-width: 992px) {
+  .middle-content .card {
+    width: 16rem;
+    min-height: 20rem;
+  }
+  .last-login {
+    max-height: 20rem;
+  }
+}
+@media (min-width: 1200px) {
+  .middle-content .card {
+    width: 18rem;
+    min-height: 22rem;
+  }
+  .last-login {
+    max-height: 22rem;
+  }
+}
+
+
 h6 {
   font-size: 100%;
   float: left;
@@ -15,17 +93,16 @@ h6 {
   height: 100px;
   float: none;
 }
-.avatar {
-  width: 30px;
+.table {
+  margin-top: .5rem;
 }
-.avatar img {
-  width: 25px;
-  display: inline;
-  margin: 0;
-  padding: 0;
-  float: none;
-  border: 0;
+.table td {
+  padding: .5rem;
 }
+.table .editacne {
+  width: 5rem;
+}
+
 .notActivated {
   background-color: #ff4500;
   background-color: rgba(255, 250, 120, 0.8);
@@ -37,6 +114,7 @@ h6 {
 .user-banned span {
   color: #FBEB03;
 }
+
 .pocet_pr {
   width: 200px;
 }
@@ -64,16 +142,7 @@ h6 {
 .pocet_pr div.vyb3 { background-color: #ffd700; }
 .pocet_pr div.vyb4 { background-color: #b22222; }
 .pocet_pr div.vyb5 { background-color: #000000; }
-.center {
-  text-align: center;
-}
-.right {
-  text-align: right;
-  padding-right: 2px;
-}
-.editacne {
-  width: 50px;
-}
+
 .vklad {
   background-color: rgba(0, 255, 0, 0.6);
 }
@@ -148,6 +217,7 @@ h6 {
   -moz-border-radius: 0.3em;
   border-radius: 0.3em;
   opacity: .8;
+  min-height: 15rem;
 }
 .main-admin-menu li a .avatar-img {
   background-color: rgba(128, 128, 128, 0.5);
@@ -377,13 +447,6 @@ div.alt {
   display: none;
 }
 
-.ui-accordion .ui-accordion-content {
-  padding: .2em .5em;
-  position: relative;
-}
-.ui-accordion .ui-accordion-header {
-  padding: 0 .2em 0 .7em;
-}
 .ui-tabs {
   clear: both;
 }
@@ -391,18 +454,30 @@ div.alt {
   padding: .5em .2em;
 }
 .oznam-ikonka {
-  /*background-color: #aaa;*/
   max-height: 18px;
 }
 .has-error .control-field {
   border-left: 2px solid #a94442;
-}
-#footer>.navbar-hore {
-  margin-bottom: 0;
 }
 .form-horizontal .control-label-clanky {
   text-align: left;
 }
 .form-horizontal .control-field textarea, .form-horizontal .control-field input[type=text] {
   width: 100%;
+}
+.accordion-oznam {
+  padding: 0;
+}
+.accordion-oznam .card-header {
+  padding: .2rem;
+}
+.accordion-oznam .card-header button {
+  width: 100%;
+  text-align: left;
+}
+.accordion-oznam .card-body {
+  padding: 0;
+}
+.accordion-oznam .oznam-body {
+  padding: .25rem 1rem;
 }

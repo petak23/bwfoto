@@ -4,9 +4,9 @@
     {foreach $path as $k => $node}
     <li n:if="$k >= $startLevel">
       {if $node->link}
-        <a href="{$node->link}" title="{$node->name}" n:class="$node->itemClass">{$node->name}</a>
+        <a href="{$node->link}" title="{$node->name}" n:class="$node->getItemClass()">{$node->name}</a>
       {else}
-        <span n:class="$node->itemClass">{$node->name}</span>
+        <span n:class="$node->getItemClass()">{$node->name}</span>
       {/if}
     </li>
     {/foreach}

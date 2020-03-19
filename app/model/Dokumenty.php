@@ -49,6 +49,14 @@ class Dokumenty extends Table {
     return $this->findBy(["id_hlavne_menu"=>$id, "zobraz_v_texte"=>1, "type"=>3])->order($order);
   }
   
+  /** Vracia vsetky viditelne prilohy - audio polozky
+   * @param int $id id_hlavne_menu prislusnej polozky
+   * @param type $order Sposob zoradenia
+   * @return Nette\Database\Table\Selection|FALSE */
+  public function getVisibleAudios($id, $order = "pripona ASC") {
+    return $this->findBy(["id_hlavne_menu"=>$id, "zobraz_v_texte"=>1, "type"=>4])->order($order);
+  }
+  
     /** Vracia vsetky viditelne prilohy - video polozky
    * @param int $id id_hlavne_menu prislusnej polozky
    * @param type $order Sposob zoradenia

@@ -21,13 +21,13 @@
 </span>
 {/define}
 
-<li n:tag-if="isset($akoLi) && $akoLi" class="link pol-li-{$akoLi} {$node->getItemClass()}">
-  <span>
-    {if $node->link}
-      <a href="{$node->link}" title="{$node->name}">{include #vnutro}</a>
-    {else}
+<li{* n:tag-if="isset($akoLi) && $akoLi" *} class="nav-item link {*pol-li-{$akoLi} {$node->getItemClass()*}">
+  <span n:tag-if="FALSE">
+    {*if $node->link*}
+      <a href="{$node->link}" title="{$node->name}" class="nav-link {$node->getItemClass()}">{include #vnutro}</a>
+    {*else}
       <span>{include #vnutro}</span>
-    {/if}
+    {/if*}
     <p n:if="$nastav['anotacia'] && isset($node->anotacia) && strlen($node->anotacia)">
       {$node->anotacia}
       <a n:if="$node->link" href="{$node->link}" class="viac" title="{$node->name}">»»»</a>

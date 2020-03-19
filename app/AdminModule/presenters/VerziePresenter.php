@@ -8,7 +8,7 @@ use PeterVojtech\Email;
 /**
  * Prezenter pre spravu verzii.
  * 
- * Posledna zmena(last change): 26.01.2018
+ * Posledna zmena(last change): 05.10.2018
  *
  *	Modul: ADMIN
  *
@@ -16,7 +16,7 @@ use PeterVojtech\Email;
  * @copyright  Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.4
+ * @version 1.1.5
  */
 class VerziePresenter extends BasePresenter {
   
@@ -54,7 +54,7 @@ class VerziePresenter extends BasePresenter {
 	 * Edit oznam form component factory.
 	 * @return Nette\Application\UI\Form */
 	protected function createComponentVerzieEditForm() {
-    $form = $this->editVerzieForm->create($this->nastavenie['send_e_mail_news']);
+    $form = $this->editVerzieForm->create();
     $form['uloz']->onClick[] = function ($button) { 
       $this->flashOut(!count($button->getForm()->errors), 'Verzie:', 'Verzia bola úspešne uložená!', 'Došlo k chybe a verzia sa neuložila. Skúste neskôr znovu...');
 		};

@@ -9,19 +9,21 @@ use Nette\Application\UI\Control;
 /**
  * Komponenta pre zobrazenie produktov pre FRONT modul
  * 
- * Posledna zmena(last change): 15.01.2018
+ * Posledna zmena(last change): 27.03.2020
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @copyright Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.0
+ * @version 1.0.1
+ * 
+ * @todo Odstranit premennu nastavenie, ak nebude potrebna.
  */
 class ProductsViewControl extends Control {
 
   /** @var DbTable\Products */
   private $products;
-  /** @var Language_support\Clanky */
+  /** @var Language_support\LanguageMain Prednastavene texty pre komponentu */
   public $texts;
   /** @var int */
   private $article;
@@ -30,31 +32,33 @@ class ProductsViewControl extends Control {
 
   /**
    * @param DbTable\Products $products
-   * @param Language_support\Clanky $texts */
-  public function __construct(DbTable\Products $products, Language_support\Clanky $texts) {
+   * @param DbTable\Lang $lang  */
+  public function __construct(DbTable\Products $products, DbTable\Lang $lang) {
     parent::__construct();
     $this->products = $products;
-    $this->texts = $texts;
+    $this->texts = new Language_support\LanguageMain($lang);
   }
 
   /** Nastavenie id polozky, ku ktorej patria produkty
    * @param Nette\Database\Table\ActiveRow $article Polozka menu ku ktorej je priradeny
-   * @param int $id_lang Id jazyka
+   * @param string|int $language jazyka
    * @param array $nastavenie Nastavenia z configu
    * @return \App\FrontModule\Components\Products\ProductsViewControl */
-  public function setNastav($article, $id_lang, $nastavenie) {
+  public function setNastav($article, $language, array $nastavenie) {
     $this->article = $article;
-    $this->texts->setLanguage($id_lang);
+    $this->texts->setLanguage($language);
     $this->nastavenie = $nastavenie;
     return $this;
   }
 
-  /** Render */
-  public function render($params = []) {
+  /** 
+   * Render 
+   * @param array $params Doplnkové parametre ['templateFile'=>'Alternativny nazov template', 'big_img_id'=>'Id velkeho obrazku'] */
+  public function render(array $params = []) {
     $template_file = ((isset($params['templateFile']) && is_file(__DIR__ ."/".$params['templateFile'].".latte")) ? $params['templateFile'] : "default");
     $this->template->setFile(__DIR__ . "/".$template_file.".latte");
     $this->template->products = $this->products->getProducts($this->article->id_hlavne_menu);
-    $this->template->texts = $this->texts;
+    $this->template->setTranslator($this->texts);
     $this->template->big_img_id = isset($params['big_img_id']) ? $params['big_img_id'] : 0;
     $this->template->nastavenie = $this->nastavenie;
     $this->template->render();
@@ -69,7 +73,6 @@ class ProductsViewControl extends Control {
     });
     return $template;
   }
-
 }
 
 interface IProductsViewControl {

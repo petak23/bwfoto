@@ -4,8 +4,8 @@
  *
  *	Modul: FRONT
  *
- * Posledna zmena(last change): 23.07.2018
- * @copyright  Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
+ * Posledna zmena(last change): 27.03.2020
+ * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
  *
@@ -41,7 +41,7 @@
   <header>
     {control slider}
     <nav id="topNav" class="navbar navbar-expand-md navbar-light fixed-top navbar-toggleable-xs">
-      <a class="navbar-brand" n:href="Homepage:" title="home"><img src="{$basePath}/{$dir_to_images}logo_bw.png" alt="logo bw foto" class="logo"></a>
+      <a class="navbar-brand" n:href="Homepage:" title="home"><img src="{$basePath}/{$nastavenie['dir_to_images']}logo_bw.png" alt="logo bw foto" class="logo"></a>
       <button id="topMenuButton" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -88,7 +88,7 @@
     {* --- Info o stranke --- *}
     <div class="row" id="footerContent">
       <div id="logoBWfoto" class="col-5 d-flex justify-content-end">
-        <img src="{$basePath}/{$dir_to_images}logo_bw-w.png" title="Logo BWfoto" alt="Logo Bwfoto" class="img-responsive">
+        <img src="{$basePath}/{$nastavenie['dir_to_images']}logo_bw-w.png" title="Logo BWfoto" alt="Logo Bwfoto" class="img-responsive">
       </div>
       <div id="contact">
         <h4 class="text-left">Ateliér Zámečník</h4>
@@ -108,8 +108,8 @@
           </li>
           <li>&copy; {$udaje['copy']} 2017{if date('Y') != '2017'} - {date('Y')}{/if}</li>
           <li>
-            <a href="http://nette.org/cs/" class="logo-nette" title="{('base_nette_title')|trLang}">
-              <img src="{$basePath}/{$dir_to_images}nette-powered1.gif" alt="{('base_nette_powered')|trLang}">
+            <a href="http://nette.org/cs/" class="logo-nette" title="{_'base_nette_title'}">
+              <img src="{$basePath}/{$nastavenie['dir_to_images']}nette-powered1.gif" alt="{_'base_nette_powered'}">
             </a>
           </li>
           <li>{$udaje['last_update']} {$verzia->modified|date:'j.n.Y'}</li>

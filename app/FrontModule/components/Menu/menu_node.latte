@@ -16,7 +16,7 @@
 		{var $hideName = false}
 	{/if}
 	{if $node->nodes && ($showAll || in_array($node, $path) || $node->isRootNode)}
-    <ul class="level-{$level}">
+    <ul class="nav flex-column nav-pills{*level-{$level*}">
       {var $level = $level + 1}
       {var $n = $node->poradie_podclankov ? array_reverse($node->nodes) : $node->nodes}
       {foreach $n as $subNode}

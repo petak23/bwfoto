@@ -1,31 +1,34 @@
 <?php
 namespace App\AdminModule\Presenters;
 
+use App\AdminModule\Components;
 use Nette\Application\UI\Form;
 use PeterVojtech;
 
 /**
  * Prezenter pre spravu clankov.
  * 
- * Posledna zmena(last change): 20.07.2018
+ * Posledna zmena(last change): 26.03.2020
  *
  *	Modul: ADMIN
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @copyright Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.3.2
+ * @version 1.3.3
  */
 
 class ClankyPresenter extends ArticlePresenter {
 
   // -- Komponenty
-  /** @var \App\AdminModule\Components\Clanky\IZobrazClanokControl @inject */
+  /** @var Components\Clanky\IZobrazClanokAControl @inject */
   public $zobrazClanokControlFactory;
-  /** @var \App\AdminModule\Components\Clanky\PrilohyClanok\IPrilohyClanokControl @inject */
+  /** @var Components\Clanky\PrilohyClanok\IPrilohyClanokAControl @inject */
   public $prilohyClanokControlFactory;
-  /** @var \App\AdminModule\Components\Products\IProductsControl @inject */
+  /** @var Components\Clanky\Komponenty\IKomponentyControl @inject */
+  public $komponentyControlFactory;
+  /** @var Components\Products\IProductsControl @inject */
   public $productsControlFactory;
   
 	/** @var string */
@@ -202,17 +205,17 @@ class ClankyPresenter extends ArticlePresenter {
    * @return \App\AdminModule\Components\Clanky\ZobrazClanokControl */
 	public function createComponentZobrazClanok() {
     $zobrazClanok = $this->zobrazClanokControlFactory->create();
-    $zobrazClanok->setZobraz($this->zobraz_clanok->id_hlavne_menu, $this->nastavenie['clanky']['zobraz_anotaciu']);
+    $zobrazClanok->setZobraz($this->zobraz_clanok->id_hlavne_menu);
     return $zobrazClanok;
     
   }
   
   /** 
    * Komponenta pre ukazanie priloh clanku.
-   * @return \App\AdminModule\Components\Clanky\PrilohyClanok\PrilohyClanokControl */
+   * @return \App\AdminModule\Components\Clanky\PrilohyClanok\PrilohyClanokAControl */
 	public function createComponentPrilohyClanok() {
     $prilohyClanok = $this->prilohyClanokControlFactory->create(); 
-    $prilohyClanok->setTitle($this->zobraz_clanok, $this->nazov_stranky, $this->upload_size, $this->nastavenie, $this->name);
+    $prilohyClanok->setTitle($this->zobraz_clanok, $this->nazov_stranky, $this->name);
     return $prilohyClanok;
   }
   
@@ -221,8 +224,17 @@ class ClankyPresenter extends ArticlePresenter {
    * @return \App\AdminModule\Components\Clanky\Products\ProductsControl */
 	public function createComponentProducts() {
     $products = $this->productsControlFactory->create(); 
-    $products->setTitle($this->zobraz_clanok, $this->nazov_stranky, $this->upload_size, $this->nastavenie, $this->name);
+    $products->setTitle($this->zobraz_clanok, $this->nazov_stranky, $this->nastavenie, $this->name);
     return $products;
+  }
+
+  /**
+   * Komponenta pre ukazanie komponent clanku.
+   * @return \App\AdminModule\Components\Clanky\Komponenty\KomponentyControl */
+	public function createComponentKomponenty() {
+    $komponenty = $this->komponentyControlFactory->create();
+    $komponenty->setTitle($this->zobraz_clanok, $this->nazov_stranky/*, $this->name*/);
+    return $komponenty;
   }
   
   /** 

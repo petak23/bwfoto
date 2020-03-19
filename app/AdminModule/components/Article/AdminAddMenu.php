@@ -7,13 +7,13 @@ use Nette\Application\UI\Control;
 /**
  * Komponenta pre vytvorenie ponuky na pridanie do hlavneho menu na zaklade druhu.
  * 
- * Posledna zmena(last change): 02.10.2017
+ * Posledna zmena(last change): 05.10.2018
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
- * @copyright Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.4
+ * @version 1.0.5
  */
 class AdminAddMenuControl extends Control {
 	
@@ -33,20 +33,18 @@ class AdminAddMenuControl extends Control {
 
 
   /**
-   * @param DbTable\Druh $druh DB tabulka druh */
-	public function __construct(DbTable\Druh $druh, DbTable\Hlavne_menu_cast $hlavne_menu_cast, DbTable\Hlavne_menu_lang $hlavne_menu_lang) {
+   * @param int $id Id nadradenej polozky
+   * @param DbTable\Druh $druh
+   * @param DbTable\Hlavne_menu_cast $hlavne_menu_cast
+   * @param DbTable\Hlavne_menu_lang $hlavne_menu_lang */
+	public function __construct($id, DbTable\Druh $druh, DbTable\Hlavne_menu_cast $hlavne_menu_cast, DbTable\Hlavne_menu_lang $hlavne_menu_lang) {
     parent::__construct();
     $this->druh = $druh;
     $this->hlavne_menu_cast = $hlavne_menu_cast;
     $this->hlavne_menu_lang = $hlavne_menu_lang;
-  }
-	
-  /** Nastavenie Id
-   * @param int $id Id clanku, ku ktoremu sa pridáva */
-  public function setId($id = 0) {
     $this->id = (int)$id;
   }
-  
+	
   /** Rucne nastavenie defaultnej template pre zobrazenie.
    * @param string $pt Nazov template */
   public function setClanokTemplate($pt) {
@@ -103,5 +101,5 @@ class AdminAddMenuControl extends Control {
 
 interface IAdminAddMenu {
   /** @return AdminAddMenuControl */
-  function create();
+  function create($id);
 }

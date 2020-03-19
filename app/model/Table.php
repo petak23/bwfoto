@@ -1,19 +1,20 @@
 <?php
 namespace DbTable;
+
 use Nette;
 use Nette\Utils\Strings;
+
 
 /**
  * Reprezentuje repozitar pre databázovu tabulku
  * 
- * Posledna zmena(last change): 09.10.2017
+ * Posledna zmena(last change): 04.02.2019
  * 
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2019 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.0
-*/
+ * @version 1.1.2 */
 abstract class Table {
 
   use Nette\SmartObject;
@@ -23,13 +24,15 @@ abstract class Table {
 
   /** @var string */
   protected $tableName;
+  
+  /** @var Nette\Security\User */
+  protected $user;
 
   /**
    * @param Nette\Database\Context $db
-   * @throws \Nette\InvalidStateException */
+   * @throws Nette\InvalidStateException */
   public function __construct(Nette\Database\Context $db) {
     $this->connection = $db;
-
     if ($this->tableName === NULL) {
       $class = get_class($this);
       throw new Nette\InvalidStateException("Názov tabuľky musí byť definovaný v $class::\$tableName.");
@@ -133,35 +136,37 @@ abstract class Table {
     return $spec_nazov.($pom == 0 ? '' : $pom);
 	}
   
-  /** Prida zaznam do tabulky
+  /** Prida zaznam(y) do tabulky
    * @param array $data
-   * @return \Nette\Database\Table\ActiveRow|FALSE */
+   * @return Nette\Database\Table\ActiveRow|int|bool Returns IRow or number of affected rows for Selection or table without primary key */
   public function pridaj($data) {
-      return $this->getTable()->insert($data);
+    return $this->getTable()->insert($data);
   }
 
-  /** Opravy v tabulke zaznam s danym id
+  /** 
+   * Opravy v tabulke zaznam s danym id
    * @param int $id
    * @param array $data
-   * @return \Nette\Database\Table\ActiveRow|FALSE */
-  public function oprav($id, $data) {
-    $this->getTable()->get($id)->update($data);
+   * @return Nette\Database\Table\ActiveRow|bool */
+  public function oprav(int $id, array $data) {
+    // updare return bool
+    $this->find($id)->update($data);
     return $this->find($id);
   }
 
   /** Funkcia pridava alebo aktualizuje v DB podla toho, ci je zadané ID
    * @param array $data
    * @param int $id
-   * @return \Nette\Database\Table\ActiveRow|FALSE */
+   * @return Nette\Database\Table\ActiveRow|int|bool */
   public function uloz($data, $id = 0) {
     return $id ? $this->oprav($id, $data) : $this->pridaj($data);
   }
   
   /**Zmaze v tabulke zaznam s danym id
    * @param int $id
-   * @return integer|FALSE */
+   * @return int|FALSE Return int number of affected rows*/
   public function zmaz($id) {
     if (!$id) { return FALSE; }//id nie je zadane
-    return $this->getTable()->where(['id'=>$id])->delete(); 
+    return $this->find($id)->delete(); 
   }
 }

@@ -1,9 +1,5 @@
-{control confirmForm}
 <div n:snippet="odkazNaClanky" class="odkaz-na-clanky a-ine">
-  <h2><a href="{plink $odkaz $id_hlavne_menu}" title="{$nazov}">{$nazov}</a></h2>
-  <a href="{link confirmForm:confirmDelete! id => $del_link_id, nazov => $nazov}" title="Vymazanie odkazu na článok" n:ifset="$del_link_id" class="del-link">
-    <i class="fa fa-trash-o"> </i>
-  </a>
+  <h2><a href="{plink $link_presenter $id_hlavne_menu}" title="{$nazov}">{$nazov}</a></h2>
   {if $datum_platnosti != NULL}
     &nbsp;
     {if $datum_platnosti < strftime("%Y-%m-%d", time())}

@@ -4,8 +4,8 @@
  *
  *	Modul: ADMIN
  *
- * Posledna zmena(last change): 16.07.2018
- * @copyright  Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
+ * Posledna zmena(last change): 30.05.2019
+ * @copyright  Copyright (c) 2012 - 2019 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
  *
@@ -32,100 +32,98 @@
 	<title>{$udaje['titulka']} - Administracia</title>
   {control css}
   {block spec_css}{/block}
-	<link rel="shortcut icon" href="{$basePath}/favicon.ico" type="image/x-icon">
-  
+	
+  {control favicon}
+
 	{block head}{/block}
-  {control js}
+  {*control js*}
 </head>
 
 <body>
-  <nav class="navbar navbar-default navbar-inverse navbar-hore">
-    <div class="container-fluid">
-      
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" n:href="Homepage:">Administrácia</a>
-      </div>
-
-      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <ul class="nav navbar-nav navbar-right">
-          <li><a n:href=":Front:Homepage:" title="Zmeny"><i class="fas fa-eye"></i> Skontroluj zmeny na webe...</a></li>
-          <li>
-            <a href="http://fontawesome.io/icons/" title="FontAwesome" target="_blank">
-              <i class="fas fa-flag"></i> Font Awesome
-            </a>
-          </li>
-          <li n:if="$user->isInRole('admin')">
-            <a href="{$basePath}/www/adminer/?server={$udaje['host']}&db={$udaje['dbname']}" title="Adminer" target="_blank"><i class="fas fa-database"></i> Adminer</a>
-          </li>
-        </ul>
-      </div>  {* /.navbar-collapse *}
-    </div>    {* /.container-fluid *}
-  </nav>
-
   <div class="container-fluid">
-    <div id="lavy" class="col-xs-12 col-sm-3 col-md-2">
-      <div class="menu_new">
-        <h4>Administrácia:</h4>
-        <ul>
-          <li n:if="$user->isInRole('admin')"><a href="{link :Front:Homepage:default}api/" title="API" target="_blank">API</a></li>
-        {foreach $admin_menu as $am}
-          <li n:if="$am->id_user_roles <= $user->getIdentity()->id_user_roles">
-            <a n:href="$am->odkaz" title="{$am->nazov}" n:class="$presenter->isLinkCurrent($am->odkaz.'*') ? selected">
-              {$am->nazov}
-            </a>
-          </li>
-        {/foreach}
-        </ul>
+    <div class="row">
+      <div class="col bg-dark">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+          <a class="navbar-brand" n:href="Homepage:">Administrácia</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerAdminTop" aria-controls="navbarTogglerAdminTop" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse justify-content-end" id="navbarTogglerAdminTop">
+            <ul class="navbar-nav my-2 my-lg-0">
+              <li class="nav-item"><a class="nav-link" n:href=":Front:Homepage:" title="Zmeny"><i class="fas fa-eye"></i> Skontroluj zmeny na webe...</a></li>
+              <li class="nav-item" class="nav-link" n:if="$user->isInRole('admin')">
+                <a href="https://getbootstrap.com/" class="nav-link" title="Bootstrao 4" target="_blank">Bootstrap 4</a>
+              </li>
+              <li class="nav-item">
+                <a href="http://fontawesome.io/icons/" class="nav-link" title="FontAwesome 5" target="_blank"><i class="fas fa-flag"></i></a>
+              </li>
+              <li class="nav-item"  class="nav-link" n:if="$user->isInRole('admin')">
+                <a href="{$basePath}/www/adminer/?server={$udaje['host']}&db={$udaje['dbname']}" class="nav-link" title="Adminer" target="_blank"><i class="fas fa-database"></i></a>
+              </li>
+            </ul>
+          </div>
+        </nav>
       </div>
-      <div class="menu_new">{control menu:tree}</div>
-      {control last}
-    </div>
-
-    <div id="text" class="container col-xs-12 col-sm-9 col-md-10">
-      <div class="row" n:snippet="flashes"> 
-        <div class="col-md-6 col-md-offset-3" n:inner-foreach="$flashes as $flash">
-          {var $nees = explode(',', $flash->type)}
-          <div class="alert alert-{$nees[0]} fade in" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-            {if isset($nees[1]) && $nees[1] == 'n'}{$flash->message|noescape}{else}{$flash->message}{/if}
+    </div> 
+              
+    <div class="row">
+      <div class="col-12 col-sm-3 col-md-2 left-col">
+        <div class="menu_new">
+          <ul>
+          <li n:if="$user->isInRole('admin')"><a href="{link :Front:Homepage:default}api/" title="API" target="_blank">API</a></li>
+          {foreach $admin_menu as $am}
+            <li n:if="$am->id_user_roles <= $user->getIdentity()->id_user_roles">
+              <a n:href="$am->odkaz" title="{$am->nazov}" n:class="$presenter->isLinkCurrent($am->odkaz.'*') ? selected">
+                {$am->nazov}
+              </a>
+            </li>
+          {/foreach}
+          </ul>
+        </div>
+        <div class="menu_new">{control menu:tree}</div>
+      </div>
+      <div class="col-12 col-sm-9 col-md-10">
+        <div class="row" n:snippet="flashes"> 
+          <div class="col-md-6 col-md-offset-3" n:inner-foreach="$flashes as $flash">
+            {var $nees = explode(',', $flash->type)}
+            <div class="alert alert-{$nees[0]} alert-dismissible fade show" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              {if isset($nees[1]) && $nees[1] == 'n'}{$flash->message|noescape}{else}{$flash->message}{/if}
+            </div>
           </div>
         </div>
+        {control confirmForm}
+        <div class="row" n:snippet="content">
+          {include #content}
+        </div>
       </div>
-      {control confirmForm}
-      <div class="row">
-        <div class="col-xs-12 col-md-12" n:snippet="content">{include #content}</div>
+    </div>
+  
+    <div class="row footer-dark">
+      <div class="col-12">
+        <footer>
+          <nav class="navbar navbar-expand navbar-dark">
+            <div class="text-center justify-content-center">
+              <p class="navbar-text">
+                © {$udaje['autor']} & {$udaje['copy']} 2015 - {date('Y')}&nbsp;|&nbsp;
+                Posledná aktualizácia: <a n:href="Verzie:default" title="Verzie">{$verzia->modified|date:'j.n.Y'} - v.{$verzia->cislo}</a>&nbsp;|&nbsp;
+                <br>
+                {if $user->isInRole('admin')}
+                  PHP {=PHP_VERSION}&nbsp;|&nbsp;
+                  {ifset $_SERVER['SERVER_SOFTWARE']}Server {$_SERVER['SERVER_SOFTWARE']}&nbsp;|&nbsp;{/ifset}
+                {/if}
+                <a href="http://nette.org/cs/" class="logo-nette" title="Nette Framework - populárny nástroj pre vytváranie webových aplikacií v PHP 5.">
+                  <img src="{$basePath}/www/images/nette-powered1.gif" alt="nette powered">
+                </a>
+              </p>
+            </div>
+          </nav>
+        </footer>
       </div>
     </div>
   </div>
-    
-  <footer id="footer">
-    <nav class="navbar navbar-default navbar-inverse navbar-hore">
-      <div class="container">
-        <p class="navbar-text">
-          © {$udaje['autor']} & {$udaje['copy']} 2015 - {date('Y')}&nbsp;|&nbsp;
-          Posledná aktualizácia: <a n:href="Verzie:default" title="Verzie">{$verzia->modified|date:'j.n.Y'} - v.{$verzia->cislo}</a>&nbsp;|&nbsp;
-          <br>
-          {if $user->isInRole('admin')}
-            PHP {=PHP_VERSION}&nbsp;|&nbsp;
-            {ifset $_SERVER['SERVER_SOFTWARE']}Server {$_SERVER['SERVER_SOFTWARE']}&nbsp;|&nbsp;{/ifset}
-          {/if}
-          <a href="http://nette.org/cs/" class="logo-nette" title="Nette Framework - populárny nástroj pre vytváranie webových aplikacií v PHP 5.">
-            <img src="{$basePath}/{$dir_to_images}nette-powered1.gif" alt="nette powered">
-          </a>
-        </p>
-      </div>
-    </nav>
-
-    
-  </footer>
   {control js}
   {control texyla}
   {block spec_js}{/block}

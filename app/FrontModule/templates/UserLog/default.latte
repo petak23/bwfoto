@@ -2,12 +2,11 @@
 {block content}
 
 <article class="article-main row user-info">
-  <div class="col-md-6">
-    {*control confirmForm*}
+  <div class="col-12 col-md-6">
     <h2 n:inner-block="title">{_'default_h2_edit'}</h2>
     {control userEditForm}
   </div>
-  <div class="col-md-6">
+  <div class="col-12 col-md-6">
     <h2>{_'default_h2_additional'}</h2>
     <dl>
       <dt>{_'default_registracia'}:</dt>
@@ -27,7 +26,7 @@
     <a n:href="UserLog:passwordChange" title="{_'default_pass_change'}" class="btn btn-warning" role="button">
       <i class="fa fa-key"></i> {_'default_pass_change'}
     </a>
-    <a n:if="$uzivatel->id >= 1 && $user_view_fields['delete']" href="{link confirmForm:confirmDelete! id => $uzivatel->id, nazov => $uzivatel->priezvisko, zdroj_na_zmazanie => $zdroj_na_zmazanie}" title="{_'default_delete'} {$uzivatel->priezvisko}" class="btn btn-danger" role="button">
+    <a n:if="$uzivatel->id > 1 && $user_view_fields['delete']" href="{link confirmForm:confirmDelete! id => $uzivatel->id, nazov => $uzivatel->priezvisko, zdroj_na_zmazanie => $zdroj_na_zmazanie}" title="{_'default_delete'} {$uzivatel->priezvisko}" class="btn btn-danger" role="button">
       <i class="fa fa-remove"></i> {_'default_delete'}
     </a>
   </div>

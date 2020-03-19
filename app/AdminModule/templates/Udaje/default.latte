@@ -2,7 +2,7 @@
  *
  * Modul: ADMIN
  *
- * Posledna zmena(last change): 26.01.2018
+ * Posledna zmena(last change): 14.11.2018
  * @copyright  Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
@@ -10,39 +10,49 @@
  * @param Nette\Database\Table\Selection  $udaje_w  udaje z DB
  *}
 {block content}
-<h2 n:block=title>Hlavné udaje webu{if $separate} + separátne nastavenia{/if}</h2>
-<div class="col-xs-12 col-md-12" n:if="$user->isAllowed('Admin:Udaje', 'add')">
-  <a n:href="Udaje:add"  title="Pridanie nového údaja" class="btn btn-success">
-    <i class="fas fa-file-alt fa-lg"></i> Pridanie nového údaja
-  </a>
-  <a n:href="viewSeparate!"  title="{if $separate}Skry{else}Zobraz aj{/if} samostatne nastavenia" class="btn btn-info">
-    <i class="fas fa-eye{if $separate}-slash{/if} fa-lg"></i> {if $separate}Skry{else}Zobraz{/if} samostatne nastavenia
-  </a>
-</div>
-<div class="col-xs-12 col-md-12 table-responsive">
-  <table class="table table-bordered table-striped table-hover table-clenovia">
-    <tr>
-      <th>Komentár</th>
-      <th n:if="$user->isInRole('admin')">Názov</th>
-      <th>Hodnota</th>
-      <th n:if="$user->isInRole('admin')">Prístup</th>
-      <th n:if="$user->isInRole('admin')">Druh</th>
-      <th n:if="$user->isInRole('admin')">Typ</th>
-      <th></th>
-    </tr>
-    <tr n:foreach="$udaje_w as $u">
-      <td>{$u->comment}</td>
-      <td n:if="$user->isInRole('admin')">{$u->nazov}</td>
-      <td n:if="$u->id_udaje_typ == 3 " n:class="$u->text == 1 ? success : danger">{$p = $u->text == 1 ? 'Povolene' : 'Zakázané'}</td>
-      <td n:if="$u->id_udaje_typ <> 3 ">{$u->text}</td>
-      <td n:if="$user->isInRole('admin')">{$u->user_roles->role}</td>
-      <td n:if="$user->isInRole('admin')">{ifset $u->id_druh}{$u->druh->presenter}{/ifset}</td>
-      <td n:if="$user->isInRole('admin')">{$u->udaje_typ->nazov}</td>
-      <td class="editacne center" n:if="$user->isAllowed('Admin:Udaje', 'edit')">
-        <a n:href="Udaje:edit $u->id" title="Editacia údaja {$u->nazov}" class="button-right edit-ikon"><i class="fas fa-pencil-alt fa-2x"></i></a>
-        <a href="{link confirmForm:confirmDelete! id => $u->id, nazov => $u->nazov}"
-          title="Vymazanie údaja {$u->nazov}" class="button-right"><i class="far fa-trash-alt fa-2x"></i></a>
-      </td>
-    </tr>
-  </table>
+<div class="col-12">
+  <h2 n:block=title>Hlavné udaje webu{if $separate} + separátne nastavenia{/if}</h2>
+  <div class="row">
+    <div class="col-12" n:if="$user->isAllowed('Admin:Udaje', 'add')">
+      <a n:href="Udaje:add"  title="Pridanie nového údaja" class="btn btn-success">
+        <i class="fas fa-file-alt fa-lg"></i> Pridanie nového údaja
+      </a>
+      <a n:href="viewSeparate!"  title="{if $separate}Skry{else}Zobraz aj{/if} samostatne nastavenia" class="btn btn-info">
+        <i class="fas fa-eye{if $separate}-slash{/if} fa-lg"></i> {if $separate}Skry{else}Zobraz{/if} samostatne nastavenia
+      </a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 table-responsive">
+      <table class="table table-bordered table-hover table-clenovia">
+        <thead class="thead-light">
+          <tr>
+            <th>Komentár</th>
+            <th n:if="$user->isInRole('admin')">Názov</th>
+            <th>Hodnota</th>
+            <th n:if="$user->isInRole('admin')">Prístup</th>
+            <th n:if="$user->isInRole('admin')">Druh</th>
+            <th n:if="$user->isInRole('admin')">Typ</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr n:foreach="$udaje_w as $u">
+            <td>{$u->comment}</td>
+            <td n:if="$user->isInRole('admin')">{$u->nazov}</td>
+            <td n:if="$u->id_udaje_typ == 3 " n:class="$u->text == 1 ? success : danger">{$p = $u->text == 1 ? 'Povolene' : 'Zakázané'}</td>
+            <td n:if="$u->id_udaje_typ <> 3 ">{$u->text}</td>
+            <td n:if="$user->isInRole('admin')">{$u->user_roles->role}</td>
+            <td n:if="$user->isInRole('admin')">{ifset $u->id_druh}{$u->druh->presenter}{/ifset}</td>
+            <td n:if="$user->isInRole('admin')">{$u->udaje_typ->nazov}</td>
+            <td class="editacne" n:if="$user->isAllowed('Admin:Udaje', 'edit')">
+              <a n:href="Udaje:edit $u->id" title="Editacia údaja {$u->nazov}" role="button" class="btn btn-success btn-sm float-left"><i class="fas fa-pencil-alt"></i></a>
+              <a href="{link confirmForm:confirmDelete! id => $u->id, nazov => $u->nazov}"
+                title="Vymazanie údaja {$u->nazov}" role="button" class="btn btn-danger btn-sm"><i class="far fa-trash-alt"></i></a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>

@@ -1,20 +1,7 @@
 /* AUTHOR: Peter VOJTECH ml. - VZ; CREATION DATE: 22.2.2010 */
-/* UPDATED 08.03.2016 - PV*/
+/* UPDATED 12.11.2018 - PV*/
 
-html {
-  text-align: center;
-}
-body {
-  max-width: 1300px;
-  width: 95%;
-  display: inline-block;
-  padding: 0;
-}
-a {
-  color: #b50000;
-}
-/* -- Zakladne rozlozenie -- */
-.navbar-hore {
+.footer-dark {
   background-image: -webkit-linear-gradient(top, #036 0%, #222 100%);
   background-image:      -o-linear-gradient(top, #036 0%, #222 100%);
   background-image: -webkit-gradient(linear, left top, left bottom, from(#036), to(#222));
@@ -22,29 +9,19 @@ a {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff003366', endColorstr='#ff222222', GradientType=0);
 }
 
-#lavy {
+.left-col{
   background: #eee;
-  padding: 0;
-  text-align: left;
-}
-#text {
-  padding: 0 0 0 1ex;
-  text-align: left;
 }
 .user {
   padding: 8px;
   border-bottom: 1px solid #ccc;
 }
-#footer {
+footer {
   margin-top: 1em;
   font-size: 75%;
   text-align: center;
 }
-#footer a {
-  color: #C1A303;
-}
-#footer p {
-  text-align: center;
+footer .text-center {
   width: 100%;
 }
 .confirm-dialog {

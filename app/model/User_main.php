@@ -6,13 +6,13 @@ use Nette\Security\Passwords;
 /**
  * Model, ktory sa stara o tabulku user_main
  * 
- * Posledna zmena 06.06.2017
+ * Posledna zmena 23.10.2018
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.1
+ * @version    1.0.3
  */
 class User_main extends Table {
   const
@@ -20,8 +20,10 @@ class User_main extends Table {
     COLUMN_ID_USER_ROLES = 'id_user_roles',
     COLUMN_ID_USER_PROFILES = 'id_user_profiles',
     COLUMN_PASSWORD_HASH = 'password',
+    COLUMN_TITUL_PRED = 'titul_pred',
 		COLUMN_MENO = 'meno',
     COLUMN_PRIEZVISKO = 'priezvisko',
+    COLUMN_TITUL_ZA = 'titul_za',
 		COLUMN_EMAIL = 'email',
     COLUMN_ACTIVATED = 'activated',
     COLUMN_BANNED = 'banned',
@@ -54,12 +56,12 @@ class User_main extends Table {
    * @param string $password
    * @param int $activated
    * @param int $role
-   * @return void
+   * @return \Nette\Database\Table\ActiveRow|FALSE
    * @throws DuplicateNameEmailException */
 	public function add($meno, $priezvisko, $email, $password, $activated = 0, $role = 0)	{
 		try {
 			$user_profiles = $this->connection->table('user_profiles')->insert([]); 
-      $this->pridaj([
+      return $this->pridaj([
         self::COLUMN_MENO             => $meno,
         self::COLUMN_PRIEZVISKO       => $priezvisko,
 				self::COLUMN_PASSWORD_HASH    => Passwords::hash($password),
@@ -81,10 +83,11 @@ class User_main extends Table {
    * @throws Nette\Database\DriverException */
   public function saveUser($values) {
     try {
-      $id = $values->id;
-      if (!$values->banned) {
-        $values->offsetSet("ban_reason", NULL);
-      }
+      $id = $values->{self::COLUMN_ID};
+      if (isset($values->{self::COLUMN_BANNED}) && !$values->{self::COLUMN_BANNED}) { $values->offsetSet("ban_reason", NULL); }
+      if (isset($values->{self::COLUMN_TITUL_PRED}) && !strlen($values->{self::COLUMN_TITUL_PRED})) { $values->offsetSet(self::COLUMN_TITUL_PRED, NULL); }
+      if (isset($values->{self::COLUMN_TITUL_ZA}) && !strlen($values->{self::COLUMN_TITUL_ZA})) { $values->offsetSet(self::COLUMN_TITUL_ZA, NULL); }
+      
       unset($values->id);
       return $this->uloz($values, $id);
     } catch (Exception $e) {

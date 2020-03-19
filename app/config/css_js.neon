@@ -22,13 +22,10 @@ webloader:
         - %wwwDir%/../node_modules/@fortawesome/fontawesome-free/css/all.min.css
         - %wwwDir%/../node_modules/bootstrap/dist/css/bootstrap.min.css
         - %wwwDir%/css/lightbox.css
-        - %wwwDir%/fonts/css/open-iconic-bootstrap.css
         - %wwwDir%/css/front/fonts.css
         - %wwwDir%/css/front/bw.css
         - %wwwDir%/css/front/responsive.css
         - %wwwDir%/css/front/x_docasne.css
-#        - %wwwDir%/css/jquery-ui.css
-#        - %wwwDir%/css/datagrid.css
         - {files: ["*.css", "*.less"], from: %wwwDir%/css/front} # Nette\Utils\Finder support
       filters:
         - @jwlCssMinFilter
@@ -41,6 +38,7 @@ webloader:
     admin:
       files:
         - %wwwDir%/../node_modules/@fortawesome/fontawesome-free/css/all.min.css
+        - %wwwDir%/../node_modules/bootstrap/dist/css/bootstrap.min.css
         - %wwwDir%/css/jquery-ui.css
         - %wwwDir%/css/datagrid.css
         - %wwwDir%/css/lightbox.css
@@ -57,30 +55,14 @@ webloader:
   js:
     frontBefore:
       files:
-#        - %wwwDir%/js/jquery-1.12.4.js
-#        - %wwwDir%/js/bootstrap.js
-#        - %wwwDir%/js/netteForms.min.js
-#        - %wwwDir%/js/nette.ajax.js
-#        - %wwwDir%/js/jquery-ui-1.12.1.min.js #Only datepicker & sortable
-#        - %wwwDir%/js/jquery.ui.datepicker-sk.js
-#        - %wwwDir%/js/nittro.min.js
-#        - %wwwDir%/js/datagrid.js
-#        - %wwwDir%/js/js-image-slider.js
-#        - %wwwDir%/js/forestmap.js
-#        - %wwwDir%/js/dropmenuJQ.js
         - %wwwDir%/js/lightbox.js
 #      filters:
 #        - @jsMin
     frontAfter:
       files:
         - %wwwDir%/../node_modules/jquery/dist/jquery.min.js
-        - %wwwDir%/../node_modules/popper.js/dist/umd/popper.min.js
-        - %wwwDir%/../node_modules/bootstrap/dist/js/bootstrap.min.js
+        - %wwwDir%/../node_modules/bootstrap/dist/js/bootstrap.bundle.js
         - %wwwDir%/../node_modules/nette-forms/src/assets/netteForms.min.js
-#        - %wwwDir%/js/jquery-ui-1.12.1.js
-#        - %wwwDir%/js/jquery.ui.datepicker-sk.js
-#        - %wwwDir%/js/lightbox.js
-#        - %wwwDir%/js/lightbox.config.front.js
         - %wwwDir%/../node_modules/naja/dist/Naja.js
         - %wwwDir%/js/pomocne_front.js
         - %wwwDir%/js/nav-shrink.js
@@ -89,18 +71,15 @@ webloader:
 
     admin:
       files:
-        - %wwwDir%/js/admin/jquery-1.12.4.js
         - %wwwDir%/../node_modules/jquery/dist/jquery.min.js
-        - %wwwDir%/../node_modules/popper.js/dist/umd/popper.min.js
-#        - %wwwDir%/../node_modules/bootstrap/dist/js/bootstrap.min.js
+        - %wwwDir%/../node_modules/bootstrap/dist/js/bootstrap.bundle.js
         - %wwwDir%/../node_modules/nette-forms/src/assets/netteForms.min.js
-        - %wwwDir%/js/admin/bootstrap.js
         - %wwwDir%/../node_modules/naja/dist/Naja.js
         - %wwwDir%/js/admin/jquery-ui-1.12.1.js
         - %wwwDir%/js/jquery.ui.datepicker-sk.js
-        - %wwwDir%/js/lightbox.js
-        - %wwwDir%/js/lightbox.config.admin.js
-        - %wwwDir%/js/datagrid.js
+#        - %wwwDir%/js/lightbox.js
+#        - %wwwDir%/js/lightbox.config.admin.js
+#        - %wwwDir%/js/datagrid.js
         - %wwwDir%/js/pomocne_admin.js
 #      filters:
 #        - @jsMin

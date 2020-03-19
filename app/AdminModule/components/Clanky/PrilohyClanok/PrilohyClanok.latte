@@ -24,12 +24,12 @@
 </div>  
 
 {* -- Modal dialog pre pridanie jednej prílohy -- *}
-<div class="modal fade" id="myModalAddPrilohaChange" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" n:if="$admin_links_prilohy['elink']">
-  <div class="modal-dialog" role="document">
+<div class="modal fade" id="myModalAddPrilohaChange" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" n:if="$admin_links_prilohy['elink']" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
-      <div class="modal-header">
+      <div class="modal-header text-white bg-success">
+        <h5 class="modal-title" id="myModalLabel">Pridanie prílohy k položke: {$clanok->view_name}</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Pridanie prílohy k položke: {$clanok->view_name}</h4>
       </div>
       <div class="modal-body">
         {control editPrilohyForm}
@@ -39,12 +39,12 @@
 </div>
       
 {* -- Modal dialog pre pridanie viacerích priloh -- *}
-<div class="modal fade" id="myModalAddMultiPrilohaChange" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" n:if="$admin_links_prilohy['elink']">
-  <div class="modal-dialog" role="document">
+<div class="modal fade" id="myModalAddMultiPrilohaChange" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" n:if="$admin_links_prilohy['elink']" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-header text-white bg-primary">
         <h4 class="modal-title" id="myModalLabel">Pridanie viacerích príloh k položke: {$clanok->view_name}</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       </div>
       <div class="modal-body">
         {control addMultiPrilohyForm}

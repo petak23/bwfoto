@@ -8,15 +8,15 @@ use Nette\Utils\Strings;
 
 /**
  * Prezenter pre texylu.
- * Posledna zmena(last change): 31.10.2017
+ * Posledna zmena(last change): 28.01.2019
  *
  *	Modul: ADMIN
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>, Jan Marek
- * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2019 Ing. Peter VOJTECH ml.
  * @license MIT
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.8
+ * @version 1.0.9
  */
 class TexylaPresenter extends BasePresenter {
 
@@ -128,11 +128,12 @@ class TexylaPresenter extends BasePresenter {
 				if (@getImageSize($fileInfo->getPathName())) {
 					$thumbFileName = $this->thumbnailFileName($fileInfo->getPathName());
 
-					if (file_exists($this->tempDir . "/" . $thumbFileName)) {
-						$thumbnailKey = $this->tempUri . "/" . $thumbFileName;
-					} else {
-						$thumbnailKey = $this->link("thumbnail", $key);
-					}
+          $thumbnailKey = (file_exists($this->tempDir . "/" . $thumbFileName)) ? $this->tempUri . "/" . $thumbFileName : $this->link("thumbnail", $key);
+//					if (file_exists($this->tempDir . "/" . $thumbFileName)) {
+//						$thumbnailKey = $this->tempUri . "/" . $thumbFileName;
+//					} else {
+//						$thumbnailKey = $this->link("thumbnail", $key);
+//					}
 
 					$files[] = [
 						"type" => "image",
