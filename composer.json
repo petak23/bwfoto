@@ -1,7 +1,7 @@
 {
-	"name": "bwfoto",
+	"name": "petak23/bwfoto",
 	"description": "Web page of bwfoto.sk",
-	"homepage": "https://www.bwfoto.sk",
+	"homepage": "http://www.bwfoto.sk",
 	"type": "project",
 	"license": ["BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
 	"authors": [
@@ -31,15 +31,14 @@
 		"nette/utils": "^2.4",
 		"latte/latte": "^2.4",
 		"tracy/tracy": "^2.4",
-		"janmarek/webloader": "^2.5",
-	  "joseki/webloader-filters": "^1.1",
-    "oyejorge/less.php": "^1.7",
-    "ublaboo/datagrid": "^5.2",
-    "ublaboo/datagrid-nette-database-data-source": "^1.0",
-    "texy/texy": "^2.9"
+		"tomasvinduska/webloader": "^2.6",
+    "joseki/webloader-filters": "^1.1",
+    "ublaboo/datagrid": "^5.7",
+    "ublaboo/datagrid-nette-database-data-source": "^1.1",
+    "texy/texy": "^3.0"
 	},
 	"require-dev": {
-		"nette/tester": "^1.6"
+		"nette/tester": "^2.2"
 	},
 	"minimum-stability": "stable"
 }
