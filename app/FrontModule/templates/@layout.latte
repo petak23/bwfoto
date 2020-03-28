@@ -119,7 +119,7 @@
     </div> 
     <div class="row justify-content-center">      
       <div n:if="$view_log_in_link_in_header < 0 && !$user->isLoggedIn()">
-        <a n:href="User:default#prihlas" title="{('base_link_to_admin_log_in')|trLang}">{('base_link_to_admin_log_in')|trLang}</a>
+        <a n:href="User:default#prihlas" title="{_'base_link_to_admin_log_in'}">{_'base_link_to_admin_log_in'}</a>
       </div>
       {control userLangMenu}
     </div>

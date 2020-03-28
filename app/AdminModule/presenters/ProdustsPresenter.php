@@ -6,15 +6,15 @@ use DbTable;
 /**
  * Prezenter pre smerovanie na dokumenty a editaciu produktov.
  * 
- * Posledna zmena(last change): 26.01.2018
+ * Posledna zmena(last change): 28.03.2020
  *
  * Modul: ADMIN
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.0
+ * @version 1.0.1
  */
 
 class ProductsPresenter extends BasePresenter {
@@ -22,9 +22,6 @@ class ProductsPresenter extends BasePresenter {
   // -- DB
   /** @var DbTable\Products @inject */
 	public $products;
-  
-  /** @var DbTable\Dokumenty @inject */
-	public $documents;
   
   /** @var \Nette\Database\Table\ActiveRow */
   private $product;
@@ -42,27 +39,6 @@ class ProductsPresenter extends BasePresenter {
 		exit;
 	}
 
-  public function actionUpdate() {
-    $docc = $this->documents->findAll();
-    foreach ($docc as $do) {
-      $out = [
-         'main_file' => $this->nastavenie['prilohy_dir'].$do->main_file,
-         'thumb_file' => $this->nastavenie['prilohy_dir'].$do->thumb_file
-      ];
-      $this->documents->oprav($do->id, $out);
-    }
-    $proc = $this->products->findBy(['id < 17']);
-    foreach ($proc as $do) {
-      $out = [
-         'main_file' => $this->nastavenie['dir_to_products'].$do->main_file,
-         'thumb_file' => $this->nastavenie['dir_to_products'].$do->thumb_file
-      ];
-      $this->products->oprav($do->id, $out);
-    }
-    $this->flashRedirect('Products:setup', "Opravené oba", "succese");
-  }
-  
-    
   /** Akcia pre nastavenie časti produktov */
   public function actionSetup() {
 		$this->products_data = $this->udaje->getDruh("Products");
