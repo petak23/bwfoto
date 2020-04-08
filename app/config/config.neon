@@ -73,7 +73,7 @@ application:
 
 session:
   autoStart: true
-  expiration: 30 days
+  expiration: 14 days
 
 tracy:
   email: petak23@gmail.com

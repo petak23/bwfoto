@@ -409,11 +409,10 @@ INSERT INTO `hlavne_menu` (`id`, `spec_nazov`, `id_hlavne_menu_cast`, `id_user_r
 (22,	'stromy',	1,	0,	NULL,	1,	1,	3,	2,	3,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'lebld9nagwmbdn3.JPG',	0,	'2020-03-25 10:29:24',	NULL,	0,	NULL,	1,	'#80ff00|3',	'#454545|5',	'#dfd95b|2',	NULL),
 (23,	'budovy',	1,	0,	NULL,	1,	1,	3,	2,	4,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'rubrr55ww87q8z2.JPG',	0,	'2017-12-27 11:24:02',	NULL,	0,	NULL,	1,	'#525252|1',	'#5063e4|2',	'#9b9b00|3',	NULL),
 (24,	'protisvetlo',	1,	0,	NULL,	1,	1,	3,	2,	5,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'9e1gm84fckjtsos.JPG',	0,	'2017-11-23 11:49:33',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
-(25,	'ahoj',	1,	0,	NULL,	1,	1,	1,	2,	1,	0,	0,	0,	0,	0,	NULL,	1,	NULL,	NULL,	NULL,	0,	'2020-03-18 20:05:01',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
 (26,	'cast-a-4',	1,	0,	NULL,	1,	1,	2,	2,	4,	0,	0,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'i2ipr8grdovqlll.jpg',	0,	'2020-03-23 12:41:45',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
 (27,	'a-gggddd',	1,	0,	NULL,	1,	1,	2,	2,	5,	0,	0,	0,	0,	0,	NULL,	1,	NULL,	NULL,	NULL,	0,	'2020-03-23 12:49:59',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
 (28,	'test-male-rozlisenie',	1,	0,	NULL,	1,	2,	20,	2,	1,	0,	0,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'c3aj8pi5751a260.JPG',	0,	'2020-03-23 17:11:36',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
-(29,	'test-bw-2',	1,	0,	NULL,	1,	1,	1,	2,	2,	0,	0,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'5djsadnnsinbj0q.jpg',	0,	'2020-03-24 10:41:07',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
+(29,	'test-bw-2',	1,	0,	NULL,	1,	1,	1,	2,	2,	0,	0,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'5djsadnnsinbj0q.jpg',	0,	'2020-04-02 15:52:24',	NULL,	0,	NULL,	1,	'#000000|5',	'#dddddd|20',	'#808080|5',	NULL),
 (30,	'test-bw-ramceky-1',	1,	0,	NULL,	1,	1,	1,	2,	3,	0,	0,	0,	0,	0,	NULL,	2,	NULL,	NULL,	NULL,	0,	'2020-03-24 21:25:57',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL);
 
 DROP TABLE IF EXISTS `hlavne_menu_cast`;
@@ -471,7 +470,6 @@ INSERT INTO `hlavne_menu_lang` (`id`, `id_lang`, `id_hlavne_menu`, `id_clanok_la
 (22,	1,	22,	22,	'Stromy',	NULL,	'Stromy'),
 (23,	1,	23,	23,	'Budovy',	NULL,	'Budovy'),
 (24,	1,	24,	24,	'Protisvetlo',	NULL,	'Protisvetlo'),
-(25,	1,	25,	NULL,	'Ahoj',	'SFSDFSGSGSGSGSG',	'Ahoj'),
 (26,	1,	26,	25,	'TEST 1',	NULL,	'TEST X1'),
 (27,	1,	27,	26,	'A GGGDDD',	'AAA',	'A GGGDDD'),
 (28,	1,	28,	27,	'TEST male rozlisenie',	NULL,	'TEST male rozlisenie'),
@@ -623,7 +621,9 @@ CREATE TABLE `slider` (
 
 INSERT INTO `slider` (`id`, `poradie`, `nadpis`, `popis`, `subor`, `zobrazenie`, `id_hlavne_menu`) VALUES
 (6,	1,	NULL,	NULL,	'TITULK-A-TEST-2020-11-zmena-velikosti.jpg',	NULL,	NULL),
-(7,	2,	'',	'',	'bg-bwb.png',	'2',	NULL);
+(7,	2,	'',	'',	'bg-bwb.png',	'2',	NULL),
+(12,	3,	NULL,	NULL,	'TITULK-A-TEST-2020-11-zmena-velikosti2.jpg',	'11',	NULL),
+(13,	4,	NULL,	NULL,	'TITULK-A-TEST-2020-5-zmena-velikosti.jpg',	'12',	NULL);
 
 DROP TABLE IF EXISTS `udaje`;
 CREATE TABLE `udaje` (
@@ -742,8 +742,8 @@ CREATE TABLE `user_main` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Hlavné údaje užívateľa';
 
 INSERT INTO `user_main` (`id`, `id_user_roles`, `id_user_profiles`, `password`, `meno`, `priezvisko`, `email`, `activated`, `banned`, `ban_reason`, `new_password_key`, `new_password_requested`, `new_email`, `new_email_key`, `last_ip`, `created`, `modified`) VALUES
-(1,	5,	1,	'$2y$10$RnzAjUCyc/B1GgiJ9k43/e27BDz5j1vsbN.DYlfnXIxweBvqxkABq',	'Peter',	'Vojtech',	'petak23@gmail.com',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.253.128.137',	'2017-05-15 09:11:19',	'2020-03-26 14:41:00'),
-(2,	4,	2,	'$2y$10$FvhA/KkVmKR4lrVftRYch.4ER1Lc4H6sl0/NK5VuJ5keSrMg8kbay',	'Juraj',	'Zámečník',	'bwfoto@bwfoto.sk',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.143.103.28',	'2017-05-15 09:13:38',	'2020-03-18 19:53:05'),
+(1,	5,	1,	'$2y$10$RnzAjUCyc/B1GgiJ9k43/e27BDz5j1vsbN.DYlfnXIxweBvqxkABq',	'Peter',	'Vojtech',	'petak23@gmail.com',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.253.128.137',	'2017-05-15 09:11:19',	'2020-04-07 12:15:52'),
+(2,	4,	2,	'$2y$10$0KPg/2sE8I5EjAsgolRttulqhQPsUoVrhIHAxX8Ej3NAOHGuZIbW.',	'Juraj',	'Zámečník',	'bwfoto@bwfoto.sk',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.143.114.134',	'2017-05-15 09:13:38',	'2020-04-03 12:19:23'),
 (3,	4,	3,	'$2y$10$VOeK4y3ozjaUM1aMtiVmcuHRmtcmoVvC6J4yFX4j0LZoNbXlejyMi',	'Jozef',	'Petrenčík',	'jozue@anigraph.eu',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.253.139.152',	'2017-05-15 09:12:22',	'2017-07-11 07:10:29');
 
 DROP TABLE IF EXISTS `user_permission`;
@@ -825,7 +825,16 @@ INSERT INTO `user_prihlasenie` (`id`, `id_user_main`, `log_in_datetime`) VALUES
 (45,	2,	'2020-03-24 22:24:38'),
 (46,	1,	'2020-03-25 10:55:45'),
 (47,	1,	'2020-03-26 08:22:22'),
-(48,	1,	'2020-03-26 15:41:00');
+(48,	1,	'2020-03-26 15:41:00'),
+(49,	1,	'2020-03-30 07:18:02'),
+(50,	1,	'2020-04-02 12:57:33'),
+(51,	2,	'2020-04-02 16:09:34'),
+(52,	2,	'2020-04-02 17:50:39'),
+(53,	2,	'2020-04-03 10:55:51'),
+(54,	2,	'2020-04-03 12:14:08'),
+(55,	2,	'2020-04-03 13:49:14'),
+(56,	1,	'2020-04-06 10:51:01'),
+(57,	1,	'2020-04-07 14:15:52');
 
 DROP TABLE IF EXISTS `user_profiles`;
 CREATE TABLE `user_profiles` (
@@ -842,8 +851,8 @@ CREATE TABLE `user_profiles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 INSERT INTO `user_profiles` (`id`, `rok`, `telefon`, `poznamka`, `pocet_pr`, `pohl`, `prihlas_teraz`, `avatar`, `news`) VALUES
-(1,	NULL,	NULL,	NULL,	32,	'M',	'2020-03-26 15:41:00',	NULL,	'A'),
-(2,	NULL,	NULL,	NULL,	16,	'M',	'2020-03-24 22:24:38',	NULL,	'A'),
+(1,	NULL,	NULL,	NULL,	36,	'M',	'2020-04-07 14:15:52',	NULL,	'A'),
+(2,	NULL,	NULL,	NULL,	21,	'M',	'2020-04-03 13:49:14',	NULL,	'A'),
 (3,	NULL,	NULL,	NULL,	0,	'M',	NULL,	NULL,	'A');
 
 DROP TABLE IF EXISTS `user_resource`;
@@ -920,6 +929,7 @@ INSERT INTO `verzie` (`id`, `id_user_main`, `cislo`, `subory`, `text`, `modified
 (5,	1,	'0.1.5',	'rôzne',	'Prispôsobenie vzhľadu úrovne 3',	'2017-12-27 11:59:49'),
 (6,	1,	'0.1.6',	'úroveň 3 a 4',	'- Prispôsobenie vzhľadu úrovne 3. a 4..\n- Aktualizácia nittra a lightbox-u.\n- Odstránenie koncovky z názvu prílohy.\n- Práca na admin časti pre rámčeky - pridaná časť pre fotoalbum zmeny rámčekov obrázkových príloh v úrovni 4. pre každú časť zvlášť.\n- Prispôsobenie 4. úrovne pre prehliadanie obrázkov s rámčekmi.',	'2017-12-27 12:04:06'),
 (7,	1,	'0.1.7',	'mnohé',	'- Zmena názvov stĺpcov(spec_nazov=web_name, subor=main_file, thumb=thumb_file, zmena=change) tabuľky dokumenty a s tým súvisiace zmeny. \n- Pridané zobrazenie videa pre front modul.\n- Pridaná časť produktov aj pre front časť. \n- Zmena názvov stĺpcov(nazov=name, popis=description) tabuľky dokumenty a s tým súvisiace zmeny.\n- Pridaná časť produktov pre admin časť. Nedokončené. Update fontawesome na verziu 5.0.2 na admin strane.',	'2018-01-16 09:15:17'),
-(8,	1,	'0.2.1',	'Issue #4, #5, #6',	'Sumár:\n======\n**Zmena načítania produktov.**\n\n**V administrácii: oprava ikoniek; pre slider: pridanie kompletného stromu menu do formulára - položka: *Zobrazenie pre*;** \n\nDetaily:\n======\nFrontend\n----------\n- Úrava pre IE.\n- Načítanie produktov ajaxovo.\n- Oprava chyby pri zobrazení príloh alebo produktov.\n\nAdministrácia\n-------------\n- Oprava ikoniek v administrácii a odstránenie nepotrebných. \n- Presun nastavení produktov do samostatnej časti. Issue \"#5\":https://github.com/petak23/bwfoto/issues/5\n- V údajoch pridaná možnosť zobraziť alebo skryť separátne nastavenia.\n- Slider: Odstránenie väzby súborov na adresáre a presun ich nastavení do configu.\n- Slider: Pridanie kompletného stromu menu do formulára - položka: *Zobrazenie pre*.\n- Slider: zmena názvu ikoniek.\n- Presun nastavenia okrajového rámčeka na kartu produktov Issues \"#4\":https://github.com/petak23/bwfoto/issues/4\n- Odstránenie chyby v mazaní príloh\n\nOstatné\n-------\n- Oprava zobrazovania textu(texi) v emailoch. Issue \"#6\":https://github.com/petak23/bwfoto/issues/6\n- Odstránenie zmetočných adresárov v prílohách článkov a produktov. \n- Zmazanie nepotrebných častí.\n- Presun index.php do adresára www a s tým spojené zmeny.\n- Update fontawesome na verziu 5.2.0; \n- Update bootstrap na verziu 4.1.2; \n- Update adminer na verziu 4.3.6. \n- Použitie npm správcu. \n- Odstránenie zbytočných css a js.\n',	'2018-08-30 08:35:32');
+(8,	1,	'0.2.1',	'Issue #4, #5, #6',	'Sumár:\n======\n**Zmena načítania produktov.**\n\n**V administrácii: oprava ikoniek; pre slider: pridanie kompletného stromu menu do formulára - položka: *Zobrazenie pre*;** \n\nDetaily:\n======\nFrontend\n----------\n- Úrava pre IE.\n- Načítanie produktov ajaxovo.\n- Oprava chyby pri zobrazení príloh alebo produktov.\n\nAdministrácia\n-------------\n- Oprava ikoniek v administrácii a odstránenie nepotrebných. \n- Presun nastavení produktov do samostatnej časti. Issue \"#5\":https://github.com/petak23/bwfoto/issues/5\n- V údajoch pridaná možnosť zobraziť alebo skryť separátne nastavenia.\n- Slider: Odstránenie väzby súborov na adresáre a presun ich nastavení do configu.\n- Slider: Pridanie kompletného stromu menu do formulára - položka: *Zobrazenie pre*.\n- Slider: zmena názvu ikoniek.\n- Presun nastavenia okrajového rámčeka na kartu produktov Issues \"#4\":https://github.com/petak23/bwfoto/issues/4\n- Odstránenie chyby v mazaní príloh\n\nOstatné\n-------\n- Oprava zobrazovania textu(texi) v emailoch. Issue \"#6\":https://github.com/petak23/bwfoto/issues/6\n- Odstránenie zmetočných adresárov v prílohách článkov a produktov. \n- Zmazanie nepotrebných častí.\n- Presun index.php do adresára www a s tým spojené zmeny.\n- Update fontawesome na verziu 5.2.0; \n- Update bootstrap na verziu 4.1.2; \n- Update adminer na verziu 4.3.6. \n- Použitie npm správcu. \n- Odstránenie zbytočných css a js.\n',	'2018-08-30 08:35:32'),
+(9,	1,	'0.3.0-beta',	'Upgrade to v 0.3.0',	'- **Oprava chyby: zobrazenie prvého obrázku alebo produktu pri prvom zobrazení článku.**\n- Upgrade nette na verziu 2.4\n- Aplikácia zmien z echo-msz.eu ale s prispôsobením komponent na verziu PHP 7.0.33\n- Inovácia vzhľadu v administrácii, zatiaľ ešte nie úplne dokončená \"(AdminModule) .{color: gray}\".\n- Aktualizácia komponent vzhľadu v package.json \"(fontawesome: 5.2.0, bootstrap: 4.4.1, jquery: 3.4.1, naja: 1.5.1, nette-forms: 2.4.2, popper.js: 1.16.1) .{color: gray}\". \n- Aktualizácia správcu databázy \"(adminer v 4.7.6) .{color: gray}\". \n- Oprava chyby v menu FrontModule a upgrade pre novú verziu Texy.',	'2020-03-28 05:33:16');
 
--- 2020-03-28 05:17:25
+-- 2020-04-07 12:28:35
