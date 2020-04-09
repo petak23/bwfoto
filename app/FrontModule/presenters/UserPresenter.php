@@ -12,7 +12,7 @@ use Nette\Utils\Random;
 
 /**
  * Prezenter pre prihlasenie, registraciu a aktiváciu uzivatela, obnovenie zabudnutého hesla a zresetovanie hesla.
- * Posledna zmena(last change): 14.01.2020
+ * Posledna zmena(last change): 30.03.2020
  *
  *	Modul: FRONT
  *
@@ -20,7 +20,7 @@ use Nette\Utils\Random;
  * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.2.1
+ * @version 1.2.2
  */
 class UserPresenter extends BasePresenter {
 	
@@ -50,9 +50,9 @@ class UserPresenter extends BasePresenter {
   /** @var array Nastavenie zobrazovania volitelnych poloziek */
   private $user_view_fields;
   
-	protected function startup(): void {
+  protected function startup() {
     parent::startup();
-
+    //Test prihlásenia
     if ($this->user->isLoggedIn()) { 
       $this->flashRedirect('Homepage:', $this->texty_presentera->translate('base_loged_in_bad'), 'danger');
     }
@@ -170,31 +170,15 @@ class UserPresenter extends BasePresenter {
 		return $this->_vzhladForm($form, "noajax");
 	}
 
+  /** 
+   * Spracovanie formulara zabudnuteho hesla
+   * @param Nette\Application\UI\Form $button Data formulara */
   public function forgotPasswordFormSubmitted($button) {
 		//Inicializacia
     $values = $button->getForm()->getValues();                 //Nacitanie hodnot formulara
-    $clen = $this->user_main->findOneBy(['email'=>$values->email]);
-    
-    // ---- Len pre echo-msz.eu
-    if ($clen == FALSE) { 
-      if (($clen_u = $this->users->findOneBy(['email'=>$values->email])) != FALSE) {
-        $up = $this->user_profiles->findOneBy(['id_users'=>$clen_u->id]);
-        $clen = $this->user_main->pridaj([
-          'id_user_roles' => $up->id_registracia,
-          'id_user_profiles'  => $up->id,
-          'password'          => '---',
-          'meno'              => $up->meno,
-          'priezvisko'        => $up->priezvisko,
-          'email'             => $clen_u->email,
-          'activated'         => $clen_u->activated
-        ]);
-      }
-    }
-    // ---- Koniec Len pre echo-msz.eu
-    
     $new_password_requested = StrFTime("%Y-%m-%d %H:%M:%S", Time());
     $new_password_key = Random::generate(25);
-    if (isset($clen->email) && $clen->email == $values->email) { //Taky clen existuje
+    if (($user_id = $this->user_main->findIdBy(['email'=>$values->email]))) { //Overenie existencie uzivatela
       $templ = new Latte\Engine;
       $params = [
         "site_name" => $this->nazov_stranky,
@@ -203,7 +187,7 @@ class UserPresenter extends BasePresenter {
         "email_nefunkcny_odkaz" => $this->texty_presentera->translate('email_nefunkcny_odkaz'),
         "email_pozdrav" => $this->texty_presentera->translate('email_pozdrav'),
         "nazov"     => $this->texty_presentera->translate('forgot_pass'),
-        "odkaz" 		=> 'http://'.$this->nazov_stranky.$this->link("User:resetPassword", $clen->id, $new_password_key),
+        "odkaz" 		=> 'http://'.$this->nazov_stranky.$this->link("User:resetPassword", $user_id, $new_password_key),
       ];
       $mail = new Message;
       $mail->setFrom($this->nazov_stranky.' <'.$this->clen->email.'>')
@@ -212,13 +196,13 @@ class UserPresenter extends BasePresenter {
       try {
         $sendmail = new SendmailMailer;
         $sendmail->send($mail);
-        $this->user_main->find($clen->id)->update(['new_password_key'=>$new_password_key, 'new_password_requested'=>$new_password_requested]);
+        $this->user_main->find($user_id)->update(['new_password_key'=>$new_password_key, 'new_password_requested'=>$new_password_requested]);
         $this->flashMessage($this->texty_presentera->translate('forgot_pass_email_ok'), 'success');
       } catch (Exception $e) {
         $this->flashMessage($this->texty_presentera->translate('send_email_err').$e->getMessage(), 'danger,n');
       }
       $this->redirect('Homepage:');
-    } else {													//Taky clen neexzistuje
+    } else {													//Taky uzivatel neexzistuje
       $this->flashMessage(sprintf($this->texty_presentera->translate('forgot_pass_user_err'),$values->email), 'danger');
     }
   }

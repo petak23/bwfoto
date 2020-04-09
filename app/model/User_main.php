@@ -137,6 +137,13 @@ class User_main extends Table {
     return $out;
   }
   
+  /**
+   * Najde id uzivatela podla parametrov 
+   * @param array $param Pole parametrov
+   * @return int */
+  public function findIdBy(array $param = []) {
+    return ($tmp = $this->findOneBy($param)) !== FALSE ? $tmp->{self::COLUMN_ID} : 0;
+  }
 }
 
 class DuplicateEmailException extends \Exception
