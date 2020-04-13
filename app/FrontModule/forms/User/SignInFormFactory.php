@@ -7,8 +7,8 @@ use Nette\Application\UI\Form;
 use Nette\Security;
 
 /**
- * Prihlasovaci formular
- * Posledna zmena 02.01.2020
+ * Sign in form
+ * Last change 13.04.2020
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
@@ -76,7 +76,7 @@ class SignInFormFactory {
       $this->user->setExpiration($values->remember ? '14 days' : '30 minutes');
 			$this->user->login($values->email, $values->password);
 		} catch (Security\AuthenticationException $e) {
-      $button->addError($e->getMessage());
+      $button->addError($e->getCode());
     }
 	}
 }

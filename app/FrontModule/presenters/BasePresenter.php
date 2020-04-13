@@ -15,7 +15,7 @@ use Texy;
 /**
  * Zakladny presenter pre vsetky presentery vo FRONT module
  * 
- * Posledna zmena(last change): 26.03.2020
+ * Posledna zmena(last change): 13.04.2020
  *
  *	Modul: FRONT
  *
@@ -23,7 +23,7 @@ use Texy;
  * @copyright Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link      http://petak23.echo-msz.eu
- * @version 1.5.4
+ * @version 1.5.5
  */
 abstract class BasePresenter extends Presenter {
   
@@ -104,7 +104,6 @@ abstract class BasePresenter extends Presenter {
   /** @var array nastavenie z config-u */
   public $nastavenie;
 
-
   /** @var int Maximalna velkost suboru pre upload */
   public $upload_size = 0;
   
@@ -173,9 +172,9 @@ abstract class BasePresenter extends Presenter {
     $this->upload_size =  intval($ini_v) * ($s[strtolower(substr($ini_v,-1))] ?: 1);
 	}
 
-  /** Komponenta pre vykreslenie menu
-   * @return \App\FrontModule\Components\Menu\Menu
-   */
+  /** 
+   * Komponenta pre vykreslenie menu
+   * @return \App\FrontModule\Components\Menu\Menu */
   public function createComponentMenu() {
     $menu = new \App\FrontModule\Components\Menu\Menu;
     $menu->setTextTitleImage($this->texty_presentera->translate("base_text_title_image"));
@@ -204,7 +203,8 @@ abstract class BasePresenter extends Presenter {
     return $menu;
   }
     
-  /** Naplnenie spolocnych udajov pre sablony */
+  /** 
+   * Naplnenie spolocnych udajov pre sablony */
   public function beforeRender() {
     $this->getComponent('menu')->selectByUrl($this->link('this'));
     $this->template->udaje = $this->udaje_webu;
@@ -244,7 +244,7 @@ abstract class BasePresenter extends Presenter {
   /** 
    * Signal prepinania jazykov
    * @param string $language skratka noveho jazyka */
-  public function handleSetLang($language) {
+  public function handleSetLang(string $language) {
     if ($this->language != $language) { //Cokolvek rob len ak sa meni
       //Najdi v DB pozadovany jazyk
       $la_tmp = $this->lang->findOneBy(['skratka'=>$language]);
@@ -254,22 +254,26 @@ abstract class BasePresenter extends Presenter {
     $this->redirect('this');
 	}
   
-  /** @return CssLoader */
+  /** 
+   * @return CssLoader */
   protected function createComponentCss(){
     return $this->webLoader->createCssLoader('front');
   }
 
-  /** @return JavaScriptLoader */
+  /** 
+   * @return JavaScriptLoader */
   protected function createComponentJsBefore(){
     return $this->webLoader->createJavaScriptLoader('frontBefore');
   }
   
-  /** @return JavaScriptLoader */
+  /** 
+   * @return JavaScriptLoader */
   protected function createComponentJsAfter(){
     return $this->webLoader->createJavaScriptLoader('frontAfter');
   }
   
-  /** Komponenta pre výpis css a js súborov
+  /** 
+   * Komponenta pre výpis css a js súborov
    * @return \PeterVojtech\Base\CssJsFilesControl */
   public function createComponentFiles() {
     return new PeterVojtech\Base\CssJsFilesControl($this->nastavenie['web_files'], $this->name, $this->action);
@@ -301,8 +305,7 @@ abstract class BasePresenter extends Presenter {
    * Zostavenie otázky pre ConfDialog s parametrom
    * @param Nette\Utils\Html $dialog
    * @param array $params
-   * @return string $question
-   */
+   * @return string $question */
   public function questionDelete($dialog, $params) {
      $dialog->getQuestionPrototype();
      return sprintf($this->texty_presentera->translate('base_delete_text'),
@@ -310,26 +313,12 @@ abstract class BasePresenter extends Presenter {
                     isset($params['nazov']) ? $params['nazov'] : '');
   }
   
-  /** Vytvorenie komponenty slideru
+  /** 
+   * Vytvorenie komponenty slideru
    * @return \App\FrontModule\Components\Slider\Slider */
-
 	public function createComponentSlider() {
     return $this->sliderControlFactory->create();
-
-
 	}
-
-
-
-
-
-
-
-
-
-
-
-
   
   /** 
    * Komponenta pre zobrazenie clanku
@@ -396,16 +385,11 @@ abstract class BasePresenter extends Presenter {
     $form = $this->signInForm->create($this->language);
     $servise = $this;
     $form['login']->onClick[] = function ($form) use ($servise) {
-      $ok_txt = $servise->texty_presentera->translate('base_login_ok');
       $er_txt = $servise->texty_presentera->translate('base_login_error');
       $servise->restoreRequest($servise->backlink);
-//      $servise->flashOut(!count($form->errors), 'Homepage:', $ok_txt, sprintf($er_txt, isset($form->errors[0]) ? $form->errors[0] : 'Ch'));
-      if (!count($form->errors)) {
-        $servise->flashMessage($ok_txt, 'success');
-        $servise->redirect('Homepage:');
-      } else {
-        $servise->flashMessage($er_txt, 'danger');
-      }
+      $servise->flashOut(!count($form->errors), 'Homepage:', 
+                         $servise->texty_presentera->translate('base_login_ok'), 
+                         sprintf($er_txt, isset($form->errors[0]) ? $servise->texty_presentera->translate('base_Log_In_Error_'.$form->errors[0]) : 'Ch'));
     };
     $form['forgottenPassword']->onClick[] = function () {
       $this->redirect('User:forgottenPassword');
