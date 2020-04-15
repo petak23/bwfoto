@@ -45,9 +45,10 @@ class ClankyPresenter extends BasePresenter {
   public $prilohy_for_big_img;
   protected $big_img;
   
-  /** Zobrazenie konkretneho clanku
+  /** 
+   * Zobrazenie konkretneho clanku
    * @param int $id Id hlavneho menu clanku */
-	public function actionDefault($id = 0, $kotva = "", $id_big_img = 0, $product = 0) {
+	public function actionDefault(int $id = 0, $kotva = "", $id_big_img = 0, $product = 0) {
 		// Vsuvka pre presmerovanie ak nemam ziadnu aktualitu
 		if (in_array("aktualne", $this->clanok_komponenty->getKomponentyName($id)) &&  //Mam k clanku priradenu komponentu aktualne
 				isset($this["aktualne"]) && 																							 //Mam je vytvorenu
@@ -55,13 +56,15 @@ class ClankyPresenter extends BasePresenter {
 			$this->flashRedirect(['Clanky:', $re['id']], $re['txt'], 'info');
 		}
 		
-    if (($this->zobraz_clanok = $this->hlavne_menu_lang->getOneArticleId($id, $this->language_id, $this->id_reg)) === FALSE) {  
+    $this->zobraz_clanok = $this->hlavne_menu_lang->getOneArticleId($id, $this->language_id, $this->id_reg); // Najdi clanok
+
+    if ($this->zobraz_clanok === FALSE) {  // Nenasiel sa clanok podla danych kriterii
       if ($this->hlavne_menu_lang->find($id) !== FALSE && $this->id_reg == 0) { //Clanok existuje ale je potrebne sa prihlasit
         $this->flashRedirect(["User:", ['backlink' => $this->storeRequest()]], 'clanky_najdeny_neprihlaseny', "warning");
       } else {
-        $this->setView("notFound");
+        $this->setView("notFound"); //Clanok neexzistuje
       }
-    } else {
+    } else { //Clanok sa nasiel
       $this->kotva = $kotva;
       if ($this->zobraz_clanok->hlavne_menu->redirect_id) { //Ak mám presmerovanie na podclanok
         $this->redirect("Clanky:", $this->zobraz_clanok->hlavne_menu->redirect_id);              

@@ -25,7 +25,7 @@
 <div n:snippet=bigimgContainer>
   <h4 class="bigimg-name" n:ifset="$big_img->name">{$big_img->name}</h4>
   <section id="webThumbnails">
-    <div class="detail" n:if="$big_img != FALSE && (isset($big_img->type) && $big_img->type < 3) || (!isset($big_img->type))">
+    <div class="detail pokus1" n:if="$big_img != FALSE && (isset($big_img->type) && $big_img->type < 3) || (!isset($big_img->type))">
       <div class="big-img-container" n:inner-foreach="$prilohy_for_big_img as $subor">
         {if $big_img != FALSE && $subor->id == $big_img->id}
           <img class="big-img noajax" src="{$basePath}/{$subor->main_file}" 
@@ -52,7 +52,7 @@
     </div>  
   </section>
   <div class="bigimg-description" n:ifset="$big_img->description">{$big_img->description}</div>
-  <script>
+  {*<script>
     var options = {
       prevImg: 			true,
       nextImg: 			true,
@@ -74,5 +74,5 @@
     };
     var lightbox = new Lightbox();
     lightbox.load(options);
-  </script>
+  </script>*}
 </div>

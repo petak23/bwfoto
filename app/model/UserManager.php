@@ -62,7 +62,11 @@ class UserManager implements Security\IAuthenticator {
 	/**
 	 * Performs an authentication.
 	 * @return Nette\Security\Identity
-	 * @throws Nette\Security\AuthenticationException */
+	 * @throws Nette\Security\AuthenticationException 
+   *  IDENTITY_NOT_FOUND = 1
+   *  INVALID_CREDENTIAL = 2
+   *  FAILURE = 3
+   *  NOT_APPROVED = 4 */
 	public function authenticate(array $credentials) {
 		list($email, $password) = $credentials;
     

@@ -1,0 +1,657 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"th",
+				"this"
+			],
+			[
+				"pri",
+				"private"
+			],
+			[
+				"v",
+				"vertical-align\tproperty"
+			],
+			[
+				"w",
+				"width\tproperty"
+			],
+			[
+				"max",
+				"max-height\tproperty"
+			],
+			[
+				"fu",
+				"fun\tfunction …"
+			],
+			[
+				"tex",
+				"text-align\tproperty"
+			],
+			[
+				"bi",
+				"big_img"
+			],
+			[
+				"background",
+				"background-color\tproperty"
+			],
+			[
+				"P",
+				"Peter"
+			],
+			[
+				"els",
+				"else"
+			],
+			[
+				"padding",
+				"padding-top\tproperty"
+			],
+			[
+				"margin",
+				"margin-bottom\tproperty"
+			],
+			[
+				"pa",
+				"padding\tproperty"
+			],
+			[
+				"margi",
+				"margin-bottom\tproperty"
+			],
+			[
+				"di",
+				"display\tproperty"
+			],
+			[
+				"ma",
+				"margin\tproperty"
+			],
+			[
+				"in",
+				"inline-block\tdisplay"
+			],
+			[
+				"si",
+				"signInForm"
+			],
+			[
+				"new",
+				"new_password_key"
+			],
+			[
+				"user",
+				"user_main_data"
+			],
+			[
+				"use",
+				"user_main_data"
+			],
+			[
+				"fun",
+				"fun\tfunction …"
+			],
+			[
+				"text",
+				"texty_presentera"
+			],
+			[
+				"tem",
+				"template"
+			],
+			[
+				"par",
+				"parent"
+			],
+			[
+				"te",
+				"texts"
+			],
+			[
+				"is",
+				"is_array"
+			],
+			[
+				"pu",
+				"public"
+			],
+			[
+				"l",
+				"language"
+			],
+			[
+				"La",
+				"Language"
+			],
+			[
+				"lan",
+				"language_main"
+			],
+			[
+				"la",
+				"language_main"
+			],
+			[
+				"this",
+				"this-"
+			],
+			[
+				"sp",
+				"sprintf"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "app/FrontModule/components/Clanky/Attachments/BWfoto_foto_album_images.latte",
+			"settings":
+			{
+				"buffer_size": 534,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "app/FrontModule/templates/Clanky/BWfoto_foto_album.latte",
+			"settings":
+			{
+				"buffer_size": 3915,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "app/FrontModule/presenters/ClankyPresenter.php",
+			"settings":
+			{
+				"buffer_size": 9624,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "app/model/Products.php",
+			"settings":
+			{
+				"buffer_size": 903,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/xampp/htdocs/bwfoto",
+		"/C/xampp/htdocs/bwfoto/app",
+		"/C/xampp/htdocs/bwfoto/app/FrontModule",
+		"/C/xampp/htdocs/bwfoto/app/FrontModule/components",
+		"/C/xampp/htdocs/bwfoto/app/FrontModule/components/Clanky",
+		"/C/xampp/htdocs/bwfoto/app/FrontModule/components/Clanky/Attachments",
+		"/C/xampp/htdocs/bwfoto/app/FrontModule/presenters",
+		"/C/xampp/htdocs/bwfoto/app/FrontModule/templates",
+		"/C/xampp/htdocs/bwfoto/app/FrontModule/templates/Clanky",
+		"/C/xampp/htdocs/bwfoto/app/model"
+	],
+	"file_history":
+	[
+		"/C/xampp/htdocs/bwfoto/app/model/Dokumenty.php",
+		"/C/xampp/htdocs/bwfoto/app/model/Table.php",
+		"/C/xampp/htdocs/galery/www/css/main.css",
+		"/C/xampp/htdocs/galery/www/js/main.js",
+		"/C/xampp/htdocs/galery/app/Presenters/HomepagePresenter.php",
+		"/C/xampp/htdocs/galery/app/Presenters/templates/Homepage/default.latte",
+		"/C/xampp/htdocs/galery/app/Presenters/templates/@layout.latte",
+		"/C/xampp/htdocs/galery/composer.json",
+		"/C/xampp/htdocs/bwfoto/app/AdminModule/templates/Slider/grid.subor.latte",
+		"/C/xampp/htdocs/bwfoto/app/AdminModule/presenters/SliderPresenter.php",
+		"/C/xampp/htdocs/bwfoto/app/AdminModule/components/Clanky/ZobrazClanok.latte",
+		"/C/xampp/htdocs/bwfoto/app/config/css_js.neon",
+		"/C/xampp/htdocs/bwfoto/app/AdminModule/templates/Slider/custom_datagrid_template.latte",
+		"/C/xampp/htdocs/bwfoto/app/AdminModule/config/services.neon",
+		"/C/xampp/htdocs/bwfoto/app/FrontModule/templates/@layout.latte",
+		"/C/xampp/htdocs/bwfoto/app/components/Base/CssJsFiles.php",
+		"/C/xampp/htdocs/bwfoto/app/AdminModule/presenters/BasePresenter.php",
+		"/C/xampp/htdocs/bwfoto/app/FrontModule/presenters/BasePresenter.php",
+		"/C/xampp/htdocs/bwfoto/www/css/front/bw.css",
+		"/C/xampp/htdocs/bwfoto/composer.json",
+		"/C/xampp/htdocs/bwfoto/www/css/front/fonts.css",
+		"/C/xampp/htdocs/bwfoto/app/FrontModule/config/services.neon",
+		"/C/xampp/htdocs/bwfoto/app/FrontModule/components/Menu/BWfoto_Fixed_Homepage.latte",
+		"/C/xampp/htdocs/bwfoto/app/classes/MyTexy.php",
+		"/C/xampp/htdocs/bwfoto/app/FrontModule/templates/Homepage/default.latte",
+		"/C/xampp/htdocs/bwfoto/app/FrontModule/components/Menu/Menu.php",
+		"/C/xampp/htdocs/bwfoto/app/FrontModule/components/Menu/BWfoto_footer_Sidemap.latte",
+		"/C/xampp/htdocs/echo-msz/app/AdminModule/components/Clanky/PrilohyClanok/EditPrilohyFormFactory.php",
+		"/C/xampp/htdocs/echo-msz/app/AdminModule/presenters/BasePresenter.php",
+		"/C/xampp/htdocs/echo-msz/www/css/front/fonts.css",
+		"/C/xampp/htdocs/echo-msz/sql/updates in 3_2.sql",
+		"/C/xampp/htdocs/echo-msz/www/css/front/main.css",
+		"/C/xampp/htdocs/echo-msz/app/FrontModule/components/Clanky/Attachments/Attachments_others.latte",
+		"/C/xampp/htdocs/echo-msz/app/FrontModule/components/Clanky/Attachments/Attachments_audios.latte",
+		"/C/xampp/htdocs/echo-msz/app/FrontModule/components/Clanky/Attachments/Attachments_default.latte",
+		"/C/xampp/htdocs/echo-msz/app/FrontModule/components/Clanky/Attachments/Attachments_images.latte",
+		"/C/xampp/htdocs/echo-msz/app/AdminModule/components/Clanky/PrilohyClanok/PrilohyClanok.php",
+		"/C/xampp/htdocs/echo-msz/www/css/front/second-nav.css",
+		"/C/xampp/htdocs/echo-msz/app/config/config.neon",
+		"/C/xampp/htdocs/echo-msz/app/FrontModule/components/Menu/Echo_Fixed_Main1.latte",
+		"/C/xampp/htdocs/echo-msz/app/FrontModule/components/User/UserLangMenu/UserLangMenu.php",
+		"/C/xampp/htdocs/echo-msz/app/FrontModule/templates/@layout.latte",
+		"/C/xampp/htdocs/echo-msz/app/FrontModule/presenters/UserPresenter.php",
+		"/C/xampp/htdocs/echo-msz/app/FrontModule/presenters/BasePresenter.php",
+		"/C/xampp/htdocs/echo-msz/app/FrontModule/components/User/UserLangMenu/UserLangMenu.latte",
+		"/C/xampp/htdocs/echo-msz/app/FrontModule/forms/User/SignInFormFactory.php",
+		"/C/xampp/htdocs/echo-msz/app/model/Authenticator.php",
+		"/C/xampp/htdocs/echo-msz/app/model/Authorizator.php",
+		"/C/xampp/htdocs/echo-msz/app/model/UserManager.php",
+		"/C/xampp/htdocs/echo-msz/app/FrontModule/forms/User/RegisterFormFactory.php",
+		"/C/xampp/htdocs/echo-msz/app/FrontModule/components/Language_support/LanguageMain.php",
+		"/C/xampp/htdocs/echo-msz/app/components/Oznam/aktualneTrait.php",
+		"/C/xampp/htdocs/echo-msz/app/components/Oznam/lang_sk.neon",
+		"/C/xampp/htdocs/echo-msz/app/components/Oznam/FrontAktualne.php",
+		"/C/xampp/htdocs/echo-msz/app/components/Oznam/PotvrdUcast/FrontPotvrdUcast.php",
+		"/C/xampp/htdocs/echo-msz/app/FrontModule/components/Language_support/lang_sk.neon",
+		"/C/xampp/htdocs/echo-msz/app/FrontModule/templates/User/default.latte",
+		"/C/xampp/htdocs/echo-msz/app/FrontModule/presenters/ErrorPresenter.php",
+		"/C/xampp/htdocs/echo-msz/app/bootstrap.php",
+		"/C/xampp/htdocs/echo-msz/app/FrontModule/templates/Error/400.latte",
+		"/C/xampp/htdocs/echo-msz/app/FrontModule/templates/Error/500.latte",
+		"/C/xampp/htdocs/echo-msz/app/FrontModule/templates/User/registracia.latte",
+		"/C/xampp/htdocs/echo-msz/app/model/Table.php",
+		"/C/xampp/htdocs/echo-msz/app/FrontModule/templates/User/forgottenPassword.latte",
+		"/C/xampp/htdocs/echo-msz/app/FrontModule/templates/User/resetPassword.latte",
+		"/C/xampp/htdocs/echo-msz/app/FrontModule/components/Language_support/lang_de.neon",
+		"/C/xampp/htdocs/echo-msz/app/FrontModule/presenters/UserLogPresenter.php",
+		"/C/xampp/htdocs/echo-msz/app/components/Debata/FrontDebata.php",
+		"/C/xampp/htdocs/echo-msz/app/FrontModule/presenters/ClankyPresenter.php",
+		"/C/xampp/htdocs/echo-msz/app/components/Debata/lang_sk.neon",
+		"/C/xampp/htdocs/echo-msz/app/components/Debata/debataTrait.php",
+		"/C/xampp/htdocs/echo-msz/app/FrontModule/components/User/UserLangManu/UserLangMenu.php",
+		"/C/xampp/htdocs/echo-msz/app/model/Hlavne_menu_lang.php",
+		"/C/xampp/htdocs/echo-msz/app/model/Hlavne_menu.php",
+		"/C/xampp/htdocs/echo-msz/app/components/Clanky/OdkazNaClanky/odkazNaClankyTrait.php",
+		"/C/xampp/htdocs/echo-msz/app/components/Clanky/OdkazNaClanky/OdkazNaClanky.php",
+		"/C/xampp/htdocs/echo-msz/app/components/Clanky/OdkazNaClanky/README.md",
+		"/C/xampp/htdocs/echo-msz/app/FrontModule/presenters/OznamPresenter.php",
+		"/C/xampp/htdocs/echo-msz/app/FrontModule/presenters/HomepagePresenter.php",
+		"/C/xampp/htdocs/echo-msz/app/components/Clanky/ZobrazKartyPodclankov/FrontZobrazKartyPodclankov.php",
+		"/C/xampp/htdocs/echo-msz/app/components/Clanky/ZobrazKartyPodclankov/zobrazKartyPodclankovTrait.php",
+		"/C/xampp/htdocs/echo-msz/app/components/Oznam/AdminAktualne.php",
+		"/C/xampp/htdocs/echo-msz/app/FrontModule/components/User/Kontakt.php",
+		"/C/xampp/htdocs/echo-msz/app/FrontModule/components/Clanky/ZobrazClanok/ZobrazClanok.php",
+		"/C/xampp/htdocs/echo-msz/app/FrontModule/components/Clanky/Attachments/Attachments.php",
+		"/C/xampp/htdocs/echo-msz/app/FrontModule/components/Clanky/AktualnyProjekt.php",
+		"/C/xampp/htdocs/echo-msz/app/FrontModule/components/Clanky/AktualneClanky.php",
+		"/C/xampp/htdocs/echo-msz/app/FrontModule/forms/UseLog/UserEditFormFactory.php",
+		"/C/xampp/htdocs/echo-msz/app/FrontModule/forms/User/ForgottenPasswordFormFactory.php",
+		"/C/xampp/htdocs/echo-msz/app/FrontModule/components/Language_support/lang_en.neon",
+		"/C/xampp/htdocs/echo-msz/app/FrontModule/components/Language_support/userLog.php",
+		"/C/xampp/htdocs/echo-msz/app/FrontModule/forms/User/ResetPasswordFormFactory.php",
+		"/C/xampp/htdocs/echo-msz/app/FrontModule/components/Language_support/clanky.php",
+		"/C/xampp/htdocs/echo-msz/app/FrontModule/components/Language_support/oznam.php",
+		"/C/xampp/htdocs/echo-msz/app/config/services.neon",
+		"/C/xampp/htdocs/echo-msz/app/FrontModule/config/services.neon"
+	],
+	"find":
+	{
+		"height": 40.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"big_img",
+			"];\n",
+			"%wwwDir%",
+			".navbar",
+			"scount",
+			"      \"weight\": 400,",
+			"\"normal\",",
+			"\"Cabin\",",
+			"      \"style\"",
+			"      \"name\"",
+			"h1",
+			"texty_presentera",
+			"$this->texty",
+			"',",
+			"' => '",
+			"      '",
+			"texts->trText",
+			"\",",
+			"',",
+			"'=> \"",
+			"' => '",
+			"'=> '",
+			"  ",
+			"        '",
+			"language_id",
+			"trLang",
+			"texts->trText",
+			"userLog_texts",
+			"',",
+			"' => \"",
+			"' => '",
+			"'   => '",
+			"      '",
+			"',",
+			"' => \"",
+			"' => '",
+			"'   => '",
+			"      '",
+			"DbTable",
+			"user_texts",
+			"trText",
+			"user_texts",
+			"\",",
+			"',",
+			"'     => '",
+			"'      => '",
+			"'  => '",
+			"'         => '",
+			"'    => '",
+			"'        => '",
+			"' => \"",
+			"'       => '",
+			"'   => '",
+			"' => '",
+			"      '",
+			"$this->trLang",
+			"$this->texty",
+			"trTexty"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"www",
+			"  font-weight: 400;",
+			"normal;",
+			"'Cabin';",
+			"  font-style",
+			"  font-family",
+			"'",
+			": '",
+			"  ",
+			"texts->translate",
+			"'",
+			": '",
+			"",
+			"texty_presentera->translate",
+			"texts->translate",
+			"texts",
+			"'",
+			": '",
+			"",
+			"'",
+			": '",
+			"",
+			"texts",
+			"translate",
+			"texts",
+			"'",
+			": '",
+			"",
+			"$this->texty_presentera->translate",
+			"$this->texts",
+			"translate"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 2,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "app/FrontModule/components/Clanky/Attachments/BWfoto_foto_album_images.latte",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 534,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								520,
+								520
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "app/FrontModule/templates/Clanky/BWfoto_foto_album.latte",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3915,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								881,
+								881
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 270.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "app/FrontModule/presenters/ClankyPresenter.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 9624,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2508,
+								2508
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 540.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "app/model/Products.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 903,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								903,
+								903
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 24.0
+	},
+	"input":
+	{
+		"height": 37.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "bwfoto_project_for_sublime_text.sublime-project",
+	"replace":
+	{
+		"height": 44.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 315.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
