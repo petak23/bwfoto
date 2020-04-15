@@ -55,35 +55,36 @@ class ClankyPresenter extends BasePresenter {
 				is_array($re = $this["aktualne"]->getPresmerovanie())) {									 //Je nastavene presmerovanie
 			$this->flashRedirect(['Clanky:', $re['id']], $re['txt'], 'info');
 		}
-		
-    $this->zobraz_clanok = $this->hlavne_menu_lang->getOneArticleId($id, $this->language_id, $this->id_reg); // Najdi clanok
-
-    if ($this->zobraz_clanok === FALSE) {  // Nenasiel sa clanok podla danych kriterii
-      if ($this->hlavne_menu_lang->find($id) !== FALSE && $this->id_reg == 0) { //Clanok existuje ale je potrebne sa prihlasit
+    
+		try { //Find article
+      $this->zobraz_clanok = $this->hlavne_menu_lang->getOneArticleId($id, $this->language_id, $this->id_reg); // Najdi clanok
+    } catch (DbTable\ArticleMainMenuException $e) {
+      if ($e->getCode() == 2) { //Article missing permissions
         $this->flashRedirect(["User:", ['backlink' => $this->storeRequest()]], 'clanky_najdeny_neprihlaseny', "warning");
-      } else {
-        $this->setView("notFound"); //Clanok neexzistuje
-      }
-    } else { //Clanok sa nasiel
-      $this->kotva = $kotva;
-      if ($this->zobraz_clanok->hlavne_menu->redirect_id) { //Ak mám presmerovanie na podclanok
-        $this->redirect("Clanky:", $this->zobraz_clanok->hlavne_menu->redirect_id);              
-      } elseif ($this->zobraz_clanok->hlavne_menu->id_nadradenej !== NULL) { //Ak mam v nadradenej polozke zobrazovanie podclankov na kartach
-        $nadr = $this->clanok_komponenty->findBy(['id_hlavne_menu' => $this->zobraz_clanok->hlavne_menu->id_nadradenej, 'spec_nazov' => 'zobrazKartyPodclankov']);
-        if (count($nadr)) {
-          $this->redirect("Clanky:", [$this->zobraz_clanok->hlavne_menu->id_nadradenej, $this->zobraz_clanok->hlavne_menu->spec_nazov]);
-        } else {
-          $this->setView($this->zobraz_clanok->hlavne_menu->hlavne_menu_template->name);
-        }
+      } else {                  //Article not found
+        $this->setView("notFound"); 
+      }  
+      return;
+    }
+
+    $this->kotva = $kotva;
+    if ($this->zobraz_clanok->hlavne_menu->redirect_id) { //Ak mám presmerovanie na podclanok
+      $this->redirect("Clanky:", $this->zobraz_clanok->hlavne_menu->redirect_id);              
+    } elseif ($this->zobraz_clanok->hlavne_menu->id_nadradenej !== NULL) { //Ak mam v nadradenej polozke zobrazovanie podclankov na kartach
+      $nadr = $this->clanok_komponenty->findBy(['id_hlavne_menu' => $this->zobraz_clanok->hlavne_menu->id_nadradenej, 'spec_nazov' => 'zobrazKartyPodclankov']);
+      if (count($nadr)) {
+        $this->redirect("Clanky:", [$this->zobraz_clanok->hlavne_menu->id_nadradenej, $this->zobraz_clanok->hlavne_menu->spec_nazov]);
       } else {
         $this->setView($this->zobraz_clanok->hlavne_menu->hlavne_menu_template->name);
       }
-      //Spracovanie priloh
-      $this->viditelnePrilohy = $this->dokumenty->getViditelnePrilohy($this->zobraz_clanok->id_hlavne_menu);
-      $this->prilohy_for_big_img = $product == 1 ? $this->products->findBy(["id_hlavne_menu"=>$this->zobraz_clanok->id_hlavne_menu]) : $this->dokumenty->getVisibleImages($this->zobraz_clanok->id_hlavne_menu);      
-      $this->big_img = $id_big_img ? $id_big_img : ((count($pom = $this->viditelnePrilohy)) ? $pom->fetch()->id : 0);
-      $this->template->big_img = $product == 1 ? $this->products->find($this->big_img): $this->dokumenty->find($this->big_img);
+    } else {
+      $this->setView($this->zobraz_clanok->hlavne_menu->hlavne_menu_template->name);
     }
+    //Spracovanie priloh
+    $this->viditelnePrilohy = $this->dokumenty->getViditelnePrilohy($this->zobraz_clanok->id_hlavne_menu);
+    $this->prilohy_for_big_img = $product == 1 ? $this->products->findBy(["id_hlavne_menu"=>$this->zobraz_clanok->id_hlavne_menu]) : $this->dokumenty->getVisibleImages($this->zobraz_clanok->id_hlavne_menu);      
+    $this->big_img = $id_big_img ? $id_big_img : ((count($pom = $this->viditelnePrilohy)) ? $pom->fetch()->id : 0);
+    $this->template->big_img = $product == 1 ? $this->products->find($this->big_img): $this->dokumenty->find($this->big_img);
 	}
  
   /** Render pre zobrazenie clanku */

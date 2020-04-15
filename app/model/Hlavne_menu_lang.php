@@ -6,15 +6,19 @@ use Nette;
 /**
  * Model starajuci sa o tabulku hlavne_menu_lang
  * 
- * Posledna zmena 12.03.2018
+ * Posledna zmena 15.04.2020
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.7
+ * @version    1.0.8
  */
 class Hlavne_menu_lang extends Table {
+  const 
+    NOT_EXIST = 1,
+    MISSING_PERMISSIONS = 2;
+  
   /** @var string */
   protected $tableName = 'hlavne_menu_lang';
     
@@ -33,19 +37,28 @@ class Hlavne_menu_lang extends Table {
                                 ->fetch();
   }
   
-  /** Funkcia pre ziskanie info o konkretnom clanku na zaklade id, language_id 
-	  * a min. urovne registracie uzivatela
-		* @param int $id - id polozky v hl. menu
-		* @param int $language_id - id jazykovej mutacie clanku. Ak nemam tak 1 - sk
-		* @param int $id_user_roles - min. uroven registracie uzivatela. Ak nemam tak sa berie 5 - admin
-		* @return Nette\Database\Table\ActiveRow|array */
-  public function getOneArticleId($id, $language_id = 1, $id_user_roles = 5) {
+  /** 
+   * Funkcia pre ziskanie info o konkretnom clanku na zaklade id, language_id 
+	 * a min. urovne registracie uzivatela
+	 * @param int $id_hlavne_menu Id polozky v tabulke "hlavne_menu"
+	 * @param int $id_lang Id jazykovej mutacie clanku v tabulke "lang". Ak nemam tak 1 - sk. 
+	 * @param int $id_user_roles Min. uroven registracie uzivatela. Ak nemam tak sa berie 0 - guest
+	 * @return Nette\Database\Table\ActiveRow
+   * @throws ArticleExteption */
+  public function getOneArticleId(int $id_hlavne_menu,int $id_lang = 1,int $id_user_roles = 0) {
     $articles = clone $this;
-    //Najdi v tabulke hlavne_menu polozku podla id a urovne registracie
-    return $articles->getTable()->where("id_hlavne_menu", $id)
-                                ->where("id_lang", $language_id)
-                                ->where("hlavne_menu.id_user_roles <= ?", $id_user_roles)
-                                ->fetch();
+    //Najdi v tabulke hlavne_menu polozku podla id
+    $tmp_article = $articles->getTable()->where(["id_hlavne_menu" => $id_hlavne_menu, "id_lang" => $id_lang]);
+    if ($tmp_article->count() == 0) {
+      throw new ArticleMainMenuException("Article not exist", self::NOT_EXIST);
+    } else { // Article found
+      $tmp_article_final = $tmp_article->where("hlavne_menu.id_user_roles <= ?", $id_user_roles)->fetch();
+      if ($tmp_article_final === FALSE) {
+        throw new ArticleMainMenuException("Missing permissions", self::MISSING_PERMISSIONS);
+      } else {
+        return $tmp_article_final;
+      }
+    }
   }
   
   public function ulozTextClanku($values, $action, $id_hlavne_menu) {
@@ -126,3 +139,8 @@ class Hlavne_menu_lang extends Table {
                 ->where("datum_platnosti ? OR datum_platnosti >= ? ", NULL, StrFTime("%Y-%m-%d",strtotime("0 day")));
   }
 }
+
+/**
+ * Exception for a unique constraint violation.
+ */
+class ArticleMainMenuException extends Nette\Database\ConstraintViolationException {}
