@@ -45,6 +45,8 @@ class ClankyPresenter extends BasePresenter {
   public $prilohy_for_big_img;
   protected $big_img;
   
+  private $attachments = [];
+  
   /** 
    * Zobrazenie konkretneho clanku
    * @param int $id Id hlavneho menu clanku */
@@ -80,11 +82,24 @@ class ClankyPresenter extends BasePresenter {
     } else {
       $this->setView($this->zobraz_clanok->hlavne_menu->hlavne_menu_template->name);
     }
+    
     //Spracovanie priloh
-    $this->viditelnePrilohy = $this->dokumenty->getViditelnePrilohy($this->zobraz_clanok->id_hlavne_menu);
+    $miniatury = $this->hlavne_menu->findBy(["id_nadradenej"=> $this->zobraz_clanok->id_hlavne_menu]);
+    $this->viditelnePrilohy = $this->dokumenty->getViditelnePrilohy($this->zobraz_clanok->id_hlavne_menu, "type ASC");
+    $produsts = $this->products->findBy(["id_hlavne_menu"=>$this->zobraz_clanok->id_hlavne_menu]);
+    foreach ($miniatury as $v) {
+      $this->attachments[] = ["type"=>"menu", "article"=>$v];
+    }
+    foreach ($this->viditelnePrilohy as $v) {
+      $this->attachments[] = ["type"=>"attachments".$v->type, "article"=>$v];
+    }
+    foreach ($produsts as $v) {
+      $this->attachments[] = ["type"=>"product", "article"=>$v];
+    }
+//    dump($this->attachments);
+//    die();
     $this->prilohy_for_big_img = $product == 1 ? $this->products->findBy(["id_hlavne_menu"=>$this->zobraz_clanok->id_hlavne_menu]) : $this->dokumenty->getVisibleImages($this->zobraz_clanok->id_hlavne_menu);      
     $this->big_img = $id_big_img ? $id_big_img : ((count($pom = $this->viditelnePrilohy)) ? $pom->fetch()->id : 0);
-    $this->template->big_img = $product == 1 ? $this->products->find($this->big_img): $this->dokumenty->find($this->big_img);
 	}
  
   /** Render pre zobrazenie clanku */
@@ -108,12 +123,19 @@ class ClankyPresenter extends BasePresenter {
          $this->template->prilohy_for_big_img = $this->prilohy_for_big_img;
       }
       $this->template->id_hlavne_menu_lang = $this->zobraz_clanok->id;
+      
+      $this->template->attachments = $this->attachments;
+      $this->template->big_img = $this->attachments[0];
     }
 	}
 
   /** Render v prípade nenájdenia článku */
   public function renderNotFound() {
     $this->getHttpResponse()->setCode(\Nette\Http\IResponse::S404_NOT_FOUND);
+  }
+  
+  public function handleOpenLightbox($id_big) {
+    
   }
   
   public function handleBigImg($id_big_img = 0, $product = 0) {

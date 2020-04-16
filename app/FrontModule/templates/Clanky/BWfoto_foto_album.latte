@@ -22,10 +22,65 @@
 <div id="uvodnyText">
   {control ukazTentoClanok}
 </div>
-<div n:snippet=bigimgContainer>
-  <h4 class="bigimg-name" n:ifset="$big_img->name">{$big_img->name}</h4>
+<div n:snippet="bigimgContainer1" class="col-12">
+  <div class="row">
+    <h4 class="col-12 bigimg-name" n:ifset="$big_img->name">{$big_img->name}</h4>
+  </div>
+	<div class="row" id="webThumbnails">
+    {dump $attachments}
+		<div class="col-8{* detail*}">
+			<button n:ifset="$big_img" type="button" class="btn btn-primary" data-toggle="modal" data-target="#imageModalCenter">
+        {if $big_img['type'] == "menu"}
+          {var $av = $big_img['article']->avatar}
+          <img src="{$basePath}/{if $av && is_file('files/menu/'.$av)}files/menu/{$av}{else}/ikonky/128/list_ceruza128.png{/if}" alt="{$big_img['article']->spec_nazov}">
+        {elseif $big_img['type'] == "attachments1" || $big_img['type'] == "attachments2"}
+          {var $tf = $big_img['article']->thumb_file}
+          <img src="{$basePath}/{if $tf && is_file($tf)}{$tf}{else}/ikonky/Free-file-icons-master/512px/{$big_img['article']->pripona|lower}.png{/if}" alt="{$big_img['article']->name}">
+        {/if}
+			</button>
+			{****} 
+      {*if (isset($big_img->type) && $big_img->type < 3) || (!isset($big_img->type))}
+        <div class="big-img-container" n:inner-foreach="$prilohy_for_big_img as $subor">
+          {if $big_img != FALSE && $subor->id == $big_img->id}
+            <img class="big-img noajax" src="{$basePath}/{$subor->main_file}" 
+                 alt="{$subor->name}" data-jslghtbx="{$basePath}/{$subor->main_file}" 
+                 data-ajax="false" data-jslghtbx-caption="{$subor->description}" data-jslghtbx-group="bigimggroup1" data-id-priloha="{$subor->id}">
+          {else}
+            <img class="small-img noajax img-thumbnail img-rounded" style="display:none" 
+                 src="{$basePath}/{$subor->thumb_file}" alt="{$subor->name}" data-jslghtbx="{$basePath}/{$subor->main_file}" 
+                 data-ajax="false" data-jslghtbx-caption="{$subor->description}" data-jslghtbx-group="bigimggroup1">
+          {/if}
+        </div>
+      {/if}
+      {if isset($big_img->type) && $big_img->type == 3}
+        <video class="video-priloha" src="{$basePath}/{$big_img->main_file}" poster="{$basePath}/{$big_img->thumb_file}" type="video/mp4" controls="controls" preload="none"></video>
+      {/if*}
+      {****}
+		</div>
+		<div class="col-4 {*main-nav*}" n:inner-foreach="$attachments as $id => $at">
+			<a n:href="openLightbox! $id" title="Odkaz{*$at['title']*}" class="ajax">
+        {if $at['type'] == "menu"}
+          {var $av = $at['article']->avatar}
+          <img src="{$basePath}/{if $av && is_file('files/menu/'.$av)}files/menu/{$av}{else}/ikonky/128/list_ceruza128.png{/if}" alt="{$at['article']->spec_nazov}">
+        {elseif $at['type'] == "attachments1" || $at['type'] == "attachments2"}
+          {var $tf = $at['article']->thumb_file}
+          <img src="{$basePath}/{if $tf && is_file($tf)}{$tf}{else}/ikonky/Free-file-icons-master/512px/{$big_img['article']->pripona|lower}.png{/if}" alt="{$at['article']->name}">
+        {elseif $at['type'] == "product"}
+          {var $tf = $at['article']->thumb_file}
+          <img src="{$basePath}/{if $tf && is_file($tf)}{$tf}{else}/ikonky/Free-file-icons-master/512px/{$big_img['article']->pripona|lower}.png{/if}" alt="{$at['article']->name}">
+        {/if}
+				{*<img src="{$basePath}/files/images/tb_{$img['src']}" alt="Small img {$img['title']}">*}
+			</a>
+		</div>
+	</div>
+  <div class="row">
+    <div class="col-12 bigimg-description" n:ifset="$big_img->description">{$big_img->description}</div>
+  </div>
+</div>
+{* OLD PART *}      
+{*<div n:snippet=bigimgContainer>
   <section id="webThumbnails">
-    <div class="detail pokus1" n:if="$big_img != FALSE && (isset($big_img->type) && $big_img->type < 3) || (!isset($big_img->type))">
+    <div class="detail" n:if="(isset($big_img->type) && $big_img->type < 3) || (!isset($big_img->type))">
       <div class="big-img-container" n:inner-foreach="$prilohy_for_big_img as $subor">
         {if $big_img != FALSE && $subor->id == $big_img->id}
           <img class="big-img noajax" src="{$basePath}/{$subor->main_file}" 
@@ -51,28 +106,14 @@
       {control viewProducts templateFile=>$clanok_hl_menu->hlavne_menu_template->name, big_img_id=>$big_img_id}
     </div>  
   </section>
-  <div class="bigimg-description" n:ifset="$big_img->description">{$big_img->description}</div>
-  {*<script>
-    var options = {
-      prevImg: 			true,
-      nextImg: 			true,
-      hideCloseBtn: 		false,
-      hideEshopBtn:     true,
-      closeOnClick: 		true,
-      carousel: 			true,
-      animation: 			400,
-      nextOnClick: 		true,
-      responsive: 		true,
-      maxImgSize:			0.8,
-      keyControls: 		true,
+  
+  {*
       border_a_width: {$clanok_hl_menu->border_a|border_width|noescape},
       border_a_color: '{$clanok_hl_menu->border_a|border_color|noescape}',
       border_b_width: {$clanok_hl_menu->border_b|border_width|noescape},
       border_b_color: '{$clanok_hl_menu->border_b|border_color|noescape}',
       border_c_width: {$clanok_hl_menu->border_c|border_width|noescape},
       border_c_color: '{$clanok_hl_menu->border_c|border_color|noescape}'
-    };
-    var lightbox = new Lightbox();
-    lightbox.load(options);
-  </script>*}
-</div>
+*}
+{*</div>
+{* END OF OLD PART *}

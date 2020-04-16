@@ -10,7 +10,7 @@ use PeterVojtech;
 /**
  * Zakladny presenter pre presentery obsluhujuce polozky hlavneho menu v module ADMIN
  * 
- * Posledna zmena(last change): 26.03.2020
+ * Posledna zmena(last change): 16.04.2020
  *
  * Modul: ADMIN
  *
@@ -18,9 +18,8 @@ use PeterVojtech;
  * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.4.2
+ * @version 1.4.3
  */
-
 abstract class ArticlePresenter extends BasePresenter {
   
 //  use PeterVojtech\Clanky\ZobrazKartyPodclankov\zobrazKartyPodclankovTrait;
@@ -216,7 +215,7 @@ abstract class ArticlePresenter extends BasePresenter {
       'id'                  => 0,
       'id_druh'             => $druh->id,
       'id_user_main'        => $this->getUser()->getId(),
-      'id_user_roles'       => $this->hlavne_menu->findOneBy([$hladaj=>$id])->id_user_roles, //Priradi uroven registracie nadradenej polozky
+      'id_user_roles'       => $this->hlavne_menu->findOneBy(["id" => $id])->id_user_roles, //Priradi uroven registracie nadradenej polozky
       'poradie'             => $poradie,
       'uroven'              => $this->uroven,
       'id_hlavne_menu_cast' => (int)$id,
