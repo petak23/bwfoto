@@ -21,7 +21,7 @@ webloader:
       files:
         - %wwwDir%/../node_modules/@fortawesome/fontawesome-free/css/all.min.css
         - %wwwDir%/../node_modules/bootstrap/dist/css/bootstrap.min.css
-        - %wwwDir%/css/lightbox.css
+#        - %wwwDir%/css/lightbox.css
         - %wwwDir%/css/front/fonts.css
         - %wwwDir%/css/front/bw.css
         - %wwwDir%/css/front/responsive.css
@@ -55,7 +55,7 @@ webloader:
   js:
     frontBefore:
       files:
-        - %wwwDir%/js/lightbox.js
+#        - %wwwDir%/js/lightbox.js
 #      filters:
 #        - @jsMin
     frontAfter:

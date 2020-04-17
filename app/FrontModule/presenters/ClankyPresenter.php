@@ -9,7 +9,7 @@ use PeterVojtech;
 /**
  * Prezenter pre vypisanie clankov.
  * 
- * Posledna zmena(last change): 27.03.2020
+ * Posledna zmena(last change): 17.04.2020
  *
  *	Modul: FRONT
  *
@@ -17,7 +17,7 @@ use PeterVojtech;
  * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.3.2
+ * @version 1.3.3
  */
 
 class ClankyPresenter extends BasePresenter {
@@ -43,6 +43,7 @@ class ClankyPresenter extends BasePresenter {
   private $kotva = "";
   public $viditelnePrilohy;
   public $prilohy_for_big_img;
+  /** @var mixed */
   protected $big_img;
   
   private $attachments = [];
@@ -50,13 +51,15 @@ class ClankyPresenter extends BasePresenter {
   /** 
    * Zobrazenie konkretneho clanku
    * @param int $id Id hlavneho menu clanku */
-	public function actionDefault(int $id = 0, $kotva = "", $id_big_img = 0, $product = 0) {
+	public function actionDefault(int $id = 0, $kotva = ""/*, $id_big_img = 0, $product = 0*/) {
 		// Vsuvka pre presmerovanie ak nemam ziadnu aktualitu
 		if (in_array("aktualne", $this->clanok_komponenty->getKomponentyName($id)) &&  //Mam k clanku priradenu komponentu aktualne
 				isset($this["aktualne"]) && 																							 //Mam je vytvorenu
 				is_array($re = $this["aktualne"]->getPresmerovanie())) {									 //Je nastavene presmerovanie
 			$this->flashRedirect(['Clanky:', $re['id']], $re['txt'], 'info');
 		}
+    
+    $this->kotva = $kotva;
     
 		try { //Find article
       $this->zobraz_clanok = $this->hlavne_menu_lang->getOneArticleId($id, $this->language_id, $this->id_reg); // Najdi clanok
@@ -69,7 +72,6 @@ class ClankyPresenter extends BasePresenter {
       return;
     }
 
-    $this->kotva = $kotva;
     if ($this->zobraz_clanok->hlavne_menu->redirect_id) { //Ak mám presmerovanie na podclanok
       $this->redirect("Clanky:", $this->zobraz_clanok->hlavne_menu->redirect_id);              
     } elseif ($this->zobraz_clanok->hlavne_menu->id_nadradenej !== NULL) { //Ak mam v nadradenej polozke zobrazovanie podclankov na kartach
@@ -84,7 +86,7 @@ class ClankyPresenter extends BasePresenter {
     }
     
     //Spracovanie priloh
-    $miniatury = $this->hlavne_menu->findBy(["id_nadradenej"=> $this->zobraz_clanok->id_hlavne_menu]);
+    $miniatury = $this->hlavne_menu_lang->findBy(["hlavne_menu.id_nadradenej"=> $this->zobraz_clanok->id_hlavne_menu, "id_lang" => $this->language_id]);
     $this->viditelnePrilohy = $this->dokumenty->getViditelnePrilohy($this->zobraz_clanok->id_hlavne_menu, "type ASC");
     $produsts = $this->products->findBy(["id_hlavne_menu"=>$this->zobraz_clanok->id_hlavne_menu]);
     foreach ($miniatury as $v) {
@@ -96,10 +98,10 @@ class ClankyPresenter extends BasePresenter {
     foreach ($produsts as $v) {
       $this->attachments[] = ["type"=>"product", "article"=>$v];
     }
-//    dump($this->attachments);
+
+    $this->big_img = count($this->attachments) ? array_merge(['id' => 0], $this->attachments[0]) : [];
+//    dump($this->big_img);
 //    die();
-    $this->prilohy_for_big_img = $product == 1 ? $this->products->findBy(["id_hlavne_menu"=>$this->zobraz_clanok->id_hlavne_menu]) : $this->dokumenty->getVisibleImages($this->zobraz_clanok->id_hlavne_menu);      
-    $this->big_img = $id_big_img ? $id_big_img : ((count($pom = $this->viditelnePrilohy)) ? $pom->fetch()->id : 0);
 	}
  
   /** Render pre zobrazenie clanku */
@@ -125,7 +127,7 @@ class ClankyPresenter extends BasePresenter {
       $this->template->id_hlavne_menu_lang = $this->zobraz_clanok->id;
       
       $this->template->attachments = $this->attachments;
-      $this->template->big_img = $this->attachments[0];
+      $this->template->big_img = $this->big_img;
     }
 	}
 
@@ -134,22 +136,51 @@ class ClankyPresenter extends BasePresenter {
     $this->getHttpResponse()->setCode(\Nette\Http\IResponse::S404_NOT_FOUND);
   }
   
-  public function handleOpenLightbox($id_big) {
-    
-  }
-  
-  public function handleBigImg($id_big_img = 0, $product = 0) {
-    $this->template->big_img = $product == 1 ? $this->products->find($id_big_img): $this->dokumenty->find($id_big_img);
+  /**
+   * Signal pre zobrazenie velkeho nahladu
+   * @param int $id_big_img */
+  public function handleOpenAsBigImage(int $id_big_img) {
+    $this->big_img = array_merge(['id' => $id_big_img], $this->attachments[$id_big_img]);
     if ($this->isAjax()) {
-      $this->redrawControl('bigimgName');
       $this->redrawControl('bigimgContainer');
-      $this->redrawControl('prilohyClanok');
-    } else {
-      $this->redirect('this');
+      $this->redrawControl('lightbox-image');
     }
   }
+  
+  /**
+   * Signal pre nacitanie predosleho prvku v lightboxe
+   * @param int $id_big_img */
+  public function handleBigImgBefore(int $id_big_img) {
+		$keys = array_keys($this->attachments);
+    $new_id = $id_big_img;
+    do {
+      $new_id  = ($new_id <= $keys[0]) ? $keys[count($this->attachments)-1] : $new_id - 1;
+    } while (!in_array($this->attachments[$new_id]['type'],["attachments2", "product"]));
+    $this->big_img = array_merge(['id' => $new_id], $this->attachments[$new_id]); 
+		if ($this->isAjax()) {
+      $this->redrawControl('bigimgContainer');
+      $this->redrawControl('lightbox-image');
+    }
+	}
 
-  /** Komponenta pre komentare k clanku
+  /**
+   * Signal pre nacitanie nasledujuceho prvku v lightboxe
+   * @param int $id_big_img */
+	public function handleBigImgAfter(int $id_big_img) {
+		$keys = array_keys($this->attachments);
+    $new_id = $id_big_img;
+    do {
+      $new_id = ($new_id >= $keys[count($this->attachments)-1]) ? $keys[0] : $new_id + 1;
+    } while (!in_array($this->attachments[$new_id]['type'],["attachments2", "product"]));
+    $this->big_img = array_merge(['id' => $new_id], $this->attachments[$new_id]);
+		if ($this->isAjax()) {
+      $this->redrawControl('bigimgContainer');
+      $this->redrawControl('lightbox-image');
+    }
+	}
+  
+  /** 
+   * Komponenta pre komentare k clanku
    * @return Multiplier */
 	public function createComponentKomentar() {
 		return new Multiplier(function ($id_hlavne_menu) {

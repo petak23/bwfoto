@@ -90,9 +90,9 @@ footer a {
 .foto-album-nav a.thumbnail img {
   width: 100%;
 }
-.detail {
+/*.detail {
   margin-right: 2.5rem;
-}
+}*/
 .detail img {
   border-width: 2px;
 }
@@ -102,6 +102,36 @@ footer a {
 .detail div.big-img-container {
   padding: 5%;
 }
+
+.lightbox-img .modal-dialog {
+	max-width: 95%;
+	height: 50%;
+	background-color: rgba(20,20,20,.8);
+}
+
+.lightbox-img .modal-dialog .modal-content { 
+	text-align: center;
+	background-color: transparent;
+  height: 100%;
+}
+
+.lightbox-img .modal-dialog .modal-header,  .lightbox-img .modal-dialog .modal-foote, .lightbox-img .modal-dialog .modal-body { 
+	text-align: center;
+}
+
+.lightbox-img .modal-dialog .modal-body .row div {
+	text-align: center;
+	color: #ddd;
+}
+
+.lightbox-img .modal-dialog .modal-body .fas {
+	color: #ddd;
+}
+
+/*.lightbox-img .modal-dialog .modal-body img {
+	height: 50%;
+}*/
+
 .thumbnails .thumb img {
   border-width: 0.1rem;
 }

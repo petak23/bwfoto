@@ -215,7 +215,7 @@ body { background-color: #000000; }
 }
 .detail
 {
-	width: 66%; 
+	/*width: 66%;*/ 
 	text-align: center;
 	align-self: flex-start;
 }
