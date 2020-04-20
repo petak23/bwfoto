@@ -8,7 +8,7 @@
 </li>
 {/define}
 
-<nav id="navFooter" n:if="isset($startNode) && count($startNode->nodes)" {*class="navbar navbar-inverse"*}>
+<nav id="navFooter" n:if="$startNode?" {*class="navbar navbar-inverse"*}>
   <ul class="nav text-center" n:inner-foreach="$startNode->nodes as $subNode">
     {if $subNode->id > 0 && $subNode->parent->id < 0}
       {include #link n => $subNode}
