@@ -4,7 +4,7 @@
 # If you don't protect this directory from direct web access, anybody will be able to see your passwords.
 # http:#nette.org/security-warning
 #
-# Last change 13.04.2020
+# Last change 21.04.2020
 #
 base_lang_not_def: 'Jazyk, ktorý požadujete, nie je pre tento web definovaný!<br />Language you require is not defined for this site!'
 base_nie_je_opravnenie: 'Na požadovanú akciu %s nemáte dostatočné oprávnenie!'
@@ -179,6 +179,9 @@ clanky_h3_prilohy_videos: 'Video prílohy'
 clanky_h3_prilohy_images: 'Obrazové prílohy'
 clanky_h3_prilohy_others: 'Prílohy' 
 clanky_h3_suvisiace_podcl: 'Súvisiace podčlánky'
+
+galery_arrows_before: 'Predošlý'
+galery_arrows_after: 'Nasledujúci'
 
 #Oznamy
 oznam_volba_zapisana: 'Vaša účasť pre oznam %s je zapísaná.'

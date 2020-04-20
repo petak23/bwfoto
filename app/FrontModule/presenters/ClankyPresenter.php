@@ -111,7 +111,7 @@ class ClankyPresenter extends BasePresenter {
       $this->getComponent('menu')->selectByUrl($this->link('Clanky:', ["id"=>$this->zobraz_clanok->id_hlavne_menu]));
       $this->template->komentare_povolene =  $this->udaje_webu["komentare"] && ($this->user->isAllowed('Front:Clanky', 'komentar') && $this->zobraz_clanok->hlavne_menu->komentar) ? $this->zobraz_clanok->id_hlavne_menu : 0;
       $this->template->h2 = $this->zobraz_clanok->view_name;
-      $this->template->uroven = $this->zobraz_clanok->hlavne_menu->uroven+2;
+      $this->template->uroven = $this->zobraz_clanok->hlavne_menu->uroven + 2;
       $this->template->avatar = $this->zobraz_clanok->hlavne_menu->avatar;
       $this->template->clanok_view = $this->zobraz_clanok->id_clanok_lang == NULL ? FALSE : TRUE;
       $this->template->clanok_hl_menu = $this->zobraz_clanok->hlavne_menu;
@@ -246,17 +246,17 @@ class ClankyPresenter extends BasePresenter {
     });
     $template->addFilter('border_x', function ($text){
       $pom = $text != null & strlen($text)>2 ? explode("|", $text) : ['','0'];
-      $xs = 'style="border: '.$pom[1].'px solid '.(strlen($pom[0])>2 ? ('#'.$pom[0]):'inherit').'"';
+      $xs = 'style="border: '.$pom[1].'px solid '.(strlen($pom[0])>2 ? ($pom[0]):'inherit').'"';
       return $xs;
     });
     $template->addFilter('border_css_x', function ($text){
       $pom = $text != null & strlen($text)>2 ? explode("|", $text) : ['','0'];
-      $xs = 'border: '.$pom[1].'px solid '.(strlen($pom[0])>2 ? ('#'.$pom[0]):'inherit').';';
+      $xs = 'border: '.$pom[1].'px solid '.(strlen($pom[0])>2 ? ($pom[0]):'inherit').';';
       return $xs;
     });
     $template->addFilter('border_width', function ($text){
       $pom = $text != null & strlen($text)>2 ? explode("|", $text) : ['','1'];
-      return $pom[1];
+      return $pom[1].'px';
     });
     $template->addFilter('border_color', function ($text){
       $pom = $text != null & strlen($text)>2 ? explode("|", $text) : ['','0'];

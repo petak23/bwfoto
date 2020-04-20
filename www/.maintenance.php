@@ -19,6 +19,7 @@
 
 
 <h1>Ospravedlňujeme sa</h1>
+
 <p>Stránka www.bwfoto.sk je dočasne mimo prevádzky z dôvodu údržby. Skúste to prosím znova za niekoľko minút.</p>
 
 <?php

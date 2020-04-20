@@ -4,7 +4,7 @@
 # If you don't protect this directory from direct web access, anybody will be able to see your passwords.
 # http://nette.org/security-warning
 #
-# Last change 13.04.2020
+# Last change 21.04.2020
 #
 base_lang_not_def: 'Language you require is not defined for this site!'
 base_nie_je_opravnenie1: 'You do not have enough privileges for this operation!'
@@ -101,6 +101,9 @@ clanky_h3_prilohy_videos: 'Video attachments'
 clanky_h3_prilohy_images: 'Imege attachments'
 clanky_h3_prilohy_others: 'Attachments'
 clanky_h3_suvisiace_podcl: 'Related Subfolders'
+
+galery_arrows_before: 'before'
+galery_arrows_after: 'after'
 
 #Error
 err_403_h2: 'Access Denied'

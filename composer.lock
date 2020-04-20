@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "613d38c294958ebb0c5e175ea8d407b1",
+    "content-hash": "948f4891fa0f9a77ed3385c61cee17e3",
     "packages": [
         {
             "name": "greenlion/php-sql-parser",
@@ -110,6 +110,50 @@
             ],
             "description": "This is an extension of janmarek/webloader. This extension contains filters to minify js and css.",
             "time": "2015-10-11T23:02:22+00:00"
+        },
+        {
+            "name": "jzechy/jquery-fileupload",
+            "version": "2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/JZechy/jQuery-FileUpload.git",
+                "reference": "22c6539ffde62a7529b9199118e784ab8508ea96"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/JZechy/jQuery-FileUpload/zipball/22c6539ffde62a7529b9199118e784ab8508ea96",
+                "reference": "22c6539ffde62a7529b9199118e784ab8508ea96",
+                "shasum": ""
+            },
+            "require": {
+                "latte/latte": "^v2.4.0",
+                "nette/application": "^v2.4.0",
+                "nette/di": "^v2.4.0",
+                "nette/forms": "^v2.4.0",
+                "nette/http": "^v2.4.0",
+                "nette/utils": "^v2.4.0",
+                "php": ">=5.6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jan 'Zechy' Zechovský",
+                    "email": "email@zechy.cz",
+                    "homepage": "http://zechy.cz"
+                }
+            ],
+            "description": "Nette UploadControl rozšířené o blueimp jQuery FileUpload.",
+            "homepage": "https://github.com/JZechy/jQuery-FileUpload",
+            "time": "2018-02-23T14:00:17+00:00"
         },
         {
             "name": "latte/latte",

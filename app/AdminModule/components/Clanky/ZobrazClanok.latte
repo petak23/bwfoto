@@ -2,8 +2,8 @@
  *
  * Modul: ADMIN
  *
- * Posledna zmena(last change): 12.09.2017
- * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
+ * Posledna zmena(last change): 03.04.2020
+ * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
  *
@@ -32,7 +32,9 @@
 
   <div n:tag-if="count($cl_texts) > 1" class="tab-content" n:inner-foreach="$cl_texts as $c"> 
     <div n:tag-if="count($cl_texts) > 1" role="tabpanel" class="tab-pane{first} active{/first}" id="tabs-{$iterator->counter}">
+      {if isset($c->clanok_lang->anotacia) && isset($c->clanok_lang->text)}
       {include #vypis_clanku anotacia => $c->clanok_lang->anotacia, text => $c->clanok_lang->text}
+      {/if}
     </div>
   </div>
 </div>

@@ -2,33 +2,33 @@
  *
  * Modul: FRONT
  *
- * Posledna zmena(last change): 17.04.2020
+ * Posledna zmena(last change): 21.04.2020
  * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
  *
  * @param string  $h2 Nadpis
- * @param int     $uroven Uroven menu
+ * @param array   $big_img Aktualny velky obrazok
  * @param string  $nastavenie Nastavenie z configu
  * @param string  $viac_info  Nadpis menu
  * @param boolean $clanok_view  Zobrazenie
  * @param array   $komponenty Komponenty pod clankom
  * @param boolean $komentare_povolene Povolenie komentarov
 *}
-{var $uroven_aside = $uroven > 2 ? $uroven - 1 : 2}
+
 {block title}{$h2}{/block}
 
 {block content}
-<div class="col-12" id="uvodnyText">
-  {control ukazTentoClanok}
-</div>
-<div n:snippet="bigimgContainer" class="col-12">
-  <div class="row">
-    <h4 class="col-12 bigimg-name" n:ifset="$big_img->name">{$big_img->name}</h4>
+<div class="row">
+  <div class="col-12" id="uvodnyText">
+    {control ukazTentoClanok}
   </div>
-	<div class="row" id="webThumbnails">
-		<div class="col-8 detail">
-      {ifset $big_img}
+  <div n:snippet="bigimgContainer" class="col-12">
+    <div class="row">
+      <h4 class="col-12 bigimg-name" n:ifset="$big_img">{$big_img['type'] == 'menu' ? $big_img['article']->view_name : $big_img['article']->name}</h4>
+    </div>
+    <div class="row" id="webThumbnails">
+      <div class="col-8 detail" n:ifset="$big_img">
         {if $big_img['type'] == "menu"}
           {var $av = $big_img['article']->hlavne_menu->avatar}
           <a n:href="Clanky: $big_img['article']->id_hlavne_menu" title="{$big_img['article']->menu_name}">
@@ -52,37 +52,37 @@
             {var $tf = $big_img['article']->main_file}
             <img src="{$basePath}/{if $tf && is_file($tf)}{$tf}{else}/ikonky/Free-file-icons-master/512px/{$big_img['article']->pripona|lower}.png{/if}" alt="{$big_img['article']->name}">
           </button>
-        {elseif $big_img['type'] == "product"} {* Products articles *}
+        {elseif $big_img['type'] == "product"} 
           <button type="button" class="btn btn-link" data-toggle="modal" data-target="#imageModalCenter">
             {var $tf = $big_img['article']->main_file}
             <img src="{$basePath}/{if $tf && is_file($tf)}{$tf}{else}/ikonky/Free-file-icons-master/512px/{$big_img['article']->pripona|lower}.png{/if}" alt="{$big_img['article']->name}">  
           </button>
         {/if}
-      {/ifset}
-		</div>
-		<div class="col-4 main-nav" n:inner-foreach="$attachments as $id => $at">
-      {var $a = $at['article']}
-			<a n:href="openAsBigImage! $id" title="Odkaz {$at['type'] == 'menu' ? $a->view_name : $a->name}" class="ajax">
-        {if $at['type'] == "menu"} {* Main menu articles *}
-          <img src="{$basePath}/{if $a->hlavne_menu->avatar && is_file('files/menu/'.$a->hlavne_menu->avatar)}files/menu/{$a->hlavne_menu->avatar}{else}/ikonky/128/list_ceruza128.png{/if}" alt="{$a->view_name}">
-        {elseif strpos($at['type'], 'attachments') !== false || $at['type'] == "product"}
-          <img src="{$basePath}/{if $a->thumb_file && is_file($a->thumb_file)}{$a->thumb_file}{else}/ikonky/Free-file-icons-master/512px/{$a->pripona|lower}.png{/if}" alt="{$a->name}">
-        {/if}
-			</a>
-		</div>
-	</div>
-  <div class="row">
-    <div class="col-12 bigimg-description" n:ifset="$big_img['article']->description">{$big_img['article']->description}</div>
+      </div>
+      <div class="col-4 thumbnails" n:inner-foreach="$attachments as $id => $at"><div class="thumb">
+        {var $a = $at['article']}
+          <a n:href="openAsBigImage! $id" title="Odkaz {$at['type'] == 'menu' ? $a->view_name : $a->name}" n:class="ajax, $big_img['id'] == $id ? selected">
+            {if $at['type'] == "menu"} {* Main menu articles *}
+              <img src="{$basePath}/{if $a->hlavne_menu->avatar && is_file('files/menu/'.$a->hlavne_menu->avatar)}files/menu/{$a->hlavne_menu->avatar}{else}/ikonky/128/list_ceruza128.png{/if}" alt="{$a->view_name}" class="img-thumbnail">
+            {elseif strpos($at['type'], 'attachments') !== false || $at['type'] == "product"}
+              <img src="{$basePath}/{if $a->thumb_file && is_file($a->thumb_file)}{$a->thumb_file}{else}/ikonky/Free-file-icons-master/512px/{$a->pripona|lower}.png{/if}" alt="{$a->name}" class="img-thumbnail">
+            {/if}
+          </a></div></div>
+    </div>
+    <div class="row">
+      <div class="col-12 bigimg-description" n:ifset="$big_img['article']->description">{$big_img['article']->description}</div>
+    </div>
   </div>
 </div>
-    
+{/block}
+
+{block lightbox}
 <!-- Modal -->
 <div class="modal fade lightbox-img" id="imageModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content" n:snippet="lightbox-image">
       {var $ba = $big_img['article']}
-      {dump $big_img}
-      <div class="modal-header">
+      <div class="modal-header text-center text-white">
         <h5 class="modal-title" id="exampleModalCenterTitle">{$big_img['type'] == 'menu' ? $ba->view_name : $ba->name}</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -91,72 +91,37 @@
       <div class="modal-body">
        	<div class="container-fluid">
 		   		<div class="row">
-		      	<div class="col-md-1 align-middle text-center">
-		      		<a n:href="bigImgBefore! $big_img['id']"  title="Predošlý" class="ajax">
+		      	<div class="col-md-1 text-center arrows">
+		      		<a n:href="bigImgBefore! $big_img['id']"  title="{_'galery_arrows_before'}" class="ajax">
 		      			<i class="fas fa-arrow-circle-left fa-2x text-light"></i>
 		      		</a>
 		      	</div>
 		      	<div class="col-md-10 ">
-		      		{if strpos($big_img['type'], 'attachments') !== false}
-                {var $tf = $big_img['article']->main_file}
-                <img src="{$basePath}/{if $tf && is_file($tf)}{$tf}{else}/ikonky/Free-file-icons-master/512px/{$big_img['article']->pripona|lower}.png{/if}" alt="{$big_img['article']->name}">
-              {elseif $big_img['type'] == "product"}
-                {var $tf = $big_img['article']->main_file}
-                <img src="{$basePath}/{if $tf && is_file($tf)}{$tf}{else}/ikonky/Free-file-icons-master/512px/{$big_img['article']->pripona|lower}.png{/if}" alt="{$big_img['article']->name}">  
-              {/if}
+              <div class="border-a" {$clanok_hl_menu->border_a|border_x|noescape}>
+                <div class="border-b" {$clanok_hl_menu->border_b|border_x|noescape}">
+                  <div class="border-c" {$clanok_hl_menu->border_c|border_x|noescape}>
+                    {if strpos($big_img['type'], 'attachments') !== false}
+                      {var $tf = $big_img['article']->main_file}
+                      <img src="{$basePath}/{if $tf && is_file($tf)}{$tf}{else}/ikonky/Free-file-icons-master/512px/{$big_img['article']->pripona|lower}.png{/if}" alt="{$big_img['article']->name}" id="big-main-img">
+                    {elseif $big_img['type'] == "product"}
+                      {var $tf = $big_img['article']->main_file}
+                      <img src="{$basePath}/{if $tf && is_file($tf)}{$tf}{else}/ikonky/Free-file-icons-master/512px/{$big_img['article']->pripona|lower}.png{/if}" alt="{$big_img['article']->name}" id="big-main-img">  
+                    {/if}
+                  </div>
+                </div>
+              </div>
+              <div n:ifset="$ba->description">
+                {$ba->description}
+              </div>
 		      	</div>
-		      	<div class="col-md-1 align-middle text-center">
-		      		<a n:href="bigImgAfter! $big_img['id']"  title="Ďaľší" class="ajax">
+		      	<div class="col-md-1 text-center arrows">
+		      		<a n:href="bigImgAfter! $big_img['id']"  title="{_'galery_arrows_after'}" class="ajax">
 		      			<i class="fas fa-arrow-circle-right fa-2x text-light"></i>
 		      		</a>
 		      	</div>
 		    	</div>
 		   	</div>
       </div>
-      <div class="modal-footer">
-      	{ifset $ba->description}{$ba->description}{/ifset}
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
     </div>
   </div>
 </div>
-{* OLD PART *}      
-{*<div n:snippet=bigimgContainer>
-  <section id="webThumbnails">
-    <div class="detail" n:if="(isset($big_img->type) && $big_img->type < 3) || (!isset($big_img->type))">
-      <div class="big-img-container" n:inner-foreach="$prilohy_for_big_img as $subor">
-        {if $big_img != FALSE && $subor->id == $big_img->id}
-          <img class="big-img noajax" src="{$basePath}/{$subor->main_file}" 
-               alt="{$subor->name}" data-jslghtbx="{$basePath}/{$subor->main_file}" 
-               data-ajax="false" data-jslghtbx-caption="{$subor->description}" data-jslghtbx-group="bigimggroup1" data-id-priloha="{$subor->id}">
-        {else}
-          <img class="small-img noajax img-thumbnail img-rounded" style="display:none" 
-               src="{$basePath}/{$subor->thumb_file}" alt="{$subor->name}" data-jslghtbx="{$basePath}/{$subor->main_file}" 
-               data-ajax="false" data-jslghtbx-caption="{$subor->description}" data-jslghtbx-group="bigimggroup1">
-        {/if}
-      </div>
-    </div>
-    <div class="detail" n:if="isset($big_img->type) && $big_img->type == 3">
-      <video class="video-priloha" src="{$basePath}/{$big_img->main_file}" poster="{$basePath}/{$big_img->thumb_file}" type="video/mp4" controls="controls" preload="none"></video>
-    </div>          
-
-    <div class="thumbnails bwfoto-foto-album-prilohy" n:snippet="prilohyClanok">
-      {control menu templateType=>'single', templateFile=>$clanok_hl_menu->hlavne_menu_template->name, cast=>$clanok_hl_menu->id_hlavne_menu_cast, level => $uroven, avatar => $nastavenie['dir_to_menu'], article_avatar_view_in => TRUE, anotacia => TRUE, nadpis => $viac_info}
-      {var $big_img_id = isset($big_img->id) ? $big_img->id : 0}
-      {control attachments:others templateFile=>$clanok_hl_menu->hlavne_menu_template->name}
-      {control attachments:videos templateFile=>$clanok_hl_menu->hlavne_menu_template->name, big_img_id=>$big_img_id}
-      {control attachments:images templateFile=>$clanok_hl_menu->hlavne_menu_template->name, big_img_id=>$big_img_id}
-      {control viewProducts templateFile=>$clanok_hl_menu->hlavne_menu_template->name, big_img_id=>$big_img_id}
-    </div>  
-  </section>
-  
-  {*
-      border_a_width: {$clanok_hl_menu->border_a|border_width|noescape},
-      border_a_color: '{$clanok_hl_menu->border_a|border_color|noescape}',
-      border_b_width: {$clanok_hl_menu->border_b|border_width|noescape},
-      border_b_color: '{$clanok_hl_menu->border_b|border_color|noescape}',
-      border_c_width: {$clanok_hl_menu->border_c|border_width|noescape},
-      border_c_color: '{$clanok_hl_menu->border_c|border_color|noescape}'
-*}
-{*</div>
-{* END OF OLD PART *}

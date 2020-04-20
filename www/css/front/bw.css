@@ -205,17 +205,17 @@ body { background-color: #000000; }
 /* obsah nahlady */
 #webThumbnails
 {
-	display: flex;
+	/*display: flex;*/ /* je v bootstrab-e class row PV 2020-04-23 */
 	flex-direction: row;
 	justify-content: space-around;
 }
-#webThumbnails .col
-{
+/*#webThumbnails .col  /* Odstránené ako nepotrebné PV 2020-04-23 */
+/*{
 	flex-basis: auto;
 }
 .detail
 {
-	/*width: 66%;*/ 
+	width: 66%;
 	text-align: center;
 	align-self: flex-start;
 }
@@ -223,7 +223,7 @@ body { background-color: #000000; }
 {
 	background: radial-gradient(#000, #333);
 	padding: 5%;
-}
+}*/
 .detail h3
 {	
 	text-align: left;
@@ -245,6 +245,7 @@ body { background-color: #000000; }
 {
 	width: 33%;
 	overflow: auto;
+  max-height: 45rem; /* Doplnené PV 2020-04-23 */
 }
 .thumbnails .thumb
 {
@@ -268,8 +269,9 @@ body { background-color: #000000; }
 	margin-right: -50%;
 	transform: translate(-50%, -50%);
 	max-width: 95%; max-height: 95%;
-	border: 1ex solid #fff;
-	border-radius: 2px;
+  border: 0; /* Nahradené dva nasledujúce riadky PV 2020-04-23 */
+  /*border: 1ex solid #fff;
+	border-radius: 2px;*/
 }
 .thumbnails .video img
 {	

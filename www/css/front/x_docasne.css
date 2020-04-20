@@ -1,6 +1,6 @@
 /* 
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * Last update: 23.07.2018 
+ * Last update: 23.04.2020 
  */
 input {
   color: #000;
@@ -60,16 +60,10 @@ footer a {
 	font-family: "Fira Light", "sans-serif";
 	color: #ccc;
 }
-.jslghtbx {
-  z-index: 2000;
-}
-.jslghtbx-border-main {
-  height: auto;
-  margin-left: auto;
-  margin-right: auto;
-}
+
 .foto-album .thumbnail {
   border: none;
+  border-width: 1px;
 }
 .foto-album .thumbnail div{
   text-align: center;
@@ -90,34 +84,34 @@ footer a {
 .foto-album-nav a.thumbnail img {
   width: 100%;
 }
-/*.detail {
-  margin-right: 2.5rem;
-}*/
 .detail img {
   border-width: 2px;
 }
-.detail div {
-	padding: 0;
-}
-.detail div.big-img-container {
+.detail button {
   padding: 5%;
+  background: radial-gradient(#000, #333);
+  width: 100%;
 }
 
 .lightbox-img .modal-dialog {
-	max-width: 95%;
-	height: 50%;
+  max-width: 95%;
+	/*max-height: 95%;*/
 	background-color: rgba(20,20,20,.8);
 }
 
 .lightbox-img .modal-dialog .modal-content { 
 	text-align: center;
 	background-color: transparent;
-  height: 100%;
+  /*height: 100%;*/
 }
 
 .lightbox-img .modal-dialog .modal-header,  .lightbox-img .modal-dialog .modal-foote, .lightbox-img .modal-dialog .modal-body { 
 	text-align: center;
 }
+
+/*.lightbox-img .modal-dialog .modal-body {
+  height: 100%;
+}*/
 
 .lightbox-img .modal-dialog .modal-body .row div {
 	text-align: center;
@@ -128,15 +122,42 @@ footer a {
 	color: #ddd;
 }
 
-/*.lightbox-img .modal-dialog .modal-body img {
-	height: 50%;
-}*/
+.lightbox-img .modal-dialog .modal-body .arrows {
+  margin-top: auto;
+  margin-bottom: auto;
+}
 
-.thumbnails .thumb img {
-  border-width: 0.1rem;
+.border-a {
+  display: inline-block;
+  height: 80%; 
+}
+
+.border-b {
+  display: inline-block;
+  height: 100%;
+}
+
+.border-c {
+  display: inline-block;
+  height: 100%;
+}
+
+.border-c img {
+  display: block;
+	height: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+.thumbnails .thumb a img {
+  /*border-width: 1px;*/
+}
+.thumbnails .thumb a {
+  color: transparent;
 }
 .thumbnails .thumb a.selected img {
-  border: 0.2rem solid #ffeb3b; 
+  background-color: #ffeb3b; 
 }
 .bigimg-name, .bigimg-description{
   color: #faebcc;
