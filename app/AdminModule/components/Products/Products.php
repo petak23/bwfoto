@@ -1,22 +1,26 @@
 <?php
+
+declare(strict_types=1);
+
 namespace App\AdminModule\Components\Products;
 
 use DbTable;
 use Nette;
 use Nette\Security\User;
+use Nette\Utils\Html;
 use Ublaboo\DataGrid\DataGrid;
 use Ublaboo\DataGrid\Localization\SimpleTranslator;
 
 /**
  * Komponenta pre spravu produktov clanku.
  * 
- * Posledna zmena(last change): 26.07.2018
+ * Posledna zmena(last change): 27.04.2020
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
- * @copyright Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.3
+ * @version 1.0.5
  */
 
 class ProductsControl extends Nette\Application\UI\Control {
@@ -45,6 +49,12 @@ class ProductsControl extends Nette\Application\UI\Control {
   /** @var ZmenOkrajFormFactory */
 	public $zmenOkraj;
 
+  /** @var mixed */
+  protected $big_img;
+
+  /** @var mixed */
+  protected $httpRequest;  
+
   /**
    * @param DbTable\Hlavne_menu $hlavne_menu
    * @param DbTable\Products $products
@@ -57,7 +67,9 @@ class ProductsControl extends Nette\Application\UI\Control {
                               \App\AdminModule\Forms\Products\AddMultiProductsFormFactory $addMultiProductsFormFactory,
                               \App\AdminModule\Forms\Products\EditProoductFormFactory $editProductFormFactory, 
                               ZmenOkrajFormFactory $zmenOkrajFormFactory,
-                              User $user) {
+                              User $user,
+                              Nette\Http\Request $request
+                              ) {
     parent::__construct();
     $this->hlavne_menu = $hlavne_menu;
     $this->products = $products;
@@ -65,17 +77,17 @@ class ProductsControl extends Nette\Application\UI\Control {
     $this->editProductForm = $editProductFormFactory;
     $this->user = $user;
     $this->zmenOkraj = $zmenOkrajFormFactory;
+    $this->httpRequest = $request;
   }
   
   /** 
    * Nastavenie komponenty
    * @param Nette\Database\Table\ActiveRow $clanok
-   * @param type $nazov_stranky
-   * @param type $upload_size
-   * @param type $nastanenie
-   * @param type $name
+   * @param string $nazov_stranky
+   * @param array $nastanenie
+   * @param string $name
    * @return \App\AdminModule\Products\ProductsControl */
-  public function setTitle(Nette\Database\Table\ActiveRow $clanok, $nazov_stranky, $nastanenie, $name) {
+  public function setTitle(Nette\Database\Table\ActiveRow $clanok, string $nazov_stranky,array $nastanenie,string $name): self {
     $this->clanok = $clanok;
     $this->nazov_stranky = $nazov_stranky;
     $ini_v = trim(ini_get("upload_max_filesize"));
@@ -106,20 +118,32 @@ class ProductsControl extends Nette\Application\UI\Control {
   
   /** 
    * Render */
-	public function render() {
+	public function render(): void {
     $this->template->setFile(__DIR__ . '/Products.latte');
     $this->template->clanok = $this->clanok;
     $this->template->admin_links_prilohy = $this->admin_links;
     $this->template->dir_to_images = $this->nastavenie["dir_to_images"];
+    $this->template->big_img = $this->big_img;
 		$this->template->render();
 	}
   
-  public function createComponentProductsGrid($name) {
+  /**
+   * Grid pre produkty */
+  public function createComponentProductsGrid($name): void {
 		$grid = new DataGrid($this, $name);
 
 		$grid->setDataSource($this->products->findBy(['id_hlavne_menu'=>$this->clanok->id_hlavne_menu]));
-    $grid->addColumnText('main_file', 'Obrázok')
-         ->setTemplate(__DIR__ . '/grid.subor.latte',['dir_to_product' => $this->nastavenie['dir_to_products']]);
+    $grid->addColumnText('main_file2', 'Obrázok', 'main_file')
+         ->setRenderer(function($item){
+            //return Html::el('a', ['class'=>'ajax', 'title'=>$item->name])->href($this->link('BigImg!', ['id_big_image'=> $item->id]))
+            //                    ->setHtml(Html::el('img', ['class' => 'img-thumbnail'])->src($this->template->basePath.'/'.$item->thumb_file)->alt($item->name));
+            return Html::el('button', ['class' => 'btn btn-link btn-for-big-image'])
+                           ->data('toogle', 'modal')
+                           ->data('target', '#imageModalCenterProduct')
+                           ->data('imgsrc', $item->main_file)
+                           ->data('imgname', $item->name)
+                           ->setHtml(Html::el('img', ['class' => 'img-thumbnail'])->src($this->template->basePath.'/'.$item->thumb_file)->alt($item->name));      
+         });
     $grid->addColumnText('name', 'Názov')
          ->setEditableCallback(function($id, $value) {
            $this->products->oprav($id, ['name'=>$value]);
@@ -164,14 +188,21 @@ class ProductsControl extends Nette\Application\UI\Control {
   /**
    * Signal na editaciu
    * @param int $id Id polozky na editaciu */
-  public function handleEdit($id) {
+  public function handleEdit(int $id): void {
     $this->presenter->redirect('Products:edit', $id);
+  }
+
+  public function handleBigImg(int $id_big_image): void {
+    $this->big_img = $this->products->find($id_big_image);
+    if ($this->httpRequest->isAjax()) {
+      $this->redrawControl('lightbox-image');
+    }
   }
   
   /** 
    * Komponenta formulara pre pridanie a editaciu produktu polozky.
    * @return Nette\Application\UI\Form */
-  public function createComponentEditProductForm() {
+  public function createComponentEditProductForm(): Nette\Application\UI\Form {
     $form = $this->editProductForm->create($this->upload_size, $this->nastavenie["dir_to_products"]);
     $form->setDefaults(["id"=>0, "id_hlavne_menu"=>$this->clanok->id_hlavne_menu, "id_user_roles"=>$this->clanok->hlavne_menu->id_user_roles]);
     $form['uloz']->onClick[] = function ($button) { 
@@ -183,7 +214,7 @@ class ProductsControl extends Nette\Application\UI\Control {
   /** 
    * Komponenta formulara pre pridanie viacerich produktov polozky.
    * @return Nette\Application\UI\Form */
-  public function createComponentAddMultiProductsForm() {
+  public function createComponentAddMultiProductsForm(): Nette\Application\UI\Form {
     $form = $this->addMultiProductsForm->create($this->upload_size, $this->nastavenie["dir_to_products"]);
     $form->setDefaults(["id"=>0, "id_hlavne_menu"=>$this->clanok->id_hlavne_menu, "id_user_roles"=>$this->clanok->hlavne_menu->id_user_roles]);
     $form['uloz']->onClick[] = function ($button) { 
@@ -195,7 +226,7 @@ class ProductsControl extends Nette\Application\UI\Control {
   /** 
    * @param Nette\Application\UI\Form $form
    * @return Nette\Application\UI\Form */
-  protected function _formMessage($form) {
+  protected function _formMessage(Nette\Application\UI\Form $form): Nette\Application\UI\Form {
     $form['uloz']->onClick[] = function ($button) { 
       $this->presenter->flashOut(!count($button->getForm()->errors), 'this', 'Zmena bola úspešne uložená!', 'Došlo k chybe a zmena sa neuložila. Skúste neskôr znovu...');
 		};
@@ -205,14 +236,14 @@ class ProductsControl extends Nette\Application\UI\Control {
   /** 
    * Komponenta formulara pre zmenu okraja obrázkových príloh polozky.
    * @return Nette\Application\UI\Form */
-  public function createComponentZmenOkrajForm() {
+  public function createComponentZmenOkrajForm(): Nette\Application\UI\Form {
     return $this->_formMessage($this->zmenOkraj->create($this->clanok->hlavne_menu));
   }
   
   /** 
    * Spracovanie signálu vymazavania
 	 * @param int $id Id polozky */
-	function handleConfirmedDelete($id)	{
+	function handleConfirmedDelete(int $id): void	{
     $pr = $this->products->find($id);//najdenie prislusnej polozky menu, ku ktorej priloha patri
     $pthis = $this->presenter;
     if ($pr !== FALSE) {
@@ -236,14 +267,14 @@ class ProductsControl extends Nette\Application\UI\Control {
    * Funkcia vymaze subor ak exzistuje
 	 * @param string $subor Nazov suboru aj srelativnou cestou
 	 * @return int Ak zmaze alebo neexistuje(nie je co mazat) tak 1 inak 0 */
-	private function _vymazSubor($subor) {
+	private function _vymazSubor(string $subor): int {
 		return (is_file($subor)) ? unlink($this->presenter->context->parameters["wwwDir"]."/".$subor) : -1;
 	}
   
   protected function createTemplate($class = NULL) {
     $template = parent::createTemplate($class);
     $template->addFilter('border_x', function ($text){
-      $pom = $text != null & strlen($text)>2 ? explode("|", $text) : ['#000000','0'];
+      $pom = $text != null && strlen($text)>2 ? explode("|", $text) : ['#000000','0'];
       $xs = 'style="border: '.$pom[1].'px solid '.(strlen($pom[0])>2 ? $pom[0]:'inherit').'"';
       return $xs;
     });

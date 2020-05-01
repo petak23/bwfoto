@@ -1,6 +1,6 @@
-document.addEventListener('DOMContentLoaded', naja.initialize.bind(naja));
+//document.addEventListener('DOMContentLoaded', naja.initialize.bind(naja));
 $(function() {
-  //$.nette.init(); //ajax pravdepodobne sa inicializuje v texyle...
+  $.nette.init(); //ajax pravdepodobne sa inicializuje v texyle...
 	$( "#locale" ).change(function() {
 			$( "#datepicker" ).datepicker( "option",
 				$.datepicker.regional[ 'sk' ] );
@@ -122,5 +122,17 @@ $(function() {
         $(this).css("border-color", val);
       });
     });
+  });
+
+  $(".btn-for-big-image").on('click', function() {
+  	var imc = $("#imageModalCenterProduct");
+  	var imgsrc = $(this).data('imgsrc');
+  	var img = imc.find('.modal-body img');
+  	img.attr("src", function() {
+  		return $(this).data('src') + imgsrc;
+  	});
+  	img.attr('alt', $(this).data('imgname'));
+  	imc.modal('show');
+  	return false;
   });
 });

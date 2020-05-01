@@ -25,7 +25,39 @@
       </div>
     </div>
   </div>
-  {control productsGrid}
+  {control productsGrid}{dump $clanok->hlavne_menu}
+</div>
+
+{* -- Modal dialog pre zobrazenie jedneho produktu -- *}
+<div class="modal fade lightbox-img" id="imageModalCenterProduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content" n:snippet="lightbox-image">
+      <div class="modal-header text-center text-white" n:ifset="$big_img">
+        <h5 class="modal-title" id="exampleModalCenterTitle" >{$big_img->name}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12">
+              <div class="border-a" {$clanok->hlavne_menu->border_a|border_x|noescape}>
+                <div class="border-b" {$clanok->hlavne_menu->border_b|border_x|noescape}">
+                  <div class="border-c" {$clanok->hlavne_menu->border_c|border_x|noescape}>
+                    <img data-src="{$basePath}/" alt="">
+                  </div>
+                </div>
+              </div>
+              <div n:ifset="$big_img->description">
+                {$big_img->description}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
   
 {* -- Modal dialog pre pridanie jedneho produktu -- *}

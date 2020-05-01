@@ -37,6 +37,10 @@
   margin-top: 2rem;
 }
 
+.lightbox-img .modal-body img {
+  width: 100%;
+}
+
 @media (min-width: 576px){ 
   .col-last {
     display: inherit;
