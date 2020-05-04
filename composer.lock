@@ -157,16 +157,16 @@
         },
         {
             "name": "latte/latte",
-            "version": "v2.7.1",
+            "version": "v2.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/latte.git",
-                "reference": "f2854b9261bfafe1d526cd836d8e8e11e14ae93b"
+                "reference": "4cd61a413ac6dadf918281f4626f19b6f99c7978"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/latte/zipball/f2854b9261bfafe1d526cd836d8e8e11e14ae93b",
-                "reference": "f2854b9261bfafe1d526cd836d8e8e11e14ae93b",
+                "url": "https://api.github.com/repos/nette/latte/zipball/4cd61a413ac6dadf918281f4626f19b6f99c7978",
+                "reference": "4cd61a413ac6dadf918281f4626f19b6f99c7978",
                 "shasum": ""
             },
             "require": {
@@ -194,7 +194,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.7-dev"
+                    "dev-master": "2.8-dev"
                 }
             },
             "autoload": {
@@ -230,7 +230,7 @@
                 "template",
                 "twig"
             ],
-            "time": "2020-04-01T14:27:27+00:00"
+            "time": "2020-04-20T21:18:50+00:00"
         },
         {
             "name": "natxet/cssmin",
@@ -1527,7 +1527,7 @@
         },
         {
             "name": "symfony/inflector",
-            "version": "v5.0.7",
+            "version": "v5.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/inflector.git",
@@ -1643,16 +1643,16 @@
         },
         {
             "name": "symfony/property-access",
-            "version": "v4.4.7",
+            "version": "v4.4.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/property-access.git",
-                "reference": "75cbf0f388d82685ce06515951397bc1370901d7"
+                "reference": "f6a51bd76a3a5c36c57221a4f491b9cf02663672"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/property-access/zipball/75cbf0f388d82685ce06515951397bc1370901d7",
-                "reference": "75cbf0f388d82685ce06515951397bc1370901d7",
+                "url": "https://api.github.com/repos/symfony/property-access/zipball/f6a51bd76a3a5c36c57221a4f491b9cf02663672",
+                "reference": "f6a51bd76a3a5c36c57221a4f491b9cf02663672",
                 "shasum": ""
             },
             "require": {
@@ -1706,7 +1706,7 @@
                 "property path",
                 "reflection"
             ],
-            "time": "2020-03-27T16:54:36+00:00"
+            "time": "2020-04-15T15:55:41+00:00"
         },
         {
             "name": "tedivm/jshrink",
@@ -1886,16 +1886,16 @@
         },
         {
             "name": "ublaboo/datagrid",
-            "version": "v5.7.4",
+            "version": "v5.7.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/contributte/datagrid.git",
-                "reference": "e42547ae5a8374d1175c03e0a44dc04417b68829"
+                "reference": "6a4c26472da57dab5540b76a04014fc6e417ebd8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/contributte/datagrid/zipball/e42547ae5a8374d1175c03e0a44dc04417b68829",
-                "reference": "e42547ae5a8374d1175c03e0a44dc04417b68829",
+                "url": "https://api.github.com/repos/contributte/datagrid/zipball/6a4c26472da57dab5540b76a04014fc6e417ebd8",
+                "reference": "6a4c26472da57dab5540b76a04014fc6e417ebd8",
                 "shasum": ""
             },
             "require": {
@@ -1943,7 +1943,7 @@
                 "grid",
                 "nette"
             ],
-            "time": "2019-11-25T09:47:09+00:00"
+            "time": "2020-04-20T20:57:32+00:00"
         },
         {
             "name": "ublaboo/datagrid-nette-database-data-source",
