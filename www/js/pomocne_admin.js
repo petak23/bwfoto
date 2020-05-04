@@ -125,7 +125,8 @@ $(function() {
   });
 
   $(".btn-for-big-image").on('click', function() {
-  	var imc = $("#imageModalCenterProduct");
+    var targ = $(this).data('target');
+  	var imc = $(targ);
   	var imgsrc = $(this).data('imgsrc');
   	var img = imc.find('.modal-body img');
   	img.attr("src", function() {
