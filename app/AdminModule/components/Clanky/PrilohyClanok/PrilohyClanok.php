@@ -4,19 +4,20 @@ namespace App\AdminModule\Components\Clanky\PrilohyClanok;
 use DbTable;
 use Nette;
 use Nette\Security\User;
+use Nette\Utils\Html;
 use Ublaboo\DataGrid\DataGrid;
 use Ublaboo\DataGrid\Localization\SimpleTranslator;
 
 /**
  * Komponenta pre spravu priloh clanku.
  * 
- * Posledna zmena(last change): 08.10.2018
+ * Posledna zmena(last change): 04.05.2020
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
- * @copyright Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.9
+ * @version 1.1.0
  */
 
 class PrilohyClanokAControl extends Nette\Application\UI\Control {
@@ -39,6 +40,9 @@ class PrilohyClanokAControl extends Nette\Application\UI\Control {
   private $user;
   /** @var DbTable\Hlavne_menu */
   private $hlavne_menu;
+  
+  /** @var mixed */
+  protected $big_img;
 
   /**
    * @param array $prilohy_images Nastavenie obrazkov pre prilohy - Nastavenie priamo cez servises.neon
@@ -96,6 +100,7 @@ class PrilohyClanokAControl extends Nette\Application\UI\Control {
     $this->template->setFile(__DIR__ . '/PrilohyClanok.latte');
     $this->template->clanok = $this->clanok;
     $this->template->admin_links_prilohy = $this->admin_links;
+    $this->template->big_img = $this->big_img;
 		$this->template->render();
 	}
   
@@ -104,7 +109,14 @@ class PrilohyClanokAControl extends Nette\Application\UI\Control {
 		$grid->setDataSource($this->dokumenty->findBy(['id_hlavne_menu'=>$this->clanok->id_hlavne_menu]));
     $grid->addColumnText('znacka', 'Značka');
     $grid->addColumnText('main_file', 'Súbor')
-         ->setTemplate(__DIR__ . '/grid.subor.latte');
+         ->setRenderer(function($item){
+            return Html::el('button', ['class' => 'btn btn-link btn-for-big-image'])
+                           ->data('toogle', 'modal')
+                           ->data('target', '#imageModalCenterAttachments')
+                           ->data('imgsrc', $item->main_file)
+                           ->data('imgname', $item->name)
+                           ->setHtml(Html::el('img', ['class' => 'img-thumbnail'])->src($this->template->basePath.'/'.$item->thumb_file)->alt($item->name));      
+         });
     $grid->addColumnText('name', 'Názov')
          ->setEditableCallback(function($id, $value) {
            $this->dokumenty->oprav($id, ['name'=>$value]);
@@ -158,6 +170,17 @@ class PrilohyClanokAControl extends Nette\Application\UI\Control {
    * @param int $id Id polozky na editaciu */
   public function handleEdit($id) {
     $this->presenter->redirect('Dokumenty:edit', $id);
+  }
+  
+  /**
+   * Signal pre zobrazenie velkeho nahladu obrazka
+   * @param int $id_big_image 
+   * @return void */
+  public function handleBigImg(int $id_big_image): void {
+    $this->big_img = $this->dokumenty->find($id_big_image);
+    if ($this->httpRequest->isAjax()) {
+      $this->redrawControl('lightbox-image-a');
+    }
   }
   
   /** 
