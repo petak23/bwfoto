@@ -14,13 +14,13 @@ use Ublaboo\DataGrid\Localization\SimpleTranslator;
 /**
  * Komponenta pre spravu produktov clanku.
  * 
- * Posledna zmena(last change): 27.04.2020
+ * Posledna zmena(last change): 04.05.2020
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
  * @copyright Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.5
+ * @version 1.0.6
  */
 
 class ProductsControl extends Nette\Application\UI\Control {
@@ -135,8 +135,6 @@ class ProductsControl extends Nette\Application\UI\Control {
 		$grid->setDataSource($this->products->findBy(['id_hlavne_menu'=>$this->clanok->id_hlavne_menu]));
     $grid->addColumnText('main_file2', 'Obrázok', 'main_file')
          ->setRenderer(function($item){
-            //return Html::el('a', ['class'=>'ajax', 'title'=>$item->name])->href($this->link('BigImg!', ['id_big_image'=> $item->id]))
-            //                    ->setHtml(Html::el('img', ['class' => 'img-thumbnail'])->src($this->template->basePath.'/'.$item->thumb_file)->alt($item->name));
             return Html::el('button', ['class' => 'btn btn-link btn-for-big-image'])
                            ->data('toogle', 'modal')
                            ->data('target', '#imageModalCenterProduct')
@@ -192,6 +190,10 @@ class ProductsControl extends Nette\Application\UI\Control {
     $this->presenter->redirect('Products:edit', $id);
   }
 
+  /**
+   * Signal pre zobrazenie velkeho nahladu obrazka
+   * @param int $id_big_image 
+   * @return void */
   public function handleBigImg(int $id_big_image): void {
     $this->big_img = $this->products->find($id_big_image);
     if ($this->httpRequest->isAjax()) {
