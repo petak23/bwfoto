@@ -2,7 +2,7 @@
  *
  * Modul: FRONT
  *
- * Posledna zmena(last change): 21.04.2020
+ * Posledna zmena(last change): 04.05.2020
  * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
@@ -25,10 +25,10 @@
   </div>
   <div n:snippet="bigimgContainer" class="col-12">
     <div class="row">
-      <h4 class="col-12 bigimg-name" n:ifset="$big_img">{$big_img['type'] == 'menu' ? $big_img['article']->view_name : $big_img['article']->name}</h4>
+      <h4 class="col-12 bigimg-name" n:if="count($big_img)">{$big_img['type'] == 'menu' ? $big_img['article']->view_name : $big_img['article']->name}</h4>
     </div>
     <div class="row" id="webThumbnails">
-      <div class="col-8 detail" n:ifset="$big_img">
+      <div class="col-8 detail" n:if="count($big_img)">
         {if $big_img['type'] == "menu"}
           {var $av = $big_img['article']->hlavne_menu->avatar}
           <a n:href="Clanky: $big_img['article']->id_hlavne_menu" title="{$big_img['article']->menu_name}">
@@ -80,7 +80,7 @@
 <!-- Modal -->
 <div class="modal fade lightbox-img" id="imageModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content" n:snippet="lightbox-image">
+    <div class="modal-content" n:snippet="lightbox-image" n:if="count($big_img)">
       {var $ba = $big_img['article']}
       <div class="modal-header text-center text-white">
         <h5 class="modal-title" id="exampleModalCenterTitle">{$big_img['type'] == 'menu' ? $ba->view_name : $ba->name}</h5>

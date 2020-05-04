@@ -1,15 +1,17 @@
 <?php
+declare(strict_types=1);
+
 namespace App\FrontModule\Presenters;
 
+use App\FrontModule\Components;
 use DbTable;
-//use Language_support;
 use Nette\Application\UI\Multiplier;
 use PeterVojtech;
 
 /**
  * Prezenter pre vypisanie clankov.
  * 
- * Posledna zmena(last change): 17.04.2020
+ * Posledna zmena(last change): 04.05.2020
  *
  *	Modul: FRONT
  *
@@ -17,7 +19,7 @@ use PeterVojtech;
  * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.3.3
+ * @version 1.3.4
  */
 
 class ClankyPresenter extends BasePresenter {
@@ -31,27 +33,28 @@ class ClankyPresenter extends BasePresenter {
 	public $products;
   
   // -- Komponenty
-  /** @var \App\FrontModule\Components\Clanky\Attachments\IAttachmentsControl @inject */
+  /** @var Components\Clanky\Attachments\IAttachmentsControl @inject */
   public $attachmentsClanokControlFactory;
-  /** @var \App\FrontModule\Components\Products\IProductsViewControl @inject */
+  /** @var Components\Products\IProductsViewControl @inject */
   public $productsViewControlFactory;
-  /** @var \App\FrontModule\Components\Faktury\IViewFakturyControl @inject */
+  /** @var Components\Faktury\IViewFakturyControl @inject */
   public $viewFakturyControlFactory;
   
   /** @var \Nette\Database\Table\ActiveRow|FALSE */
 	public $zobraz_clanok = FALSE;
+  /** @var string */
   private $kotva = "";
-  public $viditelnePrilohy;
-  public $prilohy_for_big_img;
-  /** @var mixed */
-  protected $big_img;
-  
+  /** @var mixed Konkretna polozka z pola attachments, tkora je zobrazena */
+  protected $big_img = [];
+  /** @var array Pole podclankov, priloh a produktov clanku */
   private $attachments = [];
   
   /** 
    * Zobrazenie konkretneho clanku
-   * @param int $id Id hlavneho menu clanku */
-	public function actionDefault(int $id = 0, $kotva = ""/*, $id_big_img = 0, $product = 0*/) {
+   * @param int $id Id hlavneho menu clanku
+   * @param string $kotva
+   * @return type */
+	public function actionDefault(int $id = 0, string $kotva = "") {
 		// Vsuvka pre presmerovanie ak nemam ziadnu aktualitu
 		if (in_array("aktualne", $this->clanok_komponenty->getKomponentyName($id)) &&  //Mam k clanku priradenu komponentu aktualne
 				isset($this["aktualne"]) && 																							 //Mam je vytvorenu
@@ -85,23 +88,21 @@ class ClankyPresenter extends BasePresenter {
       $this->setView($this->zobraz_clanok->hlavne_menu->hlavne_menu_template->name);
     }
     
-    //Spracovanie priloh
-    $miniatury = $this->hlavne_menu_lang->findBy(["hlavne_menu.id_nadradenej"=> $this->zobraz_clanok->id_hlavne_menu, "id_lang" => $this->language_id]);
-    $this->viditelnePrilohy = $this->dokumenty->getViditelnePrilohy($this->zobraz_clanok->id_hlavne_menu, "type ASC");
-    $produsts = $this->products->findBy(["id_hlavne_menu"=>$this->zobraz_clanok->id_hlavne_menu]);
-    foreach ($miniatury as $v) {
+    //Cast spracovania priloh
+    // Vyber podclankov
+    foreach ($this->hlavne_menu_lang->findBy(["hlavne_menu.id_nadradenej"=> $this->zobraz_clanok->id_hlavne_menu, "id_lang" => $this->language_id]) as $v) {
       $this->attachments[] = ["type"=>"menu", "article"=>$v];
     }
-    foreach ($this->viditelnePrilohy as $v) {
+    // Prilohy
+    foreach ($this->dokumenty->getViditelnePrilohy($this->zobraz_clanok->id_hlavne_menu, "type ASC") as $v) {
       $this->attachments[] = ["type"=>"attachments".$v->type, "article"=>$v];
     }
-    foreach ($produsts as $v) {
+    // Produkty
+    foreach ($this->products->findBy(["id_hlavne_menu"=>$this->zobraz_clanok->id_hlavne_menu]) as $v) {
       $this->attachments[] = ["type"=>"product", "article"=>$v];
     }
-
+    // Prva priloha
     $this->big_img = count($this->attachments) ? array_merge(['id' => 0], $this->attachments[0]) : [];
-//    dump($this->big_img);
-//    die();
 	}
  
   /** Render pre zobrazenie clanku */
@@ -120,10 +121,6 @@ class ClankyPresenter extends BasePresenter {
       $this->template->viac_info = $this->texty_presentera->translate('clanky_viac_info');
       //Zisti, ci su k clanku priradene komponenty
       $this->template->komponenty = $this->clanok_komponenty->getKomponenty($this->zobraz_clanok->id_hlavne_menu, $this->nastavenie["komponenty"]);
-      $this->template->prilohy = $this->viditelnePrilohy;
-      if (!isset($this->template->prilohy_for_big_img)) {
-         $this->template->prilohy_for_big_img = $this->prilohy_for_big_img;
-      }
       $this->template->id_hlavne_menu_lang = $this->zobraz_clanok->id;
       
       $this->template->attachments = $this->attachments;
@@ -192,7 +189,7 @@ class ClankyPresenter extends BasePresenter {
 
   /**
    * Komponenta pre zobrazenie clanku
-   * @return \App\FrontModule\Components\Clanky\ZobrazClanok\ZobrazClanokControl */
+   * @return Components\Clanky\ZobrazClanok\ZobrazClanokControl */
   public function createComponentUkazTentoClanok() {
     $ukaz_clanok = $this->zobrazClanokControlFactory->create();
     $ukaz_clanok->setArticle($this->zobraz_clanok)
@@ -203,7 +200,7 @@ class ClankyPresenter extends BasePresenter {
 
   /** 
    * Komponenta pre zobrazenie priloh
-   * @return \App\FrontModule\Components\Clanky\Attachments\AttachmentsControl */
+   * @return Components\Clanky\Attachments\AttachmentsControl */
   public function createComponentAttachments() {
     $attachments = $this->attachmentsClanokControlFactory->create();
     $attachments->setNastav($this->zobraz_clanok, $this->language);
@@ -212,7 +209,7 @@ class ClankyPresenter extends BasePresenter {
   
   /** 
    * Komponenta pre zobrazenie produktov
-   * @return \App\FrontModule\Components\Products\ProductsViewControl */
+   * @return Components\Products\ProductsViewControl */
   public function createComponentViewProducts() {
     $products = $this->productsViewControlFactory->create();
     $products->setNastav($this->zobraz_clanok, $this->language_id, $this->nastavenie);
@@ -221,7 +218,7 @@ class ClankyPresenter extends BasePresenter {
   
   /** 
    * Komponenta pre zobrazenie faktur
-   * @return \App\FrontModule\Components\Faktury\ViewFakturyControl */
+   * @return Components\Faktury\ViewFakturyControl */
   public function createComponentViewFaktury() {
     $viewFaktury = $this->viewFakturyControlFactory->create();
     $viewFaktury->setSkupina($this->zobraz_clanok->id_hlavne_menu);
@@ -230,13 +227,17 @@ class ClankyPresenter extends BasePresenter {
   
   /** 
    * Komponenta pre vykreslenie podclankov na kartach
-   * @return \App\FrontModule\Components\Clanky\ZobrazKartyPodclankov\ZobrazKartyPodclankovControl */
+   * @return Components\Clanky\ZobrazKartyPodclankov\ZobrazKartyPodclankovControl */
   public function createComponentZobrazKartyPodclankov() {
     $odkaz = $this->zobrazKartyPodclankovControlFactory->create();
     $odkaz->setArticle($this->zobraz_clanok->id_hlavne_menu, $this->language_id, $this->kotva);
     return $odkaz;
   }
   
+  /**
+   * 
+   * @param type $class
+   * @return \Nette\Bridges\ApplicationLatte\Template */
   protected function createTemplate($class = NULL) {
     $servise = $this;
     $template = parent::createTemplate($class);
@@ -245,21 +246,21 @@ class ClankyPresenter extends BasePresenter {
       return $serv;
     });
     $template->addFilter('border_x', function ($text){
-      $pom = $text != null & strlen($text)>2 ? explode("|", $text) : ['','0'];
+      $pom = $text != null && strlen($text)>2 ? explode("|", $text) : ['','0'];
       $xs = 'style="border: '.$pom[1].'px solid '.(strlen($pom[0])>2 ? ($pom[0]):'inherit').'"';
       return $xs;
     });
     $template->addFilter('border_css_x', function ($text){
-      $pom = $text != null & strlen($text)>2 ? explode("|", $text) : ['','0'];
+      $pom = $text != null && strlen($text)>2 ? explode("|", $text) : ['','0'];
       $xs = 'border: '.$pom[1].'px solid '.(strlen($pom[0])>2 ? ($pom[0]):'inherit').';';
       return $xs;
     });
     $template->addFilter('border_width', function ($text){
-      $pom = $text != null & strlen($text)>2 ? explode("|", $text) : ['','1'];
+      $pom = $text != null && strlen($text)>2 ? explode("|", $text) : ['','1'];
       return $pom[1].'px';
     });
     $template->addFilter('border_color', function ($text){
-      $pom = $text != null & strlen($text)>2 ? explode("|", $text) : ['','0'];
+      $pom = $text != null && strlen($text)>2 ? explode("|", $text) : ['','0'];
       return strlen($pom[0])>2 ? $pom[0]:'inherit';
     });
     return $template;
