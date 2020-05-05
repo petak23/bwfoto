@@ -24,7 +24,8 @@ p
 .logo 
 { 
 	position: relative;
-	top: 0; left: 100px;
+	top: 0; 
+	left: 100px;
 	width: 100%;
 	transition: width .5s;
 }
@@ -33,6 +34,7 @@ header
 	/*background: url(../www/images/bg-bw.png) repeat-x;*/
   background-repeat: repeat-x;
 	height: 260px;
+	width: 100%;
 }
 /* horna navigacia */
 nav.navbar
@@ -92,7 +94,7 @@ nav.shrink .logo
 .breadcrumb-item + .breadcrumb-item::before 
 { content: "•"; }
 
-#webContent, #footerContent, footer nav
+#webContent, /*#footerContent,*/ footer nav     /* Zakomentovane PV 2020-05-05 */
 {	
 	width: 80%;
 	margin: 2% auto 0;

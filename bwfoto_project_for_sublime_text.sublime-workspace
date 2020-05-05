@@ -180,56 +180,19 @@
 	"buffers":
 	[
 		{
-			"file": "app/AdminModule/components/Products/Products.latte",
-			"settings":
-			{
-				"buffer_size": 6903,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "www/css/admin/stred_admin.css",
-			"settings":
-			{
-				"buffer_size": 8974,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
 			"file": "app/config/css_js.neon",
 			"settings":
 			{
-				"buffer_size": 4114,
+				"buffer_size": 4448,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "app/FrontModule/presenters/BasePresenter.php",
+			"file": "www/js/nav-shrink.js",
 			"settings":
 			{
-				"buffer_size": 25092,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "app/AdminModule/components/Products/Products.php",
-			"settings":
-			{
-				"buffer_size": 12577,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "www/js/pomocne_admin.js",
-			"settings":
-			{
-				"buffer_size": 4479,
-				"encoding": "UTF-8",
+				"buffer_size": 1014,
 				"line_ending": "Unix"
 			}
 		}
@@ -273,17 +236,21 @@
 		"/C/xampp/htdocs/bwfoto/app/AdminModule/components/Products",
 		"/C/xampp/htdocs/bwfoto/app/config",
 		"/C/xampp/htdocs/bwfoto/app/FrontModule",
-		"/C/xampp/htdocs/bwfoto/app/FrontModule/presenters",
 		"/C/xampp/htdocs/bwfoto/app/FrontModule/templates",
 		"/C/xampp/htdocs/bwfoto/app/FrontModule/templates/Clanky",
 		"/C/xampp/htdocs/bwfoto/www",
 		"/C/xampp/htdocs/bwfoto/www/css",
-		"/C/xampp/htdocs/bwfoto/www/css/admin",
 		"/C/xampp/htdocs/bwfoto/www/js",
 		"/C/xampp/htdocs/bwfoto/www/js/admin"
 	],
 	"file_history":
 	[
+		"/C/xampp/htdocs/bwfoto/www/css/admin/stred_admin.css",
+		"/C/xampp/htdocs/bwfoto/www/js/pomocne_admin.js",
+		"/C/xampp/htdocs/bwfoto/app/AdminModule/components/Products/Products.php",
+		"/C/xampp/htdocs/bwfoto/app/FrontModule/presenters/BasePresenter.php",
+		"/C/xampp/htdocs/bwfoto/app/config/css_js.neon",
+		"/C/xampp/htdocs/bwfoto/app/AdminModule/components/Products/Products.latte",
 		"/C/xampp/htdocs/bwfoto/www/js/nav-shrink.js",
 		"/C/xampp/htdocs/bwfoto/app/AdminModule/components/Products/grid.subor.latte",
 		"/C/xampp/htdocs/bwfoto/package.json",
@@ -305,13 +272,11 @@
 		"/C/xampp/htdocs/bwfoto/app/AdminModule/templates/Slider/grid.subor.latte",
 		"/C/xampp/htdocs/bwfoto/app/AdminModule/presenters/SliderPresenter.php",
 		"/C/xampp/htdocs/bwfoto/app/AdminModule/components/Clanky/ZobrazClanok.latte",
-		"/C/xampp/htdocs/bwfoto/app/config/css_js.neon",
 		"/C/xampp/htdocs/bwfoto/app/AdminModule/templates/Slider/custom_datagrid_template.latte",
 		"/C/xampp/htdocs/bwfoto/app/AdminModule/config/services.neon",
 		"/C/xampp/htdocs/bwfoto/app/FrontModule/templates/@layout.latte",
 		"/C/xampp/htdocs/bwfoto/app/components/Base/CssJsFiles.php",
 		"/C/xampp/htdocs/bwfoto/app/AdminModule/presenters/BasePresenter.php",
-		"/C/xampp/htdocs/bwfoto/app/FrontModule/presenters/BasePresenter.php",
 		"/C/xampp/htdocs/bwfoto/www/css/front/bw.css",
 		"/C/xampp/htdocs/bwfoto/composer.json",
 		"/C/xampp/htdocs/bwfoto/www/css/front/fonts.css",
@@ -519,79 +484,19 @@
 			[
 				{
 					"buffer": 0,
-					"file": "app/AdminModule/components/Products/Products.latte",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 6903,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1963,
-								1963
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "www/css/admin/stred_admin.css",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 8974,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								625,
-								625
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CSS/CSS.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
 					"file": "app/config/css_js.neon",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 4114,
+						"buffer_size": 4448,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2659,
-								2659
+								2862,
+								2862
 							]
 						],
 						"settings":
@@ -601,98 +506,40 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 540.0,
+						"translation.y": 495.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
-					"buffer": 3,
-					"file": "app/FrontModule/presenters/BasePresenter.php",
-					"semi_transient": false,
+					"buffer": 1,
+					"file": "www/js/nav-shrink.js",
+					"semi_transient": true,
 					"settings":
 					{
-						"buffer_size": 25092,
+						"buffer_size": 1014,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								10988,
-								10988
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
 							"tab_size": 2,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 3465.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "app/AdminModule/components/Products/Products.php",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 12577,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								6182,
-								6182
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/PHP/PHP.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1050.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "www/js/pomocne_admin.js",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 4479,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								4430,
-								4430
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 1395.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
+					"stack_index": 1,
 					"type": "text"
 				}
 			]

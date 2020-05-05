@@ -60,29 +60,31 @@
       }
     </script>
   </header>
-  {* ----- ZACIATOK content - centralna cast ----- *}
-  <div>
-    <section id="webContent">
-      {control menu templateType=>'nav', templateFile=>'BWfoto_Nav_Breadcrumb', level=>1}
-      {control confirmForm}
-      <div class="row top-panel" n:if="count($flashes)">
-        <div class="col-md-10 col-md-offset-1" n:inner-foreach="$flashes as $flash" n:if="count($flashes)">
-          {var $nees = explode(',', $flash->type)}
-          {var $fa_code = (array_key_exists($nees[0], $fa) ? $fa[$nees[0]] : FALSE)}
-          <div class="alert alert-{$nees[0]} fade show" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-            <i n:if="$fa_code" class="{$fa_code}"></i>
-            {if isset($nees[1]) && $nees[1] == 'n'}{_$flash->message|noescape}{else}{_$flash->message}{/if}
+  <div class="container-fluid">
+     {* ----- ZACIATOK content - centralna cast ----- *}
+    <div class="row">
+      <section id="webContent" class="col">
+        {control menu templateType=>'nav', templateFile=>'BWfoto_Nav_Breadcrumb', level=>1}
+        {control confirmForm}
+        <div class="row top-panel" n:if="count($flashes)">
+          <div class="col-md-10 col-md-offset-1" n:inner-foreach="$flashes as $flash" n:if="count($flashes)">
+            {var $nees = explode(',', $flash->type)}
+            {var $fa_code = (array_key_exists($nees[0], $fa) ? $fa[$nees[0]] : FALSE)}
+            <div class="alert alert-{$nees[0]} fade show" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <i n:if="$fa_code" class="{$fa_code}"></i>
+              {if isset($nees[1]) && $nees[1] == 'n'}{_$flash->message|noescape}{else}{_$flash->message}{/if}
+            </div>
           </div>
         </div>
-      </div>
-      {block content}{/block}
-    </section>
+        {block content}{/block}
+      </section>
+    </div>
   </div>
-  {* ----- Spodok stranky - FOOTER ----- *}
-  <footer n:snippet=footer>
+    {* ----- Spodok stranky - FOOTER ----- *}
+  <footer n:snippet=footer class="container-fluid">
     {* --- Mapa stranky --- *}
     {control menu templateType=>'fixed', templateFile=>'BWfoto_footer_Sidemap', cast=>1, article_avatar_view_in =>0}
     {* --- Info o stranke --- *}
@@ -90,7 +92,7 @@
       <div id="logoBWfoto" class="col-5 d-flex justify-content-end">
         <img src="{$basePath}/{$nastavenie['dir_to_images']}logo_bw-w.png" title="Logo BWfoto" alt="Logo Bwfoto" class="img-responsive">
       </div>
-      <div id="contact">
+      <div id="contact" class="col-7">
         <h4 class="text-left">Ateliér Zámečník</h4>
         <ul class="list-group text-left">
           <li class="list-unstyled"><span class="fa fa-home"></span> Spišské Bystré</li>
@@ -117,11 +119,13 @@
         </ul>
       </div> 
     </div> 
-    <div class="row justify-content-center">      
-      <div n:if="$view_log_in_link_in_header < 0 && !$user->isLoggedIn()">
-        <a n:href="User:default#prihlas" title="{_'base_link_to_admin_log_in'}">{_'base_link_to_admin_log_in'}</a>
+    <div class="row justify-content-center">
+      <div class="col-12">      
+        <div n:if="$view_log_in_link_in_header < 0 && !$user->isLoggedIn()">
+          <a n:href="User:default#prihlas" title="{_'base_link_to_admin_log_in'}">{_'base_link_to_admin_log_in'}</a>
+        </div>
+        {control userLangMenu}
       </div>
-      {control userLangMenu}
     </div>
   </footer>
   {block lightbox}{/block}
