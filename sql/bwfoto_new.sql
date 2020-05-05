@@ -838,7 +838,8 @@ INSERT INTO `user_prihlasenie` (`id`, `id_user_main`, `log_in_datetime`) VALUES
 (58,	1,	'2020-04-10 04:10:50'),
 (59,	1,	'2020-04-12 10:39:46'),
 (60,	1,	'2020-04-19 08:47:09'),
-(61,	1,	'2020-04-20 06:56:40');
+(61,	1,	'2020-04-20 06:56:40'),
+(62,	1,	'2020-05-04 13:46:35');
 
 DROP TABLE IF EXISTS `user_profiles`;
 CREATE TABLE `user_profiles` (
@@ -855,7 +856,7 @@ CREATE TABLE `user_profiles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 INSERT INTO `user_profiles` (`id`, `rok`, `telefon`, `poznamka`, `pocet_pr`, `pohl`, `prihlas_teraz`, `avatar`, `news`) VALUES
-(1,	NULL,	NULL,	NULL,	40,	'M',	'2020-04-20 06:56:40',	NULL,	'A'),
+(1,	NULL,	NULL,	NULL,	41,	'M',	'2020-05-04 13:46:35',	NULL,	'A'),
 (2,	NULL,	NULL,	NULL,	21,	'M',	'2020-04-03 13:49:14',	NULL,	'A'),
 (3,	NULL,	NULL,	NULL,	0,	'M',	NULL,	NULL,	'A');
 
@@ -934,6 +935,7 @@ INSERT INTO `verzie` (`id`, `id_user_main`, `cislo`, `subory`, `text`, `modified
 (6,	1,	'0.1.6',	'úroveň 3 a 4',	'- Prispôsobenie vzhľadu úrovne 3. a 4..\n- Aktualizácia nittra a lightbox-u.\n- Odstránenie koncovky z názvu prílohy.\n- Práca na admin časti pre rámčeky - pridaná časť pre fotoalbum zmeny rámčekov obrázkových príloh v úrovni 4. pre každú časť zvlášť.\n- Prispôsobenie 4. úrovne pre prehliadanie obrázkov s rámčekmi.',	'2017-12-27 12:04:06'),
 (7,	1,	'0.1.7',	'mnohé',	'- Zmena názvov stĺpcov(spec_nazov=web_name, subor=main_file, thumb=thumb_file, zmena=change) tabuľky dokumenty a s tým súvisiace zmeny. \n- Pridané zobrazenie videa pre front modul.\n- Pridaná časť produktov aj pre front časť. \n- Zmena názvov stĺpcov(nazov=name, popis=description) tabuľky dokumenty a s tým súvisiace zmeny.\n- Pridaná časť produktov pre admin časť. Nedokončené. Update fontawesome na verziu 5.0.2 na admin strane.',	'2018-01-16 09:15:17'),
 (8,	1,	'0.2.1',	'Issue #4, #5, #6',	'Sumár:\n======\n**Zmena načítania produktov.**\n\n**V administrácii: oprava ikoniek; pre slider: pridanie kompletného stromu menu do formulára - položka: *Zobrazenie pre*;** \n\nDetaily:\n======\nFrontend\n----------\n- Úrava pre IE.\n- Načítanie produktov ajaxovo.\n- Oprava chyby pri zobrazení príloh alebo produktov.\n\nAdministrácia\n-------------\n- Oprava ikoniek v administrácii a odstránenie nepotrebných. \n- Presun nastavení produktov do samostatnej časti. Issue \"#5\":https://github.com/petak23/bwfoto/issues/5\n- V údajoch pridaná možnosť zobraziť alebo skryť separátne nastavenia.\n- Slider: Odstránenie väzby súborov na adresáre a presun ich nastavení do configu.\n- Slider: Pridanie kompletného stromu menu do formulára - položka: *Zobrazenie pre*.\n- Slider: zmena názvu ikoniek.\n- Presun nastavenia okrajového rámčeka na kartu produktov Issues \"#4\":https://github.com/petak23/bwfoto/issues/4\n- Odstránenie chyby v mazaní príloh\n\nOstatné\n-------\n- Oprava zobrazovania textu(texi) v emailoch. Issue \"#6\":https://github.com/petak23/bwfoto/issues/6\n- Odstránenie zmetočných adresárov v prílohách článkov a produktov. \n- Zmazanie nepotrebných častí.\n- Presun index.php do adresára www a s tým spojené zmeny.\n- Update fontawesome na verziu 5.2.0; \n- Update bootstrap na verziu 4.1.2; \n- Update adminer na verziu 4.3.6. \n- Použitie npm správcu. \n- Odstránenie zbytočných css a js.\n',	'2018-08-30 08:35:32'),
-(9,	1,	'0.3.0-beta',	'Upgrade to v 0.3.0',	'- **Oprava chyby: zobrazenie prvého obrázku alebo produktu pri prvom zobrazení článku.**\n- Upgrade nette na verziu 2.4\n- Aplikácia zmien z echo-msz.eu ale s prispôsobením komponent na verziu PHP 7.0.33\n- Inovácia vzhľadu v administrácii, zatiaľ ešte nie úplne dokončená \"(AdminModule) .{color: gray}\".\n- Aktualizácia komponent vzhľadu v package.json \"(fontawesome: 5.2.0, bootstrap: 4.4.1, jquery: 3.4.1, naja: 1.5.1, nette-forms: 2.4.2, popper.js: 1.16.1) .{color: gray}\". \n- Aktualizácia správcu databázy \"(adminer v 4.7.6) .{color: gray}\". \n- Oprava chyby v menu FrontModule a upgrade pre novú verziu Texy.',	'2020-03-28 05:33:16');
+(9,	1,	'0.3.0-alfa',	'Upgrade to v 0.3.0',	'- **Oprava chyby: zobrazenie prvého obrázku alebo produktu pri prvom zobrazení článku.**\n- Upgrade nette na verziu 2.4\n- Aplikácia zmien z echo-msz.eu ale s prispôsobením komponent na verziu PHP 7.0.33\n- Inovácia vzhľadu v administrácii, zatiaľ ešte nie úplne dokončená \"(AdminModule) .{color: gray}\".\n- Aktualizácia komponent vzhľadu v package.json \"(fontawesome: 5.2.0, bootstrap: 4.4.1, jquery: 3.4.1, naja: 1.5.1, nette-forms: 2.4.2, popper.js: 1.16.1) .{color: gray}\". \n- Aktualizácia správcu databázy \"(adminer v 4.7.6) .{color: gray}\". \n- Oprava chyby v menu FrontModule a upgrade pre novú verziu Texy.',	'2020-05-04 11:55:19'),
+(10,	1,	'0.3.0-beta',	'Rôzne; jquery 3.5.0',	'- Oprava drobných chýb v prihlásení.\n- Oprava chyby v slideri(issue \"#12\":https://github.com/petak23/bwfoto/issues/12). Rebase model/Table.php.\n- Rebase model/Dokumenty.php; model/Products.php a model/UserManager.php.\n- Oprava chyby v pridávaní podčlánku v adninistrácii.\n- Refaktoring fotogalérie na frontende.\n- Oprava zobrazenia produktov v AdminModule. \n- Update jquery na 3.5.0.\n- Oprava zobrazenia príloh vo FrontModule a premenovanie adresára presenters na Presenters.\n- Oprava issue \"#11\":https://github.com/petak23/bwfoto/issues/11 - A13 - V administracii pri zozname príloh( miniatúry fotografií) keď kliknem na foto aby sa mi zobrazila fotka tak sa zobrazí na ľavej strane - nie je vycentrovaná na stred',	'2020-05-04 12:02:51');
 
--- 2020-04-20 04:57:00
+-- 2020-05-04 16:16:30

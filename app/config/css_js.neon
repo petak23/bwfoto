@@ -39,7 +39,8 @@ webloader:
         - %wwwDir%/../node_modules/@fortawesome/fontawesome-free/css/all.min.css
         - %wwwDir%/../node_modules/bootstrap/dist/css/bootstrap.min.css
         - %wwwDir%/css/jquery-ui.css
-        - %wwwDir%/css/datagrid.css
+        - %wwwDir%/../vendor/ublaboo/datagrid/assets/dist/datagrid.css
+        - %wwwDir%/../vendor/ublaboo/datagrid/assets/dist/datagrid-spinners.css        
         - {files: ["*.css", "*.less"], from: %wwwDir%/css/admin} # Nette\Utils\Finder support
       filters:
         - @jwlCssMinFilter
@@ -72,8 +73,10 @@ webloader:
 #        - %wwwDir%/../node_modules/naja/dist/Naja.js
         - %wwwDir%/js/admin/nette.ajax.js
         - %wwwDir%/js/admin/jquery-ui-1.12.1.js
-        - %wwwDir%/js/jquery.ui.datepicker-sk.js
-        - %wwwDir%/js/datagrid.js
+        - %wwwDir%/js/admin/jquery.ui.datepicker-sk.js
+        - %wwwDir%/../vendor/ublaboo/datagrid/assets/dist/datagrid.js
+        - %wwwDir%/../vendor/ublaboo/datagrid/assets/dist/datagrid-instant-url-refresh.js
+        - %wwwDir%/../vendor/ublaboo/datagrid/assets/dist/datagrid-spinners.js
         - %wwwDir%/js/pomocne_admin.js
 #      filters:
 #        - @jsMin

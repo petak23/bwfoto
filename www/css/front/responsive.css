@@ -13,7 +13,7 @@
 /* hlavicka */
 .logo
 {
-	top: 10px;
+	/*top: 10px;*/  /* Zakomentované pre nekorektné správanie PV 2020-05-05 */
 	left: 50px;
 }
 .navbar { background-color: rgba(255,255,255,0.8); }
@@ -52,6 +52,9 @@ h2 { font-size: 170%; }
 /* hlavicka */
 	.logo
 {	width: 80%;}
+.navbar {
+	padding: 0 1rem; /* Doplnené kvoli nekorektnemu spravaniu PV 2020-05-05 */
+}
 .navbar-nav
 { 
 	width: 60%;
@@ -72,7 +75,7 @@ h2 { font-size: 170%; }
 /* hlavicka */
 .logo
 {
-	top: 10px;
+	/*top: 10px;*/  /* Zakomentované pre nekorektné správanie PV 2020-05-05 */
 	left: 20px;
 }
 /* obsah titulka*/
