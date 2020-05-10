@@ -84,4 +84,4 @@ fileUpload:
 	maxFileSize: 4M
 	fileFilter: Zet\FileUpload\Filter\ImageFilter
 	uploadModel: DbTable\Products
-	uiMode: full # full nebo minimal
+#	uiMode: full # full nebo minimal
