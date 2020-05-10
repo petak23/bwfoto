@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4b50cd2689ec499c9dcde7ca8174a458",
+    "content-hash": "07600a768b515b1426881944793f7e73",
     "packages": [
         {
             "name": "contributte/application",
@@ -173,55 +173,6 @@
             "time": "2020-04-16T19:01:22+00:00"
         },
         {
-            "name": "joseki/webloader-filters",
-            "version": "v1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Joseki/WebloaderFilters.git",
-                "reference": "9598aab9efcbb762c6410c706c97578db5c2cd75"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Joseki/WebloaderFilters/zipball/9598aab9efcbb762c6410c706c97578db5c2cd75",
-                "reference": "9598aab9efcbb762c6410c706c97578db5c2cd75",
-                "shasum": ""
-            },
-            "require": {
-                "natxet/cssmin": "~3.0",
-                "php": ">= 5.3.0",
-                "tedivm/jshrink": "~1.0"
-            },
-            "require-dev": {
-                "janmarek/webloader": "~2.5",
-                "mockery/mockery": "dev-master",
-                "nette/bootstrap": "~2.2",
-                "nette/robot-loader": "~2.2",
-                "nette/tester": "~1.0",
-                "tracy/tracy": "~2.2"
-            },
-            "suggest": {
-                "janmarek/webloader": "Tool for loading or deploying CSS and JS files into web pages."
-            },
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "src"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Miroslav Paulík",
-                    "email": "miras.paulik@seznam.cz"
-                }
-            ],
-            "description": "This is an extension of janmarek/webloader. This extension contains filters to minify js and css.",
-            "time": "2015-10-11T23:02:22+00:00"
-        },
-        {
             "name": "latte/latte",
             "version": "v2.8.0",
             "source": {
@@ -297,53 +248,6 @@
                 "twig"
             ],
             "time": "2020-04-20T21:18:50+00:00"
-        },
-        {
-            "name": "natxet/cssmin",
-            "version": "v3.0.6",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/natxet/CssMin.git",
-                "reference": "d5d9f4c3e5cedb1ae96a95a21731f8790e38f1dd"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/natxet/CssMin/zipball/d5d9f4c3e5cedb1ae96a95a21731f8790e38f1dd",
-                "reference": "d5d9f4c3e5cedb1ae96a95a21731f8790e38f1dd",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.0-dev"
-                }
-            },
-            "autoload": {
-                "classmap": [
-                    "src/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Joe Scylla",
-                    "email": "joe.scylla@gmail.com",
-                    "homepage": "https://profiles.google.com/joe.scylla"
-                }
-            ],
-            "description": "Minifying CSS",
-            "homepage": "http://code.google.com/p/cssmin/",
-            "keywords": [
-                "css",
-                "minify"
-            ],
-            "time": "2018-01-09T11:15:01+00:00"
         },
         {
             "name": "nette/application",
@@ -1492,65 +1396,6 @@
             "time": "2020-02-09T14:10:55+00:00"
         },
         {
-            "name": "ondrej7/webloader",
-            "version": "2.6.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ondrej7/WebLoader.git",
-                "reference": "7e0fe5607d1b3f2d761e40bd272dfff3f23fe8a9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ondrej7/WebLoader/zipball/7e0fe5607d1b3f2d761e40bd272dfff3f23fe8a9",
-                "reference": "7e0fe5607d1b3f2d761e40bd272dfff3f23fe8a9",
-                "shasum": ""
-            },
-            "require": {
-                "nette/application": "^3.0.0",
-                "nette/di": "^3.0.0",
-                "nette/utils": "^3.0.0",
-                "php": "^7.1"
-            },
-            "replace": {
-                "janmarek/webloader": "*"
-            },
-            "suggest": {
-                "coffeescript/coffeescript": "CoffeeScript compiler written in PHP.",
-                "joseki/webloader-filters": "CSSMin & JSMin filters written in PHP.",
-                "leafo/scssphp": "SCSS compiler written in PHP.",
-                "oyejorge/less.php": "LESS compiler written in PHP."
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "WebLoader": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jan Marek",
-                    "email": "mail@janmarek.net"
-                },
-                {
-                    "name": "Tomáš Vinduška"
-                }
-            ],
-            "description": "Tool for loading or deploying CSS and JS files into web pages",
-            "homepage": "http://addons.nette.org/cs/webloader",
-            "keywords": [
-                "assets",
-                "css",
-                "javascript",
-                "nette",
-                "webloader"
-            ],
-            "time": "2019-11-27T22:57:29+00:00"
-        },
-        {
             "name": "symfony/inflector",
             "version": "v5.0.8",
             "source": {
@@ -1732,52 +1577,6 @@
                 "reflection"
             ],
             "time": "2020-04-15T15:59:10+00:00"
-        },
-        {
-            "name": "tedivm/jshrink",
-            "version": "v1.3.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/tedious/JShrink.git",
-                "reference": "566e0c731ba4e372be2de429ef7d54f4faf4477a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/tedious/JShrink/zipball/566e0c731ba4e372be2de429ef7d54f4faf4477a",
-                "reference": "566e0c731ba4e372be2de429ef7d54f4faf4477a",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.6|^7.0"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^2.8",
-                "php-coveralls/php-coveralls": "^1.1.0",
-                "phpunit/phpunit": "^6"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "JShrink": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Robert Hafner",
-                    "email": "tedivm@tedivm.com"
-                }
-            ],
-            "description": "Javascript Minifier built in PHP",
-            "homepage": "http://github.com/tedious/JShrink",
-            "keywords": [
-                "javascript",
-                "minifier"
-            ],
-            "time": "2019-06-28T18:11:46+00:00"
         },
         {
             "name": "texy/texy",

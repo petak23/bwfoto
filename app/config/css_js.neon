@@ -6,14 +6,13 @@
 #
 parameters:
 
-extensions:
-  webloader: WebLoader\Nette\Extension
+#extensions:
+#  webloader: WebLoader\Nette\Extension
 
-services:
-#    wlCssFilter: WebLoader\Filter\CssUrlsFilter(%wwwDir%)
-#    lessFilter: WebLoader\Filter\LessFilter
-    jwlCssMinFilter: Joseki\Webloader\CssMinFilter
-    jsMin: Joseki\Webloader\JsMinFilter
+#services:
+#
+#    jwlCssMinFilter: Joseki\Webloader\CssMinFilter
+#    jsMin: Joseki\Webloader\JsMinFilter
 
 webloader:
   css:

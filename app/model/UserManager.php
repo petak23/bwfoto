@@ -10,13 +10,13 @@ use Nette\Security;
 /**
  * Model starajuci sa o uzivatela
  * 
- * Posledna zmena(last change): 21.06.2018
+ * Posledna zmena(last change): 10.05.2020
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.4
+ * @version    1.0.5
  */
 class UserManager implements Security\IAuthenticator {
 	use Nette\SmartObject;
@@ -61,13 +61,13 @@ class UserManager implements Security\IAuthenticator {
 
 	/**
 	 * Performs an authentication.
-	 * @return Nette\Security\Identity
+	 * @return Nette\Security\IIdentity
 	 * @throws Nette\Security\AuthenticationException 
    *  IDENTITY_NOT_FOUND = 1
    *  INVALID_CREDENTIAL = 2
    *  FAILURE = 3
    *  NOT_APPROVED = 4 */
-	public function authenticate(array $credentials) {
+	public function authenticate(array $credentials): Security\IIdentity {
 		list($email, $password) = $credentials;
     
     $row = $this->user_main->findOneBy([self::COLUMN_EMAIL => $email]);
@@ -90,6 +90,6 @@ class UserManager implements Security\IAuthenticator {
     $this->user_profiles->updateAfterLogIn($arr['id_user_profiles']);
     $this->user_main->logLastIp($row[self::COLUMN_ID], $this->httpres->getRemoteAddress());
     $this->user_prihlasenie->addLogIn($row[self::COLUMN_ID]);
-		return new Security\Identity($row[self::COLUMN_ID], $role, $arr);
+		return new Security\IIdentity($row[self::COLUMN_ID], $role, $arr);
 	}
 }

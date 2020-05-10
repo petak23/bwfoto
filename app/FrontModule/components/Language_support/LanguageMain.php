@@ -95,9 +95,8 @@ class LanguageMain implements Nette\Localization\ITranslator {
   /**
    * Preklad kluca
    * @param string $message
-   * @param int $count
    * @return string */
-  public function translate($message, $count = null): string {
+  public function translate($message, ...$parameters): string {
     return array_key_exists($message, $this->out_texty) ?  $this->out_texty[$message] : $message;
   }
   

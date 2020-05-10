@@ -9,13 +9,13 @@ use Nette\Application\UI\Control;
 /**
  * Komponenta pre zobrazenie produktov pre FRONT modul
  * 
- * Posledna zmena(last change): 27.03.2020
+ * Posledna zmena(last change): 10.05.2020
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.1
+ * @version 1.0.2
  * 
  * @todo Odstranit premennu nastavenie, ak nebude potrebna.
  */
@@ -61,18 +61,14 @@ class ProductsViewControl extends Control {
     $this->template->setTranslator($this->texts);
     $this->template->big_img_id = isset($params['big_img_id']) ? $params['big_img_id'] : 0;
     $this->template->nastavenie = $this->nastavenie;
-    $this->template->render();
-  }
-
-  protected function createTemplate($class = NULL) {
     $servise = $this;
-    $template = parent::createTemplate($class);
-    $template->addFilter('odkazdo', function ($id) use($servise) {
+    $this->template->addFilter('odkazdo', function ($id) use($servise) {
       $serv = $servise->presenter->link("Products:default", ["id" => $id]);
       return $serv;
     });
-    return $template;
+    $this->template->render();
   }
+
 }
 
 interface IProductsViewControl {
