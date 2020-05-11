@@ -15,8 +15,8 @@ namespace PeterVojtech\Confirm;
  * @last-change 2020-05-11 PV
  */
 
-use Nette\Application\UI\Form,
-	Nette\Utils\Html;
+use Nette\Application\UI\Form;
+use Nette\Utils\Html;
 use Nette;
 
 
@@ -59,9 +59,7 @@ class ConfirmationDialog extends Nette\Application\UI\Control
 	 * @param Nette\ComponentModel\IContainer|null $parent
 	 * @param null $name
 	 */
-	public function __construct(\Nette\Http\SessionSection $session, $parent = NULL, $name = NULL)
-	{
-		parent::__construct($parent, $name);
+	public function __construct(\Nette\Http\SessionSection $session, $parent = NULL, $name = NULL) {
 
 		$this->session = $session;
 		$this->question = Html::el('p')->addAttributes(['class'=>"{$this->cssClass}--question"]);
@@ -88,8 +86,7 @@ class ConfirmationDialog extends Nette\Application\UI\Control
 	 * @param string $signal
 	 * @return string
 	 */
-	public static function formatSignalMethod($signal)
-	{
+	public static function formatSignalMethod(string $signal): string {
 		if (stripos($signal, 'confirm') === 0/* &&  isset($this->confirmationHandlers[lcfirst(substr($signal, 7))])*/) {
 			return '_handleShow';
 		}

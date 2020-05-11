@@ -10,13 +10,13 @@ use Nette\Utils\Html;
 
 /**
  * Plugin pre zobrazenie ponuky o užívateľovi a jazykoch
- * Posledna zmena(last change): 22.01.2020
+ * Posledna zmena(last change): 11.05.2020
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2013 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.8
+ * @version 1.1.9
  */
 class UserLangMenuControl extends Control {
   /** @var Language_support\LanguageMain Texty pre dany jazyk */
@@ -49,7 +49,7 @@ class UserLangMenuControl extends Control {
   /**
    * @param array $nastavenie Nastavenie priamo cez servises.neon
    * @param string $dir_to_user Nastavenie priamo cez servises.neon
-   * @param boolean $avatar_view Nastavenie priamo cez servises.neon
+   * @param bool $avatar_view Nastavenie priamo cez servises.neon
    * @param Language_support\LanguageMain $language
    * @param DbTable\Lang $lang
    * @param DbTable\User_main $user_main
@@ -57,7 +57,7 @@ class UserLangMenuControl extends Control {
    * @param User $user */
   public function __construct(array $nastavenie, 
                               string $dir_to_user,
-                              int $avatar_view,
+                              bool $avatar_view,
                               Language_support\LanguageMain $language, 
                               DbTable\Lang $lang,
                               DbTable\User_main $user_main,
@@ -65,7 +65,6 @@ class UserLangMenuControl extends Control {
                               User $user,
                               Forms\User\SignInFormFactory $signInForm
                               ) {
-    parent::__construct();
     $this->lang = $lang;
     $this->user = $user;
     $this->texty = $language; 

@@ -4,13 +4,13 @@ use Nette;
 
 /**
  * Komponenta pre zobrazenie ponuky menu pre FRONT modul
- * Posledna zmena(last change): 20.03.2020
+ * Posledna zmena(last change): 11.05.2020
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.4
+ * @version 1.0.5
  *
  */
 class Menu extends Nette\Application\UI\Control {
@@ -34,7 +34,6 @@ class Menu extends Nette\Application\UI\Control {
       ];
 
 	public function __construct(Nette\ComponentModel\IContainer $parent = NULL, $name = NULL) {
-		parent::__construct($parent, $name);
 		$this->rootNode = new MenuNode();
 		$this->rootNode->menu = $this;
 		$this->rootNode->isRootNode = true;

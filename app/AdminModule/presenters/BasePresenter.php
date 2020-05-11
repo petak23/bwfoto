@@ -56,7 +56,7 @@ abstract class BasePresenter extends UI\Presenter {
   public $httpRequest;
   
   /** @var \WebLoader\Nette\LoaderFactory @inject */
-  public $webLoader;
+//  public $webLoader;
   
   /** @var Texy\Texy @inject */
 	public $texy;
@@ -207,19 +207,19 @@ abstract class BasePresenter extends UI\Presenter {
   //  ---- Komponenty ---- 
     
   /** @return CssLoader */
-  protected function createComponentCss(){
-    return $this->webLoader->createCssLoader('admin');
-  }
+//  protected function createComponentCss(){
+//    return $this->webLoader->createCssLoader('admin');
+//  }
 
   /** @return JavaScriptLoader */
-  protected function createComponentJs(){
-    return $this->webLoader->createJavaScriptLoader('admin');
-  }
+//  protected function createComponentJs(){
+//    return $this->webLoader->createJavaScriptLoader('admin');
+//  }
   
   /**
    * Texyla loader factory
    * @return TexylaLoader */
-  protected function createComponentTexyla() {
+/*  protected function createComponentTexyla() {
     $baseUri = $this->httpRequest->getUrl()->baseUrl;
     $filter = new \WebLoader\Filter\VariablesFilter([
         "baseUri" => $baseUri,
@@ -233,7 +233,7 @@ abstract class BasePresenter extends UI\Presenter {
     $texyla = $this->webLoader->createJavaScriptLoader('texyla');
     $texyla->getCompiler()->addFilter($filter);
     return $texyla;
-  }
+  }*/
 
   /** Vytvorenie komponenty pre posledných 25 prihlásení
    * @return \App\AdminModule\Components\User\UserLastControl */

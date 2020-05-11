@@ -83,8 +83,6 @@ abstract class BasePresenter extends Presenter {
   /** @var Http\Request @inject*/
   public $httpRequest;
   
-  /** @var \WebLoader\Nette\LoaderFactory @inject */
-  public $webLoader;
   /** @var Texy\Texy @inject */
 	public $texy;
   
@@ -141,18 +139,18 @@ abstract class BasePresenter extends Presenter {
     //Najdi info o druhu
     $tmp_druh = $this->druh->findBy(["druh.presenter"=>ucfirst($this->udaje_webu['meno_presentera'])])
                            ->where("druh.modul IS NULL OR druh.modul = ?", $modul_presenter[0])->limit(1)->fetch();
-    if ($tmp_druh !== FALSE) {
+    if ($tmp_druh !== null) {
       if ($tmp_druh->je_spec_naz) { //Ak je spec_nazov pozadovany a mam id
         $hl_udaje = $this->hlavne_menu->hladaj_id(isset($this->params['id']) ? (int)trim($this->params['id']) : 0, $this->id_reg);
       } else {//Ak nie je spec_nazov pozadovany
         $hl_udaje = $this->hlavne_menu->findOneBy(["id_druh"=>$tmp_druh->id]);
       }
-    } else { $hl_udaje = FALSE; }
-    if ($hl_udaje !== FALSE) { //Ak sa hl. udaje nasli
+    } else { $hl_udaje = null; }
+    if ($hl_udaje !== null) { //Ak sa hl. udaje nasli
       //Nacitanie textov hl_udaje pre dany jazyk 
       $lang_hl_udaje = $this->hlavne_menu_lang->findOneBy(['lang.skratka'=>$this->language, 
                                                            'id_hlavne_menu'=>$hl_udaje->id]);
-      if ($lang_hl_udaje !== FALSE){ //Nasiel som udaje a tak aktualizujem
+      if ($lang_hl_udaje !== null){ //Nasiel som udaje a tak aktualizujem
         $this->udaje_webu["nazov"] = $lang_hl_udaje->menu_name;
         $this->udaje_webu["h1part2"] = $lang_hl_udaje->h1part2;
         $this->udaje_webu["description"] = $lang_hl_udaje->view_name;
@@ -356,24 +354,6 @@ abstract class BasePresenter extends Presenter {
     }
     $this->redirect('this');
 	}
-  
-  /** 
-   * @return CssLoader */
-  protected function createComponentCss(){
-    return $this->webLoader->createCssLoader('front');
-  }
-
-  /** 
-   * @return JavaScriptLoader */
-  protected function createComponentJsBefore(){
-    return $this->webLoader->createJavaScriptLoader('frontBefore');
-  }
-  
-  /** 
-   * @return JavaScriptLoader */
-  protected function createComponentJsAfter(){
-    return $this->webLoader->createJavaScriptLoader('frontAfter');
-  }
   
   /** 
    * Komponenta pre výpis css a js súborov
