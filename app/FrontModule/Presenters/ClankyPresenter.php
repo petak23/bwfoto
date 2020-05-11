@@ -11,7 +11,7 @@ use PeterVojtech;
 /**
  * Prezenter pre vypisanie clankov.
  * 
- * Posledna zmena(last change): 04.05.2020
+ * Posledna zmena(last change): 11.05.2020
  *
  *	Modul: FRONT
  *
@@ -19,7 +19,7 @@ use PeterVojtech;
  * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.3.4
+ * @version 1.3.5
  */
 
 class ClankyPresenter extends BasePresenter {
@@ -125,6 +125,30 @@ class ClankyPresenter extends BasePresenter {
       
       $this->template->attachments = $this->attachments;
       $this->template->big_img = $this->big_img;
+
+      $servise = $this;
+      $this->template->addFilter('odkazdo', function ($id) use($servise){
+        $serv = $servise->link("Dokumenty:default", ["id"=>$id]);
+        return $serv;
+      });
+      $this->template->addFilter('border_x', function ($text){
+        $pom = $text != null && strlen($text)>2 ? explode("|", $text) : ['','0'];
+        $xs = 'style="border: '.$pom[1].'px solid '.(strlen($pom[0])>2 ? ($pom[0]):'inherit').'"';
+        return $xs;
+      });
+      $this->template->addFilter('border_css_x', function ($text){
+        $pom = $text != null && strlen($text)>2 ? explode("|", $text) : ['','0'];
+        $xs = 'border: '.$pom[1].'px solid '.(strlen($pom[0])>2 ? ($pom[0]):'inherit').';';
+        return $xs;
+      });
+      $this->template->addFilter('border_width', function ($text){
+        $pom = $text != null && strlen($text)>2 ? explode("|", $text) : ['','1'];
+        return $pom[1].'px';
+      });
+      $this->template->addFilter('border_color', function ($text){
+        $pom = $text != null && strlen($text)>2 ? explode("|", $text) : ['','0'];
+        return strlen($pom[0])>2 ? $pom[0]:'inherit';
+      });
     }
 	}
 
@@ -233,36 +257,4 @@ class ClankyPresenter extends BasePresenter {
     $odkaz->setArticle($this->zobraz_clanok->id_hlavne_menu, $this->language_id, $this->kotva);
     return $odkaz;
   }
-  
-  /**
-   * 
-   * @param type $class
-   * @return \Nette\Bridges\ApplicationLatte\Template */
-  protected function createTemplate($class = NULL) {
-    $servise = $this;
-    $template = parent::createTemplate($class);
-    $template->addFilter('odkazdo', function ($id) use($servise){
-      $serv = $servise->link("Dokumenty:default", ["id"=>$id]);
-      return $serv;
-    });
-    $template->addFilter('border_x', function ($text){
-      $pom = $text != null && strlen($text)>2 ? explode("|", $text) : ['','0'];
-      $xs = 'style="border: '.$pom[1].'px solid '.(strlen($pom[0])>2 ? ($pom[0]):'inherit').'"';
-      return $xs;
-    });
-    $template->addFilter('border_css_x', function ($text){
-      $pom = $text != null && strlen($text)>2 ? explode("|", $text) : ['','0'];
-      $xs = 'border: '.$pom[1].'px solid '.(strlen($pom[0])>2 ? ($pom[0]):'inherit').';';
-      return $xs;
-    });
-    $template->addFilter('border_width', function ($text){
-      $pom = $text != null && strlen($text)>2 ? explode("|", $text) : ['','1'];
-      return $pom[1].'px';
-    });
-    $template->addFilter('border_color', function ($text){
-      $pom = $text != null && strlen($text)>2 ? explode("|", $text) : ['','0'];
-      return strlen($pom[0])>2 ? $pom[0]:'inherit';
-    });
-    return $template;
-	}
 }

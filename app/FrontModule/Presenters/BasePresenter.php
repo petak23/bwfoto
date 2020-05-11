@@ -15,7 +15,7 @@ use Texy;
 /**
  * Zakladny presenter pre vsetky presentery vo FRONT module
  * 
- * Posledna zmena(last change): 13.04.2020
+ * Posledna zmena(last change): 11.05.2020
  *
  *	Modul: FRONT
  *
@@ -23,7 +23,7 @@ use Texy;
  * @copyright Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link      http://petak23.echo-msz.eu
- * @version 1.5.5
+ * @version 1.5.6
  */
 abstract class BasePresenter extends Presenter {
   
@@ -231,6 +231,109 @@ abstract class BasePresenter extends Presenter {
       'danger'  => 'fas fa-exclamation-circle',
     ];
     $this->template->setTranslator($this->texty_presentera);
+    $servise = $this;
+    $this->template->addFilter('obr_v_txt', function ($text) use($servise){
+      $rozloz = explode("#", $text);
+      $serv = $servise->presenter;
+      $vysledok = '';
+      $cesta = 'http://'.$serv->nazov_stranky."/";
+      foreach ($rozloz as $k=>$cast) {
+        if (substr($cast, 0, 2) == "I-") {
+          $obr = $serv->dokumenty->find((int)substr($cast, 2));
+          if ($obr !== FALSE) {
+            $cast = Html::el('a class="fotky" rel="fotky"')->href($cesta.$obr->subor)->title($obr->nazov)
+                                  ->setHtml(Html::el('img')->src($cesta.$obr->thumb)->alt($obr->nazov));
+          }
+        }
+        $vysledok .= $cast;
+      }
+      return $vysledok;
+    });
+    $this->template->addFilter('sponzor', function ($text) use($servise){
+      $rozloz = explode("#", $text);
+      $serv = $servise->presenter;
+      $vysledok = '';
+      $cesta = 'http://'.$serv->nazov_stranky."/";
+      foreach ($rozloz as $k=>$cast) {
+        if (substr($cast, 0, 2) == "I-") {
+          $obr = $serv->dokumenty->find((int)substr($cast, 2));
+          if ($obr !== FALSE) {
+            $cast = Html::el('img', ['class'=>'img-center img-responsive'])->src($cesta.$obr->thumb)->alt($obr->nazov);
+          }
+        }
+        $vysledok .= $cast;
+      }
+      return $vysledok;
+    });
+    $this->template->addFilter('koncova_znacka', function ($text) use($servise){
+      $rozloz = explode("{end}", $text);
+      $vysledok = $text;
+      if (count($rozloz)>1) {    //Ak som nasiel znacku
+        $vysledok = $rozloz[0].\Nette\Utils\Html::el('a class="cely_clanok"')->href($servise->link("this"))->title($servise->texty_presentera->translate("base_title"))
+                ->setHtml('&gt;&gt;&gt; '.$servise->texty_presentera->translate("base_viac")).'<div class="ostatok">'.$rozloz[1].'</div>';
+      }
+      return $vysledok;
+    });
+    $this->template->addFilter('hlmenuclass', function ($id, $id_user_roles, $hl_udaje) {
+      $polozka_class = $id_user_roles>2 ? 'adminPol' : '';
+      //TODO $classPol .= ' zvyrazni';
+      if ($id == $hl_udaje) { $polozka_class .= ' active'; }
+      return $polozka_class;
+    });
+    $this->template->addFilter('nahodne', function ($max) { //Generuje nahodne cislo do template v rozsahu od 0 do max
+      return (int)rand(0, $max);
+    });
+    $this->template->addFilter('uprav_email', function ($email) { //Upravi email aby sa nedal pouzit ako nema
+
+      return Strings::replace($email, ['~@~' => '[@]', '~\.~' => '[dot]']);
+    });
+    $this->template->addFilter('textreg', function ($text, $id_user_roles, $max_id_reg) {
+      for ($i = $max_id_reg; $i>=0; $i--) {
+        $z_zac = "#REG".$i."#"; //Pociatocna znacka
+        $z_alt = "#REG-A".$i."#"; //Alternativna znacka
+        $z_kon = "#/REG".$i."#";//Koncova znacka
+        if (($p_zac = strpos($text, $z_zac)) !== FALSE && ($p_kon = strpos($text, $z_kon)) !== FALSE && $p_zac < $p_kon) { //Ak som našiel začiatok a koniec a sú v správnom poradí
+          $text = substr($text, 0, $p_zac) //Po zaciatocnu zancku
+                  .(($p_alt = strpos($text, $z_alt)) === FALSE ? // Je alternativa
+                   ($i < $id_user_roles ? substr($text, $p_zac+strlen($z_zac), $p_kon-$p_zac-strlen($z_zac)) : '') : // Bez alternativy
+                   ($i < $id_user_roles ? substr($text, $p_zac+strlen($z_zac), $p_alt-$p_zac-strlen($z_zac)) : substr($text, $p_alt+strlen($z_alt), $p_kon-$p_alt-strlen($z_alt))))// S alternativou
+                  .substr($text, $p_kon+strlen($z_kon)); //Od koncovej znacky
+        } 
+      }
+      return $text;
+    });
+    $this->template->addFilter('vytvor_odkaz', function ($row) use($servise){
+      return isset($row->absolutna) ? $row->absolutna :
+                          (isset($row->spec_nazov) ? $servise->link($row->druh->presenter.':default',$row->spec_nazov)
+                                                   : $servise->link($row->druh->presenter.':default'));
+    });
+    $this->template->addFilter('menu_mutacia_nazov', function ($id) use($servise){
+      $pom = $servise->hlavne_menu_lang->findOneBy(['id_hlavne_menu'=>$id, 'id_lang'=>$servise->language_id]);
+      return $pom !== FALSE ? $pom->nazov : $id;
+    });
+    $this->template->addFilter('menu_mutacia_title', function ($id) use($servise){
+      $pom = $servise->hlavne_menu_lang->findOneBy(['id_hlavne_menu'=>$id, 'id_lang'=>$servise->language_id]);
+      return $pom !== FALSE ? ((isset($pom->view_name) && strlen ($pom->view_name)) ? $pom->view_name : $pom->menu_name) : $id;
+    });
+    $this->template->addFilter('menu_mutacia_h1part2', function ($id) use($servise){
+      $pom = $servise->hlavne_menu_lang->findOneBy(['id_hlavne_menu'=>$id, 'id_lang'=>$servise->language_id]);
+      return $pom !== FALSE ? $pom->h1part2 : $id;
+    });
+   /*$template->addFilter('texty_presentera->translate', function ($key) use($servise){
+      if ($servise->texty_presentera == NULL) { return $key; }
+      return ($servise->user->isInRole("Admin")) ? $key."-".$servise->texty_presentera->trText($key) : $servise->texty_presentera->trText($key);
+    });*/
+    $this->template->addFilter('nadpisH1', function ($key){
+      $out = "";
+      foreach (explode(" ", $key) as $v) {
+        $out .= "<div>".$v." </div>";
+      }
+      return $out;
+    });
+            
+    $this->texy->allowedTags = TRUE;
+    $this->texy->headingModule->balancing = "FIXED";
+    $this->template->addFilter('texy', [$this->texy, 'process']);
 	}
   
   /** 
@@ -434,119 +537,6 @@ abstract class BasePresenter extends Presenter {
       $this->flashMessage($textEr, 'danger');
     }
   }
-  
-    /**
-   * Vytvorenie spolocnych helperov pre sablony
-   * @param type $class
-   * @return type */
-
-  protected function createTemplate($class = NULL) {
-    $servise = $this;
-    $template = parent::createTemplate($class);
-    $template->addFilter('obr_v_txt', function ($text) use($servise){
-      $rozloz = explode("#", $text);
-      $serv = $servise->presenter;
-      $vysledok = '';
-      $cesta = 'http://'.$serv->nazov_stranky."/";
-      foreach ($rozloz as $k=>$cast) {
-        if (substr($cast, 0, 2) == "I-") {
-          $obr = $serv->dokumenty->find((int)substr($cast, 2));
-					if ($obr !== FALSE) {
-            $cast = Html::el('a class="fotky" rel="fotky"')->href($cesta.$obr->subor)->title($obr->nazov)
-                                  ->setHtml(Html::el('img')->src($cesta.$obr->thumb)->alt($obr->nazov));
-					}
-        }
-        $vysledok .= $cast;
-      }
-      return $vysledok;
-    });
-    $template->addFilter('sponzor', function ($text) use($servise){
-      $rozloz = explode("#", $text);
-      $serv = $servise->presenter;
-      $vysledok = '';
-      $cesta = 'http://'.$serv->nazov_stranky."/";
-      foreach ($rozloz as $k=>$cast) {
-        if (substr($cast, 0, 2) == "I-") {
-          $obr = $serv->dokumenty->find((int)substr($cast, 2));
-					if ($obr !== FALSE) {
-            $cast = Html::el('img', ['class'=>'img-center img-responsive'])->src($cesta.$obr->thumb)->alt($obr->nazov);
-					}
-        }
-        $vysledok .= $cast;
-      }
-      return $vysledok;
-    });
-    $template->addFilter('koncova_znacka', function ($text) use($servise){
-      $rozloz = explode("{end}", $text);
-      $vysledok = $text;
-			if (count($rozloz)>1) {		 //Ak som nasiel znacku
-				$vysledok = $rozloz[0].\Nette\Utils\Html::el('a class="cely_clanok"')->href($servise->link("this"))->title($servise->texty_presentera->translate("base_title"))
-                ->setHtml('&gt;&gt;&gt; '.$servise->texty_presentera->translate("base_viac")).'<div class="ostatok">'.$rozloz[1].'</div>';
-			}
-      return $vysledok;
-    });
-    $template->addFilter('hlmenuclass', function ($id, $id_user_roles, $hl_udaje) {
-    	$polozka_class = $id_user_roles>2 ? 'adminPol' : '';
-      //TODO $classPol .= ' zvyrazni';
-      if ($id == $hl_udaje) { $polozka_class .= ' active'; }
-      return $polozka_class;
-    });
-    $template->addFilter('nahodne', function ($max) { //Generuje nahodne cislo do template v rozsahu od 0 do max
-      return (int)rand(0, $max);
-    });
-    $template->addFilter('uprav_email', function ($email) { //Upravi email aby sa nedal pouzit ako nema
-
-      return Strings::replace($email, ['~@~' => '[@]', '~\.~' => '[dot]']);
-    });
-    $template->addFilter('textreg', function ($text, $id_user_roles, $max_id_reg) {
-      for ($i = $max_id_reg; $i>=0; $i--) {
-        $z_zac = "#REG".$i."#"; //Pociatocna znacka
-        $z_alt = "#REG-A".$i."#"; //Alternativna znacka
-        $z_kon = "#/REG".$i."#";//Koncova znacka
-        if (($p_zac = strpos($text, $z_zac)) !== FALSE && ($p_kon = strpos($text, $z_kon)) !== FALSE && $p_zac < $p_kon) { //Ak som našiel začiatok a koniec a sú v správnom poradí
-          $text = substr($text, 0, $p_zac) //Po zaciatocnu zancku
-                  .(($p_alt = strpos($text, $z_alt)) === FALSE ? // Je alternativa
-                   ($i < $id_user_roles ? substr($text, $p_zac+strlen($z_zac), $p_kon-$p_zac-strlen($z_zac)) : '') : // Bez alternativy
-                   ($i < $id_user_roles ? substr($text, $p_zac+strlen($z_zac), $p_alt-$p_zac-strlen($z_zac)) : substr($text, $p_alt+strlen($z_alt), $p_kon-$p_alt-strlen($z_alt))))// S alternativou
-                  .substr($text, $p_kon+strlen($z_kon)); //Od koncovej znacky
-			  } 
-      }
-      return $text;
-    });
-    $template->addFilter('vytvor_odkaz', function ($row) use($servise){
-      return isset($row->absolutna) ? $row->absolutna :
-                          (isset($row->spec_nazov) ? $servise->link($row->druh->presenter.':default',$row->spec_nazov)
-                                                   : $servise->link($row->druh->presenter.':default'));
-    });
-    $template->addFilter('menu_mutacia_nazov', function ($id) use($servise){
-      $pom = $servise->hlavne_menu_lang->findOneBy(['id_hlavne_menu'=>$id, 'id_lang'=>$servise->language_id]);
-      return $pom !== FALSE ? $pom->nazov : $id;
-    });
-    $template->addFilter('menu_mutacia_title', function ($id) use($servise){
-      $pom = $servise->hlavne_menu_lang->findOneBy(['id_hlavne_menu'=>$id, 'id_lang'=>$servise->language_id]);
-      return $pom !== FALSE ? ((isset($pom->view_name) && strlen ($pom->view_name)) ? $pom->view_name : $pom->menu_name) : $id;
-    });
-    $template->addFilter('menu_mutacia_h1part2', function ($id) use($servise){
-      $pom = $servise->hlavne_menu_lang->findOneBy(['id_hlavne_menu'=>$id, 'id_lang'=>$servise->language_id]);
-      return $pom !== FALSE ? $pom->h1part2 : $id;
-    });
-   /*$template->addFilter('texty_presentera->translate', function ($key) use($servise){
-      if ($servise->texty_presentera == NULL) { return $key; }
-      return ($servise->user->isInRole("Admin")) ? $key."-".$servise->texty_presentera->trText($key) : $servise->texty_presentera->trText($key);
-    });*/
-    $template->addFilter('nadpisH1', function ($key){
-      $out = "";
-      foreach (explode(" ", $key) as $v) {
-        $out .= "<div>".$v." </div>";
-      }
-      return $out;
-    });
-            
-    $this->texy->allowedTags = TRUE;
-    $this->texy->headingModule->balancing = "FIXED";
-    $template->addFilter('texy', [$this->texy, 'process']);
-    return $template;
-	}
   
   /**
    * Uprava vzhladu formularov

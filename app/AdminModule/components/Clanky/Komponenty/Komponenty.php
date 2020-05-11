@@ -8,13 +8,13 @@ use Nette\Security\User;
 /**
  * Komponenta pre spravu priloh clanku.
  * 
- * Posledna zmena(last change): 14.12.2018
+ * Posledna zmena(last change): 11.05.2020
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
- * @copyright Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.0
+ * @version 1.1.1
  */
 
 class KomponentyControl extends Nette\Application\UI\Control {
@@ -64,7 +64,7 @@ class KomponentyControl extends Nette\Application\UI\Control {
 //    return $control;
   } 
   
-  protected function createComponent($name) {
+  protected function createComponent(string $name): ?Nette\ComponentModel\IComponent {
 //    $ctmp = $this->clanok_komponenty->getKomponentyName($this->clanok->id_hlavne_menu, $this->nastavenie_k);
 //		if(in_array($name, $ctmp)) {
 //      $co = $this->nastavenie_k[$name];

@@ -7,13 +7,13 @@ use DbTable;
 /**
  * Komponenta pre vytvorenie hlavičky polozky.
  * 
- * Posledna zmena(last change): 05.10.2018
+ * Posledna zmena(last change): 11.05.2020
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
- * @copyright Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.3
+ * @version 1.1.4
  */
 
 class TitleArticleControl extends Nette\Application\UI\Control {
@@ -115,6 +115,11 @@ class TitleArticleControl extends Nette\Application\UI\Control {
     $this->template->nadradeny = $this->clanok->hlavne_menu->id_nadradenej !== NULL ? $this->hlavne_menu_nadradeny->hlavne_menu : NULL;
     $this->template->aktualny_projekt_enabled = $this->aktualny_projekt_enabled;
     $this->template->zobraz_anotaciu = $this->zobraz_anotaciu;
+    $this->template->addFilter('border_x', function ($text){
+      $pom = $text != null & strlen($text)>2 ? explode("|", $text) : ['#000000','0'];
+      $xs = 'style="border: '.$pom[1].'px solid '.(strlen($pom[0])>2 ? $pom[0]:'inherit').'"';
+      return $xs;
+    });
 		$this->template->render();
 	}
   
@@ -232,16 +237,6 @@ class TitleArticleControl extends Nette\Application\UI\Control {
     } else {
       $this->redrawControl('');
     }
-	}
-  
-  protected function createTemplate($class = NULL) {
-    $template = parent::createTemplate($class);
-    $template->addFilter('border_x', function ($text){
-      $pom = $text != null & strlen($text)>2 ? explode("|", $text) : ['#000000','0'];
-      $xs = 'style="border: '.$pom[1].'px solid '.(strlen($pom[0])>2 ? $pom[0]:'inherit').'"';
-      return $xs;
-    });
-    return $template;
 	}
 }
 
