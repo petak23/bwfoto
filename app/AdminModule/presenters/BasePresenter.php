@@ -12,15 +12,15 @@ use Texy;
 /**
  * Zakladny presenter pre vsetky presentery v module ADMIN
  * 
- * Posledna zmena(last change): 30.05.2019
+ * Posledna zmena(last change): 11.05.2020
  *
  * Modul: ADMIN
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2019 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.3.1
+ * @version 1.3.2
  */
 abstract class BasePresenter extends UI\Presenter {
   
@@ -56,7 +56,7 @@ abstract class BasePresenter extends UI\Presenter {
   public $httpRequest;
   
   /** @var \WebLoader\Nette\LoaderFactory @inject */
-  public $webLoader;
+//  public $webLoader;
   
   /** @var Texy\Texy @inject */
 	public $texy;
@@ -150,28 +150,76 @@ abstract class BasePresenter extends UI\Presenter {
     $this->template->lang_menu = $this->lang->findAll();
     $this->template->language = $this->language;
     $this->template->avatar_path = $this->nastavenie["dir_to_menu"];
-    $this->template->admin_menu = $this->admin_menu->findBy(['view',1]);
+    $this->template->admin_menu = $this->admin_menu->findBy(['view' => 1]);
     $this->template->nastavenie = $this->nastavenie;
     $this->template->dir_to_images = $this->nastavenie['dir_to_images'];
     $this->template->dir_to_icons = $this->nastavenie['dir_to_icons'];
+    $servise = $this;
+    $this->template->addFilter('hlmenuclass', function ($id, $id_user_roles, $hl_udaje) {
+      $polozka_class = $id_user_roles>2 ? 'adminPol' : '';
+      //TODO $classPol .= ' zvyrazni';
+      if ($id == $hl_udaje) { $polozka_class .= ' active'; }
+      return $polozka_class;
+    });
+    $this->template->addFilter('nahodne', function ($max) { //Generuje nahodne cislo do template v rozsahu od 0 do max
+      return (int)rand(0, $max);
+    });
+    $this->template->addFilter('uprav_email', function ($email) { //Upravi email aby sa nedal pouzit ako nema
+      return Strings::replace($email, ['~@~' => '[@]', '~\.~' => '[dot]']);
+    });
+    $this->template->addFilter('textreg', function ($text, $id_user_roles, $max_id_reg) {
+      for ($i = $max_id_reg; $i>=0; $i--) {
+        $z_zac = "#REG".$i."#"; //Pociatocna znacka
+        $z_alt = "#REG-A".$i."#"; //Alternativna znacka
+        $z_kon = "#/REG".$i."#";//Koncova znacka
+        if (($p_zac = strpos($text, $z_zac)) !== FALSE && ($p_kon = strpos($text, $z_kon)) !== FALSE && $p_zac < $p_kon) { //Ak som našiel začiatok a koniec a sú v správnom poradí
+          $text = substr($text, 0, $p_zac) //Po zaciatocnu zancku
+                  .(($p_alt = strpos($text, $z_alt)) === FALSE ? // Je alternativa
+                   ($i < $id_user_roles ? substr($text, $p_zac+strlen($z_zac), $p_kon-$p_zac-strlen($z_zac)) : '') : // Bez alternativy
+                   ($i < $id_user_roles ? substr($text, $p_zac+strlen($z_zac), $p_alt-$p_zac-strlen($z_zac)) : substr($text, $p_alt+strlen($z_alt), $p_kon-$p_alt-strlen($z_alt))))// S alternativou
+                  .substr($text, $p_kon+strlen($z_kon)); //Od koncovej znacky
+        } 
+      }
+      return $text;
+    });
+    $this->template->addFilter('vytvor_odkaz', function ($row) use($servise){
+      return isset($row->absolutna) ? $row->absolutna :
+                          (isset($row->spec_nazov) ? $servise->link($row->druh->presenter.':default',$row->spec_nazov)
+                                                   : $servise->link($row->druh->presenter.':default'));
+    });
+    $this->template->addFilter('menu_mutacia_nazov', function ($id) use($servise){
+      $pom = $servise->hlavne_menu_lang->findOneBy(['id_hlavne_menu'=>$id, 'id_lang'=>$servise->language_id]);
+      return $pom !== FALSE ? $pom->nazov : $id;
+    });
+    $this->template->addFilter('menu_mutacia_title', function ($id) use($servise){
+      $pom = $servise->hlavne_menu_lang->findOneBy(['id_hlavne_menu'=>$id, 'id_lang'=>$servise->language_id]);
+      return $pom !== FALSE ? ((isset($pom->view_name) && strlen ($pom->view_name)) ? $pom->view_name : $pom->menu_name) : $id;
+    });
+    $this->template->addFilter('menu_mutacia_h1part2', function ($id) use($servise){
+      $pom = $servise->hlavne_menu_lang->findOneBy(['id_hlavne_menu'=>$id, 'id_lang'=>$servise->language_id]);
+      return $pom !== FALSE ? $pom->h1part2 : $id;
+    }); 
+    $this->texy->allowedTags = TRUE;
+    $this->texy->headingModule->balancing = "FIXED";
+    $this->template->addFilter('texy', [$this->texy, 'process']);
   }
 
   //  ---- Komponenty ---- 
     
   /** @return CssLoader */
-  protected function createComponentCss(){
-    return $this->webLoader->createCssLoader('admin');
-  }
+//  protected function createComponentCss(){
+//    return $this->webLoader->createCssLoader('admin');
+//  }
 
   /** @return JavaScriptLoader */
-  protected function createComponentJs(){
-    return $this->webLoader->createJavaScriptLoader('admin');
-  }
+//  protected function createComponentJs(){
+//    return $this->webLoader->createJavaScriptLoader('admin');
+//  }
   
   /**
    * Texyla loader factory
    * @return TexylaLoader */
-  protected function createComponentTexyla() {
+/*  protected function createComponentTexyla() {
     $baseUri = $this->httpRequest->getUrl()->baseUrl;
     $filter = new \WebLoader\Filter\VariablesFilter([
         "baseUri" => $baseUri,
@@ -185,6 +233,13 @@ abstract class BasePresenter extends UI\Presenter {
     $texyla = $this->webLoader->createJavaScriptLoader('texyla');
     $texyla->getCompiler()->addFilter($filter);
     return $texyla;
+  }*/
+  
+  /** 
+   * Komponenta pre výpis css a js súborov
+   * @return \PeterVojtech\Base\CssJsFilesControl */
+  public function createComponentFiles() {
+    return new PeterVojtech\Base\CssJsFilesControl($this->nastavenie['web_files'], $this->name, $this->action);
   }
 
   /** Vytvorenie komponenty pre posledných 25 prihlásení
@@ -275,65 +330,6 @@ abstract class BasePresenter extends UI\Presenter {
       $this->flashMessage($textEr, 'danger');
     }
   }
-  
-  /**
-   * Vytvorenie spolocnych helperov pre sablony
-   * @param type $class
-   * @return type
-   */
-  protected function createTemplate($class = NULL) {
-    $servise = $this;
-    $template = parent::createTemplate($class);
-    $template->addFilter('hlmenuclass', function ($id, $id_user_roles, $hl_udaje) {
-    	$polozka_class = $id_user_roles>2 ? 'adminPol' : '';
-      //TODO $classPol .= ' zvyrazni';
-      if ($id == $hl_udaje) { $polozka_class .= ' active'; }
-      return $polozka_class;
-    });
-    $template->addFilter('nahodne', function ($max) { //Generuje nahodne cislo do template v rozsahu od 0 do max
-      return (int)rand(0, $max);
-    });
-    $template->addFilter('uprav_email', function ($email) { //Upravi email aby sa nedal pouzit ako nema
-      return Strings::replace($email, ['~@~' => '[@]', '~\.~' => '[dot]']);
-    });
-    $template->addFilter('textreg', function ($text, $id_user_roles, $max_id_reg) {
-      for ($i = $max_id_reg; $i>=0; $i--) {
-        $z_zac = "#REG".$i."#"; //Pociatocna znacka
-        $z_alt = "#REG-A".$i."#"; //Alternativna znacka
-        $z_kon = "#/REG".$i."#";//Koncova znacka
-        if (($p_zac = strpos($text, $z_zac)) !== FALSE && ($p_kon = strpos($text, $z_kon)) !== FALSE && $p_zac < $p_kon) { //Ak som našiel začiatok a koniec a sú v správnom poradí
-          $text = substr($text, 0, $p_zac) //Po zaciatocnu zancku
-                  .(($p_alt = strpos($text, $z_alt)) === FALSE ? // Je alternativa
-                   ($i < $id_user_roles ? substr($text, $p_zac+strlen($z_zac), $p_kon-$p_zac-strlen($z_zac)) : '') : // Bez alternativy
-                   ($i < $id_user_roles ? substr($text, $p_zac+strlen($z_zac), $p_alt-$p_zac-strlen($z_zac)) : substr($text, $p_alt+strlen($z_alt), $p_kon-$p_alt-strlen($z_alt))))// S alternativou
-                  .substr($text, $p_kon+strlen($z_kon)); //Od koncovej znacky
-			  } 
-      }
-      return $text;
-    });
-    $template->addFilter('vytvor_odkaz', function ($row) use($servise){
-      return isset($row->absolutna) ? $row->absolutna :
-                          (isset($row->spec_nazov) ? $servise->link($row->druh->presenter.':default',$row->spec_nazov)
-                                                   : $servise->link($row->druh->presenter.':default'));
-    });
-    $template->addFilter('menu_mutacia_nazov', function ($id) use($servise){
-      $pom = $servise->hlavne_menu_lang->findOneBy(['id_hlavne_menu'=>$id, 'id_lang'=>$servise->language_id]);
-      return $pom !== FALSE ? $pom->nazov : $id;
-    });
-    $template->addFilter('menu_mutacia_title', function ($id) use($servise){
-      $pom = $servise->hlavne_menu_lang->findOneBy(['id_hlavne_menu'=>$id, 'id_lang'=>$servise->language_id]);
-      return $pom !== FALSE ? ((isset($pom->view_name) && strlen ($pom->view_name)) ? $pom->view_name : $pom->menu_name) : $id;
-    });
-    $template->addFilter('menu_mutacia_h1part2', function ($id) use($servise){
-      $pom = $servise->hlavne_menu_lang->findOneBy(['id_hlavne_menu'=>$id, 'id_lang'=>$servise->language_id]);
-      return $pom !== FALSE ? $pom->h1part2 : $id;
-    });
-        
-    $this->texy->allowedTags = TRUE;
-    $this->texy->headingModule->balancing = "FIXED";
-    $template->addFilter('texy', [$this->texy, 'process']);
-    return $template;
-	}
   
   /**
    * Nastavenie vzhľadu formulara

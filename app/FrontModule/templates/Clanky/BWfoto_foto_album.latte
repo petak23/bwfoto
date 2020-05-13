@@ -2,7 +2,7 @@
  *
  * Modul: FRONT
  *
- * Posledna zmena(last change): 04.05.2020
+ * Posledna zmena(last change): 13.05.2020
  * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
@@ -23,12 +23,12 @@
   <div class="col-12" id="uvodnyText">
     {control ukazTentoClanok}
   </div>
-  <div n:snippet="bigimgContainer" class="col-12">
-    <div class="row">
+  <div class="col-12">
+    <div class="row" n:snippet="bigimgName" >
       <h4 class="col-12 bigimg-name" n:if="count($big_img)">{$big_img['type'] == 'menu' ? $big_img['article']->view_name : $big_img['article']->name}</h4>
     </div>
     <div class="row" id="webThumbnails">
-      <div class="col-8 detail" n:if="count($big_img)">
+      <div class="col-8 detail" n:if="count($big_img)" n:snippet="bigimgMain">
         {if $big_img['type'] == "menu"}
           {var $av = $big_img['article']->hlavne_menu->avatar}
           <a n:href="Clanky: $big_img['article']->id_hlavne_menu" title="{$big_img['article']->menu_name}">
@@ -61,7 +61,7 @@
       </div>
       <div class="col-4 thumbnails" n:inner-foreach="$attachments as $id => $at"><div class="thumb">
         {var $a = $at['article']}
-          <a n:href="openAsBigImage! $id" title="Odkaz {$at['type'] == 'menu' ? $a->view_name : $a->name}" n:class="ajax, $big_img['id'] == $id ? selected">
+          <a n:href="openAsBigImage! $id" title="Odkaz {$at['type'] == 'menu' ? $a->view_name : $a->name}" n:class="thumb-a, ajax, $big_img['id'] == $id ? selected">
             {if $at['type'] == "menu"} {* Main menu articles *}
               <img src="{$basePath}/{if $a->hlavne_menu->avatar && is_file('files/menu/'.$a->hlavne_menu->avatar)}files/menu/{$a->hlavne_menu->avatar}{else}/ikonky/128/list_ceruza128.png{/if}" alt="{$a->view_name}" class="img-thumbnail">
             {elseif strpos($at['type'], 'attachments') !== false || $at['type'] == "product"}

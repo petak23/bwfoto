@@ -5,13 +5,13 @@ use Nette;
 
 /**
  * Komponenta na vytvorenie menu
- * Posledna zmena 19.07.2018
+ * Posledna zmena 13.05.2020
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.4
+ * @version    1.0.5
  */
 class Menu extends Nette\Application\UI\Control {
 	var $rootNode; // = new MenuItem();
@@ -35,8 +35,7 @@ class Menu extends Nette\Application\UI\Control {
   private $nastavenie;
 
   public function __construct(Nette\ComponentModel\IContainer $parent = NULL, $name = NULL) {
-		parent::__construct($parent, $name);
-		$this->templatePath = array(
+		$this->templatePath = [
 			'nav' => dirname(__FILE__) . '/Menu.latte',// sablona pro drobeckovou navigaci
 			'single' => dirname(__FILE__) . '/Menu.latte',// sablona pro jednourovnovou cast menu
 			'tree' => dirname(__FILE__) . '/Menu.latte',// sablona pro stromovou cast menu
@@ -44,7 +43,7 @@ class Menu extends Nette\Application\UI\Control {
       'fixed' => dirname(__FILE__) . '/Fixed.latte',// sablona pro fixne menu
       'mapa' => dirname(__FILE__) . '/Mapa.latte',// sablona pro fixne menu
       'main_fixed' => dirname(__FILE__) . '/MainFixed.latte',// sablona pro fixne menu
-		);
+		];
 		$this->rootNode = new MenuNode();
 		$this->rootNode->menu = $this;
 		$this->rootNode->isRootNode = true;
@@ -101,7 +100,7 @@ class Menu extends Nette\Application\UI\Control {
     } elseif ($templateType == 'fixed' || $templateType == 'main_fixed') {
       $template->showAll = true;
       if (isset($this->template->nastav["cast"])) {
-        $p = array();
+        $p = [];
         foreach ($this->rootNode->nodes as $v) { $p[] = $v->id; }
         $o = array_search(-1*$this->template->nastav["cast"], $p);
         $template->startNode = $this->rootNode->nodes[$o]; 
@@ -202,7 +201,7 @@ class Menu extends Nette\Application\UI\Control {
   }
 
 	public function fromTable($data, $setupNode) {
-		$nodes = array();
+		$nodes = [];
 		foreach($data as $row) {
 			$node = new MenuNode;
 			$parentId = $setupNode($node, $row);
@@ -294,7 +293,7 @@ class MenuNode {
   var $poradie_podclankov = 0;
   var $datum_platnosti;
 	var $link;	//Odkaz na polozku
-	var $nodes = array();
+	var $nodes = [];
 	var $parent;
 	var $id;
 	var $menu;

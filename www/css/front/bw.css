@@ -1,4 +1,5 @@
 @charset "utf-8";
+
 h1
 {
 	font-family: "Fira Bold", "sans-serif";
@@ -31,7 +32,7 @@ p
 }
 header
 {
-	/*background: url(../www/images/bg-bw.png) repeat-x;*/
+	/*background: url(../../images/bg-bw.png) repeat-x;*/
   background-repeat: repeat-x;
 	height: 260px;
 	width: 100%;
@@ -64,7 +65,7 @@ nav.shrink .logo
 	margin-right: 1em;
 }
 #navbarSupportedContent form input[type=search] {
-	background: #ededed url(../www/images/icons/lupa_32.png) no-repeat top 4px right 8px;
+	background: #ededed url(../../images/icons/lupa_32.png) no-repeat top 4px right 8px;
 	border: solid 1px #ccc;
 	padding: 9px 40px 9px 10px;
 	width: 50px;

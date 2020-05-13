@@ -7,13 +7,13 @@ use Nette\Http\Request;
 
 /**
  * Komponenta pre vlozenie kodu pre google analytics do stranky
- * Posledna zmena(last change): 18.07.2018
+ * Posledna zmena(last change): 11.05.2020
  * 
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
- * @copyright  Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.2
+ * @version 1.0.3
  */
 
 class GoogleAnalyticsControl extends Control {
@@ -22,9 +22,10 @@ class GoogleAnalyticsControl extends Control {
   /** @var string */
   private $host;
   
-  /** @param DbTable\Udaje $udaje */
+  /** 
+   * @param DbTable\Udaje $udaje 
+   * @param Nette\Http\Request $request */
   public function __construct(DbTable\Udaje $udaje, Request $request) {
-    parent::__construct();
     $this->udaj = $udaje->getKluc("google-analytics");
     $this->host = $request->getUrl()->host;
   }

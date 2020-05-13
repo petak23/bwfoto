@@ -5,8 +5,8 @@
 # http://nette.org/security-warning
 #
 services:
-  - DbTable\UserManager
-  authorizator: DbTable\AuthorizatorFactory::create(@Nette\Database\Context)
+  - App\Model\UserManager
+  authorizator: App\Model\AuthorizatorFactory::create(@Nette\Database\Context)
   - DbTable\Admin_menu
   - DbTable\Clanok_komponenty
   - DbTable\Clanok_lang

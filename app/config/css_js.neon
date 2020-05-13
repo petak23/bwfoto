@@ -5,106 +5,154 @@
 # http://nette.org/security-warning
 #
 parameters:
+  web_files:
+    Front:
+      css:
+        - node_modules/@fortawesome/fontawesome-free/css/all.min.css
+        - node_modules/bootstrap/dist/css/bootstrap.min.css
+        - www/css/front/main.css
+      js:
+        - node_modules/jquery/dist/jquery.min.js
+        - node_modules/bootstrap/dist/js/bootstrap.bundle.js
+        - node_modules/nette-forms/src/assets/netteForms.min.js
+        - node_modules/naja/dist/Naja.js
+        - www/js/pomocne_front.js
+        - www/js/nav-shrink.js
+    Admin:
+      css:
+        - node_modules/@fortawesome/fontawesome-free/css/all.min.css
+        - node_modules/bootstrap/dist/css/bootstrap.min.css
+        - wwwcss/jquery-ui.css
+        - vendor/ublaboo/datagrid/assets/dist/datagrid.css
+        - vendor/ublaboo/datagrid/assets/dist/datagrid-spinners.css
+        - www/css/admin/main.css
+      js:
+        - node_modules/jquery/dist/jquery.min.js
+        - node_modules/bootstrap/dist/js/bootstrap.bundle.js
+        - node_modules/nette-forms/src/assets/netteForms.min.js
+        - node_modules/naja/dist/Naja.js
+        - www/js/admin/nette.ajax.js
+        - www/js/admin/jquery-ui-1.12.1.js
+        - www/js/admin/jquery.ui.datepicker-sk.js
+        - vendor/ublaboo/datagrid/assets/dist/datagrid.js
+        - vendor/ublaboo/datagrid/assets/dist/datagrid-instant-url-refresh.js
+        - vendor/ublaboo/datagrid/assets/dist/datagrid-spinners.js
+        - www/js/pomocne_admin.js
+#TEXYLA
+        - www/js/texyla/js/texyla.js
+        - www/js/texyla/js/selection.js
+        - www/js/texyla/js/texy.js
+        - www/js/texyla/js/buttons.js
+        - www/js/texyla/js/dom.js
+        - www/js/texyla/js/view.js
+        - www/js/texyla/js/ajaxupload.js
+        - www/js/texyla/js/window.js
+        - www/js/texyla/languages/cs.js
+        - www/js/texyla/languages/sk.js
+        - www/js/texyla/languages/en.js
+        - www/js/texyla/plugins/keys/keys.js
+        - www/js/texyla/plugins/resizableTextarea/resizableTextarea.js
+        - www/js/texyla/plugins/img/img.js
+        - www/js/texyla/plugins/table/table.js
+        - www/js/texyla/plugins/link/link.js
+        - www/js/texyla/plugins/emoticon/emoticon.js
+        - www/js/texyla/plugins/symbol/symbol.js
+        - www/js/texyla/plugins/files/files.js
+        - www/js/texyla/plugins/color/color.js
+        - www/js/texyla/plugins/textTransform/textTransform.js
+        - www/js/texyla/plugins/youtube/youtube.js
+        - www/js/texyla/plugins/gravatar/gravatar.js
+        - www/js/texyla/texyla-init.js
 
-services:
-#    wlCssFilter: WebLoader\Filter\CssUrlsFilter(%wwwDir%)
-#    lessFilter: WebLoader\Filter\LessFilter
-    jwlCssMinFilter: Joseki\Webloader\CssMinFilter
-    jsMin: Joseki\Webloader\JsMinFilter
 
-extensions:
-  webloader: WebLoader\Nette\Extension
-
-webloader:
-  css:
-    front:
-      files:
-        - %wwwDir%/../node_modules/@fortawesome/fontawesome-free/css/all.min.css
-        - %wwwDir%/../node_modules/bootstrap/dist/css/bootstrap.min.css
-        - %wwwDir%/css/front/fonts.css
-        - %wwwDir%/css/front/bw.css
-        - %wwwDir%/css/front/responsive.css
-        - %wwwDir%/css/front/x_docasne.css
-        - {files: ["*.css", "*.less"], from: %wwwDir%/css/front} # Nette\Utils\Finder support
-      filters:
-        - @jwlCssMinFilter
-#      fileFilters:
-#        - @lessFilter
-#        - @wlCssFilter
-      watchFiles:     # only watch modify file
-        - {files: ["*.css", "*.less"], from: %wwwDir%/css/front}
-        - {files: ["*.css", "*.less"], in: %wwwDir%/css/front}
-    admin:
-      files:
-        - %wwwDir%/../node_modules/@fortawesome/fontawesome-free/css/all.min.css
-        - %wwwDir%/../node_modules/bootstrap/dist/css/bootstrap.min.css
-        - %wwwDir%/css/jquery-ui.css
-        - %wwwDir%/../vendor/ublaboo/datagrid/assets/dist/datagrid.css
-        - %wwwDir%/../vendor/ublaboo/datagrid/assets/dist/datagrid-spinners.css        
-        - {files: ["*.css", "*.less"], from: %wwwDir%/css/admin} # Nette\Utils\Finder support
-      filters:
-        - @jwlCssMinFilter
-#      fileFilters:
-#        - @lessFilter
-#        - @wlCssFilter
-      watchFiles:     # only watch modify file
-        - {files: ["*.css", "*.less"], from: %wwwDir%/css/admin}
-        - {files: ["*.css", "*.less"], in: %wwwDir%/css/admin}
-
-  js:
-    frontBefore:
-      files: []
-    frontAfter:
-      files:
-        - %wwwDir%/../node_modules/jquery/dist/jquery.min.js
-        - %wwwDir%/../node_modules/bootstrap/dist/js/bootstrap.bundle.js
-        - %wwwDir%/../node_modules/nette-forms/src/assets/netteForms.min.js
-        - %wwwDir%/../node_modules/naja/dist/Naja.js
-        - %wwwDir%/js/pomocne_front.js
-        - %wwwDir%/js/nav-shrink.js
+#webloader:
+#  css:
+#    front:
+#      files:
+#        - %wwwDir%/../node_modules/@fortawesome/fontawesome-free/css/all.min.css
+#        - %wwwDir%/../node_modules/bootstrap/dist/css/bootstrap.min.css
+#        - %wwwDir%/css/front/fonts.css
+#        - %wwwDir%/css/front/bw.css
+#        - %wwwDir%/css/front/responsive.css
+#        - %wwwDir%/css/front/x_docasne.css
+#        - {files: ["*.css", "*.less"], from: %wwwDir%/css/front} # Nette\Utils\Finder support
 #      filters:
-#        - @jsMin
+#        - @jwlCssMinFilter
+#      fileFilters:
+#        - @lessFilter
+#        - @wlCssFilter
+#      watchFiles:     # only watch modify file
+#        - {files: ["*.css", "*.less"], from: %wwwDir%/css/front}
+#        - {files: ["*.css", "*.less"], in: %wwwDir%/css/front}
+#    admin:
+#      files:
+#        - %wwwDir%/../node_modules/@fortawesome/fontawesome-free/css/all.min.css
+#        - %wwwDir%/../node_modules/bootstrap/dist/css/bootstrap.min.css
+#        - %wwwDir%/css/jquery-ui.css
+#        - %wwwDir%/../vendor/ublaboo/datagrid/assets/dist/datagrid.css
+#        - %wwwDir%/../vendor/ublaboo/datagrid/assets/dist/datagrid-spinners.css        
+#        - {files: ["*.css", "*.less"], from: %wwwDir%/css/admin} # Nette\Utils\Finder support
+#      filters:
+#        - @jwlCssMinFilter
+#      fileFilters:
+#        - @lessFilter
+#        - @wlCssFilter
+#      watchFiles:     # only watch modify file
+#        - {files: ["*.css", "*.less"], from: %wwwDir%/css/admin}
+#        - {files: ["*.css", "*.less"], in: %wwwDir%/css/admin}
 
-    admin:
-      files:
-        - %wwwDir%/../node_modules/jquery/dist/jquery.min.js
-        - %wwwDir%/../node_modules/bootstrap/dist/js/bootstrap.bundle.js
-        - %wwwDir%/../node_modules/nette-forms/src/assets/netteForms.min.js
+#  js:
+#    frontAfter:
+#      files:
+#        - %wwwDir%/../node_modules/jquery/dist/jquery.min.js
+#        - %wwwDir%/../node_modules/bootstrap/dist/js/bootstrap.bundle.js
+#        - %wwwDir%/../node_modules/nette-forms/src/assets/netteForms.min.js
 #        - %wwwDir%/../node_modules/naja/dist/Naja.js
-        - %wwwDir%/js/admin/nette.ajax.js
-        - %wwwDir%/js/admin/jquery-ui-1.12.1.js
-        - %wwwDir%/js/admin/jquery.ui.datepicker-sk.js
-        - %wwwDir%/../vendor/ublaboo/datagrid/assets/dist/datagrid.js
-        - %wwwDir%/../vendor/ublaboo/datagrid/assets/dist/datagrid-instant-url-refresh.js
-        - %wwwDir%/../vendor/ublaboo/datagrid/assets/dist/datagrid-spinners.js
-        - %wwwDir%/js/pomocne_admin.js
+#        - %wwwDir%/js/pomocne_front.js
+#        - %wwwDir%/js/nav-shrink.js
 #      filters:
 #        - @jsMin
-    texyla:
-      files:
-        - %wwwDir%/js/texyla/js/texyla.js
-        - %wwwDir%/js/texyla/js/selection.js
-        - %wwwDir%/js/texyla/js/texy.js
-        - %wwwDir%/js/texyla/js/buttons.js
-        - %wwwDir%/js/texyla/js/dom.js
-        - %wwwDir%/js/texyla/js/view.js
-        - %wwwDir%/js/texyla/js/ajaxupload.js
-        - %wwwDir%/js/texyla/js/window.js
-        - %wwwDir%/js/texyla/languages/cs.js
-        - %wwwDir%/js/texyla/languages/sk.js
-        - %wwwDir%/js/texyla/languages/en.js
-        - %wwwDir%/js/texyla/plugins/keys/keys.js
-        - %wwwDir%/js/texyla/plugins/resizableTextarea/resizableTextarea.js
-        - %wwwDir%/js/texyla/plugins/img/img.js
-        - %wwwDir%/js/texyla/plugins/table/table.js
-        - %wwwDir%/js/texyla/plugins/link/link.js
-        - %wwwDir%/js/texyla/plugins/emoticon/emoticon.js
-        - %wwwDir%/js/texyla/plugins/symbol/symbol.js
-        - %wwwDir%/js/texyla/plugins/files/files.js
-        - %wwwDir%/js/texyla/plugins/color/color.js
-        - %wwwDir%/js/texyla/plugins/textTransform/textTransform.js
-        - %wwwDir%/js/texyla/plugins/youtube/youtube.js
-        - %wwwDir%/js/texyla/plugins/gravatar/gravatar.js
-        - %wwwDir%/js/texyla/texyla-init.js
-      filters:
-        - @jsMin
+
+#    admin:
+#      files:
+#        - %wwwDir%/../node_modules/jquery/dist/jquery.min.js
+#        - %wwwDir%/../node_modules/bootstrap/dist/js/bootstrap.bundle.js
+#        - %wwwDir%/../node_modules/nette-forms/src/assets/netteForms.min.js
+#        - %wwwDir%/../node_modules/naja/dist/Naja.js
+#        - %wwwDir%/js/admin/nette.ajax.js
+#        - %wwwDir%/js/admin/jquery-ui-1.12.1.js
+#        - %wwwDir%/js/admin/jquery.ui.datepicker-sk.js
+#        - %wwwDir%/../vendor/ublaboo/datagrid/assets/dist/datagrid.js
+#        - %wwwDir%/../vendor/ublaboo/datagrid/assets/dist/datagrid-instant-url-refresh.js
+#        - %wwwDir%/../vendor/ublaboo/datagrid/assets/dist/datagrid-spinners.js
+#        - %wwwDir%/js/pomocne_admin.js
+#      filters:
+#        - @jsMin
+#    texyla:
+#      files:
+#        - %wwwDir%/js/texyla/js/texyla.js
+#        - %wwwDir%/js/texyla/js/selection.js
+#        - %wwwDir%/js/texyla/js/texy.js
+#        - %wwwDir%/js/texyla/js/buttons.js
+#        - %wwwDir%/js/texyla/js/dom.js
+#        - %wwwDir%/js/texyla/js/view.js
+#        - %wwwDir%/js/texyla/js/ajaxupload.js
+#        - %wwwDir%/js/texyla/js/window.js
+#        - %wwwDir%/js/texyla/languages/cs.js
+#        - %wwwDir%/js/texyla/languages/sk.js
+#        - %wwwDir%/js/texyla/languages/en.js
+#        - %wwwDir%/js/texyla/plugins/keys/keys.js
+#        - %wwwDir%/js/texyla/plugins/resizableTextarea/resizableTextarea.js
+#        - %wwwDir%/js/texyla/plugins/img/img.js
+#        - %wwwDir%/js/texyla/plugins/table/table.js
+#        - %wwwDir%/js/texyla/plugins/link/link.js
+#        - %wwwDir%/js/texyla/plugins/emoticon/emoticon.js
+#        - %wwwDir%/js/texyla/plugins/symbol/symbol.js
+#        - %wwwDir%/js/texyla/plugins/files/files.js
+#        - %wwwDir%/js/texyla/plugins/color/color.js
+#        - %wwwDir%/js/texyla/plugins/textTransform/textTransform.js
+#        - %wwwDir%/js/texyla/plugins/youtube/youtube.js
+#        - %wwwDir%/js/texyla/plugins/gravatar/gravatar.js
+#        - %wwwDir%/js/texyla/texyla-init.js
+#      filters:
+#        - @jsMin

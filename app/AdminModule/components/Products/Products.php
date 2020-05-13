@@ -14,13 +14,13 @@ use Ublaboo\DataGrid\Localization\SimpleTranslator;
 /**
  * Komponenta pre spravu produktov clanku.
  * 
- * Posledna zmena(last change): 04.05.2020
+ * Posledna zmena(last change): 10.05.2020
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
  * @copyright Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.6
+ * @version 1.0.7
  */
 
 class ProductsControl extends Nette\Application\UI\Control {
@@ -124,6 +124,12 @@ class ProductsControl extends Nette\Application\UI\Control {
     $this->template->admin_links_prilohy = $this->admin_links;
     $this->template->dir_to_images = $this->nastavenie["dir_to_images"];
     $this->template->big_img = $this->big_img;
+    $this->template->addFilter('border_x', function ($text){
+      $pom = $text != null && strlen($text)>2 ? explode("|", $text) : ['#000000','0'];
+      $xs = 'style="border: '.$pom[1].'px solid '.(strlen($pom[0])>2 ? $pom[0]:'inherit').'"';
+      return $xs;
+    });
+    
 		$this->template->render();
 	}
   
@@ -271,16 +277,6 @@ class ProductsControl extends Nette\Application\UI\Control {
 	 * @return int Ak zmaze alebo neexistuje(nie je co mazat) tak 1 inak 0 */
 	private function _vymazSubor(string $subor): int {
 		return (is_file($subor)) ? unlink($this->presenter->context->parameters["wwwDir"]."/".$subor) : -1;
-	}
-  
-  protected function createTemplate($class = NULL) {
-    $template = parent::createTemplate($class);
-    $template->addFilter('border_x', function ($text){
-      $pom = $text != null && strlen($text)>2 ? explode("|", $text) : ['#000000','0'];
-      $xs = 'style="border: '.$pom[1].'px solid '.(strlen($pom[0])>2 ? $pom[0]:'inherit').'"';
-      return $xs;
-    });
-    return $template;
 	}
 }
 
