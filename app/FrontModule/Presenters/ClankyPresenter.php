@@ -11,7 +11,7 @@ use PeterVojtech;
 /**
  * Prezenter pre vypisanie clankov.
  * 
- * Posledna zmena(last change): 11.05.2020
+ * Posledna zmena(last change): 13.05.2020
  *
  *	Modul: FRONT
  *
@@ -19,7 +19,7 @@ use PeterVojtech;
  * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.3.5
+ * @version 1.3.6
  */
 
 class ClankyPresenter extends BasePresenter {
@@ -163,7 +163,8 @@ class ClankyPresenter extends BasePresenter {
   public function handleOpenAsBigImage(int $id_big_img) {
     $this->big_img = array_merge(['id' => $id_big_img], $this->attachments[$id_big_img]);
     if ($this->isAjax()) {
-      $this->redrawControl('bigimgContainer');
+      $this->redrawControl('bigimgName');
+      $this->redrawControl('bigimgMain');
       $this->redrawControl('lightbox-image');
     }
   }
@@ -179,7 +180,8 @@ class ClankyPresenter extends BasePresenter {
     } while (!in_array($this->attachments[$new_id]['type'],["attachments2", "product"]));
     $this->big_img = array_merge(['id' => $new_id], $this->attachments[$new_id]); 
 		if ($this->isAjax()) {
-      $this->redrawControl('bigimgContainer');
+      $this->redrawControl('bigimgName');
+      $this->redrawControl('bigimgMain');
       $this->redrawControl('lightbox-image');
     }
 	}
@@ -195,7 +197,8 @@ class ClankyPresenter extends BasePresenter {
     } while (!in_array($this->attachments[$new_id]['type'],["attachments2", "product"]));
     $this->big_img = array_merge(['id' => $new_id], $this->attachments[$new_id]);
 		if ($this->isAjax()) {
-      $this->redrawControl('bigimgContainer');
+      $this->redrawControl('bigimgName');
+      $this->redrawControl('bigimgMain');
       $this->redrawControl('lightbox-image');
     }
 	}

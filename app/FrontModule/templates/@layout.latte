@@ -4,7 +4,7 @@
  *
  *	Modul: FRONT
  *
- * Posledna zmena(last change): 23.04.2020
+ * Posledna zmena(last change): 13.05.2020
  * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
@@ -28,7 +28,6 @@
   {* ----- Favicon ------ *}
   <link rel="shortcut icon" href="{$basePath}/favicon.ico" type="image/x-icon">
   {block head}{/block}
-  {* control jsBefore *}
 </head>
 
 <body>
@@ -123,7 +122,7 @@
     </div>
   </footer>
   {block lightbox}{/block}
-  {* control jsAfter *}
+  {control files:js}
   {block spec_js}{/block}
   {control googleAnalytics}
 </body>

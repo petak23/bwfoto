@@ -29,5 +29,13 @@ $(function() {
 		});			  
 		return false;                   //Zakážem odkaz
 	});
+
+  $('.thumbnails').find('.thumb-a').each(function(){
+    var el = $(this);
+    el.click(function(){
+      $('.thumb-a').removeClass('selected');
+      $(this).addClass('selected');
+    });
+  });
   
 });

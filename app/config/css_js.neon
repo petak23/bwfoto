@@ -11,6 +11,13 @@ parameters:
         - node_modules/@fortawesome/fontawesome-free/css/all.min.css
         - node_modules/bootstrap/dist/css/bootstrap.min.css
         - www/css/front/main.css
+      js:
+        - node_modules/jquery/dist/jquery.min.js
+        - node_modules/bootstrap/dist/js/bootstrap.bundle.js
+        - node_modules/nette-forms/src/assets/netteForms.min.js
+        - node_modules/naja/dist/Naja.js
+        - www/js/pomocne_front.js
+        - www/js/nav-shrink.js
     Admin:
       css:
         - node_modules/@fortawesome/fontawesome-free/css/all.min.css
@@ -19,6 +26,43 @@ parameters:
         - vendor/ublaboo/datagrid/assets/dist/datagrid.css
         - vendor/ublaboo/datagrid/assets/dist/datagrid-spinners.css
         - www/css/admin/main.css
+      js:
+        - node_modules/jquery/dist/jquery.min.js
+        - node_modules/bootstrap/dist/js/bootstrap.bundle.js
+        - node_modules/nette-forms/src/assets/netteForms.min.js
+        - node_modules/naja/dist/Naja.js
+        - www/js/admin/nette.ajax.js
+        - www/js/admin/jquery-ui-1.12.1.js
+        - www/js/admin/jquery.ui.datepicker-sk.js
+        - vendor/ublaboo/datagrid/assets/dist/datagrid.js
+        - vendor/ublaboo/datagrid/assets/dist/datagrid-instant-url-refresh.js
+        - vendor/ublaboo/datagrid/assets/dist/datagrid-spinners.js
+        - www/js/pomocne_admin.js
+#TEXYLA
+        - www/js/texyla/js/texyla.js
+        - www/js/texyla/js/selection.js
+        - www/js/texyla/js/texy.js
+        - www/js/texyla/js/buttons.js
+        - www/js/texyla/js/dom.js
+        - www/js/texyla/js/view.js
+        - www/js/texyla/js/ajaxupload.js
+        - www/js/texyla/js/window.js
+        - www/js/texyla/languages/cs.js
+        - www/js/texyla/languages/sk.js
+        - www/js/texyla/languages/en.js
+        - www/js/texyla/plugins/keys/keys.js
+        - www/js/texyla/plugins/resizableTextarea/resizableTextarea.js
+        - www/js/texyla/plugins/img/img.js
+        - www/js/texyla/plugins/table/table.js
+        - www/js/texyla/plugins/link/link.js
+        - www/js/texyla/plugins/emoticon/emoticon.js
+        - www/js/texyla/plugins/symbol/symbol.js
+        - www/js/texyla/plugins/files/files.js
+        - www/js/texyla/plugins/color/color.js
+        - www/js/texyla/plugins/textTransform/textTransform.js
+        - www/js/texyla/plugins/youtube/youtube.js
+        - www/js/texyla/plugins/gravatar/gravatar.js
+        - www/js/texyla/texyla-init.js
 
 
 #webloader:

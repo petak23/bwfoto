@@ -4,8 +4,8 @@
  *
  *	Modul: ADMIN
  *
- * Posledna zmena(last change): 30.05.2019
- * @copyright  Copyright (c) 2012 - 2019 Ing. Peter VOJTECH ml.
+ * Posledna zmena(last change): 13.05.2020
+ * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
  *
@@ -30,13 +30,12 @@
   <meta name="robots" content="noindex" />
 	<meta name="author" content="{$udaje['autor']}" />
 	<title>{$udaje['titulka']} - Administracia</title>
-  {* control css *}
+  {control files:css}
   {block spec_css}{/block}
 	
   {control favicon}
 
 	{block head}{/block}
-  {*control js*}
 </head>
 
 <body>
@@ -124,8 +123,7 @@
       </div>
     </div>
   </div>
-  {* control js}
-  {control texyla *}
+  {control files:js}
   {block spec_js}{/block}
 </body>
 </html>
