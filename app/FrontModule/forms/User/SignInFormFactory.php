@@ -62,8 +62,8 @@ class SignInFormFactory {
          ->setAttribute('class', 'btn btn-success')
          ->onClick[] = [$this, 'signInFormSubmitted'];
     $form->addSubmit('forgottenPassword', 'SignInForm_forgottenPassword')
-         ->setAttribute('class', 'btn btn-link')
-         ->setValidationScope(FALSE);
+         ->setAttribute('class', 'btn btn-link');
+//         ->setValidationScope(FALSE);
 		return $form;
 	}
   

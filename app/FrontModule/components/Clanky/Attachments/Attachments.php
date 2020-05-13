@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\FrontModule\Components\Clanky\Attachments;
 
@@ -12,13 +13,13 @@ use Nette\Database\Table;
 /**
  * Komponenta pre zobrazenie príloh clanku pre FRONT modul
  * 
- * Posledna zmena(last change): 16.12.2019
+ * Posledna zmena(last change): 13.05.2020
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @copyright Copyright (c) 2012 - 2019 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.3
+ * @version 1.1.4
  */
 class AttachmentsControl extends Control {
 
@@ -38,7 +39,6 @@ class AttachmentsControl extends Control {
    * @param DbTable\Dokumenty $dokumenty
    * @param Language_support\LanguageMain $texts */
   public function __construct(string $dir_to_menu, DbTable\Dokumenty $dokumenty, Language_support\LanguageMain $texts) {
-    parent::__construct();
     $this->prilohy = $dokumenty;
     $this->texts = $texts;
     $this->avatar_path = $dir_to_menu;

@@ -150,7 +150,7 @@ abstract class BasePresenter extends UI\Presenter {
     $this->template->lang_menu = $this->lang->findAll();
     $this->template->language = $this->language;
     $this->template->avatar_path = $this->nastavenie["dir_to_menu"];
-    $this->template->admin_menu = $this->admin_menu->findBy(['view',1]);
+    $this->template->admin_menu = $this->admin_menu->findBy(['view' => 1]);
     $this->template->nastavenie = $this->nastavenie;
     $this->template->dir_to_images = $this->nastavenie['dir_to_images'];
     $this->template->dir_to_icons = $this->nastavenie['dir_to_icons'];
@@ -234,6 +234,13 @@ abstract class BasePresenter extends UI\Presenter {
     $texyla->getCompiler()->addFilter($filter);
     return $texyla;
   }*/
+  
+  /** 
+   * Komponenta pre výpis css a js súborov
+   * @return \PeterVojtech\Base\CssJsFilesControl */
+  public function createComponentFiles() {
+    return new PeterVojtech\Base\CssJsFilesControl($this->nastavenie['web_files'], $this->name, $this->action);
+  }
 
   /** Vytvorenie komponenty pre posledných 25 prihlásení
    * @return \App\AdminModule\Components\User\UserLastControl */

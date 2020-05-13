@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\FrontModule\Forms\UserLog;
 
@@ -12,13 +13,13 @@ use PeterVojtech\News_key;
 
 /**
  * Formular editacie prihlaseneho uzivatela
- * Posledna zmena 16.12.2019
+ * Posledna zmena 13.05.2020
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2019 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.5
+ * @version    1.0.6
  */
 class UserEditFormFactory {
   /** @var Language_support\LanguageMain */
@@ -38,10 +39,13 @@ class UserEditFormFactory {
 
   /**
    * @param Security\User $user
-   * @param Language_support\UserLog $texts
+   * @param Language_support\LanguageMain $language_main
    * @param DbTable\User_profiles $user_profiles
    * @param DbTable\User_main $user_main */
-  public function __construct(Security\User $user, Language_support\LanguageMain $language_main, DbTable\User_profiles $user_profiles, DbTable\User_main $user_main) {
+  public function __construct(Security\User $user, 
+                              Language_support\LanguageMain $language_main, 
+                              DbTable\User_profiles $user_profiles, 
+                              DbTable\User_main $user_main) {
     $this->user = $user;
     $this->texts = $language_main;
     $this->user_profiles = $user_profiles;
@@ -93,7 +97,7 @@ class UserEditFormFactory {
          ->setAttribute('class', 'btn btn-success')
          ->onClick[] = [$this, 'userEditFormSubmitted'];
     $form->addSubmit('cancel', 'Cancel')->setAttribute('class', 'btn btn-default')
-         ->setValidationScope(FALSE);
+         ->setValidationScope(null);
 		return $form;
 	}
   

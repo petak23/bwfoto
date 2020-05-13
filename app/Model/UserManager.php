@@ -1,6 +1,7 @@
 <?php
+declare(strict_types=1);
 
-namespace DbTable;
+namespace App\Model;
 
 use DbTable;
 use Nette;
@@ -10,13 +11,13 @@ use Nette\Security;
 /**
  * Model starajuci sa o uzivatela
  * 
- * Posledna zmena(last change): 10.05.2020
+ * Posledna zmena(last change): 13.05.2020
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.5
+ * @version    1.0.6
  */
 class UserManager implements Security\IAuthenticator {
 	use Nette\SmartObject;
@@ -46,29 +47,38 @@ class UserManager implements Security\IAuthenticator {
   private $user_prihlasenie;
   /** @var Nette\Http\Request */
   private $httpres;
-  
+  /** @var Security\Passwords */
+  private $passwords;
   
   /**
    * @param DbTable\User_main $user_main
    * @param DbTable\User_profiles $user_profiles
-   * @param Nette\Http\Request $httpres  */
-  public function __construct(DbTable\User_main $user_main, DbTable\User_profiles $user_profiles, DbTable\User_prihlasenie $user_prihlasenie, Nette\Http\Request $httpres) {
+   * @param DbTable\User_prihlasenie $user_prihlasenie
+   * @param Nette\Http\Request $httpres
+   * @param Security\Passwords $passwords */
+  public function __construct(DbTable\User_main $user_main, 
+                              DbTable\User_profiles $user_profiles, 
+                              DbTable\User_prihlasenie $user_prihlasenie, 
+                              Nette\Http\Request $httpres,
+                              Security\Passwords $passwords) {
     $this->user_main = $user_main;
     $this->user_profiles = $user_profiles;
     $this->user_prihlasenie = $user_prihlasenie;
     $this->httpres = $httpres;
+    $this->passwords = $passwords;
 	}
 
 	/**
 	 * Performs an authentication.
-	 * @return Nette\Security\IIdentity
+   * @param array $credentials
+	 * @return Nette\Security\Identity
 	 * @throws Nette\Security\AuthenticationException 
    *  IDENTITY_NOT_FOUND = 1
    *  INVALID_CREDENTIAL = 2
    *  FAILURE = 3
    *  NOT_APPROVED = 4 */
 	public function authenticate(array $credentials): Security\IIdentity {
-		list($email, $password) = $credentials;
+		[$email, $password] = $credentials;
     
     $row = $this->user_main->findOneBy([self::COLUMN_EMAIL => $email]);
 		if (!$row) {
@@ -77,9 +87,9 @@ class UserManager implements Security\IAuthenticator {
 			throw new Security\AuthenticationException("User with email '$email' not activated. Užívateľ s email-om '$email' ešte nie je aktivovaný!", self::FAILURE);
 		} elseif ($row[self::COLUMN_BANNED]) {
 			throw new Security\AuthenticationException("User with email '$email' is banned! Because: ".$row[self::COLUMN_BAN_REASON].". Užívateľ s email-om '$email' je blokovaný! Lebo: ".$row[self::COLUMN_BAN_REASON], self::FAILURE);
-		} elseif (!Security\Passwords::verify($password, $row[self::COLUMN_PASSWORD_HASH])) {
+		} elseif (!$this->passwords->verify($password, $row[self::COLUMN_PASSWORD_HASH])) {
 			throw new Security\AuthenticationException('Invalid email or password. Chybné užívateľský email alebo heslo!', self::INVALID_CREDENTIAL);
-		} elseif (Security\Passwords::needsRehash($row[self::COLUMN_PASSWORD_HASH])) {
+		} elseif ($this->passwords->needsRehash($row[self::COLUMN_PASSWORD_HASH])) {
 			$row->update([
 				self::COLUMN_PASSWORD_HASH => Security\Passwords::hash($password),
 			]);
@@ -90,6 +100,6 @@ class UserManager implements Security\IAuthenticator {
     $this->user_profiles->updateAfterLogIn($arr['id_user_profiles']);
     $this->user_main->logLastIp($row[self::COLUMN_ID], $this->httpres->getRemoteAddress());
     $this->user_prihlasenie->addLogIn($row[self::COLUMN_ID]);
-		return new Security\IIdentity($row[self::COLUMN_ID], $role, $arr);
+		return new Security\Identity($row[self::COLUMN_ID], $role, $arr);
 	}
 }
