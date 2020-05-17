@@ -1,22 +1,24 @@
 <?php
+declare(strict_types=1);
 
 namespace App\AdminModule\Components\Clanky\PrilohyClanok;
 
+use DbTable;
 use Nette\Application\UI\Form;
+use Nette\Database;
+use Nette\Security\User;
 use Nette\Utils\Strings;
 use Nette\Utils\Image;
-use Nette\Security\User;
-use Nette\Database;
-use DbTable;
+
 /**
  * Formular a jeho spracovanie pre pridanie viacerich prilohy polozky.
- * Posledna zmena 26.03.2020
+ * Posledna zmena 14.05.2020
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.6
+ * @version    1.0.7
  */
 class AddMultiPrilohyFormFactory {
   
@@ -39,7 +41,8 @@ class AddMultiPrilohyFormFactory {
    * @param DbTable\Dokumenty $dokumenty
    * @param User $user
    * @param string $wwwDir  */
-  public function __construct($prilohy_adresar, $prilohy_images, $wwwDir, DbTable\Dokumenty $dokumenty, User $user) {
+  public function __construct(string $prilohy_adresar, array $prilohy_images, string $wwwDir, 
+                              DbTable\Dokumenty $dokumenty, User $user) {
     $this->dokumenty = $dokumenty;
     $this->id_user_main = $user->getId();
     $this->wwwDir = $wwwDir;
@@ -50,7 +53,7 @@ class AddMultiPrilohyFormFactory {
   /**
    * Formular pre pridanie prilohy a editaciu polozky.
    * @return Form  */
-  public function create()  {
+  public function create(): Form  {
     //Vypocet max. velkosti suboru pre upload
     $ini_v = trim(ini_get("upload_max_filesize"));
     $s = ['g'=> 1<<30, 'm' => 1<<20, 'k' => 1<<10];
@@ -75,15 +78,15 @@ class AddMultiPrilohyFormFactory {
          ->setAttribute('class', 'btn btn-default')
          ->setAttribute('data-dismiss', 'modal')
          ->setAttribute('aria-label', 'Close')
-         ->setValidationScope(FALSE);
+         ->setValidationScope([]);
 		return $form;
 	}
   
   /** 
    * Spracovanie formulara pre pridanie a editaciu prilohy polozky.
-   * @param Nette\Forms\Controls\SubmitButton $button Data formulara 
+   * @param \Nette\Forms\Controls\SubmitButton $button Data formulara 
    * @throws Database\DriverException   */
-  public function editPrilohaFormSubmitted($button) {
+  public function editPrilohaFormSubmitted(\Nette\Forms\Controls\SubmitButton $button) {
 		$values = $button->getForm()->getValues(); 	//Nacitanie hodnot formulara
     try {
       if (count($values->priloha)) {
@@ -102,8 +105,8 @@ class AddMultiPrilohyFormFactory {
   /** Ulozenie viacerich priloh
    * @param array $prilohy
    * @param array $data
-   * @return boolean */
-  private function _multiUpload($prilohy, $data) {
+   * @return bool */
+  private function _multiUpload(array $prilohy, array $data): bool {
     $vysledok = 0;
     foreach ($prilohy as $vp) {
       $priloha_info = $this->_uploadPriloha($vp);
@@ -116,7 +119,7 @@ class AddMultiPrilohyFormFactory {
    * Upload prilohy
    * @param \Nette\Http\FileUpload $priloha
    * @return array */
-  private function _uploadPriloha($priloha) {
+  private function _uploadPriloha(\Nette\Http\FileUpload $priloha): array {
     $fileName = $priloha->getSanitizedName();
 		$pi = pathinfo($fileName);
 		$file = $pi['filename'];

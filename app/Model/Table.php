@@ -93,20 +93,16 @@ abstract class Table {
   /** 
    * Rovnak ako findBy ale vracia len jeden zaznam
    * @param string|string[] $by
-   * @return ActiveRow|false 
-   * @todo Pre verziu Nette 3 bude vracat ActiveRow|null
-   */
-  public function findOneBy($by) {
+   * @return ActiveRow|null */
+  public function findOneBy($by): ?ActiveRow {
     return $this->findBy($by)->limit(1)->fetch();
   }
 
   /** 
    * Vracia zaznam s danym primarnym klucom
    * @param mixed $id primary key
-   * @return ActiveRow|false 
-   * @todo Pre verziu Nette 3 bude vracat ActiveRow|null. Zmen find($id) na find($id): ?ActiveRow
-   */
-  public function find($id) {
+   * @return ActiveRow|null */
+  public function find($id): ?ActiveRow {
     return $this->getTable()->get($id);
   }
 
@@ -114,9 +110,7 @@ abstract class Table {
    * Hlada jednu polozku podla specifickeho nazvu a min. urovne registracie uzivatela
    * @param string $spec_nazov
    * @param int|NULL $id_reg
-   * @return ActiveRow|false 
-   * @todo Pre verziu Nette 3 bude vracat ActiveRow|null
-   */
+   * @return ActiveRow|null */
   public function hladaj_spec(string $spec_nazov, $id_reg = NULL) {
     if (!isset($spec_nazov)) { return false; } //Spec nazov nie je nastaveny
     return $this->findOneBy(isset($id_reg) ? ["spec_nazov"=>$spec_nazov, "id_user_roles <= ".$id_reg] : ["spec_nazov"=>$spec_nazov]);
@@ -126,9 +120,7 @@ abstract class Table {
    * Hlada jednu polozku podla id a min. urovne registracie uzivatela
    * @param int $id
    * @param int|NULL $id_reg
-   * @return ActiveRow|false 
-   * @todo Pre verziu Nette 3 bude vracat ActiveRow|null
-   */
+   * @return ActiveRow|null */
   public function hladaj_id(int $id = 0, $id_reg = NULL) {
     return (isset($id_reg)) ? $this->findOneBy(["id"=>$id, "id_user_roles <= ".$id_reg]) : $this->find($id);
   }
@@ -169,8 +161,8 @@ abstract class Table {
    * Opravy v tabulke zaznam s danym id
    * @param mixed $id primary key
    * @param iterable (column => value)
-   * @return ActiveRow */
-  public function oprav($id, $data): ActiveRow {
+   * @return ActiveRow|null */
+  public function oprav($id, $data): ?ActiveRow {
     $this->find($id)->update($data);
     return $this->find($id);
   }

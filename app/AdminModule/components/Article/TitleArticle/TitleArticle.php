@@ -7,13 +7,13 @@ use DbTable;
 /**
  * Komponenta pre vytvorenie hlavičky polozky.
  * 
- * Posledna zmena(last change): 11.05.2020
+ * Posledna zmena(last change): 14.05.2020
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
  * @copyright Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.4
+ * @version 1.1.5
  */
 
 class TitleArticleControl extends Nette\Application\UI\Control {
@@ -74,7 +74,6 @@ class TitleArticleControl extends Nette\Application\UI\Control {
                               ZmenOpravnenieNevlastnikovFormFactory $zmenOpravnenieNevlastnikovFormFactory,
                               ZmenSablonuFormFactory $zmenSablonuFormFactory
                              ) {
-    parent::__construct();
     $this->hlavne_menu_lang = $hlavne_menu_lang;
     $this->zmenVlastnika = $zmenVlastnikaFormFactory;
     $this->zmenUrovenRegistracie = $zmenUrovenRegistracieFormFactory;
@@ -91,9 +90,9 @@ class TitleArticleControl extends Nette\Application\UI\Control {
   /** Nastavenie komponenty
    * @param Nette\Database\Table\ActiveRow $clanok
    * @param string $odkaz
-   * @param boolean $komentare Povolenie komentarov
-   * @return \App\AdminModule\Components\Article\TitleArticleControl */
-  public function setTitle(Nette\Database\Table\ActiveRow $clanok, $odkaz, $komentare = FALSE) {
+   * @param bool $komentare Povolenie komentarov
+   * @return TitleArticleControl */
+  public function setTitle(Nette\Database\Table\ActiveRow $clanok, string $odkaz, bool $komentare = FALSE): TitleArticleControl {
     $this->clanok = $clanok;
     $this->odkaz = $odkaz;
     $this->komentare = $komentare;
@@ -104,7 +103,7 @@ class TitleArticleControl extends Nette\Application\UI\Control {
   /** 
    * Render 
    * @param array $params Parametre komponenty - [admin_links]*/
-	public function render($params) {
+	public function render(array $params) {
     $this->template->setFile(__DIR__ . '/TitleArticle.latte');
     $this->template->clanok = $this->clanok;
     $this->template->por_podclanky = $this->hlavne_menu_lang->findBy(["hlavne_menu.id_nadradenej"=>$this->clanok->id_hlavne_menu]);
@@ -126,7 +125,7 @@ class TitleArticleControl extends Nette\Application\UI\Control {
   /** 
    * Signal pre povolenie/zakazanie komentarov
    * @param int $volba Nastavenie  */
-  public function handleKomentare($volba) {
+  public function handleKomentare(int $volba) {
     if ($this->presenter->udaje_webu["komentare"] && $volba>=0 && $volba<=1) {
 			$this->clanok->hlavne_menu->update(['komentar'=>$volba]);
 		} 
@@ -140,7 +139,7 @@ class TitleArticleControl extends Nette\Application\UI\Control {
 	/** 
    * Signal pre nastavenie/zrusenie aktualneho projektu 
    * @param int $volba Nastavenie  */
-	public function handleAktualnyProjekt($volba) {
+	public function handleAktualnyProjekt(int $volba) {
     if ($this->presenter->nastavenie["aktualny_projekt_enabled"] && $volba>=0 && $volba<=1) {
       $this->clanok->hlavne_menu->update(['aktualny_projekt'=>$volba]);
     }
@@ -166,7 +165,7 @@ class TitleArticleControl extends Nette\Application\UI\Control {
   /** 
    * @param Nette\Application\UI\Form $form
    * @return Nette\Application\UI\Form */
-  protected function _formMessage($form) {
+  protected function _formMessage(Nette\Application\UI\Form $form): Nette\Application\UI\Form {
     $form['uloz']->onClick[] = function ($button) { 
       $this->presenter->flashOut(!count($button->getForm()->errors), 'this', 'Zmena bola úspešne uložená!', 'Došlo k chybe a zmena sa neuložila. Skúste neskôr znovu...');
 		};
@@ -176,60 +175,61 @@ class TitleArticleControl extends Nette\Application\UI\Control {
   /** 
    * Komponenta formulara pre zmenu vlastnika.
    * @return Nette\Application\UI\Form */
-  public function createComponentZmenUrovenRegistracieForm() {
+  public function createComponentZmenUrovenRegistracieForm(): Nette\Application\UI\Form {
     return $this->_formMessage($this->zmenUrovenRegistracie->create($this->clanok->id_hlavne_menu, $this->clanok->hlavne_menu->id_user_roles));
   }
   
   /** 
    * Komponenta formulara pre zmenu urovne registracie.
    * @return Nette\Application\UI\Form */
-  public function createComponentZmenVlastnikaForm() {
+  public function createComponentZmenVlastnikaForm(): Nette\Application\UI\Form {
     return $this->_formMessage($this->zmenVlastnika->create($this->clanok->id_hlavne_menu, $this->clanok->hlavne_menu->id_user_main));
   }
   
   /** 
    * Komponenta formulara pre zmenu datumu platnosti.
    * @return Nette\Application\UI\Form */
-  public function createComponentZmenDatumPlatnostiForm() {
+  public function createComponentZmenDatumPlatnostiForm(): Nette\Application\UI\Form {
     return $this->_formMessage($this->zmenDatumPlatnosti->create($this->clanok->id_hlavne_menu, $this->clanok->hlavne_menu->datum_platnosti));
   }
   
   /** 
    * Komponenta formulara pre zmenu okraja obrázkových príloh polozky.
    * @return Nette\Application\UI\Form */
-  public function createComponentZmenOkrajForm() {
+  public function createComponentZmenOkrajForm(): Nette\Application\UI\Form {
     return $this->_formMessage($this->zmenOkraj->create($this->clanok->hlavne_menu));
   }
   
   /** 
    * Komponenta formulara pre zmenu opravnenia podla kategorie polozky.
    * @return Nette\Application\UI\Form */
-  public function createComponentZmenOpravnenieKategoriaForm() {
+  public function createComponentZmenOpravnenieKategoriaForm(): Nette\Application\UI\Form {
     return $this->_formMessage($this->zmenOpravnenieKategoria->create($this->clanok->hlavne_menu));
   }
   
   /** 
    * Komponenta formulara pre zmenu opravnenia nevlastnikov polozky.
    * @return Nette\Application\UI\Form */
-  public function createComponentZmenOpravnenieNevlastnikovForm() {
+  public function createComponentZmenOpravnenieNevlastnikovForm(): Nette\Application\UI\Form {
     return $this->_formMessage($this->zmenOpravnenieNevlastnikov->create($this->clanok->id_hlavne_menu, $this->clanok->hlavne_menu->id_hlavne_menu_opravnenie));
   }
   
   /** 
    * Komponenta formulara pre zmenu dlzky sledovania ako novinky.
    * @return Nette\Application\UI\Form */
-  public function createComponentZmenDlzkuNovinkyForm() {
+  public function createComponentZmenDlzkuNovinkyForm(): Nette\Application\UI\Form {
     return $this->_formMessage($this->zmenDlzkuNovinky->create($this->clanok->id_hlavne_menu, $this->clanok->hlavne_menu->id_dlzka_novinky));
   }
   
   /** 
    * Komponenta formulara pre zmenu sablony.
    * @return Nette\Application\UI\Form */
-  public function createComponentZmenSablonuForm() {
+  public function createComponentZmenSablonuForm(): Nette\Application\UI\Form {
     return $this->_formMessage($this->zmenSablonu->create($this->clanok->id_hlavne_menu, $this->clanok->hlavne_menu->id_hlavne_menu_template));
   }
   
-  /** Signal pre zmenu zoradenia podclanokv podla poradia od 9 do 1 */
+  /** 
+   * Signal pre zmenu zoradenia podclanokv podla poradia od 9 do 1 */
   public function handlePodclankyZoradenie() {
     $this->clanok->hlavne_menu->update(['poradie_podclankov'=>(1 - $this->clanok->hlavne_menu->poradie_podclankov)]);
 		if (!$this->presenter->isAjax()) {

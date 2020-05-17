@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\AdminModule\Forms\Article;
 
 use DbTable;
@@ -8,13 +10,13 @@ use Nette\Security\User;
 
 /**
  * Formular pre editaciu poloziek menu
- * Posledna zmena 20.11.2017
+ * Posledna zmena 15.05.2020
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.1.4
+ * @version    1.1.5
  */
 class EditMenuFormFactory {
   
@@ -33,7 +35,9 @@ class EditMenuFormFactory {
    * @param DbTable\Lang $lang
    * @param DbTable\Hlavicka $hlavicka
    * @param DbTable\Hlavne_menu_template $hlavne_menu_template */
-  public function __construct(User $user, DbTable\Lang $lang, DbTable\Hlavicka $hlavicka, DbTable\Hlavne_menu_template $hlavne_menu_template) {
+  public function __construct(User $user, DbTable\Lang $lang, 
+                              DbTable\Hlavicka $hlavicka, 
+                              DbTable\Hlavne_menu_template $hlavne_menu_template) {
     $this->user = $user;
     $this->lang = $lang;
     $this->hlavickaForm = $hlavicka->hlavickaForm();
@@ -44,8 +48,9 @@ class EditMenuFormFactory {
    * Edit hlavne menu form component factory.
    * @param int $uroven Uroven polozky v menu
    * @param string $uloz Text tlacitka uloz
+   * @param string $name
    * @return Form */
-  public function form($uroven, $uloz, $name)  {
+  public function form(int $uroven, string $uloz, string $name): Form  {
 		$form = new Form();
 		$form->addProtection();
     $form->addGroup();
@@ -92,7 +97,7 @@ class EditMenuFormFactory {
 		}
 		// Cast textov koniec -----------------
     $form->addSubmit('uloz', $uloz)->setAttribute('class', 'btn btn-success');
-    $form->addSubmit('cancel', 'Cancel')->setAttribute('class', 'btn btn-default')->setValidationScope(FALSE);
+    $form->addSubmit('cancel', 'Cancel')->setAttribute('class', 'btn btn-default')->setValidationScope([]);
 		return $form;
 	}
 }

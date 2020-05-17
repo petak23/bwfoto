@@ -1,19 +1,21 @@
 <?php
+declare(strict_types=1);
+
 namespace App\AdminModule\Components\Article\TitleImage;
 
-use Nette;
 use DbTable;
+use Nette;
 
 /**
  * Komponenta pre titulku polozky(titulny obrazok a nadpis).
  * 
- * Posledna zmena(last change): 05.10.2018
+ * Posledna zmena(last change): 14.05.2020
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
- * @copyright Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.5
+ * @version 1.0.6
  */
 
 class TitleImageControl extends Nette\Application\UI\Control {
@@ -37,18 +39,22 @@ class TitleImageControl extends Nette\Application\UI\Control {
    * @param \App\AdminModule\Components\Article\TitleImage\EditTitleImageFormFactory $editTitleImageFormFactory
    * @param Nette\Security\User $user
    * @param DbTable\Hlavne_menu $hlavne_menu */
-  public function __construct($dir_to_menu, EditTitleImageFormFactory $editTitleImageFormFactory, Nette\Security\User $user, DbTable\Hlavne_menu $hlavne_menu) {
-    parent::__construct();
+  public function __construct(string $dir_to_menu, 
+                              EditTitleImageFormFactory $editTitleImageFormFactory, 
+                              Nette\Security\User $user, 
+                              DbTable\Hlavne_menu $hlavne_menu) {
     $this->editTitleImage = $editTitleImageFormFactory;
     $this->user = $user;
     $this->hlavne_menu = $hlavne_menu;
     $this->dir_to_menu = $dir_to_menu;
   }
   
-  /** Nastavenie komponenty
+  /** 
+   * Nastavenie komponenty
    * @param Nette\Database\Table\ActiveRow $clanok
-   * @return \App\AdminModule\Components\Article\TitleArticleControl */
-  public function setTitle(Nette\Database\Table\ActiveRow $clanok, $name) {
+   * @param string $name
+   * @return \App\AdminModule\Components\Article\TitleImage\TitleImageControl */
+  public function setTitle(Nette\Database\Table\ActiveRow $clanok, string $name): TitleImageControl {
     $this->clanok = $clanok;
     //Test opravneni
     $hlm = $this->clanok->hlavne_menu; // Pre skratenie zapisu
@@ -76,7 +82,7 @@ class TitleImageControl extends Nette\Application\UI\Control {
   /** 
    * Komponenta formulara pre zmenu vlastnika.
    * @return Nette\Application\UI\Form */
-  public function createComponentEditTitleImageForm() {
+  public function createComponentEditTitleImageForm(): Nette\Application\UI\Form {
     $form = $this->editTitleImage->create();
     $form->setDefaults(["id" => $this->clanok->id_hlavne_menu,
                         "old_avatar" => $this->clanok->hlavne_menu->avatar,

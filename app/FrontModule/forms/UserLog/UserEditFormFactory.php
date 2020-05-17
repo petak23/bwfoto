@@ -97,7 +97,7 @@ class UserEditFormFactory {
          ->setAttribute('class', 'btn btn-success')
          ->onClick[] = [$this, 'userEditFormSubmitted'];
     $form->addSubmit('cancel', 'Cancel')->setAttribute('class', 'btn btn-default')
-         ->setValidationScope(null);
+         ->setValidationScope([]);
 		return $form;
 	}
   

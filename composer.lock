@@ -174,16 +174,16 @@
         },
         {
             "name": "latte/latte",
-            "version": "v2.8.0",
+            "version": "v2.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/latte.git",
-                "reference": "4cd61a413ac6dadf918281f4626f19b6f99c7978"
+                "reference": "fc94bd63fe995b40cb219109026e76f281c709c2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/latte/zipball/4cd61a413ac6dadf918281f4626f19b6f99c7978",
-                "reference": "4cd61a413ac6dadf918281f4626f19b6f99c7978",
+                "url": "https://api.github.com/repos/nette/latte/zipball/fc94bd63fe995b40cb219109026e76f281c709c2",
+                "reference": "fc94bd63fe995b40cb219109026e76f281c709c2",
                 "shasum": ""
             },
             "require": {
@@ -247,7 +247,7 @@
                 "template",
                 "twig"
             ],
-            "time": "2020-04-20T21:18:50+00:00"
+            "time": "2020-05-12T11:07:07+00:00"
         },
         {
             "name": "nette/application",
@@ -609,16 +609,16 @@
         },
         {
             "name": "nette/di",
-            "version": "v3.0.3",
+            "version": "v3.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/di.git",
-                "reference": "77d69061cbf8f9cfb7363dd983136f51213d3e41"
+                "reference": "34d3e47ebe96229b7671664893a3b1128c102213"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/di/zipball/77d69061cbf8f9cfb7363dd983136f51213d3e41",
-                "reference": "77d69061cbf8f9cfb7363dd983136f51213d3e41",
+                "url": "https://api.github.com/repos/nette/di/zipball/34d3e47ebe96229b7671664893a3b1128c102213",
+                "reference": "34d3e47ebe96229b7671664893a3b1128c102213",
                 "shasum": ""
             },
             "require": {
@@ -676,7 +676,7 @@
                 "nette",
                 "static"
             ],
-            "time": "2020-01-20T12:14:54+00:00"
+            "time": "2020-05-14T10:29:59+00:00"
         },
         {
             "name": "nette/finder",
@@ -1455,16 +1455,16 @@
         },
         {
             "name": "symfony/polyfill-ctype",
-            "version": "v1.16.0",
+            "version": "v1.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-ctype.git",
-                "reference": "1aab00e39cebaef4d8652497f46c15c1b7e45294"
+                "reference": "e94c8b1bbe2bc77507a1056cdb06451c75b427f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/1aab00e39cebaef4d8652497f46c15c1b7e45294",
-                "reference": "1aab00e39cebaef4d8652497f46c15c1b7e45294",
+                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/e94c8b1bbe2bc77507a1056cdb06451c75b427f9",
+                "reference": "e94c8b1bbe2bc77507a1056cdb06451c75b427f9",
                 "shasum": ""
             },
             "require": {
@@ -1476,7 +1476,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.16-dev"
+                    "dev-master": "1.17-dev"
                 }
             },
             "autoload": {
@@ -1509,7 +1509,7 @@
                 "polyfill",
                 "portable"
             ],
-            "time": "2020-05-08T16:50:20+00:00"
+            "time": "2020-05-12T16:14:59+00:00"
         },
         {
             "name": "symfony/property-access",
@@ -1517,21 +1517,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/property-access.git",
-<<<<<<< HEAD (787ebc1) - Verzia 0.3.0-betaH - Pr
-                "reference": "f6a51bd76a3a5c36c57221a4f491b9cf02663672"
-=======
                 "reference": "259f26529231ab653fc96fb358e5e41dbb438aed"
->>>>>>> 87aa5b13fe04ab34c9b0a8b1de30e850b95ba5cd
             },
             "dist": {
                 "type": "zip",
-<<<<<<< HEAD (787ebc1) - Verzia 0.3.0-betaH - Pr
-                "url": "https://api.github.com/repos/symfony/property-access/zipball/f6a51bd76a3a5c36c57221a4f491b9cf02663672",
-                "reference": "f6a51bd76a3a5c36c57221a4f491b9cf02663672",
-=======
                 "url": "https://api.github.com/repos/symfony/property-access/zipball/259f26529231ab653fc96fb358e5e41dbb438aed",
                 "reference": "259f26529231ab653fc96fb358e5e41dbb438aed",
->>>>>>> 87aa5b13fe04ab34c9b0a8b1de30e850b95ba5cd
                 "shasum": ""
             },
             "require": {
@@ -1585,6 +1576,7 @@
                 "property path",
                 "reflection"
             ],
+            "time": "2020-04-15T15:59:10+00:00"
         },
         {
             "name": "texy/texy",
@@ -1724,73 +1716,16 @@
         },
         {
             "name": "ublaboo/datagrid",
-<<<<<<< HEAD (787ebc1) - Verzia 0.3.0-betaH - Pr
-            "time": "2020-04-15T15:55:41+00:00"
-        },
-        {
-            "name": "tedivm/jshrink",
-            "version": "v1.3.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/tedious/JShrink.git",
-                "reference": "566e0c731ba4e372be2de429ef7d54f4faf4477a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/tedious/JShrink/zipball/566e0c731ba4e372be2de429ef7d54f4faf4477a",
-                "reference": "566e0c731ba4e372be2de429ef7d54f4faf4477a",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.6|^7.0"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^2.8",
-                "php-coveralls/php-coveralls": "^1.1.0",
-                "phpunit/phpunit": "^6"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "JShrink": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Robert Hafner",
-                    "email": "tedivm@tedivm.com"
-                }
-            ],
-            "description": "Javascript Minifier built in PHP",
-            "homepage": "http://github.com/tedious/JShrink",
-            "keywords": [
-                "javascript",
-                "minifier"
-            ],
-            "time": "2019-06-28T18:11:46+00:00"
-=======
-            "time": "2020-04-15T15:59:10+00:00"
->>>>>>> 87aa5b13fe04ab34c9b0a8b1de30e850b95ba5cd
+            "version": "v6.2.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/contributte/datagrid.git",
-<<<<<<< HEAD (787ebc1) - Verzia 0.3.0-betaH - Pr
-            "version": "v5.7.5",
-=======
-            "version": "v6.2.17",
->>>>>>> 87aa5b13fe04ab34c9b0a8b1de30e850b95ba5cd
+                "reference": "39db1db20807cf2ef54f98e862b9e91962e86025"
             },
             "dist": {
                 "type": "zip",
-<<<<<<< HEAD (787ebc1) - Verzia 0.3.0-betaH - Pr
-                "reference": "6a4c26472da57dab5540b76a04014fc6e417ebd8"
-=======
-                "reference": "34b98e1c3152bcaa7787dea5a9272b57ba29aa4a"
->>>>>>> 87aa5b13fe04ab34c9b0a8b1de30e850b95ba5cd
+                "url": "https://api.github.com/repos/contributte/datagrid/zipball/39db1db20807cf2ef54f98e862b9e91962e86025",
+                "reference": "39db1db20807cf2ef54f98e862b9e91962e86025",
                 "shasum": ""
             },
             "require": {
@@ -1847,13 +1782,7 @@
                 "grid",
                 "nette"
             ],
-<<<<<<< HEAD (787ebc1) - Verzia 0.3.0-betaH - Pr
-                "url": "https://api.github.com/repos/contributte/datagrid/zipball/6a4c26472da57dab5540b76a04014fc6e417ebd8",
-                "reference": "6a4c26472da57dab5540b76a04014fc6e417ebd8",
-=======
-                "url": "https://api.github.com/repos/contributte/datagrid/zipball/34b98e1c3152bcaa7787dea5a9272b57ba29aa4a",
-                "reference": "34b98e1c3152bcaa7787dea5a9272b57ba29aa4a",
->>>>>>> 87aa5b13fe04ab34c9b0a8b1de30e850b95ba5cd
+            "time": "2020-05-14T07:54:23+00:00"
         },
         {
             "name": "ublaboo/datagrid-nette-database-data-source",
@@ -1992,8 +1921,3 @@
     },
     "platform-dev": []
 }
-<<<<<<< HEAD (787ebc1) - Verzia 0.3.0-betaH - Pr
-            "time": "2020-04-20T20:57:32+00:00"
-=======
-            "time": "2020-04-28T08:26:42+00:00"
->>>>>>> 87aa5b13fe04ab34c9b0a8b1de30e850b95ba5cd

@@ -9,18 +9,19 @@ use Nette;
 use Nette\Security\User;
 use Nette\Utils\Html;
 use Ublaboo\DataGrid\DataGrid;
+use Ublaboo\DataGrid\Column\Action\Confirmation;
 use Ublaboo\DataGrid\Localization\SimpleTranslator;
 
 /**
  * Komponenta pre spravu produktov clanku.
  * 
- * Posledna zmena(last change): 10.05.2020
+ * Posledna zmena(last change): 14.05.2020
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
  * @copyright Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.7
+ * @version 1.0.8
  */
 
 class ProductsControl extends Nette\Application\UI\Control {
@@ -70,7 +71,6 @@ class ProductsControl extends Nette\Application\UI\Control {
                               User $user,
                               Nette\Http\Request $request
                               ) {
-    parent::__construct();
     $this->hlavne_menu = $hlavne_menu;
     $this->products = $products;
     $this->addMultiProductsForm = $addMultiProductsFormFactory;
@@ -134,8 +134,10 @@ class ProductsControl extends Nette\Application\UI\Control {
 	}
   
   /**
-   * Grid pre produkty */
-  public function createComponentProductsGrid($name): void {
+   * Grid pre produkty
+   * @param string $name
+   * @return void */
+  public function createComponentProductsGrid(string $name): void {
 		$grid = new DataGrid($this, $name);
 
 		$grid->setDataSource($this->products->findBy(['id_hlavne_menu'=>$this->clanok->id_hlavne_menu]));
@@ -165,7 +167,9 @@ class ProductsControl extends Nette\Application\UI\Control {
            ->setIcon('trash-alt fa-2x')
            ->setClass('btn btn-danger btn-sm ajax')
            ->setTitle('Vymazanie položky')
-           ->setConfirm('Naozaj chceš zmazať položku %s?', 'name');
+           ->setConfirmation(
+              new Confirmation\StringConfirmation('Naozaj chceš zmazať položku %s?', 'name')
+           );
     }
     
     $translator = new SimpleTranslator([

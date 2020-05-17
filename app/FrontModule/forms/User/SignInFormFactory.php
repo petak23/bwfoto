@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\FrontModule\Forms\User;
 
 use Language_support;
@@ -8,7 +10,7 @@ use Nette\Security;
 
 /**
  * Sign in form
- * Last change 13.04.2020
+ * Last change 15.05.2020
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
@@ -39,8 +41,8 @@ class SignInFormFactory {
   /**
    * Prihlasovaci formular
    * @var string $language Skratka aktualneho jazyka
-   * @return Nette\Application\UI\Form */
-  public function create($language)  {
+   * @return Form */
+  public function create($language): Form  {
     $form = new Form();
 		$form->addProtection();
     $this->texts->setLanguage($language);
@@ -63,14 +65,13 @@ class SignInFormFactory {
          ->onClick[] = [$this, 'signInFormSubmitted'];
     $form->addSubmit('forgottenPassword', 'SignInForm_forgottenPassword')
          ->setAttribute('class', 'btn btn-link');
-//         ->setValidationScope(FALSE);
 		return $form;
 	}
   
   /** 
    * Overenie po prihlaseni
-   * @param Nette\Forms\Controls\SubmitButton $button Data formulara */
-	public function signInFormSubmitted($button) {
+   * @param \Nette\Forms\Controls\SubmitButton $button Data formulara */
+	public function signInFormSubmitted(\Nette\Forms\Controls\SubmitButton $button) {
     $values = $button->getForm()->getValues();
     try {
       $this->user->setExpiration($values->remember ? '14 days' : '30 minutes');
