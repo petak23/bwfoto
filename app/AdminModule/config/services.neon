@@ -50,6 +50,7 @@ services:
     arguments: 
       aktualny_projekt_enabled: %aktualny_projekt_enabled%
       zobraz_anotaciu: %clanky.zobraz_anotaciu%
+      categori: %user_view_fields.categori%
   TitleImageControl:
     implement: App\AdminModule\Components\Article\TitleImage\ITitleImageControl
     arguments: 

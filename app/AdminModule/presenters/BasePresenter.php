@@ -12,7 +12,7 @@ use Texy;
 /**
  * Zakladny presenter pre vsetky presentery v module ADMIN
  * 
- * Posledna zmena(last change): 11.05.2020
+ * Posledna zmena(last change): 21.05.2020
  *
  * Modul: ADMIN
  *
@@ -20,7 +20,7 @@ use Texy;
  * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.3.2
+ * @version 1.3.3
  */
 abstract class BasePresenter extends UI\Presenter {
   
@@ -54,9 +54,6 @@ abstract class BasePresenter extends UI\Presenter {
 	
   /** @var Http\Request @inject*/
   public $httpRequest;
-  
-  /** @var \WebLoader\Nette\LoaderFactory @inject */
-//  public $webLoader;
   
   /** @var Texy\Texy @inject */
 	public $texy;
@@ -202,38 +199,17 @@ abstract class BasePresenter extends UI\Presenter {
     $this->texy->allowedTags = TRUE;
     $this->texy->headingModule->balancing = "FIXED";
     $this->template->addFilter('texy', [$this->texy, 'process']);
+    
+    //For texyla
+    $this->template->previewPath = $this->link("Texyla:preview");
+    $this->template->filesPath = $this->link("Texyla:listFiles");
+    $this->template->filesUploadPath = $this->link("Texyla:upload");
+    $this->template->filesMkDirPath = $this->link("Texyla:mkDir");
+    $this->template->filesRenamePath = $this->link("Texyla:rename");
+    $this->template->filesDeletePath = $this->link("Texyla:delete");
   }
 
   //  ---- Komponenty ---- 
-    
-  /** @return CssLoader */
-//  protected function createComponentCss(){
-//    return $this->webLoader->createCssLoader('admin');
-//  }
-
-  /** @return JavaScriptLoader */
-//  protected function createComponentJs(){
-//    return $this->webLoader->createJavaScriptLoader('admin');
-//  }
-  
-  /**
-   * Texyla loader factory
-   * @return TexylaLoader */
-/*  protected function createComponentTexyla() {
-    $baseUri = $this->httpRequest->getUrl()->baseUrl;
-    $filter = new \WebLoader\Filter\VariablesFilter([
-        "baseUri" => $baseUri,
-        "previewPath" => $this->link("Texyla:preview"),
-        "filesPath" => $this->link("Texyla:listFiles"),
-        "filesUploadPath" => $this->link("Texyla:upload"),
-        "filesMkDirPath" => $this->link("Texyla:mkDir"),
-        "filesRenamePath" => $this->link("Texyla:rename"),
-        "filesDeletePath" => $this->link("Texyla:delete"),
-    ]);
-    $texyla = $this->webLoader->createJavaScriptLoader('texyla');
-    $texyla->getCompiler()->addFilter($filter);
-    return $texyla;
-  }*/
   
   /** 
    * Komponenta pre výpis css a js súborov
@@ -242,20 +218,21 @@ abstract class BasePresenter extends UI\Presenter {
     return new PeterVojtech\Base\CssJsFilesControl($this->nastavenie['web_files'], $this->name, $this->action);
   }
 
-  /** Vytvorenie komponenty pre posledných 25 prihlásení
+  /** 
+   * Vytvorenie komponenty pre posledných 25 prihlásení
    * @return \App\AdminModule\Components\User\UserLastControl */
 	public function createComponentLast() {
     return $this->userLastControlFactory->create();
 	}
   
-  /** Vytvorenie komponenty pre hlavne menu
-   * @return \App\AdminModule\Components\Menu\Menu
-   */
-  public function createComponentMenu() {
-    $menu = new \App\AdminModule\Components\Menu\Menu;
+  /** 
+   * Vytvorenie komponenty pre hlavne menu
+   * @return Components\Menu\Menu */
+  public function createComponentMenu(): Components\Menu\Menu {
+    $menu = new Components\Menu\Menu;
     $menu->setNastavenie($this->nastavenie);
     $hl_m = $this->hlavne_menu->getMenuAdmin($this->language_id);
-    if ($hl_m !== FALSE) {
+    if (count($hl_m)) {
       $servise = $this;
       $menu->fromTable($hl_m, function($node, $row) use($servise){
         foreach (["name", "tooltip", "avatar", "anotacia", "node_class", "id", "poradie_podclankov", "datum_platnosti"] as $v) { 

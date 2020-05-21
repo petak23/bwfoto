@@ -98,9 +98,7 @@ $(function() {
 		});
 		return false;
 	});
-  $('[data-toggle="tooltip"]').tooltip();
   
-
   /* pre zmenu náhľadu pri zmenách okrajového rámčeka */
   $("#frm-products-zmenOkrajForm").find("input.input_number").each(function(){
     var el = $(this);

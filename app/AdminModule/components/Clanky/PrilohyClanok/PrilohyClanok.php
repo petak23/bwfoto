@@ -175,6 +175,7 @@ class PrilohyClanokAControl extends Nette\Application\UI\Control {
       'ublaboo_datagrid.short' => 'Usporiadaj',
     ]);
     $grid->setTranslator($translator);
+    $grid->setRememberState(false);
 	}
   
   /**

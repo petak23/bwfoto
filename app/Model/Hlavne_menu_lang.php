@@ -1,18 +1,19 @@
 <?php
 
 namespace DbTable;
+
 use Nette;
 
 /**
  * Model starajuci sa o tabulku hlavne_menu_lang
  * 
- * Posledna zmena 15.04.2020
+ * Posledna zmena 21.05.2020
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.8
+ * @version    1.0.9
  */
 class Hlavne_menu_lang extends Table {
   const 
@@ -88,17 +89,19 @@ class Hlavne_menu_lang extends Table {
   /** Funkcia pridava alebo aktualizuje v DB tabulke 'clanok_lang' podla toho, ci je zadané ID
    * @param array $data
    * @param int $id
-   * @return \Nette\Database\Table\ActiveRow|FALSE */
-  public function ulozClanokLang($data, $id = 0) {
+   * @return Nette\Database\Table\ActiveRow|null */
+  public function ulozClanokLang(array $data, int $id = 0): ?Nette\Database\Table\ActiveRow {
     $clanok_lang = $this->connection->table('clanok_lang');
     return $id ? ($clanok_lang->where(['id'=>$id])->update($data) !== FALSE ? $clanok_lang->get($id) : FALSE): $clanok_lang->insert($data);
   }
   
-  /** Ulozi texty pre tabulku hlavne_menu:lang
-   * @param \Nette\Utils\ArrayHash $values
+  /** 
+   * Ulozi texty pre tabulku hlavne_menu_lang
+   * @param Nette\Utils\ArrayHash $values
+   * @param Nette\Database\Table\Selection $jazyky
    * @param int $id
-   * @return boolean */
-  public function ulozPolozku($values, $jazyky, $id = 0) {
+   * @return bool */
+  public function ulozPolozku(Nette\Utils\ArrayHash $values, Nette\Database\Table\Selection $jazyky, int $id = 0): bool {
     $ulozenie = 0;
     foreach($jazyky as $j){
       foreach(["menu_name", "h1part2", "view_name"] as $f){

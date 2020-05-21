@@ -13,13 +13,13 @@ use PeterVojtech\News_key;
 
 /**
  * Formular editacie prihlaseneho uzivatela
- * Posledna zmena 13.05.2020
+ * Posledna zmena 19.05.2020
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.6
+ * @version    1.0.7
  */
 class UserEditFormFactory {
   /** @var Language_support\LanguageMain */
@@ -103,15 +103,15 @@ class UserEditFormFactory {
   
   /** 
    * Spracovanie formulara
-   * @param Nette\Forms\Controls\SubmitButton $button Data formulara */
-	public function userEditFormSubmitted($button) {
+   * @param \Nette\Forms\Controls\SubmitButton $button Data formulara */
+	public function userEditFormSubmitted(\Nette\Forms\Controls\SubmitButton $button) {
     $form = $button->getForm();
     $values = $form->getValues(TRUE); 	//Nacitanie hodnot formulara
 		$id = $values['id']; // Ak je == 0 tak sa pridava
     $news = isset($values['news']) ? $values['news'] : FALSE;
     $pohl = isset($values['pohl']) ? $values['pohl'] : 'M';
     try {
-      $this->_saveAvatar($values);
+      $this->_saveAvatar($values['avatar'], $values['id']);
       unset($values['id'], $values['avatar'], $values['news'], $values['pohl']);
       $uloz = $this->user_main->uloz($values, $id);
       $this->user_profiles->uloz(['pohl'=>$pohl], $uloz['id_user_profiles']); 
@@ -129,24 +129,23 @@ class UserEditFormFactory {
   
   /**
    * Funkcia pre ulozenie avatara
-   * @param array $values
-   * @return array
+   * @param \Nette\Http\FileUpload $avatar
+   * @param string $id
    * @throws Utils\ImageException */
-  protected function _saveAvatar($values) {
-    if (isset($values['avatar']) && $values['avatar'] && $values['avatar']->name != "") {
-      if ($values['avatar']->isImage()){
-        $avatar_path = "files/".$values['id']."/";
+  protected function _saveAvatar(\Nette\Http\FileUpload $avatar, string $id) {
+    if ($avatar->hasFile()) {
+      if ($avatar->isImage()){
+        $avatar_path = "files/".$id."/";
         $path = $this->wwwDir."/".$avatar_path;
-        $pi = pathinfo($values['avatar']->getSanitizedName());
+        $pi = pathinfo($avatar->getSanitizedName());
         $ext = $pi['extension'];
         $this->_delUserImages($path);
         $avatar_name = Utils\Random::generate(25).".".$ext;
-        $values['avatar']->move($path.$avatar_name);
+        $avatar->move($path.$avatar_name);
         $image = Utils\Image::fromFile($path.$avatar_name);
         $image->resize(75, 75, Utils\Image::SHRINK_ONLY);
         $image->save($path.$avatar_name, 90);
-        $values['avatar'] = $avatar_path.$avatar_name;
-        $this->user_profiles->oprav($values['id'], ['avatar'=>$avatar_name]);
+        $this->user_profiles->oprav($id, ['avatar'=>$avatar_name]);
       } else {
         throw new Utils\ImageException('user_edit_avatar_err');
       }
@@ -156,12 +155,11 @@ class UserEditFormFactory {
   /**
    * Zmazanie uzivatelskych avatarov|vytvorenie uzivatelskeho priecinka
    * @param string $path */
-  private function _delUserImages($path) {
+  private function _delUserImages(string $path) {
     if (is_dir($path)) {
       foreach (glob("$path*.{jpg,jpeg,gif,png}", GLOB_BRACE) as $file) {
         @unlink($file);
       }
     }	else { mkdir($path, 0777); }
-  }
-  
+  } 
 }

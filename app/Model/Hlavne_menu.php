@@ -1,6 +1,8 @@
 <?php
+declare(strict_types=1);
 
 namespace DbTable;
+
 use Nette;
 use Nette\Utils\Random;
 use Nette\Utils\Image;
@@ -8,13 +10,13 @@ use Nette\Utils\Image;
 /**
  * Model, ktory sa stara o tabulku hlavne_menu a hlavne_menu_lang
  * 
- * Posledna zmena 16.12.2019
+ * Posledna zmena 20.05.2020
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2019 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.2.1
+ * @version    1.2.2
  */
 class Hlavne_menu extends Table {
   /** @var string */
@@ -27,6 +29,10 @@ class Hlavne_menu extends Table {
   /** @var Nette\Database\Table\Selection */
 	protected $user_in_categories;
 
+  /**
+   * @param Nette\Database\Context $db
+   * @param Nette\Security\User $user
+   * @param \DbTable\Hlavne_menu_lang $hlavne_menu_lang */
   public function __construct(Nette\Database\Context $db, Nette\Security\User $user, Hlavne_menu_lang $hlavne_menu_lang)  {
     parent::__construct($db);
     $this->hlavne_menu_lang = $hlavne_menu_lang;
@@ -38,30 +44,30 @@ class Hlavne_menu extends Table {
   /** 
    * Funkcia hlada ci polozka s Id ma podradene polozky
    * @param int $id Id polozky, pre ktoru hladam podradenu
-   * @return boolean */
-  public function maPodradenu($id) {
+   * @return bool */
+  public function maPodradenu(int $id): bool {
     return count($this->findBy(["id_nadradenej"=>$id])) ? TRUE : FALSE;
   }
 	
   /** 
    * Vypis menu pre Front modul
    * @param string $language Skratka zobrazovaneho jazyka
-   * @return array|FALSE */
-	public function getMenuFront(string $language = 'sk') {	
+   * @return array */
+	public function getMenuFront(string $language = 'sk'): array {	
     $id_reg = isset($this->user->getIdentity()->id_user_roles) ? $this->user->getIdentity()->id_user_roles : 0;
     $h = clone $this->hlavne_menu_lang;
 		$s = $h->findBy(["hlavne_menu.id_user_roles <= " . $id_reg, "lang.skratka" => $language])
            ->where("hlavne_menu.druh.modul IS NULL OR hlavne_menu.druh.modul = ?", "Front");
     $polozky = $s->order('hlavne_menu.id_hlavne_menu_cast, hlavne_menu.uroven, hlavne_menu.poradie ASC');
-    return ($polozky !== FALSE && count($polozky)) ? $this->_getMenuFront($polozky) : FALSE;
+    return count($polozky) ? $this->_getMenuFront($polozky) : [];
   }
   
   /** 
    * Vytvorenie menu pre front
    * @param Nette\Database\Table\Selection $polozky Vyber poloziek hl. menu
    * @param string $abs_link Absolutna cast odkazu
-   * @return array|FALSE */
-  private function _getMenuFront($polozky, $abs_link = "") {
+   * @return array */
+  private function _getMenuFront(Nette\Database\Table\Selection $polozky, string $abs_link = ""): array {
     $out = [];
 		$cislo_casti = 0;
     foreach ($polozky as $ja) {
@@ -103,18 +109,18 @@ class Hlavne_menu extends Table {
   /** 
    * Vypis menu pre mapu webu
    * @param int $lang_id Id zobrazovaneho jazyka
-   * @return array|FALSE */
-  public function getMenuMapa($lang_id) {	
+   * @return array */
+  public function getMenuMapa(int $lang_id): array {	
 		$polozky = $this->hlavne_menu_lang->findBy(["hlavne_menu.id_user_roles" => 0, "id_lang" => $lang_id])
                     ->order('hlavne_menu.id_hlavne_menu_cast, hlavne_menu.uroven, hlavne_menu.poradie ASC');
-    return ($polozky !== FALSE && count($polozky)) ? $this->_getMenuMapa($polozky) : FALSE;
+    return count($polozky) ? $this->_getMenuMapa($polozky) : [];
   }
 
   /** 
    * Vytvorenie menu pre mapu
    * @param Nette\Database\Table\Selection $polozky Vyber poloziek hl. menu
-   * @return array|FALSE */
-  private function _getMenuMapa($polozky) {
+   * @return array */
+  private function _getMenuMapa(Nette\Database\Table\Selection $polozky): array {
     $out = [];
 		$cislo_casti = 0;
     foreach ($polozky as $ja) {
@@ -140,21 +146,21 @@ class Hlavne_menu extends Table {
   }
 
   /** Vypis menu pre Admin modul
-   * @param type $lang_id Id jazyka
-   * @return array|FALSE */
-  public function getMenuAdmin($lang_id = 1) {	
+   * @param int $lang_id Id jazyka
+   * @return array */
+  public function getMenuAdmin(int $lang_id = 1): array {	
     $id_reg = isset($this->user->getIdentity()->id_user_roles) ? $this->user->getIdentity()->id_user_roles : 0;
     $polozky = $this->hlavne_menu_lang
                ->findBy(["hlavne_menu.id_user_roles <= " . $id_reg, "id_lang" => $lang_id, "hlavne_menu.druh.modul IS NULL OR hlavne_menu.druh.modul = ?" => "Admin"])
                ->order('hlavne_menu.id_hlavne_menu_cast, hlavne_menu.uroven, hlavne_menu.poradie ASC');
-    return ($polozky !== FALSE && count($polozky)) ? $this->_getMenuAdmin($polozky) : FALSE;
+    return count($polozky) ? $this->_getMenuAdmin($polozky) : [];
   }
   
-  /** Vytvorenie menu pre administraciu
+  /** 
+   * Vytvorenie menu pre administraciu
    * @param Nette\Database\Table\Selection $polozky Vyber poloziek hl. menu
-   * @return array|FALSE
-   */
-  private function _getMenuAdmin($polozky) {
+   * @return array */
+  private function _getMenuAdmin(Nette\Database\Table\Selection $polozky): array {
     $cislo_casti = 0; //aktualne cislo casti
     $casti = [];
     $out = [];
@@ -210,65 +216,64 @@ class Hlavne_menu extends Table {
   /**
    * Funkcia pre zmenu vlastníka
    * @param Nette\Utils\ArrayHash $values udaje
-   * @return Nette\Database\Table\ActiveRow|FALSE */
-  public function zmenVlastnika($values) {
+   * @return Nette\Database\Table\ActiveRow|null */
+  public function zmenVlastnika(Nette\Utils\ArrayHash $values): ?Nette\Database\Table\ActiveRow {
     return $this->uloz(["id_user_main" => $values->id_user_main], $values->id);
   }
   
   /**
    * Funkcia pre zmenu urovne registracie polozky
    * @param Nette\Utils\ArrayHash $values udaje
-   * @return Nette\Database\Table\ActiveRow|FALSE
-   */
-  public function zmenUrovenRegistracie($values) {
+   * @return Nette\Database\Table\ActiveRow|null */
+  public function zmenUrovenRegistracie(Nette\Utils\ArrayHash $values): ?Nette\Database\Table\ActiveRow {
     return $this->uloz(["id_user_roles" => $values->id_user_roles], $values->id);
   }
   
   /**
    * Funkcia pre zmenu urovne registracie polozky
    * @param Nette\Utils\ArrayHash $values udaje
-   * @return Nette\Database\Table\ActiveRow|FALSE */
-  public function zmenDatumPlatnosti($values) {
+   * @return Nette\Database\Table\ActiveRow|null */
+  public function zmenDatumPlatnosti(Nette\Utils\ArrayHash $values): ?Nette\Database\Table\ActiveRow {
     return $this->uloz(["datum_platnosti" => $values->platnost == 1 ? $values->datum_platnosti : NULL], $values->id);
   }
   
   /**
    * Funkcia pre zmenu dlzky sledovania ako novinky polozky
    * @param Nette\Utils\ArrayHash $values udaje
-   * @return Nette\Database\Table\ActiveRow|FALSE */
-  public function zmenDlzkuNovinky($values) {
+   * @return Nette\Database\Table\ActiveRow|null */
+  public function zmenDlzkuNovinky(Nette\Utils\ArrayHash $values): ?Nette\Database\Table\ActiveRow {
     return $this->uloz(["id_dlzka_novinky" => $values->id_dlzka_novinky], $values->id);
   }
   
   /**
    * Funkcia pre zmenu opravnenia nevlastnikov polozky
    * @param Nette\Utils\ArrayHash $values udaje
-   * @return Nette\Database\Table\ActiveRow|FALSE */
-  public function zmenOpravnenieNevlastnikov($values) {
+   * @return Nette\Database\Table\ActiveRow|null */
+  public function zmenOpravnenieNevlastnikov(Nette\Utils\ArrayHash $values): ?Nette\Database\Table\ActiveRow {
     return $this->uloz(["id_hlavne_menu_opravnenie" => $values->id_hlavne_menu_opravnenie], $values->id);
   }
   
   /**
    * Funkcia pre zmenu opravnenia podla kategorie
    * @param Nette\Utils\ArrayHash $values udaje
-   * @return Nette\Database\Table\ActiveRow|FALSE */
-  public function zmenOpravnenieKategoria($values) {
+   * @return Nette\Database\Table\ActiveRow|null */
+  public function zmenOpravnenieKategoria(Nette\Utils\ArrayHash $values): ?Nette\Database\Table\ActiveRow {
     return $this->uloz(["id_user_categories" => $values->id_user_categories], $values->id);
   }
   
   /**
    * Zmena sablony
    * @param Nette\Utils\ArrayHash $values udaje
-   * @return Nette\Database\Table\ActiveRow|FALSE */
-  public function changeTemplate($values) {
+   * @return Nette\Database\Table\ActiveRow|null */
+  public function changeTemplate(Nette\Utils\ArrayHash $values): ?Nette\Database\Table\ActiveRow {
     return $this->uloz(["id_hlavne_menu_template" => $values->id_hlavne_menu_template], $values->id);
   }
   
   /**
    * Zmena okrajov
    * @param Nette\Utils\ArrayHash $values udaje
-   * @return Nette\Database\Table\ActiveRow|FALSE */
-  public function changeBorders($values) {
+   * @return Nette\Database\Table\ActiveRow|null */
+  public function changeBorders(Nette\Utils\ArrayHash $values): ?Nette\Database\Table\ActiveRow {
     return $this->uloz([
         'border_a'=>$values->border_a_width != 0 ? ($values->border_a_color.'|'.$values->border_a_width) : '#000000|0',
         'border_b'=>$values->border_b_width != 0 ? ($values->border_b_color.'|'.$values->border_b_width) : '#000000|0',
@@ -282,8 +287,8 @@ class Hlavne_menu extends Table {
    * @param string $avatar_path
    * @param string $www_dir
    * @throws Database\DriverException */
-  public function zmenTitleImage($values, $avatar_path, $www_dir) {
-    if (!$values->avatar->error) {
+  public function zmenTitleImage(Nette\Utils\ArrayHash $values, string $avatar_path, string $www_dir) {
+    if ($values->avatar->hasFile()) {
       if ($values->avatar->isImage()){
         if (($tmp = $this->find($values->id)->avatar) !== NULL) {
           $this->_delAvatar($tmp, $avatar_path, $www_dir);
@@ -303,13 +308,15 @@ class Hlavne_menu extends Table {
   
   /**
    * Zmazanie titulneho obrazku a/alebo ikonky
-   * @param type $id
+   * @param string $id
    * @param string $avatar_path
    * @param string $www_dir
-   * @return Nette\Database\Table\ActiveRow|FALSE */
-  public function zmazTitleImage($id, $avatar_path, $www_dir) {
+   * @return Nette\Database\Table\ActiveRow|null */
+  public function zmazTitleImage(string $id, string $avatar_path, string $www_dir): ?Nette\Database\Table\ActiveRow {
     $hl = $this->find($id);
-    $this->_delAvatar($hl->avatar, $avatar_path, $www_dir);
+    if (is_string($hl->avatar)) {
+      $this->_delAvatar($hl->avatar, $avatar_path, $www_dir);
+    }
     return $this->uloz(["ikonka"=>NULL, "avatar"=>NULL], $id);
   }
   
@@ -317,7 +324,7 @@ class Hlavne_menu extends Table {
    * @param Nette\Http\FileUpload $avatar
    * @param string $path
    * @return string */
-  private function _uploadTitleImage(Nette\Http\FileUpload $avatar, $path) {
+  private function _uploadTitleImage(Nette\Http\FileUpload $avatar, string $path): string {
     $pi = pathinfo($avatar->getSanitizedName());
     $ext = $pi['extension'];
     $avatar_name = Random::generate(15).".".$ext;
@@ -331,16 +338,17 @@ class Hlavne_menu extends Table {
    * @param string $avatar_name
    * @param string $avatar_path
    * @param string $www_dir */
-  private function _delAvatar($avatar_name, $avatar_path, $www_dir) {
+  private function _delAvatar(string $avatar_name, string $avatar_path, string $www_dir) {
     if ($avatar_name !== NULL && is_file($avatar_path.$avatar_name)) { 
       unlink($www_dir."/".$avatar_path.$avatar_name);
     }
   }
   
-  /** Upravy hodnoty a ulozi polozku
-   * @param \Nette\Utils\ArrayHash $values
-   * @return \Nette\Database\Table\ActiveRow|FALSE */
-  public function ulozPolozku($values) {
+  /** 
+   * Upravy hodnoty a ulozi polozku
+   * @param array $values
+   * @return Nette\Database\Table\ActiveRow|null */
+  public function ulozPolozku(array $values): ?Nette\Database\Table\ActiveRow {
     $id = $values['id'];
     $values['spec_nazov'] = $id ? $values['spec_nazov'] : $this->najdiSpecNazov($values['sk_menu_name']);
     $values['id_nadradenej'] = isset($values['id_nadradenej']) && $values['id_nadradenej'] > 0 ? $values['id_nadradenej'] : NULL;
@@ -352,11 +360,11 @@ class Hlavne_menu extends Table {
   
   /**
    * Ulozi clanok
-   * @param \Nette\Utils\ArrayHash $values
+   * @param Nette\Utils\ArrayHash $values
    * @param array $default
-   * @param int $lang
+   * @param Nette\Database\Table\Selection $lang
    * @return int Id ulozeneho clanku */
-  public function saveArticle($values, $default, $lang) { 
+  public function saveArticle(Nette\Utils\ArrayHash $values, array $default, Nette\Database\Table\Selection $lang): int { 
     // Vyber hodnoty pre DB tabulku hlavne_menu, uloz a odstran z pola values
     $uloz = $this->ulozPolozku(array_merge($default, 
                                   ['id_hlavicka'  => isset($values->id_hlavicka) ? $values->id_hlavicka : 0, 

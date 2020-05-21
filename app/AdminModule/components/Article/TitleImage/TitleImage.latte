@@ -1,8 +1,19 @@
 {var $title_form = 'Zmena titulného obrázku/ikonky'}
 {define #links}
-  <button n:if="$admin_links['edit']" type="button" class="edit edit-title-image" data-toggle="modal" data-target="#myModalTitleImageChange" title="{$title_form}">E</button>
-  <a n:if="$admin_links['del']" href="{plink confirmForm:confirmDelete! id => $clanok->id_hlavne_menu, 'druh'=>'avatar', zdroj_na_zmazanie => 'titulný obrázok', nazov => ''}"
-     title="Vymazanie titulného obrázku/ikonky" class="vymaz del-title-image">V</a>
+  <button n:if="$admin_links['edit']" 
+          type="button" 
+          class="btn btn-default btn-sm edit-title-image " 
+          data-toggle="modal" 
+          data-target="#myModalTitleImageChange" 
+          title="{$title_form}">
+    <i class="fas fa-pen"></i>
+  </button>
+  <a n:if="$admin_links['del']" 
+     href="{plink confirmForm:confirmDelete! id => $clanok->id_hlavne_menu, 'druh'=>'avatar', zdroj_na_zmazanie => 'titulný obrázok', nazov => ''}"
+     title="Vymazanie titulného obrázku/ikonky" 
+     class="btn btn-default del-title-image">
+    <i class="fas fa-trash"></i>
+  </a>
 {/define}
 <div class="page-header title-image">
   <div data-toggle="tooltip" data-placement="top">

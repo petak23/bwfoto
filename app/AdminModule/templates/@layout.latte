@@ -125,5 +125,17 @@
   </div>
   {control files:js}
   {block spec_js}{/block}
+  <script type="text/javascript">
+    $.texyla.setDefaults({
+      baseDir: {$baseUrl} + '/www/js/texyla',
+      iconPath: {$baseUrl} + '/www/ikonky/icons/%var%.png',
+      previewPath: {$previewPath},
+      filesPath: {$filesPath},
+      filesUploadPath: {$filesUploadPath},
+      filesMkDirPath: {$filesMkDirPath},
+      filesRenamePath: {$filesRenamePath},
+      filesDeletePath: {$filesDeletePath}
+    });
+</script>
 </body>
 </html>

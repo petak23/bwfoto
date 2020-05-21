@@ -261,6 +261,10 @@ h6 {
   width: 9em;
   background-color: #eee;
   border: .15em solid #ccc;
+  text-align: center;
+}
+.title-image>div>i{
+  padding: .75rem 0;
 }
 .title-image h2 {
   display: inline-block;
@@ -281,6 +285,7 @@ h6 {
   position: absolute;
   top: .1em;
   opacity: .5;
+  padding: 0;
 }
 .title-image .edit-title-image:hover,
 .title-image .del-title-image:hover {
@@ -291,6 +296,7 @@ h6 {
 }
 .title-image .del-title-image {
   right: .1em;
+  color: #CC0F08;
 }
 
 .clanok-casti {

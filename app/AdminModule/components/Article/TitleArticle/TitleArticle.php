@@ -7,13 +7,13 @@ use DbTable;
 /**
  * Komponenta pre vytvorenie hlavičky polozky.
  * 
- * Posledna zmena(last change): 14.05.2020
+ * Posledna zmena(last change): 21.05.2020
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
  * @copyright Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.5
+ * @version 1.1.6
  */
 
 class TitleArticleControl extends Nette\Application\UI\Control {
@@ -27,12 +27,14 @@ class TitleArticleControl extends Nette\Application\UI\Control {
   private $clanok;
   /** @var string $odkaz Odkaz */
   private $odkaz;
-  /** @var boolean $zobraz_anotaciu Zobrazenie anotacie polozky*/
+  /** @var bool $zobraz_anotaciu Zobrazenie anotacie polozky*/
   private $zobraz_anotaciu;
-  /** @var boolean $aktualny_projekt_enabled Povolenie aktualneho projektu */
+  /** @var bool $aktualny_projekt_enabled Povolenie aktualneho projektu */
   private $aktualny_projekt_enabled;
-  /** @var boolean $komentare Povolenie komentarov */
+  /** @var bool $komentare Povolenie komentarov */
   private $komentare;
+  /** @var bool $categori Povolenie zobrazenia kategorie */
+  private $categori;
 
   /** @var ZmenVlastnikaFormFactory */
 	public $zmenVlastnika;
@@ -52,8 +54,9 @@ class TitleArticleControl extends Nette\Application\UI\Control {
 	public $zmenSablonu;
 
   /** 
-   * @param boolean $aktualny_projekt_enabled Povolenie aktualneho projektu - Nastavenie priamo cez servises.neon
-   * @param boolean $zobraz_anotaciu Povolenie zobrazenia anotacie - Nastavenie priamo cez servises.neon
+   * @param bool $aktualny_projekt_enabled Povolenie aktualneho projektu - Nastavenie priamo cez servises.neon
+   * @param bool $zobraz_anotaciu Povolenie zobrazenia anotacie - Nastavenie priamo cez servises.neon
+   * @param bool $categori Povolenie zobrazenia kategorie - Nastavenie priamo cez servises.neon
    * @param DbTable\Hlavne_menu_lang $hlavne_menu_lang
    * @param \App\AdminModule\Components\Article\TitleArticle\ZmenVlastnikaFormFactory $zmenVlastnikaFormFactory
    * @param \App\AdminModule\Components\Article\TitleArticle\ZmenUrovenRegistracieFormFactory $zmenUrovenRegistracieFormFactory
@@ -63,7 +66,7 @@ class TitleArticleControl extends Nette\Application\UI\Control {
    * @param \App\AdminModule\Components\Article\TitleArticle\ZmenOpravnenieKategoriaFormFactory $zmenOpravnenieKategoriaFormFactory
    * @param \App\AdminModule\Components\Article\TitleArticle\ZmenOpravnenieNevlastnikovFormFactory $zmenOpravnenieNevlastnikovFormFactory
    * @param \App\AdminModule\Components\Article\TitleArticle\ZmenSablonuFormFactory $zmenSablonuFormFactory */
-  public function __construct($aktualny_projekt_enabled, $zobraz_anotaciu,
+  public function __construct(bool $aktualny_projekt_enabled, bool $zobraz_anotaciu, bool $categori,
                               DbTable\Hlavne_menu_lang $hlavne_menu_lang, 
                               ZmenVlastnikaFormFactory $zmenVlastnikaFormFactory, 
                               ZmenUrovenRegistracieFormFactory $zmenUrovenRegistracieFormFactory,
@@ -85,6 +88,7 @@ class TitleArticleControl extends Nette\Application\UI\Control {
     $this->zmenSablonu = $zmenSablonuFormFactory;
     $this->aktualny_projekt_enabled = $aktualny_projekt_enabled;
     $this->zobraz_anotaciu = $zobraz_anotaciu;
+    $this->categori = $categori;
   }
   
   /** Nastavenie komponenty
@@ -114,6 +118,7 @@ class TitleArticleControl extends Nette\Application\UI\Control {
     $this->template->nadradeny = $this->clanok->hlavne_menu->id_nadradenej !== NULL ? $this->hlavne_menu_nadradeny->hlavne_menu : NULL;
     $this->template->aktualny_projekt_enabled = $this->aktualny_projekt_enabled;
     $this->template->zobraz_anotaciu = $this->zobraz_anotaciu;
+    $this->template->categori = $this->categori;
     $this->template->addFilter('border_x', function ($text){
       $pom = $text != null & strlen($text)>2 ? explode("|", $text) : ['#000000','0'];
       $xs = 'style="border: '.$pom[1].'px solid '.(strlen($pom[0])>2 ? $pom[0]:'inherit').'"';

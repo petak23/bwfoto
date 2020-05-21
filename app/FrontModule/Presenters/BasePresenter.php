@@ -15,7 +15,7 @@ use Texy;
 /**
  * Zakladny presenter pre vsetky presentery vo FRONT module
  * 
- * Posledna zmena(last change): 11.05.2020
+ * Posledna zmena(last change): 20.05.2020
  *
  *	Modul: FRONT
  *
@@ -23,7 +23,7 @@ use Texy;
  * @copyright Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link      http://petak23.echo-msz.eu
- * @version 1.5.6
+ * @version 1.5.7
  */
 abstract class BasePresenter extends Presenter {
   
@@ -177,7 +177,7 @@ abstract class BasePresenter extends Presenter {
     $menu = new \App\FrontModule\Components\Menu\Menu;
     $menu->setTextTitleImage($this->texty_presentera->translate("base_text_title_image"));
     $hl_m = $this->hlavne_menu->getMenuFront($this->language);
-    if ($hl_m !== FALSE) {
+    if (count($hl_m)) {
       $servise = $this;
       $menu->fromTable($hl_m, function($node, $row) use($servise) {
         $poll = ["id", "name", "tooltip", "view_name", "avatar", "anotacia", "novinka", "node_class", "poradie_podclankov"];

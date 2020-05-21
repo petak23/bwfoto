@@ -46,11 +46,11 @@ class EditMenuFormFactory {
   
   /**
    * Edit hlavne menu form component factory.
-   * @param int $uroven Uroven polozky v menu
+   * @param int|null $uroven Uroven polozky v menu
    * @param string $uloz Text tlacitka uloz
    * @param string $name
    * @return Form */
-  public function form(int $uroven, string $uloz, string $name): Form  {
+  public function form(?int $uroven, string $uloz, string $name): Form  {
 		$form = new Form();
 		$form->addProtection();
     $form->addGroup();

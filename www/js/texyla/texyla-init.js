@@ -1,14 +1,3 @@
-$.texyla.setDefaults({
-	baseDir: '{{$baseUri}}www/js/texyla',
-  iconPath: '{{$baseUri}}www/ikonky/icons/%var%.png',
-	previewPath: '{{$previewPath}}',
-	filesPath: '{{$filesPath}}',
-	filesUploadPath: '{{$filesUploadPath}}',
-	filesMkDirPath: '{{$filesMkDirPath}}',
-	filesRenamePath: '{{$filesRenamePath}}',
-	filesDeletePath: '{{$filesDeletePath}}'
-});
-
 $(function () {
 	$(".texyla").texyla({
 		toolbar: [

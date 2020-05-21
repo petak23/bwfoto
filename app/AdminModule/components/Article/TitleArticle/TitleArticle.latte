@@ -1,6 +1,9 @@
-<div class="page-header edit-link-bar" data-toggle="tooltip" data-placement="bottom">
+<div class="page-header edit-link-bar">
   {var $al = $admin_links['alink']}
-  <a n:if="$al['druh_opravnenia']" href="{if $al['druh_opravnenia'] == 1}{plink $al['link']['main'] id=>$clanok->id_hlavne_menu}{else}{plink $al['link']['main'] id=>$clanok->id_hlavne_menu, uroven=>$al['link']['uroven']}{/if}" title="Pridanie podčlánku" class="btn btn-success">
+  <a n:if="$al['druh_opravnenia']" 
+     href="{if $al['druh_opravnenia'] == 1}{plink $al['link']['main'] id=>$clanok->id_hlavne_menu}{else}{plink $al['link']['main'] id=>$clanok->id_hlavne_menu, uroven=>$al['link']['uroven']}{/if}" 
+     title="Pridanie podčlánku" 
+     class="btn btn-success">
     <i class="far fa-file"></i> {$admin_links['alink']['text']}
   </a>
   <a n:if="$admin_links['elink']" href="{plink $clanok->hlavne_menu->druh->presenter.':edit' $clanok->id_hlavne_menu}" title="Zmeň nastavenie článku" class="btn btn-success"><i class="fas fa-pencil-alt"></i> Zmeň nastavenie</a>
@@ -87,7 +90,7 @@
     </div>
     <button n:if="$admin_links['vlastnik']" type="button" class="btn btn-info" data-toggle="modal" data-target="#myModalOpravnenieNevlastnikovChange" title="Zmeň oprávnenia nevlastníkov"><i class="fas fa-pencil-alt"></i></button>
   </div>
-  <div n:snippet="opravnenie_kategoria" class="btn-group edit-link-bar" role="group" aria-label="opravnenie_kategoria-link">
+  <div n:snippet="opravnenie_kategoria" n:if="$categori" class="btn-group edit-link-bar" role="group" aria-label="opravnenie_kategoria-link">
     {var $ok_txt = $clanok->hlavne_menu->id_user_categories != null ? $clanok->hlavne_menu->user_categories->name : 'Nenastavené'}
     <div n:if="$admin_links['vlastnik']" class="btn btn-warning disabled" title="Oprávnenia podľa kategórie: {$ok_txt}">
       <i class="far fa-id-card"></i>
