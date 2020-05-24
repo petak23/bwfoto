@@ -8,13 +8,13 @@ use DbTable;
 
 /**
  * Komponenta pre zjedndusenie odoslania emailu
- * Posledna zmena(last change): 26.01.2018
+ * Posledna zmena(last change): 24.05.2020
  * 
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
- * @copyright  Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.7
+ * @version 1.0.8
  */
 
 class EmailControl extends UI\Control {
@@ -33,7 +33,6 @@ class EmailControl extends UI\Control {
   /**
    * @param DbTable\User_main $user_main */
   public function __construct(DbTable\User_main $user_main) {
-    parent::__construct();
     $this->mail = new Message;
     $this->user_main = $user_main;
   }
