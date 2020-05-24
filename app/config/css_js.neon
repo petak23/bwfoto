@@ -16,6 +16,7 @@ parameters:
         - node_modules/bootstrap/dist/js/bootstrap.bundle.js
         - node_modules/nette-forms/src/assets/netteForms.min.js
         - node_modules/naja/dist/Naja.js
+        - node_modules/vue/dist/vue.js
         - www/js/pomocne_front.js
         - www/js/nav-shrink.js
     Admin:

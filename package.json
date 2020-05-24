@@ -13,7 +13,8 @@
     "jquery": ">=3.5.0",
     "naja": "^1.5.1",
     "nette-forms": "^2.4.2",
-    "ublaboo-datagrid": "^6.2.16"
+    "ublaboo-datagrid": "^6.2.16",
+    "vue": "^2.6.11"
   },
   "devDependencies": {},
   "scripts": {

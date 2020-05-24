@@ -742,7 +742,7 @@ CREATE TABLE `user_main` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Hlavné údaje užívateľa';
 
 INSERT INTO `user_main` (`id`, `id_user_roles`, `id_user_profiles`, `password`, `meno`, `priezvisko`, `email`, `activated`, `banned`, `ban_reason`, `new_password_key`, `new_password_requested`, `new_email`, `new_email_key`, `last_ip`, `created`, `modified`) VALUES
-(1,	5,	1,	'$2y$10$RnzAjUCyc/B1GgiJ9k43/e27BDz5j1vsbN.DYlfnXIxweBvqxkABq',	'Peter',	'Vojtech',	'petak23@gmail.com',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.253.137.97',	'2017-05-15 09:11:19',	'2020-04-19 06:47:09'),
+(1,	5,	1,	'$2y$10$RnzAjUCyc/B1GgiJ9k43/e27BDz5j1vsbN.DYlfnXIxweBvqxkABq',	'Peter',	'Vojtech',	'petak23@gmail.com',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.253.177.216',	'2017-05-15 09:11:19',	'2020-05-13 12:36:11'),
 (2,	4,	2,	'$2y$10$0KPg/2sE8I5EjAsgolRttulqhQPsUoVrhIHAxX8Ej3NAOHGuZIbW.',	'Juraj',	'Zámečník',	'bwfoto@bwfoto.sk',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.143.114.134',	'2017-05-15 09:13:38',	'2020-04-03 12:19:23'),
 (3,	4,	3,	'$2y$10$VOeK4y3ozjaUM1aMtiVmcuHRmtcmoVvC6J4yFX4j0LZoNbXlejyMi',	'Jozef',	'Petrenčík',	'jozue@anigraph.eu',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.253.139.152',	'2017-05-15 09:12:22',	'2017-07-11 07:10:29');
 
@@ -839,7 +839,9 @@ INSERT INTO `user_prihlasenie` (`id`, `id_user_main`, `log_in_datetime`) VALUES
 (59,	1,	'2020-04-12 10:39:46'),
 (60,	1,	'2020-04-19 08:47:09'),
 (61,	1,	'2020-04-20 06:56:40'),
-(62,	1,	'2020-05-04 13:46:35');
+(62,	1,	'2020-05-04 13:46:35'),
+(63,	1,	'2020-05-13 14:36:11'),
+(64,	1,	'2020-05-14 15:18:49');
 
 DROP TABLE IF EXISTS `user_profiles`;
 CREATE TABLE `user_profiles` (
@@ -852,13 +854,14 @@ CREATE TABLE `user_profiles` (
   `prihlas_teraz` datetime DEFAULT NULL COMMENT 'Posledné prihlásenie',
   `avatar` varchar(200) COLLATE utf8_bin DEFAULT NULL COMMENT 'Cesta k avatarovi veľkosti 75x75',
   `news` enum('A','N') COLLATE utf8_bin NOT NULL DEFAULT 'A' COMMENT 'Posielanie info emailou',
+  `news_key` varchar(100) COLLATE utf8_bin DEFAULT NULL COMMENT 'Kľúč pre odhlásenie noviniek',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
-INSERT INTO `user_profiles` (`id`, `rok`, `telefon`, `poznamka`, `pocet_pr`, `pohl`, `prihlas_teraz`, `avatar`, `news`) VALUES
-(1,	NULL,	NULL,	NULL,	41,	'M',	'2020-05-04 13:46:35',	NULL,	'A'),
-(2,	NULL,	NULL,	NULL,	21,	'M',	'2020-04-03 13:49:14',	NULL,	'A'),
-(3,	NULL,	NULL,	NULL,	0,	'M',	NULL,	NULL,	'A');
+INSERT INTO `user_profiles` (`id`, `rok`, `telefon`, `poznamka`, `pocet_pr`, `pohl`, `prihlas_teraz`, `avatar`, `news`, `news_key`) VALUES
+(1,	NULL,	NULL,	NULL,	43,	'M',	'2020-05-14 15:18:49',	NULL,	'A',	NULL),
+(2,	NULL,	NULL,	NULL,	21,	'M',	'2020-04-03 13:49:14',	NULL,	'A',	NULL),
+(3,	NULL,	NULL,	NULL,	0,	'M',	NULL,	NULL,	'A',	NULL);
 
 DROP TABLE IF EXISTS `user_resource`;
 CREATE TABLE `user_resource` (
@@ -938,4 +941,4 @@ INSERT INTO `verzie` (`id`, `id_user_main`, `cislo`, `subory`, `text`, `modified
 (9,	1,	'0.3.0-alfa',	'Upgrade to v 0.3.0',	'- **Oprava chyby: zobrazenie prvého obrázku alebo produktu pri prvom zobrazení článku.**\n- Upgrade nette na verziu 2.4\n- Aplikácia zmien z echo-msz.eu ale s prispôsobením komponent na verziu PHP 7.0.33\n- Inovácia vzhľadu v administrácii, zatiaľ ešte nie úplne dokončená \"(AdminModule) .{color: gray}\".\n- Aktualizácia komponent vzhľadu v package.json \"(fontawesome: 5.2.0, bootstrap: 4.4.1, jquery: 3.4.1, naja: 1.5.1, nette-forms: 2.4.2, popper.js: 1.16.1) .{color: gray}\". \n- Aktualizácia správcu databázy \"(adminer v 4.7.6) .{color: gray}\". \n- Oprava chyby v menu FrontModule a upgrade pre novú verziu Texy.',	'2020-05-04 11:55:19'),
 (10,	1,	'0.3.0-beta',	'Rôzne; jquery 3.5.0',	'- Oprava drobných chýb v prihlásení.\n- Oprava chyby v slideri(issue \"#12\":https://github.com/petak23/bwfoto/issues/12). Rebase model/Table.php.\n- Rebase model/Dokumenty.php; model/Products.php a model/UserManager.php.\n- Oprava chyby v pridávaní podčlánku v adninistrácii.\n- Refaktoring fotogalérie na frontende.\n- Oprava zobrazenia produktov v AdminModule. \n- Update jquery na 3.5.0.\n- Oprava zobrazenia príloh vo FrontModule a premenovanie adresára presenters na Presenters.\n- Oprava issue \"#11\":https://github.com/petak23/bwfoto/issues/11 - A13 - V administracii pri zozname príloh( miniatúry fotografií) keď kliknem na foto aby sa mi zobrazila fotka tak sa zobrazí na ľavej strane - nie je vycentrovaná na stred',	'2020-05-04 12:02:51');
 
--- 2020-05-04 16:16:30
+-- 2020-05-14 13:19:01
