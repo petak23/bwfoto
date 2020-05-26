@@ -1,14 +1,7 @@
 /* AUTHOR: Peter VOJTECH ml. - VZ; CREATION DATE: 03.06.2011 */
-/* UPDATED 12.11.2018 - PV*/
-.middle-content .card {
-  width: 10rem;
-  min-height: 12rem;
-}
-.col-last {
-  display: none;
-}
+/* UPDATED 25.05.2020 - PV */
 .last-login {
-  max-height: 12rem;
+  max-height: 20rem;
   overflow: auto;
 }
 .last-login .erase {
@@ -43,45 +36,30 @@
 
 @media (min-width: 576px){ 
   .col-last {
-    display: inherit;
-  }
-  .middle-content .card {
-    width: 12rem;
-    min-height: 16rem;
-  }
-  .last-login {
-    max-height: 16rem;
-  }
-}
-@media (min-width: 768px){
-  .middle-content .card {
-    width: 14rem;
-    min-height: 19rem;
-  }
-  .last-login {
-    max-height: 19rem;
-  }
-}
-@media (min-width: 992px) {
-  .middle-content .card {
-    width: 16rem;
-    min-height: 20rem;
+    display: initial;
   }
   .last-login {
     max-height: 20rem;
   }
 }
-@media (min-width: 1200px) {
-  .middle-content .card {
-    width: 18rem;
-    min-height: 22rem;
+@media (min-width: 768px){
+  .last-login {
+    max-height: 19rem;
   }
+}
+@media (min-width: 992px) {
+  .last-login {
+    max-height: 23rem;
+  }
+}
+@media (min-width: 1200px) {
   .last-login {
     max-height: 22rem;
   }
 }
 
-
+/* ------ OLD CSS ------ */ 
+/* @todo - zistiť ich potrebu */
 h6 {
   font-size: 100%;
   float: left;

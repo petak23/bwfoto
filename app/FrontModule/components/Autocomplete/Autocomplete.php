@@ -51,7 +51,7 @@ class AutocompleteControl extends Nette\Application\UI\Control {
 		$this->template->render();
 	}
 
-	public function handleSelect(string $searchStr) {
+	public function handleSelect(string $searchStr = "") {
 		$search = $this->hlavne_menu_lang->where('menu_name LIKE ? OR h1part2 LIKE ? OR view_name LIKE ?', $searchStr, $searchStr, $searchStr);
 		$this->onSelect($search);
 	}

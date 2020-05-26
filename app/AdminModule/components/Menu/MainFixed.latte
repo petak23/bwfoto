@@ -1,5 +1,5 @@
-<div class="col middle-content" n:if="isset($startNode) && count($startNode->nodes)" n:foreach=" $startNode->nodes as $node">
-  <div class="card text-center text-white bg-secondary">
+<div class="col mb-4" n:if="isset($startNode) && count($startNode->nodes)" n:foreach=" $startNode->nodes as $node">
+  <div class="card text-center text-white bg-secondary h-100">
     <a href="{$node->link}" title="{$node->name}" class="card-a-white">
       {if ($nastav['article_avatar_view_in'] & 1)}
         {var $a = ($node->avatar && is_file($nastavenie['dir_to_menu'].$node->avatar)) ? $nastavenie['dir_to_menu'].$node->avatar : $nastavenie['dir_to_images'].'bga_w.png'}

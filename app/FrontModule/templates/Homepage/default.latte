@@ -19,3 +19,28 @@
     {control ukazClanok-15}
 	</div>
 </section>
+<div class="bg-warning text-dark">
+	<div id="myapp">
+		<ol>
+	    <li v-for="todo in todos">
+	      {{ todo.text }}
+	    </li>
+	  </ol>
+	</div>
+</div>
+{/block}
+{block spec_js}
+<script>
+
+var app = new Vue({
+  el: '#myapp',
+  data: {
+    todos: [
+      { text: 'Learn JavaScript' },
+      { text: 'Learn Vue' },
+      { text: 'Build something awesome' }
+    ]
+  }
+})
+
+</script>

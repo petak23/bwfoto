@@ -1,36 +1,10 @@
-<template>
-  <div class="autocomplete">
-    <form autocomplete="off"><!--required for disable google chrome auto fill-->
-      <input  type="text"
-              :placeholder="placeholder"
-              :name="inputname"
-              class="form-control"
-              v-model="searchquery"
-              @input="autoComplete"
-              @keydown.down="onArrowDown"
-              @keydown.up="onArrowUp"
-              @keydown.enter="onEnter"
-      >
-      <div class="autocomplete-result" v-show="isOpen">
-        <ul class="list-group">
-          <li class="list-group-item"
-              v-for="(result, i) in results"
-              :key="result.id"
-              @click="setResult(result)"
-              :class="{ 'is-active': i === arrowCounter }"
-          >
-            {{ result[choice] }}
-          </li>
-        </ul>
-      </div>
-    </form>
-  </div>
-</template>
-
-<style scoped>
-  .autocomplete-result .is-active,
-  .autocomplete-result li:hover {
-    background-color: #379d2f;
-    color: white;
-  }
-</style>
+<div id="autocomplete"  data-handle-link="{link select!}" data-handle-param="{$handleParameter}">
+  <autocomplete
+    inputname="nameOrCode"
+    source="/api/v1/products"
+    placeholder="Najít produkt"
+    choice="name"
+    @selected="onSelect"
+    ref="autocomplete"
+  ></autocomplete>
+</div>
