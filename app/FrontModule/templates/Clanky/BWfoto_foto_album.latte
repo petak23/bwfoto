@@ -2,7 +2,7 @@
  *
  * Modul: FRONT
  *
- * Posledna zmena(last change): 13.05.2020
+ * Posledna zmena(last change): 26.05.2020
  * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
@@ -99,15 +99,21 @@
 		      	<div class="col-md-10 ">
               <div class="border-a" {$clanok_hl_menu->border_a|border_x|noescape}>
                 <div class="border-b" {$clanok_hl_menu->border_b|border_x|noescape}">
-                  <div class="border-c" {$clanok_hl_menu->border_c|border_x|noescape}>
-                    {if strpos($big_img['type'], 'attachments') !== false}
+                  {*<div class="border-c" {$clanok_hl_menu->border_c|border_x|noescape}>*}
+                    {if strpos($big_img['type'], 'attachments') !== false || $big_img['type'] == "product"}
                       {var $tf = $big_img['article']->main_file}
-                      <img src="{$basePath}/{if $tf && is_file($tf)}{$tf}{else}/ikonky/Free-file-icons-master/512px/{$big_img['article']->pripona|lower}.png{/if}" alt="{$big_img['article']->name}" id="big-main-img">
-                    {elseif $big_img['type'] == "product"}
+                      <img src="{$basePath}/{if $tf && is_file($tf)}{$tf}{else}/ikonky/Free-file-icons-master/512px/{$big_img['article']->pripona|lower}.png{/if}" 
+                           alt="{$big_img['article']->name}" 
+                           id="big-main-img"
+                           class="border-c" {$clanok_hl_menu->border_c|border_x|noescape}
+                           />
+                    {* elseif $big_img['type'] == "product"}
                       {var $tf = $big_img['article']->main_file}
-                      <img src="{$basePath}/{if $tf && is_file($tf)}{$tf}{else}/ikonky/Free-file-icons-master/512px/{$big_img['article']->pripona|lower}.png{/if}" alt="{$big_img['article']->name}" id="big-main-img">  
+                      <img src="{$basePath}/{if $tf && is_file($tf)}{$tf}{else}/ikonky/Free-file-icons-master/512px/{$big_img['article']->pripona|lower}.png{/if}"
+                           alt="{$big_img['article']->name}" 
+                           id="big-main-img">   *}
                     {/if}
-                  </div>
+                  {*</div>*}
                 </div>
               </div>
               <div n:ifset="$ba->description">

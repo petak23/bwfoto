@@ -9,7 +9,7 @@ services:
 
   - App\AdminModule\Components\Article\TitleArticle\ZmenDatumPlatnostiFormFactory
   - App\AdminModule\Components\Article\TitleArticle\ZmenDlzkuNovinkyFormFactory
-  - App\AdminModule\Components\Article\TitleArticle\ZmenOkrajFormFactory
+#  - App\AdminModule\Components\Article\TitleArticle\ZmenOkrajFormFactory
   - App\AdminModule\Components\Article\TitleArticle\ZmenOpravnenieKategoriaFormFactory
   - App\AdminModule\Components\Article\TitleArticle\ZmenOpravnenieNevlastnikovFormFactory
   - App\AdminModule\Components\Article\TitleArticle\ZmenSablonuFormFactory
@@ -71,7 +71,10 @@ services:
 #  - App\AdminModule\Components\Oznam\IAktualneOznamyControl
 #  - App\AdminModule\Components\Oznam\TitleOznam\ITitleOznamControl
 
-  - App\AdminModule\Components\Products\IProductsControl
+  PoductsControl:
+    implement: App\AdminModule\Components\Products\IProductsControl
+    arguments: 
+      texts_for_translator: %datagrid.texts_for_translator%
 
   - App\AdminModule\Components\User\ContactCategori\IContactCategoriControl
   - App\AdminModule\Components\User\IKontaktControl

@@ -44,9 +44,7 @@
             <div class="col-12">
               <div class="border-a" {$clanok->hlavne_menu->border_a|border_x|noescape}>
                 <div class="border-b" {$clanok->hlavne_menu->border_b|border_x|noescape}">
-                  <div class="border-c" {$clanok->hlavne_menu->border_c|border_x|noescape}>
-                    <img data-src="{$basePath}/" alt="">
-                  </div>
+                  <img data-src="{$basePath}/" alt="" class="border-c" {$clanok->hlavne_menu->border_c|border_x|noescape}>
                 </div>
               </div>
               <div n:ifset="$big_img->description">
@@ -62,11 +60,11 @@
   
 {* -- Modal dialog pre pridanie jedneho produktu -- *}
 <div class="modal fade" id="myModalAddProductChange" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" n:if="$admin_links_prilohy['elink']">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
+        <h5 class="modal-title" id="myModalLabel">Pridanie produktu k položke: {$clanok->view_name}</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Pridanie produktu k položke: {$clanok->view_name}</h4>
       </div>
       <div class="modal-body">
         {control editProductForm}
@@ -77,11 +75,11 @@
       
 {* -- Modal dialog pre pridanie viacerích produktov -- *}
 <div class="modal fade" id="myModalAddMultiProductsChange" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" n:if="$admin_links_prilohy['elink']">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
+        <h5 class="modal-title" id="myModalLabel">Pridanie viacerích produktov k položke: {$clanok->view_name}</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Pridanie viacerích produktov k položke: {$clanok->view_name}</h4>
       </div>
       <div class="modal-body">
         {control addMultiProductsForm}
@@ -92,42 +90,44 @@
       
 {* -- Modal dialog pre zmenu okrajov -- *}
 <div class="modal fade" id="myModalBorderChange" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
+        <h5 class="modal-title" id="myModalLabel">Zmena okrajového rámčeka</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Zmena okrajového rámčeka</h4>
       </div>
       <div class="modal-body">
         <div class="row">
-          <div class="col-xs-6">
+          <div class="col-6">
             <form n:name=zmenOkrajForm class="pv-borders-change">
-              <label n:name=border_a_width>Okraj A:</label>&nbsp;<input n:name=border_a_width size=5 class="input_number"> <input n:name=border_a_color>
+              <label n:name=border_a_width>Okraj A:</label>&nbsp;
+              <input n:name=border_a_width size=2 class="input_number"> px
+              <input n:name=border_a_color>
               <br>
-              <label n:name=border_b_width>Okraj B:</label>&nbsp;<input n:name=border_b_width size=5 class="input_number"> <input n:name=border_b_color>
+              <label n:name=border_b_width>Okraj B:</label>&nbsp;
+              <input n:name=border_b_width size=2 class="input_number"> px
+              <input n:name=border_b_color>
               <br>
-              <label n:name=border_c_width>Okraj C:</label>&nbsp;<input n:name=border_c_width size=5 class="input_number"> <input n:name=border_c_color>
+              <label n:name=border_c_width>Okraj C:</label>&nbsp;
+              <input n:name=border_c_width size=2 class="input_number"> px
+              <input n:name=border_c_color>
               <br>
               <input n:name=uloz>
               <input n:name=cancel>
             </form>
           </div>
-          <div class="col-xs-6 pv-okraj-nahlad">
+          <div class="col-6 pv-okraj-nahlad">
             <div class="okraj-nahlad-tmavy">
               <div class="border_x2 okraj-c" {$clanok->hlavne_menu->border_c|border_x|noescape}>
                 <div class="border_x2 okraj-b" {$clanok->hlavne_menu->border_b|border_x|noescape}>
-                  <div class="border_x2 okraj-a" {$clanok->hlavne_menu->border_a|border_x|noescape}>
-                    <img src="{$basePath}/{$dir_to_images}okraj_temp.png" alt="okraj">
-                  </div>
+                  <img src="{$basePath}/{$dir_to_images}okraj_temp.png" alt="okraj" class="border_x2 okraj-a" {$clanok->hlavne_menu->border_a|border_x|noescape}>
                 </div>
               </div>
             </div>
             <div class="okraj-nahlad-svetly">
               <div class="border_x2 okraj-c" {$clanok->hlavne_menu->border_c|border_x|noescape}>
                 <div class="border_x2 okraj-b" {$clanok->hlavne_menu->border_b|border_x|noescape}>
-                  <div class="border_x2 okraj-a" {$clanok->hlavne_menu->border_a|border_x|noescape}>
-                    <img src="{$basePath}/{$dir_to_images}okraj_temp.png" alt="okraj">
-                  </div>
+                  <img src="{$basePath}/{$dir_to_images}okraj_temp.png" alt="okraj" class="border_x2 okraj-a" {$clanok->hlavne_menu->border_a|border_x|noescape}>
                 </div>
               </div>
             </div>

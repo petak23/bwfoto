@@ -114,8 +114,8 @@ footer a {
 }*/
 
 .lightbox-img .modal-dialog .modal-body .row div {
-	text-align: center;
-	color: #ddd;
+/*	text-align: center;
+	color: #ddd;*/
 }
 
 .lightbox-img .modal-dialog .modal-body .fas {
@@ -128,26 +128,23 @@ footer a {
 }
 
 .border-a {
-  display: inline-block;
-  height: 80%; 
+/*  display: inline-block;
+  max-height: 80vh; */
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 .border-b {
-  display: inline-block;
-  height: 100%;
+/*  display: inline-block;
+  height: 100%;*/
 }
 
 .border-c {
-  display: inline-block;
-  height: 100%;
-}
-
-.border-c img {
-  display: block;
-	height: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
+  /*display: inline-block;*/
+	max-height: 80vh;
+  max-width: 100%;
 }
 
 .thumbnails .thumb a img {

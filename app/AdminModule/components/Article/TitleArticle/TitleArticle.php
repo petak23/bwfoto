@@ -7,13 +7,13 @@ use DbTable;
 /**
  * Komponenta pre vytvorenie hlavičky polozky.
  * 
- * Posledna zmena(last change): 21.05.2020
+ * Posledna zmena(last change): 26.05.2020
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
  * @copyright Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.6
+ * @version 1.1.7
  */
 
 class TitleArticleControl extends Nette\Application\UI\Control {
@@ -44,8 +44,6 @@ class TitleArticleControl extends Nette\Application\UI\Control {
 	public $zmenDatumPlatnosti;
   /** @var ZmenDlzkuNovinkyFormFactory */
 	public $zmenDlzkuNovinky;
-  /** @var ZmenOkrajFormFactory */
-	public $zmenOkraj;
   /** @var ZmenOpravnenieNevlastnikovFormFactory */
 	public $zmenOpravnenieNevlastnikov;
   /** @var ZmenOpravnenieKategoriaFormFactory */
@@ -62,7 +60,6 @@ class TitleArticleControl extends Nette\Application\UI\Control {
    * @param \App\AdminModule\Components\Article\TitleArticle\ZmenUrovenRegistracieFormFactory $zmenUrovenRegistracieFormFactory
    * @param \App\AdminModule\Components\Article\TitleArticle\ZmenDatumPlatnostiFormFactory $zmenDatumPlatnostiFormFactory
    * @param \App\AdminModule\Components\Article\TitleArticle\ZmenDlzkuNovinkyFormFactory $zmenDlzkuNovinkyFormFactory
-   * @param \App\AdminModule\Components\Article\TitleArticle\ZmenOkrajFormFactory $zmenOkrajFormFactory
    * @param \App\AdminModule\Components\Article\TitleArticle\ZmenOpravnenieKategoriaFormFactory $zmenOpravnenieKategoriaFormFactory
    * @param \App\AdminModule\Components\Article\TitleArticle\ZmenOpravnenieNevlastnikovFormFactory $zmenOpravnenieNevlastnikovFormFactory
    * @param \App\AdminModule\Components\Article\TitleArticle\ZmenSablonuFormFactory $zmenSablonuFormFactory */
@@ -72,7 +69,6 @@ class TitleArticleControl extends Nette\Application\UI\Control {
                               ZmenUrovenRegistracieFormFactory $zmenUrovenRegistracieFormFactory,
                               ZmenDatumPlatnostiFormFactory $zmenDatumPlatnostiFormFactory,
                               ZmenDlzkuNovinkyFormFactory $zmenDlzkuNovinkyFormFactory,
-                              ZmenOkrajFormFactory $zmenOkrajFormFactory,
                               ZmenOpravnenieKategoriaFormFactory $zmenOpravnenieKategoriaFormFactory,
                               ZmenOpravnenieNevlastnikovFormFactory $zmenOpravnenieNevlastnikovFormFactory,
                               ZmenSablonuFormFactory $zmenSablonuFormFactory
@@ -82,7 +78,6 @@ class TitleArticleControl extends Nette\Application\UI\Control {
     $this->zmenUrovenRegistracie = $zmenUrovenRegistracieFormFactory;
     $this->zmenDatumPlatnosti = $zmenDatumPlatnostiFormFactory;
     $this->zmenDlzkuNovinky = $zmenDlzkuNovinkyFormFactory;
-    $this->zmenOkraj = $zmenOkrajFormFactory;
     $this->zmenOpravnenieKategoria = $zmenOpravnenieKategoriaFormFactory;
     $this->zmenOpravnenieNevlastnikov = $zmenOpravnenieNevlastnikovFormFactory;
     $this->zmenSablonu = $zmenSablonuFormFactory;
@@ -196,13 +191,6 @@ class TitleArticleControl extends Nette\Application\UI\Control {
    * @return Nette\Application\UI\Form */
   public function createComponentZmenDatumPlatnostiForm(): Nette\Application\UI\Form {
     return $this->_formMessage($this->zmenDatumPlatnosti->create($this->clanok->id_hlavne_menu, $this->clanok->hlavne_menu->datum_platnosti));
-  }
-  
-  /** 
-   * Komponenta formulara pre zmenu okraja obrázkových príloh polozky.
-   * @return Nette\Application\UI\Form */
-  public function createComponentZmenOkrajForm(): Nette\Application\UI\Form {
-    return $this->_formMessage($this->zmenOkraj->create($this->clanok->hlavne_menu));
   }
   
   /** 

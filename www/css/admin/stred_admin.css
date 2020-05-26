@@ -33,6 +33,9 @@
 .lightbox-img .modal-body img {
   width: 100%;
 }
+.lightbox-img .border-c {
+  max-height: 80vh;
+}
 
 @media (min-width: 576px){ 
   .col-last {
