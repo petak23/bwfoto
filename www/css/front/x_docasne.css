@@ -1,6 +1,6 @@
 /* 
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * Last update: 23.04.2020 
+ * Last update: 26.05.2020 
  */
 input {
   color: #000;
@@ -93,63 +93,65 @@ footer a {
   width: 100%;
 }
 
-.lightbox-img .modal-dialog {
-  max-width: 95%;
-	/*max-height: 95%;*/
-	background-color: rgba(20,20,20,.8);
+.lightbox-img {
+  background-color: rgba(20,20,20,.9);
+}
+
+.lightbox-img .modal-title {
+  color: #ffeb3b;
+  font-weight: bold;
 }
 
 .lightbox-img .modal-dialog .modal-content { 
-	text-align: center;
 	background-color: transparent;
-  /*height: 100%;*/
 }
 
-.lightbox-img .modal-dialog .modal-header,  .lightbox-img .modal-dialog .modal-foote, .lightbox-img .modal-dialog .modal-body { 
-	text-align: center;
+.lightbox-img .modal-body {
+  display: table;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-/*.lightbox-img .modal-dialog .modal-body {
-  height: 100%;
-}*/
-
-.lightbox-img .modal-dialog .modal-body .row div {
-/*	text-align: center;
-	color: #ddd;*/
+.lightbox-img .arrows-l, .lightbox-img .arrows-r {
+  position: absolute;
+  top: 50%;
+  opacity: .5
 }
 
-.lightbox-img .modal-dialog .modal-body .fas {
-	color: #ddd;
+.lightbox-img .arrows-l:hover, .lightbox-img .arrows-r:hover {
+  opacity: 1
 }
 
-.lightbox-img .modal-dialog .modal-body .arrows {
-  margin-top: auto;
-  margin-bottom: auto;
+.lightbox-img .arrows-l {
+  left: 3%;
+}
+
+.lightbox-img .arrows-r {
+  right: 3%;
+}
+
+.lightbox-img .description {
+  color: #ddd;
 }
 
 .border-a {
-/*  display: inline-block;
-  max-height: 80vh; */
   margin-left: auto;
   margin-right: auto;
-  margin-top: auto;
-  margin-bottom: auto;
 }
 
 .border-b {
-/*  display: inline-block;
-  height: 100%;*/
+
 }
 
 .border-c {
-  /*display: inline-block;*/
-	max-height: 80vh;
+	max-height: 87vh;
   max-width: 100%;
 }
 
 .thumbnails .thumb a img {
-  /*border-width: 1px;*/
+
 }
+
 .thumbnails .thumb a {
   color: transparent;
 }

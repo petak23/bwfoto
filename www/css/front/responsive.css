@@ -126,8 +126,8 @@ p
 	margin: 2% auto;
 }
 /* obsah nahlady*/
-	.detail
-	{	display:none;}
+/*	.detail
+	{	display:none;}*/ /* Zakomentované pre nekorektné správanie PV 2020-05-26 */
 	.thumbnails
 	{	width: 100%; }
 	.thumbnails .thumb
