@@ -1,9 +1,10 @@
-<div id="autocomplete"  data-handle-link="{link select!}" data-handle-param="{$handleParameter}">
+<div id="autocomplete" data-handle-link="{link select!}" data-handle-param="{$handleParameter}">
   <autocomplete
-    inputname="nameOrCode"
-    source="/api/v1/products"
-    placeholder="Najít produkt"
-    choice="name"
+    inputname="searchStr"
+    source="{$basePath}/search"
+    myred="{plink Clanky:}"
+    placeholder="Hľadaj"
+    choice="view_name"
     @selected="onSelect"
     ref="autocomplete"
   ></autocomplete>

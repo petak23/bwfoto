@@ -41,7 +41,7 @@ header
 nav.navbar
 {
 	background-color: #fff;
-	overflow: hidden;
+	/*overflow: hidden;*/ /* Zakomentovane PV 2020-06-02 */
 	height: 150px;
 	transition: height .5s;
 }

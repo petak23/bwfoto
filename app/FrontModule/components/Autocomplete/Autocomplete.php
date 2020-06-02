@@ -9,13 +9,13 @@ use Nette;
 /**
  * Komponenta pre našepkávanie pri vyhladavani pre FRONT modul
  * 
- * Posledna zmena(last change): 24.05.2020
+ * Posledna zmena(last change): 02.06.2020
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.0
+ * @version 1.0.1
  */
 
 class AutocompleteControl extends Nette\Application\UI\Control {
@@ -46,14 +46,13 @@ class AutocompleteControl extends Nette\Application\UI\Control {
   }
 
 	public function render() {
-		$this->template->handleParameter = $this->getParameterId('searchStr');
+		$this->template->handleParameter = $this->getParameterId('id');
 		$this->template->setFile(__DIR__ . '/Autocomplete.latte');
 		$this->template->render();
 	}
 
-	public function handleSelect(string $searchStr = "") {
-		$search = $this->hlavne_menu_lang->where('menu_name LIKE ? OR h1part2 LIKE ? OR view_name LIKE ?', $searchStr, $searchStr, $searchStr);
-		$this->onSelect($search);
+	public function handleSelect(int $id = 0) {
+    $this->presenter->redirect('Clanky:', $id);
 	}
 }
 
