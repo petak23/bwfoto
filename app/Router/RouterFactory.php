@@ -97,6 +97,7 @@ class RouterFactory {
     $frontRouter[] = new Route('userlog[/<action>]/<id>', 'UserLog:default');
     $frontRouter[] = new Route('oznam[/<action>]', 'Oznam:default');
     $frontRouter[] = new Route('error[/<action>]', 'Error:default');
+    $frontRouter[] = new Route('search[/<action>]', 'Search:default');
     $frontRouter[] = new Route('<presenter>/<action>[/cokolvek]', 'Homepage:default');
     $frontRouter[] = new Route('[<presenter>][/<action>][/<spec_nazov><? \.html?|\.php|>]', 'Homepage:default', Route::ONE_WAY);
     

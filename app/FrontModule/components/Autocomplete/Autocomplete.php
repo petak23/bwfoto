@@ -21,7 +21,7 @@ use Nette;
 class AutocompleteControl extends Nette\Application\UI\Control {
 
 	/** @var DbTable\Hlavne_menu_lang $hlavne_menu_lang */
-  private $hlavne_menu_lang;
+//  private $hlavne_menu_lang;
 
 	public $onSelect = [];
   
@@ -31,8 +31,8 @@ class AutocompleteControl extends Nette\Application\UI\Control {
   /**
    * @param DbTable\Hlavne_menu_lang $hlavne_menu_lang
    * @param Language_support\LanguageMain $texts */
-	public function __construct(DbTable\Hlavne_menu_lang $hlavne_menu_lang, Language_support\LanguageMain $texts) {
-		$this->hlavne_menu_lang = $hlavne_menu_lang;
+	public function __construct(/*DbTable\Hlavne_menu_lang $hlavne_menu_lang, */Language_support\LanguageMain $texts) {
+//		$this->hlavne_menu_lang = $hlavne_menu_lang;
     $this->texts = $texts;
 	}
   
@@ -46,15 +46,26 @@ class AutocompleteControl extends Nette\Application\UI\Control {
   }
 
 	public function render() {
-		$this->template->handleParameter = $this->getParameterId('searchStr');
+//	$this->template->handleParameter = $this->getParameterId('id');
 		$this->template->setFile(__DIR__ . '/Autocomplete.latte');
 		$this->template->render();
 	}
 
-	public function handleSelect(string $searchStr = "") {
-		$search = $this->hlavne_menu_lang->where('menu_name LIKE ? OR h1part2 LIKE ? OR view_name LIKE ?', $searchStr, $searchStr, $searchStr);
-		$this->onSelect($search);
-	}
+	/*public function handleSearch(string $searchStr = "") {
+    $searchStr = '%'.$searchStr.'%';
+    $search = $this->hlavne_menu_lang
+                   ->findBy(['hlavne_menu.hlavne_menu_cast.mapa_stranky'=>1])
+                   ->where('menu_name LIKE ? OR h1part2 LIKE ? OR hlavne_menu_lang.view_name LIKE ?', $searchStr, $searchStr, $searchStr)
+                   ->fetchPairs('id', 'view_name');
+    $out = [];
+    foreach ($search as $k => $v) {
+      $out[] = [
+        'id'=>$k,
+        'view_name'=>$v
+      ];
+    }
+    $this->sendResponse(new Responses\JsonResponse($out));  
+	} */
 }
 
 interface IAutocompleteControl {
