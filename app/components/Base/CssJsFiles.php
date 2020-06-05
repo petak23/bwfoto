@@ -1,6 +1,7 @@
 <?php
 namespace PeterVojtech\Base;
 use Nette;
+use Nette\Utils\Html;
 
 /**
  * Komponenta pre vlozenie css a js suborov do stranky
@@ -58,7 +59,13 @@ class CssJsFilesControl extends Nette\Application\UI\Control {
     $js = isset($this->files[$this->module][$this->pa]['js']) ? 
               array_merge($this->files[$this->module]['js'], $this->files[$this->module][$this->pa]['js']) : 
               $this->files[$this->module]['js'];
-    $this->template->files = $js;
+    $out = [];              
+    foreach ($js as $j) {
+      $path = is_array($j) ? $j['path'] : $j;
+      $out[] = Html::el('script', ['type' => is_array($j) ? $j['typejs'] : 'text/javascript'])
+                      ->src((strpos($path, 'http') === FALSE ? $this->template->basePath . "/" : '') . $path);
+    }
+    $this->template->files = $out; 
     $this->render('Js');
   }
 }

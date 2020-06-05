@@ -16,8 +16,11 @@ parameters:
         - node_modules/bootstrap/dist/js/bootstrap.bundle.js
         - node_modules/nette-forms/src/assets/netteForms.min.js
         - node_modules/naja/dist/Naja.js
+        - node_modules/vue/dist/vue.js
+        - node_modules/axios/dist/axios.min.js
         - www/js/pomocne_front.js
         - www/js/nav-shrink.js
+        - www/js/vue/Autocomplette.js
     Admin:
       css:
         - node_modules/@fortawesome/fontawesome-free/css/all.min.css

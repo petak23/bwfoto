@@ -103,8 +103,8 @@ class ClankyPresenter extends BasePresenter {
     }
     // Prva priloha
     $this->big_img = count($this->attachments) ? array_merge(['id' => 0], $this->attachments[0]) : [];
-	}
- 
+  }
+  
   /** Render pre zobrazenie clanku */
 	public function beforeRender() {
     parent::beforeRender();

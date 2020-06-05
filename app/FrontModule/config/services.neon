@@ -13,6 +13,8 @@ services:
   - App\FrontModule\Components\Faktury\DokumentFormFactory
   - App\FrontModule\Forms\UserLog\UserEditFormFactory
 
+  - App\FrontModule\Components\Autocomplete\IAutocompleteControl
+
 # component services 
   AktualneClankyControl:
     implement: App\FrontModule\Components\Clanky\IAktualneClankyControl

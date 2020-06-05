@@ -15,7 +15,7 @@ use Texy;
 /**
  * Zakladny presenter pre vsetky presentery vo FRONT module
  * 
- * Posledna zmena(last change): 20.05.2020
+ * Posledna zmena(last change): 24.05.2020
  *
  *	Modul: FRONT
  *
@@ -23,7 +23,7 @@ use Texy;
  * @copyright Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link      http://petak23.echo-msz.eu
- * @version 1.5.7
+ * @version 1.5.8
  */
 abstract class BasePresenter extends Presenter {
   
@@ -68,6 +68,9 @@ abstract class BasePresenter extends Presenter {
   public $zobrazClanokControlFactory;
   /** @var \App\FrontModule\Components\Clanky\IAktualneClankyControl @inject */
   public $aktualneClankyControlFactory;
+  
+  /** @var \App\FrontModule\Components\Autocomplete\IAutocompleteControl @inject */
+  public $autocompleteControlFactory;
 
   // -- Forms
   /** @var User\SignInFormFactory @inject*/
@@ -369,6 +372,15 @@ abstract class BasePresenter extends Presenter {
     $ulm = $this->userLangMenuControlFactory->create();
     $ulm->setLanguage($this->language)->setStoreRequest($this->storeRequest());
     return $ulm;
+  }
+  
+  /**
+   * Vytvorenie komponenty pre doplňovanie pri vyhľadávaní
+   * @return \App\FrontModule\Components\Autocomplete\AutocompleteControl */
+  public function createComponentAutocomplete() {
+    $autocomplete = $this->autocompleteControlFactory->create();
+    $autocomplete->setLanguage($this->language);
+    return $autocomplete;
   }
 
   /** 

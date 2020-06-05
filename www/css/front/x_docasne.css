@@ -148,10 +148,9 @@ footer a {
   max-width: 100%;
 }
 
-.thumbnails .thumb a img {
-
-}
-
+/*.thumbnails .thumb a img {
+  border-width: 1px;
+}*/
 .thumbnails .thumb a {
   color: transparent;
 }
@@ -184,6 +183,25 @@ footer a {
   border-top: none;
   color: #ccc;
 }
+
+/* Pre vue komponentu autocomplete */
+.autocomplete form {
+  position: relative;
+}
+.autocomplete-result {
+  position: absolute;
+}
+.autocomplete-result a {
+  color: #222;
+}
+.autocomplete-result .is-active, .autocomplete-result li:hover {
+  background-color: #A56F30;
+}
+.autocomplete-result .is-active a, .autocomplete-result li:hover a {
+  color: #ccc;
+}
+
+/* Koniec - Pre vue komponentu autocomplete */
 
 @media (max-width: 380px) {
   .bwfoto-foto-album-prilohy img.jslghtbx-thmb {

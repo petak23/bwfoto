@@ -1,1 +1,3 @@
-<script n:foreach="$files as $js" type="text/javascript" src="{if strpos($js, 'http') === FALSE}{$basePath}/{/if}{$js}"></script>
+{foreach $files as $j}
+  {$j}
+{/foreach}

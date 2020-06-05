@@ -41,7 +41,7 @@ header
 nav.navbar
 {
 	background-color: #fff;
-	overflow: hidden;
+	/*overflow: hidden;*/ /* Zakomentovane PV 2020-06-02 */
 	height: 150px;
 	transition: height .5s;
 }
@@ -56,8 +56,7 @@ nav.shrink .logo
 	text-align: right;
 	margin-right: 5%;
 }
-.navbar-nav li
-{ }
+/*.navbar-nav li { } */ /* Zakomentovane PV 2020-06-04 */
 #navbarSupportedContent form .btn
 { display: none;}
 #navbarSupportedContent form {
@@ -68,13 +67,13 @@ nav.shrink .logo
 	background: #ededed url(../../images/icons/lupa_32.png) no-repeat top 4px right 8px;
 	border: solid 1px #ccc;
 	padding: 9px 40px 9px 10px;
-	width: 50px;
+	/*width: 50px;*/ /* Zakomentovane PV 2020-06-04 */
 	-webkit-border-radius: 5em;
 	-moz-border-radius: 5em;
 	border-radius: .5em;
-	-webkit-transition: all .5s;
+	/*-webkit-transition: all .5s;
 	-moz-transition: all .5s;
-	transition: all .5s;
+	transition: all .5s;*/ /* Zakomentovane PV 2020-06-04 */
 }
 #navbarSupportedContent form input[type=search]:focus {
 	width: 250px;
