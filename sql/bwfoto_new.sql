@@ -1,4 +1,4 @@
--- Adminer 4.7.6 MySQL dump
+-- Adminer 4.7.7 MySQL dump
 
 SET NAMES utf8;
 SET time_zone = '+00:00';
@@ -742,8 +742,8 @@ CREATE TABLE `user_main` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Hlavné údaje užívateľa';
 
 INSERT INTO `user_main` (`id`, `id_user_roles`, `id_user_profiles`, `password`, `meno`, `priezvisko`, `email`, `activated`, `banned`, `ban_reason`, `new_password_key`, `new_password_requested`, `new_email`, `new_email_key`, `last_ip`, `created`, `modified`) VALUES
-(1,	5,	1,	'$2y$10$RnzAjUCyc/B1GgiJ9k43/e27BDz5j1vsbN.DYlfnXIxweBvqxkABq',	'Peter',	'Vojtech',	'petak23@gmail.com',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.253.177.216',	'2017-05-15 09:11:19',	'2020-05-13 12:36:11'),
-(2,	4,	2,	'$2y$10$0KPg/2sE8I5EjAsgolRttulqhQPsUoVrhIHAxX8Ej3NAOHGuZIbW.',	'Juraj',	'Zámečník',	'bwfoto@bwfoto.sk',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.143.114.134',	'2017-05-15 09:13:38',	'2020-04-03 12:19:23'),
+(1,	5,	1,	'$2y$10$RnzAjUCyc/B1GgiJ9k43/e27BDz5j1vsbN.DYlfnXIxweBvqxkABq',	'Peter',	'Vojtech',	'petak23@gmail.com',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.253.191.158',	'2017-05-15 09:11:19',	'2020-05-26 13:48:32'),
+(2,	4,	2,	'$2y$10$0KPg/2sE8I5EjAsgolRttulqhQPsUoVrhIHAxX8Ej3NAOHGuZIbW.',	'Juraj',	'Zámečník',	'bwfoto@bwfoto.sk',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.143.98.194',	'2017-05-15 09:13:38',	'2020-05-15 17:26:00'),
 (3,	4,	3,	'$2y$10$VOeK4y3ozjaUM1aMtiVmcuHRmtcmoVvC6J4yFX4j0LZoNbXlejyMi',	'Jozef',	'Petrenčík',	'jozue@anigraph.eu',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.253.139.152',	'2017-05-15 09:12:22',	'2017-07-11 07:10:29');
 
 DROP TABLE IF EXISTS `user_permission`;
@@ -841,7 +841,12 @@ INSERT INTO `user_prihlasenie` (`id`, `id_user_main`, `log_in_datetime`) VALUES
 (61,	1,	'2020-04-20 06:56:40'),
 (62,	1,	'2020-05-04 13:46:35'),
 (63,	1,	'2020-05-13 14:36:11'),
-(64,	1,	'2020-05-14 15:18:49');
+(64,	1,	'2020-05-14 15:18:49'),
+(65,	2,	'2020-05-15 19:26:00'),
+(66,	2,	'2020-05-15 21:15:24'),
+(67,	1,	'2020-05-23 05:43:39'),
+(68,	1,	'2020-05-24 10:20:27'),
+(69,	1,	'2020-05-26 15:48:32');
 
 DROP TABLE IF EXISTS `user_profiles`;
 CREATE TABLE `user_profiles` (
@@ -859,8 +864,8 @@ CREATE TABLE `user_profiles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 INSERT INTO `user_profiles` (`id`, `rok`, `telefon`, `poznamka`, `pocet_pr`, `pohl`, `prihlas_teraz`, `avatar`, `news`, `news_key`) VALUES
-(1,	NULL,	NULL,	NULL,	43,	'M',	'2020-05-14 15:18:49',	NULL,	'A',	NULL),
-(2,	NULL,	NULL,	NULL,	21,	'M',	'2020-04-03 13:49:14',	NULL,	'A',	NULL),
+(1,	NULL,	NULL,	NULL,	46,	'M',	'2020-05-26 15:48:32',	NULL,	'A',	NULL),
+(2,	NULL,	NULL,	NULL,	23,	'M',	'2020-05-15 21:15:24',	NULL,	'A',	NULL),
 (3,	NULL,	NULL,	NULL,	0,	'M',	NULL,	NULL,	'A',	NULL);
 
 DROP TABLE IF EXISTS `user_resource`;
@@ -939,6 +944,7 @@ INSERT INTO `verzie` (`id`, `id_user_main`, `cislo`, `subory`, `text`, `modified
 (7,	1,	'0.1.7',	'mnohé',	'- Zmena názvov stĺpcov(spec_nazov=web_name, subor=main_file, thumb=thumb_file, zmena=change) tabuľky dokumenty a s tým súvisiace zmeny. \n- Pridané zobrazenie videa pre front modul.\n- Pridaná časť produktov aj pre front časť. \n- Zmena názvov stĺpcov(nazov=name, popis=description) tabuľky dokumenty a s tým súvisiace zmeny.\n- Pridaná časť produktov pre admin časť. Nedokončené. Update fontawesome na verziu 5.0.2 na admin strane.',	'2018-01-16 09:15:17'),
 (8,	1,	'0.2.1',	'Issue #4, #5, #6',	'Sumár:\n======\n**Zmena načítania produktov.**\n\n**V administrácii: oprava ikoniek; pre slider: pridanie kompletného stromu menu do formulára - položka: *Zobrazenie pre*;** \n\nDetaily:\n======\nFrontend\n----------\n- Úrava pre IE.\n- Načítanie produktov ajaxovo.\n- Oprava chyby pri zobrazení príloh alebo produktov.\n\nAdministrácia\n-------------\n- Oprava ikoniek v administrácii a odstránenie nepotrebných. \n- Presun nastavení produktov do samostatnej časti. Issue \"#5\":https://github.com/petak23/bwfoto/issues/5\n- V údajoch pridaná možnosť zobraziť alebo skryť separátne nastavenia.\n- Slider: Odstránenie väzby súborov na adresáre a presun ich nastavení do configu.\n- Slider: Pridanie kompletného stromu menu do formulára - položka: *Zobrazenie pre*.\n- Slider: zmena názvu ikoniek.\n- Presun nastavenia okrajového rámčeka na kartu produktov Issues \"#4\":https://github.com/petak23/bwfoto/issues/4\n- Odstránenie chyby v mazaní príloh\n\nOstatné\n-------\n- Oprava zobrazovania textu(texi) v emailoch. Issue \"#6\":https://github.com/petak23/bwfoto/issues/6\n- Odstránenie zmetočných adresárov v prílohách článkov a produktov. \n- Zmazanie nepotrebných častí.\n- Presun index.php do adresára www a s tým spojené zmeny.\n- Update fontawesome na verziu 5.2.0; \n- Update bootstrap na verziu 4.1.2; \n- Update adminer na verziu 4.3.6. \n- Použitie npm správcu. \n- Odstránenie zbytočných css a js.\n',	'2018-08-30 08:35:32'),
 (9,	1,	'0.3.0-alfa',	'Upgrade to v 0.3.0',	'- **Oprava chyby: zobrazenie prvého obrázku alebo produktu pri prvom zobrazení článku.**\n- Upgrade nette na verziu 2.4\n- Aplikácia zmien z echo-msz.eu ale s prispôsobením komponent na verziu PHP 7.0.33\n- Inovácia vzhľadu v administrácii, zatiaľ ešte nie úplne dokončená \"(AdminModule) .{color: gray}\".\n- Aktualizácia komponent vzhľadu v package.json \"(fontawesome: 5.2.0, bootstrap: 4.4.1, jquery: 3.4.1, naja: 1.5.1, nette-forms: 2.4.2, popper.js: 1.16.1) .{color: gray}\". \n- Aktualizácia správcu databázy \"(adminer v 4.7.6) .{color: gray}\". \n- Oprava chyby v menu FrontModule a upgrade pre novú verziu Texy.',	'2020-05-04 11:55:19'),
-(10,	1,	'0.3.0-beta',	'Rôzne; jquery 3.5.0',	'- Oprava drobných chýb v prihlásení.\n- Oprava chyby v slideri(issue \"#12\":https://github.com/petak23/bwfoto/issues/12). Rebase model/Table.php.\n- Rebase model/Dokumenty.php; model/Products.php a model/UserManager.php.\n- Oprava chyby v pridávaní podčlánku v adninistrácii.\n- Refaktoring fotogalérie na frontende.\n- Oprava zobrazenia produktov v AdminModule. \n- Update jquery na 3.5.0.\n- Oprava zobrazenia príloh vo FrontModule a premenovanie adresára presenters na Presenters.\n- Oprava issue \"#11\":https://github.com/petak23/bwfoto/issues/11 - A13 - V administracii pri zozname príloh( miniatúry fotografií) keď kliknem na foto aby sa mi zobrazila fotka tak sa zobrazí na ľavej strane - nie je vycentrovaná na stred',	'2020-05-04 12:02:51');
+(10,	1,	'0.3.0-beta',	'Rôzne; jquery 3.5.0',	'- Oprava drobných chýb v prihlásení.\n- Oprava chyby v slideri(issue \"#12\":https://github.com/petak23/bwfoto/issues/12). Rebase model/Table.php.\n- Rebase model/Dokumenty.php; model/Products.php a model/UserManager.php.\n- Oprava chyby v pridávaní podčlánku v adninistrácii.\n- Refaktoring fotogalérie na frontende.\n- Oprava zobrazenia produktov v AdminModule. \n- Update jquery na 3.5.0.\n- Oprava zobrazenia príloh vo FrontModule a premenovanie adresára presenters na Presenters.\n- Oprava issue \"#11\":https://github.com/petak23/bwfoto/issues/11 - A13 - V administracii pri zozname príloh( miniatúry fotografií) keď kliknem na foto aby sa mi zobrazila fotka tak sa zobrazí na ľavej strane - nie je vycentrovaná na stred',	'2020-05-04 12:02:51'),
+(11,	1,	'0.4.0-RC',	'Nette 3.0, adminer 4.7.7',	'- Oprava issue \"#10\":https://github.com/petak23/bwfoto/issues/10 - A10 - nekorektné zobrazenie úrovne 3. a 4.\n- Oprava zobrazenia formulárov na karte Produktu pre AdminModul a odstránenie chyby zobrazenia nastavenia okrajov. \n- Odstránenie chyby zobrazenia hlavného menu v AdminModul-e.\n- Úpravy potrebné pre prechod na nette 3.0,\n- odstránenie drobných chýb,\n- vypustenie webloader-a\n',	'2020-05-26 13:53:54');
 
--- 2020-05-14 13:19:01
+-- 2020-05-26 13:55:52
