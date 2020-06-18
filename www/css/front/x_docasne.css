@@ -60,7 +60,13 @@ footer a {
 	font-family: "Fira Light", "sans-serif";
 	color: #ccc;
 }
-
+#slider {
+  width: 100%;
+  overflow: hidden;
+}
+#slider img {
+  width: 100%;
+}
 .foto-album .thumbnail {
   border: none;
   border-width: 1px;

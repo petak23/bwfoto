@@ -42,12 +42,6 @@ services:
 # services for language support
   - Language_support\LanguageMain
 
-
-
-
-
-
-
 # PeterVojtech
   - PeterVojtech\Email\IEmailControl
   - PeterVojtech\MainLayout\Favicon\IFaviconControl

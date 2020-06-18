@@ -153,4 +153,4 @@ Vue.component('autocomplete', {
   //        this.handle = this.$el.getAttribute('data-handle-link');
   //        this.param = this.$el.getAttribute('data-handle-param');
       }
-  })//.$mount('#autocomplete');   
+  });//.$mount('#autocomplete');   

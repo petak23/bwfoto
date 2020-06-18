@@ -4,11 +4,11 @@
 <div class="col-12">
   <h2 n:block=title>{$h2}</h2>
 </div>
-<div class="col-12">
+{*<div class="col-12">
   <a n:href=":update">Update</a>
-</div>  
+</div>*}  
 <div class="col-12">
-  {control setupForm}
+    {control setupForm}
 </div>
 {*<ul n:inner-foreach="$products_data as $pd">
   <li><strong>{$pd->comment}:</strong> {$pd->text}</li>

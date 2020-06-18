@@ -4,7 +4,7 @@
  *
  *	Modul: FRONT
  *
- * Posledna zmena(last change): 05.06.2020
+ * Posledna zmena(last change): 15.06.2020
  * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
@@ -26,15 +26,17 @@
   <title n:snippet="title">{$udaje['titulka']} {block title|stripHtml|upper}{/block}</title>
   {control files:css}
   {* ----- Favicon ------ *}
-  <link rel="shortcut icon" href="{$basePath}/favicon.ico" type="image/x-icon">
+  {control favicon}
   {block head}{/block}
 </head>
 
 <body>
+<div id="vueapp">  
   <header>
-    {control slider}
     <nav id="topNav" class="navbar navbar-expand-md navbar-light fixed-top navbar-toggleable-xs">
-      <a class="navbar-brand" n:href="Homepage:" title="home"><img src="{$basePath}/{$nastavenie['dir_to_images']}logo_bw.png" alt="logo bw foto" class="logo"></a>
+      <a class="navbar-brand" n:href="Homepage:" title="home">
+        <img src="{$basePath}/{$nastavenie['dir_to_images']}logo_bw.png" alt="logo bw foto" class="logo">
+      </a>
       <button id="topMenuButton" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -44,11 +46,7 @@
         {control autocomplete}
       </div>
     </nav>
-    <script>
-      if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
-        document.getElementById("topNav").classList.add('shrink');
-      }
-    </script>
+    {control slider}
   </header>
   <div class="container-fluid">
      {* ----- ZACIATOK content - centralna cast ----- *}
@@ -119,6 +117,7 @@
     </div>
   </footer>
   {block lightbox}{/block}
+</div>
   {control files:js}
   {block spec_js}{/block}
   {control googleAnalytics}

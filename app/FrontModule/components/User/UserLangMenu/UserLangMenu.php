@@ -10,13 +10,13 @@ use Nette\Utils\Html;
 
 /**
  * Plugin pre zobrazenie ponuky o užívateľovi a jazykoch
- * Posledna zmena(last change): 11.05.2020
+ * Posledna zmena(last change): 09.07.2020
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2013 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.9
+ * @version 1.2.0
  */
 class UserLangMenuControl extends Control {
   /** @var Language_support\LanguageMain Texty pre dany jazyk */
@@ -72,7 +72,7 @@ class UserLangMenuControl extends Control {
     $this->nastavenie = $nastavenie;
     $this->dir_to_user = $dir_to_user;
     $this->avatar_view = (boolean)$avatar_view;
-    $this->registracia_enabled = (boolean)$udaje->getKluc('registracia_enabled');
+    $this->registracia_enabled = (boolean)$udaje->getValByName('registracia_enabled');
     $this->signInForm = $signInForm;
   }
   

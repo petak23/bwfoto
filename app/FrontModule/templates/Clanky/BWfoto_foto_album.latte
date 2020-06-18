@@ -2,7 +2,7 @@
  *
  * Modul: FRONT
  *
- * Posledna zmena(last change): 26.05.2020
+ * Posledna zmena(last change): 11.07.2020
  * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
@@ -55,7 +55,7 @@
         {elseif $big_img['type'] == "product"} 
           <button type="button" class="btn btn-link" data-toggle="modal" data-target="#imageModalCenter">
             {var $tf = $big_img['article']->main_file}
-            <img src="{$basePath}/{if $tf && is_file($tf)}{$tf}{else}/ikonky/Free-file-icons-master/512px/{$big_img['article']->pripona|lower}.png{/if}" alt="{$big_img['article']->name}">  
+            <img src="{$basePath}/{if $tf && is_file($tf)}{$tf}{else}images/otaznik.png{/if}" alt="{$big_img['article']->name}">  
           </button>
         {/if}
       </div>
@@ -65,7 +65,7 @@
             {if $at['type'] == "menu"} {* Main menu articles *}
               <img src="{$basePath}/{if $a->hlavne_menu->avatar && is_file('files/menu/'.$a->hlavne_menu->avatar)}files/menu/{$a->hlavne_menu->avatar}{else}/ikonky/128/list_ceruza128.png{/if}" alt="{$a->view_name}" class="img-thumbnail">
             {elseif strpos($at['type'], 'attachments') !== false || $at['type'] == "product"}
-              <img src="{$basePath}/{if $a->thumb_file && is_file($a->thumb_file)}{$a->thumb_file}{else}/ikonky/Free-file-icons-master/512px/{$a->pripona|lower}.png{/if}" alt="{$a->name}" class="img-thumbnail">
+              <img src="{$basePath}/{if $a->thumb_file && is_file($a->thumb_file)}{$a->thumb_file}{else}images/otaznik.png{/if}" alt="{$a->name}" class="img-thumbnail">
             {/if}
           </a></div></div>
     </div>
@@ -87,10 +87,10 @@
           <h5 class="modal-title">{$big_img['type'] == 'menu' ? $ba->view_name : $ba->name}</h5>
         </div>
         <div class="border-a" {$clanok_hl_menu->border_a|border_x|noescape}>
-          <div class="border-b" {$clanok_hl_menu->border_b|border_x|noescape}">
+          <div class="border-b" {$clanok_hl_menu->border_b|border_x|noescape}>
             {if strpos($big_img['type'], 'attachments') !== false || $big_img['type'] == "product"}
               {var $tf = $big_img['article']->main_file}
-              <img src="{$basePath}/{if $tf && is_file($tf)}{$tf}{else}/ikonky/Free-file-icons-master/512px/{$big_img['article']->pripona|lower}.png{/if}" 
+              <img src="{$basePath}/{if $tf && is_file($tf)}{$tf}{else}images/otaznik.png{/if}" 
                    alt="{$big_img['article']->name}" 
                    id="big-main-img"
                    class="border-c" {$clanok_hl_menu->border_c|border_x|noescape} />

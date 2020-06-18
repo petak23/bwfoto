@@ -7,13 +7,13 @@ use DbTable;
 /**
  * Komponenta pre vytvorenie hlavičky ponuky oznamov.
  * 
- * Posledna zmena(last change): 11.11.2016
+ * Posledna zmena(last change): 09.07.2020
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
- * @copyright Copyright (c) 2012 - 2016 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.0
+ * @version 1.0.1
  */
 
 class TitleOznamControl extends Nette\Application\UI\Control {
@@ -48,7 +48,7 @@ class TitleOznamControl extends Nette\Application\UI\Control {
 	public function render(/*$params*/) {
     $this->template->setFile(__DIR__ . '/TitleOznam.latte');
     $this->template->por_oznamy = $this->udaje->getOznamUsporiadanie();
-    $this->template->oznamy_nastav = $this->udaje->findBy(["druh.presenter"=>"Oznam"]);
+    $this->template->oznamy_nastav = $this->udaje->getDruh("Oznam", 0);
 //    $this->template->presmerovanie = $this->udaje->getUdajInt('oznam_presmerovanie'); 
     $this->template->clanok_presmerovanie = ($id = $this->udaje->getUdajInt('oznam_presmerovanie')) > 0 ? $this->hlavne_menu_lang->find($id) : FALSE;
 		$this->template->render();
@@ -73,7 +73,7 @@ class TitleOznamControl extends Nette\Application\UI\Control {
   
   /** Signal pre zmenu zoradenia podclanokv podla poradia od 9 do 1 */
   public function handleOznamyZoradenie() {
-    $this->udaje->opravKluc('oznam_usporiadanie', 1 - (int)$this->udaje->getOznamUsporiadanie());
+    $this->udaje->editKey('oznam_usporiadanie', 1 - (int)$this->udaje->getOznamUsporiadanie());
 		if (!$this->presenter->isAjax()) {
       $this->redirect('this');
     } else {

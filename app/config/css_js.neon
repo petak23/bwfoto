@@ -20,12 +20,12 @@ parameters:
         - node_modules/axios/dist/axios.min.js
         - www/js/pomocne_front.js
         - www/js/nav-shrink.js
-        - www/js/vue/Autocomplette.js
+        - www/js/vue/MainVue.js
     Admin:
       css:
         - node_modules/@fortawesome/fontawesome-free/css/all.min.css
         - node_modules/bootstrap/dist/css/bootstrap.min.css
-        - wwwcss/jquery-ui.css
+        - www/css/jquery-ui.css
         - vendor/ublaboo/datagrid/assets/datagrid.css
         - vendor/ublaboo/datagrid/assets/datagrid-spinners.css
         - www/css/admin/main.css

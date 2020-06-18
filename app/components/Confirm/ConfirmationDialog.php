@@ -241,7 +241,7 @@ class ConfirmationDialog extends Nette\Application\UI\Control
 	{
 		list(,$signal) = $this->presenter->getSignal();
 		$confirmName = (substr($signal, 7));
-		$confirmName{0} = strtolower($confirmName{0});
+		$confirmName[0] = strtolower($confirmName[0]);
 //		$params = $this->getParameter();
     $params = $this->getParameters();
 
