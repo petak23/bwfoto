@@ -57,6 +57,7 @@
             {var $tf = $big_img['article']->main_file}
             <img src="{$basePath}/{if $tf && is_file($tf)}{$tf}{else}images/otaznik.png{/if}" alt="{$big_img['article']->name}">  
           </button>
+          <a href="#" title="Pokus" @click.prevent="openLightbox({$tf})">Pokus - {$tf}</a>
         {/if}
       </div>
       <div class="col-4 thumbnails" n:inner-foreach="$attachments as $id => $at"><div class="thumb">
@@ -80,12 +81,13 @@
 <!-- Modal -->
 <div class="modal fade lightbox-img" id="imageModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-    <div class="modal-content" n:snippet="lightbox-image" n:if="count($big_img)">
+    <div class="modal-content content-for-bigBigImg" n:snippet="lightbox-image" n:if="count($big_img)">
       {var $ba = $big_img['article']}
       <div class="modal-body">
-        <div class="text-center description">
+        <div class="text-center description" v-if="viewBigImg">
           <h5 class="modal-title">{$big_img['type'] == 'menu' ? $ba->view_name : $ba->name}</h5>
         </div>
+        <a {*href="#" class="doBigBigImg"*} @click="onBigImgClick" :idBigImg="{$big_img['article']->id}">
         <div class="border-a" {$clanok_hl_menu->border_a|border_x|noescape}>
           <div class="border-b" {$clanok_hl_menu->border_b|border_x|noescape}>
             {if strpos($big_img['type'], 'attachments') !== false || $big_img['type'] == "product"}
@@ -97,16 +99,17 @@
             {/if}
           </div>
         </div>
-        <div class="text-center description" n:ifset="$ba->description">
+        </a>  
+        <div class="text-center description" n:ifset="$ba->description" v-if="viewBigImg">
           {$ba->description}
         </div>
       </div>
-      <div class="arrows-l">
+      <div class="arrows-l" v-if="viewBigImg">
         <a n:href="bigImgBefore! $big_img['id']"  title="{_'galery_arrows_before'}" class="ajax">
           <i class="fas fa-arrow-circle-left fa-2x text-light"></i>
         </a>
       </div>
-      <div class="arrows-r">
+      <div class="arrows-r" v-if="viewBigImg">
         <a n:href="bigImgAfter! $big_img['id']"  title="{_'galery_arrows_after'}" class="ajax">
           <i class="fas fa-arrow-circle-right fa-2x text-light"></i>
         </a>

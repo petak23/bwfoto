@@ -12,7 +12,7 @@
     "bootstrap": "^4.5.0",
     "jquery": ">=3.5.0",
     "naja": "^1.5.1",
-    "nette-forms": "^3.0",
+    "nette-forms": "^3.0.6",
     "ublaboo-datagrid": "^6.2.24",
     "vue": "^2.6.11"
   },
