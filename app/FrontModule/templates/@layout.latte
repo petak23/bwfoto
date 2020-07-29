@@ -28,94 +28,86 @@
   {* ----- Favicon ------ *}
   {control favicon}
   {block head}{/block}
+  {control slider}
 </head>
 
 <body>
-<div id="vueapp">  
-  <header>
-    <nav id="topNav" class="navbar navbar-expand-md navbar-light fixed-top navbar-toggleable-xs">
-      <a class="navbar-brand" n:href="Homepage:" title="home">
-        <img src="{$basePath}/{$nastavenie['dir_to_images']}logo_bw.png" alt="logo bw foto" class="logo">
-      </a>
-      <button id="topMenuButton" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+<div id="vueapp">
+  <nav id="topNav" class="navbar navbar-expand-md fixed-top">
+		<a class="navbar-brand ml-sm-5 p-3 logo" n:href="Homepage:" title="home">
+      <img src="{$basePath}/{$nastavenie['dir_to_images']}logo_bw.png" alt="logo bw foto" class="logo">
+    </a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="fas fa-bars" style="font-size: 2rem;"></span>
+    </button>
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+      {control menu templateType=>'tree', templateFile=>'BWfoto_Tree_Main', cast=>2, article_avatar_view_in =>0, ukaz=>TRUE}
+      {control autocomplete} 
+		</div>
+	</nav>
 
-      <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-        {control menu templateType=>'tree', templateFile=>'BWfoto_Tree_Main', cast=>2, article_avatar_view_in =>0, ukaz=>TRUE}
-        {control autocomplete}
-      </div>
-    </nav>
-    {control slider}
-  </header>
-  <div class="container-fluid">
-     {* ----- ZACIATOK content - centralna cast ----- *}
-    <div class="row">
-      <section id="webContent" class="col">
-        {control menu templateType=>'nav', templateFile=>'BWfoto_Nav_Breadcrumb', level=>1}
-        {control confirmForm}
-        <div class="row top-panel" n:if="count($flashes)">
-          <div class="col-md-10 col-md-offset-1" n:inner-foreach="$flashes as $flash" n:if="count($flashes)">
-            {var $nees = explode(',', $flash->type)}
-            {var $fa_code = (array_key_exists($nees[0], $fa) ? $fa[$nees[0]] : FALSE)}
-            <div class="alert alert-{$nees[0]} fade show" role="alert">
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-              <i n:if="$fa_code" class="{$fa_code}"></i>
-              {if isset($nees[1]) && $nees[1] == 'n'}{_$flash->message|noescape}{else}{_$flash->message}{/if}
-            </div>
+  
+  <div class="frame">
+    {* ----- ZACIATOK content - centralna cast, obsahova sekcia ----- *}
+    <section id="webContent">
+      {control menu templateType=>'nav', templateFile=>'BWfoto_Nav_Breadcrumb', level=>1}
+      {control confirmForm}
+      <div class="row top-panel" n:if="count($flashes)">
+        <div class="col-12" n:inner-foreach="$flashes as $flash" n:if="count($flashes)">
+          {var $nees = explode(',', $flash->type)}
+          {var $fa_code = (array_key_exists($nees[0], $fa) ? $fa[$nees[0]] : FALSE)}
+          <div class="alert alert-{$nees[0]} fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <i n:if="$fa_code" class="{$fa_code}"></i>
+            {if isset($nees[1]) && $nees[1] == 'n'}{_$flash->message|noescape}{else}{_$flash->message}{/if}
           </div>
         </div>
-        {block content}{/block}
-      </section>
-    </div>
-  </div>
+      </div>
+      {block content}{/block}
+    </section>
+    
     {* ----- Spodok stranky - FOOTER ----- *}
-  <footer n:snippet=footer class="container-fluid">
-    {* --- Mapa stranky --- *}
-    {control menu templateType=>'fixed', templateFile=>'BWfoto_footer_Sidemap', cast=>1, article_avatar_view_in =>0}
-    {* --- Info o stranke --- *}
-    <div class="row" id="footerContent">
-      <div id="logoBWfoto" class="col-5 d-flex justify-content-end">
-        <img src="{$basePath}/{$nastavenie['dir_to_images']}logo_bw-w.png" title="Logo BWfoto" alt="Logo Bwfoto" class="img-responsive">
+    <footer n:snippet=footer class="py-3">
+      {* --- Mapa stranky --- *}
+      {control menu templateType=>'fixed', templateFile=>'BWfoto_footer_Sidemap', cast=>1, article_avatar_view_in =>0}
+      {* --- Info o stranke --- *}
+      <div class="row justify-content-center" id="footerContent">
+        <div id="logoBWfoto" class="px-3 my-3 col-md">
+          <img src="{$basePath}/{$nastavenie['dir_to_images']}logo_bw-w.png" title="Logo BWfoto" alt="Logo Bwfoto" class="img-responsive">
+        </div>
+        <div id="contact" class="px-3 my-3 col-md">
+          <h4>Ateliér Zámečník</h4>
+          <ul class="list-group">
+            <li class="list-unstyled"><span class="fa fa-home"></span> Spišské Bystré</li>
+            <li class="list-unstyled"><span class="fa fa-mobile fa-1_5x"></span> 0905 150 400</li>
+            <li class="list-unstyled"><span class="fa fa-envelope"></span> bwfoto@bwfoto.sk</li>
+          </ul>
+        </div>
       </div>
-      <div id="contact" class="col-7">
-        <h4 class="text-left">Ateliér Zámečník</h4>
-        <ul class="list-group text-left">
-          <li class="list-unstyled"><span class="fa fa-home"></span> Spišské Bystré</li>
-          <li class="list-unstyled"><span class="fa fa-mobile fa-1_5x"></span> 0905 150 400</li>
-          <li class="list-unstyled"><span class="fa fa-envelope"></span> bwfoto@bwfoto.sk</li>
-        </ul>
-      </div>
-    </div>
-    <div class="row pv-footer">
-      <div class="col info-layer">
-        <ul class="nav text-center">
-          <li n:if="FALSE && $user_spravca !== FALSE && $user_admin->id != $user_spravca->id">
+      <div class="pv-footer info-layer my-3">
+        <ul class="nav justify-content-center">
+          <li class="p-2" n:if="FALSE && $user_spravca !== FALSE && $user_admin->id != $user_spravca->id">
             {$udaje['spravca']}: {$user_spravca->meno} {$user_spravca->priezvisko|upper}
             ({$user_spravca->email|uprav_email})
           </li>
-          <li>&copy; {$udaje['copy']} 2017{if date('Y') != '2017'} - {date('Y')}{/if}</li>
-          <li>
+          <li class="p-2">&copy; {$udaje['copy']} 2017{if date('Y') != '2017'} - {date('Y')}{/if}</li>
+          <li class="p-2">
             <a href="http://nette.org/cs/" class="logo-nette" title="{_'base_nette_title'}">
               <img src="{$basePath}/{$nastavenie['dir_to_images']}nette-powered1.gif" alt="{_'base_nette_powered'}">
             </a>
           </li>
-          <li>{$udaje['last_update']} {$verzia->modified|date:'j.n.Y'}</li>
-          <li>created by <a href="http://anigraph.eu" title="anigraph.eu" target="_new">anigraph</a></li>
+          <li class="p-2">{$udaje['last_update']} {$verzia->modified|date:'j.n.Y'}</li>
+          <li class="p-2">created by <a href="http://anigraph.eu" title="anigraph.eu" target="_new">anigraph</a></li>
         </ul>
       </div> 
-    </div> 
-    <div class="row">
-      <div class="col-12 text-center">      
-        <div n:if="$view_log_in_link_in_header < 0 && !$user->isLoggedIn()">
-          <a n:href="User:default#prihlas" title="{_'base_link_to_admin_log_in'}">{_'base_link_to_admin_log_in'}</a>
-        </div>
+      <div class="my-3 text-center">      
+        <a n:href="User:default#prihlas" n:if="$view_log_in_link_in_header < 0 && !$user->isLoggedIn()" title="{_'base_link_to_admin_log_in'}">{_'base_link_to_admin_log_in'}</a>
         {control userLangMenu}
       </div>
-    </div>
-  </footer>
+    </footer>
+  </div>
   {block lightbox}{/block}
 </div>
   {control files:js}

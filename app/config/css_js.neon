@@ -8,8 +8,9 @@ parameters:
   web_files:
     Front:
       css:
-        - node_modules/@fortawesome/fontawesome-free/css/all.min.css
+        - www/css/front/css2.css
         - node_modules/bootstrap/dist/css/bootstrap.min.css
+        - node_modules/@fortawesome/fontawesome-free/css/all.min.css
         - www/css/front/main.css
       js:
         - node_modules/jquery/dist/jquery.min.js

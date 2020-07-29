@@ -1,7 +1,8 @@
+/** @author Ing. Peter VOJTECH ml.
+ *  @change 29.07.2020
+ */
+ 
 @charset "utf-8";
 
-@import 'fonts.css';
-
-@import 'bw.css';
-@import 'responsive.css';
-@import 'x_docasne.css';
+@import 'bwfoto.css';
+@import 'x_docasne.css'; /** Moje zmeny v originalnom vzhlade */
