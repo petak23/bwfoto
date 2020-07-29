@@ -587,6 +587,7 @@ CREATE TABLE `products` (
   `main_file` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'Názov súboru produktu s relatívnou cestou',
   `thumb_file` varchar(255) COLLATE utf8_bin DEFAULT NULL COMMENT 'Názov súboru náhľadu pre obrázky a iné',
   `change` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'Čas zmeny',
+  `saved` tinyint(4) NOT NULL DEFAULT 0 COMMENT 'Ak 1 položka bola korektne nahratá na server',
   PRIMARY KEY (`id`),
   KEY `id_hlavne_menu` (`id_hlavne_menu`),
   KEY `id_user_main` (`id_user_main`),
@@ -596,16 +597,16 @@ CREATE TABLE `products` (
   CONSTRAINT `products_ibfk_3` FOREIGN KEY (`id_user_roles`) REFERENCES `user_roles` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Produkty';
 
-INSERT INTO `products` (`id`, `id_hlavne_menu`, `id_user_main`, `id_user_roles`, `name`, `web_name`, `description`, `main_file`, `thumb_file`, `change`) VALUES
-(1,	23,	1,	0,	'budovy11',	'budovy11',	NULL,	'files/prilohy/budovy11.JPG',	'files/prilohy/tb_budovy11.JPG',	'2020-03-28 05:13:41'),
-(10,	23,	1,	0,	'Naša búda',	'dedina12',	'adf ysdfdsf yxvyyasdfgasd ysdfgysy sd dsxfysdydfv afgsd a a',	'files/prilohy/dedina12.JPG',	'files/prilohy/tb_dedina12.JPG',	'2020-03-28 05:13:41'),
-(11,	23,	1,	0,	'dedina11 sdfg',	'dedina11',	'ghjgh dfdd',	'files/prilohy/dedina11.JPG',	'files/prilohy/tb_dedina11.JPG',	'2020-03-28 05:13:41'),
-(15,	22,	1,	0,	'k01001',	'krajina1',	'Tam pod Kriváňom je...',	'files/prilohy/krajina1.JPG',	'files/prilohy/tb_krajina1.JPG',	'2020-03-28 05:13:41'),
-(16,	22,	1,	0,	'k01002',	'obr07',	'Ovocný sad',	'files/prilohy/obr07.jpg',	'files/prilohy/tb_obr07.jpg',	'2020-03-28 05:13:41'),
-(17,	26,	2,	0,	'Pohlad-JZx1',	'pohlad-jzx1',	NULL,	'files/prilohy/Pohlad-JZx1.jpg',	'files/prilohy/tb_Pohlad-JZx1.jpg',	'2020-03-22 00:23:08'),
-(18,	26,	2,	0,	'Pohlad-Zx1',	'pohlad-zx1',	NULL,	'files/prilohy/Pohlad-Zx1.jpg',	'files/prilohy/tb_Pohlad-Zx1.jpg',	'2020-03-22 00:23:09'),
-(19,	26,	2,	0,	'xxxx-11',	'xxxx-11',	NULL,	'files/prilohy/xxxx-11.jpg',	'files/prilohy/tb_xxxx-11.jpg',	'2020-03-22 00:23:09'),
-(20,	26,	2,	0,	'xxxxxxxxx21',	'xxxxxxxxx21',	NULL,	'files/prilohy/xxxxxxxxx21.jpg',	'files/prilohy/tb_xxxxxxxxx21.jpg',	'2020-03-22 00:23:09');
+INSERT INTO `products` (`id`, `id_hlavne_menu`, `id_user_main`, `id_user_roles`, `name`, `web_name`, `description`, `main_file`, `thumb_file`, `change`, `saved`) VALUES
+(1,	23,	1,	0,	'budovy11',	'budovy11',	NULL,	'files/prilohy/budovy11.JPG',	'files/prilohy/tb_budovy11.JPG',	'2020-07-14 03:40:01',	1),
+(10,	23,	1,	0,	'Naša búda',	'dedina12',	'adf ysdfdsf yxvyyasdfgasd ysdfgysy sd dsxfysdydfv afgsd a a',	'files/prilohy/dedina12.JPG',	'files/prilohy/tb_dedina12.JPG',	'2020-07-14 03:40:01',	1),
+(11,	23,	1,	0,	'dedina11 sdfg',	'dedina11',	'ghjgh dfdd',	'files/prilohy/dedina11.JPG',	'files/prilohy/tb_dedina11.JPG',	'2020-07-14 03:40:01',	1),
+(15,	22,	1,	0,	'k01001',	'krajina1',	'Tam pod Kriváňom je...',	'files/prilohy/krajina1.JPG',	'files/prilohy/tb_krajina1.JPG',	'2020-07-14 03:40:01',	1),
+(16,	22,	1,	0,	'k01002',	'obr07',	'Ovocný sad',	'files/prilohy/obr07.jpg',	'files/prilohy/tb_obr07.jpg',	'2020-07-14 03:40:01',	1),
+(17,	26,	2,	0,	'Pohlad-JZx1',	'pohlad-jzx1',	NULL,	'files/prilohy/Pohlad-JZx1.jpg',	'files/prilohy/tb_Pohlad-JZx1.jpg',	'2020-07-14 03:40:01',	1),
+(18,	26,	2,	0,	'Pohlad-Zx1',	'pohlad-zx1',	NULL,	'files/prilohy/Pohlad-Zx1.jpg',	'files/prilohy/tb_Pohlad-Zx1.jpg',	'2020-07-14 03:40:01',	1),
+(19,	26,	2,	0,	'xxxx-11',	'xxxx-11',	NULL,	'files/prilohy/xxxx-11.jpg',	'files/prilohy/tb_xxxx-11.jpg',	'2020-07-14 03:40:01',	1),
+(20,	26,	2,	0,	'xxxxxxxxx21',	'xxxxxxxxx21',	NULL,	'files/prilohy/xxxxxxxxx21.jpg',	'files/prilohy/tb_xxxxxxxxx21.jpg',	'2020-07-14 03:40:01',	1);
 
 DROP TABLE IF EXISTS `slider`;
 CREATE TABLE `slider` (
@@ -620,7 +621,7 @@ CREATE TABLE `slider` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Popis obrázkou slideru aj s názvami súborov';
 
 INSERT INTO `slider` (`id`, `poradie`, `nadpis`, `popis`, `subor`, `zobrazenie`, `id_hlavne_menu`) VALUES
-(6,	1,	NULL,	NULL,	'TITULK-A-TEST-2020-11-zmena-velikosti.jpg',	NULL,	NULL),
+(6,	1,	NULL,	NULL,	'bg-site1.jpg',	NULL,	NULL),
 (7,	2,	'',	'',	'bg-bwb.png',	'2',	NULL),
 (12,	3,	NULL,	NULL,	'TITULK-A-TEST-2020-11-zmena-velikosti2.jpg',	'11',	NULL),
 (13,	4,	NULL,	NULL,	'TITULK-A-TEST-2020-5-zmena-velikosti.jpg',	'12',	NULL);
@@ -645,12 +646,12 @@ CREATE TABLE `udaje` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Tabuľka na uschovanie základných údajov o stránke';
 
 INSERT INTO `udaje` (`id`, `id_user_roles`, `id_druh`, `id_udaje_typ`, `nazov`, `text`, `comment`, `separate_settings`) VALUES
-(1,	5,	NULL,	1,	'titulka-sk',	'BWfoto',	'Názov zobrazený v titulke',	0),
+(1,	4,	NULL,	1,	'titulka-sk',	'BW Foto - Ateliér architektúry a fotografie',	'Názov zobrazený v titulke',	0),
 (2,	5,	NULL,	1,	'titulka_2-sk',	'',	'Druhá časť titulky pre jazyk: sk',	0),
 (3,	5,	NULL,	1,	'titulka_citat_enable',	'0',	'Povolenie zobrazenia citátu',	0),
 (4,	5,	NULL,	1,	'titulka_citat_podpis',	'',	'Podpis pod citát na titulke',	0),
 (5,	5,	NULL,	1,	'titulka_citat-sk',	'',	'Text citátu, ktorý sa zobrazí na titulke pre jazyk: sk',	0),
-(6,	5,	NULL,	1,	'keywords-sk',	'BWfoto, Spišské Bystré, fotograf',	'Kľúčové slová',	0),
+(6,	4,	NULL,	1,	'keywords-sk',	'BW Foto, Spišské Bystré, ateliér,  architektúra, fotografie',	'Kľúčové slová',	0),
 (7,	5,	NULL,	1,	'autor',	'Ing. Peter VOJTECH ml. - VZ',	'Autor stránky',	0),
 (8,	5,	NULL,	1,	'log_out-sk',	'Odhlás sa...',	'Text pre odkaz na odhlásenie sa',	0),
 (9,	5,	NULL,	1,	'log_in-sk',	'Prihlás sa',	'Text pre odkaz na prihlásenie sa',	0),
@@ -658,7 +659,7 @@ INSERT INTO `udaje` (`id`, `id_user_roles`, `id_druh`, `id_udaje_typ`, `nazov`, 
 (11,	5,	NULL,	1,	'register-sk',	'Registrácia',	'Text pre odkaz na registráciu',	0),
 (12,	5,	NULL,	1,	'last_update-sk',	'Posledná aktualizácia',	'Text pre odkaz na poslednú aktualizáciu',	0),
 (13,	4,	NULL,	1,	'spravca-sk',	'Správca obsahu',	'Text pre odkaz na správcu',	0),
-(14,	4,	NULL,	1,	'copy',	'BWfoto',	'Text, ktorý sa vypíše za znakom copyright-u',	0),
+(14,	4,	NULL,	1,	'copy',	'BW Foto',	'Text, ktorý sa vypíše za znakom copyright-u',	0),
 (15,	5,	NULL,	1,	'no_exzist-sk',	'To čo hľadáte nie je ešte v tomto jazyku vytvorené!',	'Text ak položka v danom jazyku neexzistuje pre jazyk:sk',	0),
 (16,	5,	NULL,	1,	'nazov_uvod-sk',	'Úvod',	'Text pre odkaz na východziu stránku pre jazyk:sk',	0),
 (17,	5,	NULL,	3,	'komentare',	'0',	'Globálne povolenie komentárov',	0),
@@ -675,7 +676,8 @@ INSERT INTO `udaje` (`id`, `id_user_roles`, `id_druh`, `id_udaje_typ`, `nazov`, 
 (29,	4,	8,	4,	'product_main_quality',	'80',	'Kvalita kompresie hlavného obrázku[1,100]',	1),
 (30,	4,	8,	4,	'product_thumb_x',	'226',	'Šírka náhľadového obrázku produktu[10,1000]',	1),
 (31,	4,	8,	4,	'product_thumb_y',	'150',	'Výška náhľadového obrázku produktu[10,1000]',	1),
-(32,	4,	8,	4,	'product_thumb_quality',	'70',	'Kvalita kompresie náhľadového obrázku[1,100]',	1);
+(32,	4,	8,	4,	'product_thumb_quality',	'70',	'Kvalita kompresie náhľadového obrázku[1,100]',	1),
+(33,	4,	8,	4,	'product_max_upload_files',	'50',	'Max. počet naraz nahrávaných súborov[5,150]',	1);
 
 DROP TABLE IF EXISTS `udaje_typ`;
 CREATE TABLE `udaje_typ` (
@@ -742,7 +744,7 @@ CREATE TABLE `user_main` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Hlavné údaje užívateľa';
 
 INSERT INTO `user_main` (`id`, `id_user_roles`, `id_user_profiles`, `password`, `meno`, `priezvisko`, `email`, `activated`, `banned`, `ban_reason`, `new_password_key`, `new_password_requested`, `new_email`, `new_email_key`, `last_ip`, `created`, `modified`) VALUES
-(1,	5,	1,	'$2y$10$RnzAjUCyc/B1GgiJ9k43/e27BDz5j1vsbN.DYlfnXIxweBvqxkABq',	'Peter',	'Vojtech',	'petak23@gmail.com',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.253.191.158',	'2017-05-15 09:11:19',	'2020-05-26 13:48:32'),
+(1,	5,	1,	'$2y$10$RnzAjUCyc/B1GgiJ9k43/e27BDz5j1vsbN.DYlfnXIxweBvqxkABq',	'Peter',	'Vojtech',	'petak23@gmail.com',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'217.12.48.22',	'2017-05-15 09:11:19',	'2020-07-14 08:20:23'),
 (2,	4,	2,	'$2y$10$0KPg/2sE8I5EjAsgolRttulqhQPsUoVrhIHAxX8Ej3NAOHGuZIbW.',	'Juraj',	'Zámečník',	'bwfoto@bwfoto.sk',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.143.98.194',	'2017-05-15 09:13:38',	'2020-05-15 17:26:00'),
 (3,	4,	3,	'$2y$10$VOeK4y3ozjaUM1aMtiVmcuHRmtcmoVvC6J4yFX4j0LZoNbXlejyMi',	'Jozef',	'Petrenčík',	'jozue@anigraph.eu',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.253.139.152',	'2017-05-15 09:12:22',	'2017-07-11 07:10:29');
 
@@ -846,7 +848,13 @@ INSERT INTO `user_prihlasenie` (`id`, `id_user_main`, `log_in_datetime`) VALUES
 (66,	2,	'2020-05-15 21:15:24'),
 (67,	1,	'2020-05-23 05:43:39'),
 (68,	1,	'2020-05-24 10:20:27'),
-(69,	1,	'2020-05-26 15:48:32');
+(69,	1,	'2020-05-26 15:48:32'),
+(70,	1,	'2020-05-31 16:58:58'),
+(71,	1,	'2020-06-15 11:06:10'),
+(72,	1,	'2020-07-14 05:38:43'),
+(73,	1,	'2020-07-14 10:20:23'),
+(74,	1,	'2020-07-14 11:36:30'),
+(75,	1,	'2020-07-28 07:23:15');
 
 DROP TABLE IF EXISTS `user_profiles`;
 CREATE TABLE `user_profiles` (
@@ -864,7 +872,7 @@ CREATE TABLE `user_profiles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 INSERT INTO `user_profiles` (`id`, `rok`, `telefon`, `poznamka`, `pocet_pr`, `pohl`, `prihlas_teraz`, `avatar`, `news`, `news_key`) VALUES
-(1,	NULL,	NULL,	NULL,	46,	'M',	'2020-05-26 15:48:32',	NULL,	'A',	NULL),
+(1,	NULL,	NULL,	NULL,	52,	'M',	'2020-07-28 07:23:15',	NULL,	'A',	NULL),
 (2,	NULL,	NULL,	NULL,	23,	'M',	'2020-05-15 21:15:24',	NULL,	'A',	NULL),
 (3,	NULL,	NULL,	NULL,	0,	'M',	NULL,	NULL,	'A',	NULL);
 
@@ -900,7 +908,8 @@ INSERT INTO `user_resource` (`id`, `name`) VALUES
 (22,	'Edit:User'),
 (23,	'Edit:UserLog'),
 (24,	'Edit:Clanky'),
-(25,	'Admin:Products');
+(25,	'Admin:Products'),
+(26,	'Front:Search');
 
 DROP TABLE IF EXISTS `user_roles`;
 CREATE TABLE `user_roles` (
@@ -947,4 +956,4 @@ INSERT INTO `verzie` (`id`, `id_user_main`, `cislo`, `subory`, `text`, `modified
 (10,	1,	'0.3.0-beta',	'Rôzne; jquery 3.5.0',	'- Oprava drobných chýb v prihlásení.\n- Oprava chyby v slideri(issue \"#12\":https://github.com/petak23/bwfoto/issues/12). Rebase model/Table.php.\n- Rebase model/Dokumenty.php; model/Products.php a model/UserManager.php.\n- Oprava chyby v pridávaní podčlánku v adninistrácii.\n- Refaktoring fotogalérie na frontende.\n- Oprava zobrazenia produktov v AdminModule. \n- Update jquery na 3.5.0.\n- Oprava zobrazenia príloh vo FrontModule a premenovanie adresára presenters na Presenters.\n- Oprava issue \"#11\":https://github.com/petak23/bwfoto/issues/11 - A13 - V administracii pri zozname príloh( miniatúry fotografií) keď kliknem na foto aby sa mi zobrazila fotka tak sa zobrazí na ľavej strane - nie je vycentrovaná na stred',	'2020-05-04 12:02:51'),
 (11,	1,	'0.4.0-RC',	'Nette 3.0, adminer 4.7.7',	'- Oprava issue \"#10\":https://github.com/petak23/bwfoto/issues/10 - A10 - nekorektné zobrazenie úrovne 3. a 4.\n- Oprava zobrazenia formulárov na karte Produktu pre AdminModul a odstránenie chyby zobrazenia nastavenia okrajov. \n- Odstránenie chyby zobrazenia hlavného menu v AdminModul-e.\n- Úpravy potrebné pre prechod na nette 3.0,\n- odstránenie drobných chýb,\n- vypustenie webloader-a\n',	'2020-05-26 13:53:54');
 
--- 2020-05-26 13:55:52
+-- 2020-07-28 10:48:34

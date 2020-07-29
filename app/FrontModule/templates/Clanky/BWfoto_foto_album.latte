@@ -2,7 +2,7 @@
  *
  * Modul: FRONT
  *
- * Posledna zmena(last change): 11.07.2020
+ * Posledna zmena(last change): 29.07.2020
  * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
@@ -59,7 +59,8 @@
           </button>
         {/if}
       </div>
-      <div class="col-4 thumbnails" n:inner-foreach="$attachments as $id => $at"><div class="thumb">
+      <div class="col-4 thumbnails row" n:inner-foreach="$attachments as $id => $at">
+        <div class="col-12 col-md-6 col-lg-4 col-xl-2 thumb">
         {var $a = $at['article']}
           <a n:href="openAsBigImage! $id" title="Odkaz {$at['type'] == 'menu' ? $a->view_name : $a->name}" n:class="thumb-a, ajax, $big_img['id'] == $id ? selected">
             {if $at['type'] == "menu"} {* Main menu articles *}
@@ -67,7 +68,9 @@
             {elseif strpos($at['type'], 'attachments') !== false || $at['type'] == "product"}
               <img src="{$basePath}/{if $a->thumb_file && is_file($a->thumb_file)}{$a->thumb_file}{else}images/otaznik.png{/if}" alt="{$a->name}" class="img-thumbnail">
             {/if}
-          </a></div></div>
+          </a>
+        </div>
+      </div>
     </div>
     <div class="row">
       <div class="col-12 bigimg-description" n:ifset="$big_img['article']->description">{$big_img['article']->description}</div>
