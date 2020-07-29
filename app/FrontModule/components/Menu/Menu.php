@@ -4,13 +4,13 @@ use Nette;
 
 /**
  * Komponenta pre zobrazenie ponuky menu pre FRONT modul
- * Posledna zmena(last change): 22.07.2020
+ * Posledna zmena(last change): 11.05.2020
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.6
+ * @version 1.0.5
  *
  */
 class Menu extends Nette\Application\UI\Control {
@@ -187,10 +187,10 @@ class MenuNode {
 		return $node;
 	}
 
-	public function getItemClass(string $sel_name = "selected"): string {
+	public function getItemClass() {
     $out = "";
 		if ($this == $this->menu->getSelected()) {
-			$out .= ' '. $sel_name;
+			$out .= ' selected';
 		} else if (in_array($this, $this->menu->getPath())) {
 			$out .= ' in-path';
 		}

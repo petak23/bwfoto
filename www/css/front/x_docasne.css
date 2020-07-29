@@ -1,9 +1,13 @@
 /* 
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * Last update: 28.07.2020 
+ * Last update: 26.05.2020 
  */
-
-/** ---- Univerzalne styly ----*/
+input {
+  color: #000;
+}
+label {
+  color: #ccc;
+}
 a[href^="#error:"] {
     background: red;
     color: white;
@@ -11,29 +15,19 @@ a[href^="#error:"] {
 .fa-1_5x { 
   font-size: 1.5em;
 }
-#uvodnyText{
-	margin-top: 0;
+.pv-footer {
+  font-size: 70%;
+  color: #999;
 }
-
-/** ---- Hlavna ponuka na titiulke ---- */
-
-#webContent {
-  margin-top: 15rem;
+.pv-footer ul {
+  padding: 0;
 }
-#webParts .part-small i, #webParts-md .part-small i {
-  font-size: 2rem;
+footer .nav li:last-child {
+  border: 0;
 }
-#webParts .part-small i.bolder, #webParts-md .part-small i.bolder {
-  font-weight: 300;
+footer a {
+  color: #ccc;
 }
-#webParts a, #webParts-md a {
-  color: #ddd;
-}  
-#webParts .part-small a:hover, #webParts-md .part-small a:hover {
-  color: #333;
-}  
-
-/** ---- Informacie o uzivatelovi ---- */
 .user-info {
   padding-bottom: 1ex;
 }
@@ -48,7 +42,9 @@ a[href^="#error:"] {
   font-weight: bold;
   color: #999;
   margin: 0 0 1ex 1ex;
-  padding: .75ex;
+  padding: .75ex; 
+  border: 1px solid #ccc;
+  border-radius: .5ex;
 }
 .user-info a.btn {
   margin: .5ex 0;
@@ -56,119 +52,174 @@ a[href^="#error:"] {
 }
 .user-info input[type="text"] {
   width: 100%;
-  color: #ddd;
-  background-color: #333;
-  border: 1px solid #ccc;
-  border-radius: .5ex;
-  margin: 0 0 1ex 0;
-  padding: .75ex;
 }
-.user-info input[disabled="disabled"] {
-  border: 0;
-  background-color: transparent;
-  font-weight: bold;
-  color: #999;
-}  
 .user-info input[type="submit"] {
+  width: 49%;
+}
+.popis p {
+	font-family: "Fira Light", "sans-serif";
+	color: #ccc;
+}
+#slider {
+  width: 100%;
+  overflow: hidden;
+}
+#slider img {
   width: 100%;
 }
-
-/** ---- Drobeckova navigacia ---- */
+.foto-album .thumbnail {
+  border: none;
+  border-width: 1px;
+}
+.foto-album .thumbnail div{
+  text-align: center;
+}
+.homepage-nav-item {
+  border: 1px solid #fff;
+  padding: .5ex;
+}
 .breadcrumb-main {
-  font-size: 0.75rem;
-  background-color: transparent;
+  background-color: black;
 }
 .breadcrumb-main a {
-  font-size: 0.75rem;
-  color: #ddd;
+  color: #ccc;
 }
-.breadcrumb {
-  padding: .5rem 1rem;
+.foto-album-nav {
+  background-color: black;
 }
-
-/** ---- Fotogaleria - cast albumov - foto section ---- */
-.album a {
-  color: #ddd;
-}
-.album img {
+.foto-album-nav a.thumbnail img {
   width: 100%;
 }
-
-/** ---- Fotogaleria - cast obsahu albumu - foto album ---- */
 .detail img {
   border-width: 2px;
-  width: 100%;
 }
 .detail button {
   padding: 5%;
   background: radial-gradient(#000, #333);
   width: 100%;
 }
+
+.lightbox-img {
+  background-color: rgba(20,20,20,.9);
+}
+
+.lightbox-img .modal-title {
+  color: #ffeb3b;
+  font-weight: bold;
+}
+
+.lightbox-img .modal-dialog .modal-content { 
+	background-color: transparent;
+}
+
+.lightbox-img .modal-body {
+  display: table;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.lightbox-img .arrows-l, .lightbox-img .arrows-r {
+  position: absolute;
+  top: 50%;
+  opacity: .5
+}
+
+.lightbox-img .arrows-l:hover, .lightbox-img .arrows-r:hover {
+  opacity: 1
+}
+
+.lightbox-img .arrows-l {
+  left: 3%;
+}
+
+.lightbox-img .arrows-r {
+  right: 3%;
+}
+
+.lightbox-img .description {
+  color: #ddd;
+}
+
+.border-a {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.border-b {
+
+}
+
+.border-c {
+	max-height: 87vh;
+  max-width: 100%;
+}
+
+/*.thumbnails .thumb a img {
+  border-width: 1px;
+}*/
 .thumbnails .thumb a {
   color: transparent;
 }
 .thumbnails .thumb a.selected img {
   background-color: #ffeb3b; 
 }
-
-/** ---- Fotogaleria - cast obsahu album - Zvatsena fotka - uroven 4 ---- */
-.lightbox-img {
-  background-color: rgba(20,20,20,.9);
+.bigimg-name, .bigimg-description{
+  color: #faebcc;
 }
-.lightbox-img .modal-title {
-  color: #ffeb3b;
-  font-weight: bold;
+.bwfoto-foto-album-prilohy img.jslghtbx-thmb, .thumb img.jslghtbx-thmb {
+  display: none;
 }
-.lightbox-img .modal-dialog .modal-content { 
-	background-color: transparent;
+.bwfoto-foto-album-prilohy .small-img, .thumb .small-img {
+  cursor: pointer;
 }
-.lightbox-img .modal-body {
-  display: table;
-  margin-left: auto;
-  margin-right: auto;
+.video-priloha{
+  width: 100%;
 }
-.lightbox-img .arrows-l, .lightbox-img .arrows-r {
-  position: absolute;
-  top: 50%;
-  opacity: .5
+.article-foto-album img.big-img {
+  width: 100%;
+  border: 1px solid #999;
+  border-bottom: none;
 }
-.lightbox-img .arrows-l:hover, .lightbox-img .arrows-r:hover {
-  opacity: 1
-}
-.lightbox-img .arrows-l {
-  left: 3%;
-}
-.lightbox-img .arrows-r {
-  right: 3%;
-}
-.lightbox-img .description {
-  color: #ddd;
-}
-.border-a {
-  margin-left: auto;
-  margin-right: auto;
-}
-/*.border-b {}*/
-.border-c {
-	max-height: 87vh;
-  max-width: 100%;
+.article-foto-album .big-img-caption {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  height: 1.5em;
+  border: 1px solid #999;
+  border-top: none;
+  color: #ccc;
 }
 
-/** ---- Pre vue komponentu autocomplete ---- */
+/* Pre vue komponentu autocomplete */
 .autocomplete form {
   position: relative;
 }
 .autocomplete-result {
   position: absolute;
-  top: 44px;
 }
 .autocomplete-result a {
   color: #222;
 }
 .autocomplete-result .is-active, .autocomplete-result li:hover {
-  background-color: #343a40;
+  background-color: #A56F30;
 }
 .autocomplete-result .is-active a, .autocomplete-result li:hover a {
   color: #ccc;
 }
-/** Koniec - Pre vue komponentu autocomplete */
+
+/* Koniec - Pre vue komponentu autocomplete */
+
+@media (max-width: 380px) {
+  .bwfoto-foto-album-prilohy img.jslghtbx-thmb {
+    display: inline-block;
+  }
+  .bwfoto-foto-album-prilohy .small-img {
+    display: none;
+  }
+  .article-foto-album img.big-img {
+    display: none;
+  }
+  .article-foto-album .big-img-caption {
+    display: none;
+  }
+}

@@ -3,12 +3,9 @@
   {var $isDropdown = count($node->nodes) > 1}
   {var $see = !isset($hideName) || !$hideName}
 	{if $see}
-    <li class="nav-item"> {* class="nav-item{if $isDropdown} dropdown{/if} {$node->getItemClass()}" *}
+    <li class="nav-item{if $isDropdown} dropdown{/if} {$node->getItemClass()}">
       {if $node->link}
-        <a href="{$node->link}" title="{$node->name}"            
-           class="nav-link {$node->getItemClass('active')}"
-           {if $isDropdown} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" {/if}
-        > {* class="{$level > 2 ? 'dropdown-item' : ($isDropdown ? 'dropdown-toggle' : 'nav-link')}"  *}
+        <a href="{$node->link}" title="{$node->name}" class="{$level > 2 ? 'dropdown-item' : ($isDropdown ? 'dropdown-toggle' : 'nav-link')}" {if $isDropdown} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" {/if}>
           {$node->name}
           <br n:if="isset($node->tooltip)" />
           <small n:if="isset($node->tooltip)">{$node->tooltip}</small>
@@ -21,7 +18,7 @@
 	{/if}
   
 	{if $isDropdown}
-    <ul class="navbar-nav mr-md-2 flex-grow-1 justify-content-end"> {* n:class="$level==1 ? 'navbar-nav' : 'dropdown-menu'" *}
+    <ul n:class="$level==1 ? 'navbar-nav' : 'dropdown-menu'">
       {var $level = $level + 1}
       {var $n = $node->poradie_podclankov ? array_reverse($node->nodes) : $node->nodes}
       {foreach $n as $subNode}
@@ -40,4 +37,4 @@
 
 {if $startNode}
   {include #node node => $startNode, hideName => true, level=>1}
-{/if}
+{/if} 

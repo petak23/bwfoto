@@ -44,7 +44,7 @@ Vue.component('autocomplete', {
     },
     template: `
       <div class="autocomplete">
-        <form autocomplete="off" class="form-inline" @submit.prevent><!--required for disable google chrome auto fill-->
+        <form autocomplete="off" class="my-2 my-lg-0" @submit.prevent><!--required for disable google chrome auto fill-->
           <input  type="search" 
                   :placeholder="placeholder"
                   :name="inputname"
@@ -56,7 +56,6 @@ Vue.component('autocomplete', {
                   @keydown.up="onArrowUp"
                   @keydown.enter="onEnter"
           >
-          <button class="btn my-2 my-sm-0" type="submit"><i class="fas fa-binoculars" style="font-size: 2rem"></i></button>
           <div class="autocomplete-result" v-show="isOpen">
             <ul class="list-group">
               <li class="list-group-item text-secondary" v-show="isSearching">

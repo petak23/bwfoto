@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function(){
       topNav.classList.remove("shrink");
 		}
   };
-  /*document.getElementById("topMenuButton").onclick = function(){
+  document.getElementById("topMenuButton").onclick = function(){
     document.getElementById("topNav").style.height = "auto";
-  };*/
+  };
 });

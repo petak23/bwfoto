@@ -1,8 +1,6 @@
-<div id="uvodnyText" class="container">
-  <h1 n:if="!(isset($nastav['view_h2']) && !$nastav['view_h2'])">
-    {$clanok->view_name}
-  </h1>
-  <span class="text-justify" n:if="$clanok->clanok_lang->text">
-    {$clanok->clanok_lang->text|texy|noescape|obr_v_txt|koncova_znacka}
-  </span>
-</div>
+<h1 n:if="!(isset($nastav['view_h2']) && !$nastav['view_h2'])">
+  {$clanok->view_name}
+</h1>
+<span class="popis" n:if="$clanok->clanok_lang->text">
+  {$clanok->clanok_lang->text|texy|noescape|obr_v_txt|koncova_znacka}
+</span>

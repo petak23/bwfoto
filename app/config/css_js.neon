@@ -8,12 +8,9 @@ parameters:
   web_files:
     Front:
       css:
-        - www/css/front/css2.css      
         - node_modules/@fortawesome/fontawesome-free/css/all.min.css
         - node_modules/bootstrap/dist/css/bootstrap.min.css
-        - www/css/front/all.css
-        - www/css/front/bwfoto.css
-        - www/css/front/x_docasne.css # Moje zmeny v originalnom vzhlade 
+        - www/css/front/main.css
       js:
         - node_modules/jquery/dist/jquery.min.js
         - node_modules/bootstrap/dist/js/bootstrap.bundle.js
