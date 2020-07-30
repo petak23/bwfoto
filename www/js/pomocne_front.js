@@ -1,6 +1,11 @@
 /* Inicializácia pre ajax knižicu NAJA */
 document.addEventListener('DOMContentLoaded', naja.initialize.bind(naja));
 
+/* Zmenšenie headeru */
+if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
+	document.getElementById("topNav").classList.add('shrink');
+}
+
 /* Časť funkcií pre jquery */
 $(function() {
   

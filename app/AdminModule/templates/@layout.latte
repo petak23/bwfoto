@@ -31,6 +31,9 @@
 	<meta name="author" content="{$udaje['autor']}" />
 	<title>{$udaje['titulka']} - Administracia</title>
   {control files:css}
+  
+  <!-- upload -->
+  {\Zet\FileUpload\FileUploadControl::getHead($basePath . '/vendor/ijvo/jquery-fileupload/src/www/')}
   {block spec_css}{/block}
 	
   {control favicon}
@@ -124,6 +127,9 @@
     </div>
   </div>
   {control files:js}
+  
+  <!-- upload -->
+  {\Zet\FileUpload\FileUploadControl::getScripts($basePath . '/vendor/ijvo/jquery-fileupload/src/www/')}
   {block spec_js}{/block}
   <script type="text/javascript">
     $.texyla.setDefaults({

@@ -9,15 +9,14 @@ use Nette\Utils\Strings;
 /**
  * Reprezentuje repozitar pre databázovu tabulku
  * 
- * Posledna zmena(last change): 13.04.2020
+ * Posledna zmena(last change): 09.07.2020
  * 
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.3 
+ * @version 1.1.4
  *
- * @todo Pre verziu Nette 3 budu niektore funkcie vracat ActiveRow|null namiesto ActiveRow|false
  */
 abstract class Table {
 
@@ -31,7 +30,7 @@ abstract class Table {
   
   /** @var Nette\Security\User */
   protected $user;
-
+  
   /**
    * @param Nette\Database\Context $db
    * @throws Nette\InvalidStateException */
@@ -42,7 +41,7 @@ abstract class Table {
       throw new Nette\InvalidStateException("Názov tabuľky musí byť definovaný v $class::\$tableName.");
     }
   }
-
+  
   /** 
    * Vracia celu tabulku z DB
    * @return Nette\Database\Table\Selection */
@@ -108,29 +107,28 @@ abstract class Table {
 
   /** 
    * Hlada jednu polozku podla specifickeho nazvu a min. urovne registracie uzivatela
-   * @param string $spec_nazov
-   * @param int|NULL $id_reg
+   * @param string $spec_nazov Specificky nazov
+   * @param int $id_reg Min. uroven registracie 
    * @return ActiveRow|null */
-  public function hladaj_spec(string $spec_nazov, $id_reg = NULL) {
-    if (!isset($spec_nazov)) { return false; } //Spec nazov nie je nastaveny
-    return $this->findOneBy(isset($id_reg) ? ["spec_nazov"=>$spec_nazov, "id_user_roles <= ".$id_reg] : ["spec_nazov"=>$spec_nazov]);
+  public function hladaj_spec(string $spec_nazov, int $id_reg = 5): ?ActiveRow {
+    return $this->findOneBy(["spec_nazov"=>$spec_nazov, "id_user_roles <= ".$id_reg]);
   }
 
   /** 
    * Hlada jednu polozku podla id a min. urovne registracie uzivatela
-   * @param int $id
-   * @param int|NULL $id_reg
+   * @param int $id Id polozky
+   * @param int $id_reg Min. uroven registracie
    * @return ActiveRow|null */
-  public function hladaj_id(int $id = 0, $id_reg = NULL) {
-    return (isset($id_reg)) ? $this->findOneBy(["id"=>$id, "id_user_roles <= ".$id_reg]) : $this->find($id);
+  public function hladaj_id(int $id = 0, int $id_reg = 5) {
+    return $this->findOneBy(["id"=>$id, "id_user_roles <= ".$id_reg]);
   }
 
   /** 
    * Zmeni spec nazov na '-' ak min. uroven registracie uzivatela suhlasi
-   * @param string $spec_nazov
-   * @param int|NULL $id_reg */
-  public function delSpecNazov(string $spec_nazov, $id_reg = NULL) {
-    if (isset($spec_nazov)) { $this->hladaj_spec($spec_nazov, $id_reg)->update(['spec_nazov'=>'-']); }
+   * @param string $spec_nazov Specificky nazov
+   * @param int $id_reg Min. uroven registracie */
+  public function delSpecNazov(string $spec_nazov, int $id_reg) {
+    $this->hladaj_spec($spec_nazov, $id_reg)->update(['spec_nazov'=>'-']);
   }
 
   /** 
@@ -163,7 +161,7 @@ abstract class Table {
    * @param iterable (column => value)
    * @return ActiveRow|null */
   public function oprav($id, $data): ?ActiveRow {
-    $this->find($id)->update($data);
+    $this->find($id)->update($data); //Ak nieco opravil tak true inak(nema co opravit) false
     return $this->find($id);
   }
 

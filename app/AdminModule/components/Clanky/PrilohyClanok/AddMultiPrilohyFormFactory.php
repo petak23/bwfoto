@@ -12,13 +12,13 @@ use Nette\Utils\Image;
 
 /**
  * Formular a jeho spracovanie pre pridanie viacerich prilohy polozky.
- * Posledna zmena 14.05.2020
+ * Posledna zmena 19.06.2020
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.7
+ * @version    1.0.8
  */
 class AddMultiPrilohyFormFactory {
   
@@ -64,10 +64,16 @@ class AddMultiPrilohyFormFactory {
     $form->addRadioList('type', 'Typ prílohy:', [1=>"Iné", 2=>"Obrázok", 3=>"Video"]);
 //    $form->addFileUpload("uploader");
     $form->addMultiUpload('priloha', 'Pridaj prílohy')
-         ->setOption('description', sprintf('Max veľkosť prílohy v bytoch %s kB', $upload_size/1024))
+         ->setOption('description', sprintf('Max veľkosť prílohy v bytoch %s kB.  Maximálny počet nahrávaných obrázkov je %s.', 
+                                            $upload_size/1024,
+                                            trim(ini_get("max_file_uploads"))))
          ->setRequired("Príloha musí byť vybraná!")
          ->addCondition(Form::FILLED)
           ->addRule(Form::MAX_FILE_SIZE, 'Max veľkosť prílohy v bytoch %d B', $upload_size)
+          ->addRule(Form::MAX_LENGTH, 
+                    'Max. počet nahrávaných príloh naraz, ktoré dovoľuje server, je %d! Zvolte prosím patričný počet, alebo nahrajte prílohy na viac ráz!',
+                    trim(ini_get("max_file_uploads"))
+                    )
          ->endCondition()
          ->addConditionOn($form['type'], Form::EQUAL, 2)
           ->addRule(Form::IMAGE, 'Príloha musí byť obrázok!');

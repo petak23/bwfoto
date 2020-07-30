@@ -15,13 +15,13 @@ use Ublaboo\DataGrid\Localization\SimpleTranslator;
 /**
  * Komponenta pre spravu produktov clanku.
  * 
- * Posledna zmena(last change): 26.05.2020
+ * Posledna zmena(last change): 08.07.2020
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
  * @copyright Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.9
+ * @version 1.1.1
  */
 
 class ProductsControl extends Nette\Application\UI\Control {
@@ -135,7 +135,7 @@ class ProductsControl extends Nette\Application\UI\Control {
       $xs = 'style="border: '.$pom[1].'px solid '.(strlen($pom[0])>2 ? $pom[0]:'inherit').'"';
       return $xs;
     });
-    
+    $this->products->setWwwDir($this->presenter->context->parameters["wwwDir"]."/");
 		$this->template->render();
 	}
   
@@ -165,10 +165,14 @@ class ProductsControl extends Nette\Application\UI\Control {
            $this->products->oprav($id, ['description'=>$value]);
          });
     if ($this->admin_links['elink']) {
-      $grid->addAction('edit', '')
+      $service = $this;
+      $grid->addActionCallback('edit', '')
            ->setIcon('pencil-alt fa-2x')
            ->setClass('btn btn-success btn-sm')
-           ->setTitle('Editácia položky');
+           ->setTitle('Editácia položky')
+           ->onClick[] = function($item_id) use ($service) {
+             $service->presenter->redirect('Products:edit', ['id'=>$item_id, 'id_hlavne_menu' => $service->clanok->id_hlavne_menu]);
+           };
       $grid->addAction('delete', '', 'confirmedDelete!')
            ->setIcon('trash-alt fa-2x')
            ->setClass('btn btn-danger btn-sm ajax')
@@ -202,7 +206,7 @@ class ProductsControl extends Nette\Application\UI\Control {
    * Komponenta formulara pre pridanie a editaciu produktu polozky.
    * @return Nette\Application\UI\Form */
   public function createComponentEditProductForm(): Nette\Application\UI\Form {
-    $form = $this->editProductForm->create($this->upload_size, $this->nastavenie["dir_to_products"]);
+    $form = $this->editProductForm->create($this->nastavenie["dir_to_products"]);
     $form->setDefaults(["id"=>0, "id_hlavne_menu"=>$this->clanok->id_hlavne_menu, "id_user_roles"=>$this->clanok->hlavne_menu->id_user_roles]);
     $form['uloz']->onClick[] = function ($button) { 
       $this->presenter->flashOut(!count($button->getForm()->errors), ['this',['tab'=>'products-tab']], 'Produkt bol úspešne uložený!', 'Došlo k chybe a zmena sa neuložila. Skúste neskôr znovu...');
@@ -214,10 +218,19 @@ class ProductsControl extends Nette\Application\UI\Control {
    * Komponenta formulara pre pridanie viacerich produktov polozky.
    * @return Nette\Application\UI\Form */
   public function createComponentAddMultiProductsForm(): Nette\Application\UI\Form {
-    $form = $this->addMultiProductsForm->create($this->upload_size, $this->nastavenie["dir_to_products"]);
+    $form = $this->addMultiProductsForm
+                 ->create($this->nastavenie["dir_to_products"],
+                          $this->presenter->context->parameters["wwwDir"]."/",
+                          $this->clanok
+                         );
     $form->setDefaults(["id"=>0, "id_hlavne_menu"=>$this->clanok->id_hlavne_menu, "id_user_roles"=>$this->clanok->hlavne_menu->id_user_roles]);
-    $form['uloz']->onClick[] = function ($button) { 
-      $this->presenter->flashOut(!count($button->getForm()->errors), ['this',['tab'=>'products-tab']], 'Produkty boli úspešne uložené!', 'Došlo k chybe a zmena sa neuložila. Skúste neskôr znovu...');
+    $form['ulozz']->onClick[] = function (/*$button*/) { 
+//      $this->presenter->flashOut(!count($button->getForm()->errors), ['this',['tab'=>'products-tab']], 'Produkty boli úspešne uložené!', 'Došlo k chybe a zmena sa neuložila. Skúste neskôr znovu...');
+      $this->presenter->redirect('this',['tab'=>'products-tab']);
+		};
+    $form['ulozk']->onClick[] = function (/*$button*/) { 
+//      $this->presenter->flashOut(!count($button->getForm()->errors), ['this',['tab'=>'products-tab']], 'Produkty boli úspešne uložené!', 'Došlo k chybe a zmena sa neuložila. Skúste neskôr znovu...');
+      $this->presenter->redirect('this',['tab'=>'products-tab']);
 		};
     return $this->makeBootstrap4($form);
   }
@@ -242,7 +255,7 @@ class ProductsControl extends Nette\Application\UI\Control {
 	function handleConfirmedDelete(int $id): void	{
     $pr = $this->products->find($id);//najdenie prislusnej polozky menu, ku ktorej priloha patri
     $pthis = $this->presenter;
-    if ($pr !== FALSE) {
+    if ($pr !== null) {
       $vysledok = $this->_vymazSubor($pr->main_file) ? $this->_vymazSubor($pr->thumb_file) : FALSE;
       if (($vysledok ? $pr->delete() : FALSE)) { 
         $this->flashMessage('Produkt bol vymazaný!', 'success'); 
@@ -262,9 +275,9 @@ class ProductsControl extends Nette\Application\UI\Control {
   /** 
    * Funkcia vymaze subor ak exzistuje
 	 * @param string $subor Nazov suboru aj srelativnou cestou
-	 * @return int Ak zmaze alebo neexistuje(nie je co mazat) tak 1 inak 0 */
-	private function _vymazSubor(string $subor): int {
-		return (is_file($subor)) ? unlink($this->presenter->context->parameters["wwwDir"]."/".$subor) : -1;
+	 * @return bool Ak zmaze alebo neexistuje(nie je co mazat) tak true inak false */
+	private function _vymazSubor(string $subor): bool {
+		return (is_file($subor)) ? unlink($this->presenter->context->parameters["wwwDir"]."/".$subor) : true;
 	}
   
   /**

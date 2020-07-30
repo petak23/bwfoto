@@ -6,7 +6,7 @@ use Nette\Application\Responses;
 /**
  * Prezenter pre vyhadavania.
  * 
- * Posledna zmena(last change): 04.06.2020
+ * Posledna zmena(last change): 15.06.2020
  *
  *	Modul: FRONT
  *
@@ -14,7 +14,7 @@ use Nette\Application\Responses;
  * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.1
+ * @version 1.0.2
  */
 class SearchPresenter extends BasePresenter {
   
@@ -23,7 +23,7 @@ class SearchPresenter extends BasePresenter {
     $searchStr = '%'.$searchStr.'%';
     $search = $this->hlavne_menu_lang
                    ->findBy(['hlavne_menu.hlavne_menu_cast.mapa_stranky'=>1])
-                   ->where('menu_name LIKE ? OR h1part2 LIKE ? OR hlavne_menu_lang.view_name LIKE ?', $searchStr, $searchStr, $searchStr)
+                   ->where('LOWER(menu_name) LIKE LOWER(?) OR LOWER(h1part2) LIKE LOWER(?) OR LOWER(hlavne_menu_lang.view_name) LIKE LOWER(?)', $searchStr, $searchStr, $searchStr)
                    ->fetchPairs('id', 'view_name');
     $out = [];
     foreach ($search as $k => $v) {

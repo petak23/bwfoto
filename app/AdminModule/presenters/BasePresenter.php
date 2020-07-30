@@ -314,8 +314,9 @@ abstract class BasePresenter extends UI\Presenter {
    * @return \Nette\Application\UI\Form */
   public function _vzhladForm($form) {
     $renderer = $form->getRenderer();
-    $renderer->wrappers['error']['container'] = 'div class="row error-form"';
-    $renderer->wrappers['error']['item'] = 'div class="col-md-6 col-md-offset-3 alert alert-danger"';
+ 
+    // Vzhlad pre bootstrap 3
+    /*
     $renderer->wrappers['controls']['container'] = NULL;
     $renderer->wrappers['pair']['container'] = 'div class=form-group';
     $renderer->wrappers['pair']['.error'] = 'has-error';
@@ -323,6 +324,10 @@ abstract class BasePresenter extends UI\Presenter {
     $renderer->wrappers['label']['container'] = 'div class="col-sm-3 control-label"';
     $renderer->wrappers['control']['description'] = 'div class="help-block alert alert-info"';
     $renderer->wrappers['control']['errorcontainer'] = 'span class="help-block alert alert-danger"';
+    //$renderer->wrappers['error']['container'] = 'div class="row error-form"';
+    //$renderer->wrappers['error']['item'] = 'div class="col-md-6 col-md-offset-3 alert alert-danger"';
+    
+    
     // make form and controls compatible with Twitter Bootstrap
     $form->getElementPrototype()->class('form-horizontal');
     foreach ($form->getControls() as $control) {
@@ -333,6 +338,38 @@ abstract class BasePresenter extends UI\Presenter {
         $control->getControlPrototype()->addClass('form-control');
       } elseif ($control instanceof Controls\Checkbox || $control instanceof Controls\CheckboxList || $control instanceof Controls\RadioList) {
         $control->getSeparatorPrototype()->setName('div')->addClass($control->getControlPrototype()->type);
+      }
+    }*/
+    // Vzhlad pre bootstrap 4 link: https://github.com/nette/forms/blob/96b3e90/examples/bootstrap4-rendering.php  
+    $renderer->wrappers['controls']['container'] = null;
+    $renderer->wrappers['pair']['container'] = 'div class="form-group row"';
+    $renderer->wrappers['pair']['.error'] = 'has-danger';
+    $renderer->wrappers['control']['container'] = 'div class=col-sm-9';
+    $renderer->wrappers['label']['container'] = 'div class="col-sm-3 col-form-label"';
+    $renderer->wrappers['control']['description'] = 'span class="form-text alert alert-info"';
+    $renderer->wrappers['control']['errorcontainer'] = 'span class="form-control-feedback alert alert-danger"';
+    $renderer->wrappers['control']['.error'] = 'is-invalid';
+
+    foreach ($form->getControls() as $control) {
+      $type = $control->getOption('type');
+      if ($type === 'button') {
+        $control->getControlPrototype()->addClass(empty($usedPrimary) ? 'btn btn-primary' : 'btn btn-secondary');
+        $usedPrimary = true;
+
+      } elseif (in_array($type, ['text', 'textarea', 'select'], true)) {
+        $control->getControlPrototype()->addClass('form-control');
+
+      } elseif ($type === 'file') {
+        $control->getControlPrototype()->addClass('form-control-file');
+
+      } elseif (in_array($type, ['checkbox', 'radio'], true)) {
+        if ($control instanceof \Nette\Forms\Controls\Checkbox) {
+          $control->getLabelPrototype()->addClass('form-check-label');
+        } else {
+          $control->getItemLabelPrototype()->addClass('form-check-label');
+        }
+        $control->getControlPrototype()->addClass('form-check-input');
+        $control->getSeparatorPrototype()->setName('div')->addClass('form-check');
       }
     }
     return $form;

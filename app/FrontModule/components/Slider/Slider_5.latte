@@ -2,18 +2,20 @@
  *
  * Modul: FRONT
  *
- * Posledna zmena(last change): 23.11.2017
- * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
+ * Posledna zmena(last change): 22.07.2020
+ * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
  *
- * @param array    $p_name   nazov modulu[0] a presentera[1]
  * @param array    $slider   info. o obrazku slider-a
 *}
-{if $slider}
-  <style>
-    header {
-      background: url({$basePath}/www/files/slider/{$slider->subor})
-    }
-  </style>
-{/if}
+<style>
+  body {
+    background-image: url("{$basePath}/www/{$slider}");
+  }
+</style>
+
+{*<div id="slider">
+  <slider source="{$basePath}/www/{$slider}"></slider>
+</div>*}
+
