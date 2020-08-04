@@ -1,6 +1,6 @@
 /* 
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * Last update: 28.07.2020 
+ * Last update: 31.07.2020 
  */
 
 /** ---- Univerzalne styly ----*/
@@ -15,8 +15,29 @@ a[href^="#error:"] {
 	margin-top: 0;
 }
 
-/** ---- Hlavna ponuka na titiulke ---- */
+/** ---- Horne menu - rozbalovacia cast ---- */
+#topNav .dropdown .nav-link {
+  float: left;
+}
+#topNav .dropdown-toggle:after {
+  margin: .8em .25em 0 0; 
+  font-size: 150%;
+}
+#topNav .dropdown-menu {
+  background-color: transparent;
+  border: 0;
+  right: 0;
+  padding: 0;
+  margin: 0;
+}
+#topNav.shrink .dropdown-menu {
+  background-color: rgba(250,250,250,0.90) !important;
+}
+#topNav .dropdown-menu .navbar-nav {
+  flex-direction: column;
+}
 
+/** ---- Hlavna ponuka na titiulke ---- */
 #webContent {
   margin-top: 15rem;
 }
