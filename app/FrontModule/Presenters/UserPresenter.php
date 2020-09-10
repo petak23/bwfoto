@@ -3,7 +3,6 @@ namespace App\FrontModule\Presenters;
 
 use App\FrontModule\Forms\User;
 use DbTable;
-use Language_support;
 use Latte;
 use Nette\Mail\Message;
 use Nette\Mail\SendmailMailer;
@@ -12,7 +11,7 @@ use Nette\Utils\Random;
 
 /**
  * Prezenter pre prihlasenie, registraciu a aktiváciu uzivatela, obnovenie zabudnutého hesla a zresetovanie hesla.
- * Posledna zmena(last change): 30.03.2020
+ * Posledna zmena(last change): 09.09.2020
  *
  *	Modul: FRONT
  *
@@ -20,7 +19,7 @@ use Nette\Utils\Random;
  * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.2.2
+ * @version 1.2.3
  */
 class UserPresenter extends BasePresenter {
 	
@@ -37,12 +36,6 @@ class UserPresenter extends BasePresenter {
 	public $resetPasswordForm;
   /** @var User\ForgottenPasswordFormFactory @inject*/
 	public $forgottenPasswordForm;
- 
-  /** 
-   * @inject
-   * @var Language_support\LanguageMain */
-  //public $texty_presentera;
-
   
   /** @var mix */
   private $clen;
@@ -56,7 +49,6 @@ class UserPresenter extends BasePresenter {
     if ($this->user->isLoggedIn()) { 
       $this->flashRedirect('Homepage:', $this->texty_presentera->translate('base_loged_in_bad'), 'danger');
     }
-    //$this->template->h2 = 'h2_'.$this->action; //Nacitanie hlavneho nadpisu
     $this->clen = $this->user_main->find(1);  //Odosielatel e-mailu
     $this->user_view_fields = $this->nastavenie['user_view_fields'];
 	}

@@ -10,13 +10,13 @@ use Nette\Security;
 
 /**
  * Sign in form
- * Last change 15.05.2020
+ * Last change 09.09.2020
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.9
+ * @version    1.1.0
  */
 class SignInFormFactory {
   /** @var User */
@@ -65,6 +65,30 @@ class SignInFormFactory {
          ->onClick[] = [$this, 'signInFormSubmitted'];
     $form->addSubmit('forgottenPassword', 'SignInForm_forgottenPassword')
          ->setAttribute('class', 'btn btn-link');
+    $renderer = $form->getRenderer();
+    $renderer->wrappers['controls']['container'] = 'div class=sign-in-form';
+    $renderer->wrappers['pair']['container'] = 'div class="form-group row justify-content-center"';
+    $renderer->wrappers['pair']['.error'] = 'has-danger';
+    $renderer->wrappers['control']['container'] = 'div class="col-12 col-sm-6"';
+    $renderer->wrappers['label']['container'] = 'div class="d-none"';//'div class="col-sm-3 col-form-label"';
+    $renderer->wrappers['control']['description'] = 'span class=form-text';
+    $renderer->wrappers['control']['errorcontainer'] = 'span class=form-control-feedback';
+    $renderer->wrappers['control']['.error'] = 'is-invalid';
+
+    foreach ($form->getControls() as $control) {
+      $type = $control->getOption('type');
+      if (in_array($type, ['text', 'textarea', 'select'], true)) {
+        $control->getControlPrototype()->addClass('form-control');
+      } elseif (in_array($type, ['checkbox', 'radio'], true)) {
+        if ($control instanceof \Nette\Forms\Controls\Checkbox) {
+          $control->getLabelPrototype()->addClass('form-check-label');
+        } else {
+          $control->getItemLabelPrototype()->addClass('form-check-label');
+        }
+        $control->getControlPrototype()->addClass('form-check-input');
+        $control->getSeparatorPrototype()->setName('div')->addClass('form-check');
+      }
+    }
 		return $form;
 	}
   
@@ -73,6 +97,7 @@ class SignInFormFactory {
    * @param \Nette\Forms\Controls\SubmitButton $button Data formulara */
 	public function signInFormSubmitted(\Nette\Forms\Controls\SubmitButton $button) {
     $values = $button->getForm()->getValues();
+//    dumpe($values->email);
     try {
       $this->user->setExpiration($values->remember ? '14 days' : '30 minutes');
 			$this->user->login($values->email, $values->password);
