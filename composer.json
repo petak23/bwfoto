@@ -33,10 +33,12 @@
 		"ublaboo/datagrid": "^6.2",
 		"ublaboo/datagrid-nette-database-data-source": "^2.0",
 		"texy/texy": "^3.1",
-		"ijvo/jquery-fileupload": "^2.1"
+		"ijvo/jquery-fileupload": "^2.1",
+		"oops/webpack-nette-adapter": "^1.3"
 	},
 	"require-dev": {
-		"nette/tester": "^2.0"
+		"nette/tester": "^2.0",
+		"symfony/thanks": "^1"
 	},
   "autoload": {
 		"classmap": ["app/Bootstrap.php"]

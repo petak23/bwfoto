@@ -24,7 +24,8 @@
   <meta name="keywords" content="{$udaje['keywords']}" />
   <meta name="author" content="{$udaje['autor']}" />
   <title n:snippet="title">{$udaje['titulka']} {block title|stripHtml|upper}{/block}</title>
-  {control files:css}
+  {*control files:css*}
+  <link rel="stylesheet" type="text/css" href="{webpack style.css}">
   {* ----- Favicon ------ *}
   {control favicon}
   {block head}{/block}
@@ -118,7 +119,8 @@
   </footer>
   {block lightbox}{/block}
 </div>
-  {control files:js}
+  <script src="{webpack bundle.js}"></script>
+  {*control files:js*}
   {block spec_js}{/block}
   {control googleAnalytics}
 </body>

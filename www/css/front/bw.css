@@ -1,5 +1,3 @@
-@charset "utf-8";
-
 h1
 {
 	font-family: "Fira Bold", "sans-serif";
@@ -64,7 +62,7 @@ nav.shrink .logo
 	margin-right: 1em;
 }
 #navbarSupportedContent form input[type=search] {
-	background: #ededed url(../../images/icons/lupa_32.png) no-repeat top 4px right 8px;
+	background: #ededed url('./lupa_32.png') no-repeat top 4px right 8px;
 	border: solid 1px #ccc;
 	padding: 9px 40px 9px 10px;
 	/*width: 50px;*/ /* Zakomentovane PV 2020-06-04 */
