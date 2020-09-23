@@ -4,16 +4,16 @@ div.texyla {
 }
 
 /*div.texyla ul.toolbar li span:hover {
-	background: url("../images/button-vista.png") no-repeat 50% 50%;
+	background: url("./images/button-vista.png") no-repeat 50% 50%;
 }*/
 
 /*div.texyla div.preview-wait {
-	background: url("../images/loader.gif") 10px 10px no-repeat;
+	background: url("./images/loader.gif") 10px 10px no-repeat;
 }*/
 
 /* dialog */
 /*.ui-dialog-content p.wait {
-	background: url("../images/loader.gif") 0 50% no-repeat;
+	background: url("./images/loader.gif") 0 50% no-repeat;
 }*/
 
 /* menu */
@@ -29,9 +29,9 @@ div.texyla div.textarea-container {
 }
 
 /*div.texyla ul.toolbar li.menu {
-	background-image: url("../images/menu.gif");
+	background-image: url("./images/menu.gif");
 }
 
 div.texyla ul.toolbar li.separator {
-	background-image: url("../images/separator.gif");
+	background-image: url("./images/separator.gif");
 }*/

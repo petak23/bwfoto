@@ -1,4 +1,8 @@
-@charset "utf-8";
+@import '../../../node_modules/@fortawesome/fontawesome-free/css/all.min.css'; 
+@import '../../../node_modules/bootstrap/dist/css/bootstrap.css';
+@import 'jquery-ui.css';
+@import '../../../vendor/ublaboo/datagrid/assets/datagrid.css';
+@import '../../../vendor/ublaboo/datagrid/assets/datagrid-spinners.css';
 
 @import 'formulare.css';
 @import 'lavy.css';
