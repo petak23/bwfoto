@@ -1,0 +1,18 @@
+@font-face {
+    font-family: "Fira Bold";
+    src: url(./fonts/firasans-bold.woff) format('woff');
+}
+@font-face {
+    font-family: "Fira";
+    src: url(./fonts/firasans-book.woff) format('woff');
+}
+@font-face {
+    font-family: "Fira-extrabold";
+    src: url(./fonts/firasans-extrabold.woff) format('woff');
+}
+@font-face {
+    font-family: "Fira Light";
+    src: url(./fonts/firasans-light.woff) format('woff');
+}
+/*
+@import url('https://fonts.googleapis.com/css?family=Fira+Sans:300,300i,700,700i&subset=latin-ext');*/

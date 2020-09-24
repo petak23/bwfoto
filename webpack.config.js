@@ -6,8 +6,9 @@ module.exports = {
     publicPath: '/assets/'
   },
   entry: {
-    front: ['./www/js/main.js', './www/css/front/main.css' ],
-    admin: ['./www/css/admin/main.css']
+    front: ['./www/front/css/main.css', './www/front/js/main.js'],
+    admin: ['./www/admin/css/main.css', './www/admin/js/main.js'],
+    texyla: ['./www/texyla/css/main.css', './www/texyla/texyla-init.js']
   },
   mode: (process.env.NODE_ENV === 'production') ? 'production' : 'development',
   resolve: {

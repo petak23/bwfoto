@@ -1,10 +1,11 @@
 import jquery from 'jquery';
 import 'bootstrap/dist/js/bootstrap.bundle';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import naja from 'naja';
 import netteForms from 'nette-forms';
 import Vue from 'vue';
 import axios from 'axios'
+import './pomocne_front.js';
+import './nav-shrink.js';
 
 /*
  * node_modules/jquery/dist/jquery.min.js

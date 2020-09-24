@@ -4,7 +4,7 @@
  *
  *	Modul: ADMIN
  *
- * Posledna zmena(last change): 13.05.2020
+ * Posledna zmena(last change): 24.09.2020
  * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
@@ -30,8 +30,8 @@
   <meta name="robots" content="noindex" />
 	<meta name="author" content="{$udaje['autor']}" />
 	<title>{$udaje['titulka']} - Administracia</title>
-  {control files:css}
-  
+  {*control files:css*}
+  <link rel="stylesheet" type="text/css" href="{webpack admin.css}">
   <!-- upload -->
   {\Zet\FileUpload\FileUploadControl::getHead($basePath . '/vendor/ijvo/jquery-fileupload/src/www/')}
   {block spec_css}{/block}
@@ -126,8 +126,9 @@
       </div>
     </div>
   </div>
-  {control files:js}
-  
+  {*control files:js*}
+  <script src="{webpack admin.js}"></script>
+  <script src="{webpack texyla.js}"></script>
   <!-- upload -->
   {\Zet\FileUpload\FileUploadControl::getScripts($basePath . '/vendor/ijvo/jquery-fileupload/src/www/')}
   {block spec_js}{/block}

@@ -40,9 +40,9 @@ div.texyla .bottom-toolbar .tabs .btn {border-top:none; margin-right: 0;}
 div.texyla .bottom-toolbar .tabs .btn.ui-state-active {line-height:30px; cursor:default;}
 
 /* pluginy */
-.ui-dialog-content .tab-background {width:81px; height:81px; position:absolute; top:19px; right:21px; background:url('../../js/texyla/plugins/table/table-background.gif');}
+.ui-dialog-content .tab-background {width:81px; height:81px; position:absolute; top:19px; right:21px; background:url('../plugins/table/table-background.gif');}
 .ui-dialog-content .tab-control {width:80px; height:80px; position:absolute; top:0; left:0;}
-.ui-dialog-content .tab-selection {width:16px; height:16px; position:absolute; top:0; left:0; background:url('../../js/texyla/plugins/table/table-selection.gif');}
+.ui-dialog-content .tab-selection {width:16px; height:16px; position:absolute; top:0; left:0; background:url('../plugins/table/table-selection.gif');}
 
 .ui-dialog-content .emoticons {line-height:1em;}
 .ui-dialog-content .emoticons img {margin:1px; padding:5px; cursor:pointer; display:inline-block;}

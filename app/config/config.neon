@@ -82,7 +82,6 @@ includes:
   - services.neon
   - ../AdminModule/config/config.neon
   - ../FrontModule/config/config.neon
-  - css_js.neon
   - komponenty.neon
   - database.neon
 

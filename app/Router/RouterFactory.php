@@ -42,7 +42,7 @@ class RouterFactory {
     $router[] = new Route('clanky/home', 'Front:Homepage:default', Route::ONE_WAY);
 
     $router[] = $adminRouter = new RouteList('Admin');
-    $adminRouter[] = new Route('admin/clanky[/<action=default>]/<id>', [
+    $adminRouter[] = new Route('administration/clanky[/<action=default>]/<id>', [
       'presenter' => 'Clanky',
       'id' => [ Route::FILTER_IN => function ($id) use ($servis) {
                     if (is_numeric($id)) {
@@ -62,7 +62,7 @@ class RouterFactory {
                 }
             ],
     ]);
-    $adminRouter[] = new Route('admin/<presenter>/<action>', 'Homepage:default');
+    $adminRouter[] = new Route('administration/<presenter>/<action>', 'Homepage:default');
     
 
 
