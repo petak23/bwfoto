@@ -9,9 +9,12 @@
  * @version 1.0.2
  */
 
+import Vue from 'vue';
+import axios from 'axios';
+
 Vue.component('fotogalery', {
   
-})
+});
 
 Vue.component('slider', {
   props: {
@@ -21,7 +24,7 @@ Vue.component('slider', {
     }
   },
   template: `<img :src="source" alt="Slider">`
-})
+});
 
 Vue.component('autocomplete', {
   props: {
