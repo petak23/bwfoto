@@ -1,6 +1,7 @@
 const path = require('path');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-
+var AssetsPlugin = require('assets-webpack-plugin')
+ 
 module.exports = {
   devServer: {
     publicPath: '/assets/'
@@ -19,12 +20,16 @@ module.exports = {
     modules: ['node_modules']
   },
   output: {
-    filename: '[name].js', //.[contenthash:8]
+    filename: '[name].[contenthash:8].js',
     path: path.join(__dirname, 'www', 'assets')
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: "[name].css" //[contenthash:8].
+      filename: "[name].[contenthash:8].css"
+    }),
+    new AssetsPlugin({ // Pre aplikaciu filename: '[name].[contenthash:8].[ext]' a prepojenie s nette
+      includeManifest: 'manifest',
+      path: path.join(__dirname, 'www', 'assets')
     })
   ],
   module: {
