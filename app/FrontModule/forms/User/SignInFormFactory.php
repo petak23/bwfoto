@@ -10,13 +10,13 @@ use Nette\Security;
 
 /**
  * Sign in form
- * Last change 09.09.2020
+ * Last change 03.10.2020
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.1.0
+ * @version    1.1.1
  */
 class SignInFormFactory {
   /** @var User */

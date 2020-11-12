@@ -60,7 +60,7 @@
         {/if}
       </div>
       <div class="col-4 thumbnails row" n:inner-foreach="$attachments as $id => $at">
-        <div class="col-12 col-md-6 col-lg-4 col-xl-2 thumb">
+        <div class="col-12 col-md-6 col-lg-4 thumb">
         {var $a = $at['article']}
           <a n:href="openAsBigImage! $id" title="Odkaz {$at['type'] == 'menu' ? $a->view_name : $a->name}" n:class="thumb-a, ajax, $big_img['id'] == $id ? selected">
             {if $at['type'] == "menu"} {* Main menu articles *}

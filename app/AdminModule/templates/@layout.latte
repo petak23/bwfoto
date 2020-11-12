@@ -4,7 +4,7 @@
  *
  *	Modul: ADMIN
  *
- * Posledna zmena(last change): 13.05.2020
+ * Posledna zmena(last change): 12.11.2020
  * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
@@ -19,7 +19,7 @@
  * @param Nette\Database\Table\Selection  $admin_menu     Menu administracie
  * @param Nette\Database\Table\ActiveRow  $verzia         Info o aktualnej verzii
  *}
-
+{var $robots = noindex}
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,8 +30,7 @@
   <meta name="robots" content="noindex" />
 	<meta name="author" content="{$udaje['autor']}" />
 	<title>{$udaje['titulka']} - Administracia</title>
-  {control files:css}
-  
+  <link rel="stylesheet" type="text/css" href="{webpack admin.css}">
   <!-- upload -->
   {\Zet\FileUpload\FileUploadControl::getHead($basePath . '/vendor/ijvo/jquery-fileupload/src/www/')}
   {block spec_css}{/block}
@@ -42,7 +41,7 @@
 </head>
 
 <body>
-  <div class="container-fluid">
+  <div class="container-fluid" id="vueappadmin">
     <div class="row">
       <div class="col bg-dark">
         <nav class="navbar navbar-expand-md navbar-dark bg-dark">
@@ -126,22 +125,9 @@
       </div>
     </div>
   </div>
-  {control files:js}
-  
-  <!-- upload -->
-  {\Zet\FileUpload\FileUploadControl::getScripts($basePath . '/vendor/ijvo/jquery-fileupload/src/www/')}
+  <script src="{webpack admin.js}"></script>
   {block spec_js}{/block}
-  <script type="text/javascript">
-    $.texyla.setDefaults({
-      baseDir: {$baseUrl} + '/www/js/texyla',
-      iconPath: {$baseUrl} + '/www/ikonky/icons/%var%.png',
-      previewPath: {$previewPath},
-      filesPath: {$filesPath},
-      filesUploadPath: {$filesUploadPath},
-      filesMkDirPath: {$filesMkDirPath},
-      filesRenamePath: {$filesRenamePath},
-      filesDeletePath: {$filesDeletePath}
-    });
-</script>
+  <!-- upload -->
+  
 </body>
 </html>

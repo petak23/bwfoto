@@ -10,13 +10,19 @@
     <!-- Nav tabs -->
     <ul class="nav nav-tabs clanky-tabs" role="tablist" id="articleTab">
       <li class="nav-item">
-        <a class="nav-link {$tabs == 'prilohy-tab' ? active}" id="prilohy-tab" href="#prilohyt" aria-controls="prilohy" role="tab" data-toggle="tab" aria-selected="{$tabs == 'prilohy-tab' ? 'true' : 'false'}">Prílohy</a>
+        <a n:class="nav-link, $tabs == 'prilohy-tab' ? active" id="prilohy-tab" href="#prilohyt" aria-controls="prilohy" role="tab" data-toggle="tab" aria-selected="{$tabs == 'prilohy-tab' ? 'true' : 'false'}">
+          Prílohy{if count($prilohy)} ({count($prilohy)}){/if}
+        </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link {$tabs == 'products-tab' ? active}" id="products-tab" href="#productst" aria-controls="products" role="tab" data-toggle="tab" aria-selected="{$tabs == 'products-tab' ? 'true' : 'false'}">Produkty</a>
+        <a n:class="nav-link, $tabs == 'products-tab' ? active" id="products-tab" href="#productst" aria-controls="products" role="tab" data-toggle="tab" aria-selected="{$tabs == 'products-tab' ? 'true' : 'false'}">
+          Produkty{if $products_count} ({$products_count}){/if} 
+        </a>
       </li>
       <li class="nav-item" n:if="$user->isInRole('admin')">
-        <a class="nav-link {$tabs == 'components-tab' ? active}" id="components-tab" href="#componentst" aria-controls="components" role="tab" data-toggle="tab" aria-selected="{$tabs == 'components-tab' ? 'true' : 'false'}">Komponenty</a>
+        <a class="nav-link {$tabs == 'components-tab' ? active}" id="components-tab" href="#componentst" aria-controls="components" role="tab" data-toggle="tab" aria-selected="{$tabs == 'components-tab' ? 'true' : 'false'}">
+          Komponenty{if count($komponenty)} ({count($komponenty)}){/if}
+        </a>
       </li>
     </ul>
 
@@ -25,7 +31,7 @@
       <div role="tabpanel" class="tab-pane fade {if $tabs == 'prilohy-tab'} show active{/if}" id="prilohyt" aria-labelledby="prilohy-tab">{snippet prilohy}{control prilohyClanok}{/snippet}</div>
       <div role="tabpanel" class="tab-pane fade {if $tabs == 'products-tab'} show active{/if}" id="productst" aria-labelledby="products-tab">{snippet products}{control products}{/snippet}</div>
       <div role="tabpanel" class="tab-pane fade {if $tabs == 'components-tab'} show active{/if}" id="componentst" aria-labelledby="components-tab" n:if="$user->isInRole('admin')">{snippet komponenty} {*control komponenty*} {/snippet}
-        <div {*n:if="FALSE"*} class="panel panel-success row">
+        <div class="panel panel-success row">
           <div class="col-12 panel-body komponenty" n:if="$user->isAllowed('Admin:Clanky', 'komponenty') && count($zoznam_komponent)">
             <h3>Pridanie</h3>
             <ul n:inner-foreach="$zoznam_komponent as $zkk=>$zkv">
@@ -72,3 +78,8 @@
     </div>
   </div>
 </div>
+{/block}
+
+{block spec_js}
+<script src="{$basePath}/jquery_ui/jquery.js"></script>
+{\Zet\FileUpload\FileUploadControl::getScripts($basePath . '/vendor/ijvo/jquery-fileupload/src/www/')}

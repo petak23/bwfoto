@@ -2,13 +2,14 @@
 namespace App\AdminModule\Presenters;
 
 use App\AdminModule\Components;
+use DbTable;
 use Nette\Application\UI\Form;
 use PeterVojtech;
 
 /**
  * Prezenter pre spravu clankov.
  * 
- * Posledna zmena(last change): 26.03.2020
+ * Posledna zmena(last change): 12.11.2020
  *
  *	Modul: ADMIN
  *
@@ -16,7 +17,7 @@ use PeterVojtech;
  * @copyright Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.3.3
+ * @version 1.3.4
  */
 
 class ClankyPresenter extends ArticlePresenter {
@@ -28,8 +29,12 @@ class ClankyPresenter extends ArticlePresenter {
   public $prilohyClanokControlFactory;
   /** @var Components\Clanky\Komponenty\IKomponentyControl @inject */
   public $komponentyControlFactory;
+  
   /** @var Components\Products\IProductsControl @inject */
   public $productsControlFactory;
+  /** @var DbTable\Products @inject */
+  public $products;
+  
   
 	/** @var string */
   protected $nadpis_h2 = "";
@@ -50,6 +55,7 @@ class ClankyPresenter extends ArticlePresenter {
 	public function renderDefault() {
     parent::renderDefault();
 		$this->template->prilohy = $this->dokumenty->getPrilohy($this->zobraz_clanok->id_hlavne_menu);
+    $this->template->products_count = $this->products->findBy(['id_hlavne_menu'=>$this->zobraz_clanok->id_hlavne_menu])->count();
     //Zisti, ci su k clanku priradene komponenty
     $this->template->komponenty = $this->clanok_komponenty->getKomponenty($this->zobraz_clanok->id_hlavne_menu, $this->nastavenie["komponenty"]);
     //Kontrola jedinecnych komponent. Ak uz su priradene tak sa vypustia

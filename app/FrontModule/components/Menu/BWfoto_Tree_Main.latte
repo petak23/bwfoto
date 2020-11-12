@@ -1,32 +1,36 @@
 {define #node}
 {if $node}
-  {var $isDropdown = count($node->nodes) > 0}
+  {var $isDropdown = count($node->nodes) > 1}
   {var $see = !isset($hideName) || !$hideName}
 	{if $see}
-    <li n:class="nav-item, $isDropdown ? dropdown, $node->getItemClass()">
-      <a href="{$node->link}" title="{$node->name}"            
-         n:class="nav-link, $node->getItemClass('active')"
-      >
-        {$node->name}
-        <br n:ifset="$node->tooltip" />
-        <small n:ifset="$node->tooltip">{$node->tooltip}</small>
-      </a>
-      <a n:if="$isDropdown" class="dropdown-toggle" href="#" 
-         id="navbarDropdownMenuLink-{$node->id}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      </a>
-      {if $isDropdown}<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink-{$node->id}">{/if}
+    <li class="nav-item"> {* class="nav-item{if $isDropdown} dropdown{/if} {$node->getItemClass()}" *}
+      {if $node->link}
+        <a href="{$node->link}" title="{$node->name}"            
+           class="nav-link {$node->getItemClass('active')}"
+           {if $isDropdown} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" {/if}
+        > {* class="{$level > 2 ? 'dropdown-item' : ($isDropdown ? 'dropdown-toggle' : 'nav-link')}"  *}
+          {$node->name}
+          <br n:if="isset($node->tooltip)" />
+          <small n:if="isset($node->tooltip)">{$node->tooltip}</small>
+        </a>
+      {else}
+        <span>{$node->name}</span>
+      {/if}
  	{else}
 		{var $hideName = false}
 	{/if}
   
-    <ul n:if="$isDropdown" n:class="navbar-nav, $level == 1 ? mr-md-2, flex-grow-1, justify-content-end">
+	{if $isDropdown}
+    <ul class="navbar-nav mr-md-2 flex-grow-1 justify-content-end"> {* n:class="$level==1 ? 'navbar-nav' : 'dropdown-menu'" *}
+      {var $level = $level + 1}
       {var $n = $node->poradie_podclankov ? array_reverse($node->nodes) : $node->nodes}
       {foreach $n as $subNode}
-        {include #node, node => $subNode, hideName => $hideName, level => $level + 1}
+        {include #node, node => $subNode, hideName => $hideName, level => $level}
       {/foreach}
+      {var $level = $level - 1}
     </ul>
+	{/if}
   {if $see}
-      {if $isDropdown}</div>{/if}
     </li>
   {else}
 		{var $hideName = false}

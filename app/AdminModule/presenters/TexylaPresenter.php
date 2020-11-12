@@ -46,6 +46,12 @@ class TexylaPresenter extends BasePresenter {
 		$html = $this->texy->process($this->httpRequest->getPost("texy"));
 		$this->sendResponse(new TextResponse($html));
 	}
+  
+  /** Texyla preview */
+	public function actionPreviewNew($s)	{
+		$html = $this->texy->process($s);
+		$this->sendResponse(new TextResponse($html));
+	}
 
 	// files plugin
 

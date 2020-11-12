@@ -82,6 +82,19 @@ includes:
   - services.neon
   - ../AdminModule/config/config.neon
   - ../FrontModule/config/config.neon
-  - css_js.neon
   - komponenty.neon
   - database.neon
+
+extensions:
+  webpack: Oops\WebpackNetteAdapter\DI\WebpackExtension(%debugMode%, %consoleMode%)
+
+webpack:
+  build:
+    directory: %wwwDir%/assets
+    publicPath: assets/
+  devServer:
+    enabled: %debugMode%
+    url: http://localhost:8080/bwfoto/assets
+  manifest:  # Cez tento subor je prepojenie na filename: '[name].[contenthash:8].[ext]' vo webpack-u
+    name: webpack-assets.json  # ./www/assets/webpack-assets.json
+    mapper: Oops\WebpackNetteAdapter\Manifest\Mapper\AssetsWebpackPluginMapper

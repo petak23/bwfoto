@@ -1,13 +1,12 @@
-{* Sablona pre vypis uzivatelov
+{* Sablona pre vypis udajov webu
  *
  * Modul: ADMIN
  *
- * Posledna zmena(last change): 14.11.2018
- * @copyright  Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
+ * Posledna zmena(last change): 09.11.2020
+ * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
  *
- * @param Nette\Database\Table\Selection  $udaje_w  udaje z DB
  *}
 {block content}
 <div class="col-12">
@@ -40,8 +39,14 @@
           <tr n:foreach="$udaje_w as $u">
             <td>{$u->comment}</td>
             <td n:if="$user->isInRole('admin')">{$u->nazov}</td>
-            <td n:if="$u->id_udaje_typ == 3 " n:class="$u->text == 1 ? success : danger">{$p = $u->text == 1 ? 'Povolene' : 'Zakázané'}</td>
-            <td n:if="$u->id_udaje_typ <> 3 ">{$u->text}</td>
+            <td n:if="$u->id_udaje_typ == 3" n:class="text-white, $u->text == 1 ? bg-success : bg-danger">
+              {$p = $u->text == 1 ? 'Povolene' : 'Zakázané'}
+            </td>
+            <td n:if="$u->id_udaje_typ == 2">
+              {var $ra = ($u->comment|uprav_radio)}
+              {$ra[(int)$u->text]}
+            </td>
+            <td n:if="$u->id_udaje_typ < 2 ">{$u->text}</td>
             <td n:if="$user->isInRole('admin')">{$u->user_roles->role}</td>
             <td n:if="$user->isInRole('admin')">{ifset $u->id_druh}{$u->druh->presenter}{/ifset}</td>
             <td n:if="$user->isInRole('admin')">{$u->udaje_typ->nazov}</td>

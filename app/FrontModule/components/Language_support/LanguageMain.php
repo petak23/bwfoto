@@ -8,13 +8,13 @@ use Nette;
 /**
  * Hlavna trieda pre podporu jazykov lang_supp_main pre presentre vo FrontModule.
  * 
- * Posledna zmena(last change): 30.12.2019
+ * Posledna zmena(last change): 12.11.2020
  * 
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2019 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.9
+ * @version 1.2.0
  *
  * @property-read string $jazyk Skratka aktualneho jazyka
  * @property-read int $language_id Id aktualneho jazyka
@@ -42,7 +42,7 @@ class LanguageMain implements Nette\Localization\ITranslator {
    * Pripojenie textov z neon súboru
    * @param string $file subor aj s cestou
    * @return $this */
-  public function appendLanguageFile(string $file) { //dump($file);
+  public function appendLanguageFile(string $file) {
     $this->out_texty = array_merge($this->out_texty, Nette\Neon\Neon::decode(file_get_contents($file)));
     return $this;
   }
