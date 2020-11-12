@@ -108,7 +108,7 @@ CREATE TABLE `dokumenty` (
   `description` varchar(255) COLLATE utf8_bin DEFAULT NULL COMMENT 'Popis dokumentu',
   `main_file` varchar(255) COLLATE utf8_bin NOT NULL COMMENT 'Názov súboru s relatívnou cestou',
   `thumb_file` varchar(255) COLLATE utf8_bin DEFAULT NULL COMMENT 'Názov súboru thumb pre obrázky a iné ',
-  `change` datetime NOT NULL COMMENT 'Dátum uloženia alebo opravy - časová pečiatka',
+  `change` datetime /* mariadb-5.3 */ NOT NULL COMMENT 'Dátum uloženia alebo opravy - časová pečiatka',
   `zobraz_v_texte` tinyint(4) NOT NULL DEFAULT 1 COMMENT 'Zobrazenie obrázku v texte',
   `type` tinyint(4) NOT NULL DEFAULT 1 COMMENT 'Typ prílohy',
   `pocitadlo` int(11) NOT NULL DEFAULT 0 COMMENT 'Počítadlo stiahnutí',
@@ -306,7 +306,7 @@ CREATE TABLE `faktury` (
   `subor` varchar(50) COLLATE utf8_bin NOT NULL COMMENT 'Názov súboru s relatívnou cestou',
   `id_user_main` int(11) NOT NULL DEFAULT 1 COMMENT 'Kto pridal dokument',
   `id_reg` int(11) NOT NULL DEFAULT 0 COMMENT 'Úroveň registrácie',
-  `kedy` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'Dátum uloženia alebo opravy - časová pečiatka',
+  `kedy` timestamp /* mariadb-5.3 */ NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'Dátum uloženia alebo opravy - časová pečiatka',
   `pocitadlo` int(11) NOT NULL DEFAULT 0 COMMENT 'Počítadlo stiahnutí',
   `id_skupina` int(11) NOT NULL DEFAULT 0 COMMENT 'Id článku do ktorej časti dokument patrí',
   `id_rok` int(11) NOT NULL DEFAULT 0 COMMENT 'Id roku do ktorého sa má zaradiť',
@@ -389,12 +389,12 @@ CREATE TABLE `hlavne_menu` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Položky hlavného menu';
 
 INSERT INTO `hlavne_menu` (`id`, `spec_nazov`, `id_hlavne_menu_cast`, `id_user_roles`, `id_ikonka`, `id_druh`, `uroven`, `id_nadradenej`, `id_user_main`, `poradie`, `poradie_podclankov`, `id_hlavicka`, `id_hlavne_menu_opravnenie`, `zvyrazni`, `pocitadlo`, `nazov_ul_sub`, `id_hlavne_menu_template`, `absolutna`, `ikonka`, `avatar`, `komentar`, `modified`, `datum_platnosti`, `aktualny_projekt`, `redirect_id`, `id_dlzka_novinky`, `border_a`, `border_b`, `border_c`, `id_user_categories`) VALUES
-(1,	'bw-fotografia',	1,	0,	NULL,	1,	0,	NULL,	2,	1,	1,	1,	0,	0,	0,	NULL,	3,	NULL,	NULL,	'zqqzqharq0m1h9j.jpg',	0,	'2020-03-24 10:45:22',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
-(2,	'architekura',	1,	0,	NULL,	1,	0,	NULL,	2,	3,	1,	1,	0,	0,	0,	NULL,	3,	NULL,	NULL,	'93eca27ct6k1szj.jpg',	0,	'2020-03-22 00:33:31',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
-(3,	'foto-rgb',	1,	0,	NULL,	1,	0,	NULL,	2,	5,	0,	1,	0,	0,	0,	NULL,	3,	NULL,	NULL,	'jlhbvumzttwtah7.jpg',	0,	'2017-11-03 07:57:10',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
-(4,	'produkty',	1,	0,	NULL,	1,	0,	NULL,	2,	2,	0,	2,	0,	0,	0,	NULL,	1,	NULL,	NULL,	'5663at38ptotbps.png',	0,	'2017-11-03 07:50:20',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
-(5,	'novinky',	1,	0,	NULL,	1,	0,	NULL,	2,	4,	0,	2,	0,	0,	0,	NULL,	1,	NULL,	NULL,	'adpkihqqxy4pihf.png',	0,	'2017-11-03 07:49:47',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
-(6,	'vystavy',	1,	0,	NULL,	1,	0,	NULL,	2,	6,	0,	2,	0,	0,	0,	NULL,	1,	NULL,	NULL,	's5nqbzkyc7tp40x.png',	0,	'2020-03-26 08:40:26',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
+(1,	'bw-fotografia',	1,	0,	NULL,	1,	0,	NULL,	2,	1,	1,	1,	0,	0,	0,	NULL,	3,	NULL,	NULL,	'yoqbbmz50719hcw.jpg',	0,	'2020-07-30 08:03:47',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
+(2,	'architekura',	1,	0,	NULL,	1,	0,	NULL,	2,	3,	1,	1,	0,	0,	0,	NULL,	3,	NULL,	NULL,	'fb3h6iptfr3nmpy.jpg',	0,	'2020-07-30 08:21:01',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
+(3,	'foto-rgb',	1,	0,	NULL,	1,	0,	NULL,	2,	5,	0,	1,	0,	0,	0,	NULL,	3,	NULL,	NULL,	'kp6o63rig50fdrz.jpg',	0,	'2020-07-30 08:07:14',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
+(4,	'produkty',	1,	0,	NULL,	1,	0,	NULL,	2,	2,	0,	2,	0,	0,	0,	NULL,	1,	NULL,	'images',	NULL,	0,	'2020-07-30 08:04:43',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
+(5,	'novinky',	1,	0,	NULL,	1,	0,	NULL,	2,	4,	0,	2,	0,	0,	0,	NULL,	1,	NULL,	'newspaper',	NULL,	0,	'2020-07-30 08:06:52',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
+(6,	'vystavy',	1,	0,	NULL,	1,	0,	NULL,	2,	6,	0,	2,	0,	0,	0,	NULL,	1,	NULL,	'archway',	NULL,	0,	'2020-07-30 08:07:36',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
 (9,	'cast-a-1',	1,	0,	NULL,	1,	1,	2,	2,	1,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'3zjqsfzl5baff44.jpg',	0,	'2017-10-05 05:42:11',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
 (10,	'cast-a-2',	1,	0,	NULL,	1,	1,	2,	2,	2,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'qejapifs8ada1do.JPG',	0,	'2017-10-05 05:42:11',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
 (11,	'obchodne-podmienky',	2,	0,	NULL,	1,	0,	NULL,	2,	1,	0,	0,	0,	0,	0,	NULL,	1,	NULL,	NULL,	NULL,	0,	'2017-10-05 05:54:09',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
@@ -544,7 +544,7 @@ DROP TABLE IF EXISTS `news`;
 CREATE TABLE `news` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
   `text` text COLLATE utf8_bin NOT NULL COMMENT 'Text novinky',
-  `created` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'Dátum novinky',
+  `created` timestamp /* mariadb-5.3 */ NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'Dátum novinky',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -621,7 +621,7 @@ CREATE TABLE `slider` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Popis obrázkou slideru aj s názvami súborov';
 
 INSERT INTO `slider` (`id`, `poradie`, `nadpis`, `popis`, `subor`, `zobrazenie`, `id_hlavne_menu`) VALUES
-(6,	1,	NULL,	NULL,	'TITULK-A-TEST-2020-11-zmena-velikosti.jpg',	NULL,	NULL),
+(6,	1,	NULL,	NULL,	'bg-site1.jpg',	NULL,	NULL),
 (7,	2,	'',	'',	'bg-bwb.png',	'2',	NULL),
 (12,	3,	NULL,	NULL,	'TITULK-A-TEST-2020-11-zmena-velikosti2.jpg',	'11',	NULL),
 (13,	4,	NULL,	NULL,	'TITULK-A-TEST-2020-5-zmena-velikosti.jpg',	'12',	NULL);
@@ -646,12 +646,12 @@ CREATE TABLE `udaje` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Tabuľka na uschovanie základných údajov o stránke';
 
 INSERT INTO `udaje` (`id`, `id_user_roles`, `id_druh`, `id_udaje_typ`, `nazov`, `text`, `comment`, `separate_settings`) VALUES
-(1,	5,	NULL,	1,	'titulka-sk',	'BWfoto',	'Názov zobrazený v titulke',	0),
+(1,	4,	NULL,	1,	'titulka-sk',	'BW Foto - Ateliér architektúry a fotografie',	'Názov zobrazený v titulke',	0),
 (2,	5,	NULL,	1,	'titulka_2-sk',	'',	'Druhá časť titulky pre jazyk: sk',	0),
 (3,	5,	NULL,	1,	'titulka_citat_enable',	'0',	'Povolenie zobrazenia citátu',	0),
 (4,	5,	NULL,	1,	'titulka_citat_podpis',	'',	'Podpis pod citát na titulke',	0),
 (5,	5,	NULL,	1,	'titulka_citat-sk',	'',	'Text citátu, ktorý sa zobrazí na titulke pre jazyk: sk',	0),
-(6,	5,	NULL,	1,	'keywords-sk',	'BWfoto, Spišské Bystré, fotograf',	'Kľúčové slová',	0),
+(6,	4,	NULL,	1,	'keywords-sk',	'BW Foto, Spišské Bystré, ateliér,  architektúra, fotografie',	'Kľúčové slová',	0),
 (7,	5,	NULL,	1,	'autor',	'Ing. Peter VOJTECH ml. - VZ',	'Autor stránky',	0),
 (8,	5,	NULL,	1,	'log_out-sk',	'Odhlás sa...',	'Text pre odkaz na odhlásenie sa',	0),
 (9,	5,	NULL,	1,	'log_in-sk',	'Prihlás sa',	'Text pre odkaz na prihlásenie sa',	0),
@@ -659,7 +659,7 @@ INSERT INTO `udaje` (`id`, `id_user_roles`, `id_druh`, `id_udaje_typ`, `nazov`, 
 (11,	5,	NULL,	1,	'register-sk',	'Registrácia',	'Text pre odkaz na registráciu',	0),
 (12,	5,	NULL,	1,	'last_update-sk',	'Posledná aktualizácia',	'Text pre odkaz na poslednú aktualizáciu',	0),
 (13,	4,	NULL,	1,	'spravca-sk',	'Správca obsahu',	'Text pre odkaz na správcu',	0),
-(14,	4,	NULL,	1,	'copy',	'BWfoto',	'Text, ktorý sa vypíše za znakom copyright-u',	0),
+(14,	4,	NULL,	1,	'copy',	'BW Foto',	'Text, ktorý sa vypíše za znakom copyright-u',	0),
 (15,	5,	NULL,	1,	'no_exzist-sk',	'To čo hľadáte nie je ešte v tomto jazyku vytvorené!',	'Text ak položka v danom jazyku neexzistuje pre jazyk:sk',	0),
 (16,	5,	NULL,	1,	'nazov_uvod-sk',	'Úvod',	'Text pre odkaz na východziu stránku pre jazyk:sk',	0),
 (17,	5,	NULL,	3,	'komentare',	'0',	'Globálne povolenie komentárov',	0),
@@ -729,12 +729,12 @@ CREATE TABLE `user_main` (
   `banned` tinyint(1) NOT NULL DEFAULT 0 COMMENT 'Zazázaný',
   `ban_reason` varchar(255) COLLATE utf8_bin DEFAULT NULL COMMENT 'Dôvod zákazu',
   `new_password_key` varchar(100) COLLATE utf8_bin DEFAULT NULL COMMENT 'Kľúč nového hesla',
-  `new_password_requested` datetime DEFAULT NULL COMMENT 'Čas požiadavky na nové heslo',
+  `new_password_requested` datetime /* mariadb-5.3 */ DEFAULT NULL COMMENT 'Čas požiadavky na nové heslo',
   `new_email` varchar(100) COLLATE utf8_bin DEFAULT NULL COMMENT 'Nový email',
   `new_email_key` varchar(100) COLLATE utf8_bin DEFAULT NULL COMMENT 'Kľúč nového emailu',
   `last_ip` varchar(40) COLLATE utf8_bin DEFAULT NULL COMMENT 'Posledná IP',
-  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'Vytvorenie užívateľa',
-  `modified` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'Posledná zmena',
+  `created` datetime /* mariadb-5.3 */ NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'Vytvorenie užívateľa',
+  `modified` timestamp /* mariadb-5.3 */ NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'Posledná zmena',
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
   KEY `id_registracia` (`id_user_roles`),
@@ -744,7 +744,7 @@ CREATE TABLE `user_main` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Hlavné údaje užívateľa';
 
 INSERT INTO `user_main` (`id`, `id_user_roles`, `id_user_profiles`, `password`, `meno`, `priezvisko`, `email`, `activated`, `banned`, `ban_reason`, `new_password_key`, `new_password_requested`, `new_email`, `new_email_key`, `last_ip`, `created`, `modified`) VALUES
-(1,	5,	1,	'$2y$10$RnzAjUCyc/B1GgiJ9k43/e27BDz5j1vsbN.DYlfnXIxweBvqxkABq',	'Peter',	'Vojtech',	'petak23@gmail.com',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'212.89.239.228',	'2017-05-15 09:11:19',	'2020-07-14 03:38:43'),
+(1,	5,	1,	'$2y$10$RnzAjUCyc/B1GgiJ9k43/e27BDz5j1vsbN.DYlfnXIxweBvqxkABq',	'Peter',	'Vojtech',	'petak23@gmail.com',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'217.12.48.22',	'2017-05-15 09:11:19',	'2020-11-10 10:33:29'),
 (2,	4,	2,	'$2y$10$0KPg/2sE8I5EjAsgolRttulqhQPsUoVrhIHAxX8Ej3NAOHGuZIbW.',	'Juraj',	'Zámečník',	'bwfoto@bwfoto.sk',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.143.98.194',	'2017-05-15 09:13:38',	'2020-05-15 17:26:00'),
 (3,	4,	3,	'$2y$10$VOeK4y3ozjaUM1aMtiVmcuHRmtcmoVvC6J4yFX4j0LZoNbXlejyMi',	'Jozef',	'Petrenčík',	'jozue@anigraph.eu',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.253.139.152',	'2017-05-15 09:12:22',	'2017-07-11 07:10:29');
 
@@ -801,7 +801,7 @@ DROP TABLE IF EXISTS `user_prihlasenie`;
 CREATE TABLE `user_prihlasenie` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
   `id_user_main` int(11) NOT NULL COMMENT 'Id užívateľa',
-  `log_in_datetime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'Dátum a čas prihlásenia',
+  `log_in_datetime` datetime /* mariadb-5.3 */ NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'Dátum a čas prihlásenia',
   PRIMARY KEY (`id`),
   KEY `id_user_profiles` (`id_user_main`),
   CONSTRAINT `user_prihlasenie_ibfk_1` FOREIGN KEY (`id_user_main`) REFERENCES `user_main` (`id`)
@@ -851,7 +851,15 @@ INSERT INTO `user_prihlasenie` (`id`, `id_user_main`, `log_in_datetime`) VALUES
 (69,	1,	'2020-05-26 15:48:32'),
 (70,	1,	'2020-05-31 16:58:58'),
 (71,	1,	'2020-06-15 11:06:10'),
-(72,	1,	'2020-07-14 05:38:43');
+(72,	1,	'2020-07-14 05:38:43'),
+(73,	1,	'2020-07-14 10:20:23'),
+(74,	1,	'2020-07-14 11:36:30'),
+(75,	1,	'2020-07-28 07:23:15'),
+(76,	1,	'2020-07-30 11:10:34'),
+(77,	1,	'2020-08-02 19:23:30'),
+(78,	1,	'2020-09-09 12:13:30'),
+(79,	1,	'2020-09-10 04:29:54'),
+(80,	1,	'2020-11-10 11:33:29');
 
 DROP TABLE IF EXISTS `user_profiles`;
 CREATE TABLE `user_profiles` (
@@ -869,7 +877,7 @@ CREATE TABLE `user_profiles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 INSERT INTO `user_profiles` (`id`, `rok`, `telefon`, `poznamka`, `pocet_pr`, `pohl`, `prihlas_teraz`, `avatar`, `news`, `news_key`) VALUES
-(1,	NULL,	NULL,	NULL,	49,	'M',	'2020-07-14 05:38:43',	NULL,	'A',	NULL),
+(1,	NULL,	NULL,	NULL,	57,	'M',	'2020-11-10 11:33:29',	NULL,	'A',	NULL),
 (2,	NULL,	NULL,	NULL,	23,	'M',	'2020-05-15 21:15:24',	NULL,	'A',	NULL),
 (3,	NULL,	NULL,	NULL,	0,	'M',	NULL,	NULL,	'A',	NULL);
 
@@ -905,7 +913,8 @@ INSERT INTO `user_resource` (`id`, `name`) VALUES
 (22,	'Edit:User'),
 (23,	'Edit:UserLog'),
 (24,	'Edit:Clanky'),
-(25,	'Admin:Products');
+(25,	'Admin:Products'),
+(26,	'Front:Search');
 
 DROP TABLE IF EXISTS `user_roles`;
 CREATE TABLE `user_roles` (
@@ -931,7 +940,7 @@ CREATE TABLE `verzie` (
   `cislo` varchar(10) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT 'Číslo verzie',
   `subory` varchar(255) COLLATE utf8_bin DEFAULT NULL COMMENT 'Zmenené súbory',
   `text` text COLLATE utf8_bin DEFAULT NULL COMMENT 'Popis zmien',
-  `modified` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'Dátum a čas zmeny',
+  `modified` timestamp /* mariadb-5.3 */ NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'Dátum a čas zmeny',
   PRIMARY KEY (`id`),
   UNIQUE KEY `cislo` (`cislo`),
   KEY `datum` (`modified`),
@@ -950,6 +959,7 @@ INSERT INTO `verzie` (`id`, `id_user_main`, `cislo`, `subory`, `text`, `modified
 (8,	1,	'0.2.1',	'Issue #4, #5, #6',	'Sumár:\n======\n**Zmena načítania produktov.**\n\n**V administrácii: oprava ikoniek; pre slider: pridanie kompletného stromu menu do formulára - položka: *Zobrazenie pre*;** \n\nDetaily:\n======\nFrontend\n----------\n- Úrava pre IE.\n- Načítanie produktov ajaxovo.\n- Oprava chyby pri zobrazení príloh alebo produktov.\n\nAdministrácia\n-------------\n- Oprava ikoniek v administrácii a odstránenie nepotrebných. \n- Presun nastavení produktov do samostatnej časti. Issue \"#5\":https://github.com/petak23/bwfoto/issues/5\n- V údajoch pridaná možnosť zobraziť alebo skryť separátne nastavenia.\n- Slider: Odstránenie väzby súborov na adresáre a presun ich nastavení do configu.\n- Slider: Pridanie kompletného stromu menu do formulára - položka: *Zobrazenie pre*.\n- Slider: zmena názvu ikoniek.\n- Presun nastavenia okrajového rámčeka na kartu produktov Issues \"#4\":https://github.com/petak23/bwfoto/issues/4\n- Odstránenie chyby v mazaní príloh\n\nOstatné\n-------\n- Oprava zobrazovania textu(texi) v emailoch. Issue \"#6\":https://github.com/petak23/bwfoto/issues/6\n- Odstránenie zmetočných adresárov v prílohách článkov a produktov. \n- Zmazanie nepotrebných častí.\n- Presun index.php do adresára www a s tým spojené zmeny.\n- Update fontawesome na verziu 5.2.0; \n- Update bootstrap na verziu 4.1.2; \n- Update adminer na verziu 4.3.6. \n- Použitie npm správcu. \n- Odstránenie zbytočných css a js.\n',	'2018-08-30 08:35:32'),
 (9,	1,	'0.3.0-alfa',	'Upgrade to v 0.3.0',	'- **Oprava chyby: zobrazenie prvého obrázku alebo produktu pri prvom zobrazení článku.**\n- Upgrade nette na verziu 2.4\n- Aplikácia zmien z echo-msz.eu ale s prispôsobením komponent na verziu PHP 7.0.33\n- Inovácia vzhľadu v administrácii, zatiaľ ešte nie úplne dokončená \"(AdminModule) .{color: gray}\".\n- Aktualizácia komponent vzhľadu v package.json \"(fontawesome: 5.2.0, bootstrap: 4.4.1, jquery: 3.4.1, naja: 1.5.1, nette-forms: 2.4.2, popper.js: 1.16.1) .{color: gray}\". \n- Aktualizácia správcu databázy \"(adminer v 4.7.6) .{color: gray}\". \n- Oprava chyby v menu FrontModule a upgrade pre novú verziu Texy.',	'2020-05-04 11:55:19'),
 (10,	1,	'0.3.0-beta',	'Rôzne; jquery 3.5.0',	'- Oprava drobných chýb v prihlásení.\n- Oprava chyby v slideri(issue \"#12\":https://github.com/petak23/bwfoto/issues/12). Rebase model/Table.php.\n- Rebase model/Dokumenty.php; model/Products.php a model/UserManager.php.\n- Oprava chyby v pridávaní podčlánku v adninistrácii.\n- Refaktoring fotogalérie na frontende.\n- Oprava zobrazenia produktov v AdminModule. \n- Update jquery na 3.5.0.\n- Oprava zobrazenia príloh vo FrontModule a premenovanie adresára presenters na Presenters.\n- Oprava issue \"#11\":https://github.com/petak23/bwfoto/issues/11 - A13 - V administracii pri zozname príloh( miniatúry fotografií) keď kliknem na foto aby sa mi zobrazila fotka tak sa zobrazí na ľavej strane - nie je vycentrovaná na stred',	'2020-05-04 12:02:51'),
-(11,	1,	'0.4.0-RC',	'Nette 3.0, adminer 4.7.7',	'- Oprava issue \"#10\":https://github.com/petak23/bwfoto/issues/10 - A10 - nekorektné zobrazenie úrovne 3. a 4.\n- Oprava zobrazenia formulárov na karte Produktu pre AdminModul a odstránenie chyby zobrazenia nastavenia okrajov. \n- Odstránenie chyby zobrazenia hlavného menu v AdminModul-e.\n- Úpravy potrebné pre prechod na nette 3.0,\n- odstránenie drobných chýb,\n- vypustenie webloader-a\n',	'2020-05-26 13:53:54');
+(11,	1,	'0.4.0-RC',	'Nette 3.0, adminer 4.7.7',	'- Oprava issue \"#10\":https://github.com/petak23/bwfoto/issues/10 - A10 - nekorektné zobrazenie úrovne 3. a 4.\n- Oprava zobrazenia formulárov na karte Produktu pre AdminModul a odstránenie chyby zobrazenia nastavenia okrajov. \n- Odstránenie chyby zobrazenia hlavného menu v AdminModul-e.\n- Úpravy potrebné pre prechod na nette 3.0,\n- odstránenie drobných chýb,\n- vypustenie webloader-a\n',	'2020-05-26 13:53:54'),
+(12,	1,	'0.5.0',	'Vzhľad, Oprava chýb A9 a A7',	'- Prvá časť zmeny vzhľadu: *Titulka, Prihlasovacia stránka*.\n- Oprava chyby \"#16\":https://github.com/petak23/bwfoto/issues/16 - **A9 - max. počet súčasne nahrávaných súborov**.\n- Oprava chyby \"#15\":https://github.com/petak23/bwfoto/issues/15 - **A7 - doplň priebeh uploadu - pre produkty**.\n- Doplnená možnosť nastavenia max. počtu naraz nahrávaných súborov v rozsahu 5 ... 150.\n- Integrácia prvej verzie komponenty pre vyhľadávanie na stránke.\n- Integrácia jQuery-FileUpload pre nahrávanie súborov.',	'2020-07-30 09:21:42');
 
--- 2020-07-14 03:40:34
+-- 2020-11-10 10:34:03

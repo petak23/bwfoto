@@ -1,2 +1,2 @@
 rd temp\cache/q/s
-del www\webtemp\*.*/q
+del www\assets\*.*/q 

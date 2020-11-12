@@ -1,19 +1,20 @@
 <?php
 namespace App\AdminModule\Components\Article\TitleArticle;
 
-use Nette;
 use DbTable;
+use Nette;
+use Nette\Application\UI\Form;
 
 /**
  * Komponenta pre vytvorenie hlavičky polozky.
  * 
- * Posledna zmena(last change): 26.05.2020
+ * Posledna zmena(last change): 04.08.2020
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
  * @copyright Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.7
+ * @version 1.1.8
  */
 
 class TitleArticleControl extends Nette\Application\UI\Control {
@@ -163,61 +164,94 @@ class TitleArticleControl extends Nette\Application\UI\Control {
 	}
   
   /** 
-   * @param Nette\Application\UI\Form $form
-   * @return Nette\Application\UI\Form */
-  protected function _formMessage(Nette\Application\UI\Form $form): Nette\Application\UI\Form {
+   * @param Form $form
+   * @return Form */
+  protected function _formMessage(Form $form): Form {
     $form['uloz']->onClick[] = function ($button) { 
       $this->presenter->flashOut(!count($button->getForm()->errors), 'this', 'Zmena bola úspešne uložená!', 'Došlo k chybe a zmena sa neuložila. Skúste neskôr znovu...');
 		};
-    return $this->presenter->_vzhladForm($form);
+    $renderer = $form->getRenderer();
+    // Vzhlad pre bootstrap 4 link: https://github.com/nette/forms/blob/96b3e90/examples/bootstrap4-rendering.php  
+    $renderer->wrappers['controls']['container'] = null;
+    $renderer->wrappers['pair']['container'] = 'div class="form-group row"';
+    $renderer->wrappers['pair']['.error'] = 'has-danger';
+    $renderer->wrappers['control']['container'] = 'div class=col-sm-9';
+    $renderer->wrappers['label']['container'] = 'div class="col-sm-3 col-form-label"';
+    $renderer->wrappers['control']['description'] = 'span class="form-text alert alert-info"';
+    $renderer->wrappers['control']['errorcontainer'] = 'span class="form-control-feedback alert alert-danger"';
+    $renderer->wrappers['control']['.error'] = 'is-invalid';
+
+    foreach ($form->getControls() as $control) {
+      $type = $control->getOption('type');
+      /*if ($type === 'button') {
+        $control->getControlPrototype()->addClass(empty($usedPrimary) ? 'btn btn-primary' : 'btn btn-secondary');
+        $usedPrimary = true;
+
+      } else*/if (in_array($type, ['text', 'textarea', 'select'], true)) {
+        $control->getControlPrototype()->addClass('form-control');
+
+      } elseif ($type === 'file') {
+        $control->getControlPrototype()->addClass('form-control-file');
+
+      } elseif (in_array($type, ['checkbox', 'radio'], true)) {
+        if ($control instanceof Nette\Forms\Controls\Checkbox) {
+          $control->getLabelPrototype()->addClass('form-check-label');
+        } else {
+          $control->getItemLabelPrototype()->addClass('form-check-label');
+        }
+        $control->getControlPrototype()->addClass('form-check-input');
+        $control->getSeparatorPrototype()->setName('div')->addClass('form-check');
+      }
+    }
+    return $form;
   }
 
   /** 
    * Komponenta formulara pre zmenu vlastnika.
-   * @return Nette\Application\UI\Form */
-  public function createComponentZmenUrovenRegistracieForm(): Nette\Application\UI\Form {
+   * @return Form */
+  public function createComponentZmenUrovenRegistracieForm(): Form {
     return $this->_formMessage($this->zmenUrovenRegistracie->create($this->clanok->id_hlavne_menu, $this->clanok->hlavne_menu->id_user_roles));
   }
   
   /** 
    * Komponenta formulara pre zmenu urovne registracie.
-   * @return Nette\Application\UI\Form */
-  public function createComponentZmenVlastnikaForm(): Nette\Application\UI\Form {
+   * @return Form */
+  public function createComponentZmenVlastnikaForm(): Form {
     return $this->_formMessage($this->zmenVlastnika->create($this->clanok->id_hlavne_menu, $this->clanok->hlavne_menu->id_user_main));
   }
   
   /** 
    * Komponenta formulara pre zmenu datumu platnosti.
-   * @return Nette\Application\UI\Form */
-  public function createComponentZmenDatumPlatnostiForm(): Nette\Application\UI\Form {
+   * @return Form */
+  public function createComponentZmenDatumPlatnostiForm(): Form {
     return $this->_formMessage($this->zmenDatumPlatnosti->create($this->clanok->id_hlavne_menu, $this->clanok->hlavne_menu->datum_platnosti));
   }
   
   /** 
    * Komponenta formulara pre zmenu opravnenia podla kategorie polozky.
-   * @return Nette\Application\UI\Form */
-  public function createComponentZmenOpravnenieKategoriaForm(): Nette\Application\UI\Form {
+   * @return Form */
+  public function createComponentZmenOpravnenieKategoriaForm(): Form {
     return $this->_formMessage($this->zmenOpravnenieKategoria->create($this->clanok->hlavne_menu));
   }
   
   /** 
    * Komponenta formulara pre zmenu opravnenia nevlastnikov polozky.
-   * @return Nette\Application\UI\Form */
-  public function createComponentZmenOpravnenieNevlastnikovForm(): Nette\Application\UI\Form {
+   * @return Form */
+  public function createComponentZmenOpravnenieNevlastnikovForm(): Form {
     return $this->_formMessage($this->zmenOpravnenieNevlastnikov->create($this->clanok->id_hlavne_menu, $this->clanok->hlavne_menu->id_hlavne_menu_opravnenie));
   }
   
   /** 
    * Komponenta formulara pre zmenu dlzky sledovania ako novinky.
-   * @return Nette\Application\UI\Form */
-  public function createComponentZmenDlzkuNovinkyForm(): Nette\Application\UI\Form {
+   * @return Form */
+  public function createComponentZmenDlzkuNovinkyForm(): Form {
     return $this->_formMessage($this->zmenDlzkuNovinky->create($this->clanok->id_hlavne_menu, $this->clanok->hlavne_menu->id_dlzka_novinky));
   }
   
   /** 
    * Komponenta formulara pre zmenu sablony.
-   * @return Nette\Application\UI\Form */
-  public function createComponentZmenSablonuForm(): Nette\Application\UI\Form {
+   * @return Form */
+  public function createComponentZmenSablonuForm(): Form {
     return $this->_formMessage($this->zmenSablonu->create($this->clanok->id_hlavne_menu, $this->clanok->hlavne_menu->id_hlavne_menu_template));
   }
   

@@ -1,5 +1,8 @@
-/* AUTHOR: Peter VOJTECH ml. - VZ; CREATION DATE: 03.06.2011 */
-/* UPDATED 25.05.2020 - PV */
+/* 
+ * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
+ * Last update: 31.07.2020 
+ */
+
 .last-login {
   max-height: 20rem;
   overflow: auto;
@@ -35,6 +38,26 @@
 }
 .lightbox-img .border-c {
   max-height: 80vh;
+}
+/* --- Odstavec pre doplnujuce info nad formularom */
+.form-info-box {
+  font-size: 90%;
+  text-align: justify;
+}
+.form-info-box p {
+  margin-bottom: .25rem;
+}
+.form-info-box p:last-child {
+  margin-bottom: 0;
+}
+.form-info-box p:before{
+  content: " ";
+  display: inline-block;
+  width: 1rem;
+}
+/* --- Cast description vo formulary --- */
+.form-text {
+  font-size: 90%;
 }
 
 @media (min-width: 576px){ 
@@ -265,6 +288,7 @@ h6 {
   display: inline-block;
   position: absolute;
   top: .1em;
+  background-color: rgba(255,255,255,.75);
   opacity: .5;
   padding: 0;
 }

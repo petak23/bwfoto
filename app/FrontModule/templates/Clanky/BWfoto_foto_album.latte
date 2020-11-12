@@ -2,7 +2,7 @@
  *
  * Modul: FRONT
  *
- * Posledna zmena(last change): 11.07.2020
+ * Posledna zmena(last change): 29.07.2020
  * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
@@ -57,10 +57,10 @@
             {var $tf = $big_img['article']->main_file}
             <img src="{$basePath}/{if $tf && is_file($tf)}{$tf}{else}images/otaznik.png{/if}" alt="{$big_img['article']->name}">  
           </button>
-          <a href="#" title="Pokus" @click.prevent="openLightbox({$tf})">Pokus - {$tf}</a>
         {/if}
       </div>
-      <div class="col-4 thumbnails" n:inner-foreach="$attachments as $id => $at"><div class="thumb">
+      <div class="col-4 thumbnails row" n:inner-foreach="$attachments as $id => $at">
+        <div class="col-12 col-md-6 col-lg-4 thumb">
         {var $a = $at['article']}
           <a n:href="openAsBigImage! $id" title="Odkaz {$at['type'] == 'menu' ? $a->view_name : $a->name}" n:class="thumb-a, ajax, $big_img['id'] == $id ? selected">
             {if $at['type'] == "menu"} {* Main menu articles *}
@@ -68,7 +68,9 @@
             {elseif strpos($at['type'], 'attachments') !== false || $at['type'] == "product"}
               <img src="{$basePath}/{if $a->thumb_file && is_file($a->thumb_file)}{$a->thumb_file}{else}images/otaznik.png{/if}" alt="{$a->name}" class="img-thumbnail">
             {/if}
-          </a></div></div>
+          </a>
+        </div>
+      </div>
     </div>
     <div class="row">
       <div class="col-12 bigimg-description" n:ifset="$big_img['article']->description">{$big_img['article']->description}</div>
@@ -81,13 +83,12 @@
 <!-- Modal -->
 <div class="modal fade lightbox-img" id="imageModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-    <div class="modal-content content-for-bigBigImg" n:snippet="lightbox-image" n:if="count($big_img)">
+    <div class="modal-content" n:snippet="lightbox-image" n:if="count($big_img)">
       {var $ba = $big_img['article']}
       <div class="modal-body">
-        <div class="text-center description" v-if="viewBigImg">
+        <div class="text-center description">
           <h5 class="modal-title">{$big_img['type'] == 'menu' ? $ba->view_name : $ba->name}</h5>
         </div>
-        <a {*href="#" class="doBigBigImg"*} @click="onBigImgClick" :idBigImg="{$big_img['article']->id}">
         <div class="border-a" {$clanok_hl_menu->border_a|border_x|noescape}>
           <div class="border-b" {$clanok_hl_menu->border_b|border_x|noescape}>
             {if strpos($big_img['type'], 'attachments') !== false || $big_img['type'] == "product"}
@@ -99,17 +100,16 @@
             {/if}
           </div>
         </div>
-        </a>  
-        <div class="text-center description" n:ifset="$ba->description" v-if="viewBigImg">
+        <div class="text-center description" n:ifset="$ba->description">
           {$ba->description}
         </div>
       </div>
-      <div class="arrows-l" v-if="viewBigImg">
+      <div class="arrows-l">
         <a n:href="bigImgBefore! $big_img['id']"  title="{_'galery_arrows_before'}" class="ajax">
           <i class="fas fa-arrow-circle-left fa-2x text-light"></i>
         </a>
       </div>
-      <div class="arrows-r" v-if="viewBigImg">
+      <div class="arrows-r">
         <a n:href="bigImgAfter! $big_img['id']"  title="{_'galery_arrows_after'}" class="ajax">
           <i class="fas fa-arrow-circle-right fa-2x text-light"></i>
         </a>

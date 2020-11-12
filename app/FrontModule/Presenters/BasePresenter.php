@@ -15,7 +15,7 @@ use Texy;
 /**
  * Zakladny presenter pre vsetky presentery vo FRONT module
  * 
- * Posledna zmena(last change): 24.05.2020
+ * Posledna zmena(last change): 03.10.2020
  *
  *	Modul: FRONT
  *
@@ -23,7 +23,7 @@ use Texy;
  * @copyright Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link      http://petak23.echo-msz.eu
- * @version 1.5.8
+ * @version 1.5.9
  */
 abstract class BasePresenter extends Presenter {
   
@@ -489,7 +489,7 @@ abstract class BasePresenter extends Presenter {
     $form['forgottenPassword']->onClick[] = function () {
       $this->redirect('User:forgottenPassword');
     };
-    return $this->_vzhladForm($form);
+    return $form;
   }
   
   /** Funkcia pre zjednodusenie vypisu flash spravy a presmerovania

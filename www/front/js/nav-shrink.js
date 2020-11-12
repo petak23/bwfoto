@@ -14,22 +14,24 @@
 
 // --- pure js equivalent
 document.addEventListener('DOMContentLoaded', function(){
-  var topNav = document.getElementById("topNav");
+  // Pre male rozlisenia
+  var topNav = document.getElementById('topNav');
   if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
     topNav.classList.add('shrink');
   } else {
-    topNav.classList.remove("shrink");
+    topNav.classList.remove('shrink');
   }
   
+  // Pre vacsie rozlisenia
   window.onscroll = function() {
-    var topNav = document.getElementById("topNav");
+    var topNav = document.getElementById('topNav');
     if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
       topNav.classList.add('shrink');
 		} else {
-      topNav.classList.remove("shrink");
+      topNav.classList.remove('shrink');
 		}
   };
-  document.getElementById("topMenuButton").onclick = function(){
-    document.getElementById("topNav").style.height = "auto";
-  };
+//  document.getElementById("topMenuButton").onclick = function(){
+//    document.getElementById("topNav").style.height = "auto";
+//  };
 });

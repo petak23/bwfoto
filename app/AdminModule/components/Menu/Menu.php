@@ -5,13 +5,13 @@ use Nette;
 
 /**
  * Komponenta na vytvorenie menu
- * Posledna zmena 13.05.2020
+ * Posledna zmena 12.11.2020
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.5
+ * @version    1.0.6
  */
 class Menu extends Nette\Application\UI\Control {
 	var $rootNode; // = new MenuItem();
@@ -179,7 +179,6 @@ class Menu extends Nette\Application\UI\Control {
       $level = isset($opt[0]) ? $opt[0] : 0;
       $nastav = array_merge($this->nastav, $opt);
 		} else { $level = $opt;	$nastav = $this->nastav;}
-//    dump($nastav);die();
     $this->template->nastav = $nastav;
     $this->render($level, 'tree');   
   }

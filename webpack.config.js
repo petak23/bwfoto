@@ -1,6 +1,6 @@
 const path = require('path');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-var AssetsPlugin = require('assets-webpack-plugin')
+var AssetsPlugin = require('assets-webpack-plugin');
  
 module.exports = {
   devServer: {
@@ -8,8 +8,8 @@ module.exports = {
   },
   entry: {
     front: ['./www/front/css/main.css', './www/front/js/main.js'],
-    admin: ['./www/admin/css/main.css', './www/admin/js/main.js'],
-    texyla: ['./www/texyla/css/main.css', './www/texyla/texyla-init.js']
+    admin: ['./www/admin/css/main.css', './www/admin/js/main.js']//,
+//    texyla: ['./www/texyla/css/main.css', './www/texyla/texyla-init.js']
   },
   mode: (process.env.NODE_ENV === 'production') ? 'production' : 'development',
   resolve: {

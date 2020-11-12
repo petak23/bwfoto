@@ -10,13 +10,13 @@ use Nette\Utils\Html;
 
 /**
  * Plugin pre zobrazenie ponuky o užívateľovi a jazykoch
- * Posledna zmena(last change): 09.07.2020
+ * Posledna zmena(last change): 31.07.2020
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2013 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.2.0
+ * @version 1.2.1
  */
 class UserLangMenuControl extends Control {
   /** @var Language_support\LanguageMain Texty pre dany jazyk */
@@ -122,7 +122,7 @@ class UserLangMenuControl extends Control {
     $menu_user[] = new MenuItem([
           'odkaz'=>'UserLog:', 
           'nazov'=>$udata->meno.' '.$udata->priezvisko,
-          'class'=>'btn-info noajax',
+          'class'=>'btn-outline-info btn-sm noajax',
           'image'=> $this->nastavenie['view_avatar'] ? (($udata->user_profiles->avatar && is_file($avatar)) ? $avatar : "ikonky/64/figurky_64.png") : NULL,
         ]);
     if ($this->user->isAllowed('Admin:Homepage', 'default')) {
@@ -131,7 +131,7 @@ class UserLangMenuControl extends Control {
         'title'=> $this->texty->translate('admin_link_name'),
         'ikonka'=> ($this->nastavenie['admin_link'] & 1) ? 'fas fa-pencil-alt' : '',
         'nazov'=> ($this->nastavenie['admin_link'] & 2) ? $this->texty->translate('admin_link_name') : '',
-        'class'=> 'btn-info noajax',
+        'class'=> 'btn-outline-info btn-sm noajax',
         'data'=> ['ajax'=>'false'],
       ]);
     }
@@ -142,7 +142,7 @@ class UserLangMenuControl extends Control {
         'title'=>'Adminer',
         'target'=>'_blank',
         'ikonka'  => 'fas fa-database',
-        'class'=>'btn-primary noajax',
+        'class'=>'btn-outline-secondary btn-sm noajax',
         'data'=>['ajax' =>'false'],
                           ]);
     }
@@ -150,7 +150,7 @@ class UserLangMenuControl extends Control {
         'odkaz'=> 'Homepage:signOut',
         'ikonka'=>"fas fa-sign-out-alt",
         'nazov'=> $this->texty->translate('log_out'),
-        'class'=>'btn-warning noajax',
+        'class'=>'btn-outline-warning btn-sm noajax',
         'data'=>['ajax'=>'false'],
                         ]);
     return $menu_user;

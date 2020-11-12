@@ -1,6 +1,5 @@
 @import '../../../node_modules/@fortawesome/fontawesome-free/css/all.min.css';
 @import '../../../node_modules/bootstrap/dist/css/bootstrap.css';
-@import 'fonts.css';
-@import 'bw.css';
-@import 'responsive.css';
+@import 'css2.css';
+@import 'bwfoto.css';
 @import 'x_docasne.css';

@@ -7,17 +7,18 @@ use DbTable;
 /**
  * Komponenta pre vytvorenie hlavičky ponuky oznamov.
  * 
- * Posledna zmena(last change): 09.07.2020
+ * Posledna zmena(last change): 06.11.2020
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
  * @copyright Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.1
+ * @version 1.0.3
  */
 
 class TitleOznamControl extends Nette\Application\UI\Control {
-	// --- DB ---
+
+  // --- DB ---
   /** @var DbTable\Hlavne_menu_lang */
 	public $hlavne_menu_lang;
   /** @var DbTable\Udaje */
@@ -31,12 +32,11 @@ class TitleOznamControl extends Nette\Application\UI\Control {
   /**
    * @param DbTable\Hlavne_menu_lang $hlavne_menu_lang
    * @param DbTable\Udaje $udaje
-   * @param \App\AdminModule\Components\Oznam\TitleOznam\ZmenPresmerovanieFormFactory $zmenPresmerovanieFormFactory */
+   * @param ZmenPresmerovanieFormFactory $zmenPresmerovanieFormFactory */
   public function __construct(DbTable\Hlavne_menu_lang $hlavne_menu_lang, 
                               DbTable\Udaje $udaje,
                               ZmenPresmerovanieFormFactory $zmenPresmerovanieFormFactory
                              ) {
-    parent::__construct();
     $this->hlavne_menu_lang = $hlavne_menu_lang;
     $this->udaje = $udaje;
     $this->zmenPresmerovanie = $zmenPresmerovanieFormFactory;
@@ -49,26 +49,19 @@ class TitleOznamControl extends Nette\Application\UI\Control {
     $this->template->setFile(__DIR__ . '/TitleOznam.latte');
     $this->template->por_oznamy = $this->udaje->getOznamUsporiadanie();
     $this->template->oznamy_nastav = $this->udaje->getDruh("Oznam", 0);
-//    $this->template->presmerovanie = $this->udaje->getUdajInt('oznam_presmerovanie'); 
     $this->template->clanok_presmerovanie = ($id = $this->udaje->getUdajInt('oznam_presmerovanie')) > 0 ? $this->hlavne_menu_lang->find($id) : FALSE;
 		$this->template->render();
 	}
  
   /** 
-   * @param Nette\Application\UI\Form $form
-   * @return Nette\Application\UI\Form */
-  protected function _formMessage($form) {
-    $form['uloz']->onClick[] = function ($button) { 
-      $this->presenter->flashOut(!count($button->getForm()->errors), 'this', 'Zmena bola úspešne uložená!', 'Došlo k chybe a zmena sa neuložila. Skúste neskôr znovu...');
-		};
-    return $this->presenter->_vzhladForm($form);
-  }
-
-  /** 
    * Komponenta formulara pre zmenu urovne registracie.
    * @return Nette\Application\UI\Form */
   public function createComponentZmenPresmerovanieForm() {
-    return $this->_formMessage($this->zmenPresmerovanie->create());
+    $form = $this->zmenPresmerovanie->create();
+    $form['uloz']->onClick[] = function ($button) { 
+      $this->presenter->flashOut(!count($button->getForm()->errors), 'this', 'Zmena bola úspešne uložená!', 'Došlo k chybe a zmena sa neuložila. Skúste neskôr znovu...');
+		};
+    return $form;
   }
   
   /** Signal pre zmenu zoradenia podclanokv podla poradia od 9 do 1 */
