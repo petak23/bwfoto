@@ -20,7 +20,7 @@
 {/define}
 
 {* --kategorie webu lg+-- *}
-<section id="webParts" class="container pb-3" n:if="$startNode?->countNodes()">
+<section id="webParts" class="container pb-3" n:if="$startNode??->countNodes()">
   <div class="row w-100" n:inner-foreach="$startNode->nodes as $node">
     {var $avatar = strlen($nastav['avatar']) && isset($node->avatar) ? $nastav['avatar'].$node->avatar : FALSE}
 
@@ -35,7 +35,7 @@
 </section>
 
 {* --kategorie webu md- -- *}
-<section id="webParts-md" class="container pb-3" n:if="$startNode?->countNodes()">
+<section id="webParts-md" class="container pb-3" n:if="$startNode??->countNodes()">
   {var $steps = [ 1=>1, 2=>3, 3=>5, 4=>2, 5=>4, 6=>6]}
   <div class="row w-100" n:inner-foreach="$steps as $k => $v">
     {var $node = $startNode->nodes[$v-1]}
