@@ -35,16 +35,16 @@ class RouterFactory {
     $servis = $this;
 		$router = new RouteList;
 
-    $router[] = new Route('index.php', 'Front:Homepage:default', Route::ONE_WAY);
-    $router[] = new Route('urllist.txt', 'Mapa:Mapa:urllist', Route::ONE_WAY);
-    $router[] = new Route('sitemap.xml', 'Mapa:Mapa:sitemap', Route::ONE_WAY);
-    $router[] = new Route('clanky/domov', 'Front:Homepage:default', Route::ONE_WAY);
-    $router[] = new Route('clanky/home', 'Front:Homepage:default', Route::ONE_WAY);
+    $router->addRoute('index.php', 'Front:Homepage:default', Route::ONE_WAY);
+    $router->addRoute('urllist.txt', 'Mapa:Mapa:urllist', Route::ONE_WAY);
+    $router->addRoute('sitemap.xml', 'Mapa:Mapa:sitemap', Route::ONE_WAY);
+    $router->addRoute('clanky/domov', 'Front:Homepage:default', Route::ONE_WAY);
+    $router->addRoute('clanky/home', 'Front:Homepage:default', Route::ONE_WAY);
 
-    $router[] = $adminRouter = new RouteList('Admin');
-    $adminRouter[] = new Route('administration/clanky[/<action=default>]/<id>', [
-      'presenter' => 'Clanky',
-      'id' => [ Route::FILTER_IN => function ($id) use ($servis) {
+    $router->withModule('Admin')
+      ->addRoute('administration/clanky[/<action=default>]/<id>', [
+        'presenter' => 'Clanky',
+        'id' => [ Route::FILTER_IN => function ($id) use ($servis) {
                     if (is_numeric($id)) {
                       return $id;
                     } else {
@@ -61,17 +61,15 @@ class RouterFactory {
                     }
                 }
             ],
-    ]);
-    $adminRouter[] = new Route('administration/<presenter>/<action>', 'Homepage:default');
+      ])
+      ->addRoute('administration/<presenter>/<action>', 'Homepage:default');
     
 
-
-
-    $router[] = $frontRouter = new RouteList('Front');
-    $frontRouter[] = new Route('clanky[/<id>]', [
-      'presenter' => 'Clanky',
-      'action' => 'default',
-      'id' => [ Route::FILTER_IN => function ($id) use ($servis) {
+    $router->withModule('Front')
+      ->addRoute('clanky[/<id>]', [
+        'presenter' => 'Clanky',
+        'action' => 'default',
+        'id' => [ Route::FILTER_IN => function ($id) use ($servis) {
                     if (is_numeric($id)) {
                       return $id;
                     } else {
@@ -88,20 +86,19 @@ class RouterFactory {
                     }
                 }
             ],
-    ]);
-    $frontRouter[] = new Route('forgottenPassword', 'User:forgottenPassword');
-    $frontRouter[] = new Route('profile', 'UserLog:default');
-    $frontRouter[] = new Route('registration', 'User:registracia');
-    $frontRouter[] = new Route('login', 'User:default');
-    $frontRouter[] = new Route('user[/<action>]', 'User:default');
-    $frontRouter[] = new Route('userlog[/<action>]/<id>', 'UserLog:default');
-    $frontRouter[] = new Route('oznam[/<action>]', 'Oznam:default');
-    $frontRouter[] = new Route('error[/<action>]', 'Error:default');
-    $frontRouter[] = new Route('search[/<action>]', 'Search:default');
-    $frontRouter[] = new Route('<presenter>/<action>[/cokolvek]', 'Homepage:default');
-    $frontRouter[] = new Route('[<presenter>][/<action>][/<spec_nazov><? \.html?|\.php|>]', 'Homepage:default', Route::ONE_WAY);
+      ])
+      ->addRoute('forgottenPassword', 'User:forgottenPassword')
+      ->addRoute('profile', 'UserLog:default')
+      ->addRoute('registration', 'User:registracia')
+      ->addRoute('login', 'User:default')
+      ->addRoute('user[/<action>]', 'User:default')
+      ->addRoute('userlog[/<action>]/<id>', 'UserLog:default')
+      ->addRoute('oznam[/<action>]', 'Oznam:default')
+      ->addRoute('error[/<action>]', 'Error:default')
+      ->addRoute('search[/<action>]', 'Search:default')
+      ->addRoute('<presenter>/<action>[/cokolvek]', 'Homepage:default')
+      ->addRoute('[<presenter>][/<action>][/<spec_nazov><? \.html?|\.php|>]', 'Homepage:default', Route::ONE_WAY);
     
 		return $router;
 	}
-
 }

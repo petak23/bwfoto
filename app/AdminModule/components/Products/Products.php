@@ -15,13 +15,13 @@ use Ublaboo\DataGrid\Localization\SimpleTranslator;
 /**
  * Komponenta pre spravu produktov clanku.
  * 
- * Posledna zmena(last change): 29.12.2020
+ * Posledna zmena(last change): 01.01.2021
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
- * @copyright Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.2
+ * @version 1.1.3
  */
 
 class ProductsControl extends Nette\Application\UI\Control {
@@ -135,7 +135,7 @@ class ProductsControl extends Nette\Application\UI\Control {
       $xs = 'style="border: '.$pom[1].'px solid '.(strlen($pom[0])>2 ? $pom[0]:'inherit').'"';
       return $xs;
     });
-    $this->products->setWwwDir($this->presenter->context->parameters["wwwDir"]."/");
+    $this->products->setWwwDir($this->nastavenie["wwwDir"]."/");
 		$this->template->render();
 	}
   
@@ -220,7 +220,7 @@ class ProductsControl extends Nette\Application\UI\Control {
   public function createComponentAddMultiProductsForm(): Nette\Application\UI\Form {
     $form = $this->addMultiProductsForm
                  ->create($this->nastavenie["dir_to_products"],
-                          $this->presenter->context->parameters["wwwDir"]."/",
+                          $this->nastavenie["wwwDir"]."/",
                           $this->clanok
                          );
     $form->setDefaults(["id"=>0, "id_hlavne_menu"=>$this->clanok->id_hlavne_menu, "id_user_roles"=>$this->clanok->hlavne_menu->id_user_roles]);

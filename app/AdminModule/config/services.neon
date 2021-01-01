@@ -5,6 +5,19 @@
 # http://nette.org/security-warning
 #
 services:
+  - App\AdminModule\Presenters\ClankyPresenter(%parameters%)
+  - App\AdminModule\Presenters\DokumentyPresenter(%parameters%)
+  - App\AdminModule\Presenters\HomepagePresenter(%parameters%)
+  - App\AdminModule\Presenters\LangPresenter(%parameters%)
+  - App\AdminModule\Presenters\MenuPresenter(%parameters%)
+  - App\AdminModule\Presenters\ProductsPresenter(%parameters%)
+  - App\AdminModule\Presenters\SliderPresenter(%parameters%)
+  - App\AdminModule\Presenters\TexylaPresenter(%parameters%)
+  - App\AdminModule\Presenters\UdajePresenter(%parameters%)
+  - App\AdminModule\Presenters\UserCategoriesPresenter(%parameters%)
+  - App\AdminModule\Presenters\UserPresenter(%parameters%)
+  - App\AdminModule\Presenters\VerziePresenter(%parameters%)
+
 # forms
 
   - App\AdminModule\Components\Article\TitleArticle\ZmenDatumPlatnostiFormFactory

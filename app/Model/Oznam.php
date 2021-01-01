@@ -5,13 +5,13 @@ use Nette;
 /**
  * Model, ktory sa stara o tabulku oznam
  * 
- * Posledna zmena 08.03.2018
+ * Posledna zmena 08.03.2019
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2019 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.7
+ * @version    1.0.9
  */
 class Oznam extends Table {
   /** @var string */
@@ -21,17 +21,17 @@ class Oznam extends Table {
    * @param boolean $usporiadanie Urcuje usporiadane podla datumu platnosti
    * @param int $id_user_roles Minimalna uroven registracie
    * @return \Nette\Database\Table\Selection */
-  public function aktualne($usporiadanie = FALSE, $id_user_roles = 5) {
-  	return $this->findBy(["datum_platnosti >= '".StrFTime("%Y-%m-%d",strtotime("0 day"))."'", "id_user_roles <=".$id_user_roles])
+  public function aktualne($usporiadanie = FALSE, $id_user_roles = 0) {
+  	return $this->findBy(["datum_platnosti >= '".StrFTime("%Y-%m-%d",strtotime("0 day"))."'", "id_user_roles <= ".$id_user_roles])
                 ->order('datum_platnosti '.($usporiadanie ? 'ASC' : 'DESC'));
 	}
 
   /** 
    * Vrati uz neaktualne oznamy
-   * @param int $id_registracia Minimalna uroven registracie
+   * @param int $id_user_roles Minimalna uroven registracie
    * @return \Nette\Database\Table\Selection */
-	public function neaktualne($id_user_roles = 5) {
-  	return $this->findBy(["datum_platnosti < '".StrFTime("%Y-%m-%d",strtotime("0 day"))."'", "id_user_roles <=".$id_user_roles])->order('datum_platnosti DESC');
+	public function neaktualne($id_user_roles = 0) {
+  	return $this->findBy(["datum_platnosti < '".StrFTime("%Y-%m-%d",strtotime("0 day"))."'", "id_user_roles <= ".$id_user_roles])->order('datum_platnosti DESC');
 	}
   
   /** Vypisanie vsetkych oznamov aj s priznakom aktualnosti
@@ -53,6 +53,8 @@ class Oznam extends Table {
    * @throws Database\DriverException */
   public function vymazOznam($id) {
     try {
+      $this->connection->table('oznam_komentar')->where(['id_oznam'=>$id])->delete();
+      $this->connection->table('oznam_ucast')->where(['id_oznam'=>$id])->delete();
       return $this->find($id)->delete();
     } catch (Exception $e) {
       throw new Database\DriverException('Chyba ulozenia: '.$e->getMessage());

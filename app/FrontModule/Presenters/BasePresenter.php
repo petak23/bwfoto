@@ -15,15 +15,15 @@ use Texy;
 /**
  * Zakladny presenter pre vsetky presentery vo FRONT module
  * 
- * Posledna zmena(last change): 03.10.2020
+ * Posledna zmena(last change): 01.01.2021
  *
  *	Modul: FRONT
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link      http://petak23.echo-msz.eu
- * @version 1.5.9
+ * @version 1.6.0
  */
 abstract class BasePresenter extends Presenter {
   
@@ -108,12 +108,16 @@ abstract class BasePresenter extends Presenter {
   /** @var int Maximalna velkost suboru pre upload */
   public $upload_size = 0;
   
+  public function __construct($parameters) {
+    // Nastavenie z config-u
+    $this->nastavenie = $parameters;
+  }
+  
   protected function startup() {
     parent::startup();
     // Kontrola prihlasenia a nacitania urovne registracie
     $this->id_reg = ($this->user->isLoggedIn()) ? ($this->user->getIdentity()->id_user_roles === NULL ? 0 : $this->user->getIdentity()->id_user_roles) : 0;
-    // Nastavenie z config-u
-    $this->nastavenie = $this->context->parameters;
+    
     $modul_presenter = explode(":", $this->name);
 
     // Nastav jazyk
@@ -320,10 +324,6 @@ abstract class BasePresenter extends Presenter {
       $pom = $servise->hlavne_menu_lang->findOneBy(['id_hlavne_menu'=>$id, 'id_lang'=>$servise->language_id]);
       return $pom !== FALSE ? $pom->h1part2 : $id;
     });
-   /*$template->addFilter('texty_presentera->translate', function ($key) use($servise){
-      if ($servise->texty_presentera == NULL) { return $key; }
-      return ($servise->user->isInRole("Admin")) ? $key."-".$servise->texty_presentera->trText($key) : $servise->texty_presentera->trText($key);
-    });*/
     $this->template->addFilter('nadpisH1', function ($key){
       $out = "";
       foreach (explode(" ", $key) as $v) {

@@ -5,6 +5,13 @@
 # http://nette.org/security-warning
 #
 services:
+  - App\FrontModule\Presenters\ClankyPresenter(%parameters%)
+  - App\FrontModule\Presenters\ErrorPresenter(%parameters%)
+  - App\FrontModule\Presenters\HomepagePresenter(%parameters%)
+  - App\FrontModule\Presenters\SearchPresenter(%parameters%)
+  - App\FrontModule\Presenters\UserLogPresenter(%parameters%)
+  - App\FrontModule\Presenters\UserPresenter(%parameters%)
+
 # forms
   - App\FrontModule\Forms\User\ForgottenPasswordFormFactory
   - App\FrontModule\Forms\User\SignInFormFactory

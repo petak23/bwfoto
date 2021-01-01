@@ -6,15 +6,15 @@ use Language_support;
 /**
  * Prezenter pre homepage.
  * 
- * Posledna zmena(last change): 16.12.2019
+ * Posledna zmena(last change): 01.01.2021
  *
  *	Modul: FRONT
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2019 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.2
+ * @version 1.1.3
  */
 class HomepagePresenter extends BasePresenter {
   
@@ -29,10 +29,9 @@ class HomepagePresenter extends BasePresenter {
   
   /** Zakladna akcia */
   public function actionDefault() {
-    $nastavenie = $this->context->parameters;
     //Ak je presmerovanie povolene v configu
-    if ($nastavenie['homepage_redirect']) {
-      $pom = explode(" ", $nastavenie['homepage_redirect']);
+    if ($this->nastavenie['homepage_redirect']) {
+      $pom = explode(" ", $this->nastavenie['homepage_redirect']);
       if (count($pom)>1) { 
         $this->redirect(301, $pom[0], $pom[1]);
       } else { 

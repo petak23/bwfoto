@@ -12,15 +12,15 @@ use Texy;
 /**
  * Zakladny presenter pre vsetky presentery v module ADMIN
  * 
- * Posledna zmena(last change): 21.05.2020
+ * Posledna zmena(last change): 01.01.2021
  *
  * Modul: ADMIN
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.3.3
+ * @version 1.3.4
  */
 abstract class BasePresenter extends UI\Presenter {
   
@@ -91,6 +91,11 @@ abstract class BasePresenter extends UI\Presenter {
           5=>"Upload error 5.",
           6=>"Chýbajúci dočasný priečinok!",
         ];  
+  
+  public function __construct($parameters) {
+    // Nastavenie z config-u
+    $this->nastavenie = $parameters;
+  }
 
   /** Vychodzie nastavenia */
   protected function startup() {
@@ -112,8 +117,6 @@ abstract class BasePresenter extends UI\Presenter {
         $this->flashRedirect(':Front:User:', 'Nemáte dostatočné oprávnenie na danú operáciu!', 'danger');
       }
     }
-    // Nastavenie z config-u
-    $this->nastavenie = $this->context->parameters;
     $modul_presenter = explode(":", $this->name);
     $this->language = 'sk';
     $this->language_id = 1;
