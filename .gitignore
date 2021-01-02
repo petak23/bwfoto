@@ -12,4 +12,4 @@
 /node_modules/
 /www/files/
 /.vscode/
-/www/assets/
+/www/dist/

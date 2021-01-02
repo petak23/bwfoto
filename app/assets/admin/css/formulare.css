@@ -137,7 +137,7 @@ form table img.ikonkySmall {
 form table .error {
   font-weight: bold;
   background-color: #333;
-  background-image: url(../../images/upozornenie_c.png);
+  background-image: url(./images/upozornenie_c.png);
   background-repeat: no-repeat;
   background-position: .5em center;
   border: .3em solid #cc0033;
