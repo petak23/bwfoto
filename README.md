@@ -7,3 +7,15 @@ This is my [Nette](https://nette.org) project of webside [bwfoto.sk](http://www.
 ## Môj Nette projekt stránky www.bwfoto.sk
 
 Toto je môj [Nette](https://nette.org) projekt web-stránky [bwfoto.sk](http://www.bwfoto.sk)...
+
+## Install
+
+- `composer install`
+- `npm install`
+
+## Webapack
+
+- `npm run start` - generates development bundles
+- `npm run watch` - watch changes in development bundles
+- `npm run serve` - starts webpack development server
+- `npm run build` - generates production bundles

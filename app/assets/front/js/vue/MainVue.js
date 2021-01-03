@@ -1,29 +1,21 @@
 /* 
  * Main Vue.js app file
- * Posledna zmena(last change): 12.07.2020
+ * Posledna zmena(last change): 02.01.2021
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @copyright Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.2
+ * @version 1.0.3
  */
 
 import Vue from 'vue';
 import axios from 'axios';
+import Slider from './Slider.vue';
+
 
 Vue.component('fotogalery', {
   
-});
-
-Vue.component('slider', {
-  props: {
-    source: {
-      type: String,
-      required: true
-    }
-  },
-  template: `<img :src="source" alt="Slider">`
 });
 
 Vue.component('autocomplete', {
@@ -154,7 +146,7 @@ var vm = new Vue({
       aktual_file: ""
     }
   },
-  /*components: { autocomplete },*/
+  components: { Slider },
   methods: {
     onBigImgClick() {
       this.viewBigImg = !this.viewBigImg;
