@@ -6,7 +6,6 @@ export default {
       required: true
     }
   },
-  // template: ``
 };
 </script>
 

@@ -13,7 +13,7 @@ Toto je môj [Nette](https://nette.org) projekt web-stránky [bwfoto.sk](http://
 - `composer install`
 - `npm install`
 
-## Webapack
+## Webpack
 
 - `npm run start` - generates development bundles
 - `npm run watch` - watch changes in development bundles
