@@ -1,4 +1,5 @@
-{* Sablona pre zobrazenie obsahu albumu
+{* 
+ * Šablóna pre zobrazenie obsahu albumu s vue.js
  *
  * Modul: FRONT
  *
@@ -23,7 +24,13 @@
   <div class="col-12" id="uvodnyText">
     {control ukazTentoClanok}
   </div>
-  <div class="col-12">
+  {dump $big_img}
+  {var $title = $big_img['type'] == 'menu' ? $big_img['article']->view_name : $big_img['article']->name}
+  <fotogalery
+    title="{$title}"
+  ></fotogalery>
+
+  <div class="col-12 main-win">
     <div class="row" n:snippet="bigimgName" >
       <h4 class="col-12 bigimg-name" n:if="count($big_img)">{$big_img['type'] == 'menu' ? $big_img['article']->view_name : $big_img['article']->name}</h4>
     </div>
@@ -58,7 +65,7 @@
             <img src="{$basePath}/{if $tf && is_file($tf)}{$tf}{else}images/otaznik.png{/if}" alt="{$big_img['article']->name}">  
           </button>
         {/if}
-      </div>
+      </div>{dump $attachments}
       <div class="col-4 thumbnails row" n:inner-foreach="$attachments as $id => $at">
         <div class="col-12 col-md-6 col-lg-4 thumb">
         {var $a = $at['article']}

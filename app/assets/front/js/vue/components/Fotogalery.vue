@@ -1,21 +1,27 @@
 <script>
+import ImageTitle from './components/Fotogalery/ImageTitle.vue';
+
 export default {
   props: {
-    source: {
+    title: {
       type: String,
       required: true
     }
   },
-  data() {
-    return {
-      fotogalery: Fotogalery
-    }
+  components: {
+    ImageTitle
   }
+  //data() {
+  //  return {
+  //    fotogalery: "Moja nová fotogaleria s vue"
+  //  }
+  //<main-window></main-window>
+  //<image-list></image-list>
+  //<image-description></image-description>
+  //}
 };
 </script>
 
 <template>
-  <div class="fotogalery">
-    {{ fotogalery }}
-  </div>
+  <ImageTitle title=title></ImageTitle>
 </template>
