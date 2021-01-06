@@ -8,13 +8,13 @@ use Nette;
 /**
  * Autorizator
  * 
- * Posledna zmena(last change): 13.05.2020
+ * Posledna zmena(last change): 06.01.2021
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.1
+ * @version    1.0.2
  */
 class AuthorizatorFactory {
   use Nette\SmartObject;
@@ -34,7 +34,7 @@ class AuthorizatorFactory {
   /**
    * @param Nette\Database\Context $database
    * @return Nette\Security\Permission */
-  public static function create(Nette\Database\Context $database){
+  public static function create(Nette\Database\Context $database) :Nette\Security\Permission {
     $acl = new Nette\Security\Permission;
     $roles = $database->table(self::TABLE_NAME_ROLES);
     foreach ($roles as $role) {

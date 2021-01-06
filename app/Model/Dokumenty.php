@@ -8,13 +8,13 @@ use Nette\Database\Table;
 /**
  * Model, ktory sa stara o tabulku dokumenty
  * 
- * Posledna zmena 14.05.2020
+ * Posledna zmena 10.01.2021
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.7
+ * @version    1.0.8
  */
 class Dokumenty extends \DbTable\Table {
   /** @var string */
@@ -86,5 +86,26 @@ class Dokumenty extends \DbTable\Table {
       $vysledok = $this->oprav($vysledok['id'], ['znacka'=>'#I-'.$vysledok['id'].'#']);
     }
     return $vysledok;
+  }
+
+  /**
+   * Funkcia pre fotogalériu
+   * @param int id Id_hlavne_menu
+   * @return array */
+  public function getForFotogalery(int $id): array {
+    $out = [];
+    foreach ($this->getViditelnePrilohy($id, "type ASC") as $v) {
+      $tf = $v->type == 1 ? $v->thumb_file : $v->main_file;
+      $out[] = [
+        'id' => $v->id,
+        'type'=>'attachments'.$v->type,
+        'name' => $v->name,
+        'web_name' => $v->web_name,
+        'description' => $v->description,
+        'main_file' => ($tf && is_file($tf)) ? $tf : '/ikonky/Free-file-icons-master/512px/'.strtolower($v->pripona).'.png',
+        'thumb_file' => $v->thumb_file
+      ];
+    }
+    return $out;
   }
 }

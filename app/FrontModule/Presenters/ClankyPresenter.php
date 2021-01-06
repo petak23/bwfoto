@@ -11,21 +11,22 @@ use PeterVojtech;
 /**
  * Prezenter pre vypisanie clankov.
  * 
- * Posledna zmena(last change): 13.05.2020
+ * Posledna zmena(last change): 11.01.2021
  *
  *	Modul: FRONT
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.3.6
+ * @version 1.3.8
  */
 
 class ClankyPresenter extends BasePresenter {
 
 //  use PeterVojtech\Clanky\ZobrazKartyPodclankov\zobrazKartyPodclankovTrait;
   use PeterVojtech\Clanky\OdkazNaClanky\odkazNaClankyTrait;
+  use PeterVojtech\Clanky\Fotogalery\fotogaleryTrait;
   
 	/** @var DbTable\Clanok_komponenty @inject*/
 	public $clanok_komponenty;
@@ -44,10 +45,6 @@ class ClankyPresenter extends BasePresenter {
 	public $zobraz_clanok = FALSE;
   /** @var string */
   private $kotva = "";
-  /** @var mixed Konkretna polozka z pola attachments, tkora je zobrazena */
-  protected $big_img = [];
-  /** @var array Pole podclankov, priloh a produktov clanku */
-  private $attachments = [];
   
   /** 
    * Zobrazenie konkretneho clanku
@@ -87,22 +84,6 @@ class ClankyPresenter extends BasePresenter {
     } else {
       $this->setView($this->zobraz_clanok->hlavne_menu->hlavne_menu_template->name);
     }
-    
-    //Cast spracovania priloh
-    // Vyber podclankov
-    foreach ($this->hlavne_menu_lang->findBy(["hlavne_menu.id_nadradenej"=> $this->zobraz_clanok->id_hlavne_menu, "id_lang" => $this->language_id]) as $v) {
-      $this->attachments[] = ["type"=>"menu", "article"=>$v];
-    }
-    // Prilohy
-    foreach ($this->dokumenty->getViditelnePrilohy($this->zobraz_clanok->id_hlavne_menu, "type ASC") as $v) {
-      $this->attachments[] = ["type"=>"attachments".$v->type, "article"=>$v];
-    }
-    // Produkty
-    foreach ($this->products->findBy(["id_hlavne_menu"=>$this->zobraz_clanok->id_hlavne_menu]) as $v) {
-      $this->attachments[] = ["type"=>"product", "article"=>$v];
-    }
-    // Prva priloha
-    $this->big_img = count($this->attachments) ? array_merge(['id' => 0], $this->attachments[0]) : [];
   }
   
   /** Render pre zobrazenie clanku */
@@ -123,31 +104,10 @@ class ClankyPresenter extends BasePresenter {
       $this->template->komponenty = $this->clanok_komponenty->getKomponenty($this->zobraz_clanok->id_hlavne_menu, $this->nastavenie["komponenty"]);
       $this->template->id_hlavne_menu_lang = $this->zobraz_clanok->id;
       
-      $this->template->attachments = $this->attachments;
-      $this->template->big_img = $this->big_img;
-
       $servise = $this;
       $this->template->addFilter('odkazdo', function ($id) use($servise){
         $serv = $servise->link("Dokumenty:default", ["id"=>$id]);
         return $serv;
-      });
-      $this->template->addFilter('border_x', function ($text){
-        $pom = $text != null && strlen($text)>2 ? explode("|", $text) : ['','0'];
-        $xs = 'style="border: '.$pom[1].'px solid '.(strlen($pom[0])>2 ? ($pom[0]):'inherit').'"';
-        return $xs;
-      });
-      $this->template->addFilter('border_css_x', function ($text){
-        $pom = $text != null && strlen($text)>2 ? explode("|", $text) : ['','0'];
-        $xs = 'border: '.$pom[1].'px solid '.(strlen($pom[0])>2 ? ($pom[0]):'inherit').';';
-        return $xs;
-      });
-      $this->template->addFilter('border_width', function ($text){
-        $pom = $text != null && strlen($text)>2 ? explode("|", $text) : ['','1'];
-        return $pom[1].'px';
-      });
-      $this->template->addFilter('border_color', function ($text){
-        $pom = $text != null && strlen($text)>2 ? explode("|", $text) : ['','0'];
-        return strlen($pom[0])>2 ? $pom[0]:'inherit';
       });
     }
 	}
@@ -156,52 +116,6 @@ class ClankyPresenter extends BasePresenter {
   public function renderNotFound() {
     $this->getHttpResponse()->setCode(\Nette\Http\IResponse::S404_NOT_FOUND);
   }
-  
-  /**
-   * Signal pre zobrazenie velkeho nahladu
-   * @param int $id_big_img */
-  public function handleOpenAsBigImage(int $id_big_img) {
-    $this->big_img = array_merge(['id' => $id_big_img], $this->attachments[$id_big_img]);
-    if ($this->isAjax()) {
-      $this->redrawControl('bigimgName');
-      $this->redrawControl('bigimgMain');
-      $this->redrawControl('lightbox-image');
-    }
-  }
-  
-  /**
-   * Signal pre nacitanie predosleho prvku v lightboxe
-   * @param int $id_big_img */
-  public function handleBigImgBefore(int $id_big_img) {
-		$keys = array_keys($this->attachments);
-    $new_id = $id_big_img;
-    do {
-      $new_id  = ($new_id <= $keys[0]) ? $keys[count($this->attachments)-1] : $new_id - 1;
-    } while (!in_array($this->attachments[$new_id]['type'],["attachments2", "product"]));
-    $this->big_img = array_merge(['id' => $new_id], $this->attachments[$new_id]); 
-		if ($this->isAjax()) {
-      $this->redrawControl('bigimgName');
-      $this->redrawControl('bigimgMain');
-      $this->redrawControl('lightbox-image');
-    }
-	}
-
-  /**
-   * Signal pre nacitanie nasledujuceho prvku v lightboxe
-   * @param int $id_big_img */
-	public function handleBigImgAfter(int $id_big_img) {
-		$keys = array_keys($this->attachments);
-    $new_id = $id_big_img;
-    do {
-      $new_id = ($new_id >= $keys[count($this->attachments)-1]) ? $keys[0] : $new_id + 1;
-    } while (!in_array($this->attachments[$new_id]['type'],["attachments2", "product"]));
-    $this->big_img = array_merge(['id' => $new_id], $this->attachments[$new_id]);
-		if ($this->isAjax()) {
-      $this->redrawControl('bigimgName');
-      $this->redrawControl('bigimgMain');
-      $this->redrawControl('lightbox-image');
-    }
-	}
   
   /** 
    * Komponenta pre komentare k clanku

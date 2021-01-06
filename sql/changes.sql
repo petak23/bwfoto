@@ -1,24 +1,12 @@
 /**
  * Author:  petak23
- * Created: 05. 06. 2020
+ * Change: 06.01.2021
  */
-/*ALTER TABLE `user_profiles`
-ADD `news_key` varchar(100) COLLATE 'utf8_bin' NULL COMMENT 'Kľúč pre odhlásenie noviniek';*/
+/* to 0.5.4 - vue fotogalery */
 
-/*INSERT INTO `user_resource` (`name`)
-VALUES ('Front:Search');*/
+INSERT INTO `hlavne_menu_template` (`name`, `description`)
+SELECT 'BWfoto_f_a_vue', 'Obsah foto albumu s vue'
+FROM `hlavne_menu_template`;
 
-
-/*INSERT INTO `user_permission` (`id_user_roles`, `id_user_resource`, `actions`)
-VALUES ('0', '26', NULL);*/
-
-/*ALTER TABLE `products`
-CHANGE `change` `change` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE CURRENT_TIMESTAMP COMMENT 'Čas zmeny' AFTER `thumb_file`,
-ADD `saved` tinyint NOT NULL DEFAULT '0' COMMENT 'Ak 1 položka bola korektne nahratá na server';
-
-UPDATE `products` SET `saved` = '1';
-
-INSERT INTO `udaje` (`id_user_roles`, `id_druh`, `id_udaje_typ`, `nazov`, `text`, `comment`, `separate_settings`)
-SELECT '4', '8', '4', 'product_max_upload_files', '50', 'Max. počet naraz nahrávaných súborov[5,150]', '1'
-FROM `udaje`
-WHERE ((`id` = '32'));*/
+UPDATE `dokumenty` SET `description` = 'Popis: ATELIER-ZAMECNIK-51' WHERE `id` = '81';
+UPDATE `dokumenty` SET `description` = 'Popis: ATELIER-ZAMECNIK-52' WHERE `id` = '82';
