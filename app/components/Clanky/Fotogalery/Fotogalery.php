@@ -14,7 +14,7 @@ use Nette\Utils\Json;
  * @copyright Copyright (c) 2021 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.0
+ * @version 1.0.1
  */
 class FotogaleryControl extends Nette\Application\UI\Control {
   
@@ -24,7 +24,11 @@ class FotogaleryControl extends Nette\Application\UI\Control {
   /** @var DbTable\Hlavne_menu_lang */
 	public $hlavne_menu_lang;
   /** @var DbTable\Lang */
-	public $lang;
+  public $lang;
+  /** @var DbTable\dokumenty */
+  public $dokumenty;
+  /** @var DbTable\products */
+	public $products;
   
   /** @var array */
   private $paramsFromConfig;
@@ -54,18 +58,8 @@ class FotogaleryControl extends Nette\Application\UI\Control {
     $this->texts = $texts;
     $this->texts->setLanguage($language);
     $this->hlavne_menu = $hlavne_menu;
-
-    //Časť spracovania príloh
-    // Výber podčlánkov
-    $attachments = $this->getForFotogalery($this->hlavne_menu->id);
-
-    // Prílohy
-    $attachments = array_merge($attachments, $dokumenty->getForFotogalery($this->hlavne_menu->id));
-    
-    // Produkty
-    $attachments = array_merge($attachments, $products->getForFotogalery($this->hlavne_menu->id));
-
-    $this->attachments = Json::encode($attachments);
+    $this->dokumenty = $dokumenty;
+    $this->products = $products;
   }
   
   /**
@@ -82,6 +76,7 @@ class FotogaleryControl extends Nette\Application\UI\Control {
    * @param array $p Parametre: id_hlavne_menu - id odkazovaneho clanku, template - pouzita sablona
    * @see Nette\Application\Control#render() */
   public function render($p = []) {
+    $this->getAttachments();
     $this->template->setFile(__DIR__ . "/Fotogalery".(isset($p["template"]) && strlen($p["template"]) ? "_".$p["template"] : "_default").".latte");
     $this->template->attachments = $this->attachments;
     $this->template->hlavne_menu = $this->hlavne_menu;
@@ -96,10 +91,27 @@ class FotogaleryControl extends Nette\Application\UI\Control {
   }
 
   /**
+   * Načítanie príloh
+   * @return FotogaleryControl */
+  public function getAttachments() {
+    // Výber podčlánkov
+    $attachments = $this->_getForFotogalery($this->hlavne_menu->id);
+
+    // Prílohy
+    $attachments = array_merge($attachments, $this->dokumenty->getForFotogalery($this->hlavne_menu->id));
+    
+    // Produkty
+    $attachments = array_merge($attachments, $this->products->getForFotogalery($this->hlavne_menu->id));
+
+    $this->attachments = Json::encode($attachments);
+    return $this;
+  }
+
+  /**
    * Funkcia pre fotogalériu
    * @param int id Id_hlavne_menu
    * @return array */
-  public function getForFotogalery(int $id): array {
+  private function _getForFotogalery(int $id): array {
     $out = [];
     foreach ($this->hlavne_menu_lang->findBy(["hlavne_menu.id_nadradenej"=> $id, "lang.skratka" => $this->language]) as $v) {
       $av = 'files/menu/'.$v->hlavne_menu->avatar;
