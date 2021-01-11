@@ -37,7 +37,7 @@ a[href^="#error:"] {
   flex-direction: column;
 }
 
-/** ---- Hlavna ponuka na titiulke ---- */
+/** ---- Hlavna ponuka na titulke ---- */
 #webContent {
   margin-top: 15rem;
 }
@@ -115,7 +115,7 @@ a[href^="#error:"] {
   width: 100%;
 }
 
-/** ---- Fotogaleria - cast obsahu albumu - foto album ---- */
+/** ---- Fotogaléria - časť obsahu albumu - foto album - úroveň 3 ---- */
 .detail img {
   border-width: 2px;
   width: 100%;
@@ -130,49 +130,6 @@ a[href^="#error:"] {
 }
 .thumbnails .thumb a.selected img {
   background-color: #ffeb3b; 
-}
-
-/** ---- Fotogaleria - cast obsahu album - Zvatsena fotka - uroven 4 ---- */
-.lightbox-img {
-  background-color: rgba(20,20,20,.9);
-}
-.lightbox-img .modal-title {
-  color: #ffeb3b;
-  font-weight: bold;
-}
-.lightbox-img .modal-dialog .modal-content { 
-	background-color: transparent;
-}
-.lightbox-img .modal-body {
-  display: table;
-  margin-left: auto;
-  margin-right: auto;
-}
-.lightbox-img .arrows-l, .lightbox-img .arrows-r {
-  position: absolute;
-  top: 50%;
-  opacity: .5
-}
-.lightbox-img .arrows-l:hover, .lightbox-img .arrows-r:hover {
-  opacity: 1
-}
-.lightbox-img .arrows-l {
-  left: 3%;
-}
-.lightbox-img .arrows-r {
-  right: 3%;
-}
-.lightbox-img .description {
-  color: #ddd;
-}
-.border-a {
-  margin-left: auto;
-  margin-right: auto;
-}
-/*.border-b {}*/
-.border-c {
-	max-height: 87vh;
-  max-width: 100%;
 }
 
 /** ---- Pre vue komponentu autocomplete ---- */

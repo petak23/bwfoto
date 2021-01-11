@@ -9,13 +9,13 @@ use Zet\FileUpload\Model;
 /**
  * Model, ktory sa stara o tabulku products
  * 
- * Posledna zmena 09.07.2020
+ * Posledna zmena 10.01.2021
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.5
+ * @version    1.0.6
  */
 class Products extends Table implements Model\IUploadModel {
   /** @var string */
@@ -123,5 +123,25 @@ class Products extends Table implements Model\IUploadModel {
 	 * @return bool Ak zmaze alebo neexistuje(nie je co mazat) tak true inak false */
 	private function _vymazSubor(string $subor): bool {
 		return (is_file($subor)) ? unlink(/*$this->www_dir.*/$subor) : true;
-	}
+  }
+  
+  /**
+   * Funkcia pre fotogalériu
+   * @param int id Id_hlavne_menu
+   * @return array */
+  public function getForFotogalery(int $id): array {
+    $out = [];
+    foreach ($this->findBy(['id_hlavne_menu'=>$id]) as $v) {
+      $out[] = [
+        'id' => $v->id,
+        'type'=>'product',
+        'name' => $v->name,
+        'web_name' => $v->web_name,
+        'description' => $v->description,
+        'main_file' => ($v->main_file && is_file($v->main_file)) ? $v->main_file : 'images/otaznik.png',
+        'thumb_file' => $v->thumb_file
+      ];
+    }
+    return $out;
+  }
 }

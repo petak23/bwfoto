@@ -21,6 +21,15 @@ parameters:
             to_foto_galery: 'Odkaz na fotogalériu'
             to_article: 'Odkaz na článok'
             foto_album: 'Odkaz pre fotogalériu'
+    fotogalery:
+      nazov: 'Fotogaléria k článku'
+      jedinecna: FALSE  # Ci je mozne pridat len raz k clanku
+      fa_ikonka: 'images'
+      parametre: 
+#        id_hlavne_menu: 
+#          nazov: 'Id článku'
+        template:
+          nazov: 'Názov vzhľadu'
 #    aktualne:
 #      nazov: 'Aktualne oznamy(aktuality)'
 #      fa_ikonka: 'newspaper-o'
@@ -45,3 +54,6 @@ services:
 
 # Component Clanky\OdkazNaClanky
   - PeterVojtech\Clanky\OdkazNaClanky\IOdkazNaClankyControl
+
+# Component Clanky\Fotogalery
+  - PeterVojtech\Clanky\Fotogalery\IFotogaleryControl

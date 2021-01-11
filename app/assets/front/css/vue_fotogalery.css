@@ -1,0 +1,90 @@
+
+/** ---- Fotogaléria VUE.js - časť obsahu album - Zvätšená fotka - úroveň 4 ---- */
+.lightbox-img {
+    background-color: rgba(20,20,20,.9);
+}
+.lightbox-img .modal-xl {
+    max-width: 100%;
+    margin: 0;
+}
+.lightbox-img .modal-header {
+    color: #ffeb3b;
+    font-weight: bold;
+    border: 0;
+    padding: .5rem 0 0 1rem;
+}
+.lightbox-img .modal-header .close {
+    display: none;
+}
+.lightbox-img .modal-title {
+    width: 100%;
+    text-align: center;
+}
+.lightbox-img .modal-dialog .modal-content { 
+    background-color: transparent;
+}
+.lightbox-img .modal-body {
+    display: table;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0;
+}
+.lightbox-img .arrows-l, .lightbox-img .arrows-r {
+    position: absolute;
+    top: 50%;
+    opacity: .5;
+    background-color: rgba(0,0,0,.5);
+    padding: 2px 2px 0 2px;
+}
+.lightbox-img .arrows-l:hover, .lightbox-img .arrows-r:hover {
+    opacity: 1
+}
+.lightbox-img .arrows-l {
+    left: 3%;
+}
+.lightbox-img .arrows-r {
+    right: 3%;
+}
+.lightbox-img .description {
+    color: #ddd;
+}
+.lightbox-img .modal-footer {
+    display: none;
+}
+.border-a {
+    margin-left: auto;
+    margin-right: auto;
+}
+.border-c {
+    max-height: 87vh;
+    max-width: 100%;
+}
+/** Koniec ---- Fotogaléria VUE.js - časť obsahu album - Zvätšená fotka - úroveň 4 ---- */
+
+/** ---- Fotogaléria VUE.js - časť obsahu album - Zvätšená fotka - úroveň 5 ---- */
+#modal-multi-2 {
+    background-color: black;
+}
+#modal-multi-2 .modal-dialog {
+    max-width: 100%;
+    max-height: 100%;
+    margin: 0;
+    background-color: black;
+}
+#modal-multi-2 header, #modal-multi-2 footer{
+    display: none;
+}
+#modal-multi-2 .modal-content {
+    background-color: transparent;
+}
+#modal-multi-2 .modal-body {
+    display: table;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0;
+}
+#modal-multi-2 .modal-body img {
+    max-height: 99vh;
+    max-width: 100%;
+}
+/** Koniec ---- Fotogaléria VUE.js - časť obsahu album - Zvätšená fotka - úroveň 5 ---- */

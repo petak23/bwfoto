@@ -1,0 +1,27 @@
+{* Sablona pre zobrazenie obsahu fotoalbumu s vue.js
+ *
+ * Modul: FRONT
+ *
+ * Posledna zmena(last change): 11.01.2021
+ * @copyright  Copyright (c) 2021 - 2021 Ing. Peter VOJTECH ml.
+ * @license
+ * @link       http://petak23.echo-msz.eu
+ *
+ * @param string  $h2 Nadpis
+ * @param array   $big_img Aktualny velky obrazok
+ * @param string  $nastavenie Nastavenie z configu
+ * @param string  $viac_info  Nadpis menu
+ * @param boolean $clanok_view  Zobrazenie
+ * @param array   $komponenty Komponenty pod clankom
+ * @param boolean $komentare_povolene Povolenie komentarov
+*}
+
+  <fotogalery
+    attachments="{$attachments}"
+    basepath="{$basePath}/"
+    border_a="{$hlavne_menu->border_a|border_x_vue|noescape}"
+    border_b="{$hlavne_menu->border_b|border_x_vue|noescape}"
+    border_c="{$hlavne_menu->border_c|border_x_vue|noescape}"
+    text_before="{_'galery_arrows_before'}"
+    text_after="{_'galery_arrows_after'}"
+  ></fotogalery>

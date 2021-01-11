@@ -1,2 +1,3 @@
 rd temp\cache/q/s
-del www\dist\*.*/q 
+rd temp\webpack/q/s
+rd www\dist/q/s
