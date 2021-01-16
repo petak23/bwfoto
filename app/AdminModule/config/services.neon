@@ -88,6 +88,8 @@ services:
     implement: App\AdminModule\Components\Products\IProductsControl
     arguments: 
       texts_for_translator: %datagrid.texts_for_translator%
+      wwwDir: %wwwDir%
+      dir_to_products: %dir_to_products%
 
   - App\AdminModule\Components\User\ContactCategori\IContactCategoriControl
   - App\AdminModule\Components\User\IKontaktControl
