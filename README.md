@@ -19,3 +19,7 @@ Toto je môj [Nette](https://nette.org) projekt web-stránky [bwfoto.sk](http://
 - `npm run watch` - watch changes in development bundles
 - `npm run serve` - starts webpack development server
 - `npm run build` - generates production bundles
+
+## Deployment
+
+ - `php ../ftp-deployment/deployment deployment.ini`
