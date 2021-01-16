@@ -72,7 +72,7 @@ application:
     *: App\*Module\Presenters\*Presenter
 
 session:
-#  autoStart: true
+  autoStart: true
   expiration: 14 days
 
 tracy:

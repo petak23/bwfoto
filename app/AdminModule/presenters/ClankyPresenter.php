@@ -9,15 +9,15 @@ use PeterVojtech;
 /**
  * Prezenter pre spravu clankov.
  * 
- * Posledna zmena(last change): 12.11.2020
+ * Posledna zmena(last change): 16.01.2021
  *
  *	Modul: ADMIN
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @copyright Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.3.4
+ * @version 1.3.5
  */
 
 class ClankyPresenter extends ArticlePresenter {
@@ -29,9 +29,9 @@ class ClankyPresenter extends ArticlePresenter {
   public $prilohyClanokControlFactory;
   /** @var Components\Clanky\Komponenty\IKomponentyControl @inject */
   public $komponentyControlFactory;
-  
   /** @var Components\Products\IProductsControl @inject */
   public $productsControlFactory;
+
   /** @var DbTable\Products @inject */
   public $products;
   
@@ -150,7 +150,7 @@ class ClankyPresenter extends ArticlePresenter {
     $form->addGroup();
     if ($this->nastavenie['send_e_mail_news']) {
       $form->addCheckbox('posli_news', ' Posielatie NEWS')
-           ->setOption('description', 'Zaškrtnutím sa pri uložení pošle informačný e-mail všetkým užívateľom, ktorý majú oprávnenie na čítanie článku(min. úroveň registrácie).');
+            ->setOption('description', 'Zaškrtnutím sa pri uložení pošle informačný e-mail všetkým užívateľom, ktorý majú oprávnenie na čítanie článku(min. úroveň registrácie).');
     }
 		$form->addGroup();
 		foreach ($this->jaz as $j) {
@@ -160,9 +160,9 @@ class ClankyPresenter extends ArticlePresenter {
         $form->addText($j->skratka.'_anotacia', 'Anotácia článku pre jazyk '.$j->nazov.':', 0, 255);
       }
 			$form->addTextArea($j->skratka.'_text', 'Text článku pre jazyk '.$j->nazov.':')
-           ->setAttribute('cols', 0)
-           ->setAttribute('rows', 20)
-           ->getControlPrototype()->class("texyla");
+            ->setAttribute('cols', 0)
+            ->setAttribute('rows', 20)
+            ->getControlPrototype()->class("texyla");
     }
 		$form->addGroup();
 		$form->addSubmit('uloz', 'Ulož článok')->setAttribute('class', 'btn btn-success');
@@ -230,7 +230,7 @@ class ClankyPresenter extends ArticlePresenter {
    * @return \App\AdminModule\Components\Clanky\Products\ProductsControl */
 	public function createComponentProducts() {
     $products = $this->productsControlFactory->create(); 
-    $products->setTitle($this->zobraz_clanok, $this->nazov_stranky, $this->nastavenie, $this->name);
+    $products->setTitle($this->zobraz_clanok, $this->nazov_stranky, $this->name);
     return $products;
   }
 

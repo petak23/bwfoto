@@ -32,7 +32,7 @@ const ROOT_PATH = __dirname;
 const CACHE_PATH = ROOT_PATH + "/temp/webpack";
 
 var AssetsPlugin = require('assets-webpack-plugin');
- 
+
 module.exports = {
   mode: devMode ? "development" : "production",
   context: path.join(ROOT_PATH, "app/assets"),
@@ -133,7 +133,8 @@ module.exports = {
 			jQuery: "jquery",
 			"window.jQuery": "jquery",
 			"window.$": "jquery",
-			Popper: ["popper.js", "default"]
+      Popper: ["popper.js", "default"],
+      naja: ['naja', 'default'],  // https://forum.nette.org/cs/25444-ublaboo-datagrid-mocny-rychly-rozsiritelny-hezky-anglicky-dokumentovany-datagrid?p=36#p213906
 		}),
     
     new MiniCssExtractPlugin({
