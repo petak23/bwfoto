@@ -93,7 +93,6 @@ export default {
           <img :src="basepath + im.thumb_file" 
               :alt="im.name" class="img-thumbnail">
         </a>
-        {{ im.name }}
       </div>
     </div>
   </div>
