@@ -1,1 +1,321 @@
-/* @charset "utf-8"; *//* Bwfoto main CSS Document */body{	font-family: 'Montserrat', sans-serif;	background-image: url("./images/bg-site.jpg");	background-repeat: repeat-x;	background-color: black;	margin: 0;	color: #ddd;}body#colorphoto{	/*background-image: url("./images/bg-color-winter-sm.jpg");*/ /* ??? Chýba obrázok ??? */ 	background-repeat: repeat-x;	background-color: black;	margin: 0;	color: #ddd;}p{	font-weight: 300;}a{	color: #333;}a:hover{	color: #960;}.white-curtain{	background-color: rgba(250,250,250,0.60);}.black-curtain{	background-color: rgba(0,0,0,0.60);}/* navigacia */nav a{	font-size: 0.9rem;}nav .nav-item{	background-color: rgba(250,250,250,0.60);	margin: 0 2px;}nav .fa-binoculars{	color: white;}nav .navbar-brand{	background-color: rgba(250,250,250,0.60);}nav.shrink { height: auto;	background-color: rgba(250,250,250,0.90) !important;}.navbar-brand img{	margin: 1% 0; width: 100%; transition: width .5s;}nav.shrink .navbar-brand img {	background-color: transparent;	width: 60%; }nav.shrink a{	font-size: 0.8rem;}nav.shrink .navbar-brand{	padding: 0 !important;	background-color: transparent;}/* uvodny text */#uvodnyText{	margin-top: 300px;}/* sedy gradient podklad */.frame{	background-image: linear-gradient(to top, rgba(33,33,33,1)50%, rgba(33,33,33,0)90%);	width: 80vw;	padding: 2rem;	margin: 0 auto;}/* casti webu nahlady */#webParts{	display: none;}#webParts-md{		display: block;		margin: 0 auto 2rem auto;	}	#webParts-md figure{		position: relative;		flex-grow: 1;	}	#webParts-md figcaption{		position: absolute;		bottom: 0px;	}	#webParts-md h2{		font-size: 1.2rem;		transition: font-size 0.5s;	}	#webParts-md figure:hover figcaption h2{		font-size: 1.5rem;	}	#webParts-md .flex-column figcaption{		bottom: 0px;	} #webParts-md .flex-column figure:nth-child(2){		margin-bottom: 0;	}#webParts-md .flex-column figure:nth-child(2) figcaption{			top: 0px;	}	#webParts-md figure img {			width: 100%;			height: 100%;			object-fit: cover;			object-position: center;	}	#webParts-md .part-small {			background-color: #996600;		padding: 1rem;		margin-top: .5rem;	}/* footer */footer{	border-top: 2px solid #000;}footer .nav ul{ border-bottom: 1px solid #777;}footer .nav li{ background-color: transparent; border-right: 1px solid #777;}footer .nav li:last-child{ border-right: 0px;}footer a{	color: #999; font-size: 0.8rem;}footer a:hover{	color: #960;}footer #logoBWfoto {	text-align: center;}footer #contact {		text-align: center;	}footer .pv-footer { font-size: 0.7rem; color: #999;}footer .pv-footer a{ font-size: 0.7rem; color: #960;}/* media queries */@media (min-width: 576px) { }@media (min-width: 768px) {	nav .form-control {    max-width: 8em;  }	nav .nav-item {    padding-left: 0;  }	nav .fa-binoculars{	color: black;}		footer #logoBWfoto {		border-right: 1px solid #777;		text-align: right;	}		footer #contact {		text-align: left;	}}@media (min-width: 992px) { nav .form-control {  max-width: 12em; }	nav a{	font-size: 1rem;}	#webParts-md{		display: none;	}	#webParts{		display: block;		margin: 0 auto 2rem auto;	}	#webParts figure{		position: relative;	}	#webParts figcaption{		position: absolute;		bottom: 0px;	}	#webParts h2{		font-size: 1.2rem;		transition: font-size 0.5s;	}	#webParts figure:hover figcaption h2{		font-size: 1.5rem;	}	#webParts .flex-column-reverse figcaption{		top: 0px;	}	#webParts .flex-column-reverse figure{		margin-top: 1rem;	}	#webParts .flex-column-reverse figure:nth-child(1){		margin-bottom: 0;	}	#webParts figure img {			width: 100%;			height: 100%;			object-fit: cover;			object-position: center;	}	#webParts .part-small {			background-color: #996600;	}}@media (min-width: 1200px) {  }
+/* @charset "utf-8"; */
+/* Bwfoto main CSS Document */
+body{
+	font-family: 'Montserrat', sans-serif;
+	background-image: url("./images/bg-site.jpg");
+	background-repeat: repeat-x;
+	background-color: black;
+	margin: 0;
+	color: #ddd;
+}
+body#colorphoto{
+	/*background-image: url("./images/bg-color-winter-sm.jpg");*/ /* ??? Chýba obrázok ??? */ 
+	background-repeat: repeat-x;
+	background-color: black;
+	margin: 0;
+	color: #ddd;
+}
+
+p{
+	font-weight: 300;
+}
+a{
+	color: #333;
+}
+a:hover{
+	color: #960;
+}
+.white-curtain{
+	background-color: rgba(250,250,250,0.60);
+}
+.black-curtain{
+	background-color: rgba(0,0,0,0.60);
+}
+
+/* navigacia */
+nav a{
+	font-size: 0.9rem;
+}
+nav .nav-item{
+	background-color: rgba(250,250,250,0.60);
+	margin: 0 2px;
+}
+nav .fa-binoculars{
+	color: white;
+}
+nav .navbar-brand{
+	background-color: rgba(250,250,250,0.60);
+}
+nav.shrink {
+ height: auto;
+	background-color: rgba(250,250,250,0.90) !important;
+}
+.navbar-brand img{
+	margin: 1% 0;
+ width: 100%;
+ transition: width .5s;
+}
+nav.shrink .navbar-brand img {
+	background-color: transparent;
+	width: 60%;
+ }
+nav.shrink a{
+	font-size: 0.9rem;
+}
+nav.shrink .navbar-brand{
+	padding: 0 !important;
+	background-color: transparent;
+}
+
+/* uvodny text */
+#uvodnyText{
+	margin-top: 300px;
+	text-align: center;
+}
+
+/* sedy gradient podklad */
+.frame{
+	background-image: linear-gradient(to top, rgba(33,33,33,1)50%, rgba(33,33,33,0)90%);
+	width: 80vw;
+	padding: 2rem;
+	margin: 0 auto;
+}
+
+/* casti webu nahlady */
+#webParts{
+	display: none;
+}
+#webParts-md{
+		display: block;
+		margin: 0 auto 2rem auto;
+	}
+	#webParts-md figure{
+		position: relative;
+		flex-grow: 1;
+	}
+	#webParts-md figcaption{
+		position: absolute;
+		bottom: 0px;
+	}
+	#webParts-md h2{
+		font-size: 1.2rem;
+			transition: font-size 0.3s;
+	}
+	#webParts-md figure:hover figcaption h2{
+		font-size: 1.3rem;
+		text-decoration: underline;
+	}
+	#webParts-md .flex-column figcaption{
+		bottom: 0px;
+	}
+ /*#webParts-md .flex-column figure:nth-child(2){
+		margin-bottom: 0;
+	}
+#webParts-md .flex-column figure:nth-child(2) figcaption{
+			top: 0px;
+	} */
+	#webParts-md figure img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			object-position: center;
+	}
+	#webParts-md .part-small {
+			background-color: #996600;
+		padding: 1rem;
+		margin-top: .5rem;
+	}
+#webAlbums
+{
+	display: block;
+}
+#webAlbums .album
+{
+	text-align: center;
+	margin: 0;
+}
+#webAlbums h3{
+	color: white;
+	margin: .5em 0 1.5em 0;
+}
+#webAlbums h3:hover{
+	color: #b80;
+}
+#webAlbums img{
+	outline: .6rem solid rgba(225,225,225,0.7);
+ outline-offset: -.6rem;
+}
+#webAlbums img:hover{
+	outline: .8rem solid rgba(225,225,225,1);
+	outline-offset: -.8rem;
+}
+#squarePlace{
+			height: 80vh;
+			background-color: rgba(44,44,44,1.00);
+	position: relative;
+}
+#squarePlace img{
+			position: absolute;
+  	max-width: 90%; max-height: 90%;
+  	top: 50%;
+  	left: 50%;
+  	transform: translate(-50%, -50%);
+}
+.thumbgrid{
+			display: grid;
+			grid-template-columns: repeat(1, 1fr);
+			grid-gap: 0.5rem;
+			max-height: 90vh;
+			overflow: auto;
+}
+
+/* footer */
+footer{
+	border-top: 2px solid #000;
+}
+footer .nav ul{
+ border-bottom: 1px solid #777;
+}
+footer .nav li{
+ background-color: transparent;
+ border-right: 1px solid #777;
+}
+footer .nav li:last-child{
+ border-right: 0px;
+}
+footer a{
+	color: #999;
+ font-size: 0.8rem;
+}
+footer a:hover{
+	color: #960;
+}
+footer #logoBWfoto {
+	text-align: center;
+}
+footer #contact {
+		text-align: center;
+	}
+footer .pv-footer {
+ font-size: 0.7rem;
+ color: #999;
+}
+footer .pv-footer a{
+ font-size: 0.7rem;
+ color: #960;
+}
+/* media queries */
+@media (min-width: 576px) {
+	#webAlbums{
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+	#webAlbums h3{
+		font-size: 1.5rem;
+	}
+	
+	/* male nahlady mriezka */
+	#webThumbnails{
+		
+	}
+	.thumbgrid{
+			grid-template-columns: repeat(2, 1fr);
+		}
+		.thumbgrid > div{
+			position: relative;
+			background-color: rgba(44,44,44,1.00);
+			padding: 1rem;
+		}
+		.thumbgrid > div::before{
+			content: "";
+			padding-top: 100%;
+			display: block;
+		}
+		.thumbgrid img{
+			position: absolute;
+  	max-width: 90%; max-height: 90%;
+  	top: 50%;
+  	left: 50%;
+  	transform: translate(-50%, -50%);
+			border: solid 3px #ddd;
+		}
+}
+
+@media (min-width: 768px) {
+	nav .form-control {
+    max-width: 8em;
+  }
+	nav .nav-item {
+    padding-left: 0;
+  }
+	nav .fa-binoculars{
+	color: black;
+}
+		footer #logoBWfoto {
+		border-right: 1px solid #777;
+		text-align: right;
+	}
+		footer #contact {
+		text-align: left;
+	}
+}
+
+@media (min-width: 992px) {
+ nav .form-control {
+  max-width: 12em;
+ }
+	nav a{
+	font-size: 1rem;
+}
+	#webParts-md{
+		display: none;
+	}
+	#webParts{
+		display: block;
+		margin: 0 auto 2rem auto;
+	}
+	#webParts figure{
+		position: relative;
+	}
+	#webParts figcaption{
+		position: absolute;
+		bottom: 0px;
+	}
+	#webParts h2{
+		font-size: 1.2rem;
+		transition: font-size 0.3s;
+	}
+	#webParts figure:hover figcaption h2{
+		font-size: 1.3rem;
+		text-decoration: underline;
+	}
+	#webParts .flex-column-reverse figcaption{
+		top: 0px;
+	}
+	#webParts .flex-column-reverse figure{
+		margin-top: 1rem;
+	}
+	#webParts .flex-column-reverse figure:nth-child(1){
+		margin-bottom: 0;
+	}
+	#webParts figure img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			object-position: center;
+	}
+	#webParts .part-small {
+			background-color: #996600;
+	}
+	.thumbgrid{
+			grid-template-columns: repeat(3, 1fr);
+		}
+}
+
+@media (min-width: 1200px) {
+  #webAlbums{
+		justify-content: left;
+	}
+}
