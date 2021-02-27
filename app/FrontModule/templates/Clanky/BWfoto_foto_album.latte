@@ -12,10 +12,9 @@
 {block title}{$h2}{/block}
 
 {block content}
-<section class="row">
-  <article class="col-12" id="uvodnyText">
-    {control ukazTentoClanok}
-  </article>
-
+<article id="uvodnyText">
+  {control ukazTentoClanok}
+</article>
+<section id="webThumbnails" class="row">
   {control fotogalery template=>'BWfoto'}
 </section>

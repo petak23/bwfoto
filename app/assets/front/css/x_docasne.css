@@ -1,9 +1,9 @@
 /* 
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * Last update: 31.07.2020 
+ * Last update: 24.02.2021 
  */
 
-/** ---- Univerzalne styly ----*/
+/** ---- Univerzálne štýly ----*/
 a[href^="#error:"] {
     background: red;
     color: white;
@@ -15,7 +15,7 @@ a[href^="#error:"] {
 	margin-top: 0;
 }
 
-/** ---- Horne menu - rozbalovacia cast ---- */
+/** ---- Horné menu - rozbaľovacia čast ---- */
 #topNav .dropdown .nav-link {
   float: left;
 }
@@ -37,7 +37,7 @@ a[href^="#error:"] {
   flex-direction: column;
 }
 
-/** ---- Hlavna ponuka na titulke ---- */
+/** ---- Hlavná ponuka na titulke ---- */
 #webContent {
   margin-top: 15rem;
 }
@@ -54,7 +54,7 @@ a[href^="#error:"] {
   color: #333;
 }  
 
-/** ---- Informacie o uzivatelovi ---- */
+/** ---- Informácie o užívateľovi ---- */
 .user-info {
   padding-bottom: 1ex;
 }
@@ -94,7 +94,7 @@ a[href^="#error:"] {
   width: 100%;
 }
 
-/** ---- Drobeckova navigacia ---- */
+/** ---- Drobečková navigácia ---- */
 .breadcrumb-main {
   font-size: 0.75rem;
   background-color: transparent;
@@ -105,31 +105,6 @@ a[href^="#error:"] {
 }
 .breadcrumb {
   padding: .5rem 1rem;
-}
-
-/** ---- Fotogaleria - cast albumov - foto section ---- */
-.album a {
-  color: #ddd;
-}
-.album img {
-  width: 100%;
-}
-
-/** ---- Fotogaléria - časť obsahu albumu - foto album - úroveň 3 ---- */
-.detail img {
-  border-width: 2px;
-  width: 100%;
-}
-.detail button {
-  padding: 5%;
-  background: radial-gradient(#000, #333);
-  width: 100%;
-}
-.thumbnails .thumb a {
-  color: transparent;
-}
-.thumbnails .thumb a.selected img {
-  background-color: #ffeb3b; 
 }
 
 /** ---- Pre vue komponentu autocomplete ---- */

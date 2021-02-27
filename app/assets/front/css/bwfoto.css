@@ -1,4 +1,10 @@
-/* @charset "utf-8"; */
+/* 
+ * @author: Mgr. Jozef Petrenčík
+ * @last update: Ing. Peter Vojtech ml. <petak23@gmail.com>
+ * @last update: 24.02.2021 
+ */
+
+/* @charset "utf-8"; */ /* Vymazané PV 27.02.2021 */
 /* Bwfoto main CSS Document */
 body{
 	font-family: 'Montserrat', sans-serif;
@@ -8,13 +14,15 @@ body{
 	margin: 0;
 	color: #ddd;
 }
-body#colorphoto{
-	/*background-image: url("./images/bg-color-winter-sm.jpg");*/ /* ??? Chýba obrázok ??? */ 
+/* Vymazané PV 27.02.2021 */
+/*body#colorphoto{
+	background-image: url("./images/bg-color-winter-sm.jpg");
 	background-repeat: repeat-x;
 	background-color: black;
 	margin: 0;
 	color: #ddd;
-}
+}*/
+/* Koniec vyymazaného PV 27.02.2021 */
 
 p{
 	font-weight: 300;
@@ -150,8 +158,14 @@ nav.shrink .navbar-brand{
 	outline-offset: -.8rem;
 }
 #squarePlace{
-			height: 80vh;
-			background-color: rgba(44,44,44,1.00);
+	/*height: 80vh;*/ /* Vymazané PV 27.02.2021 */
+	
+	/* Doplnené PV 27.02.2021 */
+	max-width: 80vh;
+	max-height: 80vh;
+	/* Koniec doplneného PV 27.02.2021 */
+	
+	background-color: rgba(44,44,44,1.00);
 	position: relative;
 }
 #squarePlace img{
@@ -162,12 +176,35 @@ nav.shrink .navbar-brand{
   	transform: translate(-50%, -50%);
 }
 .thumbgrid{
-			display: grid;
-			grid-template-columns: repeat(1, 1fr);
-			grid-gap: 0.5rem;
-			max-height: 90vh;
-			overflow: auto;
+	display: grid;
+	grid-template-columns: repeat(1, 1fr);
+	grid-gap: 0.5rem;
+	max-height: 90vh;
+	overflow: auto;
+
+/* Doplnené PV 27.02.2021 */
+  max-height: 80vh;
+  grid-auto-rows: 7rem;
 }
+.thumbgrid > div{
+  position: relative;
+  background-color: rgba(44,44,44,1.00);
+  padding: 1rem;
+}
+.thumbgrid > div::before{
+  content: "";
+  padding-top: 100%;
+  display: block;
+}
+.thumbgrid img{
+  position: absolute;
+  max-width: 90%; max-height: 90%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: solid 3px #ddd;
+}	
+/* Koniec dolneného PV 27.02.2021 */
 
 /* footer */
 footer{
@@ -223,8 +260,8 @@ footer .pv-footer a{
 	.thumbgrid{
 			grid-template-columns: repeat(2, 1fr);
 		}
-		.thumbgrid > div{
-			position: relative;
+		/*.thumbgrid > div{    /* Vymazané PV 27.02.2021*/
+		/*	position: relative;
 			background-color: rgba(44,44,44,1.00);
 			padding: 1rem;
 		}
@@ -240,7 +277,7 @@ footer .pv-footer a{
   	left: 50%;
   	transform: translate(-50%, -50%);
 			border: solid 3px #ddd;
-		}
+		}*/
 }
 
 @media (min-width: 768px) {

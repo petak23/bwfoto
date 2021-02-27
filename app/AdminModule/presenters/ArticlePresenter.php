@@ -10,15 +10,15 @@ use PeterVojtech;
 /**
  * Zakladny presenter pre presentery obsluhujuce polozky hlavneho menu v module ADMIN
  * 
- * Posledna zmena(last change): 10.11.2020
+ * Posledna zmena(last change): 23.02.2021
  *
  * Modul: ADMIN
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.4.5
+ * @version 1.4.6
  */
 abstract class ArticlePresenter extends BasePresenter {
   
@@ -139,9 +139,9 @@ abstract class ArticlePresenter extends BasePresenter {
     $this->admin_links = [
       "alink" => ["druh_opravnenia" => $druh_opravnenia,
                   "link"    => $druh_opravnenia ? ($druh_opravnenia == 1 ? ['main'=> $modul_presenter[1].':addpol']
-                                                                         : ['main'=>'Clanky:add', 'uroven'=>$hlm->uroven+1]) : NULL,
+                                                                          : ['main'=>'Clanky:add', 'uroven'=>$hlm->uroven+1]) : NULL,
                   "text"    => "Pridaj podčlánok"
-                 ],
+                  ],
       "elink" => $opravnenie_edit && $this->user->isAllowed($this->name, 'edit'),
       "dlink" => $opravnenie_del && $this->user->isAllowed($this->name, 'del') && !$this->hlavne_menu->maPodradenu($this->zobraz_clanok->id_hlavne_menu),
       "vlastnik" => $this->vlastnik($hlm->id_user_main),
@@ -312,7 +312,7 @@ abstract class ArticlePresenter extends BasePresenter {
       $presenter = $hl_m->hlavne_menu->druh->presenter;
     }
     if ($druh == 'avatar') {
-      $uloz = $this->hlavne_menu->zmazTitleImage($id, $this->nastavenie["dir_to_menu"], $this->context->parameters["wwwDir"]);
+      $uloz = $this->hlavne_menu->zmazTitleImage($id, $this->nastavenie["dir_to_menu"], $this->nastavenie["wwwDir"]);
       $this->_ifMessage($uloz !== FALSE ? TRUE : FALSE, 'Titulný obrázok bol vymazaný!', 'Došlo k chybe a titulný obrázok nebol vymazaný!');
       $this->redirect($presenter.':', $id);
     } elseif ($druh == 'priloha') { //Poziadavka na zmazanie prilohy
@@ -324,7 +324,7 @@ abstract class ArticlePresenter extends BasePresenter {
       } else { $this->flashRedirect("Homepage:", 'Došlo k chybe a príloha nebola vymazaná!', 'danger');}
     } elseif ($druh == "") {
       $id_nadradenej = ($hl_m->hlavne_menu->id_nadradenej == NULL) ? -1*$hl_m->hlavne_menu->id_hlavne_menu_cast
-                                                                   : $hl_m->hlavne_menu->id_nadradenej;
+                                                                    : $hl_m->hlavne_menu->id_nadradenej;
       if ($presenter == "Clanky") { //Mazanie clanku
         $this->_ifMessage($this->_delClanok($id), 'Článok bol úspešne vymazaný!', 'Došlo k chybe a článok nebol vymazaný!'); //Poziadavka na zmazanie clanku
       } elseif ($presenter == "Menu") {
@@ -343,7 +343,7 @@ abstract class ArticlePresenter extends BasePresenter {
 	 * @param string $subor Nazov suboru aj srelativnou cestou
 	 * @return int Ak zmaze alebo neexistuje(nie je co mazat) tak 1 inak 0 */
 	public function vymazSubor($subor) {
-		return (is_file($subor)) ? unlink($this->context->parameters["wwwDir"]."/".$subor) : -1;
+		return (is_file($subor)) ? unlink($this->nastavenie["wwwDir"]."/".$subor) : -1;
 	}
   
   /** 
@@ -371,7 +371,7 @@ abstract class ArticlePresenter extends BasePresenter {
     $dokumenty = $this->dokumenty->findBy(["id_hlavne_menu"=>$id]);
     $komponenty = $this->clanok_komponenty->findBy(["id_hlavne_menu"=>$id]);
 
-    $this->hlavne_menu->zmazTitleImage($id, $this->nastavenie["dir_to_menu"], $this->context->parameters["wwwDir"]);
+    $this->hlavne_menu->zmazTitleImage($id, $this->nastavenie["dir_to_menu"], $this->nastavenie["wwwDir"]);
     $hl_m_m = $this->hlavne_menu_lang->findBy(["id_hlavne_menu"=>$id])->fetchPairs("id", "id_clanok_lang");
     if ($dokumenty !== FALSE && ($pocita = count($dokumenty))) {
       $do = 0;

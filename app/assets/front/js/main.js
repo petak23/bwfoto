@@ -7,7 +7,7 @@ window.Nette = netteForms;
 
 /* Inicializácia pre ajax knižicu NAJA */
 document.addEventListener('DOMContentLoaded', naja.initialize.bind(naja));
-netteForms.initOnLoad();  
+netteForms.initOnLoad();
 
 /* Zmenšenie headeru */
 if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {

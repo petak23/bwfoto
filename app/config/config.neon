@@ -20,6 +20,7 @@ parameters:
     varianta: 5 #0-nahodne nacitany obrazok, 1-meniace sa obrazky, 2-carousel, 3-scspp
     odkaz: FALSE # Povolenie zobrazenia obrazkov slider-u ako odkazu TRUE|FALSE
     dir: files/slider/
+    sleduj_rozmer: false  # Či sa pri ukladaní sleduje rozmer obrázka
   hlavne_menu_obr_ikonky: FALSE # Povolenie obrazovych ikoniek v hl.menu. TRUE|FALSE
   user_panel: #Nastavenie panelu uzivatela
     view_avatar: FALSE # Zobrazenie avataru v panely uzivatela. TRUE|FALSE

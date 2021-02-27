@@ -1,5 +1,28 @@
+/* 
+ * Fotogaléria s Vue.js
+ * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
+ * Last update: 27.02.2021 
+ */
 
-/** ---- Fotogaléria VUE.js - časť obsahu album - Zvätšená fotka - úroveň 4 ---- */
+/* ---- časť albumov - foto section - úroveň 2 ---- */
+.album a {
+    color: #ddd;
+}
+.album img {
+    width: 100%;
+}
+
+/* ---- časť obsahu albumu - foto album - úroveň 3 ---- */
+.detail button {
+    background: none;
+    width: 100%;
+    height: 100%;
+}
+.thumbgrid a.selected img {
+    border-color: #ffeb3b;
+}
+
+/* ---- časť obsahu album - Zvätšená fotka - úroveň 4 ---- */
 .lightbox-img {
     background-color: rgba(20,20,20,.9);
 }
@@ -29,21 +52,35 @@
     margin-right: auto;
     padding: 0;
 }
+.lightbox-img .my-img-content {
+    width: 86%;
+}
 .lightbox-img .arrows-l, .lightbox-img .arrows-r {
     position: absolute;
-    top: 50%;
-    opacity: .5;
-    background-color: rgba(0,0,0,.5);
+    opacity: .05;
+    background-color: rgba(0,0,0,.25);
     padding: 2px 2px 0 2px;
+    width: 33%;
+    height: 100%;
 }
 .lightbox-img .arrows-l:hover, .lightbox-img .arrows-r:hover {
     opacity: 1
 }
 .lightbox-img .arrows-l {
-    left: 3%;
+    left: 0;
 }
 .lightbox-img .arrows-r {
-    right: 3%;
+    right: 0;
+    text-align: right;
+}
+.lightbox-img .arrows-l > a, .lightbox-img .arrows-r > a{
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    padding-top: 50%;
+}
+.lightbox-img .arrows-l > a i, .lightbox-img .arrows-r > a i{
+    margin: auto 50%;
 }
 .lightbox-img .description {
     color: #ddd;
@@ -59,9 +96,8 @@
     max-height: 87vh;
     max-width: 100%;
 }
-/** Koniec ---- Fotogaléria VUE.js - časť obsahu album - Zvätšená fotka - úroveň 4 ---- */
 
-/** ---- Fotogaléria VUE.js - časť obsahu album - Zvätšená fotka - úroveň 5 ---- */
+/* ---- časť obsahu album - Zvätšená fotka - úroveň 5 ---- */
 #modal-multi-2 {
     background-color: black;
 }
@@ -87,4 +123,3 @@
     max-height: 99vh;
     max-width: 100%;
 }
-/** Koniec ---- Fotogaléria VUE.js - časť obsahu album - Zvätšená fotka - úroveň 5 ---- */
