@@ -1,8 +1,61 @@
 /* 
  * Fotogaléria s Vue.js
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * Last update: 27.02.2021 
+ * Last update: 08.03.2021 
  */
+
+[v-cloak] #webThumbnails > div { /* Pre schovanie počas načítania */
+    display: none;
+}
+/* ---- 
+    Animovaný spinner
+    Zdroje: 
+    https://www.w3schools.com/howto/howto_css_loader.asp
+    https://codeburst.io/how-to-create-a-simple-css-loading-spinner-make-it-accessible-e5c83c2e464c
+---- */
+@keyframes spinner {
+    0% {
+        transform: translate3d(-50%, -50%, 0) rotate(0deg);
+    }
+    100% {
+        transform: translate3d(-50%, -50%, 0) rotate(360deg);
+    }
+}
+[v-cloak] #webThumbnails {
+    height: 80vh;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    background-color:rgba(44,44,44,1);
+    position: relative;
+    opacity: 1;
+    transition: opacity linear 0.1s;
+}
+[v-cloak] #webThumbnails::before {
+    animation: 2s linear infinite spinner;
+    border: solid 5px rgb(54,54,54,1);
+    border-bottom-color: #ef6565;
+    border-radius: 50%;
+    content: "";
+    height: 40px;
+    left: 50%;
+    opacity: inherit;
+    position: absolute;
+    top: calc(50% - 40px);
+    transform: translate3d(-50%, -50%, 0);
+    transform-origin: center;
+    width: 40px;
+    will-change: transform;
+}
+[v-cloak] #webThumbnails::after {
+    content: "Nahrávam fotogalériu...";
+    color: #ffeb3b;
+    font-weight: bold;
+    text-align: center;
+    line-height: 80vh;
+    vertical-align: bottom;
+}
+/* ---- Koniec animovaného spinnera ---- */
 
 /* ---- časť albumov - foto section - úroveň 2 ---- */
 .album a {

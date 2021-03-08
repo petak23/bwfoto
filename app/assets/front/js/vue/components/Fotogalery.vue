@@ -110,7 +110,7 @@ export default {
     </div>
     <div class="col-12 col-sm-4 thumbgrid">
       <div v-for="(im, index) in myatt" :key="im.id">
-        <a @click.prevent="changebig(index)" href=""""
+        <a @click.prevent="changebig(index)" href=""
             :title="'Odkaz' + (im.type == 'menu' ? im.view_name : im.name)" 
             :class="'thumb-a, ajax' + (index == id ? ', selected' : '')">
           <img :src="basepath + im.thumb_file" :alt="im.name" class="img-fluid">

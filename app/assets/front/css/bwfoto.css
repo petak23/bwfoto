@@ -22,7 +22,7 @@ body{
 	margin: 0;
 	color: #ddd;
 }*/
-/* Koniec vyymazaného PV 27.02.2021 */
+/* Koniec vymazaného PV 27.02.2021 */
 
 p{
 	font-weight: 300;
@@ -40,7 +40,7 @@ a:hover{
 	background-color: rgba(0,0,0,0.60);
 }
 
-/* navigacia */
+/* navigácia */
 nav a{
 	font-size: 0.9rem;
 }
@@ -75,13 +75,13 @@ nav.shrink .navbar-brand{
 	background-color: transparent;
 }
 
-/* uvodny text */
+/* úvodny text */
 #uvodnyText{
 	margin-top: 300px;
 	text-align: center;
 }
 
-/* sedy gradient podklad */
+/* šedý gradient podklad */
 .frame{
 	background-image: linear-gradient(to top, rgba(33,33,33,1)50%, rgba(33,33,33,0)90%);
 	width: 80vw;
@@ -254,9 +254,9 @@ footer .pv-footer a{
 	}
 	
 	/* male nahlady mriezka */
-	#webThumbnails{
+	/*#webThumbnails{
 		
-	}
+	}*/
 	.thumbgrid{
 			grid-template-columns: repeat(2, 1fr);
 		}
