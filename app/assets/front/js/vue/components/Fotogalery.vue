@@ -25,7 +25,8 @@ export default {
   data() {
     return {
       id: 0,
-      square: 0
+      square: 0,
+      wid: 0
     }
   },
   methods: {
@@ -50,6 +51,7 @@ export default {
       var height2 = parseInt(window.innerHeight * 0.8);
       var h = height2 > height ? height2 : height;
       this.square = (h>width ? width-20 : h);
+      this.wid = width;
     }
   },
   created() {
@@ -75,7 +77,7 @@ export default {
 <div class="col-12 main-win">
   <div class="row">
     <h4 class="col-12 bigimg-name">
-      {{ myatt[id].name }}
+      {{ myatt[id].name }} - {{ wid }}px
     </h4>
   </div>
   <div class="row">
@@ -110,11 +112,18 @@ export default {
     </div>
     <div class="col-12 col-sm-4 thumbgrid">
       <div v-for="(im, index) in myatt" :key="im.id">
-        <a @click.prevent="changebig(index)" href=""
+        <a  v-if="wid > 0"
+            @click.prevent="changebig(index)" href=""
             :title="'Odkaz' + (im.type == 'menu' ? im.view_name : im.name)" 
             :class="'thumb-a, ajax' + (index == id ? ', selected' : '')">
           <img :src="basepath + im.thumb_file" :alt="im.name" class="img-fluid">
         </a>
+        <button v-else-if="wid == 0 && (im.type == 'attachments2' || im.type == 'product')"
+                v-b-modal.modal-multi-1
+                type="button" class="btn btn-link">
+          <img :src="basepath + im.main_file" 
+              :alt="im.name" class="img-fluid">
+        </button>
       </div>
     </div>
   </div> 

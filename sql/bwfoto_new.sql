@@ -1,4 +1,4 @@
--- Adminer 4.7.7 MySQL dump
+-- Adminer 4.8.0 MySQL 5.5.5-10.5.5-MariaDB-1:10.5.5+maria~focal dump
 
 SET NAMES utf8;
 SET time_zone = '+00:00';
@@ -157,7 +157,7 @@ INSERT INTO `dokumenty` (`id`, `id_hlavne_menu`, `id_user_main`, `id_user_roles`
 (78,	10,	2,	0,	'#I-78#',	'ATELIER-ZAMECNIK-28X-zmena-velikosti',	'jpg',	'atelier-zamecnik-28x-zmena-velikosti',	NULL,	'files/prilohy/ATELIER-ZAMECNIK-28X-zmena-velikosti.jpg',	'files/prilohy/tb_ATELIER-ZAMECNIK-28X-zmena-velikosti.jpg',	'2020-03-21 18:51:42',	1,	2,	0),
 (79,	10,	2,	0,	'#I-79#',	'ATELIER-ZAMECNIK-29',	'jpg',	'atelier-zamecnik-29',	NULL,	'files/prilohy/ATELIER-ZAMECNIK-29.jpg',	'files/prilohy/tb_ATELIER-ZAMECNIK-29.jpg',	'2020-03-21 18:51:42',	1,	2,	0),
 (80,	10,	2,	0,	'#I-80#',	'ATELIER-ZAMECNIK-30',	'jpg',	'atelier-zamecnik-30',	NULL,	'files/prilohy/ATELIER-ZAMECNIK-30.jpg',	'files/prilohy/tb_ATELIER-ZAMECNIK-30.jpg',	'2020-03-21 18:51:42',	1,	2,	0),
-(81,	26,	2,	0,	'#I-81#',	'ATELIER-ZAMECNIK-51',	'jpg',	'atelier-zamecnik-51',	NULL,	'files/prilohy/ATELIER-ZAMECNIK-51.jpg',	'files/prilohy/tb_ATELIER-ZAMECNIK-51.jpg',	'2020-03-22 01:18:50',	1,	2,	0),
+(81,	26,	2,	0,	'#I-81#',	'ATELIER-ZAMECNIK-51',	'jpg',	'atelier-zamecnik-51',	'Toto je jeden úžasný popis...',	'files/prilohy/ATELIER-ZAMECNIK-51.jpg',	'files/prilohy/tb_ATELIER-ZAMECNIK-51.jpg',	'2020-03-22 01:18:50',	1,	2,	0),
 (82,	26,	2,	0,	'#I-82#',	'ATELIER-ZAMECNIK-52',	'jpg',	'atelier-zamecnik-52',	NULL,	'files/prilohy/ATELIER-ZAMECNIK-52.jpg',	'files/prilohy/tb_ATELIER-ZAMECNIK-52.jpg',	'2020-03-22 01:18:50',	1,	2,	0),
 (83,	26,	2,	0,	'#I-83#',	'Pohlad-JZx',	'jpg',	'pohlad-jzx',	NULL,	'files/prilohy/Pohlad-JZx.jpg',	'files/prilohy/tb_Pohlad-JZx.jpg',	'2020-03-22 01:18:50',	1,	2,	0),
 (84,	26,	2,	0,	'#I-84#',	'Pohlad-Zx',	'jpg',	'pohlad-zx',	NULL,	'files/prilohy/Pohlad-Zx.jpg',	'files/prilohy/tb_Pohlad-Zx.jpg',	'2020-03-22 01:18:50',	1,	2,	0),
@@ -404,12 +404,12 @@ INSERT INTO `hlavne_menu` (`id`, `spec_nazov`, `id_hlavne_menu_cast`, `id_user_r
 (15,	'homepage-dole',	3,	0,	NULL,	1,	0,	NULL,	2,	2,	0,	0,	0,	0,	0,	NULL,	5,	NULL,	NULL,	NULL,	0,	'2017-11-23 11:49:33',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
 (16,	'cast-a-3',	1,	0,	NULL,	1,	1,	2,	2,	3,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'kp0x78f0j5xot9x.jpg',	0,	'2017-11-23 11:49:33',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
 (19,	'cast-a-1-1',	1,	0,	NULL,	1,	2,	9,	2,	1,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	NULL,	0,	'2017-11-23 11:49:33',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
-(20,	'krajina',	1,	0,	NULL,	1,	1,	3,	2,	1,	0,	1,	0,	0,	0,	NULL,	3,	NULL,	NULL,	'yb8ebcruulh8d50.jpg',	0,	'2020-03-24 00:12:45',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
+(20,	'krajina',	1,	0,	NULL,	1,	1,	3,	2,	1,	0,	1,	0,	0,	0,	NULL,	3,	NULL,	NULL,	'ypeh8h38qy8v9ph.jpeg',	0,	'2021-02-27 18:12:52',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
 (21,	'kostoly',	1,	0,	NULL,	1,	1,	3,	2,	2,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'hi0a9wovlqrbgdv.JPG',	0,	'2017-11-23 11:49:33',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
 (22,	'stromy',	1,	0,	NULL,	1,	1,	3,	2,	3,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'lebld9nagwmbdn3.JPG',	0,	'2020-03-25 10:29:24',	NULL,	0,	NULL,	1,	'#80ff00|3',	'#454545|5',	'#dfd95b|2',	NULL),
 (23,	'budovy',	1,	0,	NULL,	1,	1,	3,	2,	4,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'rubrr55ww87q8z2.JPG',	0,	'2017-12-27 11:24:02',	NULL,	0,	NULL,	1,	'#525252|1',	'#5063e4|2',	'#9b9b00|3',	NULL),
 (24,	'protisvetlo',	1,	0,	NULL,	1,	1,	3,	2,	5,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'9e1gm84fckjtsos.JPG',	0,	'2017-11-23 11:49:33',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
-(26,	'cast-a-4',	1,	0,	NULL,	1,	1,	2,	2,	4,	0,	0,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'i2ipr8grdovqlll.jpg',	0,	'2020-03-23 12:41:45',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
+(26,	'cast-a-4',	1,	0,	NULL,	1,	1,	2,	2,	4,	0,	0,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'i2ipr8grdovqlll.jpg',	0,	'2021-01-16 06:34:26',	NULL,	0,	NULL,	1,	'#000000|2',	'#543f3f|2',	'#dbce81|2',	NULL),
 (27,	'a-gggddd',	1,	0,	NULL,	1,	1,	2,	2,	5,	0,	0,	0,	0,	0,	NULL,	1,	NULL,	NULL,	NULL,	0,	'2020-03-23 12:49:59',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
 (28,	'test-male-rozlisenie',	1,	0,	NULL,	1,	2,	20,	2,	1,	0,	0,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'c3aj8pi5751a260.JPG',	0,	'2020-03-23 17:11:36',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
 (29,	'test-bw-2',	1,	0,	NULL,	1,	1,	1,	2,	2,	0,	0,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'5djsadnnsinbj0q.jpg',	0,	'2020-04-02 15:52:24',	NULL,	0,	NULL,	1,	'#000000|5',	'#dddddd|20',	'#808080|5',	NULL),
@@ -622,9 +622,9 @@ CREATE TABLE `slider` (
 
 INSERT INTO `slider` (`id`, `poradie`, `nadpis`, `popis`, `subor`, `zobrazenie`, `id_hlavne_menu`) VALUES
 (6,	1,	NULL,	NULL,	'bg-site1.jpg',	NULL,	NULL),
-(7,	2,	'',	'',	'bg-bwb.png',	'2',	NULL),
 (12,	3,	NULL,	NULL,	'TITULK-A-TEST-2020-11-zmena-velikosti2.jpg',	'11',	NULL),
-(13,	4,	NULL,	NULL,	'TITULK-A-TEST-2020-5-zmena-velikosti.jpg',	'12',	NULL);
+(13,	4,	NULL,	NULL,	'TITULK-A-TEST-2020-5-zmena-velikosti.jpg',	'12',	NULL),
+(14,	5,	'Fotogalery',	NULL,	'bg-color-stromy-sm1.jpeg',	'1,2,3',	NULL);
 
 DROP TABLE IF EXISTS `udaje`;
 CREATE TABLE `udaje` (
@@ -744,7 +744,7 @@ CREATE TABLE `user_main` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Hlavné údaje užívateľa';
 
 INSERT INTO `user_main` (`id`, `id_user_roles`, `id_user_profiles`, `password`, `meno`, `priezvisko`, `email`, `activated`, `banned`, `ban_reason`, `new_password_key`, `new_password_requested`, `new_email`, `new_email_key`, `last_ip`, `created`, `modified`) VALUES
-(1,	5,	1,	'$2y$10$RnzAjUCyc/B1GgiJ9k43/e27BDz5j1vsbN.DYlfnXIxweBvqxkABq',	'Peter',	'Vojtech',	'petak23@gmail.com',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'217.12.48.22',	'2017-05-15 09:11:19',	'2020-11-10 10:33:29'),
+(1,	5,	1,	'$2y$10$RnzAjUCyc/B1GgiJ9k43/e27BDz5j1vsbN.DYlfnXIxweBvqxkABq',	'Peter',	'Vojtech',	'petak23@gmail.com',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'188.112.93.2',	'2017-05-15 09:11:19',	'2021-03-08 17:15:33'),
 (2,	4,	2,	'$2y$10$0KPg/2sE8I5EjAsgolRttulqhQPsUoVrhIHAxX8Ej3NAOHGuZIbW.',	'Juraj',	'Zámečník',	'bwfoto@bwfoto.sk',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.143.98.194',	'2017-05-15 09:13:38',	'2020-05-15 17:26:00'),
 (3,	4,	3,	'$2y$10$VOeK4y3ozjaUM1aMtiVmcuHRmtcmoVvC6J4yFX4j0LZoNbXlejyMi',	'Jozef',	'Petrenčík',	'jozue@anigraph.eu',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.253.139.152',	'2017-05-15 09:12:22',	'2017-07-11 07:10:29');
 
@@ -859,7 +859,16 @@ INSERT INTO `user_prihlasenie` (`id`, `id_user_main`, `log_in_datetime`) VALUES
 (77,	1,	'2020-08-02 19:23:30'),
 (78,	1,	'2020-09-09 12:13:30'),
 (79,	1,	'2020-09-10 04:29:54'),
-(80,	1,	'2020-11-10 11:33:29');
+(80,	1,	'2020-11-10 11:33:29'),
+(81,	1,	'2020-11-12 18:03:47'),
+(82,	1,	'2020-12-29 09:58:29'),
+(83,	1,	'2020-12-29 15:27:18'),
+(84,	1,	'2021-01-06 06:07:06'),
+(85,	1,	'2021-01-11 14:54:47'),
+(86,	1,	'2021-01-16 07:33:50'),
+(87,	1,	'2021-01-29 06:14:48'),
+(88,	1,	'2021-02-27 18:52:13'),
+(89,	1,	'2021-03-08 18:15:33');
 
 DROP TABLE IF EXISTS `user_profiles`;
 CREATE TABLE `user_profiles` (
@@ -877,7 +886,7 @@ CREATE TABLE `user_profiles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 INSERT INTO `user_profiles` (`id`, `rok`, `telefon`, `poznamka`, `pocet_pr`, `pohl`, `prihlas_teraz`, `avatar`, `news`, `news_key`) VALUES
-(1,	NULL,	NULL,	NULL,	57,	'M',	'2020-11-10 11:33:29',	NULL,	'A',	NULL),
+(1,	NULL,	NULL,	NULL,	66,	'M',	'2021-03-08 18:15:33',	NULL,	'A',	NULL),
 (2,	NULL,	NULL,	NULL,	23,	'M',	'2020-05-15 21:15:24',	NULL,	'A',	NULL),
 (3,	NULL,	NULL,	NULL,	0,	'M',	NULL,	NULL,	'A',	NULL);
 
@@ -960,6 +969,10 @@ INSERT INTO `verzie` (`id`, `id_user_main`, `cislo`, `subory`, `text`, `modified
 (9,	1,	'0.3.0-alfa',	'Upgrade to v 0.3.0',	'- **Oprava chyby: zobrazenie prvého obrázku alebo produktu pri prvom zobrazení článku.**\n- Upgrade nette na verziu 2.4\n- Aplikácia zmien z echo-msz.eu ale s prispôsobením komponent na verziu PHP 7.0.33\n- Inovácia vzhľadu v administrácii, zatiaľ ešte nie úplne dokončená \"(AdminModule) .{color: gray}\".\n- Aktualizácia komponent vzhľadu v package.json \"(fontawesome: 5.2.0, bootstrap: 4.4.1, jquery: 3.4.1, naja: 1.5.1, nette-forms: 2.4.2, popper.js: 1.16.1) .{color: gray}\". \n- Aktualizácia správcu databázy \"(adminer v 4.7.6) .{color: gray}\". \n- Oprava chyby v menu FrontModule a upgrade pre novú verziu Texy.',	'2020-05-04 11:55:19'),
 (10,	1,	'0.3.0-beta',	'Rôzne; jquery 3.5.0',	'- Oprava drobných chýb v prihlásení.\n- Oprava chyby v slideri(issue \"#12\":https://github.com/petak23/bwfoto/issues/12). Rebase model/Table.php.\n- Rebase model/Dokumenty.php; model/Products.php a model/UserManager.php.\n- Oprava chyby v pridávaní podčlánku v adninistrácii.\n- Refaktoring fotogalérie na frontende.\n- Oprava zobrazenia produktov v AdminModule. \n- Update jquery na 3.5.0.\n- Oprava zobrazenia príloh vo FrontModule a premenovanie adresára presenters na Presenters.\n- Oprava issue \"#11\":https://github.com/petak23/bwfoto/issues/11 - A13 - V administracii pri zozname príloh( miniatúry fotografií) keď kliknem na foto aby sa mi zobrazila fotka tak sa zobrazí na ľavej strane - nie je vycentrovaná na stred',	'2020-05-04 12:02:51'),
 (11,	1,	'0.4.0-RC',	'Nette 3.0, adminer 4.7.7',	'- Oprava issue \"#10\":https://github.com/petak23/bwfoto/issues/10 - A10 - nekorektné zobrazenie úrovne 3. a 4.\n- Oprava zobrazenia formulárov na karte Produktu pre AdminModul a odstránenie chyby zobrazenia nastavenia okrajov. \n- Odstránenie chyby zobrazenia hlavného menu v AdminModul-e.\n- Úpravy potrebné pre prechod na nette 3.0,\n- odstránenie drobných chýb,\n- vypustenie webloader-a\n',	'2020-05-26 13:53:54'),
-(12,	1,	'0.5.0',	'Vzhľad, Oprava chýb A9 a A7',	'- Prvá časť zmeny vzhľadu: *Titulka, Prihlasovacia stránka*.\n- Oprava chyby \"#16\":https://github.com/petak23/bwfoto/issues/16 - **A9 - max. počet súčasne nahrávaných súborov**.\n- Oprava chyby \"#15\":https://github.com/petak23/bwfoto/issues/15 - **A7 - doplň priebeh uploadu - pre produkty**.\n- Doplnená možnosť nastavenia max. počtu naraz nahrávaných súborov v rozsahu 5 ... 150.\n- Integrácia prvej verzie komponenty pre vyhľadávanie na stránke.\n- Integrácia jQuery-FileUpload pre nahrávanie súborov.',	'2020-07-30 09:21:42');
+(12,	1,	'0.5.0',	'Vzhľad, Oprava chýb A9 a A7',	'- Prvá časť zmeny vzhľadu: *Titulka, Prihlasovacia stránka*.\n- Oprava chyby \"#16\":https://github.com/petak23/bwfoto/issues/16 - **A9 - max. počet súčasne nahrávaných súborov**.\n- Oprava chyby \"#15\":https://github.com/petak23/bwfoto/issues/15 - **A7 - doplň priebeh uploadu - pre produkty**.\n- Doplnená možnosť nastavenia max. počtu naraz nahrávaných súborov v rozsahu 5 ... 150.\n- Integrácia prvej verzie komponenty pre vyhľadávanie na stránke.\n- Integrácia jQuery-FileUpload pre nahrávanie súborov.',	'2020-07-30 09:21:42'),
+(13,	1,	'0.5.3',	'Webpack, a iné',	'- Pridanie \"webpack-u\":https://webpack.js.org/\n- Refaktoring časti editácie údajov webu.\n- Adminer presunutý na composer-a.\n- Update na \"nette 3\":https://nette.org/cs/maintenance',	'2020-11-12 19:30:00'),
+(14,	1,	'0.5.3b',	'update na php 7.4',	'- Oprava drobných chýb\n- Update na php 7.4\n- Update npm',	'2020-12-29 14:28:48'),
+(15,	1,	'0.5.4a',	'Vue fotogaléria',	'- Vyriešenie chyby \"#14\":https://github.com/petak23/bwfoto/issues/14 - vytvorenie úrovne č.5 a preklopenie fotogalérie do \"vue.js\":https://vuejs.org/ - chýba už len grafický design.\n- Presun nastaveni \"webpack\":https://webpack.js.org/ vývojového servera do config.local.neon a doplnenie nastavení \"webpack-u\":https://webpack.js.org/.\n- Prispôsobenie \"webpack-u\":https://webpack.js.org/ pre vue komponenty.\n- Presun modulov css a js do app/assets.\n\n',	'2021-01-11 13:58:52'),
+(16,	1,	'0.5.5e',	'Oprava chýb, úprava vzhľadu a fotogalérie',	'Urobené:\n========\n- **Počas nahrávania fotogalérie sa zobrazí animovaný spinner** - \"aktualizované 08.03.2021 .{color: red}\"\n- odstránenie kontroly na velkosť obrázka pre \"slider\" - obrázok v hlavičke - \"aktualizované 27.02.2021 .{color: purple}\"\n- oprava zobrazenia - \"aktualizované 27.02.2021 .{color: purple}\"\n- zmena vzhľadu úrovne č. 4 a 5. V úrovni č. 4 je použitý tretinový spôsob. - \"aktualizované 27.02.2021 .{color: purple}\"\n- oprava chýb\n- rozchodenie js v administrácii\n- oprava chyby zobrazenia\n- skrytie názvov miniatúr vo fotogalérii.\n\nNie je urobené:\n===============\n- v prípade zobrazenia na obrazovke so šírkou menšou ako 576px sa nezobrazuje úroveň č. 4 a 5.\n- dokončiť vzhľad pre úrovne č. 4 a 5.',	'2021-03-08 17:18:08');
 
--- 2020-11-10 10:34:03
+-- 2021-03-08 17:18:51

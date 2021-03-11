@@ -204,3 +204,8 @@ a.button-left {
   font-weight: bold;
   font-size: 120%;
 }
+
+.vue-logo {
+  width: 16px;
+  height: 16px;
+}

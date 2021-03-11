@@ -125,3 +125,8 @@ a[href^="#error:"] {
   color: #ccc;
 }
 /** Koniec - Pre vue komponentu autocomplete */
+
+.vue-logo {
+  width: 16px;
+  height: 16px;
+}

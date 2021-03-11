@@ -4,8 +4,8 @@
  *
  *	Modul: FRONT
  *
- * Posledna zmena(last change): 15.06.2020
- * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
+ * Posledna zmena(last change): 09.03.2021
+ * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
  *
@@ -94,12 +94,17 @@
           </li>
           <li class="p-2">&copy; {$udaje['copy']} 2017{if date('Y') != '2017'} - {date('Y')}{/if}</li>
           <li class="p-2">
-            <a href="http://nette.org/cs/" class="logo-nette" title="{_'base_nette_title'}">
+            <a href="https://nette.org/cs/" class="logo-nette" title="{_'base_nette_title'}">
               <img src="{$basePath}/{$nastavenie['dir_to_images']}nette-powered1.gif" alt="{_'base_nette_powered'}">
+            </a>
+          {*</li>
+          <li class="p-2">*}&nbsp;
+            <a href="https://vuejs.org/" class="logo-nette" title="Vue js" target="_blank">
+              <img src="{$basePath}/www/images/logo_vue.png" alt="vue powered" class="vue-logo">
             </a>
           </li>
           <li class="p-2">{$udaje['last_update']} {$verzia->modified|date:'j.n.Y'}</li>
-          <li class="p-2">created by <a href="http://anigraph.eu" title="anigraph.eu" target="_new">anigraph</a></li>
+          <li class="p-2">created by <a href="http://anigraph.eu" title="anigraph.eu" target="_blank">anigraph</a></li>
         </ul>
       </div> 
       <div class="my-3 text-center">      
