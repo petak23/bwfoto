@@ -1,10 +1,10 @@
 /* 
  * Fotogaléria s Vue.js
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * Last update: 08.03.2021 
+ * Last update: 11.03.2021 
  */
 
-[v-cloak] #webThumbnails > div { /* Pre schovanie počas načítania */
+[v-cloak] #webThumbnails .vue-fotogalery > div { /* Pre schovanie počas načítania */
     display: none;
 }
 /* ---- 
@@ -21,7 +21,7 @@
         transform: translate3d(-50%, -50%, 0) rotate(360deg);
     }
 }
-[v-cloak] #webThumbnails {
+[v-cloak] #webThumbnails .vue-fotogalery {
     height: 80vh;
     display: inline-block;
     width: 100%;
@@ -31,7 +31,7 @@
     opacity: 1;
     transition: opacity linear 0.1s;
 }
-[v-cloak] #webThumbnails::before {
+[v-cloak] #webThumbnails .vue-fotogalery::before {
     animation: 2s linear infinite spinner;
     border: solid 5px rgb(54,54,54,1);
     border-bottom-color: #ef6565;
@@ -47,7 +47,7 @@
     width: 40px;
     will-change: transform;
 }
-[v-cloak] #webThumbnails::after {
+[v-cloak] #webThumbnails .vue-fotogalery::after {
     content: "Nahrávam fotogalériu...";
     color: #ffeb3b;
     font-weight: bold;
@@ -71,9 +71,54 @@
     width: 100%;
     height: 100%;
 }
+.thumbgrid{
+	display: grid;
+	grid-template-columns: repeat(1, 1fr);
+	grid-gap: 0.5rem;
+	max-height: 90vh;
+	overflow: auto;
+    max-height: 80vh;
+    grid-auto-rows: 7rem;
+}
 .thumbgrid a.selected img {
     border-color: #ffeb3b;
 }
+.thumbgrid > div{
+    position: relative;
+    background-color: rgba(44,44,44,1.00);
+    padding: 1rem;
+}
+.thumbgrid > div::before{
+    content: "";
+    padding-top: 100%;
+    display: block;
+}
+.thumbgrid img{
+    position: absolute;
+    max-width: 90%; max-height: 90%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: solid 3px #ddd;
+}	
+.thumbgrid img.podclanok {
+    opacity: .5;
+}
+.thumbgrid .h4-podclanok {
+    position: absolute;
+    max-width: 90%; max-height: 90%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #ddd;
+    text-align: center;
+}
+@media (min-width: 576px) {
+    .thumbgrid{
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
 
 /* ---- časť obsahu album - Zvätšená fotka - úroveň 4 ---- */
 .lightbox-img {

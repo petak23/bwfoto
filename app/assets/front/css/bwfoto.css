@@ -169,20 +169,19 @@ nav.shrink .navbar-brand{
 	position: relative;
 }
 #squarePlace img{
-			position: absolute;
+		position: absolute;
   	max-width: 90%; max-height: 90%;
   	top: 50%;
   	left: 50%;
   	transform: translate(-50%, -50%);
 }
+/* Presunuté do vue_fotogalery.css PV 11.03.2021
 .thumbgrid{
 	display: grid;
 	grid-template-columns: repeat(1, 1fr);
 	grid-gap: 0.5rem;
 	max-height: 90vh;
 	overflow: auto;
-
-/* Doplnené PV 27.02.2021 */
   max-height: 80vh;
   grid-auto-rows: 7rem;
 }
@@ -203,8 +202,7 @@ nav.shrink .navbar-brand{
   left: 50%;
   transform: translate(-50%, -50%);
   border: solid 3px #ddd;
-}	
-/* Koniec dolneného PV 27.02.2021 */
+} */
 
 /* footer */
 footer{
@@ -257,9 +255,12 @@ footer .pv-footer a{
 	/*#webThumbnails{
 		
 	}*/
+	
+	/* Presunuté do vue_fotogalery.css PV 11.03.2021
 	.thumbgrid{
 			grid-template-columns: repeat(2, 1fr);
-		}
+	}*/
+
 		/*.thumbgrid > div{    /* Vymazané PV 27.02.2021*/
 		/*	position: relative;
 			background-color: rgba(44,44,44,1.00);

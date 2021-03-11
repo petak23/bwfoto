@@ -2,20 +2,14 @@
  *
  * Modul: FRONT
  *
- * Posledna zmena(last change): 11.01.2021
+ * Posledna zmena(last change): 11.03.2021
  * @copyright  Copyright (c) 2021 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
  *
- * @param string  $h2 Nadpis
- * @param array   $big_img Aktualny velky obrazok
- * @param string  $nastavenie Nastavenie z configu
- * @param string  $viac_info  Nadpis menu
- * @param boolean $clanok_view  Zobrazenie
- * @param array   $komponenty Komponenty pod clankom
- * @param boolean $komentare_povolene Povolenie komentarov
-*}
+ *}
 
+<div class="col-12 vue-fotogalery" n:if="$attachments_count > 0">
   <fotogalery
     attachments="{$attachments}"
     basepath="{$basePath}/"
@@ -25,3 +19,4 @@
     text_before="{_'galery_arrows_before'}"
     text_after="{_'galery_arrows_after'}"
   ></fotogalery>
+</div>

@@ -74,10 +74,10 @@ export default {
 </script>
 
 <template>
-<div class="col-12 main-win">
-  <div class="row">
+<div class="main-win">
+  <div class="row" v-if="wid > 0">
     <h4 class="col-12 bigimg-name">
-      {{ myatt[id].name }} - {{ wid }}px
+      {{ myatt[id].name }}
     </h4>
   </div>
   <div class="row">
@@ -118,6 +118,25 @@ export default {
             :class="'thumb-a, ajax' + (index == id ? ', selected' : '')">
           <img :src="basepath + im.thumb_file" :alt="im.name" class="img-fluid">
         </a>
+        <a  v-else-if="wid == 0 && im.type == 'menu'"
+            :href="im.web_name" 
+            :title="im.name">
+          <img  :src="basepath + im.main_file" 
+                :alt="im.name" class="img-fluid podclanok">
+          <h4 class="h4-podclanok">{{ im.name }}</h4>
+        </a>
+        <video v-if="wid == 0 && im.type == 'attachments3'"
+              class="video-priloha" 
+              :src="basepath + im.main_file" 
+              :poster="basepath + im.thumb_file"
+              type="video/mp4" controls="controls" preload="none">
+        </video>
+        <button v-else-if="wid == 0 && im.type == 'attachments1'"
+                :title="im.name">
+          <img :src="basepath + im.thumb_file" 
+              :alt="im.name" class="img-fluid">
+          <br><h6>{{ im.name }}</h6>
+        </button>
         <button v-else-if="wid == 0 && (im.type == 'attachments2' || im.type == 'product')"
                 v-b-modal.modal-multi-1
                 type="button" class="btn btn-link">
@@ -127,7 +146,7 @@ export default {
       </div>
     </div>
   </div> 
-  <div class="row d-none d-sm-inline-block">
+  <div class="row d-none d-sm-inline-block" v-if="wid > 0">
     <div class="col-12 bigimg-description popis">{{ myatt[id].description }}</div>
   </div>
 

@@ -8,13 +8,13 @@ use Nette\Utils\Json;
 
 /**
  * Komponenta pre zobrazenie fotogalérie k článku 
- * Posledna zmena(last change): 11.01.2021
+ * Posledna zmena(last change): 11.03.2021
  * 
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
  * @copyright Copyright (c) 2021 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.1
+ * @version 1.0.2
  */
 class FotogaleryControl extends Nette\Application\UI\Control {
   
@@ -34,6 +34,8 @@ class FotogaleryControl extends Nette\Application\UI\Control {
   private $paramsFromConfig;
   /** @var array Pole podčlánkov, príloh a produktov článku v JSON formáte*/
   private $attachments;
+  /** @var int Počet podčlánkov, príloh a produktov článku*/
+  private $attachments_count;
   /** @var string Skratka jazyka */
   private $language = 'sk';
   /** @var Nette\Database\Table\ActiveRow */
@@ -79,6 +81,7 @@ class FotogaleryControl extends Nette\Application\UI\Control {
     $this->getAttachments();
     $this->template->setFile(__DIR__ . "/Fotogalery".(isset($p["template"]) && strlen($p["template"]) ? "_".$p["template"] : "_default").".latte");
     $this->template->attachments = $this->attachments;
+    $this->template->attachments_count = $this->attachments_count;
     $this->template->hlavne_menu = $this->hlavne_menu;
     $this->template->setTranslator($this->texts);
     $this->template->addFilter('border_x_vue', function ($text){
@@ -102,7 +105,7 @@ class FotogaleryControl extends Nette\Application\UI\Control {
     
     // Produkty
     $attachments = array_merge($attachments, $this->products->getForFotogalery($this->hlavne_menu->id));
-
+    $this->attachments_count = count($attachments);
     $this->attachments = Json::encode($attachments);
     return $this;
   }

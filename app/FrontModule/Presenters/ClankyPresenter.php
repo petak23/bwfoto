@@ -103,7 +103,6 @@ class ClankyPresenter extends BasePresenter {
       //Zisti, ci su k clanku priradene komponenty
       $this->template->komponenty = $this->clanok_komponenty->getKomponenty($this->zobraz_clanok->id_hlavne_menu, $this->nastavenie["komponenty"]);
       $this->template->id_hlavne_menu_lang = $this->zobraz_clanok->id;
-      
       $servise = $this;
       $this->template->addFilter('odkazdo', function ($id) use($servise){
         $serv = $servise->link("Dokumenty:default", ["id"=>$id]);
