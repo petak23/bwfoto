@@ -1,13 +1,13 @@
 <script>
 /* 
  * Component Fotogalery
- * Posledná zmena(last change): 27.02.2021
+ * Posledná zmena(last change): 19.03.2021
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.2
+ * @version 1.0.3
  */
 
 export default {
@@ -26,13 +26,21 @@ export default {
     return {
       id: 0,
       square: 0,
-      wid: 0
+      wid: 0,
+      uroven: 0, // Premenná sleduje uroveň zobrazenia
     }
   },
   methods: {
     // Zmena id
     changebig: function(id) {
       this.id = id
+    },
+    modalchangebig (id) {
+      this.id = id;
+      this.$bvModal.show("modal-multi-1")
+    },
+    openmodal2 () {
+      if (this.wid > 0) this.$bvModal.show("modal-multi-2")
     },
     // Zmena id na predošlé
     before: function() {
@@ -52,6 +60,24 @@ export default {
       var h = height2 > height ? height2 : height;
       this.square = (h>width ? width-20 : h);
       this.wid = width;
+    },
+    urovenUp () { // Funkcia pre zmenu úrovne o +1 na max. 2
+      this.uroven += this.uroven < 2 ? 1 : 0;;
+    },
+    urovenDwn () {// Funkcia pre zmenu úrovne o -1 na min. 0
+      this.uroven -= this.uroven > 0 ? 1 : 0;
+    },
+    keyPush(event) {
+      if (this.uroven <= 1) {
+				switch (event.key) {
+					case "ArrowLeft":
+						this.before();
+						break;
+					case "ArrowRight":
+						this.after();
+						break;
+        }
+      }
     }
   },
   created() {
@@ -64,10 +90,19 @@ export default {
     // Parsovanie JSON-u  na array
     myatt() {
       return JSON.parse(this.attachments)
-    }
+    },
   },
   mounted () {
-    this.matchHeight()
+    /* Naviazanie na sledovanie zmeny veľkosti stránky */
+    this.matchHeight();
+
+    /* Naviazanie na sledovanie stláčania klávesnice */
+    document.addEventListener("keydown", this.keyPush);
+
+    /* Naviazanie funkcií na $emit na root elemente pre zobrazenie/skrytie modálneho okna fotogalérie 
+     * najdené na: https://stackoverflow.com/questions/50181858/this-root-emit-not-working-in-vue */
+    this.$root.$on("bv::modal::shown", this.urovenUp);
+    this.$root.$on("bv::modal::hidden", this.urovenDwn);
   },
 
 };
@@ -138,7 +173,7 @@ export default {
           <br><h6>{{ im.name }}</h6>
         </button>
         <button v-else-if="wid == 0 && (im.type == 'attachments2' || im.type == 'product')"
-                v-b-modal.modal-multi-1
+                @click.prevent="modalchangebig(index)"
                 type="button" class="btn btn-link">
           <img :src="basepath + im.main_file" 
               :alt="im.name" class="img-fluid">
@@ -152,10 +187,11 @@ export default {
 
   <b-modal  id="modal-multi-1" centered size="xl" 
             :title="myatt[id].name" ok-only
-            modal-class="lightbox-img">
+            modal-class="lightbox-img"
+            ref="modal1fo">
     <div class="modal-content">
       <div class="modal-body my-img-content">
-        <b-button v-b-modal.modal-multi-2>
+        <b-button @click.prevent="openmodal2">
           <div class="border-a" :style="border_a">
             <div class="border-b" :style="border_b">
               <img :src="basepath + myatt[id].main_file" 
@@ -170,19 +206,22 @@ export default {
           {{ myatt[id].description }}
         </div>
       </div>
-      <div class="arrows-l">
-        <a href="#" 
-            @click="before"
-            :title="text_before">
-          <i class="fas fa-arrow-circle-left fa-2x text-light"></i>
-        </a>
-      </div>
-      <div class="arrows-r">
-        <a href="#" 
-            @click="after"
-            :title="text_after">
-          <i class="fas fa-arrow-circle-right fa-2x text-light"></i>
-        </a>
+      <div class="arrows-overlay">
+        <div class="arrows-l"
+            @click="before">
+          <a href="#" class="text-light"   
+              :title="text_before">&#10094;
+          </a>
+        </div>
+        <div class="go-to-hight"
+            @click.prevent="openmodal2">
+        </div>
+        <div class="arrows-r"
+            @click="after">
+          <a href="#" class="text-light"
+              :title="text_after">&#10095;
+          </a>
+        </div>
       </div>
     </div>
   </b-modal>

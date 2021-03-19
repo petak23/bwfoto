@@ -1,12 +1,12 @@
 /* 
  * Main Vue.js app file
- * Posledná zmena(last change): 09.01.2021
+ * Posledná zmena(last change): 19.03.2021
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.6
+ * @version 1.0.7
  */
 
 import Vue from 'vue';
@@ -22,22 +22,14 @@ Vue.use(IconsPlugin);
 
 var vm = new Vue({
   el: '#vueapp',
-  data: function () {
+  /*data: function () {
     return {
-      handle: null,
-      param: null,
-      viewBigImg: true,
-      idBigImg: 0,
-      aktual_file: "",
+      
     }
-  },
+  },*/
   components: { 
     Slider, 
     Autocomplete,
     Fotogalery,
   },
-  methods: {
-  },
-  mounted: function () {
-  }
-});//.$mount('#autocomplete');   
+});   
