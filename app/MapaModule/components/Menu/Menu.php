@@ -4,13 +4,13 @@ use Nette;
 
 /**
  * Komponenta pre vytvorenie menu
- * Posledna zmena(last change): 21.02.2019
+ * Posledna zmena(last change): 22.03.2021
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @copyright Copyright (c) 2012 - 2019 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.4
+ * @version 1.0.5
  */
 class Menu extends Nette\Application\UI\Control {
 	var $rootNode;
@@ -25,7 +25,7 @@ class Menu extends Nette\Application\UI\Control {
 	}
 
 	public function render($templateFile) {
-		$this->template->startNode = $this->rootNode;
+		$this->template->startNode = $this->allNodes;
 		$this->template->setFile(dirname(__FILE__) . "/" . $templateFile);
 		$this->template->render();
 	}
