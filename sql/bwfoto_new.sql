@@ -245,12 +245,12 @@ INSERT INTO `dokumenty` (`id`, `id_hlavne_menu`, `id_user_main`, `id_user_roles`
 (166,	29,	2,	0,	'#I-166#',	'D-DR-021',	'jpg',	'd-dr-021',	NULL,	'files/prilohy/D-DR-021.jpg',	'files/prilohy/tb_D-DR-021.jpg',	'2020-03-24 01:01:20',	1,	2,	0),
 (167,	29,	2,	0,	'#I-167#',	'D-DR-025',	'jpg',	'd-dr-025',	NULL,	'files/prilohy/D-DR-025.jpg',	'files/prilohy/tb_D-DR-025.jpg',	'2020-03-24 01:03:24',	1,	2,	0),
 (168,	29,	2,	0,	'#I-168#',	'D-DR-026',	'jpg',	'd-dr-026',	NULL,	'files/prilohy/D-DR-026.jpg',	'files/prilohy/tb_D-DR-026.jpg',	'2020-03-24 01:03:24',	1,	2,	0),
-(169,	30,	2,	0,	'#I-169#',	'D-DR-001',	'jpg',	'd-dr-001',	NULL,	'files/prilohy/D-DR-001.jpg',	'files/prilohy/tb_D-DR-001.jpg',	'2020-03-24 22:29:41',	1,	2,	0),
-(170,	30,	2,	0,	'#I-170#',	'D-DR-0021',	'jpg',	'd-dr-0021',	NULL,	'files/prilohy/D-DR-0021.jpg',	'files/prilohy/tb_D-DR-0021.jpg',	'2020-03-24 22:29:41',	1,	2,	0),
-(171,	30,	2,	0,	'#I-171#',	'D-DR-0031',	'jpg',	'd-dr-0031',	NULL,	'files/prilohy/D-DR-0031.jpg',	'files/prilohy/tb_D-DR-0031.jpg',	'2020-03-24 22:29:41',	1,	2,	0),
+(169,	30,	2,	0,	'#I-169#',	'D-DR-001',	'jpg',	'd-dr-001',	'Senník na stráni pod lesom.',	'files/prilohy/D-DR-001.jpg',	'files/prilohy/tb_D-DR-001.jpg',	'2020-03-24 22:29:41',	1,	2,	0),
+(170,	30,	2,	0,	'#I-170#',	'D-DR-0021',	'jpg',	'd-dr-0021',	'Koliba',	'files/prilohy/D-DR-0021.jpg',	'files/prilohy/tb_D-DR-0021.jpg',	'2020-03-24 22:29:41',	1,	2,	0),
+(171,	30,	2,	0,	'#I-171#',	'D-DR-0031',	'jpg',	'd-dr-0031',	'Starý senník',	'files/prilohy/D-DR-0031.jpg',	'files/prilohy/tb_D-DR-0031.jpg',	'2020-03-24 22:29:41',	1,	2,	0),
 (172,	30,	2,	0,	'#I-172#',	'D-DR-0041',	'jpg',	'd-dr-0041',	NULL,	'files/prilohy/D-DR-0041.jpg',	'files/prilohy/tb_D-DR-0041.jpg',	'2020-03-24 22:29:41',	1,	2,	0),
 (173,	30,	2,	0,	'#I-173#',	'D-DR-0051',	'jpg',	'd-dr-0051',	NULL,	'files/prilohy/D-DR-0051.jpg',	'files/prilohy/tb_D-DR-0051.jpg',	'2020-03-24 22:29:41',	1,	2,	0),
-(174,	30,	2,	0,	'#I-174#',	'D-DR-0061',	'jpg',	'd-dr-0061',	NULL,	'files/prilohy/D-DR-0061.jpg',	'files/prilohy/tb_D-DR-0061.jpg',	'2020-03-24 22:29:41',	1,	2,	0),
+(174,	30,	2,	0,	'#I-174#',	'D-DR-0061',	'jpg',	'd-dr-0061',	'Starý senník',	'files/prilohy/D-DR-0061.jpg',	'files/prilohy/tb_D-DR-0061.jpg',	'2020-03-24 22:29:41',	1,	2,	0),
 (175,	30,	2,	0,	'#I-175#',	'D-DR-0071',	'jpg',	'd-dr-0071',	NULL,	'files/prilohy/D-DR-0071.jpg',	'files/prilohy/tb_D-DR-0071.jpg',	'2020-03-24 22:29:41',	1,	2,	0),
 (176,	30,	2,	0,	'#I-176#',	'D-DR-0081',	'jpg',	'd-dr-0081',	NULL,	'files/prilohy/D-DR-0081.jpg',	'files/prilohy/tb_D-DR-0081.jpg',	'2020-03-24 22:29:41',	1,	2,	0),
 (177,	30,	2,	0,	'#I-177#',	'D-DR-0091',	'jpg',	'd-dr-0091',	NULL,	'files/prilohy/D-DR-0091.jpg',	'files/prilohy/tb_D-DR-0091.jpg',	'2020-03-24 22:29:41',	1,	2,	0),
@@ -744,7 +744,7 @@ CREATE TABLE `user_main` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Hlavné údaje užívateľa';
 
 INSERT INTO `user_main` (`id`, `id_user_roles`, `id_user_profiles`, `password`, `meno`, `priezvisko`, `email`, `activated`, `banned`, `ban_reason`, `new_password_key`, `new_password_requested`, `new_email`, `new_email_key`, `last_ip`, `created`, `modified`) VALUES
-(1,	5,	1,	'$2y$10$RnzAjUCyc/B1GgiJ9k43/e27BDz5j1vsbN.DYlfnXIxweBvqxkABq',	'Peter',	'Vojtech',	'petak23@gmail.com',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'188.112.93.2',	'2017-05-15 09:11:19',	'2021-03-08 17:15:33'),
+(1,	5,	1,	'$2y$10$RnzAjUCyc/B1GgiJ9k43/e27BDz5j1vsbN.DYlfnXIxweBvqxkABq',	'Peter',	'Vojtech',	'petak23@gmail.com',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'188.112.115.125',	'2017-05-15 09:11:19',	'2021-04-26 05:56:10'),
 (2,	4,	2,	'$2y$10$0KPg/2sE8I5EjAsgolRttulqhQPsUoVrhIHAxX8Ej3NAOHGuZIbW.',	'Juraj',	'Zámečník',	'bwfoto@bwfoto.sk',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.143.98.194',	'2017-05-15 09:13:38',	'2020-05-15 17:26:00'),
 (3,	4,	3,	'$2y$10$VOeK4y3ozjaUM1aMtiVmcuHRmtcmoVvC6J4yFX4j0LZoNbXlejyMi',	'Jozef',	'Petrenčík',	'jozue@anigraph.eu',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.253.139.152',	'2017-05-15 09:12:22',	'2017-07-11 07:10:29');
 
@@ -868,7 +868,10 @@ INSERT INTO `user_prihlasenie` (`id`, `id_user_main`, `log_in_datetime`) VALUES
 (86,	1,	'2021-01-16 07:33:50'),
 (87,	1,	'2021-01-29 06:14:48'),
 (88,	1,	'2021-02-27 18:52:13'),
-(89,	1,	'2021-03-08 18:15:33');
+(89,	1,	'2021-03-08 18:15:33'),
+(90,	1,	'2021-03-19 17:18:17'),
+(91,	1,	'2021-03-20 06:19:54'),
+(92,	1,	'2021-04-26 07:56:10');
 
 DROP TABLE IF EXISTS `user_profiles`;
 CREATE TABLE `user_profiles` (
@@ -886,7 +889,7 @@ CREATE TABLE `user_profiles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 INSERT INTO `user_profiles` (`id`, `rok`, `telefon`, `poznamka`, `pocet_pr`, `pohl`, `prihlas_teraz`, `avatar`, `news`, `news_key`) VALUES
-(1,	NULL,	NULL,	NULL,	66,	'M',	'2021-03-08 18:15:33',	NULL,	'A',	NULL),
+(1,	NULL,	NULL,	NULL,	69,	'M',	'2021-04-26 07:56:10',	NULL,	'A',	NULL),
 (2,	NULL,	NULL,	NULL,	23,	'M',	'2020-05-15 21:15:24',	NULL,	'A',	NULL),
 (3,	NULL,	NULL,	NULL,	0,	'M',	NULL,	NULL,	'A',	NULL);
 
@@ -973,6 +976,8 @@ INSERT INTO `verzie` (`id`, `id_user_main`, `cislo`, `subory`, `text`, `modified
 (13,	1,	'0.5.3',	'Webpack, a iné',	'- Pridanie \"webpack-u\":https://webpack.js.org/\n- Refaktoring časti editácie údajov webu.\n- Adminer presunutý na composer-a.\n- Update na \"nette 3\":https://nette.org/cs/maintenance',	'2020-11-12 19:30:00'),
 (14,	1,	'0.5.3b',	'update na php 7.4',	'- Oprava drobných chýb\n- Update na php 7.4\n- Update npm',	'2020-12-29 14:28:48'),
 (15,	1,	'0.5.4a',	'Vue fotogaléria',	'- Vyriešenie chyby \"#14\":https://github.com/petak23/bwfoto/issues/14 - vytvorenie úrovne č.5 a preklopenie fotogalérie do \"vue.js\":https://vuejs.org/ - chýba už len grafický design.\n- Presun nastaveni \"webpack\":https://webpack.js.org/ vývojového servera do config.local.neon a doplnenie nastavení \"webpack-u\":https://webpack.js.org/.\n- Prispôsobenie \"webpack-u\":https://webpack.js.org/ pre vue komponenty.\n- Presun modulov css a js do app/assets.\n\n',	'2021-01-11 13:58:52'),
-(16,	1,	'0.5.5e',	'Oprava chýb, úprava vzhľadu a fotogalérie',	'Urobené:\n========\n- **Počas nahrávania fotogalérie sa zobrazí animovaný spinner** - \"aktualizované 08.03.2021 .{color: red}\"\n- odstránenie kontroly na velkosť obrázka pre \"slider\" - obrázok v hlavičke - \"aktualizované 27.02.2021 .{color: purple}\"\n- oprava zobrazenia - \"aktualizované 27.02.2021 .{color: purple}\"\n- zmena vzhľadu úrovne č. 4 a 5. V úrovni č. 4 je použitý tretinový spôsob. - \"aktualizované 27.02.2021 .{color: purple}\"\n- oprava chýb\n- rozchodenie js v administrácii\n- oprava chyby zobrazenia\n- skrytie názvov miniatúr vo fotogalérii.\n\nNie je urobené:\n===============\n- v prípade zobrazenia na obrazovke so šírkou menšou ako 576px sa nezobrazuje úroveň č. 4 a 5.\n- dokončiť vzhľad pre úrovne č. 4 a 5.',	'2021-03-08 17:18:08');
+(16,	1,	'0.5.5e',	'Oprava chýb, úprava vzhľadu a fotogalérie',	'Urobené:\n========\n- **Počas nahrávania fotogalérie sa zobrazí animovaný spinner** - \"aktualizované 08.03.2021 .{color: red}\"\n- odstránenie kontroly na velkosť obrázka pre \"slider\" - obrázok v hlavičke - \"aktualizované 27.02.2021 .{color: purple}\"\n- oprava zobrazenia - \"aktualizované 27.02.2021 .{color: purple}\"\n- zmena vzhľadu úrovne č. 4 a 5. V úrovni č. 4 je použitý tretinový spôsob. - \"aktualizované 27.02.2021 .{color: purple}\"\n- oprava chýb\n- rozchodenie js v administrácii\n- oprava chyby zobrazenia\n- skrytie názvov miniatúr vo fotogalérii.\n\nNie je urobené:\n===============\n- v prípade zobrazenia na obrazovke so šírkou menšou ako 576px sa nezobrazuje úroveň č. 4 a 5.\n- dokončiť vzhľad pre úrovne č. 4 a 5.',	'2021-03-08 17:18:08'),
+(17,	1,	'0.6.2',	'Vue fotogaléria',	'\"releas - 0.6.2\":https://github.com/petak23/bwfoto/releases/tag/0.6.2\n---------------------------------------------------------------------\n\n- Úprava fotogalérie aj pre malé displeje. Pridanie ovládania klávesnicou.\n- Počas nahrávania fotogalérie sa zobrazí animovaný spinner.\n- Oprava vzhľadu, odstránenie kontroly rozmerov obrázka slideru.\n- Skrytie názvov miniatúr vo fotogalérii.\n\n',	'2021-03-20 06:38:08'),
+(18,	1,	'0.6.4',	'rôzne',	'- Opravené chyby v MapaModule\n- Opravená chyba v prílohách v AdminModule',	'2021-04-26 05:57:39');
 
--- 2021-03-08 17:18:51
+-- 2021-04-26 06:50:52

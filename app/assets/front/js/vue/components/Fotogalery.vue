@@ -1,13 +1,13 @@
 <script>
 /* 
  * Component Fotogalery
- * Posledná zmena(last change): 19.03.2021
+ * Posledná zmena(last change): 26.04.2021
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.3
+ * @version 1.0.4
  */
 
 export default {
@@ -21,6 +21,7 @@ export default {
     border_c: String,
     text_before: String,
     text_after: String,
+    first_id: String,
   },
   data() {
     return {
@@ -82,6 +83,13 @@ export default {
   },
   created() {
     window.addEventListener("resize", this.matchHeight);
+    if (parseInt(this.first_id) > 0) { // Ak mám first_id tak k nemu nájdem položku v myatt
+      Object.keys(this.myatt).forEach(ma => { 
+        if (this.myatt[ma].id == this.first_id) {
+          this.id = ma;
+        }
+      });
+    }
   },
   destroyed() {
     window.removeEventListener("resize", this.matchHeight);

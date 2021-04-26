@@ -23,14 +23,15 @@ class SearchPresenter extends BasePresenter {
     $searchStr = '%'.$searchStr.'%';
     $search = $this->hlavne_menu_lang
                     ->findBy(['hlavne_menu.hlavne_menu_cast.mapa_stranky'=>1])
-                    ->where('LOWER(menu_name) LIKE LOWER(?) OR LOWER(h1part2) LIKE LOWER(?) OR LOWER(hlavne_menu_lang.view_name) LIKE LOWER(?)', $searchStr, $searchStr, $searchStr)
-                    ->fetchPairs('id', 'view_name');
+                    ->where('LOWER(menu_name) LIKE LOWER(?) OR LOWER(h1part2) LIKE LOWER(?) OR LOWER(hlavne_menu_lang.view_name) LIKE LOWER(?)', $searchStr, $searchStr, $searchStr);
     //TODO serach in clanok_lang
     $out = [];
-    foreach ($search as $k => $v) {
+    foreach ($search as $s) {
       $out[] = [
-        'id'=>$k,
-        'view_name'=>$v
+        'id'          => $s->id,
+        'type'        => 1,
+        'name'        => $s->view_name,
+        'description' => '',
       ];
     }
     $this->sendResponse(new Responses\JsonResponse($out));  

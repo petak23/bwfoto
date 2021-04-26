@@ -10,11 +10,11 @@ export default {
       type: String,
       required: true,
     },
-    choice: {
+    links: {
       type: String,
       required: true,
     },
-    myred: String,
+    //myred: String,
     placeholder: String,
     inputname: String
   },
@@ -27,6 +27,12 @@ export default {
       arrowCounter: -1,
     }
   },
+  computed: {
+    // Parsovanie JSON-u  na array
+    mylinks() {
+      return JSON.parse(this.links)
+    },
+  },
   methods: {
     autoComplete() {
       this.$emit('autocomplete-start');
@@ -37,18 +43,22 @@ export default {
       }
       if (this.searchquery.length > 2) {
         axios.get(this.source, {params: {[this.inputname]: this.searchquery}})
-             .then(response => {
-                  this.results = [];
-                  response.data.forEach(cl => this.results.push(cl))
-                  this.isSearching = false;     
-             })
-             .catch((error) => {
+              .then(response => {
+                console.log(response);
+                this.results = [];
+                response.data.forEach(cl => this.results.push(cl))
+                this.isSearching = false; 
+                console.log(this.results);    
+              })
+              .catch((error) => {
                 console.log(error);
-             });
+              });
       }
     },
-    setLink(id) {
-      return this.myred + '/' + id;
+    setLink(id, type) {
+      if (type == 1) {
+        return this.mylinks[1] + '/' + id;
+      }
     },
     onArrowDown() {
     //    if (this.arrowCounter < this.results.length - 1) {
@@ -112,7 +122,7 @@ export default {
               :key="result.id"
               :class="{ 'is-active': i === arrowCounter }"
           >
-            <a :href="setLink(result.id)" :title="result[choice]" @click="onAClick"> {{ result[choice] }} </a>
+            <a :href="setLink(result.id, result.type)" :title="result.name" @click="onAClick"> {{ result.name }} </a>
           </li>
         </ul>
       </div>

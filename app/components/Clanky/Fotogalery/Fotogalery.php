@@ -8,13 +8,13 @@ use Nette\Utils\Json;
 
 /**
  * Komponenta pre zobrazenie fotogalérie k článku 
- * Posledna zmena(last change): 11.03.2021
+ * Posledna zmena(last change): 26.04.2021
  * 
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
  * @copyright Copyright (c) 2021 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.2
+ * @version 1.0.3
  */
 class FotogaleryControl extends Nette\Application\UI\Control {
   
@@ -40,6 +40,8 @@ class FotogaleryControl extends Nette\Application\UI\Control {
   private $language = 'sk';
   /** @var Nette\Database\Table\ActiveRow */
   private $hlavne_menu;
+  /** @var int Pre zobrazenie konkrétnej fotky na začiatku */
+  private $first_id = 0;
   
   /**
    * @param string $language 
@@ -65,6 +67,15 @@ class FotogaleryControl extends Nette\Application\UI\Control {
   }
   
   /**
+   * Nastavenie first_id
+   * @param int $first_id
+   * @return FotogaleryControl */
+  public function set_first_id(int $first_id = 0) {
+    $this->first_id = $first_id;
+    return $this;
+  }
+
+  /**
    * Parametre z komponenty.neon
    * @param array $params
    * @return FotogaleryControl */
@@ -83,6 +94,7 @@ class FotogaleryControl extends Nette\Application\UI\Control {
     $this->template->attachments = $this->attachments;
     $this->template->attachments_count = $this->attachments_count;
     $this->template->hlavne_menu = $this->hlavne_menu;
+    $this->template->first_id = $this->first_id;
     $this->template->setTranslator($this->texts);
     $this->template->addFilter('border_x_vue', function ($text){
       $pom = $text != null && strlen($text)>2 ? explode("|", $text) : ['','0'];

@@ -8,13 +8,13 @@ use Nette\Database\Table;
 /**
  * Model, ktory sa stara o tabulku dokumenty
  * 
- * Posledna zmena 10.01.2021
+ * Posledna zmena 26.04.2021
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.8
+ * @version    1.0.9
  */
 class Dokumenty extends \DbTable\Table {
   /** @var string */
@@ -94,7 +94,7 @@ class Dokumenty extends \DbTable\Table {
    * @return array */
   public function getForFotogalery(int $id): array {
     $out = [];
-    foreach ($this->getViditelnePrilohy($id, "type ASC") as $v) {
+    foreach ($this->getViditelnePrilohy($id, "type ASC, id ASC") as $v) {
       $tf = $v->type == 1 ? $v->thumb_file : $v->main_file;
       $out[] = [
         'id' => $v->id,
