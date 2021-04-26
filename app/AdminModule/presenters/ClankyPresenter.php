@@ -9,7 +9,7 @@ use PeterVojtech;
 /**
  * Prezenter pre spravu clankov.
  * 
- * Posledna zmena(last change): 16.01.2021
+ * Posledna zmena(last change): 26.04.2021
  *
  *	Modul: ADMIN
  *
@@ -17,7 +17,7 @@ use PeterVojtech;
  * @copyright Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.3.5
+ * @version 1.3.6
  */
 
 class ClankyPresenter extends ArticlePresenter {
@@ -84,56 +84,82 @@ class ClankyPresenter extends ArticlePresenter {
    * Akcia pre 2. krok pridania clanku - udaje pre clanok.
    * @param int $id - id pridavanej polozky v hl. menu */
 	public function actionAdd2($id) {
-    $this->nadpis_h2 = 'Pridanie textov k článku: ';
     //Najdi pozadovany clanok
-    if (($this->zobraz_clanok = $this->hlavne_menu_lang->getOneArticleId($id, $this->language_id, $this->id_reg)) === FALSE) { 
-      $this->setView('notFound');
-    } else {
-      $vychodzie = [];
-      foreach ($this->jaz as $j) {
-        $la = $j->skratka."_";
-        $vychodzie = array_merge($vychodzie, [//Nastav vychodzie hodnoty
-            $la.'id_lang'   => $j->id, 
-            $la.'text'    	=> NULL,
-            $la.'anotacia'	=> NULL,	
-          ]);
-      }
-      $this["clankyEditForm"]->setDefaults($vychodzie);
-      $this->setView("krok2");
+    try {
+      $this->zobraz_clanok = $this->hlavne_menu_lang->getOneArticleId($id, $this->language_id, $this->id_reg);
+    } catch (DbTable\ArticleMainMenuException $th) {
+      $this->setView("notFound");
+      return;
     }
+
+    $this->nadpis_h2 = 'Pridanie textov k článku: ';
+    $vychodzie = [];
+    foreach ($this->jaz as $j) {
+      $la = $j->skratka."_";
+      $vychodzie = array_merge($vychodzie, [//Nastav vychodzie hodnoty
+          $la.'id_lang'   => $j->id, 
+          $la.'text'    	=> NULL,
+          $la.'anotacia'	=> NULL,	
+        ]);
+    }
+    $this["clankyEditForm"]->setDefaults($vychodzie);
+    $this->setView("krok2");
 	}
 	
   /** 
    * Akcia pre 2. krok editovania clanku - udaje pre clanok.
    * @param int $id - id editovaneho clanku v hl. menu */
 	public function actionEdit2($id) {
-    $this->nadpis_h2 = 'Editácia textov k článku: ';
+
     //Najdi pozadovany clanok
-    if (($this->zobraz_clanok = $this->hlavne_menu_lang->getOneArticleId($id, $this->language_id, $this->id_reg)) === FALSE) { 
-      $this->setView('notFound');
-    } else {
-      $vychodzie = [];
-      foreach ($this->jaz as $j) {
-        $pom = $this->hlavne_menu_lang->findOneBy(["id_lang"=>$j->id, "id_hlavne_menu"=>$id]);
-        $la = $j->skratka."_";
-        if ($pom === FALSE OR $pom->id_clanok_lang == NULL) { //Polozku som nenasiel a tak ju vytvorim
-          $vychodzie = array_merge($vychodzie, [//Nastav vychodzie hodnoty
-            $la.'id_lang'   => $j->id, 
-            $la.'text'    	=> NULL,
-            $la.'anotacia'	=> NULL,	
-          ]);
-        } else {
-          $vychodzie = array_merge($vychodzie, [ //Nastav vychodzie hodnoty
-            $la.'id'        => $pom->clanok_lang->id,
-            $la.'id_lang'   => $pom->clanok_lang->id_lang, 
-            $la.'text'    	=> $pom->clanok_lang->text,
-            $la.'anotacia'	=> $pom->clanok_lang->anotacia,	
-          ]);
-        }  
-      }
-      $this["clankyEditForm"]->setDefaults($vychodzie);
-      $this->setView("krok2");
+    try {
+      $this->zobraz_clanok = $this->hlavne_menu_lang->getOneArticleId($id, $this->language_id, $this->id_reg);
+    } catch (DbTable\ArticleMainMenuException $th) {
+      $this->setView("notFound");
+      return;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
+    
+    $this->nadpis_h2 = 'Editácia textov k článku: ';
+    $vychodzie = [];
+    foreach ($this->jaz as $j) {
+      $pom = $this->hlavne_menu_lang->findOneBy(["id_lang"=>$j->id, "id_hlavne_menu"=>$id]);
+      $la = $j->skratka."_";
+      if ($pom === FALSE OR $pom->id_clanok_lang == NULL) { //Polozku som nenasiel a tak ju vytvorim
+        $vychodzie = array_merge($vychodzie, [//Nastav vychodzie hodnoty
+          $la.'id_lang'   => $j->id, 
+          $la.'text'    	=> NULL,
+          $la.'anotacia'	=> NULL,	
+        ]);
+      } else {
+        $vychodzie = array_merge($vychodzie, [ //Nastav vychodzie hodnoty
+          $la.'id'        => $pom->clanok_lang->id,
+          $la.'id_lang'   => $pom->clanok_lang->id_lang, 
+          $la.'text'    	=> $pom->clanok_lang->text,
+          $la.'anotacia'	=> $pom->clanok_lang->anotacia,	
+        ]);
+      }  
+    }
+    $this["clankyEditForm"]->setDefaults($vychodzie);
+    $this->setView("krok2");
 	}
   
   /** Render pre 2. krok editacie clanku. */

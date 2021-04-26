@@ -7,13 +7,13 @@ use Nette;
 /**
  * Model starajuci sa o tabulku hlavne_menu_lang
  * 
- * Posledna zmena 21.05.2020
+ * Posledna zmena 26.04.2021
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.9
+ * @version    1.1.0
  */
 class Hlavne_menu_lang extends Table {
   const 
@@ -28,14 +28,22 @@ class Hlavne_menu_lang extends Table {
 		* @param string $spec_nazov - specificky nazov clanku v hl. menu
 		* @param int $language_id - id jazykovej mutacie clanku. Ak nemam tak 1 - sk
 		* @param int $id_user_roles - min. uroven registracie uzivatela. Ak nemam tak sa berie 5
-		* @return array|FALSE */
+		* @return Nette\Database\Table\ActiveRow
+    * @throws ArticleExteption */
 	public function getOneArticleSp($spec_nazov, $language_id = 1, $id_user_roles = 5) {
     $articles = clone $this;
 		//Najdi v tabulke hlavne_menu polozku podla spec. nazvu a urovne registracie
-    return $articles->getTable()->where("hlavne_menu.spec_nazov", $spec_nazov)
-                                ->where("id_lang", $language_id)
-                                ->where("hlavne_menu.id_user_roles <= ?", $id_user_roles)
-                                ->fetch();
+    $tmp_article = $articles->getTable()->where(["hlavne_menu.spec_nazov" => $spec_nazov, "id_lang" => $id_lang]);
+    if ($tmp_article->count() == 0) {
+      throw new ArticleMainMenuException("Article not exist", self::NOT_EXIST);
+    } else { // Article found
+      $tmp_article_final = $tmp_article->where("hlavne_menu.id_user_roles <= ?", $id_user_roles)->fetch();
+      if ($tmp_article_final === FALSE) {
+        throw new ArticleMainMenuException("Missing permissions", self::MISSING_PERMISSIONS);
+      } else {
+        return $tmp_article_final;
+      }
+    }
   }
   
   /** 
@@ -141,7 +149,6 @@ class Hlavne_menu_lang extends Table {
     return $this->findBy(["id_lang"=>$id_lang, "hlavne_menu.id_nadradenej"=>$id_nadradenej])
                 ->where("datum_platnosti ? OR datum_platnosti >= ? ", NULL, StrFTime("%Y-%m-%d",strtotime("0 day")));
   }
-
 }
 
 /**
