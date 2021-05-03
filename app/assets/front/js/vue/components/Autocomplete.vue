@@ -15,8 +15,12 @@ export default {
       required: true,
     },
     //myred: String,
-    placeholder: String,
-    inputname: String
+    //placeholder: String,
+    inputname: String,
+    texts: {
+      type: String,
+      required: true,
+    },
   },
   data: function () {
     return {
@@ -32,6 +36,9 @@ export default {
     mylinks() {
       return JSON.parse(this.links)
     },
+    mytexts() {
+      return JSON.parse(this.texts)
+    }
   },
   methods: {
     autoComplete() {
@@ -44,20 +51,22 @@ export default {
       if (this.searchquery.length > 2) {
         axios.get(this.source, {params: {[this.inputname]: this.searchquery}})
               .then(response => {
-                console.log(response);
+                //console.log(response);
                 this.results = [];
                 response.data.forEach(cl => this.results.push(cl))
                 this.isSearching = false; 
-                console.log(this.results);    
+                //console.log(this.results);    
               })
               .catch((error) => {
                 console.log(error);
               });
       }
     },
-    setLink(id, type) {
-      if (type == 1) {
-        return this.mylinks[1] + '/' + id;
+    setLink(result) {
+      if (result.type == 1) {
+        return this.mylinks[1] + result.id;
+      } else if (result.type == 2) {
+        return this.mylinks[2] + result.id + '?first_id='+result.id_dokument;
       }
     },
     onArrowDown() {
@@ -98,7 +107,7 @@ export default {
   <div class="autocomplete">
     <form autocomplete="off" class="my-2 my-lg-0" @submit.prevent><!--required for disable google chrome auto fill-->
       <input  type="search" 
-              :placeholder="placeholder"
+              :placeholder="mytexts.placeholder"
               :name="inputname"
               class="form-control mr-sm-2"
               aria-label="Search"
@@ -113,16 +122,22 @@ export default {
           <li class="list-group-item text-secondary" v-show="isSearching">
             <span v-show="searchquery.length > 2">
               <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-              Hľadám...
+              {{ mytexts.searching }}
             </span>
-            <span v-show="searchquery.length < 3"> &nbsp; </span>
+            <span v-show="searchquery.length < 3">{{ mytexts.min_char }}</span>
           </li>
           <li class="list-group-item"
               v-for="(result, i) in results"
-              :key="result.id"
+              :key="i"
               :class="{ 'is-active': i === arrowCounter }"
           >
-            <a :href="setLink(result.id, result.type)" :title="result.name" @click="onAClick"> {{ result.name }} </a>
+            <a :href="setLink(result)" :title="result.name" @click="onAClick"> 
+              {{ result.name }} 
+              <div class="small" v-if="result.description != ''"><span v-html="result.description"></span></div>
+            </a>
+          </li>
+          <li class="list-group-item text-warning" v-show="!isSearching && searchquery.length > 2 && results.length == 0">
+            <span>{{ mytexts.not_found }}</span>
           </li>
         </ul>
       </div>

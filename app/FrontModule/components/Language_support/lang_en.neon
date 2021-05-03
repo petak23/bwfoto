@@ -118,3 +118,15 @@ err_4xx_h2: 'Oops...'
 err_4xx_text: 'Your browser sent a request that this server could not understand or process.'
 err_500_h2: 'Server Error'
 err_500_text: "We're sorry! The server encountered an internal error and was unable to complete your request. Please try again later."
+
+#SearchPresenter
+search_heading: 'In heading'
+search_in_text: 'In text:'
+search_in_headnig_doc: 'In document title'
+search_in_text_doc: 'In the document description:'
+search_in_headnig_pro: 'In the product name'
+search_in_text_pro: 'In the product description:'
+autocomplete_placeholder: 'Search'
+autocomplete_searching: "I'm looking for ..."
+autocomplete_min_char: 'Enter at least 3 characters ...'
+autocomplete_not_found: 'Not found...'

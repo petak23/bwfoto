@@ -1,6 +1,6 @@
 /* 
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * Last update: 24.02.2021 
+ * Last update: 29.04.2021 
  */
 
 /** ---- Univerzálne štýly ----*/
@@ -113,10 +113,22 @@ a[href^="#error:"] {
 }
 .autocomplete-result {
   position: absolute;
-  top: 44px;
+  top: 2.5rem;
+  max-width: 100%;
+  right: 0rem;
+  margin-right: 8rem;
 }
 .autocomplete-result a {
   color: #222;
+}
+.autocomplete-result .list-group {
+  width: 20rem;
+  max-height: 50vh;
+  overflow-y: auto;
+}
+.autocomplete-result .small {
+  font-size: 75%;
+  color: #777;
 }
 .autocomplete-result .is-active, .autocomplete-result li:hover {
   background-color: #343a40;

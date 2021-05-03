@@ -4,7 +4,7 @@
 # If you don't protect this directory from direct web access, anybody will be able to see your passwords.
 # http:#nette.org/security-warning
 #
-# Last change 21.04.2020
+# Last change 03.05.2021
 #
 base_lang_not_def: 'Jazyk, ktorý požadujete, nie je pre tento web definovaný!<br />Language you require is not defined for this site!'
 base_nie_je_opravnenie: 'Na požadovanú akciu %s nemáte dostatočné oprávnenie!'
@@ -279,3 +279,15 @@ err_4xx_text: 'Váš prehliadač odoslal žiadosť, ktorú tento server nemohol 
 err_500_h2: 'Chyba servera'
 err_500_text: 'Je nám to ľúto! Server zaznamenal internú chybu a nemohol dokončiť vašu požiadavku. Skúste neskôr prosím.'
 err_go_to_homepage: 'Tu môžete prejsť na hlavnú stránu.'
+
+#Search & autocomplete
+search_in_heading: 'V nadpise'
+search_in_text: 'V texte:'
+search_in_headnig_doc: 'V názve dokumentu'
+search_in_text_doc: 'V popise dokumentu:'
+search_in_headnig_pro: 'V názve produktu'
+search_in_text_pro: 'V popise produktu:'
+autocomplete_placeholder: 'Hľadaj'
+autocomplete_searching: 'Hľadám...'
+autocomplete_min_char: 'Zadaj aspoň 3 znaky...'
+autocomplete_not_found: 'Nenájdené...'
