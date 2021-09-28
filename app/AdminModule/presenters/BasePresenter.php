@@ -3,16 +3,16 @@ namespace App\AdminModule\Presenters;
 
 use App\AdminModule\Components;
 use DbTable;
+use Nette;
 use Nette\Application\UI;
 use Nette\Http;
-use Nette\Security\User;
 use PeterVojtech;
 use Texy;
 
 /**
  * Zakladny presenter pre vsetky presentery v module ADMIN
  * 
- * Posledna zmena(last change): 01.01.2021
+ * Posledna zmena(last change): 29.09.2021
  *
  * Modul: ADMIN
  *
@@ -20,7 +20,7 @@ use Texy;
  * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.3.4
+ * @version 1.3.5
  */
 abstract class BasePresenter extends UI\Presenter {
   
@@ -110,7 +110,7 @@ abstract class BasePresenter extends UI\Presenter {
         $this->flashRedirect('Homepage:', 'Na požadovanú akciu nemáte dostatočné oprávnenie!', 'danger');
       }
     } else { //Neprihlaseny
-      if ($user->getLogoutReason() === User::INACTIVITY) {
+      if ($user->getLogoutReason() === Nette\Security\UserStorage::LOGOUT_INACTIVITY) { 
         $backlink = $this->getApplication()->storeRequest();
         $this->flashRedirect([':Front:User:', ['backlink' => $backlink]], 'Boli ste príliš dlho neaktívny a preto ste boli odhlásený! Prosím, prihláste sa znovu.', 'danger');
       } else {
@@ -165,7 +165,7 @@ abstract class BasePresenter extends UI\Presenter {
       return (int)rand(0, $max);
     });
     $this->template->addFilter('uprav_email', function ($email) { //Upravi email aby sa nedal pouzit ako nema
-      return Strings::replace($email, ['~@~' => '[@]', '~\.~' => '[dot]']);
+      return Nette\Utils\Strings::replace($email, ['~@~' => '[@]', '~\.~' => '[dot]']);
     });
     $this->template->addFilter('textreg', function ($text, $id_user_roles, $max_id_reg) {
       for ($i = $max_id_reg; $i>=0; $i--) {

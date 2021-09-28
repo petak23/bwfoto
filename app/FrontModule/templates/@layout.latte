@@ -4,7 +4,7 @@
  *
  *	Modul: FRONT
  *
- * Posledna zmena(last change): 09.03.2021
+ * Posledna zmena(last change): 29.09.2021
  * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
@@ -15,22 +15,21 @@
  *}
 <!DOCTYPE html>
 <html>
-<head>	{* ----- Hlavicka stranky ----- *}
+<head>	
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
   <meta charset="utf-8">
   <meta name="robots" content="{ifset $robots}{$robots}{else}index, follow{/ifset}" />
-  <meta name="description" content="{$udaje['description']}" />
-  <meta name="keywords" content="{$udaje['keywords']}" />
-  <meta name="author" content="{$udaje['autor']}" />
-  <title n:snippet="title">{$udaje['titulka']} {block title|stripHtml|upper}{/block}</title>
+  <meta name="description" content="{$title}{$description}" />
+  <meta name="keywords" content="{$keywords}" />
+  <meta name="author" content="{$author}" />
+  <title n:snippet="title">{$title} {block title|stripHtml|upper}{/block}</title>
   <link rel="stylesheet" type="text/css" href="{webpack front.css}">
   {* ----- Favicon ------ *}
   {control favicon}
   {block head}{/block}
   {control slider}
 </head>
-
 <body>
 <div v-cloak id="vueapp">
   <nav id="topNav" class="navbar navbar-expand-md fixed-top">
@@ -88,22 +87,21 @@
       </div>
       <div class="pv-footer info-layer my-3">
         <ul class="nav justify-content-center">
-          <li class="p-2" n:if="FALSE && $user_spravca !== FALSE && $user_admin->id != $user_spravca->id">
-            {$udaje['spravca']}: {$user_spravca->meno} {$user_spravca->priezvisko|upper}
+          <li class="p-2" n:if="FALSE && $user_spravca !== FALSE && $user_admin->id != $user_spravca->id">{* *}
+            {_'base_spravca'}: {$user_spravca->meno} {$user_spravca->priezvisko|upper}
             ({$user_spravca->email|uprav_email})
           </li>
-          <li class="p-2">&copy; {$udaje['copy']} 2017{if date('Y') != '2017'} - {date('Y')}{/if}</li>
+          <li class="p-2">&copy; {$copy} 2017{if date('Y') != '2017'} - {date('Y')}{/if}</li>
           <li class="p-2">
             <a href="https://nette.org/cs/" class="logo-nette" title="{_'base_nette_title'}">
               <img src="{$basePath}/{$nastavenie['dir_to_images']}nette-powered1.gif" alt="{_'base_nette_powered'}">
             </a>
-          {*</li>
-          <li class="p-2">*}&nbsp;
+            &nbsp;
             <a href="https://vuejs.org/" class="logo-nette" title="Vue js" target="_blank">
               <img src="{$basePath}/www/images/logo_vue.png" alt="vue powered" class="vue-logo">
             </a>
           </li>
-          <li class="p-2">{$udaje['last_update']} {$verzia->modified|date:'j.n.Y'}</li>
+          <li class="p-2">{_'base_last_update'} {$verzia->modified|date:'j.n.Y'}</li>
           <li class="p-2">created by <a href="http://anigraph.eu" title="anigraph.eu" target="_blank">anigraph</a></li>
         </ul>
       </div> 

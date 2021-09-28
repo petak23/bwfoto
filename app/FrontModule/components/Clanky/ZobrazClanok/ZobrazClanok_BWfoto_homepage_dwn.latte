@@ -1,5 +1,5 @@
 <h2 n:if="!(isset($nastav['view_h2']) && !$nastav['view_h2'])">
-  {$clanok->view_name}
+  {$clanok->view_name} <small n:if="$clanok->h1part2 != null && strlen($clanok->h1part2)">{$clanok->h1part2}</small>
 </h2>
 <span class="popis" n:if="$clanok->clanok_lang->text">
   {$clanok->clanok_lang->text|texy|noescape|obr_v_txt|koncova_znacka}

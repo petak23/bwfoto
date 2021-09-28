@@ -26,7 +26,7 @@
        class="btn btn-outline-success">
       <i class="fas fa-pencil-alt"></i> Zmeň nastavenie
     </a>
-    <a n:if="$admin_links['elink'] && isset($clanok->id_clanok_lang)" 
+    <a n:if="$admin_links['elink'] && isset($clanok->id_clanok_lang) && $clanok->hlavne_menu->id_druh == 1" 
        href="{plink Clanky:edit2 $clanok->id_hlavne_menu}" 
        title="Zmeň text článku" 
        class="btn btn-outline-success">
@@ -144,6 +144,11 @@
       <i class="fas fa-{if $pc}times{else}check{/if}"></i>
     </a>
   </div>
+  <div class="btn-group btn-group-sm" role="group" aria-label="okraje-link" n:if="$clanok->hlavne_menu->id_hlavne_menu_template == 2">
+    <button n:if="$admin_links['vlastnik']" type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#myModalBorderChange" title="Zmeň okrajový rámček">
+      <i class="fas fa-pencil-alt"></i> Nastav okrajový rámček
+    </button>
+  </div>
 </div>
       
 {* --------   MODALNE OKNA -------- *}
@@ -251,6 +256,55 @@
       </div>
       <div class="modal-body">
         {control zmenSablonuForm}
+      </div>
+    </div>
+  </div>
+</div>
+
+{* -- Modal dialog pre zmenu okrajov -- *}
+<div class="modal fade" id="myModalBorderChange" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="myModalLabel">Zmena okrajového rámčeka</h5>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-6">
+            <form n:name=zmenOkrajForm class="pv-borders-change">
+              <label n:name=border_a_width>Okraj A:</label>&nbsp;
+              <input n:name=border_a_width size=2 class="input_number"> px
+              <input n:name=border_a_color>
+              <br>
+              <label n:name=border_b_width>Okraj B:</label>&nbsp;
+              <input n:name=border_b_width size=2 class="input_number"> px
+              <input n:name=border_b_color>
+              <br>
+              <label n:name=border_c_width>Okraj C:</label>&nbsp;
+              <input n:name=border_c_width size=2 class="input_number"> px
+              <input n:name=border_c_color>
+              <br>
+              <input n:name=uloz>
+              <input n:name=cancel>
+            </form>
+          </div>
+          <div class="col-6 pv-okraj-nahlad">
+            <div class="okraj-nahlad-tmavy">
+              <div class="border_x2 okraj-c" {$clanok->hlavne_menu->border_c|border_x|noescape}>
+                <div class="border_x2 okraj-b" {$clanok->hlavne_menu->border_b|border_x|noescape}>
+                  <img src="{$basePath}/images/okraj_temp.png" alt="okraj" class="border_x2 okraj-a" {$clanok->hlavne_menu->border_a|border_x|noescape}>
+                </div>
+              </div>
+            </div>
+            <div class="okraj-nahlad-svetly">
+              <div class="border_x2 okraj-c" {$clanok->hlavne_menu->border_c|border_x|noescape}>
+                <div class="border_x2 okraj-b" {$clanok->hlavne_menu->border_b|border_x|noescape}>
+                  <img src="{$basePath}/images/okraj_temp.png" alt="okraj" class="border_x2 okraj-a" {$clanok->hlavne_menu->border_a|border_x|noescape}>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

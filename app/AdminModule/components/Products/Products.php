@@ -15,13 +15,13 @@ use Ublaboo\DataGrid\Localization\SimpleTranslator;
 /**
  * Komponenta pre spravu produktov clanku.
  * 
- * Posledna zmena(last change): 16.01.2021
+ * Posledna zmena(last change): 29.09.2021
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
  * @copyright Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.4
+ * @version 1.1.5
  */
 
 class ProductsControl extends Nette\Application\UI\Control {
@@ -46,7 +46,7 @@ class ProductsControl extends Nette\Application\UI\Control {
   private $hlavne_menu;
   
   /** @var ZmenOkrajFormFactory */
-	public $zmenOkraj;
+	//public $zmenOkraj;
 
   /** @var mixed */
   protected $big_img;
@@ -77,7 +77,7 @@ class ProductsControl extends Nette\Application\UI\Control {
                               DbTable\Products $products, 
                               \App\AdminModule\Forms\Products\AddMultiProductsFormFactory $addMultiProductsFormFactory,
                               \App\AdminModule\Forms\Products\EditProoductFormFactory $editProductFormFactory, 
-                              ZmenOkrajFormFactory $zmenOkrajFormFactory,
+                              //ZmenOkrajFormFactory $zmenOkrajFormFactory,
                               User $user,
                               Nette\Http\Request $request
                               ) {
@@ -89,7 +89,7 @@ class ProductsControl extends Nette\Application\UI\Control {
     $this->addMultiProductsForm = $addMultiProductsFormFactory;
     $this->editProductForm = $editProductFormFactory;
     $this->user = $user;
-    $this->zmenOkraj = $zmenOkrajFormFactory;
+    //$this->zmenOkraj = $zmenOkrajFormFactory;
     $this->httpRequest = $request;
   }
   
@@ -130,7 +130,7 @@ class ProductsControl extends Nette\Application\UI\Control {
   /** 
    * Render */
 	public function render(): void {
-    $this->template->setFile(__DIR__ . '/Products.latte');
+    //$this->template->setFile(__DIR__ . '/Products.latte');
     $this->template->clanok = $this->clanok;
     $this->template->admin_links_prilohy = $this->admin_links;
     $this->template->big_img = $this->big_img;
@@ -140,7 +140,7 @@ class ProductsControl extends Nette\Application\UI\Control {
       return $xs;
     });
     $this->products->setWwwDir($this->wwwDir."/");
-		$this->template->render();
+		$this->template->render(__DIR__ . '/Products.latte');
 	}
   
   /**
@@ -239,7 +239,7 @@ class ProductsControl extends Nette\Application\UI\Control {
   /** 
    * Komponenta formulara pre zmenu okraja obrázkových príloh polozky.
    * @return Nette\Application\UI\Form */
-  public function createComponentZmenOkrajForm(): Nette\Application\UI\Form {
+  /*public function createComponentZmenOkrajForm(): Nette\Application\UI\Form {
     $form = $this->zmenOkraj->create($this->clanok->hlavne_menu);
     $form['uloz']->onClick[] = function ($button) { 
       $this->presenter->flashOut(!count($button->getForm()->errors), 
@@ -248,7 +248,7 @@ class ProductsControl extends Nette\Application\UI\Control {
                                   'Došlo k chybe a zmena sa neuložila. Skúste neskôr znovu...');
 		};
     return $this->makeBootstrap4($form); 
-  }
+  }*/
   
   /** 
    * Spracovanie signálu vymazavania

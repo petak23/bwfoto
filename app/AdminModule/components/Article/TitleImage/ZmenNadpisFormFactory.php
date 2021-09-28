@@ -1,1 +1,93 @@
-<?phpdeclare(strict_types=1);namespace App\AdminModule\Components\Article\TitleImage;use DbTable;use Nette\Application\UI\Form;/** * Formular a jeho spracovanie pre zmenu vlastnika polozky. * Posledna zmena 15.05.2020 *  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com> * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml. * @license * @link       http://petak23.echo-msz.eu * @version    1.0.4 */class ZmenNadpisFormFactory {  /** @var DbTable\Hlavne_menu_lang */	private $hlavne_menu_lang;  /** @var DbTable\Hlavne_menu */	private $hlavne_menu;  /** @var DbTable\Lang */  public $lang;     /**   * @param DbTable\Hlavne_menu $hlavne_menu   * @param DbTable\Hlavne_menu_lang $hlavne_menu_lang   * @param DbTable\Lang $lang */  public function __construct(DbTable\Hlavne_menu $hlavne_menu, DbTable\Hlavne_menu_lang $hlavne_menu_lang, DbTable\Lang $lang) {		$this->hlavne_menu = $hlavne_menu;    $this->hlavne_menu_lang = $hlavne_menu_lang;    $this->lang = $lang;	}    /**   * Formular pre zmenu vlastnika polozky.   * @param int $id Id polozky v hlavnom menu   * @return Form */    public function create(int $id): Form  {    $vychodzie_pre_form = array_merge($this->hlavne_menu_lang, ['langtxt' => ""]);		foreach ($this->jaz as $j) { //Pridanie vychodzich hodnot pre jazyky      $vychodzie_pre_form = array_merge($vychodzie_pre_form, [        $j->skratka.'_menu_name'=>"",        $j->skratka.'_h1part2'=>"",        $j->skratka.'_view_name'=>"",      ]);      $vychodzie_pre_form["langtxt"] .= " ".$j->skratka;    }    $vychodzie_pre_form["langtxt"] = trim($vychodzie_pre_form["langtxt"]);		$form = new Form();		$form->addProtection();    $form->addHidden("id", (string)$id);    foreach ($this->lang->findAll() as $j) {      $form->addText($j->skratka.'_menu_name', 'Názov položky pre jazyk'.$j->nazov.":", 30, 100)           ->addRule(Form::MIN_LENGTH, 'Názov musí mať spoň %d znaky!', 2)           ->setRequired('Názov  pre jazyk "'.$j->nazov.'" musí byť zadaný!');      $form->addText($j->skratka.'_h1part2', 'Druhá časť nadpisu pre jazyk'.$j->nazov.":", 90, 100);      $form->addText($j->skratka.'_view_name', 'Podrobnejší popis položky pre jazyk'.$j->nazov.":", 90, 255)           ->addRule(Form::MIN_LENGTH, 'Popis musí mať spoň %d znaky!', 2)           ->setOption('description', 'Podrobnejší popis položky slúži pre vyhľadávače a zároveň ako pomôcka pre užívateľa, keď príde ukazovateľom myši nad odkaz(bublinová nápoveda).')           ->setRequired('Popis pre jazyk "'.$j->nazov.'" musí byť zadaný!');		}    $form->addSubmit('uloz', 'Zmeň')         ->setAttribute('class', 'btn btn-success')         ->onClick[] = [$this, 'zmenVlastnikaFormSubmitted'];    $form->addSubmit('cancel', 'Cancel')         ->setAttribute('class', 'btn btn-default')         ->setAttribute('data-dismiss', 'modal')         ->setAttribute('aria-label', 'Close')         ->setValidationScope([]);		return $form;	}    /**    * Spracovanie formulara pre zmenu vlastnika clanku.   * @param \Nette\Forms\Controls\SubmitButton $button Data formulara */  public function zmenVlastnikaFormSubmitted(\Nette\Forms\Controls\SubmitButton $button) {		$values = $button->getForm()->getValues(); 	//Nacitanie hodnot formulara    try {			$this->hlavne_menu->zmenVlastnika($values);		} catch (Database\DriverException $e) {			$button->addError($e->getMessage());		}  }}
+<?php
+declare(strict_types=1);
+
+namespace App\AdminModule\Components\Article\TitleImage;
+
+use DbTable;
+use Nette\Application\UI\Form;
+use Nette\Database;
+
+/**
+ * Formular a jeho spracovanie pre zmenu nadpisu.
+ * Posledna zmena 27.09.2021
+ * 
+ * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
+ * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
+ * @license
+ * @link       http://petak23.echo-msz.eu
+ * @version    1.0.5
+ */
+class ZmenNadpisFormFactory {
+  /** @var DbTable\Hlavne_menu_lang */
+	private $hlavne_menu_lang;
+  /** @var DbTable\Lang */
+  public $lang;
+ 
+  public function __construct(DbTable\Hlavne_menu_lang $hlavne_menu_lang,
+                              DbTable\Lang $lang) {
+    $this->hlavne_menu_lang = $hlavne_menu_lang;
+    $this->lang = $lang->findAll();
+	}
+  
+  /**
+   * Formular.
+   * @param int $id Id polozky v hlavnom menu
+   * @return Form */  
+  public function create(int $id): Form  {
+    
+		
+    $form = new Form();
+		$form->addProtection();
+    $form->addHidden("id_hlavne_menu", $id);
+    foreach ($this->lang as $j) {
+      if ($this->lang->count() > 1) $form->addGroup('Časť pre jazyk: '.$j->nazov);
+      $form->addText($j->skratka.'_view_name', 'Názov zobrazený v nadpise pre jazyk '.$j->nazov.":", 90, 255)
+           ->addRule(Form::MIN_LENGTH, 'Popis musí mať spoň %d znaky!', 2)
+           //->setOption('description', 'Podrobnejší popis položky slúži pre vyhľadávače a zároveň ako pomôcka pre užívateľa, keď príde ukazovateľom myši nad odkaz(bublinová nápoveda).')
+           ->setRequired('Popis pre jazyk "'.$j->nazov.'" musí byť zadaný!');
+      $form->addText($j->skratka.'_menu_name', 'Názov zobrazený v menu pre jazyk: '.$j->nazov.":", 30, 100)
+           ->addRule(Form::MIN_LENGTH, 'Názov musí mať spoň %d znaky!', 2)
+           ->setRequired('Názov  pre jazyk "'.$j->nazov.'" musí byť zadaný!');
+      $form->addText($j->skratka.'_h1part2', 'Druhá časť nadpisu(podtitulok) pre jazyk: '.$j->nazov.":", 90, 100);
+      $values = $this->hlavne_menu_lang->findOneBy(['id_hlavne_menu'=>$id, 'id_lang'=>$j->id]);
+      if ($values != null) {
+        $form->setDefaults([
+          $j->skratka.'_menu_name'=> $values->menu_name,
+          $j->skratka.'_h1part2'=> $values->h1part2,
+          $j->skratka.'_view_name'=> $values->view_name,
+        ]);
+      }
+		}
+    if ($this->lang->count() > 1) $form->addGroup("");
+    $form->addSubmit('uloz', 'Zmeň')
+         ->setHtmlAttribute('class', 'btn btn-success')
+         ->onClick[] = [$this, 'formSubmitted'];
+    $form->addSubmit('cancel', 'Cancel')
+         ->setHtmlAttribute('class', 'btn btn-default')
+         ->setHtmlAttribute('data-dismiss', 'modal')
+         ->setHtmlAttribute('aria-label', 'Close')
+         ->setValidationScope([]);
+		return $form;
+	}
+  
+  /** 
+   * Spracovanie formulara pre zmenu nadpisov.
+   * @param \Nette\Forms\Controls\SubmitButton $button Data formulara */
+  public function formSubmitted(\Nette\Forms\Controls\SubmitButton $button) {
+		$values = $button->getForm()->getValues(); 	//Nacitanie hodnot formulara
+    try {
+      foreach ($this->lang as $j) {
+        $h = $this->hlavne_menu_lang->findOneBy(['id_hlavne_menu'=>$values->id_hlavne_menu, 'id_lang' => $j->id]);
+        $h1part2 = $values->{$h->lang->skratka.'_h1part2'};
+        $data = [
+          'menu_name' => $values->{$h->lang->skratka.'_menu_name'},
+          'h1part2' => strlen($h1part2) ? $h1part2 : null,
+          'view_name' => $values->{$h->lang->skratka.'_view_name'},
+        ];
+        $this->hlavne_menu_lang->uloz($data, $h->id);
+      }
+		} catch (Database\DriverException $e) {
+			$button->addError($e->getMessage());
+		}
+  }
+}

@@ -43,9 +43,10 @@ module.exports = {
   },
   output: {
     path: path.join(ROOT_PATH, 'www/dist'),
-    //publicPath: "/dist/"
+    publicPath: "",
     filename: devMode ? '[name].bundle.js' : '[name].[chunkhash:8].bundle.js',
-    chunkFilename: devMode ? '[name].chunk.js' : '[name].[chunkhash:8].chunk.js'
+    clean: true,
+    //chunkFilename: devMode ? '[name].chunk.js' : '[name].[chunkhash:8].chunk.js'
   },  
   module: {
     //noParse: /^(vue|vue-router|vuex|vuex-router-sync)$/,
@@ -148,13 +149,13 @@ module.exports = {
     // human webpack errors
 		new FriendlyErrorsWebpackPlugin()
   ],
-  devtool: '#cheap-module-eval-source-map',
+  devtool: 'cheap-module-source-map',
   performance: {
     hints: false
   }
-//  devServer: {
-//    publicPath: '/dist/'
-//  }
+
+
+
 };
 
 
@@ -193,31 +194,11 @@ if (process.env.NODE_ENV === 'development') {
 if (process.env.NODE_ENV === 'production') {
   const production = {
     devtool: 'source-map',
-//    optimization: {
-//      minimize: true,
-//      minimizer: [new TerserPlugin()],
-//    },
     optimization: {
       minimizer: [
         new TerserPlugin({
-          terserOptions: {
-            cache: `${CACHE_PATH}/webpack/terser`,
-            parallel: true,
-            ecma: 8,
-            warnings: false,
-            parse: {},
-            compress: {},
-            mangle: true, // Note `mangle.properties` is `false` by default.
-            module: false,
-            output: null,
-            toplevel: false,
-            nameCache: null,
-            ie8: false,
-            keep_classnames: undefined,
-            keep_fnames: false,
-            safari10: false
-          }
-        })
+					test: /\.m?js(\?.*)?$/i,
+				})
       ]
     },
     plugins: [

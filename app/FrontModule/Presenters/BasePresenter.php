@@ -97,7 +97,12 @@ abstract class BasePresenter extends Presenter {
 	public $max_id_reg = 0;
   
   /** @var array Pole s hlavnymi udajmi webu */
-  public $udaje_webu;
+  public $udaje_webu = [
+    "nazov" => "",
+    "h1part2" => "",
+    "description" => "",
+    'hl_udaje' => FALSE
+  ];
 
   /** @var int */
   public $language_id = 1;
@@ -135,7 +140,7 @@ abstract class BasePresenter extends Presenter {
     }
 
     //Nacitanie hlavnych udajov webu
-    $this->udaje_webu = $this->udaje->hlavneUdaje($this->language);
+    $this->udaje_webu = array_merge($this->udaje_webu, $this->udaje->hlavneUdaje($this->language));
     // Nacitanie pomocnych premennych
     $this->udaje_webu['meno_presentera'] = strtolower($modul_presenter[1]); //Meno aktualneho presentera
     $httpR = $this->httpRequest->getUrl();
@@ -160,17 +165,10 @@ abstract class BasePresenter extends Presenter {
       if ($lang_hl_udaje !== null){ //Nasiel som udaje a tak aktualizujem
         $this->udaje_webu["nazov"] = $lang_hl_udaje->menu_name;
         $this->udaje_webu["h1part2"] = $lang_hl_udaje->h1part2;
-        $this->udaje_webu["description"] = $lang_hl_udaje->view_name;
-      } else { //Len preto aby tam nieco bolo
-        $this->udaje_webu["nazov"] = "Error nazov";
-        $this->udaje_webu["h1part2"] = "Error h1part2";
-        $this->udaje_webu["description"] = "Error description";
-      }
+        $this->udaje_webu["description"] = " - " . $lang_hl_udaje->view_name;
+      } 
       $this->udaje_webu['hl_udaje'] = $hl_udaje->toArray();
-    } else { //Len preto aby tam nieco bolo
-      $this->udaje_webu["description"] = "Nenájdená stránka";
-      $this->udaje_webu['hl_udaje'] = FALSE;
-    }
+    } 
     //Vypocet max. velkosti suboru pre upload
     $ini_v = trim(ini_get("upload_max_filesize"));
     $s = ['g'=> 1<<30, 'm' => 1<<20, 'k' => 1<<10];
@@ -212,7 +210,11 @@ abstract class BasePresenter extends Presenter {
    * Naplnenie spolocnych udajov pre sablony */
   public function beforeRender() {
     $this->getComponent('menu')->selectByUrl($this->link('this'));
-    $this->template->udaje = $this->udaje_webu;
+    $this->template->title = $this->udaje_webu['titulka'];
+    $this->template->description = $this->udaje_webu['description'];
+    $this->template->keywords = $this->udaje_webu['keywords'];
+    $this->template->author = $this->udaje_webu['autor'];
+    $this->template->copy = $this->udaje_webu['copy'];
 		$this->template->verzia = $this->verzie->posledna();
 		$this->template->urovregistr = $this->id_reg;
     $this->template->maxurovregistr = $this->max_id_reg;
@@ -221,14 +223,10 @@ abstract class BasePresenter extends Presenter {
     $this->template->user_spravca = $this->user_main->findOneBy(['user_roles.role'=>'manager']);
     $this->template->nazov_stranky = $this->nazov_stranky;
     $this->template->nastavenie = $this->nastavenie;
-//		$this->template->avatar_path = $this->nastavenie["dir_to_menu"];
     $this->template->text_title_image = $this->texty_presentera->translate("base_text_title_image");
 		$this->template->article_avatar_view_in = $this->nastavenie["article_avatar_view_in"];
     $this->template->omrvinky_enabled = $this->nastavenie["omrvinky_enabled"];
     $this->template->view_log_in_link_in_header = $this->nastavenie['user_panel']["view_log_in_link_in_header"];
-//    $this->template->dir_to_images = $this->nastavenie['dir_to_images'];
-//    $this->template->dir_to_icons = $this->nastavenie['dir_to_icons'];
-    $this->template->setTranslator($this->texty_presentera);
     $this->template->fa = [
       'success' => 'far fa-check-circle',
       'warning' => 'fas fa-exclamation-triangle',
@@ -361,9 +359,9 @@ abstract class BasePresenter extends Presenter {
   /** 
    * Komponenta pre výpis css a js súborov
    * @return \PeterVojtech\Base\CssJsFilesControl */
-  public function createComponentFiles() {
+  /*public function createComponentFiles() {
     return new PeterVojtech\Base\CssJsFilesControl($this->nastavenie['web_files'], $this->name, $this->action);
-  }
+  }*/
   
   /**
    * Vytvorenie komponenty pre menu uzivatela a zaroven panel jazykov

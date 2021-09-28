@@ -6,13 +6,13 @@ use Nette;
 /**
  * Model, ktory sa stara o tabulku udaje
  * 
- * Posledna zmena 09.07.2020
+ * Posledna zmena 29.09.2021
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.6
+ * @version    1.0.7
  */
 class Udaje extends Table {
   
@@ -79,7 +79,7 @@ class Udaje extends Table {
    * @param Nette\Utils\ArrayHash $values
    * @param array $ur_reg
    * @return Nette\Database\Table\ActiveRow|FALSE
-   * @throws Database\DriverException */
+   * @throws Nette\Database\DriverException */
   public function ulozUdaj(Nette\Utils\ArrayHash $values, array $ur_reg) {
     $id = isset($values->id) ? $values->id : 0;
     unset($values->id);
@@ -94,7 +94,7 @@ class Udaje extends Table {
     try {
       return $this->uloz($values, $id);
     } catch (Exception $e) {
-      throw new Database\DriverException('Chyba ulozenia: '.$e->getMessage());
+      throw new Nette\Database\DriverException('Chyba ulozenia: '.$e->getMessage());
     }
   }
   

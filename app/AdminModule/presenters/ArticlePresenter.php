@@ -4,13 +4,14 @@ namespace App\AdminModule\Presenters;
 use App\AdminModule\Components;
 use App\AdminModule\Forms\Article;
 use DbTable;
+use Nette;
 use Nette\Application\UI\Form;
 use PeterVojtech;
 
 /**
  * Zakladny presenter pre presentery obsluhujuce polozky hlavneho menu v module ADMIN
  * 
- * Posledna zmena(last change): 23.02.2021
+ * Posledna zmena(last change): 29.09.2021
  *
  * Modul: ADMIN
  *
@@ -18,7 +19,7 @@ use PeterVojtech;
  * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.4.6
+ * @version 1.4.7
  */
 abstract class ArticlePresenter extends BasePresenter {
   
@@ -61,7 +62,7 @@ abstract class ArticlePresenter extends BasePresenter {
   /** @var int hodnota id pre pridanie do menu */
   public $add_menu_id;
 
-	/** @var Nette\Database\Table\ActiveRow|FALSE */
+	/** @var array */
 	public $pol_menu = [];
         
 	/** @var array - pole pre menu formular */
@@ -139,7 +140,7 @@ abstract class ArticlePresenter extends BasePresenter {
     $this->admin_links = [
       "alink" => ["druh_opravnenia" => $druh_opravnenia,
                   "link"    => $druh_opravnenia ? ($druh_opravnenia == 1 ? ['main'=> $modul_presenter[1].':addpol']
-                                                                          : ['main'=>'Clanky:add', 'uroven'=>$hlm->uroven+1]) : NULL,
+                                                                         : ['main'=>'Clanky:add', 'uroven'=>$hlm->uroven+1]) : NULL,
                   "text"    => "Pridaj podčlánok"
                   ],
       "elink" => $opravnenie_edit && $this->user->isAllowed($this->name, 'edit'),
@@ -162,8 +163,6 @@ abstract class ArticlePresenter extends BasePresenter {
    * @return \App\AdminModule\Components\Article\AdminAddMenu */
   public function createComponentAddMenu() {
     return $this->adminAddMenuControlFactory->create($this->add_menu_id);
-
-
   }
   
   /** render s priradenim textu v prípade nenájdenia článku  */
@@ -256,10 +255,10 @@ abstract class ArticlePresenter extends BasePresenter {
    * @return Nette\Application\UI\Form */
   public function createComponentMenuEditForm()  {
 		$form = $this->editMenuFormFactory->create()->form($this->uroven, $this->menuformuloz["text"], $this->udaje_webu["meno_presentera"]);
-    $form['uloz']->onClick[] = function ($button) { $this->menuEditFormSubmitted($button);};
+    $form['uloz']->onClick[] = [$this, 'menuEditFormSubmitted'];
     $form['cancel']->onClick[] = function ($button) {
-      $values = $button->getForm()->getValues();
-      $id = $values->id ? $values->id : ($values->uroven ? $values->id_nadradenej : -1*$values->id_hlavne_menu_cast);
+      $fo = $button->getForm();
+      $id = $fo["id"]->value ? $fo["id"]->value : ($fo["uroven"]->value ? $fo["id_nadradenej"]->value : -1* $fo["id_hlavne_menu_cast"]->value);
       $pol = ($id > 0) ? $this->hlavne_menu->find($id)->druh->presenter : 'Homepage';
       $this->redirect($pol.":",$id);
 		};
@@ -267,13 +266,9 @@ abstract class ArticlePresenter extends BasePresenter {
 	}
 
   /** 
-   * Spracovanie formulara pre editaciu udajov menu(clanku).
-   * @param Nette\Forms\Controls\SubmitButton $button Data formulara */
-	public function menuEditFormSubmitted($button) {
-		$values = $button->getForm()->getValues(); 	//Nacitanie hodnot formulara
-    if (($ulozenie = $this->hlavne_menu->saveArticle($values, $this->pol_menu, $this->jaz))) {
-
-
+   * Spracovanie formulara pre editaciu udajov menu(clanku) */
+	public function menuEditFormSubmitted(Form $form, $data): void {
+    if (($ulozenie = $this->hlavne_menu->saveArticle($data, $this->pol_menu, $this->jaz))) {
       $this->flashMessage('Položka menu bola uložená!', 'success');
       $this->redirect($this->menuformuloz["redirect"] ? $this->menuformuloz["redirect"] : 'Menu:' ,$ulozenie);
     } else {
@@ -406,7 +401,7 @@ abstract class ArticlePresenter extends BasePresenter {
 	 */
 	protected function createComponentKomponentaAddForm() {
 		$form = new Form;
-		$form->addSubmit('uloz', 'Ulož')->setAttribute('class', 'btn btn-success');
+		$form->addSubmit('uloz', 'Ulož')->setHtmlAttribute('class', 'btn btn-success');
 		$form->onSuccess[] = [$this, 'komponentaUloz'];
 		return $form;
 	}

@@ -100,7 +100,7 @@ $(function() {
 	});
   
   /* pre zmenu náhľadu pri zmenách okrajového rámčeka */
-  $("#frm-products-zmenOkrajForm").find("input.input_number").each(function(){
+  $("#frm-titleArticle-zmenOkrajForm").find("input.input_number").each(function(){ // frm-products-zmenOkrajForm
     var el = $(this);
     el.change(function(){
       var val = el.val();
@@ -111,7 +111,7 @@ $(function() {
     });
   });
   
-  $("#frm-products-zmenOkrajForm").find("input[type=color]").each(function(){
+  $("#frm-titleArticle-zmenOkrajForm").find("input[type=color]").each(function(){ //frm-products-zmenOkrajForm
     var el = $(this);
     el.change(function(){
       var val = el.val();

@@ -10,13 +10,13 @@ use Nette\Utils\Image;
 /**
  * Model, ktory sa stara o tabulku hlavne_menu a hlavne_menu_lang
  * 
- * Posledna zmena 20.05.2020
+ * Posledna zmena 24.09.2021
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.2.2
+ * @version    1.2.3
  */
 class Hlavne_menu extends Table {
   /** @var string */
@@ -30,10 +30,10 @@ class Hlavne_menu extends Table {
 	protected $user_in_categories;
 
   /**
-   * @param Nette\Database\Context $db
+   * @param Nette\Database\Explorer $db
    * @param Nette\Security\User $user
    * @param \DbTable\Hlavne_menu_lang $hlavne_menu_lang */
-  public function __construct(Nette\Database\Context $db, Nette\Security\User $user, Hlavne_menu_lang $hlavne_menu_lang)  {
+  public function __construct(Nette\Database\Explorer $db, Nette\Security\User $user, Hlavne_menu_lang $hlavne_menu_lang)  {
     parent::__construct($db);
     $this->hlavne_menu_lang = $hlavne_menu_lang;
     $this->hlavne_menu_cast = $this->connection->table("hlavne_menu_cast");
@@ -286,7 +286,7 @@ class Hlavne_menu extends Table {
    * @param Nette\Utils\ArrayHash $values
    * @param string $avatar_path
    * @param string $www_dir
-   * @throws Database\DriverException */
+   * @throws Nette\Database\DriverException */
   public function zmenTitleImage(Nette\Utils\ArrayHash $values, string $avatar_path, string $www_dir) {
     if ($values->avatar->hasFile()) {
       if ($values->avatar->isImage()){
@@ -296,13 +296,13 @@ class Hlavne_menu extends Table {
         $values->avatar = $this->_uploadTitleImage($values->avatar, $www_dir."/".$avatar_path);
         $this->uloz(["ikonka"=>NULL, "avatar"=>$values->avatar], $values->id);
       } else {
-        throw new Database\DriverException('Pre titulný obrázok nebol použitý obrázok a tak nebol uložený!'.$e->getMessage());
+        throw new Nette\Database\DriverException('Pre titulný obrázok nebol použitý obrázok a tak nebol uložený!');
       }
     } elseif ($values->ikonka){
       $this->_delAvatar($values->old_avatar, $avatar_path, $www_dir);
       $this->uloz(["ikonka"=>$values->ikonka, "avatar"=>NULL], $values->id);
     } else { 
-      throw new Database\DriverException('Pri pokuse o uloženie došlo k chybe! Pravdepodobná príčina je č.'.$values->avatar->error.". ".$e->getMessage());
+      throw new Nette\Database\DriverException('Pri pokuse o uloženie došlo k chybe! Pravdepodobná príčina je č.'.$values->avatar->error.". ");
     }
   }
   

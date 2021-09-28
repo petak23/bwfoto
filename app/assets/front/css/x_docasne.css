@@ -106,6 +106,9 @@ a[href^="#error:"] {
 .breadcrumb {
   padding: .5rem 1rem;
 }
+.breadcrumb-main > .breadcrumb {
+  background-color: transparent !important;
+}
 
 /** ---- Pre vue komponentu autocomplete ---- */
 .autocomplete form {
