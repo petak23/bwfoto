@@ -1,6 +1,6 @@
 {
   "name": "bwfoto",
-  "version": "0.5.5",
+  "version": "0.8.0",
   "description": "webpage bwfoto.sk",
   "main": "index.js",
   "directories": {

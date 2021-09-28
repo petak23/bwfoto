@@ -1,4 +1,4 @@
--- Adminer 4.8.0 MySQL 5.5.5-10.5.5-MariaDB-1:10.5.5+maria~focal dump
+-- Adminer 4.8.1 MySQL 5.5.5-10.5.12-MariaDB-1:10.5.12+maria~focal dump
 
 SET NAMES utf8;
 SET time_zone = '+00:00';
@@ -125,7 +125,7 @@ CREATE TABLE `dokumenty` (
 INSERT INTO `dokumenty` (`id`, `id_hlavne_menu`, `id_user_main`, `id_user_roles`, `znacka`, `name`, `pripona`, `web_name`, `description`, `main_file`, `thumb_file`, `change`, `zobraz_v_texte`, `type`, `pocitadlo`) VALUES
 (43,	24,	1,	0,	'#I-43#',	'protisvelo2',	'jpg',	'protisvelo2',	NULL,	'files/prilohy/protisvelo2.jpg',	'files/prilohy/tb_protisvelo2.jpg',	'2017-12-18 08:48:37',	1,	2,	0),
 (44,	24,	1,	0,	'#I-44#',	'protisvetlo1',	'JPG',	'protisvetlo1',	NULL,	'files/prilohy/protisvetlo1.JPG',	'files/prilohy/tb_protisvetlo1.JPG',	'2017-12-18 08:48:37',	1,	2,	0),
-(49,	9,	2,	0,	'#I-49#',	'ATELIER-ZAMECNIK-01-zmena-velikosti',	'jpg',	'atelier-zamecnik-01-zmena-velikosti',	NULL,	'files/prilohy/ATELIER-ZAMECNIK-01-zmena-velikosti.jpg',	'files/prilohy/tb_ATELIER-ZAMECNIK-01-zmena-velikosti.jpg',	'2020-03-21 18:31:14',	1,	2,	0),
+(49,	9,	2,	0,	'#I-49#',	'ATELIER-ZAMECNIK-01-zmena-velikosti',	'jpg',	'atelier-zamecnik-01-zmena-velikosti',	'akjdfhaksghdaghsdfas',	'files/prilohy/ATELIER-ZAMECNIK-01-zmena-velikosti.jpg',	'files/prilohy/tb_ATELIER-ZAMECNIK-01-zmena-velikosti.jpg',	'2020-03-21 18:31:14',	1,	2,	0),
 (50,	9,	2,	0,	'#I-50#',	'ATELIER-ZAMECNIK-02-zmena-velikosti',	'jpg',	'atelier-zamecnik-02-zmena-velikosti',	NULL,	'files/prilohy/ATELIER-ZAMECNIK-02-zmena-velikosti.jpg',	'files/prilohy/tb_ATELIER-ZAMECNIK-02-zmena-velikosti.jpg',	'2020-03-21 18:31:14',	1,	2,	0),
 (51,	9,	2,	0,	'#I-51#',	'ATELIER-ZAMECNIK-03-zmena-velikosti',	'jpg',	'atelier-zamecnik-03-zmena-velikosti',	NULL,	'files/prilohy/ATELIER-ZAMECNIK-03-zmena-velikosti.jpg',	'files/prilohy/tb_ATELIER-ZAMECNIK-03-zmena-velikosti.jpg',	'2020-03-21 18:31:14',	1,	2,	0),
 (52,	9,	2,	0,	'#I-52#',	'ATELIER-ZAMECNIK-04-zmena-velikosti',	'jpg',	'atelier-zamecnik-04-zmena-velikosti',	NULL,	'files/prilohy/ATELIER-ZAMECNIK-04-zmena-velikosti.jpg',	'files/prilohy/tb_ATELIER-ZAMECNIK-04-zmena-velikosti.jpg',	'2020-03-21 18:31:14',	1,	2,	0),
@@ -270,7 +270,8 @@ INSERT INTO `dokumenty` (`id`, `id_hlavne_menu`, `id_user_main`, `id_user_roles`
 (191,	30,	2,	0,	'#I-191#',	'D-DR-023',	'jpg',	'd-dr-023',	NULL,	'files/prilohy/D-DR-023.jpg',	'files/prilohy/tb_D-DR-023.jpg',	'2020-03-24 22:33:10',	1,	2,	0),
 (192,	30,	2,	0,	'#I-192#',	'D-DR-024',	'jpg',	'd-dr-024',	NULL,	'files/prilohy/D-DR-024.jpg',	'files/prilohy/tb_D-DR-024.jpg',	'2020-03-24 22:33:10',	1,	2,	0),
 (193,	30,	2,	0,	'#I-193#',	'D-DR-0251',	'jpg',	'd-dr-0251',	NULL,	'files/prilohy/D-DR-0251.jpg',	'files/prilohy/tb_D-DR-0251.jpg',	'2020-03-24 22:33:10',	1,	2,	0),
-(194,	30,	2,	0,	'#I-194#',	'D-DR-0261',	'jpg',	'd-dr-0261',	NULL,	'files/prilohy/D-DR-0261.jpg',	'files/prilohy/tb_D-DR-0261.jpg',	'2020-03-24 22:33:10',	1,	2,	0);
+(194,	30,	2,	0,	'#I-194#',	'D-DR-0261',	'jpg',	'd-dr-0261',	NULL,	'files/prilohy/D-DR-0261.jpg',	'files/prilohy/tb_D-DR-0261.jpg',	'2020-03-24 22:33:10',	1,	2,	0),
+(195,	21,	1,	0,	NULL,	'dsdgfh sdfghsdfg',	'pdf',	'potvrdenie',	NULL,	'files/prilohy/potvrdenie.pdf',	'www/ikonky/Free-file-icons-master/48px/pdf.png',	'2021-09-22 16:43:18',	1,	1,	0);
 
 DROP TABLE IF EXISTS `druh`;
 CREATE TABLE `druh` (
@@ -389,9 +390,9 @@ CREATE TABLE `hlavne_menu` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Položky hlavného menu';
 
 INSERT INTO `hlavne_menu` (`id`, `spec_nazov`, `id_hlavne_menu_cast`, `id_user_roles`, `id_ikonka`, `id_druh`, `uroven`, `id_nadradenej`, `id_user_main`, `poradie`, `poradie_podclankov`, `id_hlavicka`, `id_hlavne_menu_opravnenie`, `zvyrazni`, `pocitadlo`, `nazov_ul_sub`, `id_hlavne_menu_template`, `absolutna`, `ikonka`, `avatar`, `komentar`, `modified`, `datum_platnosti`, `aktualny_projekt`, `redirect_id`, `id_dlzka_novinky`, `border_a`, `border_b`, `border_c`, `id_user_categories`) VALUES
-(1,	'bw-fotografia',	1,	0,	NULL,	1,	0,	NULL,	2,	1,	1,	1,	0,	0,	0,	NULL,	3,	NULL,	NULL,	'yoqbbmz50719hcw.jpg',	0,	'2020-07-30 08:03:47',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
-(2,	'architekura',	1,	0,	NULL,	1,	0,	NULL,	2,	3,	1,	1,	0,	0,	0,	NULL,	3,	NULL,	NULL,	'fb3h6iptfr3nmpy.jpg',	0,	'2020-07-30 08:21:01',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
-(3,	'foto-rgb',	1,	0,	NULL,	1,	0,	NULL,	2,	5,	0,	1,	0,	0,	0,	NULL,	3,	NULL,	NULL,	'kp6o63rig50fdrz.jpg',	0,	'2020-07-30 08:07:14',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
+(1,	'bw-fotografia',	1,	0,	NULL,	3,	0,	NULL,	2,	1,	0,	1,	0,	0,	0,	NULL,	3,	NULL,	NULL,	'yoqbbmz50719hcw.jpg',	0,	'2021-09-28 15:42:25',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
+(2,	'architekura',	1,	0,	NULL,	3,	0,	NULL,	2,	3,	1,	1,	0,	0,	0,	NULL,	3,	NULL,	NULL,	'fb3h6iptfr3nmpy.jpg',	0,	'2021-09-28 15:42:25',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
+(3,	'foto-rgb',	1,	0,	NULL,	3,	0,	NULL,	2,	5,	0,	1,	0,	0,	0,	NULL,	3,	NULL,	NULL,	'kp6o63rig50fdrz.jpg',	0,	'2021-09-28 15:42:25',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
 (4,	'produkty',	1,	0,	NULL,	1,	0,	NULL,	2,	2,	0,	2,	0,	0,	0,	NULL,	1,	NULL,	'images',	NULL,	0,	'2020-07-30 08:04:43',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
 (5,	'novinky',	1,	0,	NULL,	1,	0,	NULL,	2,	4,	0,	2,	0,	0,	0,	NULL,	1,	NULL,	'newspaper',	NULL,	0,	'2020-07-30 08:06:52',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
 (6,	'vystavy',	1,	0,	NULL,	1,	0,	NULL,	2,	6,	0,	2,	0,	0,	0,	NULL,	1,	NULL,	'archway',	NULL,	0,	'2020-07-30 08:07:36',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
@@ -404,13 +405,13 @@ INSERT INTO `hlavne_menu` (`id`, `spec_nazov`, `id_hlavne_menu_cast`, `id_user_r
 (15,	'homepage-dole',	3,	0,	NULL,	1,	0,	NULL,	2,	2,	0,	0,	0,	0,	0,	NULL,	5,	NULL,	NULL,	NULL,	0,	'2017-11-23 11:49:33',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
 (16,	'cast-a-3',	1,	0,	NULL,	1,	1,	2,	2,	3,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'kp0x78f0j5xot9x.jpg',	0,	'2017-11-23 11:49:33',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
 (19,	'cast-a-1-1',	1,	0,	NULL,	1,	2,	9,	2,	1,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	NULL,	0,	'2017-11-23 11:49:33',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
-(20,	'krajina',	1,	0,	NULL,	1,	1,	3,	2,	1,	0,	1,	0,	0,	0,	NULL,	3,	NULL,	NULL,	'ypeh8h38qy8v9ph.jpeg',	0,	'2021-02-27 18:12:52',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
-(21,	'kostoly',	1,	0,	NULL,	1,	1,	3,	2,	2,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'hi0a9wovlqrbgdv.JPG',	0,	'2017-11-23 11:49:33',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
+(20,	'krajina',	1,	0,	NULL,	1,	1,	3,	2,	1,	0,	1,	0,	0,	0,	NULL,	3,	NULL,	NULL,	'ypeh8h38qy8v9ph.jpeg',	0,	'2021-09-22 14:28:16',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
+(21,	'kostoly',	1,	0,	NULL,	1,	1,	3,	2,	2,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'hi0a9wovlqrbgdv.JPG',	0,	'2021-09-28 15:43:14',	NULL,	0,	NULL,	1,	'#000000|0',	'#edd400|2',	'#000000|0',	NULL),
 (22,	'stromy',	1,	0,	NULL,	1,	1,	3,	2,	3,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'lebld9nagwmbdn3.JPG',	0,	'2020-03-25 10:29:24',	NULL,	0,	NULL,	1,	'#80ff00|3',	'#454545|5',	'#dfd95b|2',	NULL),
 (23,	'budovy',	1,	0,	NULL,	1,	1,	3,	2,	4,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'rubrr55ww87q8z2.JPG',	0,	'2017-12-27 11:24:02',	NULL,	0,	NULL,	1,	'#525252|1',	'#5063e4|2',	'#9b9b00|3',	NULL),
 (24,	'protisvetlo',	1,	0,	NULL,	1,	1,	3,	2,	5,	0,	1,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'9e1gm84fckjtsos.JPG',	0,	'2017-11-23 11:49:33',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
-(26,	'cast-a-4',	1,	0,	NULL,	1,	1,	2,	2,	4,	0,	0,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'i2ipr8grdovqlll.jpg',	0,	'2021-01-16 06:34:26',	NULL,	0,	NULL,	1,	'#000000|2',	'#543f3f|2',	'#dbce81|2',	NULL),
-(27,	'a-gggddd',	1,	0,	NULL,	1,	1,	2,	2,	5,	0,	0,	0,	0,	0,	NULL,	1,	NULL,	NULL,	NULL,	0,	'2020-03-23 12:49:59',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
+(26,	'cast-a-4',	1,	0,	NULL,	1,	1,	2,	2,	4,	0,	0,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'i2ipr8grdovqlll.jpg',	0,	'2021-09-22 15:17:11',	NULL,	0,	NULL,	1,	'#000000|2',	'#543f3f|2',	'#dbce81|2',	NULL),
+(27,	'a-gggddd',	1,	0,	NULL,	1,	1,	2,	2,	5,	0,	0,	0,	0,	0,	NULL,	1,	NULL,	NULL,	'y6f3xh7tqi3j1c3.jpeg',	0,	'2021-09-21 15:40:45',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
 (28,	'test-male-rozlisenie',	1,	0,	NULL,	1,	2,	20,	2,	1,	0,	0,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'c3aj8pi5751a260.JPG',	0,	'2020-03-23 17:11:36',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
 (29,	'test-bw-2',	1,	0,	NULL,	1,	1,	1,	2,	2,	0,	0,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'5djsadnnsinbj0q.jpg',	0,	'2020-04-02 15:52:24',	NULL,	0,	NULL,	1,	'#000000|5',	'#dddddd|20',	'#808080|5',	NULL),
 (30,	'test-bw-ramceky-1',	1,	0,	NULL,	1,	1,	1,	2,	3,	0,	0,	0,	0,	0,	NULL,	2,	NULL,	NULL,	NULL,	0,	'2020-03-24 21:25:57',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL);
@@ -744,8 +745,8 @@ CREATE TABLE `user_main` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Hlavné údaje užívateľa';
 
 INSERT INTO `user_main` (`id`, `id_user_roles`, `id_user_profiles`, `password`, `meno`, `priezvisko`, `email`, `activated`, `banned`, `ban_reason`, `new_password_key`, `new_password_requested`, `new_email`, `new_email_key`, `last_ip`, `created`, `modified`) VALUES
-(1,	5,	1,	'$2y$10$RnzAjUCyc/B1GgiJ9k43/e27BDz5j1vsbN.DYlfnXIxweBvqxkABq',	'Peter',	'Vojtech',	'petak23@gmail.com',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'188.112.115.125',	'2017-05-15 09:11:19',	'2021-04-26 05:56:10'),
-(2,	4,	2,	'$2y$10$0KPg/2sE8I5EjAsgolRttulqhQPsUoVrhIHAxX8Ej3NAOHGuZIbW.',	'Juraj',	'Zámečník',	'bwfoto@bwfoto.sk',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.143.98.194',	'2017-05-15 09:13:38',	'2020-05-15 17:26:00'),
+(1,	5,	1,	'$2y$10$RnzAjUCyc/B1GgiJ9k43/e27BDz5j1vsbN.DYlfnXIxweBvqxkABq',	'Peter',	'Vojtech',	'petak23@gmail.com',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'188.112.68.164',	'2017-05-15 09:11:19',	'2021-09-22 13:07:11'),
+(2,	4,	2,	'$2y$10$0KPg/2sE8I5EjAsgolRttulqhQPsUoVrhIHAxX8Ej3NAOHGuZIbW.',	'Juraj',	'Zámečník',	'bwfoto@bwfoto.sk',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.143.101.190',	'2017-05-15 09:13:38',	'2021-09-21 14:45:23'),
 (3,	4,	3,	'$2y$10$VOeK4y3ozjaUM1aMtiVmcuHRmtcmoVvC6J4yFX4j0LZoNbXlejyMi',	'Jozef',	'Petrenčík',	'jozue@anigraph.eu',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.253.139.152',	'2017-05-15 09:12:22',	'2017-07-11 07:10:29');
 
 DROP TABLE IF EXISTS `user_permission`;
@@ -871,7 +872,14 @@ INSERT INTO `user_prihlasenie` (`id`, `id_user_main`, `log_in_datetime`) VALUES
 (89,	1,	'2021-03-08 18:15:33'),
 (90,	1,	'2021-03-19 17:18:17'),
 (91,	1,	'2021-03-20 06:19:54'),
-(92,	1,	'2021-04-26 07:56:10');
+(92,	1,	'2021-04-26 07:56:10'),
+(93,	1,	'2021-05-03 11:28:35'),
+(94,	1,	'2021-09-10 07:56:03'),
+(95,	2,	'2021-09-21 16:45:23'),
+(96,	2,	'2021-09-21 18:50:50'),
+(97,	1,	'2021-09-22 15:07:11'),
+(98,	1,	'2021-09-22 17:15:01'),
+(99,	1,	'2021-09-22 17:15:49');
 
 DROP TABLE IF EXISTS `user_profiles`;
 CREATE TABLE `user_profiles` (
@@ -889,8 +897,8 @@ CREATE TABLE `user_profiles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 INSERT INTO `user_profiles` (`id`, `rok`, `telefon`, `poznamka`, `pocet_pr`, `pohl`, `prihlas_teraz`, `avatar`, `news`, `news_key`) VALUES
-(1,	NULL,	NULL,	NULL,	69,	'M',	'2021-04-26 07:56:10',	NULL,	'A',	NULL),
-(2,	NULL,	NULL,	NULL,	23,	'M',	'2020-05-15 21:15:24',	NULL,	'A',	NULL),
+(1,	NULL,	NULL,	NULL,	74,	'M',	'2021-09-22 17:15:49',	NULL,	'A',	NULL),
+(2,	NULL,	NULL,	NULL,	25,	'M',	'2021-09-21 18:50:50',	NULL,	'A',	NULL),
 (3,	NULL,	NULL,	NULL,	0,	'M',	NULL,	NULL,	'A',	NULL);
 
 DROP TABLE IF EXISTS `user_resource`;
@@ -978,6 +986,8 @@ INSERT INTO `verzie` (`id`, `id_user_main`, `cislo`, `subory`, `text`, `modified
 (15,	1,	'0.5.4a',	'Vue fotogaléria',	'- Vyriešenie chyby \"#14\":https://github.com/petak23/bwfoto/issues/14 - vytvorenie úrovne č.5 a preklopenie fotogalérie do \"vue.js\":https://vuejs.org/ - chýba už len grafický design.\n- Presun nastaveni \"webpack\":https://webpack.js.org/ vývojového servera do config.local.neon a doplnenie nastavení \"webpack-u\":https://webpack.js.org/.\n- Prispôsobenie \"webpack-u\":https://webpack.js.org/ pre vue komponenty.\n- Presun modulov css a js do app/assets.\n\n',	'2021-01-11 13:58:52'),
 (16,	1,	'0.5.5e',	'Oprava chýb, úprava vzhľadu a fotogalérie',	'Urobené:\n========\n- **Počas nahrávania fotogalérie sa zobrazí animovaný spinner** - \"aktualizované 08.03.2021 .{color: red}\"\n- odstránenie kontroly na velkosť obrázka pre \"slider\" - obrázok v hlavičke - \"aktualizované 27.02.2021 .{color: purple}\"\n- oprava zobrazenia - \"aktualizované 27.02.2021 .{color: purple}\"\n- zmena vzhľadu úrovne č. 4 a 5. V úrovni č. 4 je použitý tretinový spôsob. - \"aktualizované 27.02.2021 .{color: purple}\"\n- oprava chýb\n- rozchodenie js v administrácii\n- oprava chyby zobrazenia\n- skrytie názvov miniatúr vo fotogalérii.\n\nNie je urobené:\n===============\n- v prípade zobrazenia na obrazovke so šírkou menšou ako 576px sa nezobrazuje úroveň č. 4 a 5.\n- dokončiť vzhľad pre úrovne č. 4 a 5.',	'2021-03-08 17:18:08'),
 (17,	1,	'0.6.2',	'Vue fotogaléria',	'\"releas - 0.6.2\":https://github.com/petak23/bwfoto/releases/tag/0.6.2\n---------------------------------------------------------------------\n\n- Úprava fotogalérie aj pre malé displeje. Pridanie ovládania klávesnicou.\n- Počas nahrávania fotogalérie sa zobrazí animovaný spinner.\n- Oprava vzhľadu, odstránenie kontroly rozmerov obrázka slideru.\n- Skrytie názvov miniatúr vo fotogalérii.\n\n',	'2021-03-20 06:38:08'),
-(18,	1,	'0.6.4',	'rôzne',	'- Opravené chyby v MapaModule\n- Opravená chyba v prílohách v AdminModule',	'2021-04-26 05:57:39');
+(18,	1,	'0.6.4',	'rôzne',	'- Opravené chyby v MapaModule\n- Opravená chyba v prílohách v AdminModule',	'2021-04-26 05:57:39'),
+(19,	1,	'0.7.0',	'autocomplete',	'- Rozšírené možnosti vyhľadávania na názvy článkov, text v článkoch, názvy a popis dokumentov a názvy a popis produktov.\n- Opravy zistených chýb\n- Oprava radenia príloh vo FrontModule. \n- Pridaná možnosť zobraziť na začiatku konkrétny obrázok vo fotogalérii podľa id.',	'2021-05-03 09:33:31'),
+(20,	1,	'0.8.0',	'php 8.0; rôzne',	'- Refaktoring;\n- Prechod na PHP 8.0; \n- Oprava editácie nadpisov; \n- Presun nastavenia okrajov do hlavného nastavenia článku; \n- Iné drobné opravy.',	'2021-09-28 15:41:13');
 
--- 2021-04-26 06:50:52
+-- 2021-09-28 15:55:41
