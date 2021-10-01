@@ -12,7 +12,7 @@ namespace PeterVojtech\Confirm;
  * @license    http://www.gnu.org/copyleft/lgpl.html  GNU Lesser General Public License
  * @link       http://nettephp.com/cs/extras/confirmation-dialog
  * @package    ConfirmationDialog
- * @last-change 2020-05-11 PV
+ * @last-change 2021-09-30 PV
  */
 
 use Nette\Application\UI\Form;
@@ -275,7 +275,8 @@ class ConfirmationDialog extends Nette\Application\UI\Control
 
 		$args = $action['params'];
 		$args[] = $this;
-		call_user_func_array($callback, $args);
+		//call_user_func_array($callback, $args);
+		call_user_func($callback, $args);
 
 		if (!$this->presenter->isAjax() && $this->visible == FALSE) {
 			$this->presenter->redirect('this');
@@ -316,7 +317,7 @@ class ConfirmationDialog extends Nette\Application\UI\Control
 	public function render() {
 		if ($this->visible) {
 			if ($this->form['token']->value === NULL) {
-				throw new InvalidStateException('Token is not set!');
+				throw new Nette\InvalidStateException('Token is not set!');
 			}
 		}
 		$this->template->setFile(__DIR__ . '/confirmationDialog.latte');

@@ -10,13 +10,13 @@ use Nette\Utils\Image;
 /**
  * Model, ktory sa stara o tabulku hlavne_menu a hlavne_menu_lang
  * 
- * Posledna zmena 24.09.2021
+ * Posledna zmena 30.09.2021
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.2.3
+ * @version    1.2.4
  */
 class Hlavne_menu extends Table {
   /** @var string */
@@ -308,11 +308,11 @@ class Hlavne_menu extends Table {
   
   /**
    * Zmazanie titulneho obrazku a/alebo ikonky
-   * @param string $id
+   * @param int $id
    * @param string $avatar_path
    * @param string $www_dir
    * @return Nette\Database\Table\ActiveRow|null */
-  public function zmazTitleImage(string $id, string $avatar_path, string $www_dir): ?Nette\Database\Table\ActiveRow {
+  public function zmazTitleImage(int $id, string $avatar_path, string $www_dir): ?Nette\Database\Table\ActiveRow {
     $hl = $this->find($id);
     if (is_string($hl->avatar)) {
       $this->_delAvatar($hl->avatar, $avatar_path, $www_dir);

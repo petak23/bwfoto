@@ -1,18 +1,20 @@
 <?php
+//declare(strict_types=1);
 
 namespace DbTable;
-use Nette\Security\Passwords;
+
+use Nette;
 
 /**
  * Model, ktory sa stara o tabulku user_main
  * 
- * Posledna zmena 23.10.2018
+ * Posledna zmena 30.09.2021
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.3
+ * @version    1.0.4
  */
 class User_main extends Table {
   const
@@ -34,10 +36,17 @@ class User_main extends Table {
   /** @var string */
   protected $tableName = 'user_main';
 
+  private $passwords;
+
+  public function __construct(Nette\Security\Passwords $passwords, Nette\Database\Explorer $db ) {
+    $this->passwords = $passwords;
+    $this->connection = $db;
+  }
+
   /** Test existencie emailu
    * @param string $email
-   * @return boolean */
-  public function testEmail($email) {
+   * @return bool */
+  public function testEmail(string $email): bool {
     return $this->findBy([self::COLUMN_EMAIL=>$email])->count() > 0 ? TRUE : FALSE;
   }
   
@@ -45,26 +54,20 @@ class User_main extends Table {
    * @param int $id
    * @param string $ip
    * @return boolean */
-  public function logLastIp($id, $ip) {
+  public function logLastIp(int $id, string $ip): bool {
     return $this->find($id)->update([self::COLUMN_LAST_IP => $ip]);
   }
   
 	/** Adds new user.
-   * @param string $meno
-   * @param string $priezvisko
-   * @param string $email
-   * @param string $password
-   * @param int $activated
-   * @param int $role
-   * @return \Nette\Database\Table\ActiveRow|FALSE
+   * @return Nette\Database\Table\ActiveRow|int|bool
    * @throws DuplicateNameEmailException */
-	public function add($meno, $priezvisko, $email, $password, $activated = 0, $role = 0)	{
+	public function add(string $meno, string $priezvisko, string $email, string $password, int $activated = 0, int $role = 0)	{
 		try {
 			$user_profiles = $this->connection->table('user_profiles')->insert([]); 
       return $this->pridaj([
         self::COLUMN_MENO             => $meno,
         self::COLUMN_PRIEZVISKO       => $priezvisko,
-				self::COLUMN_PASSWORD_HASH    => Passwords::hash($password),
+				self::COLUMN_PASSWORD_HASH    => $this->passwords->needsRehash($password),
 				self::COLUMN_EMAIL            => $email,
         self::COLUMN_ID_USER_PROFILES => $user_profiles->id,
         self::COLUMN_ACTIVATED        => $activated,
@@ -72,16 +75,15 @@ class User_main extends Table {
         self::COLUMN_CREATED          => StrFTime("%Y-%m-%d %H:%M:%S", Time()),
 			]);
 		} catch (Nette\Database\UniqueConstraintViolationException $e) {
-//      $message = explode("key", $e->getMessage());
-      throw new DuplicateEmailException($e->getMessage());//$message[1]);
+      throw new DuplicateEmailException($e->getMessage());
 		}
 	}
   
   /**
    * @param Nette\Utils\ArrayHash $values
-   * @return Nette\Database\Table\ActiveRow|FALSE
+   * @return Nette\Database\Table\ActiveRow|int|bool
    * @throws Nette\Database\DriverException */
-  public function saveUser($values) {
+  public function saveUser(Nette\Utils\ArrayHash $values) {
     try {
       $id = $values->{self::COLUMN_ID};
       if (isset($values->{self::COLUMN_BANNED}) && !$values->{self::COLUMN_BANNED}) { $values->offsetSet("ban_reason", NULL); }
@@ -90,19 +92,19 @@ class User_main extends Table {
       
       unset($values->id);
       return $this->uloz($values, $id);
-    } catch (Exception $e) {
-      throw new Database\DriverException('Chyba ulozenia: '.$e->getMessage());
+    } catch (\Exception $e) {
+      throw new Nette\Database\DriverException('Chyba ulozenia: '.$e->getMessage());
     }
   }
   
   /**
    * Funkcia pre formulár na zostavenie zoznamu všetkých užívateľov
    * @return array Pole uzivatelov vo formate: id => "meno priezvisko" */
-  public function uzivateliaForm() {
+  public function uzivateliaForm(): array {
     $u = $this->findAll();
     $out = [];
     foreach ($u as $v) {
-    $out[$v->{self::COLUMN_ID}] = $v->{self::COLUMN_MENO}." ".$v->{self::COLUMN_PRIEZVISKO};
+      $out[$v->{self::COLUMN_ID}] = $v->{self::COLUMN_MENO}." ".$v->{self::COLUMN_PRIEZVISKO};
     }
     return $out;
   }
@@ -110,8 +112,8 @@ class User_main extends Table {
   /**
    * Funkcia na zostavenie ratazca emailov podla urovne registracie pre odoslanie info mailu. 
    * @param int $id_user_roles Minimalna uroven registracie
-   * @return sring Retazec emailov oddelených ciarkami */
-  public function emailUsersListStr($id_user_roles = 5) {
+   * @return string Retazec emailov oddelených ciarkami */
+  public function emailUsersListStr(int $id_user_roles = 5): string {
     $cl = $this->findBy(['id_user_roles >='.$id_user_roles, 'user_profiles.news'=>'A']);
     $out = "";
     $sum = count($cl); $iter = 0;
@@ -126,7 +128,7 @@ class User_main extends Table {
    * Funkcia na zostavenie ratazca emailov podla urovne registracie pre odoslanie info mailu. 
    * @param int $id_user_roles Minimalna uroven registracie
    * @return array id=>email */
-  public function emailUsersListArray($id_user_roles = 5) {
+  public function emailUsersListArray(int $id_user_roles = 5): array {
     $cl = $this->findBy(['id_user_roles >='.$id_user_roles, 'user_profiles.news'=>'A']);
     $out = [];
     foreach ($cl as $c) {
@@ -141,7 +143,7 @@ class User_main extends Table {
    * Najde id uzivatela podla parametrov 
    * @param array $param Pole parametrov
    * @return int */
-  public function findIdBy(array $param = []) {
+  public function findIdBy(array $param = []): int {
     return ($tmp = $this->findOneBy($param)) !== FALSE ? $tmp->{self::COLUMN_ID} : 0;
   }
 }

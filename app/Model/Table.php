@@ -9,13 +9,13 @@ use Nette\Utils\Strings;
 /**
  * Reprezentuje repozitar pre databázovu tabulku
  * 
- * Posledna zmena(last change): 24.09.2021
+ * Posledna zmena(last change): 30.09.2021
  * 
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.5
+ * @version 1.1.6
  */
 abstract class Table {
 
@@ -23,9 +23,6 @@ abstract class Table {
   
   /** @var Nette\Database\Explorer */
   protected $connection;
-
-  /** @var string */
-  protected $tableName;
   
   /** @var Nette\Security\User */
   protected $user;
@@ -35,6 +32,10 @@ abstract class Table {
    * @throws Nette\InvalidStateException */
   public function __construct(Nette\Database\Explorer $db) {
     $this->connection = $db;
+    if ($this->connection === NULL) {
+      $class = get_class($this);
+      throw new Nette\InvalidStateException("Nemám pripojenie na DB!");
+    }
     if ($this->tableName === NULL) {
       $class = get_class($this);
       throw new Nette\InvalidStateException("Názov tabuľky musí byť definovaný v $class::\$tableName.");
@@ -45,20 +46,23 @@ abstract class Table {
    * Vracia celu tabulku z DB
    * @return Nette\Database\Table\Selection */
   protected function getTable() {
-      return $this->connection->table($this->tableName);
+    if ($this->connection === NULL) {
+      throw new Nette\InvalidStateException("Nemám pripojeniena DB!");
+    }
+    return $this->connection->table($this->tableName);
   }
 
   /** 
    * V poli vrati info o jednotlivych stlpcoch tabulky
    * @return array */
-  public function getTableColsInfo(): array {
+  /*public function getTableColsInfo(): array {
     $pom = $this->connection->getConnection()->getSupplementalDriver()->getColumns($this->tableName);
     $out = [];
     foreach ($pom as $key => $value) {
       $out[$key] = $value["vendor"];
     }
     return $out;
-  }
+  }*/
 
   /** 
    * Funkcia v poli vrati zakladne info. o pripojeni.

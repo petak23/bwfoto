@@ -69,6 +69,7 @@ services:
     implement: App\AdminModule\Components\Article\TitleImage\ITitleImageControl
     arguments: 
       dir_to_menu: %dir_to_menu%
+      www_dir: %wwwDir%
   ZobrazClanokAControl:
     implement: App\AdminModule\Components\Clanky\IZobrazClanokAControl
     arguments: 

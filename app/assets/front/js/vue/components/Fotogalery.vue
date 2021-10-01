@@ -1,13 +1,14 @@
 <script>
-/* 
+/** 
  * Component Fotogalery
- * Posledná zmena(last change): 26.04.2021
+ * Posledná zmena(last change): 01.10.2021
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.4
+ * @version 1.0.5
+ * @see https://css-tricks.com/lazy-loading-images-with-vue-js-directives-and-intersection-observer/
  */
 
 export default {
@@ -155,16 +156,17 @@ export default {
     </div>
     <div class="col-12 col-sm-4 thumbgrid">
       <div v-for="(im, index) in myatt" :key="im.id">
-        <a  v-if="wid > 0"
+        <a  v-if="wid > 0" v-lazyload
             @click.prevent="changebig(index)" href=""
             :title="'Odkaz' + (im.type == 'menu' ? im.view_name : im.name)" 
             :class="'thumb-a, ajax' + (index == id ? ', selected' : '')">
-          <img :src="basepath + im.thumb_file" :alt="im.name" class="img-fluid">
+          <img  :data-src="basepath + im.thumb_file"
+                :alt="im.name" class="img-fluid">
         </a>
-        <a  v-else-if="wid == 0 && im.type == 'menu'"
+        <a  v-else-if="wid == 0 && im.type == 'menu'" v-lazyload
             :href="im.web_name" 
             :title="im.name">
-          <img  :src="basepath + im.main_file" 
+          <img  :data-src="basepath + im.main_file" 
                 :alt="im.name" class="img-fluid podclanok">
           <h4 class="h4-podclanok">{{ im.name }}</h4>
         </a>
@@ -174,17 +176,17 @@ export default {
               :poster="basepath + im.thumb_file"
               type="video/mp4" controls="controls" preload="none">
         </video>
-        <button v-else-if="wid == 0 && im.type == 'attachments1'"
+        <button v-else-if="wid == 0 && im.type == 'attachments1'" v-lazyload
                 :title="im.name">
-          <img :src="basepath + im.thumb_file" 
-              :alt="im.name" class="img-fluid">
+          <img  :data-src="basepath + im.thumb_file" 
+                :alt="im.name" class="img-fluid a3">
           <br><h6>{{ im.name }}</h6>
         </button>
         <button v-else-if="wid == 0 && (im.type == 'attachments2' || im.type == 'product')"
-                @click.prevent="modalchangebig(index)"
+                @click.prevent="modalchangebig(index)" v-lazyload
                 type="button" class="btn btn-link">
-          <img :src="basepath + im.main_file" 
-              :alt="im.name" class="img-fluid">
+          <img  :src="basepath + im.main_file" 
+                :alt="im.name" class="img-fluid">
         </button>
       </div>
     </div>

@@ -117,25 +117,6 @@ class ClankyPresenter extends ArticlePresenter {
     } catch (DbTable\ArticleMainMenuException $th) {
       $this->setView("notFound");
       return;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
     
     $this->nadpis_h2 = 'Editácia textov k článku: ';
@@ -186,12 +167,12 @@ class ClankyPresenter extends ArticlePresenter {
         $form->addText($j->skratka.'_anotacia', 'Anotácia článku pre jazyk '.$j->nazov.':', 0, 255);
       }
 			$form->addTextArea($j->skratka.'_text', 'Text článku pre jazyk '.$j->nazov.':')
-            ->setAttribute('cols', 0)
-            ->setAttribute('rows', 20)
+            ->setHtmlAttribute('cols', 0)
+            ->setHtmlAttribute('rows', 20)
             ->getControlPrototype()->class("texyla");
     }
 		$form->addGroup();
-		$form->addSubmit('uloz', 'Ulož článok')->setAttribute('class', 'btn btn-success');
+		$form->addSubmit('uloz', 'Ulož článok')->setHtmlAttribute('class', 'btn btn-success');
 		$form->onSuccess[] = [$this,'clankyEditFormSubmitted'];
 		$form = $this->_vzhladForm($form);
     $renderer = $form->getRenderer();
@@ -224,10 +205,11 @@ class ClankyPresenter extends ArticlePresenter {
                 "odkaz" 		=> $this->link(":Front:Clanky:default", $this->zobraz_clanok->id_hlavne_menu),
                 "datum_platnosti" => $this->zobraz_clanok->hlavne_menu->datum_platnosti,
               ];
-    $send = new PeterVojtech\Email\EmailControl(__DIR__.'/templates/Clanky/email_clanky_html.latte', $this->user_profiles, 1, $this->zobraz_clanok->hlavne_menu->id_user_roles);
+    $send = new PeterVojtech\Email\EmailControl($this->user_main);
+    $send->nastav(__DIR__.'/templates/Clanky/email_clanky_html.latte', 1, $this->zobraz_clanok->hlavne_menu->id_user_roles);
     try {
       $this->flashMessage('E-mail bol odoslany v poriadku na emaily: '.$send->send($params, 'Nový článok na stránke '.$this->nazov_stranky), 'success');
-    } catch (Exception $e) {
+    } catch (PeterVojtech\Email\SendException $e) {
       $this->flashMessage($e->getMessage(), 'danger');
     }
 	}

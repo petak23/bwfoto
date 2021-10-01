@@ -5,25 +5,28 @@ namespace App\AdminModule\Components\Article\TitleImage;
 
 use DbTable;
 use Nette;
+use PeterVojtech;
 
 /**
  * Komponenta pre titulku polozky(titulny obrazok a nadpis).
  * 
- * Posledna zmena(last change): 24.09.2021
+ * Posledna zmena(last change): 30.09.2021
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
  * @copyright Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.7
+ * @version 1.0.8
  */
 
 class TitleImageControl extends Nette\Application\UI\Control {
 
   /** @var Nette\Database\Table\ActiveRow $clanok Info o clanku */
   private $clanok;
-  /** @var string $dir_to_menu Cesta k adresaru pre ukladanie obrazkov menu od www adresara */
+  /** @var string Cesta k adresaru pre ukladanie obrazkov menu od www adresara */
   private $dir_to_menu;
+  /** @var string WWW adresar */
+  private $www_dir;
   /** @var array */
   private $admin_links = ['edit'=>FALSE, 'dlink'=>FALSE, 'vlastnik'=>FALSE];
   /** @var Nette\Security\User */
@@ -39,10 +42,12 @@ class TitleImageControl extends Nette\Application\UI\Control {
 
   /**
    * @param string $dir_to_menu Cesta k adresaru pre ukladanie obrazkov menu od www adresara - Nastavenie priamo cez servises.neon
+   * @param string $www_dir WWW adresar - Nastavenie priamo cez servises.neon
    * @param \App\AdminModule\Components\Article\TitleImage\EditTitleImageFormFactory $editTitleImageFormFactory
    * @param Nette\Security\User $user
    * @param DbTable\Hlavne_menu $hlavne_menu */
   public function __construct(string $dir_to_menu, 
+                              string $www_dir,
                               EditTitleImageFormFactory $editTitleImageFormFactory, 
                               ZmenNadpisFormFactory $zmenNadpis,
                               Nette\Security\User $user, 
@@ -52,6 +57,7 @@ class TitleImageControl extends Nette\Application\UI\Control {
     $this->user = $user;
     $this->hlavne_menu = $hlavne_menu;
     $this->dir_to_menu = $dir_to_menu;
+    $this->www_dir = $www_dir;
   }
   
   /** 
@@ -110,7 +116,25 @@ class TitleImageControl extends Nette\Application\UI\Control {
     return $this->presenter->_vzhladForm($form);
   }
 
+  /**
+   * Komponenta Confirmation Dialog pre delete News
+   * @return Nette\Application\UI\Form */
+  public function createComponentConfirmForm() {
+    $form = new PeterVojtech\Confirm\ConfirmationDialog($this->presenter->getSession('news'));
+    $form->addConfirmer(
+        'delete', // názov signálu bude confirmDelete!
+        [$this, 'confirmedDelete'], // callback na funkciu pri kliknutí na YES
+        "Naozaj chceš zmazať titulný obrázok?"
+    );
+    return $form;
+  }
 
+  /** 
+   * Funkcia pre spracovanie signálu vymazavania */
+	function confirmedDelete(array $params)	{
+		$uloz = $params['id'] > 0 ? $this->hlavne_menu->zmazTitleImage((int)$params['id'], $this->dir_to_menu, $this->www_dir) : false;
+    $this->presenter->flashOut($uloz !== FALSE, 'this', 'Titulný obrázok bol vymazaný!', 'Došlo k chybe a titulný obrázok nebol vymazaný!');
+  }
 }
 
 interface ITitleImageControl {

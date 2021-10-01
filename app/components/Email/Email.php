@@ -1,23 +1,21 @@
 <?php
 namespace PeterVojtech\Email;
-use Nette\Mail\Message;
-use Nette\Mail\SendmailMailer;
-use Nette\Application\UI;
+use Nette;
 use Latte;
 use DbTable;
 
 /**
  * Komponenta pre zjedndusenie odoslania emailu
- * Posledna zmena(last change): 24.05.2020
+ * Posledna zmena(last change): 30.09.2021
  * 
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
- * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.8
+ * @version 1.0.9
  */
 
-class EmailControl extends UI\Control {
+class EmailControl extends Nette\Application\UI\Control {
   
   /** @var Nette\Mail\Message */
   private $mail;
@@ -33,18 +31,18 @@ class EmailControl extends UI\Control {
   /**
    * @param DbTable\User_main $user_main */
   public function __construct(DbTable\User_main $user_main) {
-    $this->mail = new Message;
+    $this->mail = new Nette\Mail\Message;
     $this->user_main = $user_main;
   }
   
   /** 
    * @param string $template Kompletná cesta k súboru template
-   * @param type $from Od koho
-   * @param type $id_user_roles Minimalna uroven registracie
+   * @param int $id_from Od koho
+   * @param int $id_user_roles Minimalna uroven registracie
    * @return \PeterVojtech\Email\EmailControl */
-  public function nastav($template, $from, $id_user_roles) {
+  public function nastav(string $template, int $id_from, int $id_user_roles) {
     $this->template = $template;
-    $this->from = $this->user_main->find($from)->email;
+    $this->from = $this->user_main->find($id_from)->email;
     $this->email_list = $this->user_main->emailUsersListStr($id_user_roles);
     foreach (explode(",", $this->email_list) as $c) {
       $this->mail->addTo(trim($c));
@@ -60,15 +58,14 @@ class EmailControl extends UI\Control {
    */
   public function send($params, $subjekt) {
     $templ = new Latte\Engine;
-//    echo($templ->renderToString($this->template, $params));die();
     $this->mail->setFrom($params["site_name"].' <'.  $this->from.'>');
     $this->mail->setSubject($subjekt)
          ->setHtmlBody($templ->renderToString($this->template, $params));
     try {
-      $sendmail = new SendmailMailer;
+      $sendmail = new Nette\Mail\SendmailMailer;
       $sendmail->send($this->mail);
       return $this->email_list;
-    } catch (Exception $e) {
+    } catch (Nette\Mail\SendException $e) {
       throw new SendException('Došlo k chybe pri odosielaní e-mailu. Skúste neskôr znovu...'.$e->getMessage());
     }
   }
@@ -77,4 +74,8 @@ class EmailControl extends UI\Control {
 interface IEmailControl {
   /** @return EmailControl */
   function create();
+}
+
+class SendException extends \Exception
+{
 }

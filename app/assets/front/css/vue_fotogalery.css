@@ -99,6 +99,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     border: solid 3px #ddd;
+    color: transparent;
 }	
 .thumbgrid img.podclanok {
     opacity: .5;
@@ -113,13 +114,13 @@
     text-align: center;
 }
 @media (min-width: 576px) {
-    .thumbgrid{
-        grid-template-columns: repeat(2, 1fr);
-    }
+  .thumbgrid{
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 @media (min-width: 1200px) {
   .thumbgrid{
-      grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
