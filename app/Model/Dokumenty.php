@@ -102,7 +102,7 @@ class Dokumenty extends \DbTable\Table {
         'name' => $v->name,
         'web_name' => $v->web_name,
         'description' => $v->description,
-        'main_file' => ($tf && is_file($tf)) ? $tf : '/ikonky/Free-file-icons-master/512px/'.strtolower($v->pripona).'.png',
+        'main_file' => $v->main_file,//($tf && is_file($tf)) ? $tf : '/ikonky/Free-file-icons-master/512px/'.strtolower($v->pripona).'.png',
         'thumb_file' => $v->thumb_file
       ];
     }

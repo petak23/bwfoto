@@ -140,13 +140,17 @@ export default {
               :poster="basepath + myatt[id].thumb_file"
               type="video/mp4" controls="controls" preload="none">
         </video>
-        <button v-else-if="myatt[id].type == 'attachments1'"
-                :title="myatt[id].name">
+        <a v-else-if="myatt[id].type == 'attachments1'"
+            :title="myatt[id].name"
+            :href="basepath + myatt[id].main_file"
+            target="_blank"
+            class="for-pdf"
+                >
           <img :src="basepath + myatt[id].thumb_file" 
               :alt="myatt[id].name" class="img-fluid">
           <br><h6>{{ myatt[id].name }}</h6>
-        </button>  
-        <button v-else-if="myatt[id].type == 'attachments2' || myatt[id].type == 'product'"
+        </a>  
+        <button v-else-if="myatt[id].type == 'attachments2' || myatt[id].type == 'product'"
                 v-b-modal.modal-multi-1
                 type="button" class="btn btn-link">
           <img :src="basepath + myatt[id].main_file" 
@@ -159,7 +163,7 @@ export default {
         <a  v-if="wid > 0" v-lazyload
             @click.prevent="changebig(index)" href=""
             :title="'Odkaz' + (im.type == 'menu' ? im.view_name : im.name)" 
-            :class="'thumb-a, ajax' + (index == id ? ', selected' : '')">
+            :class="'pok thumb-a, ajax' + (index == id ? ', selected' : '')">
           <img  :data-src="basepath + im.thumb_file"
                 :alt="im.name" class="img-fluid">
         </a>
