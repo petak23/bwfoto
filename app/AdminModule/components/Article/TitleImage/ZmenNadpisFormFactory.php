@@ -20,12 +20,16 @@ use Nette\Database;
 class ZmenNadpisFormFactory {
   /** @var DbTable\Hlavne_menu_lang */
 	private $hlavne_menu_lang;
+  /** @var DbTable\Hlavne_menu */
+	private $hlavne_menu;
   /** @var DbTable\Lang */
   public $lang;
  
   public function __construct(DbTable\Hlavne_menu_lang $hlavne_menu_lang,
+                              DbTable\Hlavne_menu $hlavne_menu,
                               DbTable\Lang $lang) {
     $this->hlavne_menu_lang = $hlavne_menu_lang;
+    $this->hlavne_menu = $hlavne_menu;
     $this->lang = $lang->findAll();
 	}
   
@@ -58,6 +62,10 @@ class ZmenNadpisFormFactory {
         ]);
       }
 		}
+    $form->addInteger('poradie', 'Poradie v časti:')
+      ->setDefaultValue($values->hlavne_menu->poradie)
+      ->addRule($form::RANGE, 'Poradie musí byť v rozsahu medzi %d a %d.', [1, 50]);
+
     if ($this->lang->count() > 1) $form->addGroup("");
     $form->addSubmit('uloz', 'Zmeň')
          ->setHtmlAttribute('class', 'btn btn-success')
@@ -86,6 +94,7 @@ class ZmenNadpisFormFactory {
         ];
         $this->hlavne_menu_lang->uloz($data, $h->id);
       }
+      $this->hlavne_menu->uloz(["poradie"=>$values->poradie], $values->id_hlavne_menu);
 		} catch (Database\DriverException $e) {
 			$button->addError($e->getMessage());
 		}

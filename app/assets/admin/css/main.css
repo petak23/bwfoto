@@ -3,6 +3,7 @@
 @import 'jquery-ui.css';
 @import '../../../../vendor/ublaboo/datagrid/assets/datagrid.css';
 @import '../../../../vendor/ublaboo/datagrid/assets/datagrid-spinners.css';
+@import 'bulma/css/bulma.css';
 
 @import 'formulare.css';
 @import 'lavy.css';

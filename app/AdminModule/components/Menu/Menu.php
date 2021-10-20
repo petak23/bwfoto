@@ -38,7 +38,7 @@ class Menu extends Nette\Application\UI\Control {
 		$this->templatePath = [
 			'nav' => dirname(__FILE__) . '/Menu.latte',// sablona pro drobeckovou navigaci
 			'single' => dirname(__FILE__) . '/Menu.latte',// sablona pro jednourovnovou cast menu
-			'tree' => dirname(__FILE__) . '/Menu.latte',// sablona pro stromovou cast menu
+			'tree' => dirname(__FILE__) . '/Tree.latte',// sablona pro stromovou cast menu
       'podclanky' => dirname(__FILE__) . '/Podclanky.latte',// sablona pro stromovou cast menu
       'fixed' => dirname(__FILE__) . '/Fixed.latte',// sablona pro fixne menu
       'mapa' => dirname(__FILE__) . '/Mapa.latte',// sablona pro fixne menu
@@ -283,8 +283,8 @@ class Menu extends Nette\Application\UI\Control {
 class MenuNode {
   use Nette\SmartObject;
   
-	var $name;
-	var $tooltip;
+	var $name = "";
+	var $tooltip = "";
   var $view_name;
 	var $avatar;
 	var $anotacia;
@@ -316,12 +316,12 @@ class MenuNode {
 		return $node;
 	}
 
-	public function getItemClass() {
+	public function getItemClass(string $selected = 'selected', string $in_path = 'in_path') {
     $out = "";
 		if ($this == $this->menu->getSelected()) {
-			$out .= ' selected';
+			$out .= ' '. $selected;
 		} else if (in_array($this, $this->menu->getPath())) {
-			$out .= ' in-path';
+			$out .= ' '. $in_path;
 		}
     return $out;
 	}

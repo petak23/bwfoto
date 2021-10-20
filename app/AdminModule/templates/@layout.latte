@@ -4,8 +4,8 @@
  *
  *	Modul: ADMIN
  *
- * Posledna zmena(last change): 12.11.2020
- * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
+ * Posledna zmena(last change): 15.10.2021
+ * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
  *
@@ -24,7 +24,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>{* https://www.vzhurudolu.cz/prirucka/viewport-meta *}
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 	<meta name="HandheldFriendly" content="true" />
   <meta name="robots" content="noindex" />
@@ -33,6 +33,9 @@
   <link rel="stylesheet" type="text/css" href="{webpack admin.css}">
   <!-- upload -->
   {\Zet\FileUpload\FileUploadControl::getHead($basePath . '/vendor/ijvo/jquery-fileupload/src/www/')}
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
   {block spec_css}{/block}
 	
   {control favicon}
@@ -69,19 +72,20 @@
               
     <div class="row">
       <div class="col-12 col-sm-3 col-md-2 left-col">
-        <div class="menu_new">
-          <ul>
-          <li n:if="$user->isInRole('admin')"><a href="{link :Front:Homepage:default}api/" title="API" target="_blank">API</a></li>
-          {foreach $admin_menu as $am}
+        <aside class="menu">
+          <h5 class="menu-label">Administrácia</h5>
+          <ul class="menu-list">
+            <li n:if="$user->isInRole('admin')"><a href="{link :Front:Homepage:default}api/" title="API" target="_blank">API</a></li>
+            {foreach $admin_menu as $am}
             <li n:if="$am->id_user_roles <= $user->getIdentity()->id_user_roles">
-              <a n:href="$am->odkaz" title="{$am->nazov}" n:class="$presenter->isLinkCurrent($am->odkaz.'*') ? selected">
+              <a n:href="$am->odkaz" title="{$am->nazov}" n:class="$presenter->isLinkCurrent($am->odkaz.'*') ? is-active">
                 {$am->nazov}
               </a>
             </li>
-          {/foreach}
+            {/foreach}
           </ul>
-        </div>
-        <div class="menu_new">{control menu:tree}</div>
+          {control menu:tree nadpis=>'Hlavné menu'}
+        </aside>
       </div>
       <div class="col-12 col-sm-9 col-md-10">
         <div class="row" n:snippet="flashes"> 
@@ -130,6 +134,14 @@
     </div>
   </div>
   <script src="{webpack admin.js}"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      vuetify: new Vuetify(),
+    })
+  </script>
   {block spec_js}{/block}
   <!-- upload -->
   

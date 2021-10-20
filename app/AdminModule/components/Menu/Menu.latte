@@ -1,5 +1,5 @@
 {define #link_in}
-  {for $i = 2; $i < $level; $i++}-{/for}
+  {*for $i = 2; $i < $level; $i++}-{/for*}
   <div n:if="strlen($nastav['avatar']) && isset($node->avatar) && is_file($nastavenie['dir_to_menu'].$node->avatar)" class="avatar-img">
     <img src="{$basePath}/{$nastavenie['dir_to_menu']}{$node->avatar}" alt="Titulný obrázok">
   </div>
@@ -9,14 +9,14 @@
 {/define}
 
 {define #link}
-<li {*class="pol-li-{$akoLi}" *}n:tag-if="isset($akoLi) && $akoLi">
-  <div class="menu-link-in">
+<li n:tag-if="isset($akoLi) && $akoLi">
+  <div class="menu-link-in" n:tag-if="FALSE">
     {if $node->link}
-      <a href="{$node->link}" n:class="$node->getItemClass()" title="{$node->name}">
+      <a href="{$node->link}" n:class="$node->getItemClass($selected, $in_path)" title="{$node->name}">
         {include #link_in node => $node}
       </a>
     {else}
-      <span n:class="$node->getItemClass()">
+      <span n:class="$node->getItemClass($selected, $in_path)">
         {include #link_in node => $node}
       </span>
     {/if}
@@ -31,17 +31,17 @@
 {define #node}
 {if $node}
 	{if !isset($hideName) || !$hideName }
-		{include #link node => $node, edituj => TRUE}
+		{include #link node => $node, edituj => TRUE, selected => $selected, in_path => $in_path}
 	{else}
 		{var $hideName = false}
 	{/if}
 	{if $node->nodes && ($showAll || in_array($node, $path) || $node->isRootNode)}
-    <ul class="level-{$level}">
+    <ul n:class="$level == 1 ? menu-list">
       {var $level = $level + 1}
       {var $n = $node->poradie_podclankov ? array_reverse($node->nodes) : $node->nodes}
       {foreach $n as $subNode}
-        <li class="pol-li-{$iterator->counter}">
-          {include #node, node => $subNode}
+        <li>
+          {include #node, node => $subNode, selected => $selected, in_path => $in_path}
         </li>
       {/foreach}
       {var $level = $level - 1}    
@@ -73,8 +73,9 @@
 {elseif $templateType == "tree"}
   {var $ukaz = isset($startNode) && isset($startNode->nodes) && count($startNode->nodes)}
   {var $level=1}
-  <div n:tag-if="$nastav['divClass'] && $ukaz" class="{$nastav['divClass']}">
+  {*<div n:tag-if="$nastav['divClass'] && $ukaz" class="{$nastav['divClass']}">
     <h4 n:if="$nastav['nadpis'] && $ukaz">{$nastav['nadpis']}</h4>
     {include #node node => $startNode, hideName => true, showSubnodes => true}
-  </div>
+  </div>*}
+  {include #node node => $startNode, hideName => true, showSubnodes => true, selected => 'is-active', in_path => 'has-background-grey-lighter'}
 {/if}
