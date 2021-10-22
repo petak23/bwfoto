@@ -11,7 +11,7 @@
 
 import Vue from 'vue';
 //import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
-import draggable from 'vuedraggable'
+import draggable from 'vuedraggable' // https://github.com/SortableJS/Vue.Draggable
 import Menu_order from './components/Menu_order.vue';
 //import Autocomplete from './components/Autocomplete.vue';
 //import Fotogalery from './components/Fotogalery.vue';

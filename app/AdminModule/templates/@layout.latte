@@ -33,9 +33,9 @@
   <link rel="stylesheet" type="text/css" href="{webpack admin.css}">
   <!-- upload -->
   {\Zet\FileUpload\FileUploadControl::getHead($basePath . '/vendor/ijvo/jquery-fileupload/src/www/')}
-  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+  {*<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">*}
   {block spec_css}{/block}
 	
   {control favicon}
@@ -44,10 +44,11 @@
 </head>
 
 <body>
-  <div class="container-fluid" id="vueappadmin">
-    <div class="row">
-      <div class="col bg-dark">
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+<section class="section">
+  <div class="container is-fullhd" id="vueappadmin">
+    <div class="columns">
+      <div class="column has-background-dark">
+        {*<nav class="navbar navbar-expand-md navbar-dark bg-dark">
           <a class="navbar-brand" n:href="Homepage:">Administrácia</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerAdminTop" aria-controls="navbarTogglerAdminTop" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -65,6 +66,33 @@
                 <a href="{$basePath}/www/adminer/?server={$udaje['host']}&db={$udaje['dbname']}" class="nav-link" title="Adminer" target="_blank"><i class="fas fa-database"></i></a>
               </li>
             </ul>
+          </div>
+        </nav>*}
+        <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+          <div class="navbar-brand">
+            <a class="navbar-item" n:href="Homepage:">Administrácia</a>
+
+            <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+            </a>
+          </div>
+
+          <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+              <a class="navbar-item">
+                Home
+              </a>
+            </div>
+
+
+            <div class="navbar-end">
+              <a class="navbar-item" n:href=":Front:Homepage:" title="Zmeny"><i class="fas fa-eye"></i> Skontroluj zmeny na webe...</a>
+              <a class="navbar-item" href="https://bulma.io"><img src="https://bulma.io/images/bulma-logo.png" width="112" height="28"></a>
+              <a class="navbar-item" href="http://fontawesome.io/icons/" title="FontAwesome 5" target="_blank"><i class="fas fa-flag"></i></a>
+              <a class="navbar-item" n:if="$user->isInRole('admin')" href="{$basePath}/www/adminer/?server={$udaje['host']}&db={$udaje['dbname']}" title="Adminer" target="_blank"><i class="fas fa-database"></i></a>
+            </div>
           </div>
         </nav>
       </div>
@@ -106,7 +134,7 @@
       </div>
     </div>
   
-    <div class="row footer-dark">
+    {*<div class="row footer-dark">
       <div class="col-12">
         <footer>
           <nav class="navbar navbar-expand navbar-dark">
@@ -131,17 +159,38 @@
           </nav>
         </footer>
       </div>
-    </div>
+    </div>*}
+    <footer class="footer">
+      <div class="content has-text-centered has-background-dark has-text-light">
+        <p>
+          © {$udaje['autor']} & {$udaje['copy']} 2015 - {date('Y')}&nbsp;|&nbsp;
+          Posledná aktualizácia: <a n:href="Verzie:default" title="Verzie">{$verzia->modified|date:'j.n.Y'} - v.{$verzia->cislo}</a>&nbsp;|&nbsp;
+          <br>
+          {if $user->isInRole('admin')}
+            PHP {=PHP_VERSION}&nbsp;|&nbsp;
+            {ifset $_SERVER['SERVER_SOFTWARE']}Server {$_SERVER['SERVER_SOFTWARE']}&nbsp;|&nbsp;{/ifset}
+          {/if}
+          <a href="https://nette.org/cs/" class="logo-nette" title="Nette Framework - populárny nástroj pre vytváranie webových aplikacií v PHP." target="_blank">
+            <img src="{$basePath}/www/images/nette-powered1.gif" alt="nette powered">
+          </a>
+          &nbsp;|&nbsp;
+          <a href="https://vuejs.org/" class="logo-nette" title="Vue js." target="_blank">
+            <img src="{$basePath}/www/images/logo_vue.png" alt="vue powered" class="vue-logo">
+          </a>
+        </p>
+      </div>
+    </footer>
   </div>
+</section>
   <script src="{webpack admin.js}"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+  {*<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
   <script>
     new Vue({
       el: '#app',
       vuetify: new Vuetify(),
     })
-  </script>
+  </script>*}
   {block spec_js}{/block}
   <!-- upload -->
   
