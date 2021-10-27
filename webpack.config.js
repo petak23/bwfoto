@@ -19,6 +19,7 @@ const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const {VueLoaderPlugin} = require("vue-loader");
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin');
 
 // Webpack abilities
 const WEBPACK_DEV_SERVER_HOST = process.env.WEBPACK_DEV_SERVER_HOST || 'localhost';
@@ -70,6 +71,22 @@ module.exports = {
             VUE_LOADER_VERSION,
           ].join('|')
         }
+      },
+      {
+        test: /\.s(c|a)ss$/,
+        use: [
+          'vue-style-loader',
+          'css-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              implementation: require('sass'),
+              sassOptions: {
+                indentedSyntax: true // optional
+              },
+            },
+          },
+        ],
       },
       {
         test: /\.css$/,
@@ -126,6 +143,8 @@ module.exports = {
   plugins: [
     // enable vue-loader to use existing loader rules for other module types
 		new VueLoaderPlugin(),
+
+    new VuetifyLoaderPlugin(),
     
     // fix legacy jQuery plugins which depend on globals
 		new webpack.ProvidePlugin({

@@ -31,6 +31,9 @@
 	<meta name="author" content="{$udaje['autor']}" />
 	<title>{$udaje['titulka']} - Administracia</title>
   <link rel="stylesheet" type="text/css" href="{webpack admin.css}">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">
+
   <!-- upload -->
   {\Zet\FileUpload\FileUploadControl::getHead($basePath . '/vendor/ijvo/jquery-fileupload/src/www/')}
   {block spec_css}{/block}
@@ -42,6 +45,8 @@
 
 <body>
   <div class="container-fluid" id="vueappadmin">
+    <v-app>
+    <v-main>
     <div class="row">
       <div class="col bg-dark">
         <nav class="navbar navbar-expand-md navbar-dark bg-dark">
@@ -70,6 +75,7 @@
     <div class="row">
       <div class="col-12 col-sm-3 col-md-2 left-col">
         <div class="menu_new">
+          <h6 class="mt-1 d-inline-block w-100"><small class="font-weight-bold text-muted">Admin menu</small></h6>
           <ul>
           <li n:if="$user->isInRole('admin')"><a href="{link :Front:Homepage:default}api/" title="API" target="_blank">API</a></li>
           {foreach $admin_menu as $am}
@@ -81,7 +87,11 @@
           {/foreach}
           </ul>
         </div>
-        <div class="menu_new">{control menu:tree}</div>
+        <div class="menu_new">
+          <h6 class="mt-1 "><small class="font-weight-bold text-muted">Hlavné menu</small></h6>
+          {control menu:tree}
+        </div>
+
       </div>
       <div class="col-12 col-sm-9 col-md-10">
         <div class="row" n:snippet="flashes"> 
@@ -128,6 +138,8 @@
         </footer>
       </div>
     </div>
+    </v-main>
+    </v-app>
   </div>
   <script src="{webpack admin.js}"></script>
   {block spec_js}{/block}

@@ -1,4 +1,12 @@
-{var $ukaz = isset($startNode) && isset($startNode->nodes) && count($startNode->nodes)}
+{var $nodes = ($startNode->nodes|tojson)}
+
+  <menuorder
+    articles="{$nodes}"
+    basepath="{$basePath}"
+  >
+  </menuorder>
+
+{* var $ukaz = isset($startNode) && isset($startNode->nodes) && count($startNode->nodes)}
 <div n:if="isset($startNode) && isset($startNode->nodes) && count($startNode->nodes)" n:tag-if="$nastav['divClass']" class="{$nastav['divClass']}">
   <h4 n:if="$nastav['nadpis']">{$nastav['nadpis']}</h4>
   {var $n = $startNode->poradie_podclankov ? array_reverse($startNode->nodes) : $startNode->nodes}
@@ -21,4 +29,4 @@
       </a> 
     </li>
   </ul>
-</div>
+</div>*}
