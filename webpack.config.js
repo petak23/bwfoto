@@ -28,7 +28,6 @@ const WEBPACK_DEV_SERVER_PROXY_PORT = parseInt(process.env.WEBPACK_DEV_SERVER_PR
 
 // Config
 const ROOT_PATH = __dirname;
-const CACHE_PATH = ROOT_PATH + "/temp/webpack";
 
 var AssetsPlugin = require('assets-webpack-plugin');
 
