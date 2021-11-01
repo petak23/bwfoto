@@ -40,4 +40,4 @@ jquery(function() {
         });
 });
 
-import '../css/main.css';
+import './vue/MainVue.js';

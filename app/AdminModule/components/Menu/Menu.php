@@ -1,17 +1,19 @@
 <?php
 
 namespace App\AdminModule\Components\Menu;
+
 use Nette;
+use Nette\Utils\Json;
 
 /**
  * Komponenta na vytvorenie menu
- * Posledna zmena 12.11.2020
+ * Posledna zmena 25.10.2021
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.6
+ * @version    1.0.7
  */
 class Menu extends Nette\Application\UI\Control {
 	var $rootNode; // = new MenuItem();
@@ -189,6 +191,21 @@ class Menu extends Nette\Application\UI\Control {
       $nastav = array_merge($this->nastav, $opt);
 		} else { $level = $opt;	$nastav = $this->nastav;}
     $this->template->nastav = $nastav;
+		$this->template->addFilter('tojson', function ($nodes) {
+			$out = []; $i=1;
+			foreach ($nodes as $k => $v) {
+				$out[$k] = [
+										'id'		=> $v->id,
+										'order'	=> $i,
+										'name'	=> $v->name,
+										'link'	=> $v->link,
+										'avatar'=> $v->avatar
+										];
+				$i++;							
+			};
+      return Json::encode($out);
+    });
+
     $this->render($level, 'podclanky');   
   }
 

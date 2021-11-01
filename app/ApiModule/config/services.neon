@@ -6,3 +6,4 @@
 #
 services:
   - App\ApiModule\Presenters\UserPresenter(%parameters%)
+  - App\ApiModule\Presenters\MenuPresenter(%parameters%)

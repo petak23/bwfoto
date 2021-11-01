@@ -1,0 +1,15 @@
+{block content}
+<div class="col-12 middle-content">
+  {control titleArticle admin_links=>$admin_links}
+
+  {control titleImage admin_links=>$admin_links}
+  <hr />
+  <div class="clanok-casti podclanky">
+    <h3>
+      Táto časť odkazuje na absolútnu adresu:
+      <a href="{if strpos($clanok->hlavne_menu->absolutna, 'http') === FALSE}{link $clanok->hlavne_menu->absolutna}{else}{$clanok->hlavne_menu->absolutna}{/if}" title="odkaz">
+        {$clanok->hlavne_menu->absolutna}
+      </a>
+    </h3>
+  </div>
+</div>
