@@ -1,8 +1,8 @@
-{var $nodes = ($startNode->nodes|tojson)}
-
+{*var $nodes = ($startNode->nodes|tojson)*}
+{* articles="{$nodes}" *}
   <cardorder
-    articles="{$nodes}"
     basepath="{$basePath}"
+    id_hlavne_menu="{$startNode->id}"
   >
   </cardorder>
 
