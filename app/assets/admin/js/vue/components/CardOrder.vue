@@ -21,20 +21,25 @@ export default {
     draggable
   },
   props: {
-    articles: {
+    /*articles: {
       type: String,
       required: true
-    },
+    },*/
     basepath: {
       type: String,
       required: true
-    }
+    },
+    id_hlavne_menu: {
+      type: String,
+      required: true
+    },
   },
   data() {
     return {
       drag: false,
       items: [],
-      nextchange: false // Aby sa pri prvom behu nespustilo ukladanie.
+      nextchange: false, // Aby sa pri prvom behu nespustilo ukladanie.
+      odkaz: ""
     };
   },
   computed: {
@@ -59,18 +64,14 @@ export default {
     }
   },
   mounted() {
-    // TODO - Priame načítanie z DB cez api
-    this.items = JSON.parse(this.articles)
-    // TODO - dokonč odkaz ...  nie je id_hlavne_menu ...
-    axios.get(this.basepath + '/api/menu/getsubmenu/' + this.id_hlavne_menu, {params: {[this.inputname]: this.searchquery}})
+    // Načítanie údajov priamo z DB
+    this.odkaz = this.basepath + '/api/menu/getsubmenu/' + this.id_hlavne_menu
+    axios.get(this.odkaz /*, {params: {[this.inputname]: this.searchquery}}*/)
               .then(response => {
-                //console.log(response);
-                this.results = [];
-                response.data.forEach(cl => this.results.push(cl))
-                this.isSearching = false; 
-                //console.log(this.results);    
+                this.items = Object.values(response.data)
               })
               .catch((error) => {
+                console.log(this.odkaz);
                 console.log(error);
               });
   }
