@@ -15,9 +15,8 @@ const VUE_LOADER_VERSION = require("vue-loader/package.json").version;
 // Webpack plugins
 const TerserPlugin = require("terser-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const {VueLoaderPlugin} = require("vue-loader");
-const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 // Webpack abilities
@@ -28,7 +27,6 @@ const WEBPACK_DEV_SERVER_PROXY_PORT = parseInt(process.env.WEBPACK_DEV_SERVER_PR
 
 // Config
 const ROOT_PATH = __dirname;
-const CACHE_PATH = ROOT_PATH + "/temp/webpack";
 
 var AssetsPlugin = require('assets-webpack-plugin');
 
@@ -54,22 +52,10 @@ module.exports = {
         test: /\.js$/,
         exclude: path => /node_modules/.test(path) && !/\.vue\.js/.test(path),
         loader: 'babel-loader',
-        options: {
-          cacheDirectory: path.join(CACHE_PATH, 'babel-loader'),
-        }
       },
       {
         test: /\.vue$/,
         loader: 'vue-loader',
-        options: {
-          cacheDirectory: path.join(CACHE_PATH, 'vue-loader'),
-          cacheIdentifier: [
-            process.env.NODE_ENV || 'development',
-            webpack.version,
-            VUE_VERSION,
-            VUE_LOADER_VERSION,
-          ].join('|')
-        }
       },
       {
         test: /\.css$/,
@@ -108,14 +94,6 @@ module.exports = {
       }
     ]
   },
-//  resolve: {
-//    extensions: ['*', '.js', '.jsx'], //		extensions: [".js", ".vue", ".ts", ".tsx"],
-//    alias: {
-//      'vue$': 'vue/dist/vue.esm.js' ,
-//      '@': path.resolve(__dirname, "app/assets")
-//    },
-//    modules: ['node_modules']
-//  },
   resolve: {
     alias: {
         'vue$': 'vue/dist/vue.esm.js',
@@ -143,10 +121,7 @@ module.exports = {
     new AssetsPlugin({ // Pre aplikaciu filename: '[name].[contenthash:8].[ext]' a prepojenie s nette
       includeManifest: 'manifest',
       path: path.join(ROOT_PATH, 'www/dist')
-    }),
-    
-    // human webpack errors
-		new FriendlyErrorsWebpackPlugin()
+    })
   ],
   devtool: 'cheap-module-source-map',
   performance: {
@@ -197,12 +172,14 @@ if (process.env.NODE_ENV === 'production') {
       minimizer: [
         new TerserPlugin({
 					test: /\.m?js(\?.*)?$/i,
-				})
-      ]
+				}),
+        new CssMinimizerPlugin(),
+      ],
+      minimize: true,
     },
     plugins: [
       // optimize CSS files
-      new OptimizeCSSAssetsPlugin()
+      new MiniCssExtractPlugin()
     ]
   };
 

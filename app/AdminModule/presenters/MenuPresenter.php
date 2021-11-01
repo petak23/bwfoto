@@ -3,23 +3,30 @@ namespace App\AdminModule\Presenters;
 
 /**
  * Prezenter pre administraciu hlavneho menu.
- * Posledna zmena(last change): 31.10.2017
+ * Posledna zmena(last change): 22.10.2021
  *
  * Modul: ADMIN
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2017 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.0
+ * @version 1.1.1
  */
 class MenuPresenter extends ArticlePresenter {
   
   /** Render pre defaultnu akciu */
   public function renderDefault() {
     parent::renderDefault();
-		$this->template->uroven = $this->zobraz_clanok->hlavne_menu->uroven+2;
-    $this->template->obsahuje = $this->hlavne_menu->findBy(["id_nadradenej"=>$this->zobraz_clanok->hlavne_menu->id])->count();
+		
+    $this->template->uroven = $this->zobraz_clanok->hlavne_menu->uroven+2;
+
+    // Pre iste specialne pripady nastav ine sablony
+    if ($this->zobraz_clanok->hlavne_menu->absolutna !== NULL) {
+      $this->setTemplate('absolute');
+    } elseif ($this->hlavne_menu->findBy(["id_nadradenej"=>$this->zobraz_clanok->hlavne_menu->id])->count() == 0) {
+      $this->setTemplate('nullArticle');
+    }
   }
   
   /** Akcia pre 1. krok pridania polozky - udaje pre hl. menu.

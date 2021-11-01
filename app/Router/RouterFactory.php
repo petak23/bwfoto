@@ -64,6 +64,8 @@ class RouterFactory {
       ])
       ->addRoute('administration/<presenter>/<action>', 'Homepage:default');
     
+    $router->withModule('Api')
+      ->addRoute('api/menu/<action>[/<id>]', 'Menu:default');
 
     $router->withModule('Front')
       ->addRoute('clanky[/<id>]', [
@@ -98,7 +100,7 @@ class RouterFactory {
       ->addRoute('search[/<action>]', 'Search:default')
       ->addRoute('<presenter>/<action>[/cokolvek]', 'Homepage:default')
       ->addRoute('[<presenter>][/<action>][/<spec_nazov><? \.html?|\.php|>]', 'Homepage:default', Route::ONE_WAY);
-    
-		return $router;
+		
+    return $router;
 	}
 }
