@@ -38,3 +38,5 @@ jquery(function() {
                 });
         });
 });
+
+import './vue/MainVue.js';
