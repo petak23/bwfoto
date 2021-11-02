@@ -40,12 +40,16 @@ class MenuPresenter extends BasePresenter {
     $this->sendJson($out);
 	}
 
-  public function actionSaveSubmenu(json $submenu) {
-    try {
-      $tmp = Utils\Json::decode($json);
-    } catch (Utils\JsonException $e) {
-      // Ošetrenie výnimky...
+  public function actionSaveSubmenu() {
+    if ($this->isAjax()) {
+      try {
+        
+        $tmp = Utils\Json::decode($json);
+      } catch (Utils\JsonException $e) {
+        // Ošetrenie výnimky...
+      }
+      dumpe($tmp);       
     }
-    dumpe($tmp);       
+    $this->sendJson(['result' =>'OK']);
   }
 }
