@@ -21,10 +21,6 @@ export default {
     draggable
   },
   props: {
-    /*articles: {
-      type: String,
-      required: true
-    },*/
     basepath: {
       type: String,
       required: true
@@ -58,6 +54,19 @@ export default {
       if (this.nextchange) {
         console.log(newItem)
         // TODO - ukladanie do DB
+
+        this.odkaz = this.basepath + '/api/menu/savesubmenu/'
+        axios.post(this.odkaz, {
+            id_hlavne_menu:  this.id_hlavne_menu,
+            items: JSON.stringify(newItem),
+          })
+          .then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+
       } else {
         this.nextchange = true
       }
@@ -66,7 +75,7 @@ export default {
   mounted() {
     // Načítanie údajov priamo z DB
     this.odkaz = this.basepath + '/api/menu/getsubmenu/' + this.id_hlavne_menu
-    axios.get(this.odkaz /*, {params: {[this.inputname]: this.searchquery}}*/)
+    axios.get(this.odkaz)
               .then(response => {
                 this.items = Object.values(response.data)
               })
