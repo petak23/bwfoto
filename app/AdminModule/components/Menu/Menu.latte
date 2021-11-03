@@ -38,8 +38,7 @@
 	{if $node->nodes && ($showAll || in_array($node, $path) || $node->isRootNode)}
     <ul class="level-{$level}">
       {var $level = $level + 1}
-      {var $n = $node->poradie_podclankov ? array_reverse($node->nodes) : $node->nodes}
-      {foreach $n as $subNode}
+      {foreach $node->nodes as $subNode}
         <li class="pol-li-{$iterator->counter}">
           {include #node, node => $subNode}
         </li>

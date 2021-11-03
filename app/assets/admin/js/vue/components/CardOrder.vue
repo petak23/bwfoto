@@ -1,19 +1,22 @@
 <script>
 /**
  * Komponenta pre zmenu poradia.
- * Posledna zmena 29.10.2021
+ * Posledna zmena 03.11.2021
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.0
+ * @version    1.0.1
  * @link https://sortablejs.github.io/Vue.Draggable/#/transition-example-2
  */
 
 import draggable from 'vuedraggable'
 import vuetify from '@/admin/js/vue/plugins/vuetify'
 import axios from 'axios'
+
+//for Tracy Debug Bar
+axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 export default {
   vuetify,
@@ -52,21 +55,24 @@ export default {
   watch: {
     items: function (newItem) { // Kedykolvek sa item zmení tak sa spustí
       if (this.nextchange) {
-        console.log(newItem)
-        // TODO - ukladanie do DB
-
-        this.odkaz = this.basepath + '/api/menu/savesubmenu/'
+        this.odkaz = this.basepath + '/api/menu/saveordersubmenu/' + this.id_hlavne_menu
+        //console.log(newItem)
+        var out = []
+        newItem.forEach(item => {
+          out.push(item.id)
+        });
         axios.post(this.odkaz, {
-            id_hlavne_menu:  this.id_hlavne_menu,
-            items: JSON.stringify(newItem),
+            items: out,
           })
           .then(function (response) {
-            console.log(response);
+            console.log(response.data);
+            if (response.data.result == 'OK') {
+              //this.items = newItem
+            }
           })
           .catch(function (error) {
             console.log(error);
           });
-
       } else {
         this.nextchange = true
       }
@@ -75,8 +81,11 @@ export default {
   mounted() {
     // Načítanie údajov priamo z DB
     this.odkaz = this.basepath + '/api/menu/getsubmenu/' + this.id_hlavne_menu
+    this.items = []
     axios.get(this.odkaz)
               .then(response => {
+                console.log(response.data);
+                console.log(this.items)
                 this.items = Object.values(response.data)
               })
               .catch((error) => {
@@ -89,8 +98,11 @@ export default {
 
 <template>
     <div class="row">
-      <div class="col-6">
+      <div class="col-12">
         <h3 class="p-2">Zoznam podčlánkov danej časti:</h3>
+        <p>Poradie položiek je možné zmeniť chytením a ťahaním na požadované miesto.</p>
+      </div>
+      <div class="col-6">
         <draggable
           class="list-group"
           tag="ul"

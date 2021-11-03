@@ -17,26 +17,24 @@
 
 {if isset($startNode) && count($startNode->nodes)}
   <h4 n:if="$nastav['nadpis']">{$nastav['nadpis']}</h4>
-  <ul {if $nastav['divClass']}class="{$nastav['divClass']}"{/if}>
+  <ul n:class="$nastav['divClass'] ? $nastav['divClass']">
   {foreach $startNode->nodes as $node}
-    <li>
-      <span n:tag-if="FALSE">
-        {if $node->link}
-          <a href="{$node->link}" title="{$node->name}" class="{$node->getItemClass()}">
-            {include #link_in node=>$node, avatar => $node->avatar}
+    <li>      
+      {if $node->link}
+        <a href="{$node->link}" title="{$node->name}" class="{$node->getItemClass()}">
+          {include #link_in node=>$node, avatar => $node->avatar}
+        </a>
+      {else}
+        <span>{include #link_in node=>$node, avatar => $node->avatar}</span>
+      {/if}
+      <p n:if="$nastav['anotacia'] && $node->anotacia">
+        <small>
+          {$node->anotacia}
+          <a n:if="$node->link" href="{$node->link}" class="viac" title="{$node->name}">
+            »»»
           </a>
-        {else}
-          <span>{include #link_in node=>$node, avatar => $node->avatar}</span>
-        {/if}
-        <p n:if="$nastav['anotacia'] && $node->anotacia">
-          <small>
-            {$node->anotacia}
-            <a n:if="$node->link" href="{$node->link}" class="viac" title="{$node->name}">
-              »»»
-            </a>
-          </small>
-        </p>
-      </span>
+        </small>
+      </p>
     </li>
   {/foreach}
   </ul>

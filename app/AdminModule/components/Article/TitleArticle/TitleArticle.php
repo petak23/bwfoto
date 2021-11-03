@@ -8,13 +8,13 @@ use Nette\Application\UI\Form;
 /**
  * Komponenta pre vytvorenie hlavičky polozky.
  * 
- * Posledna zmena(last change): 29.09.2021
+ * Posledna zmena(last change): 03.11.2021
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
  * @copyright Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.9
+ * @version 1.2.0
  */
 
 class TitleArticleControl extends Nette\Application\UI\Control {
@@ -110,7 +110,6 @@ class TitleArticleControl extends Nette\Application\UI\Control {
    * @param array $params Parametre komponenty - [admin_links]*/
 	public function render(array $params): void {
     $this->template->clanok = $this->clanok;
-    $this->template->por_podclanky = $this->hlavne_menu_lang->findBy(["hlavne_menu.id_nadradenej"=>$this->clanok->id_hlavne_menu]);
     $this->template->odkaz = ":".$this->odkaz.":zmenVlastnika";
     $this->template->vlastnik = $params['admin_links']['vlastnik'];
     $this->template->admin_links = $params['admin_links'];
@@ -265,17 +264,6 @@ class TitleArticleControl extends Nette\Application\UI\Control {
   public function createComponentZmenOkrajForm(): Nette\Application\UI\Form {
     return $this->_formMessage($this->zmenOkraj->create($this->clanok->hlavne_menu));
   }
-  
-  /** 
-   * Signal pre zmenu zoradenia podclanokv podla poradia od 9 do 1 */
-  public function handlePodclankyZoradenie() {
-    $this->clanok->hlavne_menu->update(['poradie_podclankov'=>(1 - $this->clanok->hlavne_menu->poradie_podclankov)]);
-		if (!$this->presenter->isAjax()) {
-      $this->redirect('this');
-    } else {
-      $this->redrawControl('');
-    }
-	}
 }
 
 interface ITitleArticleControl {

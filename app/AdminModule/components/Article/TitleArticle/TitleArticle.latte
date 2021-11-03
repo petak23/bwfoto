@@ -50,17 +50,6 @@
     <button n:if="$admin_links['vlastnik']" type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#myModalUserChange" title="Zmeň vlastníka položky"><i class="fas fa-pencil-alt"></i></button>
   </div>
   
-  <div n:snippet="porPodclanky" n:if="$por_podclanky !== FALSE && $por_podclanky->count() && $al['druh_opravnenia']" 
-       class="btn-group btn-group-sm edit-link-bar" role="group" aria-label="poradie-podclanky-link">
-    <div class="btn btn-outline-info disabled" title="Poradie podčlánkov podľa dátumu platnosti od {$c = $clanok->hlavne_menu->poradie_podclankov ? 'najneskoršieho' : 'najskoršieho'}.">
-      Poradie podčlánkov <i class="fas fa-sort-numeric-{$c = $clanok->hlavne_menu->poradie_podclankov ? 'up' : 'down'}"></i>
-    </div>
-    <a n:if="$admin_links['vlastnik']" n:href="podclankyZoradenie!" 
-       title="Zmeň zoradenie podclankov podľa dátumu platnosti od {$clanok->hlavne_menu->poradie_podclankov ? 'najskoršieho' : 'najneskoršieho'}." 
-       class="btn btn-outline-info" role="button">
-      Nastav na <i class="fas fa-sort-numeric-{$c = $clanok->hlavne_menu->poradie_podclankov ? 'down' : 'up'}"></i>
-    </a>
-  </div>
   <div n:snippet="uroven" class="btn-group btn-group-sm edit-link-bar" role="group" aria-label="uroven-link">
     <div n:if="$admin_links['vlastnik']" class="btn btn-outline-warning disabled" title="Prístupný od úrovne: {$clanok->hlavne_menu->id_user_roles} - {$clanok->hlavne_menu->user_roles->name}">
       <i class="fas fa-users"></i>
