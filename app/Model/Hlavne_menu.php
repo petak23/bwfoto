@@ -10,13 +10,13 @@ use Nette\Utils\Image;
 /**
  * Model, ktory sa stara o tabulku hlavne_menu a hlavne_menu_lang
  * 
- * Posledna zmena 30.09.2021
+ * Posledna zmena 03.11.2021
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.2.4
+ * @version    1.2.5
  */
 class Hlavne_menu extends Table {
   /** @var string */
@@ -98,7 +98,6 @@ class Hlavne_menu extends Table {
         $temp_pol->absolutna = $v->absolutna;
         $temp_pol->novinka = $v->id_dlzka_novinky > 1 ? $v->modified->add(new \DateInterval('P'.$v->dlzka_novinky->dlzka.'D')) : NULL;
         $temp_pol->id = $v->id;
-        $temp_pol->poradie_podclankov = $v->poradie_podclankov;
         $out[] = ["node"=>$temp_pol, "nadradena"=>isset($v->id_nadradenej) ? $v->id_nadradenej : -1*$v->hlavne_menu_cast->id];
         unset($temp_pol);
       }
@@ -191,7 +190,6 @@ class Hlavne_menu extends Table {
         $temp_pol->node_class = ($v->ikonka !== NULL && strlen($v->ikonka)>2) ? "fa fa-".$v->ikonka : NULL;
         $temp_pol->link = $v->druh->je_spec_naz ? [$v->druh->presenter.":"] : $v->druh->presenter.":";
         $temp_pol->id = $v->id;
-        $temp_pol->poradie_podclankov = $v->poradie_podclankov;
         $temp_pol->datum_platnosti = $v->datum_platnosti;
         $out[] = ["node"=>$temp_pol, "nadradena"=>isset($v->id_nadradenej) ? $v->id_nadradenej : -1*$v->hlavne_menu_cast->id];
         unset($temp_pol);
@@ -377,5 +375,24 @@ class Hlavne_menu extends Table {
       $this->hlavne_menu_lang->ulozPolozku($values, $lang, $uloz['id']);
     }
     return $uloz['id'];
+  }
+
+  /**
+   * Funkcia pre ulozenie poradia submenu */
+  public function saveOrderSubmenu(array $items = []): bool {
+    $_tmp_c = 0;
+    if (is_array($items) && count($items)) {
+      foreach ($items as $k => $v) {
+        if ((int)$v > 0) { // Id polozky musi by cislo
+          $p = $this->repair((int)$v, ['poradie' => ((int)$k + 1)] );
+          if($p->id > 0) {
+            $_tmp_c++;
+          }
+        }
+      }
+      return (count($items) == $_tmp_c);
+    } else {
+      return false;
+    }
   }
 }

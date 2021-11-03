@@ -12,7 +12,7 @@ use Texy;
 /**
  * Zakladny presenter pre vsetky presentery v module ADMIN
  * 
- * Posledna zmena(last change): 29.09.2021
+ * Posledna zmena(last change): 03.11.2021
  *
  * Modul: ADMIN
  *
@@ -20,7 +20,7 @@ use Texy;
  * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.3.5
+ * @version 1.3.6
  */
 abstract class BasePresenter extends UI\Presenter {
   
@@ -238,7 +238,7 @@ abstract class BasePresenter extends UI\Presenter {
     if (count($hl_m)) {
       $servise = $this;
       $menu->fromTable($hl_m, function($node, $row) use($servise){
-        foreach (["name", "tooltip", "avatar", "anotacia", "node_class", "id", "poradie_podclankov", "datum_platnosti"] as $v) { 
+        foreach (["name", "tooltip", "avatar", "anotacia", "node_class", "id", "datum_platnosti"] as $v) { 
           $node->$v = $row['node']->$v; 
         }
         $node->link = is_array($row['node']->link) ? $servise->link($row['node']->link[0], ["id"=>$row['node']->id]) : $servise->link($row['node']->link);

@@ -163,9 +163,15 @@ abstract class Table {
    * @param mixed $id primary key
    * @param iterable (column => value)
    * @return ActiveRow|null */
-  public function oprav($id, $data): ?ActiveRow {
+  public function repair($id, $data): ?ActiveRow {
     $this->find($id)->update($data); //Ak nieco opravil tak true inak(nema co opravit) false
     return $this->find($id);
+  }
+
+  /**
+   * @deprecated */
+  public function oprav($id, $data): ?ActiveRow {
+    return $this->repair($id, $data);
   }
 
   /** 
@@ -174,7 +180,7 @@ abstract class Table {
    * @param mixed $id primary key
    * @return ActiveRow|int|bool */
   public function uloz($data, $id) {
-    return (isset($id) && $id) ? $this->oprav($id, $data) : $this->pridaj($data);
+    return (isset($id) && $id) ? $this->repair($id, $data) : $this->pridaj($data);
   }
   
   /**
