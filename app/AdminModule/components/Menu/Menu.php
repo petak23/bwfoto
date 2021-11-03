@@ -7,13 +7,13 @@ use Nette\Utils\Json;
 
 /**
  * Komponenta na vytvorenie menu
- * Posledna zmena 25.10.2021
+ * Posledna zmena 03.11.2021
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.7
+ * @version    1.0.8
  */
 class Menu extends Nette\Application\UI\Control {
 	var $rootNode; // = new MenuItem();
@@ -306,7 +306,6 @@ class MenuNode {
 	var $avatar;
 	var $anotacia;
   var $node_class;
-  var $poradie_podclankov = 0;
   var $datum_platnosti;
 	var $link;	//Odkaz na polozku
 	var $nodes = [];

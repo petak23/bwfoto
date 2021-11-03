@@ -15,7 +15,7 @@ use Texy;
 /**
  * Zakladny presenter pre vsetky presentery vo FRONT module
  * 
- * Posledna zmena(last change): 26.04.2021
+ * Posledna zmena(last change): 03.11.2021
  *
  *	Modul: FRONT
  *
@@ -23,7 +23,7 @@ use Texy;
  * @copyright Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link      http://petak23.echo-msz.eu
- * @version 1.6.2
+ * @version 1.6.3
  */
 abstract class BasePresenter extends Presenter {
   
@@ -185,7 +185,7 @@ abstract class BasePresenter extends Presenter {
     if (count($hl_m)) {
       $servise = $this;
       $menu->fromTable($hl_m, function($node, $row) use($servise) {
-        $poll = ["id", "name", "tooltip", "view_name", "avatar", "anotacia", "novinka", "node_class", "poradie_podclankov"];
+        $poll = ["id", "name", "tooltip", "view_name", "avatar", "anotacia", "novinka", "node_class"];
         foreach ($poll as $v) { $node->$v = $row['node']->$v; }
         // Nasledujuca cast priradi do $node->link odkaz podla kriteria:
         // Ak $rna == NULL - vytvori link ako odkaz do aplikacie
