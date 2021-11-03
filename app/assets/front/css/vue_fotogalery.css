@@ -155,9 +155,10 @@
 }
 .lightbox-img .modal-body {
     display: table;
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: 5rem;
+    margin-right: 5rem;
     padding: 0;
+	text-align: center;
 }
 .lightbox-img .my-img-content {
     width: 86%;
