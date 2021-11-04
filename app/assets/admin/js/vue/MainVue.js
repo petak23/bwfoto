@@ -11,22 +11,24 @@
 
 import Vue from 'vue'
 import LazyLoadDirective from "./directives/LazyLoadDirective"
-//import menuorder from './components/MenuOrder.vue'
+import mainframe from './components/MainFrame.vue'
 import cardorder from './components/CardOrder.vue'
-import vuetify from './plugins/vuetify.js' //ssa 
+import vuetify from './plugins/vuetify.js'
+import store from "./store/index.ts"
 
 Vue.directive("lazyload", LazyLoadDirective)
 
 var vm = new Vue({
   el: '#vueappadmin',
   vuetify,
+  store,
   /*data: function () {
     return {
       
     }
   },*/
   components: { 
-    //menuorder
+    mainframe,
     cardorder
   },
 });   
