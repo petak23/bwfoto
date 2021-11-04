@@ -45,6 +45,27 @@ class MenuPresenter extends BasePresenter {
     $this->sendJson($menu->getApiMenu());
   }
 
+  public function actionGetMenu() {
+      
+    $menu = new \App\AdminModule\Components\Menu\Menu;
+    $menu->setNastavenie($this->nastavenie);
+    $hl_m = $this->hlavne_menu->getMenuAdmin(1);
+    if (count($hl_m)) {
+      $servise = $this;
+      $menu->fromTable($hl_m, function($node, $row) use($servise){
+        foreach (["name", "tooltip", "avatar", "anotacia", "node_class", "id", "datum_platnosti"] as $v) { 
+          $node->$v = $row['node']->$v; 
+        }
+        $node->link = is_array($row['node']->link) ? 
+                      $servise->link(":Admin:".$row['node']->link[0], ["id"=>$row['node']->id]) : 
+                      $servise->link(":Admin:".$row['node']->link);
+        return $row['nadradena'] ? $row['nadradena'] : null;
+      });
+    }
+  
+    $this->sendJson($menu->getApiMenu());
+  }
+
   /** 
    * @param int $id Id nadradenej polozky */
   public function actionGetSubmenu(int $id) {
