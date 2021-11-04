@@ -249,6 +249,7 @@ abstract class BasePresenter extends UI\Presenter {
         return $row['nadradena'] ? $row['nadradena'] : null;
       });
     }
+    //dumpe($menu);
     return $menu;
   }
   

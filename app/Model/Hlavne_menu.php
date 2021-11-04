@@ -399,8 +399,4 @@ class Hlavne_menu extends Table {
       return false;
     }
   }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 0.9.vt04 - Poradie podčlánkov je možné meniť ťahaním. Vypustená možnosť globálnej zmeny poradia podčlánkov.

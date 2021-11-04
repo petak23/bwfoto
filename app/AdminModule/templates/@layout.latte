@@ -42,8 +42,13 @@
 	{block head}{/block}
 </head>
 
-<body>
-  <div class="container-fluid" id="vueappadmin">
+<body>{dump $user->getIdentity()->data}
+  <div id="vueappadmin">
+    <mainframe
+      basepath="{$basePath}"
+      user="{($user->getIdentity()->data|to_json)}">
+    </mainframe>
+  {*<div class="container-fluid" id="vueappadmin">
     <div class="row">
       <div class="col bg-dark">
         <nav class="navbar navbar-expand-md navbar-dark bg-dark">
@@ -129,7 +134,7 @@
           </nav>
         </footer>
       </div>
-    </div>
+    </div>*}
   </div>
   <script src="{webpack admin.js}"></script>
   {block spec_js}{/block}
