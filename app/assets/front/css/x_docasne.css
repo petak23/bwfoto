@@ -39,7 +39,7 @@ a[href^="#error:"] {
 
 /** ---- Hlavná ponuka na titulke ---- */
 #webContent {
-  margin-top: 15rem;
+  margin-top: 12rem;
 }
 #webParts .part-small i, #webParts-md .part-small i {
   font-size: 2rem;
