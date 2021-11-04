@@ -6,6 +6,7 @@ use DbTable;
 use Nette;
 use Nette\Application\UI;
 use Nette\Http;
+use Nette\Utils\Json;
 use PeterVojtech;
 use Texy;
 
@@ -198,6 +199,9 @@ abstract class BasePresenter extends UI\Presenter {
     $this->template->addFilter('menu_mutacia_h1part2', function ($id) use($servise){
       $pom = $servise->hlavne_menu_lang->findOneBy(['id_hlavne_menu'=>$id, 'id_lang'=>$servise->language_id]);
       return $pom !== FALSE ? $pom->h1part2 : $id;
+    });
+    $this->template->addFilter('to_json', function ($value){
+      return Json::encode($value);
     }); 
     $this->texy->allowedTags = TRUE;
     $this->texy->headingModule->balancing = "FIXED";
@@ -245,6 +249,7 @@ abstract class BasePresenter extends UI\Presenter {
         return $row['nadradena'] ? $row['nadradena'] : null;
       });
     }
+    //dumpe($menu);
     return $menu;
   }
   

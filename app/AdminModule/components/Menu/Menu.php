@@ -295,6 +295,43 @@ class Menu extends Nette\Application\UI\Control {
     }
     return $out;
   }
+
+	public function getApiMenu() {
+    $out = [];
+		$level = 0;
+    foreach ($this->rootNode->nodes as $node) {
+      $out[$node->id] = [
+				'id'	 => $node->id,
+				'name' => $node->name,
+				'children'=> $this->_anode($node, $level + 1),
+				'link' => $node->link,
+			];
+			
+    }
+    return $out;
+  }
+  
+  private function _anode($node, $level) {
+    $out = [];
+    if (count($node->nodes)) {
+      foreach ($node->nodes as $no) {
+				$subn = null;
+        if (count($no->nodes)) {
+          $level++;
+          $subn = $this->_anode($no, $level);
+          $level--;
+        }
+				$out[$no->id] = [
+					'id'	 => $no->id,
+					'name' => $no->name,
+					'children' => $subn,
+					'link' => $no->link,
+				];
+				unset($subn);
+      }
+    }
+    return $out;
+  }
 }
 
 class MenuNode {
@@ -313,6 +350,7 @@ class MenuNode {
 	var $id;
 	var $menu;
 	var $isRootNode = false;
+	var $level;
 
 	public function Add($node) {
 		if (is_array($node)) {
