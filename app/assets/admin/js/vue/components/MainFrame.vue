@@ -38,6 +38,20 @@ axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
       // Parsovanie JSON-u  na array
       useritems() {
         return JSON.parse(this.user)
+      },
+      name_first() {
+        return (this.useritems.meno.substring(0, 1) + this.useritems.priezvisko.substring(0, 1)).toUpperCase()
+      },
+      menuitems() {
+        return this.convert(this.menu)
+      }
+    },
+    methods: {
+      convert(itemsObject) {
+        return Object.values(itemsObject).map(item => ({
+          ...item,
+          children: item.children ? this.convert(item.children) : undefined,
+        }));
       }
     },
     mounted() {
@@ -45,19 +59,8 @@ axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
       this.odkaz = this.basepath + '/api/menu/getmenu'
       this.menu = []
       axios.get(this.odkaz)
-                .then(response => {
-                  //console.log(response.data);
-                  //console.log(this.items)
-                  var menu = Object.entries(response.data)
-                  this.menu = menu.forEach
-                  var po = []
-                  Object.keys(menu).forEach(function(key){
-
-                    po.push(menu[key])
-
-                  });
-                  this.menu = po
-                    console.log(this.menu);
+                .then(response => {            
+                  this.menu = response.data
                 })
                 .catch((error) => {
                   console.log(this.odkaz);
@@ -91,18 +94,14 @@ axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
           class="mb-4"
           color="grey darken-1"
           size="64"
-        >
-          <img
-            :src="basepath + '/' + useritems.avatar"
-            :alt="useritems.meno"
-          >
+        > {{ name_first }}
         </v-avatar>
 
         <div>{{ useritems.email }}</div>
       </v-sheet>
 
       <v-divider></v-divider>
-      <v-treeview :items="menu"></v-treeview>
+      <v-treeview :items="menuitems"></v-treeview>
     </v-navigation-drawer>
 
     <v-main>

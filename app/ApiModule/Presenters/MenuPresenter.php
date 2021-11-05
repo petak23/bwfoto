@@ -39,7 +39,7 @@ class MenuPresenter extends BasePresenter {
         return $row['nadradena'] ? $row['nadradena'] : null;
       });
     }
-  
+    //dumpe(json_encode($menu->getApiMenu()));
     $this->sendJson($menu->getApiMenu());
   }
 
