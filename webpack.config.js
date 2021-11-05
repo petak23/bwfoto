@@ -177,10 +177,6 @@ if (process.env.NODE_ENV === 'production') {
       ],
       minimize: true,
     },
-    plugins: [
-      // optimize CSS files
-      new MiniCssExtractPlugin()
-    ]
   };
 
   module.exports = merge(module.exports, production);
