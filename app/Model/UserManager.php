@@ -11,13 +11,13 @@ use Nette\Security;
 /**
  * Model starajuci sa o uzivatela
  * 
- * Posledna zmena(last change): 13.05.2020
+ * Posledna zmena(last change): 05.11.2021
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.6
+ * @version    1.0.7
  */
 class UserManager implements Security\IAuthenticator {
 	use Nette\SmartObject;
@@ -95,7 +95,8 @@ class UserManager implements Security\IAuthenticator {
 			]);
 		}
     $role = $row->user_roles->{self::COLUMN_ROLE};
-		$arr = $row->toArray();
+    $profil = $row->user_profiles->toArray();
+		$arr = array_merge($row->toArray(), $profil);
 		unset($arr[self::COLUMN_PASSWORD_HASH], $password);
     $this->user_profiles->updateAfterLogIn($arr['id_user_profiles']);
     $this->user_main->logLastIp($row[self::COLUMN_ID], $this->httpres->getRemoteAddress());
