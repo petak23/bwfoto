@@ -13,11 +13,13 @@
 //import draggable from 'vuedraggable'
 //import vuetify from '@/admin/js/vue/plugins/vuetify'
 import axios from 'axios'
+import adminmenu from './MainFrame/AdminMenu.vue'
 
 //for Tracy Debug Bar
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
   export default {
+    components: { adminmenu },
     props: {
       user: {
         type: String,
@@ -72,9 +74,22 @@ axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 <template>
   <v-app id="inspire">
-    <v-system-bar app>
+    <v-system-bar 
+      app
+      window
+      height="48px"
+      >
+      <v-avatar
+        color="grey darken-1"
+        size="32"
+      > {{ name_first }}
+      </v-avatar>
+      <span class="ml-2">{{ useritems.email }}</span>
       <v-spacer></v-spacer>
 
+      <a href=":Front:Homepage:" title="Zmeny">
+        <v-icon>fas fa-eye</v-icon> Skontroluj zmeny na webe...
+      </a>
       <v-icon>mdi-square</v-icon>
 
       <v-icon>mdi-circle</v-icon>
@@ -85,19 +100,17 @@ axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
     <v-navigation-drawer
       v-model="drawer"
       app
+      class="pt-2"
     >
       <v-sheet
         color="grey lighten-4"
-        class="pa-4"
+        class="py-4"
       >
-        <v-avatar
-          class="mb-4"
-          color="grey darken-1"
-          size="64"
-        > {{ name_first }}
-        </v-avatar>
+      
+        <adminmenu
+          :basepath="basepath">
+        </adminmenu>  
 
-        <div>{{ useritems.email }}</div>
       </v-sheet>
 
       <v-divider></v-divider>
