@@ -101,7 +101,9 @@ axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
       </v-sheet>
 
       <v-divider></v-divider>
-      <v-treeview :items="menuitems"></v-treeview>
+      <v-treeview 
+        :items="menuitems">
+      </v-treeview>
     </v-navigation-drawer>
 
     <v-main>
