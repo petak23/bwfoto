@@ -45,8 +45,9 @@ class MenuPresenter extends BasePresenter {
     $this->sendJson($menu->getApiMenu());
   }
 
-  public function actionGetMenu() {
-      
+  /**
+   * Vráti kompletné menu v json */
+  public function actionGetMenu() { 
     $menu = new \App\AdminModule\Components\Menu\Menu;
     $menu->setNastavenie($this->nastavenie);
     $hl_m = $this->hlavne_menu->getMenuAdmin(1);
@@ -62,7 +63,6 @@ class MenuPresenter extends BasePresenter {
         return $row['nadradena'] ? $row['nadradena'] : null;
       });
     }
-    //dumpe(json_encode($menu->getApiMenu()));
     $this->sendJson($menu->getApiMenu());
   }
 
