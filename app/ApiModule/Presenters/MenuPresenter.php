@@ -21,9 +21,12 @@ class MenuPresenter extends BasePresenter {
   // -- DB
   /** @var DbTable\Hlavne_menu_lang @inject */
 	public $hlavne_menu_lang;
+  /** @var DbTable\Admin_menu @inject */
+  public $admin_menu;
 
-  public function actionGetMenu() {
-      
+  /**
+   * Vráti kompletné menu v json */
+  public function actionGetMenu() { 
     $menu = new \App\AdminModule\Components\Menu\Menu;
     $menu->setNastavenie($this->nastavenie);
     $hl_m = $this->hlavne_menu->getMenuAdmin(1);
@@ -39,7 +42,6 @@ class MenuPresenter extends BasePresenter {
         return $row['nadradena'] ? $row['nadradena'] : null;
       });
     }
-    //dumpe(json_encode($menu->getApiMenu()));
     $this->sendJson($menu->getApiMenu());
   }
 
@@ -64,8 +66,7 @@ class MenuPresenter extends BasePresenter {
 	}
 
   /**
-   * Uloženie zmeny v poradí submenu
-   */
+   * Uloženie zmeny v poradí submenu */
   public function actionSaveOrderSubmenu(int $id = null) {
     // https://forum.nette.org/cs/28370-data-z-post-request-body-reactjs-appka-se-po-ceste-do-php-ztrati
     $_post = json_decode(file_get_contents("php://input"), true);
@@ -73,5 +74,13 @@ class MenuPresenter extends BasePresenter {
     $this->sendJson([
       'result' => $this->hlavne_menu->saveOrderSubmenu($_post['items']) ? 'OK' : 'ERR'
     ]);
+  }
+
+  /**
+   * Vráti administračné menu podľa úrovne registrácie */
+  public function actionGetAdminMenu() {
+    $p = $this->admin_menu->getAdminMenu($this->user->getIdentity()->id_user_roles);
+    
+    $this->sendJson($p);
   }
 }
