@@ -17,6 +17,7 @@ const TerserPlugin = require("terser-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const {VueLoaderPlugin} = require("vue-loader");
+const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 // Webpack abilities
@@ -64,6 +65,40 @@ module.exports = {
           'css-loader'
         ]
       },
+      // SASS has different line endings than SCSS
+      // and cannot use semicolons in the markup
+      {
+        test: /\.sass$/,
+        use: [
+          'vue-style-loader',
+          'css-loader',
+          {
+            loader: 'sass-loader',
+            // Requires >= sass-loader@^9.0.0
+            options: {
+              // This is the path to your variables
+              additionalData: "@import '@/admin/css/sass/variables.scss'"
+            },
+          },
+        ],
+      },
+      // SCSS has different line endings than SASS
+      // and needs a semicolon after the import.
+      {
+        test: /\.scss$/,
+        use: [
+          'vue-style-loader',
+          'css-loader',
+          {
+            loader: 'sass-loader',
+            // Requires sass-loader@^9.0.0
+            options: {
+              // This is the path to your variables
+              additionalData: "@import '@/admin/css/sass/variables.scss';"
+            },
+          },
+        ],
+      },
       {
         test: /\.svg$/,
         loader: 'raw-loader'
@@ -104,6 +139,8 @@ module.exports = {
   plugins: [
     // enable vue-loader to use existing loader rules for other module types
 		new VueLoaderPlugin(),
+
+    new VuetifyLoaderPlugin(),
     
     // fix legacy jQuery plugins which depend on globals
 		new webpack.ProvidePlugin({
