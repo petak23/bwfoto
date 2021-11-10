@@ -9,8 +9,8 @@ const {merge} = require("webpack-merge");
 const devMode = process.env.NODE_ENV !== "production";
 
 // Vue
-const VUE_VERSION = require("vue/package.json").version;
-const VUE_LOADER_VERSION = require("vue-loader/package.json").version;
+//const VUE_VERSION = require("vue/package.json").version;
+//const VUE_LOADER_VERSION = require("vue-loader/package.json").version;
 
 // Webpack plugins
 const TerserPlugin = require("terser-webpack-plugin");
