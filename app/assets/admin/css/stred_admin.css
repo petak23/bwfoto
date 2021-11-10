@@ -1,7 +1,11 @@
 /* 
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @file stred_admin.css
+<<<<<<< HEAD
  * Last update: 11.11.2021 
+=======
+ * Last update: 09.11.2021 
+>>>>>>> 0.9.vt10 - Doplnenie komponenty LastLogin
  */
 
 
@@ -17,11 +21,14 @@
 .uroven-registracie-4 { background-color: #FB7604; color: #fff;}
 .uroven-registracie-5 { background-color: #CC0F08; color: #fff;}
 
+<<<<<<< HEAD
 .uroven-registracie-new {
   padding-left: .3rem;
   padding-right: .3rem;
   border-radius: .25rem;
 }
+=======
+>>>>>>> 0.9.vt10 - Doplnenie komponenty LastLogin
 .uroven-registracie-1-new { background-color: #29a0b583; }
 .uroven-registracie-2-new { background-color: #40b71c83; }
 .uroven-registracie-3-new { background-color: #FBEB0383; color: #333;}
