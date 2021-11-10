@@ -10,13 +10,13 @@ use Nette\Utils\Image;
 /**
  * Model, ktory sa stara o tabulku hlavne_menu a hlavne_menu_lang
  * 
- * Posledna zmena 03.11.2021
+ * Posledna zmena 08.11.2021
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.2.5
+ * @version    1.2.6
  */
 class Hlavne_menu extends Table {
   /** @var string */
@@ -176,7 +176,7 @@ class Hlavne_menu extends Table {
           $casti[] = $cislo_casti;
           $temp_pol = new \App\AdminModule\Components\Menu\MenuNode;
           $temp_pol->name = $v->hlavne_menu_cast->view_name;
-          $temp_pol->link = ["Homepage:"];
+          $temp_pol->link = ["Homepage:section"];
           $temp_pol->id = -1*$v->hlavne_menu_cast->id;
           $out[] = ["node"=>$temp_pol, "nadradena"=>FALSE];
           unset($temp_pol);
@@ -201,7 +201,7 @@ class Hlavne_menu extends Table {
         if (array_search($v->id, $casti) === FALSE) {
           $temp_pol = new \App\AdminModule\Components\Menu\MenuNode;
           $temp_pol->name = $v->view_name;
-          $temp_pol->link = ["Homepage:"];
+          $temp_pol->link = ["Homepage:section"];
           $temp_pol->id = -1*$v->id;
           $out[] = ["node"=>$temp_pol, "nadradena"=>FALSE];
           unset($temp_pol);

@@ -13,7 +13,7 @@ use Texy;
 /**
  * Zakladny presenter pre vsetky presentery v module ADMIN
  * 
- * Posledna zmena(last change): 03.11.2021
+ * Posledna zmena(last change): 09.11.2021
  *
  * Modul: ADMIN
  *
@@ -21,7 +21,7 @@ use Texy;
  * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.3.6
+ * @version 1.3.7
  */
 abstract class BasePresenter extends UI\Presenter {
   
@@ -44,10 +44,6 @@ abstract class BasePresenter extends UI\Presenter {
   /** @var string Adresar pre prilohy clankov */
   public $prilohy_adresar;
   
-  // -- Components
-  /** @var Components\User\IUserLastControl @inject */
-  public $userLastControlFactory;
-
   /** @persistent */
   public $language = 'sk';
   /** @persistent */
@@ -226,13 +222,6 @@ abstract class BasePresenter extends UI\Presenter {
   }
 
   /** 
-   * Vytvorenie komponenty pre posledných 25 prihlásení
-   * @return \App\AdminModule\Components\User\UserLastControl */
-	public function createComponentLast() {
-    return $this->userLastControlFactory->create();
-	}
-  
-  /** 
    * Vytvorenie komponenty pre hlavne menu
    * @return Components\Menu\Menu */
   public function createComponentMenu(): Components\Menu\Menu {
@@ -323,31 +312,6 @@ abstract class BasePresenter extends UI\Presenter {
   public function _vzhladForm($form) {
     $renderer = $form->getRenderer();
  
-    // Vzhlad pre bootstrap 3
-    /*
-    $renderer->wrappers['controls']['container'] = NULL;
-    $renderer->wrappers['pair']['container'] = 'div class=form-group';
-    $renderer->wrappers['pair']['.error'] = 'has-error';
-    $renderer->wrappers['control']['container'] = 'div class="col-sm-9 control-field"';
-    $renderer->wrappers['label']['container'] = 'div class="col-sm-3 control-label"';
-    $renderer->wrappers['control']['description'] = 'div class="help-block alert alert-info"';
-    $renderer->wrappers['control']['errorcontainer'] = 'span class="help-block alert alert-danger"';
-    //$renderer->wrappers['error']['container'] = 'div class="row error-form"';
-    //$renderer->wrappers['error']['item'] = 'div class="col-md-6 col-md-offset-3 alert alert-danger"';
-    
-    
-    // make form and controls compatible with Twitter Bootstrap
-    $form->getElementPrototype()->class('form-horizontal');
-    foreach ($form->getControls() as $control) {
-      if ($control instanceof Controls\Button) {
-        $control->getControlPrototype()->addClass(empty($usedPrimary) ? 'btn btn-primary' : 'btn btn-default');
-        $usedPrimary = TRUE;
-      } elseif ($control instanceof Controls\TextBase || $control instanceof Controls\SelectBox || $control instanceof Controls\MultiSelectBox) {
-        $control->getControlPrototype()->addClass('form-control');
-      } elseif ($control instanceof Controls\Checkbox || $control instanceof Controls\CheckboxList || $control instanceof Controls\RadioList) {
-        $control->getSeparatorPrototype()->setName('div')->addClass($control->getControlPrototype()->type);
-      }
-    }*/
     // Vzhlad pre bootstrap 4 link: https://github.com/nette/forms/blob/96b3e90/examples/bootstrap4-rendering.php  
     $renderer->wrappers['controls']['container'] = null;
     $renderer->wrappers['pair']['container'] = 'div class="form-group row"';

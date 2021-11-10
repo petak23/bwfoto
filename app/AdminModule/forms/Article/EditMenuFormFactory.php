@@ -10,13 +10,13 @@ use Nette\Security\User;
 
 /**
  * Formular pre editaciu poloziek menu
- * Posledna zmena 15.05.2020
+ * Posledna zmena 08.11.2021
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.1.5
+ * @version    1.1.6
  */
 class EditMenuFormFactory {
   
@@ -30,12 +30,8 @@ class EditMenuFormFactory {
   /** @var array Hodnoty id=>nazov pre formulare z tabulky hlavicka */
   protected $hlavickaForm;
 
-  /**
-   * @param User $user
-   * @param DbTable\Lang $lang
-   * @param DbTable\Hlavicka $hlavicka
-   * @param DbTable\Hlavne_menu_template $hlavne_menu_template */
-  public function __construct(User $user, DbTable\Lang $lang, 
+  public function __construct(User $user, 
+                              DbTable\Lang $lang, 
                               DbTable\Hlavicka $hlavicka, 
                               DbTable\Hlavne_menu_template $hlavne_menu_template) {
     $this->user = $user;
@@ -61,6 +57,7 @@ class EditMenuFormFactory {
     $form->addHidden("id_hlavne_menu_cast");
     $form->addHidden("uroven");
     $form->addHidden("id_nadradenej");
+    $form->addHidden("poradie");
     if ($this->user->isInRole("admin")) {
 //      $form->addText('nazov_ul_sub', 'Názov alternatívneho vzhľadu:', 20, 20);
       $form->addSelect('id_hlavne_menu_template', 'Alternatívny vzhľad šablóny:', $this->hlavne_menu_templateForm)
@@ -74,9 +71,9 @@ class EditMenuFormFactory {
             ->addRule(Form::FILLED, 'Je nutné vybrať hlavičku.');
       }
     }
-    $form->addText('poradie', 'Poradie položky v časti:', 3, 3)
+    /*$form->addText('poradie', 'Poradie položky v časti:', 3, 3)
 				 ->addRule(Form::RANGE, 'Poradie musí byť v rozsahu od %d do %d!', [1, 9999])
-				 ->setRequired('Poradie musí byť zadané!');
+				 ->setRequired('Poradie musí byť zadané!');*/
     if ($name == "menu") {
       $form->addText('absolutna', 'Absolútna adresa:', 90, 50);
     }
@@ -96,8 +93,8 @@ class EditMenuFormFactory {
            ->setOption('description', 'Toto je len nepovinná doplnková časť názvu. Podtitul...');
 		}
 		// Cast textov koniec -----------------
-    $form->addSubmit('uloz', $uloz)->setAttribute('class', 'btn btn-success');
-    $form->addSubmit('cancel', 'Cancel')->setAttribute('class', 'btn btn-default')->setValidationScope([]);
+    $form->addSubmit('uloz', $uloz)->setHtmlAttribute('class', 'btn btn-success');
+    $form->addSubmit('cancel', 'Cancel')->setHtmlAttribute('class', 'btn btn-default')->setValidationScope([]);
 		return $form;
 	}
 }

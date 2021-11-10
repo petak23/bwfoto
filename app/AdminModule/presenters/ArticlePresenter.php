@@ -11,7 +11,7 @@ use PeterVojtech;
 /**
  * Zakladny presenter pre presentery obsluhujuce polozky hlavneho menu v module ADMIN
  * 
- * Posledna zmena(last change): 29.09.2021
+ * Posledna zmena(last change): 08.11.2021
  *
  * Modul: ADMIN
  *
@@ -19,7 +19,7 @@ use PeterVojtech;
  * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.4.7
+ * @version 1.4.8
  */
 abstract class ArticlePresenter extends BasePresenter {
   
@@ -66,7 +66,7 @@ abstract class ArticlePresenter extends BasePresenter {
 	public $pol_menu = [];
         
 	/** @var array - pole pre menu formular */
-	public $menuformuloz = ["text"=>"Ulož", "redirect"=>FALSE, "edit"=>FALSE];
+public $menuformuloz = ["text"=>"Ulož", "redirect"=>FALSE];
   
   /** @var Nette\Database\Table\ActiveRow|FALSE */
 	public $zobraz_clanok;
