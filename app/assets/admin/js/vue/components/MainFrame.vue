@@ -1,25 +1,29 @@
 <script>
 /**
  * Komponenta pre základné rozloženie.
- * Posledna zmena 04.11.2021
+ * Posledna zmena 10.11.2021
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.0
+ * @version    1.0.1
  */
 
 //import draggable from 'vuedraggable'
 //import vuetify from '@/admin/js/vue/plugins/vuetify'
 import axios from 'axios'
 import adminmenu from './MainFrame/AdminMenu.vue'
+import lastlogin from './MainFrame/LastLogin.vue'
 
 //for Tracy Debug Bar
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
   export default {
-    components: { adminmenu },
+    components: { 
+      adminmenu,
+      lastlogin,
+    },
     props: {
       user: {
         type: String,
@@ -126,39 +130,12 @@ axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
       >
         <v-row>
           <v-col
-            v-for="card in cards"
-            :key="card"
-            cols="12"
+            cols="4"
           >
-            <v-card>
-              <v-subheader>{{ card }}</v-subheader>
-
-              <v-list two-line>
-                <template v-for="n in 6">
-                  <v-list-item
-
-                    :key="n"
-                  >
-                    <v-list-item-avatar color="grey darken-1">
-                    </v-list-item-avatar>
-
-                    <v-list-item-content>
-                      <v-list-item-title>Message {{ n }}</v-list-item-title>
-
-                      <v-list-item-subtitle>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil repellendus distinctio similique
-                      </v-list-item-subtitle>
-                    </v-list-item-content>
-                  </v-list-item>
-
-                  <v-divider
-                    v-if="n !== 6"
-                    :key="`divider-${n}`"
-                    inset
-                  ></v-divider>
-                </template>
-              </v-list>
-            </v-card>
+            <lastlogin
+              :basepath="basepath"
+              :user="user"
+            ></lastlogin>
           </v-col>
         </v-row>
       </v-container>

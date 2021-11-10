@@ -1,0 +1,41 @@
+.last-login {
+  max-height: 20rem;
+  overflow: auto;
+
+  td {
+    font-size: 80% !important;
+  }
+
+  .selected td {
+    font-weight: bold;
+  }
+
+  .odd {
+    background-color: rgba(245, 222, 179, 0.35);
+  }
+  /*.list-item {
+    overflow: auto;
+    height: 100%;
+  }*/
+}
+
+@media (min-width: 576px){ 
+  .last-login {
+    max-height: 20rem;
+  }
+}
+@media (min-width: 768px){
+  .last-login {
+    max-height: 19rem;
+  }
+}
+@media (min-width: 992px) {
+  .last-login {
+    max-height: 23rem;
+  }
+}
+@media (min-width: 1200px) {
+  .last-login {
+    max-height: 22rem;
+  }
+}

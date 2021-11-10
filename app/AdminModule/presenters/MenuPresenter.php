@@ -3,7 +3,7 @@ namespace App\AdminModule\Presenters;
 
 /**
  * Prezenter pre administraciu hlavneho menu.
- * Posledna zmena(last change): 22.10.2021
+ * Posledna zmena(last change): 08.11.2021
  *
  * Modul: ADMIN
  *
@@ -11,7 +11,7 @@ namespace App\AdminModule\Presenters;
  * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.1
+ * @version 1.1.2
  */
 class MenuPresenter extends ArticlePresenter {
   
@@ -34,7 +34,7 @@ class MenuPresenter extends ArticlePresenter {
    * @param int $uroven - uroven menu
    */
   public function actionAdd($id, $uroven) {
-		$this->menuformuloz = ["text"=>"Ulož","redirect"=>"Menu:default"];
+		$this->menuformuloz["redirect"] = "Menu:default";
     parent::actionAdd($id, $uroven);
 	}
 	
@@ -42,7 +42,7 @@ class MenuPresenter extends ArticlePresenter {
    * @param int $id - id editovanej polozky
    */
   public function actionEdit($id) {
-    $this->menuformuloz = ["text"=>"Ulož","redirect"=>"Menu:default"];
+    $this->menuformuloz["redirect"] = "Menu:default";
     parent::actionEdit($id);
 	}
 }

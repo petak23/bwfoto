@@ -1,31 +1,28 @@
 /* 
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @file stred_admin.css
- * Last update: 24.09.2021 
+ * Last update: 09.11.2021 
  */
 
-.last-login {
-  max-height: 20rem;
-  overflow: auto;
+
+.uroven-registracie {
+  padding: 2px 4px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
 }
-.last-login .erase {
-  position: absolute;
-  top: .5rem;
-  right: .5rem;
-}
-.last-login .card-body {
-  padding: .5rem;
-}
-.last-login table {
-  font-size: 70%;
-  margin: 0;
-}
-.last-login table td {
-  padding: .1rem .2rem;
-}
-.last-login .zvyrazni {
-  font-weight: bold;
-}
+.uroven-registracie-1 { background-color: #29A0B5; }
+.uroven-registracie-2 { background-color: #41B71C; }
+.uroven-registracie-3 { background-color: #FBEB03; color: #333;}
+.uroven-registracie-4 { background-color: #FB7604; color: #fff;}
+.uroven-registracie-5 { background-color: #CC0F08; color: #fff;}
+
+.uroven-registracie-1-new { background-color: #29a0b583; }
+.uroven-registracie-2-new { background-color: #40b71c83; }
+.uroven-registracie-3-new { background-color: #FBEB0383; color: #333;}
+.uroven-registracie-4-new { background-color: #FB760483; color: #fff;}
+.uroven-registracie-5-new { background-color: #CC0F0883; color: #fff;}
+
 
 .card-a-white {
   color: #eee;
@@ -156,36 +153,6 @@
   font-size: 90%;
 }
 
-@media (min-width: 576px){ 
-  .col-last {
-    display: initial;
-  }
-  .last-login {
-    max-height: 20rem;
-  }
-}
-@media (min-width: 768px){
-  .last-login {
-    max-height: 19rem;
-  }
-}
-@media (min-width: 992px) {
-  .last-login {
-    max-height: 23rem;
-  }
-}
-@media (min-width: 1200px) {
-  .last-login {
-    max-height: 22rem;
-  }
-}
-
-.img-thumbnail {
-  padding: 0;
-  max-height: 5rem;
-  max-width: 90%;
-}
-
 /* ------ OLD CSS ------ */ 
 /* @todo - zistiť ich potrebu */
 h6 {
@@ -268,17 +235,6 @@ h6 {
   margin-top: -.5em;
 }
 
-.uroven-registracie {
-  padding: 2px 4px;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  border-radius: 2px;
-}
-.uroven-registracie-1 { background-color: #29A0B5; }
-.uroven-registracie-2 { background-color: #41B71C; }
-.uroven-registracie-3 { background-color: #FBEB03; color: #333; }
-.uroven-registracie-4 { background-color: #FB7604; color: #fff;}
-.uroven-registracie-5 { background-color: #CC0F08; color: #fff;}
 
 
 
