@@ -9,8 +9,8 @@ const {merge} = require("webpack-merge");
 const devMode = process.env.NODE_ENV !== "production";
 
 // Vue
-const VUE_VERSION = require("vue/package.json").version;
-const VUE_LOADER_VERSION = require("vue-loader/package.json").version;
+//const VUE_VERSION = require("vue/package.json").version;
+//const VUE_LOADER_VERSION = require("vue-loader/package.json").version;
 
 // Webpack plugins
 const TerserPlugin = require("terser-webpack-plugin");
@@ -47,7 +47,6 @@ module.exports = {
     //chunkFilename: devMode ? '[name].chunk.js' : '[name].[chunkhash:8].chunk.js'
   },  
   module: {
-    //noParse: /^(vue|vue-router|vuex|vuex-router-sync)$/,
 		rules: [
 			{
         test: /\.js$/,
@@ -71,7 +70,9 @@ module.exports = {
         test: /\.sass$/,
         use: [
           'vue-style-loader',
+          'style-loader',
           'css-loader',
+          'resolve-url-loader',
           {
             loader: 'sass-loader',
             // Requires >= sass-loader@^9.0.0
@@ -88,7 +89,9 @@ module.exports = {
         test: /\.scss$/,
         use: [
           'vue-style-loader',
+          'style-loader',
           'css-loader',
+          'resolve-url-loader',
           {
             loader: 'sass-loader',
             // Requires sass-loader@^9.0.0
@@ -117,7 +120,8 @@ module.exports = {
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
-        use: [
+        type: 'asset/inline',
+        /*use: [
           {
             loader: 'file-loader',
             options: {
@@ -125,7 +129,7 @@ module.exports = {
               outputPath: 'fonts/'
             }
           }
-        ]
+        ]*/
       }
     ]
   },
@@ -164,9 +168,6 @@ module.exports = {
   performance: {
     hints: false
   }
-
-
-
 };
 
 
