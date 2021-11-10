@@ -69,7 +69,6 @@ class RouterFactory {
       ->addRoute('api/menu/<action>[/<id>]', 'Menu:default')
       ->addRoute('api/user/<action>[/<id>]', 'User:default');
 
-
     $router->withModule('Front')
       ->addRoute('clanky[/<id>]', [
         'presenter' => 'Clanky',

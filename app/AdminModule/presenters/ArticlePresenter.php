@@ -68,7 +68,7 @@ abstract class ArticlePresenter extends BasePresenter {
 	public $pol_menu = [];
         
 	/** @var array - pole pre menu formular */
-	public $menuformuloz = ["text"=>"Ulož", "redirect"=>FALSE, "edit"=>FALSE];
+public $menuformuloz = ["text"=>"Ulož", "redirect"=>FALSE];
   
   /** @var Nette\Database\Table\ActiveRow|FALSE */
 	public $zobraz_clanok;

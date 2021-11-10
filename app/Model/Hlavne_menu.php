@@ -10,17 +10,13 @@ use Nette\Utils\Image;
 /**
  * Model, ktory sa stara o tabulku hlavne_menu a hlavne_menu_lang
  * 
-<<<<<<< HEAD
- * Posledna zmena 07.11.2021
-=======
- * Posledna zmena 03.11.2021
->>>>>>> 0.9.vt04 - Poradie podčlánkov je možné meniť ťahaním. Vypustená možnosť globálnej zmeny poradia podčlánkov.
+ * Posledna zmena 08.11.2021
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.2.5
+ * @version    1.2.6
  */
 class Hlavne_menu extends Table {
   /** @var string */
