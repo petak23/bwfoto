@@ -6,7 +6,7 @@ use Nette\Utils;
 
 /**
  * Prezenter pre pristup k api hlavneho menu.
- * Posledna zmena(last change): 03.11.2021
+ * Posledna zmena(last change): 11.11.2021
  *
  * Modul: API
  *
@@ -14,7 +14,7 @@ use Nette\Utils;
  * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.1
+ * @version 1.0.2
  */
 class MenuPresenter extends BasePresenter {
 
@@ -79,8 +79,12 @@ class MenuPresenter extends BasePresenter {
   /**
    * Vráti administračné menu podľa úrovne registrácie */
   public function actionGetAdminMenu() {
-    $p = $this->admin_menu->getAdminMenu($this->user->getIdentity()->id_user_roles);
+    $am = $this->admin_menu->getAdminMenu($this->user->getIdentity()->id_user_roles);
     
-    $this->sendJson($p);
+    foreach ($am as $k => $v) {
+      $am[$k]['link'] = $this->link(':Admin:'.$v['link']);
+    }
+    
+    $this->sendJson($am);
   }
 }

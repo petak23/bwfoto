@@ -1,13 +1,13 @@
 <script>
 /**
  * Komponenta pre administračné menu.
- * Posledna zmena 06.11.2021
+ * Posledna zmena 11.11.2021
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.0
+ * @version    1.0.1
  */
 
 
@@ -25,17 +25,21 @@ export default {
       type: String,
       required: true
     },
+    admin_menu_active: { //Aktuálna aktívna polozka
+      default: 0,
+    },
   },
   data() {
     return {
       items: [],
-      odkaz: ""
+      odkaz: "",
+      active: [],
     };
   },
   computed: {
     menuitems() {
       return this.convert(this.items)
-    }
+    },
   },
   watch: {},
   methods: {
@@ -64,7 +68,15 @@ export default {
 
 <template>
   <v-treeview 
-    :items="menuitems">
+    :items="menuitems"
+    activatable
+    item-key="id"
+    :active="[admin_menu_active]"
+  >
+    <template v-slot:label="{ item }">
+      <a :href="item.link" :title="item.name">{{ item.name }}</a>
+    </template>
+
   </v-treeview>
 </template>
 

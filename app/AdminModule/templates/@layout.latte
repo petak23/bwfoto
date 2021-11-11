@@ -4,7 +4,7 @@
  *
  *	Modul: ADMIN
  *
- * Posledna zmena(last change): 12.11.2020
+ * Posledna zmena(last change): 11.11.2021
  * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
@@ -32,7 +32,6 @@
 	<title>{$udaje['titulka']} - Administracia</title>
   <link rel="stylesheet" type="text/css" href="{webpack admin.css}">
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
-  {*<link href="https://cdn.jsdelivr.net/npm/@mdi/font@6.x/css/materialdesignicons.min.css" rel="stylesheet">*}
   <!-- upload -->
   {\Zet\FileUpload\FileUploadControl::getHead($basePath . '/vendor/ijvo/jquery-fileupload/src/www/')}
   {block spec_css}{/block}
@@ -54,25 +53,28 @@
     <div class="row">
       <div class="col bg-dark">
         <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-          <a class="navbar-brand" n:href="Homepage:">Administrácia</a>
+          {var $up = $user->getIdentity()}
+          <span class="navbar-text uroven-registracie-new uroven-registracie-{$up->id_user_roles}-new">
+            {$up->meno} {$up->priezvisko|upper} - {$up->user_role}
+          </span>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerAdminTop" aria-controls="navbarTogglerAdminTop" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse justify-content-end" id="navbarTogglerAdminTop">
             <ul class="navbar-nav my-2 my-lg-0">
-              <li class="nav-item"><a class="nav-link" n:href=":Front:Homepage:" title="Zmeny"><i class="fas fa-eye"></i> Skontroluj zmeny na webe...</a></li>
-              {*<li class="nav-item" class="nav-link" n:if="$user->isInRole('admin')">
+              <li class="nav-item">
+                <a class="nav-link" n:href=":Front:Homepage:" title=" Vráť sa na web a skontroluj zmeny...">
+                  <i class="fas fa-eye"></i> Späť na web...
+                </a>
+              </li>
+              <li class="nav-item" class="nav-link" n:if="$user->isInRole('admin')">
                 <a href="https://getbootstrap.com/" class="nav-link" title="Bootstrao 4" target="_blank">Bootstrap 4</a>
-              </li>*}
+              </li>
               <li class="nav-item">
                 <a href="http://fontawesome.io/icons/" class="nav-link" title="FontAwesome 5" target="_blank"><i class="fas fa-flag"></i></a>
               </li>
               <li class="nav-item"  class="nav-link" n:if="$user->isInRole('admin')">
                 <a href="{$basePath}/www/adminer/?server={$udaje['host']}&db={$udaje['dbname']}" class="nav-link" title="Adminer" target="_blank"><i class="fas fa-database"></i></a>
-              </li>
-              <li class="nav-item"  class="nav-link">
-                {var $up = $user->getIdentity()}
-                <button class="btn uroven-registracie-{$up->id_user_roles}-new">{$up->meno} {$up->priezvisko|upper} - {$up->user_role}</button>
               </li>
             </ul>
           </div>
@@ -84,18 +86,10 @@
       <div class="col-12 col-sm-3 col-md-2 left-col">
         <div class="menu_new">
           <h6 class="mt-1 d-inline-block w-100"><small class="font-weight-bold text-muted">Admin menu</small></h6>
-          {*<ul>
-          <li n:if="$user->isInRole('admin')"><a href="{link :Front:Homepage:default}api/" title="API" target="_blank">API</a></li>
-          {foreach $admin_menu as $am}
-            <li n:if="$am->id_user_roles <= $user->getIdentity()->id_user_roles">
-              <a n:href="$am->odkaz" title="{$am->nazov}" n:class="$presenter->isLinkCurrent($am->odkaz.'*') ? selected">
-                {$am->nazov}
-              </a>
-            </li>
-          {/foreach}
-          </ul>*}
           <adminmenu
-            basepath="{$basePath}">
+            basepath="{$basePath}"
+            admin_menu_active="{$admin_menu_active}"
+          >
           </adminmenu>
         </div>
         <div class="menu_new">

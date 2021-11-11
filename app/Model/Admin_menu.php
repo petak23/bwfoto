@@ -6,13 +6,13 @@ namespace DbTable;
 /**
  * Model, ktory sa stara o tabulku admin_menu
  * 
- * Posledna zmena(last change): 06.11.2021
+ * Posledna zmena(last change): 11.11.2021
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.1
+ * @version    1.0.2
  */
 class Admin_menu extends Table {
 
@@ -33,8 +33,9 @@ class Admin_menu extends Table {
     $o = [];
     foreach ($p as $v) {
       $o[$v->id] = [
-        'link' => $v->odkaz,
-        'name' => $v->nazov,
+        'id'    => $v->id,
+        'link'  => $v->odkaz,
+        'name'  => $v->nazov,
         'avatar'=> $v->avatar
       ];
     };  

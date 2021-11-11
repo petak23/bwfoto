@@ -9,8 +9,8 @@ const {merge} = require("webpack-merge");
 const devMode = process.env.NODE_ENV !== "production";
 
 // Vue
-//const VUE_VERSION = require("vue/package.json").version;
-//const VUE_LOADER_VERSION = require("vue-loader/package.json").version;
+const VUE_VERSION = require("vue/package.json").version;
+const VUE_LOADER_VERSION = require("vue-loader/package.json").version;
 
 // Webpack plugins
 const TerserPlugin = require("terser-webpack-plugin");
@@ -28,6 +28,7 @@ const WEBPACK_DEV_SERVER_PROXY_PORT = parseInt(process.env.WEBPACK_DEV_SERVER_PR
 
 // Config
 const ROOT_PATH = __dirname;
+const CACHE_PATH = ROOT_PATH + "/temp/webpack";
 
 var AssetsPlugin = require('assets-webpack-plugin');
 
@@ -45,94 +46,151 @@ module.exports = {
     filename: devMode ? '[name].bundle.js' : '[name].[chunkhash:8].bundle.js',
     clean: true,
     //chunkFilename: devMode ? '[name].chunk.js' : '[name].[chunkhash:8].chunk.js'
-  },  
+  },
+  devtool: 'cheap-module-source-map',
   module: {
+		noParse: /^(vue|vue-router|vuex|vuex-router-sync)$/,
 		rules: [
 			{
-        test: /\.js$/,
-        exclude: path => /node_modules/.test(path) && !/\.vue\.js/.test(path),
-        loader: 'babel-loader',
-      },
-      {
-        test: /\.vue$/,
-        loader: 'vue-loader',
-      },
-      {
-        test: /\.css$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          'css-loader'
-        ]
-      },
-      // SASS has different line endings than SCSS
-      // and cannot use semicolons in the markup
-      {
-        test: /\.sass$/,
-        use: [
-          'vue-style-loader',
-          'style-loader',
-          'css-loader',
-          'resolve-url-loader',
+				test: /\.vue$/,
+				use: [
+					{
+						loader: 'vue-loader',
+						options: {
+							compilerOptions: {
+								preserveWhitespace: false
+							},
+						}
+					}
+				]
+			},
+			{
+				test: /\.js$/,
+				exclude: file => (
+					/node_modules/.test(file) &&
+					!/\.vue\.js/.test(file)
+				),
+				use: [
+					{
+						loader: 'babel-loader',
+					}
+				]
+			},
+			/*{
+				test: /\.tsx?$/,
+				exclude: /node_modules/,
+				use: [{
+					loader: 'awesome-typescript-loader',
+				}
+				]
+			},*/
+			{
+				test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/i,
+				use: [
+					{
+						loader: 'url-loader',
+						options: {
+							limit: 4096,
+							fallback: {
+								loader: 'file-loader',
+								options: {
+									name: 'fonts/[name].[hash:8].[ext]'
+								}
+							}
+						}
+					}
+				]
+			},
+			{
+				test: /\.(svg)(\?.*)?$/,
+				use: [
+					{
+						loader: 'file-loader',
+						options: {
+							name: 'imgs/[name].[hash:8].[ext]'
+						}
+					}
+				]
+			},
+			{
+				test: /\.(png|jpe?g|gif|webp|ico)(\?.*)?$/,
+				use: [
+					{
+						loader: 'url-loader',
+						options: {
+							limit: 4096,
+							fallback: {
+								loader: 'file-loader',
+								options: {
+									name: 'imgs/[name].[hash:8].[ext]'
+								}
+							}
+						}
+					}
+				]
+			},
+			{
+				test: /\.(css|scss)$/,
+				use: [
+					MiniCssExtractPlugin.loader,
+					{
+						loader: 'css-loader',
+						options: {
+							sourceMap: false,
+							importLoaders: 2,
+							modules: false
+						}
+					},
+					{
+						loader: "postcss-loader",
+						options: {
+							postcssOptions: {
+								ident: "postcss",
+								plugins: [require("autoprefixer")]
+							}
+						}
+					},
           {
             loader: 'sass-loader',
-            // Requires >= sass-loader@^9.0.0
             options: {
               // This is the path to your variables
-              additionalData: "@import '@/admin/css/sass/variables.scss'"
+              additionalData: "@import '@/admin/css/scss/variables.scss';"
             },
           },
-        ],
-      },
-      // SCSS has different line endings than SASS
-      // and needs a semicolon after the import.
+				],
+			},
       {
-        test: /\.scss$/,
-        use: [
-          'vue-style-loader',
-          'style-loader',
-          'css-loader',
-          'resolve-url-loader',
+				test: /\.sass$/,
+				use: [
+					MiniCssExtractPlugin.loader,
+					{
+						loader: 'css-loader',
+						options: {
+							sourceMap: false,
+							importLoaders: 2,
+							modules: false
+						}
+					},
+					{
+						loader: "postcss-loader",
+						options: {
+							postcssOptions: {
+								ident: "postcss",
+								plugins: [require("autoprefixer")]
+							}
+						}
+					},
           {
             loader: 'sass-loader',
-            // Requires sass-loader@^9.0.0
             options: {
               // This is the path to your variables
-              additionalData: "@import '@/admin/css/sass/variables.scss';"
+              additionalData: "@import '@/admin/css/scss/variables.scss'"
             },
           },
-        ],
-      },
-      {
-        test: /\.svg$/,
-        loader: 'raw-loader'
-      },
-      {
-        test: /\.(png|svg|jpe?g|gif|webp|ico)$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: '[name].[hash:8].[ext]',
-              outputPath: 'images/'
-            }
-          }  
-        ]
-      },
-      {
-        test: /\.(woff|woff2|eot|ttf|otf)$/,
-        type: 'asset/inline',
-        /*use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: '[name].[hash:8].[ext]',
-              outputPath: 'fonts/'
-            }
-          }
-        ]*/
-      }
-    ]
-  },
+				],
+			},
+		]
+	}, 
   resolve: {
     alias: {
         'vue$': 'vue/dist/vue.esm.js',
@@ -164,7 +222,7 @@ module.exports = {
       path: path.join(ROOT_PATH, 'www/dist')
     })
   ],
-  devtool: 'cheap-module-source-map',
+  //devtool: 'cheap-module-source-map',
   performance: {
     hints: false
   }
