@@ -9,8 +9,8 @@ const {merge} = require("webpack-merge");
 const devMode = process.env.NODE_ENV !== "production";
 
 // Vue
-//const VUE_VERSION = require("vue/package.json").version;
-//const VUE_LOADER_VERSION = require("vue-loader/package.json").version;
+const VUE_VERSION = require("vue/package.json").version;
+const VUE_LOADER_VERSION = require("vue-loader/package.json").version;
 
 // Webpack plugins
 const TerserPlugin = require("terser-webpack-plugin");
@@ -28,6 +28,7 @@ const WEBPACK_DEV_SERVER_PROXY_PORT = parseInt(process.env.WEBPACK_DEV_SERVER_PR
 
 // Config
 const ROOT_PATH = __dirname;
+const CACHE_PATH = ROOT_PATH + "/temp/webpack";
 
 var AssetsPlugin = require('assets-webpack-plugin');
 

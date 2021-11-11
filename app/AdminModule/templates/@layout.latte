@@ -4,7 +4,7 @@
  *
  *	Modul: ADMIN
  *
- * Posledna zmena(last change): 12.11.2020
+ * Posledna zmena(last change): 11.11.2021
  * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
@@ -75,10 +75,6 @@
               </li>
               <li class="nav-item"  class="nav-link" n:if="$user->isInRole('admin')">
                 <a href="{$basePath}/www/adminer/?server={$udaje['host']}&db={$udaje['dbname']}" class="nav-link" title="Adminer" target="_blank"><i class="fas fa-database"></i></a>
-              </li>
-              <li class="nav-item"  class="nav-link">
-                {var $up = $user->getIdentity()}
-                <button class="btn uroven-registracie-{$up->id_user_roles}-new">{$up->meno} {$up->priezvisko|upper} - {$up->user_role}</button>
               </li>
             </ul>
           </div>
