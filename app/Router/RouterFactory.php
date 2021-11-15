@@ -66,7 +66,7 @@ class RouterFactory {
       ->addRoute('administration/<presenter>/<action>', 'Homepage:default');
     
     $router->withModule('Api')
-      ->addRoute('api/menu/<action>[/<id>]', 'Menu:default')
+      //->addRoute('api/menu/<action>[/<id>]', 'Menu:default')
       ->addRoute('api/user/<action>[/<id>]', 'User:default');
 
     $router->withModule('Front')
