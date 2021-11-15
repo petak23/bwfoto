@@ -6,13 +6,14 @@ use DbTable;
 use Nette;
 use Nette\Application\UI;
 use Nette\Http;
+use Nette\Utils\Json;
 use PeterVojtech;
 use Texy;
 
 /**
  * Zakladny presenter pre vsetky presentery v module ADMIN
  * 
- * Posledna zmena(last change): 29.09.2021
+ * Posledna zmena(last change): 10.11.2021
  *
  * Modul: ADMIN
  *
@@ -20,7 +21,7 @@ use Texy;
  * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.3.5
+ * @version 1.3.6
  */
 abstract class BasePresenter extends UI\Presenter {
   
@@ -198,6 +199,9 @@ abstract class BasePresenter extends UI\Presenter {
     $this->template->addFilter('menu_mutacia_h1part2', function ($id) use($servise){
       $pom = $servise->hlavne_menu_lang->findOneBy(['id_hlavne_menu'=>$id, 'id_lang'=>$servise->language_id]);
       return $pom !== FALSE ? $pom->h1part2 : $id;
+    });
+    $this->template->addFilter('to_json', function ($value){
+      return Json::encode($value);
     }); 
     $this->texy->allowedTags = TRUE;
     $this->texy->headingModule->balancing = "FIXED";
