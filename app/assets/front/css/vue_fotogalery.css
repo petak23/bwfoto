@@ -131,6 +131,9 @@
     grid-template-columns: repeat(3, 1fr);
   }
 }
+.thumbs-large {
+    grid-template-columns: repeat(1, 1fr);
+}
 
 /* ---- časť obsahu album - Zvätšená fotka - úroveň 4 ---- */
 .lightbox-img {

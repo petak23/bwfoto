@@ -8,13 +8,13 @@ use Nette\Utils\Json;
 
 /**
  * Komponenta pre zobrazenie fotogalérie k článku 
- * Posledna zmena(last change): 26.04.2021
+ * Posledna zmena(last change): 15.11.2021
  * 
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
  * @copyright Copyright (c) 2021 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.3
+ * @version 1.0.4
  */
 class FotogaleryControl extends Nette\Application\UI\Control {
   
@@ -96,6 +96,7 @@ class FotogaleryControl extends Nette\Application\UI\Control {
     $this->template->hlavne_menu = $this->hlavne_menu;
     $this->template->first_id = $this->first_id;
     $this->template->setTranslator($this->texts);
+    $this->template->large = isset($p['large']) ? "large" : "";
     $this->template->addFilter('border_x_vue', function ($text){
       $pom = $text != null && strlen($text)>2 ? explode("|", $text) : ['','0'];
       $xs = 'border: '.$pom[1].'px solid '.(strlen($pom[0])>2 ? ($pom[0]):'inherit');

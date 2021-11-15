@@ -1,14 +1,13 @@
 <script>
 /** 
  * Component Fotogalery
- * Posledná zmena(last change): 01.10.2021
+ * Posledná zmena(last change): 15.11.2021
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.5
- * @see https://css-tricks.com/lazy-loading-images-with-vue-js-directives-and-intersection-observer/
+ * @version 1.0.6
  */
 
 export default {
@@ -23,6 +22,7 @@ export default {
     text_before: String,
     text_after: String,
     first_id: String,
+    large: String,
   },
   data() {
     return {
@@ -80,7 +80,11 @@ export default {
 						break;
         }
       }
-    }
+    },
+    // Generovanie url pre lazyloading obrázky
+    getImageUrl(text) {
+      return this.basepath + text
+    },
   },
   created() {
     window.addEventListener("resize", this.matchHeight);
@@ -100,6 +104,9 @@ export default {
     myatt() {
       return JSON.parse(this.attachments)
     },
+    large_thumbs() {
+      return this.large == "large"
+    }
   },
   mounted () {
     /* Naviazanie na sledovanie zmeny veľkosti stránky */
@@ -158,20 +165,24 @@ export default {
         </button>
       </div>
     </div>
-    <div class="col-12 col-sm-4 thumbgrid">
+    <div class="col-12 col-sm-4 thumbgrid" :class="{'thumbs-large': large_thumbs}">
       <div v-for="(im, index) in myatt" :key="im.id">
-        <a  v-if="wid > 0" v-lazyload
+        <a  v-if="wid > 0" 
             @click.prevent="changebig(index)" href=""
             :title="'Odkaz' + (im.type == 'menu' ? im.view_name : im.name)" 
             :class="'pok thumb-a, ajax' + (index == id ? ', selected' : '')">
-          <img  :data-src="basepath + im.thumb_file"
-                :alt="im.name" class="img-fluid">
+          <b-img-lazy
+            :src="getImageUrl(im.thumb_file)"
+            :alt="im.name" class="img-fluid">
+          ></b-img-lazy>
         </a>
-        <a  v-else-if="wid == 0 && im.type == 'menu'" v-lazyload
+        <a  v-else-if="wid == 0 && im.type == 'menu'" 
             :href="im.web_name" 
             :title="im.name">
-          <img  :data-src="basepath + im.main_file" 
-                :alt="im.name" class="img-fluid podclanok">
+          <b-img-lazy
+            :src="getImageUrl(im.main_file)"
+            :alt="im.name" class="img-fluid podclanok">
+          ></b-img-lazy>
           <h4 class="h4-podclanok">{{ im.name }}</h4>
         </a>
         <video v-if="wid == 0 && im.type == 'attachments3'"
@@ -180,17 +191,23 @@ export default {
               :poster="basepath + im.thumb_file"
               type="video/mp4" controls="controls" preload="none">
         </video>
-        <button v-else-if="wid == 0 && im.type == 'attachments1'" v-lazyload
+        <button v-else-if="wid == 0 && im.type == 'attachments1'" 
                 :title="im.name">
-          <img  :data-src="basepath + im.thumb_file" 
-                :alt="im.name" class="img-fluid a3">
+          <b-img-lazy
+            :src="getImageUrl(im.thumb_file)" 
+            :alt="im.name" 
+            class="img-fluid a3">
+          ></b-img-lazy>
           <br><h6>{{ im.name }}</h6>
         </button>
         <button v-else-if="wid == 0 && (im.type == 'attachments2' || im.type == 'product')"
-                @click.prevent="modalchangebig(index)" v-lazyload
+                @click.prevent="modalchangebig(index)" 
                 type="button" class="btn btn-link">
-          <img  :src="basepath + im.main_file" 
-                :alt="im.name" class="img-fluid">
+          <b-img-lazy
+            :src="getImageUrl(im.thumb_file)" 
+            :alt="im.name" 
+            class="img-fluid a12">
+          ></b-img-lazy>
         </button>
       </div>
     </div>
