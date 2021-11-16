@@ -294,13 +294,15 @@ abstract class ArticlePresenter extends BasePresenter {
     return $title;
   }
   
-	/** Funkcia pre spracovanie signálu vymazavania
-	  * @param int $id Id polozky v hlavnom menu
-		* @param string $druh Blizsia specifikacia, kde je to potrebne
-		*/
-	function confirmedDelete($id, $druh = "")	{
+	/** 
+   * Funkcia pre spracovanie signálu vymazavania
+	 * @param array $id Id polozky v hlavnom menu
+	 * @param string $druh Blizsia specifikacia, kde je to potrebne */
+	function confirmedDelete(array $conf_form, string $druh = "")	{
 		//Vstupna kontrola
-    if (!(isset($id) && $id)) { $this->error("Id položky nie je nastavené!"); }
+    if (!(isset($conf_form['id']) && $conf_form['id'])) { $this->error("Id položky nie je nastavené!"); }
+
+    $id = $conf_form['id'];
     if ($druh != 'priloha') {
       $hl_m = $this->hlavne_menu_lang->findOneBy(["id_hlavne_menu"=>$id, "id_lang"=>1]);
       if ($hl_m === FALSE) { $this->error("Položka s id = ".$id." sa nenašla!"); }

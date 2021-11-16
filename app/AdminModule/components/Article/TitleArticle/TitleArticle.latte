@@ -31,7 +31,7 @@
        title="Zmeň text článku" 
        class="btn btn-outline-success">
       <i class="fas fa-file-alt"></i> Zmeň text
-    </a>
+    </a>{dump $clanok->id_hlavne_menu}
     <a n:if="$admin_links['dlink']" 
        href="{plink confirmForm:confirmDelete! id => $clanok->id_hlavne_menu, druh=>'', nazov=>$clanok->view_name, zdroj_na_zmazanie=>'článok'}" 
        title="Vymazanie článku" 
