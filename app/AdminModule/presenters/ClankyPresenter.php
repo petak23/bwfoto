@@ -9,7 +9,7 @@ use PeterVojtech;
 /**
  * Prezenter pre spravu clankov.
  * 
- * Posledna zmena(last change): 26.04.2021
+ * Posledna zmena(last change): 16.11.2021
  *
  *	Modul: ADMIN
  *
@@ -17,7 +17,7 @@ use PeterVojtech;
  * @copyright Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.3.6
+ * @version 1.3.7
  */
 
 class ClankyPresenter extends ArticlePresenter {
@@ -31,9 +31,6 @@ class ClankyPresenter extends ArticlePresenter {
   public $komponentyControlFactory;
   /** @var Components\Products\IProductsControl @inject */
   public $productsControlFactory;
-
-  /** @var DbTable\Products @inject */
-  public $products;
   
   
 	/** @var string */

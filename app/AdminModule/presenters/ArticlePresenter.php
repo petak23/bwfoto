@@ -11,7 +11,7 @@ use PeterVojtech;
 /**
  * Zakladny presenter pre presentery obsluhujuce polozky hlavneho menu v module ADMIN
  * 
- * Posledna zmena(last change): 29.09.2021
+ * Posledna zmena(last change): 16.11.2021
  *
  * Modul: ADMIN
  *
@@ -19,7 +19,7 @@ use PeterVojtech;
  * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.4.7
+ * @version 1.4.8
  */
 abstract class ArticlePresenter extends BasePresenter {
   
@@ -40,6 +40,8 @@ abstract class ArticlePresenter extends BasePresenter {
 	public $hlavne_menu_cast;
   /** @var DbTable\Hlavne_menu_lang @inject*/
   public $hlavne_menu_lang;
+  /** @var DbTable\Products @inject */
+  public $products;
   
   // -- Formulare
   /** @var Article\IEditMenuFormFactory @inject */
@@ -364,19 +366,28 @@ abstract class ArticlePresenter extends BasePresenter {
    * Vymaze clanok so vsetkym co k tomu patri 
    * @param int $id Id mazaqneho clanku
    * @return boolean */
-  protected function _delClanok($id) {
+  protected function _delClanok(int $id) {
     $dokumenty = $this->dokumenty->findBy(["id_hlavne_menu"=>$id]);
     $komponenty = $this->clanok_komponenty->findBy(["id_hlavne_menu"=>$id]);
+    $products = $this->products->findBy(["id_hlavne_menu"=>$id]);
 
     $this->hlavne_menu->zmazTitleImage($id, $this->nastavenie["dir_to_menu"], $this->nastavenie["wwwDir"]);
     $hl_m_m = $this->hlavne_menu_lang->findBy(["id_hlavne_menu"=>$id])->fetchPairs("id", "id_clanok_lang");
-    if ($dokumenty !== FALSE && ($pocita = count($dokumenty))) {
+    if ($dokumenty !== null && ($pocita = count($dokumenty))) {
       $do = 0;
       foreach ($dokumenty as $pr) {
-        $do = $do + ($this->vymazSubor($pr->subor) ? ($pr->znacka !== NULL ? $this->vymazSubor($pr->thumb) : 1) : 0);
+        $do = $do + ($this->vymazSubor($pr->main_file) ? ($pr->znacka !== NULL ? $this->vymazSubor($pr->thumb_file) : 1) : 0);
       }
       $out = ($do == $pocita) ? ($dokumenty->delete() == $pocita ? TRUE : FALSE) : FALSE;
     } else { $out = TRUE; }
+    $pocita = 0;
+    if ($products !== null && ($pocita = count($products))) {
+      $do = 0;
+      foreach ($products as $pr) {
+        $do = $do + ($this->vymazSubor($pr->main_file) ? ($pr->znacka !== NULL ? $this->vymazSubor($pr->thumb_file) : 1) : 0);
+      }
+      $out_p = ($do == $pocita) ? ($products->delete() == $pocita ? TRUE : FALSE) : FALSE;
+    } else { $out_p = TRUE; }
     $out_k = ($komponenty !== FALSE && ($pocita = count($komponenty))) ? ($komponenty->delete() == $pocita ? TRUE : FALSE) : TRUE;
     $pocita = 0;
     $this->hlavne_menu_lang->findBy(["id_hlavne_menu"=>$id])->update(["id_clanok_lang"=>NULL]);
@@ -389,7 +400,7 @@ abstract class ArticlePresenter extends BasePresenter {
     }
     $out_c = (count($hl_m_m) == $pocita);
     $out_h = $this->_delHlMenu($id);
-    return $out_k AND $out_c AND $out_h;
+    return $out AND $out_p AND $out_k AND $out_c AND $out_h;
   }
   
   /** Komponenta pre vypis kontaktneho formulara
