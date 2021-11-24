@@ -119,7 +119,7 @@ module.exports = {
       filename: devMode ? '[name].bundle.css' : '[name].[chunkhash:8].bundle.css'
     }),
     new AssetsPlugin({ // Pre aplikaciu filename: '[name].[contenthash:8].[ext]' a prepojenie s nette
-      includeManifest: 'manifest',
+      //includeManifest: 'manifest',
       path: path.join(ROOT_PATH, 'www/dist')
     })
   ],

@@ -24,7 +24,10 @@
   <meta name="keywords" content="{$keywords}" />
   <meta name="author" content="{$author}" />
   <title n:snippet="title">{$title} {block title|stripHtml|upper}{/block}</title>
+  <!-- WP -->
   <link rel="stylesheet" type="text/css" href="{webpack front.css}">
+  <!-- EWP -->
+  <!-- link rel="stylesheet" type="text/css" href="{$basePath}/www/dist/front.2cb154fa.bundle.css" -->
   {* ----- Favicon ------ *}
   {control favicon}
   {block head}{/block}
@@ -114,6 +117,7 @@
   {block lightbox}{/block}
 </div>
   <script src="{webpack front.js}"></script>
+  <!-- script src="{$basePath}/www/dist/front.2cb154fa.bundle.js"></script -->
   {block spec_js}{/block}
   {control googleAnalytics}
 </body>
