@@ -78,6 +78,7 @@ services:
     implement: App\AdminModule\Components\Clanky\PrilohyClanok\IPrilohyClanokAControl
     arguments: 
       prilohy_images: %prilohy_images%
+      wwwDir: %wwwDir%
   KomponentyControl:
     implement: App\AdminModule\Components\Clanky\Komponenty\IKomponentyControl
     arguments: 

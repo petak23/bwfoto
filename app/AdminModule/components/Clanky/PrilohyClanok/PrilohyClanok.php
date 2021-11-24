@@ -14,13 +14,13 @@ use Ublaboo\DataGrid\Localization\SimpleTranslator;
 /**
  * Komponenta pre spravu priloh clanku.
  * 
- * Posledna zmena(last change): 29.12.2020
+ * Posledna zmena(last change): 24.11.2021
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
- * @copyright Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.2
+ * @version 1.1.3
  */
 class PrilohyClanokAControl extends Nette\Application\UI\Control {
 
@@ -32,6 +32,9 @@ class PrilohyClanokAControl extends Nette\Application\UI\Control {
   private $clanok;
   /** @var array */
   private $prilohy_images;
+  /** @var string */
+  private $wwwDir;
+  
   /** &var EditPrilohyFormFactory */
   public $editPrilohyForm;
   /** &var AddMultiPrilohyFormFactory */
@@ -53,7 +56,8 @@ class PrilohyClanokAControl extends Nette\Application\UI\Control {
    * @param EditPrilohyFormFactory $editPrilohyFormFactory
    * @param AddMultiPrilohyFormFactory $addMultiPrilohyFormFactory
    * @param User $user */
-  public function __construct($prilohy_images,
+  public function __construct(array $prilohy_images,
+                              string $wwwDir,
                               DbTable\Dokumenty $dokumenty, DbTable\Hlavne_menu $hlavne_menu,
                               EditPrilohyFormFactory $editPrilohyFormFactory,
                               AddMultiPrilohyFormFactory $addMultiPrilohyFormFactory, 
@@ -64,6 +68,7 @@ class PrilohyClanokAControl extends Nette\Application\UI\Control {
     $this->user = $user;
     $this->hlavne_menu = $hlavne_menu;
     $this->prilohy_images = $prilohy_images;
+    $this->wwwDir = $wwwDir;
   }
   
   /** 
@@ -243,20 +248,20 @@ class PrilohyClanokAControl extends Nette\Application\UI\Control {
 	function handleConfirmedDelete(int $id): void {
     $pr = $this->dokumenty->find($id);//najdenie prislusnej polozky menu, ku ktorej priloha patri
     $pthis = $this->presenter;
-    if ($pr !== FALSE) {
-      //$vysledok = $this->_vymazSubor($pr->main_file) ? (in_array(strtolower($pr->pripona), ['png', 'gif', 'jpg']) ? $this->_vymazSubor($pr->thumb_file) : TRUE) : FALSE;
-      $vysledok = FALSE;
+    if ($pr !== null) {
+      $vysledok = $this->_vymazSubor($pr->main_file) ? (in_array(strtolower($pr->pripona), ['png', 'gif', 'jpg']) ? $this->_vymazSubor($pr->thumb_file) : TRUE) : FALSE;
+      //$vysledok = FALSE;
       if (($vysledok ? $pr->delete() : FALSE)) { 
         $this->flashMessage('Príloha bola vymazaná!', 'success'); 
       } else { 
         $this->flashMessage('Došlo k chybe a príloha nebola vymazaná!', 'danger'); 
       }
-    } else { $this->flashMessage('Došlo k chybe a príloha nebola vymazaná!', 'danger');}
+    } else { $this->flashMessage('Došlo k chybe a príloha nebola vymazaná, lebo sa nenašla!', 'danger');}
     if (!$pthis->isAjax()) {
       $this->redirect('this');
     } else {
       $this->redrawControl('flashes');
-      //$this->redrawControl('prilohy');
+      $this->redrawControl('prilohy');
       $this['prilohyGrid']->reload();
     }
   }
@@ -266,7 +271,7 @@ class PrilohyClanokAControl extends Nette\Application\UI\Control {
 	 * @param string $subor Nazov suboru aj srelativnou cestou
 	 * @return int Ak zmaze alebo neexistuje(nie je co mazat) tak 1 inak 0 */
 	private function _vymazSubor(string $subor): int {
-		return (is_file($subor)) ? (int)unlink($this->presenter->context->parameters["wwwDir"]."/".$subor) : -1;
+		return (is_file($subor)) ? (int)unlink($this->wwwDir."/".$subor) : -1;
 	}
 }
 
