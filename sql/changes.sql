@@ -5,7 +5,6 @@
  * to 0.9.0 
  */
 
-
 INSERT INTO `user_resource` (`name`) VALUES 
 ('Api:Menu'),
 ('Api:User');

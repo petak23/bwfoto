@@ -1139,6 +1139,7 @@
         },
         {
             "name": "nette/neon",
+<<<<<<< HEAD
             "version": "v3.3.2",
             "source": {
                 "type": "git",
@@ -1149,6 +1150,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/nette/neon/zipball/54b287d8c2cdbe577b02e28ca1713e275b05ece2",
                 "reference": "54b287d8c2cdbe577b02e28ca1713e275b05ece2",
+=======
+            "version": "v3.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nette/neon.git",
+                "reference": "1f4e5f6a30bf45b6c2c932be7396ea70692ee607"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nette/neon/zipball/1f4e5f6a30bf45b6c2c932be7396ea70692ee607",
+                "reference": "1f4e5f6a30bf45b6c2c932be7396ea70692ee607",
+>>>>>>> c67ea5fd6203b277364176a0a77ad59a4bf8d655
                 "shasum": ""
             },
             "require": {
@@ -1158,7 +1171,11 @@
             "require-dev": {
                 "nette/tester": "^2.0",
                 "phpstan/phpstan": "^0.12",
+<<<<<<< HEAD
                 "tracy/tracy": "^2.7"
+=======
+                "tracy/tracy": "^2.8.8"
+>>>>>>> c67ea5fd6203b277364176a0a77ad59a4bf8d655
             },
             "bin": [
                 "bin/neon-lint"
@@ -1201,6 +1218,7 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/neon/issues",
+<<<<<<< HEAD
                 "source": "https://github.com/nette/neon/tree/v3.3.2"
             },
             "time": "2021-11-25T15:57:41+00:00"
@@ -1217,6 +1235,24 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/nette/php-generator/zipball/9370403f9d9c25b51c4596ded1fbfe70347f7c82",
                 "reference": "9370403f9d9c25b51c4596ded1fbfe70347f7c82",
+=======
+                "source": "https://github.com/nette/neon/tree/v3.3.1"
+            },
+            "time": "2021-11-09T01:00:15+00:00"
+        },
+        {
+            "name": "nette/php-generator",
+            "version": "v3.6.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nette/php-generator.git",
+                "reference": "b8375ac20760c62b6816f8c2eaeabbbca305eed7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nette/php-generator/zipball/b8375ac20760c62b6816f8c2eaeabbbca305eed7",
+                "reference": "b8375ac20760c62b6816f8c2eaeabbbca305eed7",
+>>>>>>> c67ea5fd6203b277364176a0a77ad59a4bf8d655
                 "shasum": ""
             },
             "require": {
@@ -1269,9 +1305,15 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/php-generator/issues",
+<<<<<<< HEAD
                 "source": "https://github.com/nette/php-generator/tree/v3.6.5"
             },
             "time": "2021-11-24T16:23:44+00:00"
+=======
+                "source": "https://github.com/nette/php-generator/tree/v3.6.4"
+            },
+            "time": "2021-10-15T10:28:31+00:00"
+>>>>>>> c67ea5fd6203b277364176a0a77ad59a4bf8d655
         },
         {
             "name": "nette/robot-loader",
@@ -2415,6 +2457,7 @@
         },
         {
             "name": "tracy/tracy",
+<<<<<<< HEAD
             "version": "v2.8.9",
             "source": {
                 "type": "git",
@@ -2425,6 +2468,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/nette/tracy/zipball/81c769040cd0396eabed3c6d5cebe68399531c7b",
                 "reference": "81c769040cd0396eabed3c6d5cebe68399531c7b",
+=======
+            "version": "v2.8.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nette/tracy.git",
+                "reference": "1a18df64f6b745962e9a0bdf87eccfc62309e593"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nette/tracy/zipball/1a18df64f6b745962e9a0bdf87eccfc62309e593",
+                "reference": "1a18df64f6b745962e9a0bdf87eccfc62309e593",
+>>>>>>> c67ea5fd6203b277364176a0a77ad59a4bf8d655
                 "shasum": ""
             },
             "require": {
@@ -2441,7 +2496,11 @@
                 "nette/mail": "^3.0",
                 "nette/tester": "^2.2",
                 "nette/utils": "^3.0",
+<<<<<<< HEAD
                 "phpstan/phpstan": "^1.0",
+=======
+                "phpstan/phpstan": "^0.12",
+>>>>>>> c67ea5fd6203b277364176a0a77ad59a4bf8d655
                 "psr/log": "^1.0 || ^2.0 || ^3.0"
             },
             "type": "library",
@@ -2483,9 +2542,15 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/tracy/issues",
+<<<<<<< HEAD
                 "source": "https://github.com/nette/tracy/tree/v2.8.9"
             },
             "time": "2021-11-24T16:04:35+00:00"
+=======
+                "source": "https://github.com/nette/tracy/tree/v2.8.8"
+            },
+            "time": "2021-11-08T23:40:20+00:00"
+>>>>>>> c67ea5fd6203b277364176a0a77ad59a4bf8d655
         },
         {
             "name": "ublaboo/datagrid",
