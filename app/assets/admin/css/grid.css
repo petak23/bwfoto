@@ -82,23 +82,23 @@
   margin-left: 5px;
 }
 .grid .grid-order .grid-order-up {
-  background: url("../../images/grid/triangle-up.png") no-repeat;
+  background: url("./images/grid/triangle-up.png") no-repeat;
   width: 10px;
   height: 7px;
   display: block;
 }
 .grid .grid-order .grid-order-down {
-  background: url("../../images/grid/triangle-down.png") no-repeat;
+  background: url("./images/grid/triangle-down.png") no-repeat;
   width: 10px;
   height: 7px;
   display: block;
   margin-top: 1px;
 }
 .grid .grid-order .grid-order-active-up {
-  background: url("../../images/grid/triangle-up-red.png") no-repeat;
+  background: url("./images/grid/triangle-up-red.png") no-repeat;
 }
 .grid .grid-order .grid-order-active-down {
-  background: url("../../images/grid/triangle-down-red.png") no-repeat;
+  background: url("./images/grid/triangle-down-red.png") no-repeat;
 }
 .grid .grid-bottom {
   background: #e6e6fa;
@@ -212,12 +212,12 @@
 .grid .grid-filter-reset {
   width: 24px;
   height: 24px;
-  background: url('../../images/grid/cancel_white.png') no-repeat #0078ff 3px;
+  background: url('./images/grid/cancel_white.png') no-repeat #0078ff 3px;
   display: block;
   margin-left: 71px;
 }
 .grid .grid-datepicker {
-  background: url("../../images/grid/calendar.png") no-repeat right center;
+  background: url("./images/grid/calendar.png") no-repeat right center;
 }
 .grid .grid-panel td,
 .grid .grid-panel th {
@@ -246,7 +246,7 @@
 }
 .grid a.grid-rowForm-cancel {
   border: 0;
-  background: url("../../images/grid/cancel_white.png") no-repeat scroll 3px 50% #0078ff;
+  background: url("./images/grid/cancel_white.png") no-repeat scroll 3px 50% #0078ff;
   display: block;
   height: 24px;
   margin-left: 71px;
@@ -262,10 +262,10 @@
   background-color: #e5e5e5;
 }
 .grid .grid-subgrid-open {
-  background: url('../../images/grid/subgrid_open.png') no-repeat 4px;
+  background: url('./images/grid/subgrid_open.png') no-repeat 4px;
 }
 .grid .grid-subgrid-close {
-  background: url('../../images/grid/subgrid_close.png') no-repeat 4px;
+  background: url('./images/grid/subgrid_close.png') no-repeat 4px;
 }
 .ui-autocomplete {
   padding: 0;
@@ -290,7 +290,7 @@
   float: right;
   margin-right: 20px;
   cursor: pointer;
-  background: url("../../images/grid/cross.png") no-repeat;
+  background: url("./images/grid/cross.png") no-repeat;
   width: 22px;
   height: 22px;
   display: block;
@@ -304,7 +304,7 @@
   background-color: #8b0000;
   background-repeat: no-repeat;
   background-position: 10px center;
-  background-image: url("../../images/upozornenie_c.png");
+  background-image: url("./images/upozornenie_c.png");
   color: #ffffff;
 }
 .grid-info {
@@ -312,7 +312,7 @@
   background-color: #b0d9ff;
   background-repeat: no-repeat;
   background-position: 10px center;
-  background-image: url("../../images/upozornenie_i.png");
+  background-image: url("./images/upozornenie_i.png");
   color: #000000;
 }
 .grid-successful {
@@ -320,6 +320,11 @@
   background-color: #228b22;
   background-repeat: no-repeat;
   background-position: 10px center;
-  background-image: url("../../images/upozornenie_s.png");
+  background-image: url("./images/upozornenie_s.png");
   color: #ffffff;
+}
+.img-thumbnail {
+  max-width: 90%;
+  max-height: 5rem;
+  padding: 0;
 }
