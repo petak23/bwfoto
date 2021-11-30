@@ -2,7 +2,7 @@
  *
  * Modul: ADMIN
  *
- * Posledna zmena(last change): 23.02.2021
+ * Posledna zmena(last change): 30.11.2021
  * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
@@ -17,6 +17,24 @@
       <div class="alert alert-warning" role="alert" n:if="$slider_i['sleduj_rozmer']">
         <h4 class="alert-heading">Pozor!!!</h4>
         Odporúčaný rozmer obrázku je: <strong>{$slider_i['x']}x{$slider_i['y']}</strong> alebo násobky tejto veľkosti. Inak môže dôjsť k deformácii alebo orezaniu obrázku pri ukladaní!
+      </div>
+      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <h5 class="alert-heading">Poznámky k zobrazeniu</h5>
+        <small>
+          <p>
+            Načítanie obrázkov slideru sa deje v poradí z hora dole! To znamená, že ak sú pod sebou (aj nie priamo)
+            dve položky, tak vo výsledku sa zobrazí tá, ktorá je nižšie. Toto platí aj pre položky, ktoré majú nastavené 
+            zobrazenie: "Vždy okrem...". 
+          </p>
+          <hr />
+          <p class="mb-0">
+            Poradie položiek je možné meniť uchopením dvojitej šípky <i class="fas fa-arrows-alt-v"></i>
+            na konci riadku a ťahaním na príslušné miesto.
+          </p>
+        </small> 
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
     </div>
     <div class="col-12 col-lg-3">

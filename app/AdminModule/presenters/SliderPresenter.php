@@ -11,7 +11,7 @@ use Ublaboo\DataGrid\Localization\SimpleTranslator;
 /**
  * Prezenter pre administraciu slider-u.
  * 
- * Posledna zmena(last change): 23.02.2021
+ * Posledna zmena(last change): 30.11.2021
  *
  * Modul: ADMIN
  *
@@ -19,7 +19,7 @@ use Ublaboo\DataGrid\Localization\SimpleTranslator;
  * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.3
+ * @version 1.1.4
  */
 
 class SliderPresenter extends BasePresenter {
@@ -61,14 +61,22 @@ class SliderPresenter extends BasePresenter {
    * Akcia pre editaciu polozky slider-u
    * @param int $id id editovanej polozky
    */
-	public function actionEdit($id) {
+	public function actionEdit(int $id) {
     if (($pol_slider = $this->slider->find($id)) === FALSE) {
       $this->setView('notFound');
 		} else {
       $this->template->sucasny = $pol_slider;
+      if ($pol_slider->zobrazenie == null) { // Test, ci vsetky polozky existuju. Ak nie vypustia sa.
+        $zobraz = [];
+        foreach (explode(',', $pol_slider->zobrazenie) as $z) {
+          if ($this->hlavne_menu->find($z) !== null) { $zobraz[] = $z; }
+        }
+        $zobraz = count($zobraz) ? $zobraz : null; //Aby nebolo prázdne pole
+      } else { $zobraz = null; }
+      
 			$this["sliderEditForm"]->setDefaults($pol_slider);
-      $this["sliderEditForm"]->setDefaults(['zobrazenie_null' => ($pol_slider->zobrazenie==NULL) ? 1 : 0,
-                                            'zobrazenie_1'      => ($pol_slider->zobrazenie==NULL) ? NULL : explode(',', $pol_slider->zobrazenie),
+      $this["sliderEditForm"]->setDefaults(['zobrazenie_null' => $zobraz == null ? 1 : 0,
+                                            'zobrazenie_1'    => $zobraz,
                                             ]);
     }
 	}
@@ -81,7 +89,7 @@ class SliderPresenter extends BasePresenter {
     $grid->setSortable();
     $grid->setDefaultSort(['poradie' => 'ASC']);
     $grid->addColumnText('subor', 'Subor')
-          ->setSortable()
+          //->setSortable()
           ->setTemplate(__DIR__ . '/../templates/Slider/grid.subor.latte', 
                         ['popis' => FALSE, 
                         'slider_dir' => $this->nastavenie['slider']['dir'],
@@ -89,13 +97,14 @@ class SliderPresenter extends BasePresenter {
                         ]);
     $grid->addColumnText('subor1', 'Subor', 'subor');
 		$grid->addColumnText('poradie', 'Poradie')->setDefaultHide();
-    $grid->addColumnText('nadpis', 'Nadpis')->setSortable()
+    $grid->addColumnText('nadpis', 'Nadpis')
+          //->setSortable()
           ->setRenderer(function($item) {
             return ($item->nadpis !== NULL ? $item->nadpis : 'Bez nadpisu');
           });
     $grid->addColumnText('zobrazenie', 'Zobrazenie')
           ->setRenderer(function($item) {
-            return ($item->zobrazenie !== NULL ? $item->zobrazenie : 'Vždy');
+            return ($item->zobrazenie !== NULL ? $item->zobrazenie : 'Vždy okrem...');
           });
     $grid->addAction('edit', '')
           ->setIcon('pencil-alt fa-2x')

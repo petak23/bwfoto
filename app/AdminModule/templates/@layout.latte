@@ -4,7 +4,7 @@
  *
  *	Modul: ADMIN
  *
- * Posledna zmena(last change): 12.11.2020
+ * Posledna zmena(last change): 30.11.2020
  * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
@@ -51,7 +51,11 @@
           </button>
           <div class="collapse navbar-collapse justify-content-end" id="navbarTogglerAdminTop">
             <ul class="navbar-nav my-2 my-lg-0">
-              <li class="nav-item"><a class="nav-link" n:href=":Front:Homepage:" title="Zmeny"><i class="fas fa-eye"></i> Skontroluj zmeny na webe...</a></li>
+              <li class="nav-item">
+                <a class="nav-link" n:href=":Front:Homepage:" title=" Vráť sa na web a skontroluj zmeny...">
+                  <i class="fas fa-eye"></i> Späť na web...
+                </a>
+              </li>
               <li class="nav-item" class="nav-link" n:if="$user->isInRole('admin')">
                 <a href="https://getbootstrap.com/" class="nav-link" title="Bootstrao 4" target="_blank">Bootstrap 4</a>
               </li>

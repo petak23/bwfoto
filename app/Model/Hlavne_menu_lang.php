@@ -7,13 +7,13 @@ use Nette;
 /**
  * Model starajuci sa o tabulku hlavne_menu_lang
  * 
- * Posledna zmena 26.04.2021
+ * Posledna zmena 30.11.2021
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.1.0
+ * @version    1.1.1
  */
 class Hlavne_menu_lang extends Table {
   const 
@@ -70,11 +70,14 @@ class Hlavne_menu_lang extends Table {
     }
   }
   
-  public function ulozTextClanku($values, $action, $id_hlavne_menu) {
+  /**
+   * Funkcia pre ulozenie textov clanku */
+  public function ulozTextClanku(array $values, string $action, int $id_hlavne_menu): int {
     $uloz_txt = [];
     foreach ($values as $k => $v) {
       $a = explode("_", $k, 2);
-      $uloz_txt[$a[0]][$a[1]] = $v;
+      // Ak v texte a anotacii je len prazdny text, tak uloz null
+      $uloz_txt[$a[0]][$a[1]] = in_array($a[1], ["text", "anotacia"]) ? (strlen($v) ? $v : null) : $v;
     }
     $ulozenie = 1;
 		if (($utc = count($uloz_txt))) {
@@ -82,7 +85,7 @@ class Hlavne_menu_lang extends Table {
         $cid = ($action == "edit2") ? (isset($ut["id"]) ? $ut["id"] : 0) : 0;
 				$uloz_t = $this->ulozClanokLang($ut, $cid);
         if ($uloz_t !== FALSE && $uloz_t['id']) { //Ulozenie v poriadku
-          $this->_prepojHlavneMenuLeng($cid, $id_hlavne_menu, $uloz_t['id'], $ut["id_lang"]);
+          $this->_prepojHlavneMenuLang($cid, $id_hlavne_menu, $uloz_t['id'], $ut["id_lang"]);
           $ulozenie++;
         }
 			}
@@ -133,7 +136,7 @@ class Hlavne_menu_lang extends Table {
    * @param int $id_hlavne_menu
    * @param int $id_clanok_lang
    * @param int $id_lang */
-  public function _prepojHlavneMenuLeng($cid, $id_hlavne_menu, $id_clanok_lang, $id_lang) {
+  public function _prepojHlavneMenuLang($cid, $id_hlavne_menu, $id_clanok_lang, $id_lang) {
     if ($cid == 0) { //
       $pol = $this->findOneBy(["id_hlavne_menu"=>$id_hlavne_menu, "id_lang"=>$id_lang]);
       $this->uloz(["id_clanok_lang"=>$id_clanok_lang], $pol->id);

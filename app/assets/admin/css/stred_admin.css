@@ -180,6 +180,12 @@
   }
 }
 
+.img-thumbnail {
+  padding: 0;
+  max-height: 5rem;
+  max-width: 90%;
+}
+
 /* ------ OLD CSS ------ */ 
 /* @todo - zistiť ich potrebu */
 h6 {
