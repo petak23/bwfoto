@@ -13,7 +13,7 @@ use Texy;
 /**
  * Zakladny presenter pre vsetky presentery v module ADMIN
  * 
- * Posledna zmena(last change): 11.11.2021
+ * Posledna zmena(last change): 12.11.2021
  *
  * Modul: ADMIN
  *
@@ -21,7 +21,7 @@ use Texy;
  * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.3.8
+ * @version 1.3.9
  */
 abstract class BasePresenter extends UI\Presenter {
   
@@ -148,7 +148,7 @@ abstract class BasePresenter extends UI\Presenter {
     $this->template->language = $this->language;
     $this->template->avatar_path = $this->nastavenie["dir_to_menu"];
     $this->template->admin_menu = $this->admin_menu->findBy(['view' => 1]);
-    $this->template->admin_menu_active = $this->admin_menu->findOneBy(['odkaz' => $this->udaje_webu['meno_presentera'].":"]);
+    $this->template->admin_menu_active = $this->admin_menu->findOneBy(['odkaz' => $this->udaje_webu['meno_presentera'].":".($this->action !== "default" ? $this->action : "") ]);
     $this->template->nastavenie = $this->nastavenie;
     $this->template->dir_to_images = $this->nastavenie['dir_to_images'];
     $this->template->dir_to_icons = $this->nastavenie['dir_to_icons'];

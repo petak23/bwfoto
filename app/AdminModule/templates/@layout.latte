@@ -54,8 +54,9 @@
       <div class="col bg-dark">
         <nav class="navbar navbar-expand-md navbar-dark bg-dark">
           {var $up = $user->getIdentity()}
+          <span class="navbar-text">{$up->meno} {$up->priezvisko|upper} -&nbsp;</span>
           <span class="navbar-text uroven-registracie-new uroven-registracie-{$up->id_user_roles}-new">
-            {$up->meno} {$up->priezvisko|upper} - {$up->user_role}
+            {$up->user_role}
           </span>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerAdminTop" aria-controls="navbarTogglerAdminTop" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
