@@ -66,14 +66,13 @@ class SliderPresenter extends BasePresenter {
       $this->setView('notFound');
 		} else {
       $this->template->sucasny = $pol_slider;
-      if ($pol_slider->zobrazenie == null) { // Test, ci vsetky polozky existuju. Ak nie vypustia sa.
+      if ($pol_slider->zobrazenie !== null) { // Test, ci vsetky polozky existuju. Ak nie vypustia sa.
         $zobraz = [];
         foreach (explode(',', $pol_slider->zobrazenie) as $z) {
           if ($this->hlavne_menu->find($z) !== null) { $zobraz[] = $z; }
         }
         $zobraz = count($zobraz) ? $zobraz : null; //Aby nebolo prázdne pole
       } else { $zobraz = null; }
-      
 			$this["sliderEditForm"]->setDefaults($pol_slider);
       $this["sliderEditForm"]->setDefaults(['zobrazenie_null' => $zobraz == null ? 1 : 0,
                                             'zobrazenie_1'    => $zobraz,
