@@ -242,7 +242,7 @@ abstract class BasePresenter extends UI\Presenter {
     if (count($hl_m)) {
       $servise = $this;
       $menu->fromTable($hl_m, function($node, $row) use($servise){
-        foreach (["name", "tooltip", "avatar", "anotacia", "node_class", "id", "poradie_podclankov", "datum_platnosti"] as $v) { 
+        foreach (["name", "tooltip", "avatar", "anotacia", "node_class", "id", "datum_platnosti"] as $v) { 
           $node->$v = $row['node']->$v; 
         }
         $node->link = is_array($row['node']->link) ? $servise->link($row['node']->link[0], ["id"=>$row['node']->id]) : $servise->link($row['node']->link);

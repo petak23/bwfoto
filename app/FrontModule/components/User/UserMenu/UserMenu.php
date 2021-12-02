@@ -1,5 +1,5 @@
 <?php
-namespace App\FrontModule\Components\User\UserLangMenu;
+namespace App\FrontModule\Components\User\UserMenu;
 
 use App\FrontModule\Forms;
 use DbTable;
@@ -9,16 +9,17 @@ use Nette\Security\User;
 use Nette\Utils\Html;
 
 /**
- * Plugin pre zobrazenie ponuky o užívateľovi a jazykoch
- * Posledna zmena(last change): 31.07.2020
+ * Plugin pre zobrazenie ponuky o užívateľovi
+ * 
+ * Posledna zmena(last change): 02.12.2021
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2013 - 2020 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2013 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.2.1
+ * @version 1.2.2
  */
-class UserLangMenuControl extends Control {
+class UserMenuControl extends Control {
   /** @var Language_support\LanguageMain Texty pre dany jazyk */
   public $texty;
 	
@@ -31,8 +32,6 @@ class UserLangMenuControl extends Control {
   /** @var boolean Povolenie registracie */
   private $registracia_enabled = FALSE;
 
-  /** @var DbTable\Lang */
-  public $lang;
   /** @var DbTable\User_main */
   public $user_main;
 
@@ -51,7 +50,6 @@ class UserLangMenuControl extends Control {
    * @param string $dir_to_user Nastavenie priamo cez servises.neon
    * @param bool $avatar_view Nastavenie priamo cez servises.neon
    * @param Language_support\LanguageMain $language
-   * @param DbTable\Lang $lang
    * @param DbTable\User_main $user_main
    * @param DbTable\Udaje $udaje
    * @param User $user */
@@ -59,13 +57,11 @@ class UserLangMenuControl extends Control {
                               string $dir_to_user,
                               bool $avatar_view,
                               Language_support\LanguageMain $language, 
-                              DbTable\Lang $lang,
                               DbTable\User_main $user_main,
                               DbTable\Udaje $udaje,
                               User $user,
                               Forms\User\SignInFormFactory $signInForm
                               ) {
-    $this->lang = $lang;
     $this->user = $user;
     $this->texty = $language; 
     $this->user_main = $user_main;
@@ -136,7 +132,7 @@ class UserLangMenuControl extends Control {
       ]);
     }
     if ($this->user->isInRole('admin')) {
-      $hl_m_db_info = $this->lang->getDBInfo();
+      $hl_m_db_info = $this->user_main->getDBInfo();
       $menu_user[] = new MenuItem([
         'abs_link'=>$baseUrl."/www/adminer/?server=".$hl_m_db_info['host']."&db=".$hl_m_db_info['dbname'], 
         'title'=>'Adminer',
@@ -174,20 +170,9 @@ class UserLangMenuControl extends Control {
       //Panel neprihlaseneho uzivatela
       $menu_user = $this->_panelNeprihlaseny($this->storeReq);
 		}
-		$lang_temp = $this->lang->findBy(['prijaty'=>1]);
-		if ($lang_temp !== FALSE && count($lang_temp)>1) {
-			foreach($lang_temp as $lm) {
-				$menu_user[] = new MenuItem([
-						'odkaz'=>['setLang!', $lm->skratka],
-						'title'=>$lm->nazov.", ".$lm->nazov_en,
-						'class'=>($lm->skratka == $this->texty->jazyk) ? "lang actual" : "lang",
-            'nazov'=>Html::el('img')->src($baseUrl.'/www/ikonky/flags/'.$lm->skratka.'.png')->alt('Flag of '.$lm->skratka)
-				]);
-			}
-		}
 		$this->template->menu_user = isset($menu_user) ? $menu_user : [];
     $this->template->setTranslator($this->texty);
-		$this->template->setFile(__DIR__ . '/UserLangMenu.latte');
+		$this->template->setFile(__DIR__ . '/UserMenu.latte');
 		$this->template->render();
 	}
 
@@ -232,7 +217,7 @@ class MenuItem {
   }
 }
 
-interface IUserLangMenuControl {
-  /** @return UserLangMenuControl */
+interface IUserMenuControl {
+  /** @return UserMenuControl */
   function create();
 }

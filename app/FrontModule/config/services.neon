@@ -49,11 +49,16 @@ services:
 
   - App\FrontModule\Components\News\INewsControl
   - App\FrontModule\Components\Faktury\IViewFakturyControl
-  UserLangMenuControl:
-    implement: App\FrontModule\Components\User\UserLangMenu\IUserLangMenuControl
+  UserMenuControl:
+    implement: App\FrontModule\Components\User\UserMenu\IUserMenuControl
     arguments:
       nastavenie: %user_panel%
       dir_to_user: %dir_to_user%
       avatar_view: %user_view_fields.avatar%
+
+  LangMenuControl:
+    implement: App\FrontModule\Components\Lang\LangMenu\ILangMenuControl
+    arguments:
+      nastavenie: %user_panel%
 
   - PeterVojtech\MainLayout\GoogleAnalytics\IGoogleAnalyticsControl
