@@ -15,7 +15,7 @@ use Texy;
 /**
  * Zakladny presenter pre vsetky presentery vo FRONT module
  * 
- * Posledna zmena(last change): 03.11.2021
+ * Posledna zmena(last change): 02.12.2021
  *
  *	Modul: FRONT
  *
@@ -23,7 +23,7 @@ use Texy;
  * @copyright Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link      http://petak23.echo-msz.eu
- * @version 1.6.3
+ * @version 1.6.4
  */
 abstract class BasePresenter extends Presenter {
   
@@ -60,8 +60,10 @@ abstract class BasePresenter extends Presenter {
   public $sliderControlFactory;
   /** @var \App\FrontModule\Components\User\IKontaktControl @inject */
   public $kontaktControlFactory;
-  /** @var \App\FrontModule\Components\User\UserLangMenu\IUserLangMenuControl @inject */
-  public $userLangMenuControlFactory;
+  /** @var \App\FrontModule\Components\User\UserMenu\IUserMenuControl @inject */
+  public $userMenuControlFactory;
+  /** @var \App\FrontModule\Components\Lang\LangMenu\ILangMenuControl @inject */
+  public $langMenuControlFactory;
   /** @var \App\FrontModule\Components\News\INewsControl @inject */
   public $newsControlFactory;
   /** @var \App\FrontModule\Components\Clanky\ZobrazClanok\IZobrazClanokControl @inject */
@@ -364,11 +366,20 @@ abstract class BasePresenter extends Presenter {
   }*/
   
   /**
-   * Vytvorenie komponenty pre menu uzivatela a zaroven panel jazykov
-   * @return \App\FrontModule\Components\User\UserLangMenu */
-  public function createComponentUserLangMenu() {
-    $ulm = $this->userLangMenuControlFactory->create();
+   * Vytvorenie komponenty pre menu uzivatela
+   * @return \App\FrontModule\Components\User\UserMenu */
+  public function createComponentUserMenu() {
+    $ulm = $this->userMenuControlFactory->create();
     $ulm->setLanguage($this->language)->setStoreRequest($this->storeRequest());
+    return $ulm;
+  }
+
+  /**
+   * Vytvorenie komponenty pre panel jazykov
+   * @return \App\FrontModule\Components\Lang\LangMenu */
+  public function createComponentLangMenu() {
+    $ulm = $this->langMenuControlFactory->create();
+    $ulm->setLanguage($this->language);
     return $ulm;
   }
   

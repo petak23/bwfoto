@@ -11,14 +11,14 @@
  */
 
 
-import vuetify from '@/admin/js/vue/plugins/vuetify'
+//import vuetify from '@/admin/js/vue/plugins/vuetify'
 import axios from 'axios'
 
 //for Tracy Debug Bar
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 export default {
-  vuetify,
+  //vuetify,
   components: {},
   props: {
     basepath: {
@@ -31,20 +31,26 @@ export default {
   },
   data() {
     return {
-      items: [],
       odkaz: "",
     };
   },
   computed: {},
   watch: {},
-  methods: {},
+  methods: {
+    convert(itemsObject) {
+      return Object.values(itemsObject).map(item => ({
+        ...item,
+        children: item.children ? this.convert(item.children) : undefined,
+      }));
+    }
+  },
   mounted() {
     // Načítanie údajov priamo z DB
     this.odkaz = this.basepath + '/api/menu/getadminmenu'
-    this.items = []
     axios.get(this.odkaz)
               .then(response => {
-                this.items = Object.values(response.data)
+                //this.items = Object.values(response.data)
+                this.$store.commit('SET_INIT_ADMIN_MENU', this.convert(response.data))
               })
               .catch((error) => {
                 console.log(this.odkaz)
@@ -60,7 +66,7 @@ export default {
       <small class="font-weight-bold text-muted">Admin menu</small>
     </h6>
     <ul>
-      <li v-for="item in items" :key="item.id" >
+      <li v-for="item in $store.state.admin_menu" :key="item.id" >
         <a :href="item.link" :title="item.name"
           v-bind:class="[admin_menu_active == item.id ? 'selected' : '']">
           {{ item.name }}

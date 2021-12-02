@@ -149,6 +149,8 @@ abstract class BasePresenter extends UI\Presenter {
     $this->template->avatar_path = $this->nastavenie["dir_to_menu"];
     $this->template->admin_menu = $this->admin_menu->findBy(['view' => 1]);
     $this->template->admin_menu_active = $this->admin_menu->findOneBy(['odkaz' => $this->udaje_webu['meno_presentera'].":".($this->action !== "default" ? $this->action : "") ]);
+    // Zistenie id aktivnej polozky hl. menu. $this->zobraz_clanok je definované v articlePresenter
+    $this->template->main_menu_active = isset($this->params["id"]) ? $this->params["id"] : (isset($this->zobraz_clanok) ? $this->zobraz_clanok->id : 0);
     $this->template->nastavenie = $this->nastavenie;
     $this->template->dir_to_images = $this->nastavenie['dir_to_images'];
     $this->template->dir_to_icons = $this->nastavenie['dir_to_icons'];
