@@ -103,6 +103,7 @@ class Hlavne_menu_lang extends Table {
    * @return Nette\Database\Table\ActiveRow|null */
   public function ulozClanokLang(array $data, int $id = 0): ?Nette\Database\Table\ActiveRow {
     $clanok_lang = $this->connection->table('clanok_lang');
+    if ($id == 0) unset($data["id"]);
     return $id ? ($clanok_lang->where(['id'=>$id])->update($data) !== FALSE ? $clanok_lang->get($id) : FALSE): $clanok_lang->insert($data);
   }
   

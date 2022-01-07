@@ -17,27 +17,29 @@ import 'ublaboo-datagrid/assets/datagrid-spinners.js';
 //import './pomocne_admin.js';
 jquery(function() {
 /* pre zmenu náhľadu pri zmenách okrajového rámčeka */
-        jquery("#frm-products-zmenOkrajForm").find("input.input_number").each(function(){
-                var el = jquery(this);
-                el.change(function(){
-                        var val = el.val();
-                        var cl = el.attr('name').split("_");
-                        jquery(".okraj-"+cl[1]).each(function(){
-                                jquery(this).css("border-width", val+"px");
-                        });
-                });
-        });
+  jquery("#frm-titleArticle-zmenOkrajForm").find("input.input_number").each(function(){
+    var el = jquery(this);
+    el.on("change", function(){
+      var val = el.val();
+      var cl = el.attr('name').split("_");
+      jquery(".okraj-"+cl[1]).each(function(){
+        jquery(this).css("border-width", val+"px");
+      });
+    });
+  });
 
-        jquery("#frm-products-zmenOkrajForm").find("input[type=color]").each(function(){
-                var el = jquery(this);
-                el.change(function(){
-                        var val = el.val();
-                        var cl = el.attr('name').split("_");
-                        jquery(".okraj-"+cl[1]).each(function(){
-                                jquery(this).css("border-color", val);
-                        });
-                });
-        });
+  jquery("#frm-titleArticle-zmenOkrajForm").find("input[type=color]").each(function(){
+    var el = jquery(this);
+    el.on("change", function(){
+      var val = el.val();
+      var cl = el.attr('name').split("_");
+      jquery(".okraj-"+cl[1]).each(function(){
+        jquery(this).css("border-color", val);
+      });
+    });
+  });
 });
+
+//import './vue/MainVue.js';
 
 import '../css/main.css';

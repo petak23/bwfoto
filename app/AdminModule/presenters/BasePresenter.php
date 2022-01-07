@@ -13,15 +13,15 @@ use Texy;
 /**
  * Zakladny presenter pre vsetky presentery v module ADMIN
  * 
- * Posledna zmena(last change): 10.11.2021
+ * Posledna zmena(last change): 07.01.2022
  *
  * Modul: ADMIN
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.3.6
+ * @version 1.3.7
  */
 abstract class BasePresenter extends UI\Presenter {
   
@@ -152,6 +152,14 @@ abstract class BasePresenter extends UI\Presenter {
     $this->template->language = $this->language;
     $this->template->avatar_path = $this->nastavenie["dir_to_menu"];
     $this->template->admin_menu = $this->admin_menu->findBy(['view' => 1]);
+
+    // Zistenie id aktivnej polozky admin. menu.
+    $aml = $this->admin_menu->findAll()->where('odkaz LIKE ?', '%'.$this->udaje_webu['meno_presentera'].':%')->limit(1)->fetch();
+    $this->template->admin_menu_active = $aml == null ? 0 : $aml->id;
+    // Zistenie id aktivnej polozky hl. menu. $this->zobraz_clanok je definované v articlePresenter 
+    $this->template->main_menu_active = isset($this->params["id"]) ? $this->params["id"] : (isset($this->zobraz_clanok) ? $this->zobraz_clanok->id : 0);
+    $this->template->clanok = null; // Pre prípady, kedy nemám článok
+
     $this->template->nastavenie = $this->nastavenie;
     $this->template->dir_to_images = $this->nastavenie['dir_to_images'];
     $this->template->dir_to_icons = $this->nastavenie['dir_to_icons'];
@@ -200,7 +208,7 @@ abstract class BasePresenter extends UI\Presenter {
       $pom = $servise->hlavne_menu_lang->findOneBy(['id_hlavne_menu'=>$id, 'id_lang'=>$servise->language_id]);
       return $pom !== FALSE ? $pom->h1part2 : $id;
     });
-    $this->template->addFilter('to_json', function ($value){
+    $this->template->addFilter('to_json', function ($value) {
       return Json::encode($value);
     }); 
     $this->texy->allowedTags = TRUE;
@@ -321,32 +329,6 @@ abstract class BasePresenter extends UI\Presenter {
    * @return \Nette\Application\UI\Form */
   public function _vzhladForm($form) {
     $renderer = $form->getRenderer();
- 
-    // Vzhlad pre bootstrap 3
-    /*
-    $renderer->wrappers['controls']['container'] = NULL;
-    $renderer->wrappers['pair']['container'] = 'div class=form-group';
-    $renderer->wrappers['pair']['.error'] = 'has-error';
-    $renderer->wrappers['control']['container'] = 'div class="col-sm-9 control-field"';
-    $renderer->wrappers['label']['container'] = 'div class="col-sm-3 control-label"';
-    $renderer->wrappers['control']['description'] = 'div class="help-block alert alert-info"';
-    $renderer->wrappers['control']['errorcontainer'] = 'span class="help-block alert alert-danger"';
-    //$renderer->wrappers['error']['container'] = 'div class="row error-form"';
-    //$renderer->wrappers['error']['item'] = 'div class="col-md-6 col-md-offset-3 alert alert-danger"';
-    
-    
-    // make form and controls compatible with Twitter Bootstrap
-    $form->getElementPrototype()->class('form-horizontal');
-    foreach ($form->getControls() as $control) {
-      if ($control instanceof Controls\Button) {
-        $control->getControlPrototype()->addClass(empty($usedPrimary) ? 'btn btn-primary' : 'btn btn-default');
-        $usedPrimary = TRUE;
-      } elseif ($control instanceof Controls\TextBase || $control instanceof Controls\SelectBox || $control instanceof Controls\MultiSelectBox) {
-        $control->getControlPrototype()->addClass('form-control');
-      } elseif ($control instanceof Controls\Checkbox || $control instanceof Controls\CheckboxList || $control instanceof Controls\RadioList) {
-        $control->getSeparatorPrototype()->setName('div')->addClass($control->getControlPrototype()->type);
-      }
-    }*/
     // Vzhlad pre bootstrap 4 link: https://github.com/nette/forms/blob/96b3e90/examples/bootstrap4-rendering.php  
     $renderer->wrappers['controls']['container'] = null;
     $renderer->wrappers['pair']['container'] = 'div class="form-group row"';
