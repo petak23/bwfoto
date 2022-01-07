@@ -38,7 +38,8 @@ export default {
       drag: false,
       items: [],
       nextchange: false, // Aby sa pri prvom behu nespustilo ukladanie.
-      odkaz: ""
+      odkaz: "",
+      in_path: false,
     };
   },
   computed: {
@@ -50,7 +51,11 @@ export default {
         ghostClass: "ghost"
       };
     },
-
+    submenu() {
+      return {
+        pom: this.getSubmenu(this.id_hlavne_menu)
+      }
+    }
   },
   watch: {
     items: function (newItem) { // Kedykolvek sa item zmení tak sa spustí
@@ -65,7 +70,7 @@ export default {
             items: out,
           })
           .then(function (response) {
-            console.log(response.data);
+            //console.log(response.data);
             if (response.data.result == 'OK') {
               //this.items = newItem
             }
@@ -78,20 +83,43 @@ export default {
       }
     }
   },
+  methods: {
+    getSubmenu(id) {
+      var pom = this.$store.state.main_menu_open
+      var sub = null
+      var self = this
+      pom.map(function(i) {
+        console.log(i)
+        if (self.in_path == false) {
+          if (i.id == self.id_hlavne_menu) {
+            console.log("najdene"+i)
+            if (typeof i.children !== 'undefined' && i.children.length > 0) {
+              sub = i.children
+            }
+            self.in_path = true
+          } else if (typeof i.children !== 'undefined' && i.children.length > 0) {
+            self.getpath(i.children)
+          }
+        }
+      })
+      return sub
+    }
+  },
   mounted() {
     // Načítanie údajov priamo z DB
     this.odkaz = this.basepath + '/api/menu/getsubmenu/' + this.id_hlavne_menu
     this.items = []
     axios.get(this.odkaz)
               .then(response => {
-                console.log(response.data);
-                console.log(this.items)
+                //console.log(response.data);
+                //console.log(this.items)
                 this.items = Object.values(response.data)
               })
               .catch((error) => {
                 console.log(this.odkaz);
                 console.log(error);
               });
+    this.getSubmenu(this.id_hlavne_menu)
   }
 }
 </script>
@@ -133,7 +161,7 @@ export default {
     </div>
 </template>
 
-<style>
+<style lang="scss" scoped>
 .button {
   margin-top: 35px;
 }

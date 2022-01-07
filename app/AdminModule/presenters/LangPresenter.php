@@ -58,11 +58,11 @@ class LangPresenter extends BasePresenter {
   private function kontrolujHlavneMenu(\Nette\Database\Table\ActiveRow $lang): void {
     $menu = $this->hlavne_menu->findAll();
     foreach ($menu as $pol) {
-      if ($this->hlavne_menu_lang->findOneBy(['id_lang'=>$lang->id, 'id_hlavne_menu'=>$pol->id]) === FALSE){
-        $this->kontrola[$lang->skratka]['final'] = FALSE;
+      if ($this->hlavne_menu_lang->findOneBy(['id_lang'=>$lang->id, 'id_hlavne_menu'=>$pol->id]) === null){
+        $this->kontrola[$lang->skratka]['final'] = false;
         $odkaz = $this->link('Menu:edit', ["id"=>$pol->id]);
-        if (($nchp = $this->hlavne_menu_lang->findOneBy(['id_lang'=>1, 'id_hlavne_menu'=>$pol->id])) !== FALSE ){
-          $tmp_hlasenie = $nchp->nazov;
+        if (($nchp = $this->hlavne_menu_lang->findOneBy(['id_lang'=>1, 'id_hlavne_menu'=>$pol->id])) !== null ){
+          $tmp_hlasenie = $nchp->menu_name;
         } else {
           $tmp_hlasenie = $pol->id;
         }
@@ -78,9 +78,7 @@ class LangPresenter extends BasePresenter {
     $polia = [
       'titulka' => "Názov zobrazený v titulke",
       'titulka_2' => "Druhá časť titulky",  
-      'titulka_citat' => "Text citátu, ktorý sa zobrazí na titulke",
       'keywords'  => "Kľúčové slová",
-      'nazov_uvod' => "Text pre odkaz na východziu stránku"
     ];
     foreach ($jaz as $j) {
       $skratka = $j->skratka;

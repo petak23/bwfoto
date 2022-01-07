@@ -69,6 +69,8 @@ export default {
                 this.$store.commit('SET_INIT_MAIN_MENU', this.convert(response.data))
                 this.$store.commit('SET_INIT_MAIN_MENU_OPEN', [])
                 this.getpath(this.$store.state.main_menu)
+                this.in_path = false
+                this.$store.commit('SET_REVERSE_MAIN_MENU_OPEN')
               })
               .catch((error) => {
                 console.log(this.odkaz);

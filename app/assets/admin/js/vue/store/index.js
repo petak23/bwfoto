@@ -21,6 +21,9 @@ export default new Vuex.Store({
     SET_PUSH_MAIN_MENU_OPEN (state, push_id) {
       state.main_menu_open.push(push_id)
     },
+    SET_REVERSE_MAIN_MENU_OPEN (state) {
+      state.main_menu_open.reverse()
+    },
     SET_INIT_USER (state, user) {
       state.user = user
     },

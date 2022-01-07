@@ -645,20 +645,9 @@ CREATE TABLE `udaje` (
 INSERT INTO `udaje` (`id`, `id_user_roles`, `id_druh`, `id_udaje_typ`, `nazov`, `text`, `comment`, `separate_settings`) VALUES
 (1,	4,	NULL,	1,	'titulka-sk',	'BW Foto - Ateliér architektúry a fotografie',	'Názov zobrazený v titulke',	0),
 (2,	5,	NULL,	1,	'titulka_2-sk',	'',	'Druhá časť titulky pre jazyk: sk',	0),
-(3,	5,	NULL,	1,	'titulka_citat_enable',	'0',	'Povolenie zobrazenia citátu',	0),
-(4,	5,	NULL,	1,	'titulka_citat_podpis',	'',	'Podpis pod citát na titulke',	0),
-(5,	5,	NULL,	1,	'titulka_citat-sk',	'',	'Text citátu, ktorý sa zobrazí na titulke pre jazyk: sk',	0),
 (6,	4,	NULL,	1,	'keywords-sk',	'BW Foto, Spišské Bystré, ateliér,  architektúra, fotografie',	'Kľúčové slová',	0),
 (7,	5,	NULL,	1,	'autor',	'Ing. Peter VOJTECH ml. - VZ',	'Autor stránky',	0),
-(8,	5,	NULL,	1,	'log_out-sk',	'Odhlás sa...',	'Text pre odkaz na odhlásenie sa',	0),
-(9,	5,	NULL,	1,	'log_in-sk',	'Prihlás sa',	'Text pre odkaz na prihlásenie sa',	0),
-(10,	5,	NULL,	1,	'forgot_password-sk',	'Zabudnuté heslo?',	'Text pre odkaz na zabudnuté heslo',	0),
-(11,	5,	NULL,	1,	'register-sk',	'Registrácia',	'Text pre odkaz na registráciu',	0),
-(12,	5,	NULL,	1,	'last_update-sk',	'Posledná aktualizácia',	'Text pre odkaz na poslednú aktualizáciu',	0),
-(13,	4,	NULL,	1,	'spravca-sk',	'Správca obsahu',	'Text pre odkaz na správcu',	0),
 (14,	4,	NULL,	1,	'copy',	'BW Foto',	'Text, ktorý sa vypíše za znakom copyright-u',	0),
-(15,	5,	NULL,	1,	'no_exzist-sk',	'To čo hľadáte nie je ešte v tomto jazyku vytvorené!',	'Text ak položka v danom jazyku neexzistuje pre jazyk:sk',	0),
-(16,	5,	NULL,	1,	'nazov_uvod-sk',	'Úvod',	'Text pre odkaz na východziu stránku pre jazyk:sk',	0),
 (17,	5,	NULL,	3,	'komentare',	'0',	'Globálne povolenie komentárov',	0),
 (18,	5,	NULL,	3,	'registracia_enabled',	'0',	'Globálne registrácie(ak 1 tak áno, ak 0 tak nie)',	0),
 (19,	4,	1,	1,	'clanok_hlavicka',	'0',	'Nastavuje, ktoré hodnoty sa zobrazia v hlavičke článku Front modulu. Výsledok je súčet čísel.[1=Dátum, 2=Zadávateľ, 4=Počet zobrazení]',	0),
@@ -881,7 +870,10 @@ INSERT INTO `user_prihlasenie` (`id`, `id_user_main`, `log_in_datetime`) VALUES
 (100,	1,	'2021-11-30 16:25:22'),
 (101,	1,	'2021-11-30 17:10:45'),
 (102,	1,	'2021-12-01 13:56:30'),
-(103,	1,	'2021-12-02 11:06:38');
+(103,	1,	'2021-12-02 11:06:38'),
+(104,	1,	'2021-12-02 11:58:57'),
+(105,	1,	'2021-12-02 12:49:48'),
+(106,	1,	'2021-12-02 13:18:55');
 
 DROP TABLE IF EXISTS `user_profiles`;
 CREATE TABLE `user_profiles` (
@@ -899,7 +891,7 @@ CREATE TABLE `user_profiles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
 
 INSERT INTO `user_profiles` (`id`, `rok`, `telefon`, `poznamka`, `pocet_pr`, `pohl`, `prihlas_teraz`, `avatar`, `news`, `news_key`) VALUES
-(1,	NULL,	NULL,	NULL,	78,	'M',	'2021-12-02 11:06:38',	NULL,	'A',	NULL),
+(1,	NULL,	NULL,	NULL,	81,	'M',	'2021-12-02 13:18:55',	NULL,	'A',	NULL),
 (2,	NULL,	NULL,	NULL,	25,	'M',	'2021-09-21 18:50:50',	NULL,	'A',	NULL),
 (3,	NULL,	NULL,	NULL,	0,	'M',	NULL,	NULL,	'A',	NULL);
 
@@ -994,4 +986,4 @@ INSERT INTO `verzie` (`id`, `id_user_main`, `cislo`, `subory`, `text`, `modified
 (19,	1,	'0.7.0',	'autocomplete',	'- Rozšírené možnosti vyhľadávania na názvy článkov, text v článkoch, názvy a popis dokumentov a názvy a popis produktov.\n- Opravy zistených chýb\n- Oprava radenia príloh vo FrontModule. \n- Pridaná možnosť zobraziť na začiatku konkrétny obrázok vo fotogalérii podľa id.',	'2021-05-03 09:33:31'),
 (20,	1,	'0.8.0',	'php 8.0; rôzne',	'- Refaktoring;\n- Prechod na PHP 8.0; \n- Oprava editácie nadpisov; \n- Presun nastavenia okrajov do hlavného nastavenia článku; \n- Iné drobné opravy.',	'2021-09-28 15:41:13');
 
--- 2021-12-02 10:07:25
+-- 2021-12-02 12:28:48
