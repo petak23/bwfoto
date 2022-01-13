@@ -99,7 +99,7 @@ class SignInFormFactory {
     $values = $button->getForm()->getValues();
 //    dumpe($values->email);
     try {
-      $this->user->setExpiration($values->remember ? '14 days' : '30 minutes');
+      $this->user->setExpiration($values->remember ? '13 days' : '30 minutes');
 			$this->user->login($values->email, $values->password);
 		} catch (Security\AuthenticationException $e) {
       $button->addError($e->getCode());

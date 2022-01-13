@@ -75,6 +75,7 @@ application:
 session:
   autoStart: true
   expiration: 14 days
+  debugger: true
 
 tracy:
   email: petak23@gmail.com

@@ -11,13 +11,13 @@ use Nette\Security\SimpleIdentity;
 /**
  * Model starajuci sa o uzivatela
  * 
- * Posledna zmena(last change): 09.11.2021
+ * Posledna zmena(last change): 13.01.2022
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.7
+ * @version    1.0.9
  */
 class UserManager implements Nette\Security\Authenticator {
 	use Nette\SmartObject;
@@ -84,14 +84,14 @@ class UserManager implements Nette\Security\Authenticator {
 		if (!$row) {
 			throw new Nette\Security\AuthenticationException("The email '$email' is incorrect. Užívateľský email '$email' nie je správny!", self::IDENTITY_NOT_FOUND);
     } elseif (!$row[self::COLUMN_ACTIVATED]) {
-			throw new Nette\Security\AuthenticationException("User with email '$email' not activated. Užívateľ s email-om '$email' ešte nie je aktivovaný!", self::FAILURE);
+			throw new Nette\Security\AuthenticationException("User with email '$email' not activated. Užívateľ s email-om '$email' ešte nie je aktivovaný!", 4);
 		} elseif ($row[self::COLUMN_BANNED]) {
-			throw new Nette\Security\AuthenticationException("User with email '$email' is banned! Because: ".$row[self::COLUMN_BAN_REASON].". Užívateľ s email-om '$email' je blokovaný! Lebo: ".$row[self::COLUMN_BAN_REASON], self::FAILURE);
+			throw new Nette\Security\AuthenticationException("User with email '$email' is banned! Because: ".$row[self::COLUMN_BAN_REASON].". Užívateľ s email-om '$email' je blokovaný! Lebo: ".$row[self::COLUMN_BAN_REASON], 3);
 		} elseif (!$this->passwords->verify($password, $row[self::COLUMN_PASSWORD_HASH])) {
-			throw new Nette\Security\AuthenticationException('Invalid email or password. Chybné užívateľský email alebo heslo!', self::INVALID_CREDENTIAL);
+			throw new Nette\Security\AuthenticationException('Invalid email or password. Chybný užívateľský email alebo heslo!', self::INVALID_CREDENTIAL);
 		} elseif ($this->passwords->needsRehash($row[self::COLUMN_PASSWORD_HASH])) {
 			$row->update([
-				self::COLUMN_PASSWORD_HASH => Nette\Security\Passwords::hash($password),
+				self::COLUMN_PASSWORD_HASH => $this->passwords->hash($password),
 			]);
 		}
     $role = $row->user_roles->{self::COLUMN_ROLE};
