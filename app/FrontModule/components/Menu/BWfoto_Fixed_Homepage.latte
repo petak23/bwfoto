@@ -26,7 +26,7 @@
 
     {if $iterator->isOdd()}
     <div n:class="'col d-flex', $iterator->counter != 3 ? 'flex-column justify-content-between' : 'flex-column-reverse justify-content-around'">
-      {include #figure node => $node, main_class => 'h-75', avatar => $avatar, if_part => $iterator->counter != 3}
+      {include #figure node => $node, avatar => $avatar, if_part => $iterator->counter != 3}
     {else}
       {include #part-small node => $node, main_class => 'd-flex flex-column justify-content-center h-25', is_bolder => $node->id == 5}
     </div>
@@ -43,15 +43,15 @@
     
     {if $k < 3}
       {first}<div class="col-md d-flex flex-column justify-content-between">{/first}
-        {include #figure node => $node, main_class => $k == 2 ? 'mb-3 mb-md-0' : null, avatar => $avatar, if_part => $k == 1}
+        {include #figure node => $node, avatar => $avatar, if_part => $k == 1}
       {if $k == 2}</div>{/if}
     {else}
       {if $k == 3}
       <div class="col-md d-flex flex-column justify-content-between">
-        {include #figure node => $node, main_class => 'h-50', avatar => $avatar, if_part => true}
-        <figure class="d-flex flex-column justify-content-between h-50">
+        {include #figure node => $node, avatar => $avatar, if_part => true}
+        <figure class="d-flex flex-column justify-content-between">
       {else}  
-        {include #part-small node => $node, is_bolder => $k == 5}
+        {include #part-small node => $node, main_class => 'h-25', is_bolder => $k == 5}
       {/if}
       {if $k == 6}
         </figure>

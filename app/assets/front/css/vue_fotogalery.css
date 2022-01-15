@@ -169,7 +169,8 @@
 	text-align: center;
 }
 .lightbox-img .my-img-content {
-    width: 86%;
+    width: 88%;
+	margin: 0 auto;
 }
 .lightbox-img .arrows-overlay {
     position: absolute;
@@ -195,7 +196,7 @@
 }
 .lightbox-img .arrows-l > a, .lightbox-img .arrows-r > a{
     text-decoration: none;
-    padding: 0 1rem;
+    padding: 0;
 }
 .lightbox-img .arrows-r > a {
     display: inline-block;
