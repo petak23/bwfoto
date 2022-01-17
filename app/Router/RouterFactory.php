@@ -36,8 +36,6 @@ class RouterFactory {
 		$router = new RouteList;
 
     $router->addRoute('index.php', 'Front:Homepage:default', Route::ONE_WAY);
-    $router->addRoute('urllist.txt', 'Mapa:Mapa:urllist', Route::ONE_WAY);
-    $router->addRoute('sitemap.xml', 'Mapa:Mapa:sitemap', Route::ONE_WAY);
     $router->addRoute('clanky/domov', 'Front:Homepage:default', Route::ONE_WAY);
     $router->addRoute('clanky/home', 'Front:Homepage:default', Route::ONE_WAY);
 
