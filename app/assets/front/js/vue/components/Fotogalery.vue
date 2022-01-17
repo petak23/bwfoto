@@ -132,7 +132,7 @@ export default {
     </h4>
   </div>
   <div class="row">
-    <div class="d-none d-sm-inline-block col-sm-8 detail" ref="imgDetail" id="imgDetail">
+    <div class="d-none d-sm-flex justify-content-center col-sm-8 detail" ref="imgDetail" id="imgDetail">
       <div id="squarePlace" v-bind:style="{height: square + 'px', width: square + 'px'}">
         <a  v-if="myatt[id].type == 'menu'"
             :href="myatt[id].web_name" 
@@ -247,7 +247,7 @@ export default {
         <div class="go-to-hight"
             @click.prevent="openmodal2">
         </div>
-        <div class="arrows-r"
+        <div class="arrows-r flex-row-reverse"
             @click="after">
           <a href="#" class="text-light"
               :title="text_after">&#10095;
