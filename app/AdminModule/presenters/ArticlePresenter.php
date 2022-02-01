@@ -11,21 +11,22 @@ use PeterVojtech;
 /**
  * Zakladny presenter pre presentery obsluhujuce polozky hlavneho menu v module ADMIN
  * 
- * Posledna zmena(last change): 16.11.2021
+ * Posledna zmena(last change): 01.02.2022
  *
  * Modul: ADMIN
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.4.8
+ * @version 1.4.9
  */
 abstract class ArticlePresenter extends BasePresenter {
   
   // -- Traity
 //  use PeterVojtech\Clanky\ZobrazKartyPodclankov\zobrazKartyPodclankovTrait;
   use PeterVojtech\Clanky\OdkazNaClanky\odkazNaClankyTrait;
+  use PeterVojtech\Clanky\Fotocollage\fotocollageTrait;
   
   // -- DB
   /** @var DbTable\Clanok_lang @inject*/

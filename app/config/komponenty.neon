@@ -50,6 +50,15 @@ parameters:
       fa_ikonka: 'comments'
       jedinecna: TRUE
       parametre: NULL
+    fotocollage:
+      nazov: 'Foto koláž k článku'
+      jedinecna: FALSE  # Ci je mozne pridat len raz k clanku
+      fa_ikonka: 'images'
+      parametre: null
+#        id_hlavne_menu: 
+#          nazov: 'Id článku'
+#        template:
+#          nazov: 'Názov vzhľadu'
 services:
 
 # Component Clanky\OdkazNaClanky
@@ -57,3 +66,6 @@ services:
 
 # Component Clanky\Fotogalery
   - PeterVojtech\Clanky\Fotogalery\IFotogaleryControl
+
+# Component Clanky\Fotocollage
+  - PeterVojtech\Clanky\Fotocollage\IFotocollageControl
