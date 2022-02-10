@@ -15,7 +15,7 @@
 		}
 	],
 	"require": {
-		"php": ">=7.2",
+		"php": ">=7.4",
 		"nette/application": "^3.1",
 		"nette/bootstrap": "^3.0",
 		"nette/caching": "^3.0",
@@ -27,7 +27,7 @@
 		"nette/mail": "^3.0",
 		"nette/robot-loader": "^3.0",
 		"nette/security": "^3.0",
-		"nette/utils": "^3.0",
+		"nette/utils": "^3.2",
 		"latte/latte": "^2.10",
 		"tracy/tracy": "^2.9",
 		"ublaboo/datagrid": "^6.2",
@@ -38,7 +38,7 @@
 		"contributte/webpack": "^2.0"
 	},
 	"require-dev": {
-		"nette/tester": "^2.2",
+		"nette/tester": "^2.4",
 		"symfony/thanks": "^1"
 	},
   "autoload": {
