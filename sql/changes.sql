@@ -17,7 +17,13 @@ ALTER TABLE `hlavne_menu`
 DROP `poradie_podclankov`;
 
 DELETE FROM `udaje`
-WHERE ((`id` = '8') OR (`id` = '9') OR (`id` = '10') OR (`id` = '11') OR (`id` = '12') OR (`id` = '13') OR (`id` = '15'));*/
+WHERE ((`id` = '8') OR (`id` = '9') OR (`id` = '10') OR (`id` = '11') OR (`id` = '12') OR (`id` = '13') OR (`id` = '15'));
 
 INSERT INTO `hlavne_menu_template` (`name`, `description`)
 VALUES ('BWfoto_foto_collage', 'Koláž fotiek');
+*/
+INSERT INTO `user_resource` (`name`)
+VALUES ('Api:Dokumenty');
+
+INSERT INTO `user_permission` (`id_user_roles`, `id_user_resource`, `actions`)
+VALUES ('0', '29', NULL);

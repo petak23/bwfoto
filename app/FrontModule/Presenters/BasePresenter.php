@@ -552,15 +552,15 @@ abstract class BasePresenter extends Presenter {
     $form->getElementPrototype()->class('form-horizontal'.(strlen($form_class)?" ".$form_class:""));
     $renderer = $form->getRenderer();
     $renderer->wrappers['error']['container'] = 'div class="row"';
-    $renderer->wrappers['error']['item'] = 'div class="col-md-6 col-md-offset-3 alert alert-danger"';
+    $renderer->wrappers['error']['item'] = 'div class="col-md-12 alert alert-danger"';
     $renderer->wrappers['controls']['container'] = NULL;
     $renderer->wrappers['pair']['container'] = 'div class=form-group';
     $renderer->wrappers['pair']['.error'] = 'has-error';
     $renderer->wrappers['pair']['container'] = 'div class="form-group row"';
     $renderer->wrappers['label']['container'] = 'div class="col-12 col-sm-3 control-label"';
     $renderer->wrappers['control']['container'] = 'div class="col-12 col-sm-9 control-field"';
-    $renderer->wrappers['control']['description'] = 'span class="help-block alert alert-info"';
-    $renderer->wrappers['control']['errorcontainer'] = 'span class="help-block alert alert-danger"';
+    $renderer->wrappers['control']['description'] = 'div class="help-block alert alert-info"';
+    $renderer->wrappers['control']['errorcontainer'] = 'div class="help-block alert alert-danger"';
     // make form and controls compatible with Twitter Bootstrap
     
     foreach ($form->getControls() as $control) {

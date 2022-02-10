@@ -11,13 +11,13 @@ use Nette\Application\Routers\RouteList;
 
 /**
  * Router
- * Posledna zmena 08.11.2021
+ * Posledna zmena 03.02.2022
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.3
+ * @version    1.0.4
  */
 class RouterFactory {
 
@@ -64,8 +64,9 @@ class RouterFactory {
       ->addRoute('administration/<presenter>/<action>', 'Homepage:default');
     
     $router->withModule('Api')
-      //->addRoute('api/menu/<action>[/<id>]', 'Menu:default')
-      ->addRoute('api/user/<action>[/<id>]', 'User:default');
+      ->addRoute('api/menu/<action>[/<id>]', 'Menu:default')
+      ->addRoute('api/user/<action>[/<id>]', 'User:default')
+      ->addRoute('api/documents/<action>[/<id>]', 'Dokumenty:default');
 
     $router->withModule('Front')
       ->addRoute('clanky[/<id>]', [

@@ -2,7 +2,7 @@
  *
  * Modul: FRONT
  *
- * Posledna zmena(last change): 01.02.2022
+ * Posledna zmena(last change): 03.02.2022
  * @copyright  Copyright (c) 2021 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
@@ -12,10 +12,11 @@
 <div class="col-12 vue-fotogalery" n:if="$attachments_count > 0">
   <fotocollage
     attachments="{$attachments}"
+    basepath="{$basePath}/"
   ></fotocollage>
 </div>
 
-{* basepath="{$basePath}/"
+{* 
     border_a="{$hlavne_menu->border_a|border_x_vue|noescape}"
     border_b="{$hlavne_menu->border_b|border_x_vue|noescape}"
     border_c="{$hlavne_menu->border_c|border_x_vue|noescape}"

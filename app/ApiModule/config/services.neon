@@ -5,4 +5,6 @@
 # http://nette.org/security-warning
 #
 services:
+  - App\ApiModule\Presenters\DokumentyPresenter(%parameters%)
+  - App\ApiModule\Presenters\MenuPresenter(%parameters%)
   - App\ApiModule\Presenters\UserPresenter(%parameters%)

@@ -17,3 +17,5 @@ if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
 import './pomocne_front.js';
 import './nav-shrink.js';
 import './vue/MainVue.js';
+
+import '../css/main.scss';

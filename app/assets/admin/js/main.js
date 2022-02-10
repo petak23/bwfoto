@@ -42,4 +42,4 @@ jquery(function() {
 
 //import './vue/MainVue.js';
 
-import '../css/main.css';
+import '../css/main.scss';

@@ -3,25 +3,23 @@ namespace App\ApiModule\Presenters;
 
 use DbTable;
 use Nette;
-use Nette\Application\UI;
-use Nette\Http;
-use PeterVojtech;
+//use Nette\Http;
+//use PeterVojtech;
 
 /**
  * Zakladny presenter pre vsetky presentery v module API
  * 
- * Posledna zmena(last change): 28.10.2021
+ * Posledna zmena(last change): 03.02.2022
  *
  * Modul: API
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.0
+ * @version 1.0.1
  */
-abstract class BasePresenter extends UI\Presenter {
-  
+abstract class BasePresenter extends Nette\Application\UI\Presenter {
 
   // -- DB
   /** @var DbTable\Hlavne_menu @inject */
@@ -67,7 +65,7 @@ abstract class BasePresenter extends UI\Presenter {
     // Kontrola prihlasenia a nacitania urovne registracie
     $this->id_reg = ($user->isLoggedIn()) ? $user->getIdentity()->id_user_roles : 0;
     // Kontrola prihlasenia a ACL
-    if (!($this->id_reg > 0 && $user->isAllowed($this->name, $this->action))) { 
+    if (!(/*$this->id_reg > 0 && */$user->isAllowed($this->name, $this->action))) { 
       $this->error("Not allowed");
     }
   }  

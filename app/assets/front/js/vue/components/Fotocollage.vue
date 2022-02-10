@@ -1,16 +1,17 @@
 <script>
 /** 
  * Component Fotocollage
- * Posledná zmena(last change): 01.02.2022
+ * Posledná zmena(last change): 03.02.2022
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.7
+ * @version 1.0.8
  * pouzita kniznica: https://github.com/seanghay/vue-photo-collage
  */
 import { PhotoCollageWrapper } from 'vue-photo-collage'
+import axios from 'axios'
 
 export default {
   components: {
@@ -20,31 +21,50 @@ export default {
     attachments: {
       type: String
     },
+    basepath: String,
   },
   data() {
     return {
       id: 0,
       col_len: 0,
-      min_row: 3,
-      schema: [1, 0, 2],
+      min_row: 2,
+      schema: [1, 0, 3, 2, 1, 4],
       //wid: 0,
       uroven: 0, // Premenná sleduje uroveň zobrazenia
 
       collage: {
         width: "600px",
-        height: [],//"300px", "250px"],
-        layout: [],//4, 3, 5],
+        height: ["250px", "180px", "350px", "150px", "250px", "150px"],
+        layout: [],
         photos: [],
         borderRadius: ".2rem",
-        //showNumOfRemainingPhotos: true,
+        showNumOfRemainingPhotos: true,
       },
+      image: {
+        name: "",
+        main_file: "",
+        description: null
+      }
     }
   },
   methods: {
     itemClickHandler(data, i) {
       // click event
+      //console.log(data.id_foto)
+      var odkaz = this.basepath + '/api/documents/document/' + data.id_foto
+      axios.get(odkaz)
+              .then(response => {
+                //this.items = Object.values(response.data)
+                //this.$store.commit('SET_INIT_ADMIN_MENU', this.convert(response.data))
+                this.image = response.data
+                //console.log(response.data)
+                this.$bvModal.show("modal-multi-1")
+              })
+              .catch((error) => {
+                console.log(odkaz)
+                console.log(error)
+              })
     },
-    // Zmena id
     matchHeight () {
       this.collage.width = this.$refs.imgDetail.clientWidth + 'px';
     },
@@ -84,11 +104,37 @@ export default {
 </script>
 
 <template>
-  <div ref="imgDetail" id="imgDetail"> 
-    <photo-collage-wrapper 
-      gapSize="6px"
-      @itemClick="itemClickHandler"
-      v-bind="collage">
-    </photo-collage-wrapper>
-  </div>
+  <span>
+    <div ref="imgDetail" id="imgDetail"> 
+      <photo-collage-wrapper 
+        gapSize="6px"
+        @itemClick="itemClickHandler"
+        v-bind="collage">
+      </photo-collage-wrapper>
+    </div>
+    <b-modal  id="modal-multi-1" centered size="xl" 
+              :title="image.name" ok-only
+              modal-class="lightbox-img"
+              ref="modal1fo">
+      <div class="modal-content">
+        <div class="modal-body my-img-content">  
+          <img :src="basepath + image.main_file" 
+                :alt="image.name" 
+                id="big-main-img"
+                class="" />
+          <div class="text-center description" v-if="image.description != null">
+            {{ image.description }}
+          </div>
+        </div>
+        
+      </div>
+    </b-modal>
+  </span>
 </template>
+
+<style lang="scss" scoped>
+  img {
+    width: 80vw;
+    height: 80vh;
+  }
+</style>

@@ -9,13 +9,13 @@ use Nette\Security;
 
 /**
  * Formular pre reset hesla
- * Posledna zmena 16.12.2019
+ * Posledna zmena 21.01.2022
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2019 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.7
+ * @version    1.0.8
  */
 class ResetPasswordFormFactory {
   /** @var User */
@@ -24,65 +24,51 @@ class ResetPasswordFormFactory {
   private $texts;
   /** @var DbTable\User_main */
   private $user_main;
+  /** @var Security\Passwords */
+  private $passwords;
 
   /** @param Security\User $user   */
-  public function __construct(Security\User $user, Language_support\LanguageMain $language_main, DbTable\User_main $user_main) {
+  public function __construct(Security\User $user, 
+                              Language_support\LanguageMain $language_main, 
+                              DbTable\User_main $user_main,
+                              Security\Passwords $passwords) {
     $this->user = $user;
     $this->texts = $language_main;
     $this->user_main = $user_main;
+    $this->passwords = $passwords;
 	}
   
   /**
-   * Prihlasovaci formular
-   * @return Nette\Application\UI\Form */
-  public function create(string $language)  {
+   * Prihlasovaci formular s*/
+  public function create(string $language): Form  {
     $this->texts->setLanguage($language);
     $form = new Form();
 		$form->addProtection();
     $form->setTranslator($this->texts);
-//    $form->addProtection();
     $form->addHidden('id');
     $form->addPassword('new_heslo', 'ResetPasswordForm_new_heslo')
          ->setAttribute('autofocus', 'autofocus')
-         ->setHtmlAttribute('size', 0)->setHtmlAttribute('maxlength', 100)
 				 ->setRequired('ResetPasswordForm_new_heslo_sr');
 		$form->addPassword('new_heslo2', 'ResetPasswordForm_new_heslo2')
-         ->setHtmlAttribute('size', 0)->setHtmlAttribute('maxlength', 100)
          ->addRule(Form::EQUAL, 'ResetPasswordForm_new_heslo2_ar', $form['new_heslo'])
-				 ->setRequired('ResetPasswordForm_new_heslo2_sr');
+				 ->setRequired('ResetPasswordForm_new_heslo2_sr')
+         ->setOmitted(); // https://doc.nette.org/cs/3.1/form-presenter#toc-validacni-pravidla;
 		$form->addSubmit('uloz', 'base_save');
     $form->onValidate[] = [$this, 'validateResetForm'];
     $form->onSuccess[] = [$this, 'userPasswordResetFormSubmitted'];
 		return $form;
 	}
   
-  /** Vlastná validácia
-   * @param Nette\Application\UI\Form $button */
-  public function validateResetForm($button) {
-    $values = $button->getForm()->getValues();
-    if ($button->isSubmitted()->name == 'uloz') {
-      if ($values->new_heslo != $values->new_heslo2) {
-        $button->addError($this->texts->translate('reset_pass_hesla_err'));
-      }
-    } 
-  }
-  
   /** 
-   * Overenie po odoslani
-   * @param Nette\Forms\Controls\SubmitButton $button Data formulara */
-  public function userPasswordResetFormSubmitted($button) {
-    $values = $button->getForm()->getValues(); //Nacitanie hodnot formulara
-		if ($values->new_heslo != $values->new_heslo2) {
-      $button->addError($this->texts->translate('reset_pass_hesla_err'));
-		} else {
-      //Vygeneruj kluc pre zmenu hesla
-      $new_password = Security\Passwords::hash($values->new_heslo);
-      unset($values->new_heslo, $values->new_heslo2); //Len pre istotu
-      try {
-        $this->user_main->find($values->id)->update(['password'=>$new_password, 'new_password_key'=>NULL, 'new_password_requested'=>NULL]);
-      } catch (Exception $e) {
-        $button->addError($e->getMessage());
-      }
+   * Overenie po odoslani */
+  public function userPasswordResetFormSubmitted(Form $form, $values) {
+    //Vygeneruj kluc pre zmenu hesla
+    $new_password = $this->passwords->hash($values->new_heslo);
+    unset($values->new_heslo, $values->new_heslo2); //Len pre istotu
+    try {
+      $this->user_main->find($values->id)->update(['password'=>$new_password, 'new_password_key'=>NULL, 'new_password_requested'=>NULL]);
+    } catch (Exception $e) {
+      $form->addError($e->getMessage());
     }
 	}
 }
