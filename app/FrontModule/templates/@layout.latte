@@ -4,8 +4,8 @@
  *
  *	Modul: FRONT
  *
- * Posledna zmena(last change): 02.12.2021
- * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
+ * Posledna zmena(last change): 10.02.2022
+ * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
  *
@@ -67,7 +67,11 @@
               <span aria-hidden="true">&times;</span>
             </button>
             <i n:if="$fa_code" class="{$fa_code}"></i>
-            {if isset($nees[1]) && $nees[1] == 'n'}{_$flash->message|noescape}{else}{_$flash->message}{/if}
+            {if isset($nees[1]) && $nees[1] == 'n'}
+              {_$flash->message|noescape}
+            {else}
+              {_$flash->message}
+            {/if}
           </div>
         </div>
       </div>

@@ -5,6 +5,7 @@ namespace App\FrontModule\Forms\UserLog;
 
 use DbTable;
 use Language_support;
+use Nette;
 use Nette\Application\UI\Form;
 use Nette\Database\Table;
 use Nette\Security;
@@ -13,29 +14,37 @@ use PeterVojtech\News_key;
 
 /**
  * Formular editacie prihlaseneho uzivatela
- * Posledna zmena 19.05.2020
+ * Posledna zmena 10.02.2022
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.7
+ * @version    1.0.8
  */
 class UserEditFormFactory {
   /** @var Language_support\LanguageMain */
   private $texts;
+
   /** @var DbTable\User_profiles */
   public $user_profiles;
+  
   /** @var DbTable\User_main */
   public $user_main;
+  
   /** @var Nette\Security\User */
   public $user;
+  
   /** @var string */
   private $wwwDir;
+  
   /** @var string */
   private $avatar_path;
+  
   /** @var Table\ActiveRow|FALSE */
   private $clen;
+  /** @var News_key\NewsKeyControl */
+  private $news_key;
 
   /**
    * @param Security\User $user
@@ -45,11 +54,13 @@ class UserEditFormFactory {
   public function __construct(Security\User $user, 
                               Language_support\LanguageMain $language_main, 
                               DbTable\User_profiles $user_profiles, 
-                              DbTable\User_main $user_main) {
+                              DbTable\User_main $user_main,
+                              News_key\NewsKeyControl $news_key) {
     $this->user = $user;
     $this->texts = $language_main;
     $this->user_profiles = $user_profiles;
     $this->user_main = $user_main;
+    $this->news_key = $news_key;
 	}
 
   /**
@@ -58,10 +69,10 @@ class UserEditFormFactory {
    * @param string $basePath
    * @param Nette\Database\Table\ActiveRow $clen
    * @return Form  */
-  public function create(array $nastavenie, string $basePath, Table\ActiveRow $clen, string $language)  {
+  public function create(array $nastavenie, string $basePath, string $language): Form  {
     $this->wwwDir = $nastavenie["wwwDir"];
-    $this->clen = $clen;
-    $this->avatar_path = $nastavenie["dir_to_user"].$this->clen->id."/";
+    $this->clen = $this->user_main->find($this->user->getIdentity()->id);
+    $this->avatar_path = $nastavenie["dir_to_user"].$this->user->getIdentity()->id."/";
     $this->texts->setLanguage($language);
     $form = new Form();
 		$form->addProtection();
@@ -102,37 +113,35 @@ class UserEditFormFactory {
 	}
   
   /** 
-   * Spracovanie formulara
-   * @param \Nette\Forms\Controls\SubmitButton $button Data formulara */
-	public function userEditFormSubmitted(\Nette\Forms\Controls\SubmitButton $button) {
-    $form = $button->getForm();
-    $values = $form->getValues(TRUE); 	//Nacitanie hodnot formulara
-		$id = $values['id']; // Ak je == 0 tak sa pridava
-    $news = isset($values['news']) ? $values['news'] : FALSE;
-    $pohl = isset($values['pohl']) ? $values['pohl'] : 'M';
+   * Spracovanie formulara */
+	public function userEditFormSubmitted(Form $form, $values): void {
+		$id = $values->id;
+    $news = isset($values->news) ? $values->news : false;
+    $pohl = isset($values->pohl) ? $values->pohl : null;
     try {
-      $this->_saveAvatar($values['avatar'], $values['id']);
-      unset($values['id'], $values['avatar'], $values['news'], $values['pohl']);
-      $uloz = $this->user_main->uloz($values, $id);
-      $this->user_profiles->uloz(['pohl'=>$pohl], $uloz['id_user_profiles']); 
+      if (isset($values->avatar) && $values->avatar != null) {
+        $this->_saveAvatar($values->avatar, $id);
+      }
+      unset($values->id, $values->avatar, $values->news, $values->pohl);
+      $this->user_main->uloz($values, $id);
+      if ($pohl != null) $this->user_profiles->uloz(['pohl'=>$pohl], $this->user->getIdentity()->id_user_profiles); 
       if (isset($uloz['id']) && $this->clen->user_profiles->news != $news) { //Ak doslo k zmene v posielani noviniek
-        $news_key = new News_key\NewsKeyControl($this->user_profiles, $this->user);
-        $news_key->Spracuj($news == "A", $id);
+        $this->news_key->Spracuj($news == "A", $id);
       } 
     } catch (Security\AuthenticationException $e) {
-      $button->addError($e->getMessage());
+      $form->addError($e->getMessage());
     } catch (Utils\ImageException $e) {
       $form['avatar']->addError($e->getMessage());
-      $button->addError();
+      $form->addError();
     }
 	}
   
   /**
    * Funkcia pre ulozenie avatara
-   * @param \Nette\Http\FileUpload $avatar
+   * @param Nette\Http\FileUpload $avatar
    * @param string $id
    * @throws Utils\ImageException */
-  protected function _saveAvatar(\Nette\Http\FileUpload $avatar, string $id) {
+  protected function _saveAvatar(Nette\Http\FileUpload $avatar, string $id) {
     if ($avatar->hasFile()) {
       if ($avatar->isImage()){
         $avatar_path = "files/".$id."/";

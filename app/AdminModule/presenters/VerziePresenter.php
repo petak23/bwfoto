@@ -4,19 +4,18 @@ namespace App\AdminModule\Presenters;
 use App\AdminModule\Forms\Verzie;
 use PeterVojtech\Email;
 
-
 /**
  * Prezenter pre spravu verzii.
  * 
- * Posledna zmena(last change): 05.10.2018
+ * Posledna zmena(last change): 31.01.2022
  *
  *	Modul: ADMIN
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.5
+ * @version 1.1.7
  */
 class VerziePresenter extends BasePresenter {
   
@@ -25,7 +24,7 @@ class VerziePresenter extends BasePresenter {
 	public $editVerzieForm;
   
   // -- Components
-  /** @var Email\IEmailControl @inject */
+  /** @var Email\EmailControl @inject */
   public $emailControl;
   
 	public function renderDefault()	{
@@ -41,8 +40,8 @@ class VerziePresenter extends BasePresenter {
   /** 
    * Akcia pre editaciu verzie
    * @param int $id Id editovanej verzie */
-	public function actionEdit($id)	{
-    if (($verzia = $this->verzie->find($id)) === FALSE) {
+	public function actionEdit(int $id)	{
+    if (($verzia = $this->verzie->find($id)) === null) {
       $this->setView('notFound');
     } else {
       $this->template->h2 = 'Editácia verzie: '.$verzia->cislo;
@@ -81,9 +80,10 @@ class VerziePresenter extends BasePresenter {
                 "odkaz" 		=> $this->link("Verzie:default"),
               ];
     try {
-      $send = $this->emailControl->create()->nastav(__DIR__.'/../templates/Verzie/verzie-html.latte', 1, 4);
-      $this->flashMessage('E-mail bol odoslany v poriadku na emaily: '.$send->send($params, 'Nová verzia stránky '.$this->nazov_stranky), 'success');
-    } catch (Exception $e) {
+      $send = $this->emailControl->nastav(__DIR__.'/../templates/Verzie/verzie-html.latte', 1, 4)
+                                 ->send($params, 'Nová verzia stránky');                                           
+      $this->flashMessage('E-mail bol odoslany v poriadku na emaily: '.$send, 'success');
+    } catch (Email\SendException $e) {
       $this->flashMessage($e->getMessage(), 'danger');
     }
 		$this->redirect('this');

@@ -62,3 +62,4 @@ services:
       nastavenie: %user_panel%
 
   - PeterVojtech\MainLayout\GoogleAnalytics\IGoogleAnalyticsControl
+  - PeterVojtech\News_key\NewsKeyControl

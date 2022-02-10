@@ -3,23 +3,22 @@ namespace App\FrontModule\Presenters;
 
 use App\FrontModule\Forms\User;
 use DbTable;
-use Latte;
-use Nette\Mail\Message;
-use Nette\Mail\SendmailMailer;
+use Nette\Application\UI\Form;
 use Nette\Security\Passwords;
 use Nette\Utils\Random;
+use PeterVojtech\Email;
 
 /**
  * Prezenter pre prihlasenie, registraciu a aktiváciu uzivatela, obnovenie zabudnutého hesla a zresetovanie hesla.
- * Posledna zmena(last change): 09.09.2020
+ * Posledna zmena(last change): 10.02.2022
  *
  *	Modul: FRONT
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.2.3
+ * @version 1.2.6
  */
 class UserPresenter extends BasePresenter {
 	
@@ -30,28 +29,55 @@ class UserPresenter extends BasePresenter {
 	public $user_profiles;                       
   
   // -- Forms
+  /** @var User\SignInFormFactory @inject*/
+  public $signInForm;
   /** @var User\RegisterFormFactory @inject*/
 	public $registerForm;
   /** @var User\ResetPasswordFormFactory @inject*/
 	public $resetPasswordForm;
   /** @var User\ForgottenPasswordFormFactory @inject*/
 	public $forgottenPasswordForm;
-  
-  /** @var mix */
-  private $clen;
+ 
+  /** @var Passwords */
+  private $passwords;
+
+  /** @var Email\EmailControl @inject */
+  public $myMailer;
 
   /** @var array Nastavenie zobrazovania volitelnych poloziek */
   private $user_view_fields;
+
+  public function __construct($parameters, Passwords $passwords) {
+    parent::__construct($parameters);
+    $this->user_view_fields = $parameters['user_view_fields'];
+    $this->passwords = $passwords;
+	}
   
-  protected function startup() {
+	protected function startup(): void {
     parent::startup();
     //Test prihlásenia
     if ($this->user->isLoggedIn()) { 
       $this->flashRedirect('Homepage:', $this->texty_presentera->translate('base_loged_in_bad'), 'danger');
     }
-    $this->clen = $this->user_main->find(1);  //Odosielatel e-mailu
-    $this->user_view_fields = $this->nastavenie['user_view_fields'];
 	}
+
+  /** 
+   * Formular pre prihlasenie uzivatela.
+   * @return Nette\Application\UI\Form */
+  protected function createComponentSignInForm() {
+    $form = $this->signInForm->create($this->language);
+    $form['login']->onClick[] = function () {
+      $useri = $this->user->getIdentity();
+      $this->myMailer->sendAdminMail("Prihlásenie", "Prihlásenie užívateľa:".$useri->meno." ". $useri->priezvisko);
+      $this->flashMessage('base_login_ok', 'success');
+      $this->restoreRequest($this->backlink);
+      $this->redirect('Homepage:');
+    };
+    $form['forgottenPassword']->onClick[] = function ($button) {
+      $this->redirect('User:forgottenPassword', [$button->getForm()->getHttpData()["email"]]);
+    };
+    return $this->_vzhladForm($form);
+  }
 
   /** Akcia pre registráciu nového uzivatela */
   public function actionRegistracia(): void {
@@ -67,14 +93,13 @@ class UserPresenter extends BasePresenter {
   public function actionActivateUser(int $id, string $new_password_key): void {
     $user_main_data = $this->user_main->find($id); // Najdi uzivatela
     if ($new_password_key == $user_main_data->new_password_key){ //Aktivacne data su v poriadku
-      try {
-        $user_main_data->update(['id_user_roles'=>1, 'activated'=>1, 'new_password_key'=>NULL]); // Aktivacia uzivatela
-				$this->user_profiles->uloz(['news'=>'A', 'news_key'=>Passwords::hash($user_main_data->email."news=>A")], $user_main_data->id_user_profiles);	// Zapnutie posielania noviniek pri aktivacii
-        $this->flashRedirect('User:', $this->texty_presentera->translate('activate_ok'), 'success');
-      } catch (Exception $e) {
-        $this->flashMessage($this->texty_presentera->translate('activate_err1').$e->getMessage(), 'danger,n');
-      }
-    } else { $this->flashMessage($this->texty_presentera->translate('activate_err2'), 'danger'); } //Neuspesna aktivacia
+      $user_main_data->update(['id_user_roles'=>1, 'activated'=>1, 'new_password_key'=>NULL]); // Aktivacia uzivatela
+      $this->myMailer->sendAdminMail("Aktivácia", "Aktivácia užívateľa:".$user_main_data->meno." ". $user_main_data->priezvisko);
+      $this->user_profiles->uloz(['news'=>'A', 'news_key'=>$this->passwords->hash($user_main_data->email."news=>A")], $user_main_data->id_user_profiles);	// Zapnutie posielania noviniek pri aktivacii
+      $this->flashRedirect('User:', $this->texty_presentera->translate('activate_ok'), 'success');
+    } else { //Neuspesna aktivacia
+      $this->flashMessage($this->texty_presentera->translate('activate_err2'), 'danger'); 
+    } 
     $this->redirect('Homepage:');
   }
 
@@ -107,18 +132,16 @@ class UserPresenter extends BasePresenter {
 	}
 
   /** 
-   * Spracovanie reistracneho formulara
-   * @param Nette\Application\UI\Form $button Data formulara */
-  public function userRegisterFormSubmitted($button) {
+   * Spracovanie reistracneho formulara */
+  public function userRegisterFormSubmitted(Form $form, $values): void {
 		// Inicializacia
-    $values = $button->getForm()->getValues(); 	//Nacitanie hodnot formulara
     $new_password_key = Random::generate(25);
     if (($uloz_user_profiles = $this->user_profiles->uloz(['pohl' => isset($values->pohl) ? $values->pohl : 'Z'])) !== FALSE) { //Ulozenie v poriadku
       $uloz_user_main = $this->user_main->uloz([ 
         'id_user_profiles' => $uloz_user_profiles['id'],
         'meno'      => $values->meno,
         'priezvisko'=> $values->priezvisko,
-        'password'  => Passwords::hash($values->heslo),
+        'password'  => $this->passwords->hash($values->heslo),
         'email'     => $values->email,
         'activated' => 0,
         'created'   => StrFTime("%Y-%m-%d %H:%M:%S", Time()),
@@ -126,7 +149,6 @@ class UserPresenter extends BasePresenter {
    }
    if ($uloz_user_main !== FALSE) { //Ulozenie v poriadku
       $this->flashMessage($this->texty_presentera->translate('base_save_ok'), 'success');
-      $templ = new Latte\Engine;
       $params = [
         "site_name" => $this->nazov_stranky,
         "nadpis"    => sprintf($this->texty_presentera->translate('email_activate_nadpis'),$this->nazov_stranky),
@@ -136,20 +158,21 @@ class UserPresenter extends BasePresenter {
         "nazov"     => $this->texty_presentera->translate('register_aktivacia'),
         "odkaz" 		=> 'http://'.$this->nazov_stranky.$this->link("User:activateUser", $uloz_user_main['id'], $new_password_key),
       ];
-      $mail = new Message;
-      $mail->setFrom($this->nazov_stranky.' <'.$this->clen->email.'>')
-           ->addTo($values->email)->setSubject($this->texty_presentera->translate('register_aktivacia'))
-           ->setHtmlBody($templ->renderToString(__DIR__ . '/../templates/User/email_activate-html.latte', $params));
       try {
-        $sendmail = new SendmailMailer;
-        $sendmail->send($mail);
+        $this->myMailer->sendMail(1, $values->email, $this->texty_presentera->translate('register_aktivacia'), null, $params, __DIR__ . '/../templates/User/email_activate-html.latte');
+
         $this->user_main->find($uloz_user_main['id'])->update(['new_password_key'=>$new_password_key]);
         $this->flashMessage($this->texty_presentera->translate('register_email_ok'), 'success');
-      } catch (Exception $e) {
+        $this->myMailer->sendAdminMail("Registrácia", "Registrácia užívateľa:".$uloz_user_main->meno." ". $uloz_user_main->priezvisko);
+      } catch (Email\SendException $e) {
         $this->flashMessage($this->texty_presentera->translate('send_email_err').$e->getMessage(), 'danger,n');
       }
       $this->redirect('Homepage:');
     } else { $this->flashMessage($this->texty_presentera->translate('register_save_err'), 'danger');}	//Ulozenie sa nepodarilo
+  }
+
+  public function actionForgottenPassword(string $email = "") {
+    $this["forgottenPasswordForm"]->setDefaults(["email"=>$email]);
   }
 
   /**
@@ -165,13 +188,12 @@ class UserPresenter extends BasePresenter {
   /** 
    * Spracovanie formulara zabudnuteho hesla
    * @param Nette\Application\UI\Form $button Data formulara */
-  public function forgotPasswordFormSubmitted($button) {
+  public function forgotPasswordFormSubmitted(Form $form, $values) {
 		//Inicializacia
-    $values = $button->getForm()->getValues();                 //Nacitanie hodnot formulara
-    $new_password_requested = StrFTime("%Y-%m-%d %H:%M:%S", Time());
+    $user_info = $this->user_main->findOneBy(['email'=>$values->email]);
+ 
     $new_password_key = Random::generate(25);
-    if (($user_id = $this->user_main->findIdBy(['email'=>$values->email]))) { //Overenie existencie uzivatela
-      $templ = new Latte\Engine;
+    if (isset($user_info->email) && $user_info->email == $values->email) { //Taky uzivatel existuje
       $params = [
         "site_name" => $this->nazov_stranky,
         "nadpis"    => sprintf($this->texty_presentera->translate('email_reset_nadpis'),$this->nazov_stranky),
@@ -179,18 +201,15 @@ class UserPresenter extends BasePresenter {
         "email_nefunkcny_odkaz" => $this->texty_presentera->translate('email_nefunkcny_odkaz'),
         "email_pozdrav" => $this->texty_presentera->translate('email_pozdrav'),
         "nazov"     => $this->texty_presentera->translate('forgot_pass'),
-        "odkaz" 		=> 'http://'.$this->nazov_stranky.$this->link("User:resetPassword", $user_id, $new_password_key),
+        "odkaz" 		=> 'http://'.$this->nazov_stranky.$this->link("User:resetPassword", $user_info->id, $new_password_key),
       ];
-      $mail = new Message;
-      $mail->setFrom($this->nazov_stranky.' <'.$this->clen->email.'>')
-           ->addTo($values->email)->setSubject($this->texty_presentera->translate('forgot_pass'))
-           ->setHtmlBody($templ->renderToString(__DIR__ . '/../templates/User/forgot_password-html.latte', $params));
       try {
-        $sendmail = new SendmailMailer;
-        $sendmail->send($mail);
-        $this->user_main->find($user_id)->update(['new_password_key'=>$new_password_key, 'new_password_requested'=>$new_password_requested]);
+        $this->myMailer->sendMail(1, $values->email, $this->texty_presentera->translate('forgot_pass'), null, $params, __DIR__ . '/../templates/User/forgot_password-html.latte');
+        $user_forg = $this->user_main->find($user_info->id);
+        $user_forg->update(['new_password_key'=>$new_password_key, 'new_password_requested'=>StrFTime("%Y-%m-%d %H:%M:%S", Time())]);
         $this->flashMessage($this->texty_presentera->translate('forgot_pass_email_ok'), 'success');
-      } catch (Exception $e) {
+        $this->myMailer->sendAdminMail("Zabudnuté heslo", "Požiadavka na zabudnuté heslo užívateľa:".$user_forg->meno." ". $user_forg->priezvisko);
+      } catch (Email\SendException $e) {
         $this->flashMessage($this->texty_presentera->translate('send_email_err').$e->getMessage(), 'danger,n');
       }
       $this->redirect('Homepage:');
@@ -204,12 +223,8 @@ class UserPresenter extends BasePresenter {
 	 * @return Nette\Application\UI\Form */
 	protected function createComponentResetPasswordForm() {
     $form = $this->resetPasswordForm->create($this->language);  
-    $form['uloz']->onClick[] = function ($form) {
-      if (!count($form->errors)){
-        $this->flashRedirect('User:', $this->texty_presentera->translate('reset_pass_ok'), 'success');
-      } else {
-        $this->flashRedirect('Homepage:', $this->texty_presentera->translate('reset_pass_err').$form->errors[0], 'danger,n');
-      }
+    $form->onSuccess[] = function ($form) {
+      $this->flashRedirect('User:', $this->texty_presentera->translate('reset_pass_ok'), 'success');
 		};
 		return $this->_vzhladForm($form);
 	}
@@ -223,6 +238,7 @@ class UserPresenter extends BasePresenter {
     if ($user_for_unsubscribe !== FALSE && $user_for_unsubscribe->user_profiles->news_key == $news_key) {
       $user_for_unsubscribe->user_profiles->update(['news'=>"N", 'news_key'=>NULL]);
       $this->flashMessage(sprintf($this->texty_presentera->translate('unsubscribe_news_ok'), $user_for_unsubscribe->email), 'success');
+      $this->myMailer->sendAdminMail("Zrušenie noviniek", "Odhlásenie z noviniek užívateľa:".$user_for_unsubscribe->meno." ". $user_for_unsubscribe->priezvisko);
     } else {
       $this->flashMessage($this->texty_presentera->translate('unsubscribe_news_err'), 'danger');
     }

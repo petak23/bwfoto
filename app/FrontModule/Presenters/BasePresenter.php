@@ -2,10 +2,12 @@
 namespace App\FrontModule\Presenters;
 
 use App\FrontModule\Forms\User;
+use App\FrontModule\Components;
 use DbTable;
 use Language_support;
 use Nette\Application\UI\Multiplier;
 use Nette\Application\UI\Presenter;
+use Nette\Forms;
 use Nette\Http;
 use Nette\Utils\Html;
 use Nette\Utils\Strings;
@@ -15,15 +17,15 @@ use Texy;
 /**
  * Zakladny presenter pre vsetky presentery vo FRONT module
  * 
- * Posledna zmena(last change): 02.12.2021
+ * Posledna zmena(last change): 10.02.2022
  *
  *	Modul: FRONT
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link      http://petak23.echo-msz.eu
- * @version 1.6.4
+ * @version 1.6.8
  */
 abstract class BasePresenter extends Presenter {
   
@@ -56,28 +58,23 @@ abstract class BasePresenter extends Presenter {
   public $texty_presentera;
   
   // -- Komponenty
-  /** @var \App\FrontModule\Components\Slider\ISliderControl @inject */
+  /** @var Components\Slider\ISliderControl @inject */
   public $sliderControlFactory;
-  /** @var \App\FrontModule\Components\User\IKontaktControl @inject */
+  /** @var Components\User\IKontaktControl @inject */
   public $kontaktControlFactory;
-  /** @var \App\FrontModule\Components\User\UserMenu\IUserMenuControl @inject */
+  /** @var Components\User\UserMenu\IUserMenuControl @inject */
   public $userMenuControlFactory;
-  /** @var \App\FrontModule\Components\Lang\LangMenu\ILangMenuControl @inject */
+  /** @var Components\Lang\LangMenu\ILangMenuControl @inject */
   public $langMenuControlFactory;
-  /** @var \App\FrontModule\Components\News\INewsControl @inject */
+  /** @var Components\News\INewsControl @inject */
   public $newsControlFactory;
-  /** @var \App\FrontModule\Components\Clanky\ZobrazClanok\IZobrazClanokControl @inject */
+  /** @var Components\Clanky\ZobrazClanok\IZobrazClanokControl @inject */
   public $zobrazClanokControlFactory;
-  /** @var \App\FrontModule\Components\Clanky\IAktualneClankyControl @inject */
+  /** @var Components\Clanky\IAktualneClankyControl @inject */
   public $aktualneClankyControlFactory;
   
-  /** @var \App\FrontModule\Components\Autocomplete\IAutocompleteControl @inject */
+  /** @var Components\Autocomplete\IAutocompleteControl @inject */
   public $autocompleteControlFactory;
-
-  // -- Forms
-  /** @var User\SignInFormFactory @inject*/
-  public $signInForm;
-
 
   /** @var string Skratka aktualneho jazyka 
    * @persistent */
@@ -124,7 +121,6 @@ abstract class BasePresenter extends Presenter {
     parent::startup();
     // Kontrola prihlasenia a nacitania urovne registracie
     $this->id_reg = ($this->user->isLoggedIn()) ? ($this->user->getIdentity()->id_user_roles === NULL ? 0 : $this->user->getIdentity()->id_user_roles) : 0;
-    
     $modul_presenter = explode(":", $this->name);
 
     // Nastav jazyk
@@ -152,7 +148,7 @@ abstract class BasePresenter extends Presenter {
     $this->max_id_reg = $this->user_roles->findAll()->max('id');//Najdi max. ur. reg.
     //Najdi info o druhu
     $tmp_druh = $this->druh->findBy(["druh.presenter"=>ucfirst($this->udaje_webu['meno_presentera'])])
-                            ->where("druh.modul IS NULL OR druh.modul = ?", $modul_presenter[0])->limit(1)->fetch();
+                           ->where("druh.modul IS NULL OR druh.modul = ?", $modul_presenter[0])->limit(1)->fetch();
     if ($tmp_druh !== null) {
       if ($tmp_druh->je_spec_naz) { //Ak je spec_nazov pozadovany a mam id
         $hl_udaje = $this->hlavne_menu->hladaj_id(isset($this->params['id']) ? (int)trim($this->params['id']) : 0, $this->id_reg);
@@ -163,7 +159,7 @@ abstract class BasePresenter extends Presenter {
     if ($hl_udaje !== null) { //Ak sa hl. udaje nasli
       //Nacitanie textov hl_udaje pre dany jazyk 
       $lang_hl_udaje = $this->hlavne_menu_lang->findOneBy(['lang.skratka'=>$this->language, 
-                                                          'id_hlavne_menu'=>$hl_udaje->id]);
+                                                           'id_hlavne_menu'=>$hl_udaje->id]);
       if ($lang_hl_udaje !== null){ //Nasiel som udaje a tak aktualizujem
         $this->udaje_webu["nazov"] = $lang_hl_udaje->menu_name;
         $this->udaje_webu["h1part2"] = $lang_hl_udaje->h1part2;
@@ -179,9 +175,9 @@ abstract class BasePresenter extends Presenter {
 
   /** 
    * Komponenta pre vykreslenie menu
-   * @return \App\FrontModule\Components\Menu\Menu */
+   * @return Components\Menu\Menu */
   public function createComponentMenu() {
-    $menu = new \App\FrontModule\Components\Menu\Menu;
+    $menu = new Components\Menu\Menu;
     $menu->setTextTitleImage($this->texty_presentera->translate("base_text_title_image"));
     $hl_m = $this->hlavne_menu->getMenuFront($this->language);
     if (count($hl_m)) {
@@ -196,11 +192,11 @@ abstract class BasePresenter extends Presenter {
         $rna = $row['node']->absolutna;
         if ($rna !== NULL) {
           $node->link = strpos($rna, 'http') !== FALSE ? $rna 
-                                                      : (count($p = explode(" ", $rna)) == 2 ? $servise->link($p[0], ["id"=>$p[1]]) 
+                                                       : (count($p = explode(" ", $rna)) == 2 ? $servise->link($p[0], ["id"=>$p[1]])
                                                                                               : $servise->link($p[0]));
         } else {
           $node->link = is_array($row['node']->link) ? $servise->link($row['node']->link[0], ["id"=>$row['node']->id]) 
-                                                    : $servise->link($row['node']->link);
+                                                     : $servise->link($row['node']->link);
         }
         return $row['nadradena'] ? $row['nadradena'] : null;
       });
@@ -227,10 +223,9 @@ abstract class BasePresenter extends Presenter {
     $this->template->nastavenie = $this->nastavenie;
     $this->template->text_title_image = $this->texty_presentera->translate("base_text_title_image");
 		$this->template->article_avatar_view_in = $this->nastavenie["article_avatar_view_in"];
-    $this->template->omrvinky_enabled = $this->nastavenie["omrvinky_enabled"];
     $this->template->view_log_in_link_in_header = $this->nastavenie['user_panel']["view_log_in_link_in_header"];
     $this->template->fa = [
-      'success' => 'far fa-check-circle',
+      'success' => 'fas fa-check-circle',
       'warning' => 'fas fa-exclamation-triangle',
       'info'    => 'fas fa-info-circle',
       'danger'  => 'fas fa-exclamation-circle',
@@ -300,8 +295,8 @@ abstract class BasePresenter extends Presenter {
         if (($p_zac = strpos($text, $z_zac)) !== FALSE && ($p_kon = strpos($text, $z_kon)) !== FALSE && $p_zac < $p_kon) { //Ak som našiel začiatok a koniec a sú v správnom poradí
           $text = substr($text, 0, $p_zac) //Po zaciatocnu zancku
                   .(($p_alt = strpos($text, $z_alt)) === FALSE ? // Je alternativa
-                    ($i < $id_user_roles ? substr($text, $p_zac+strlen($z_zac), $p_kon-$p_zac-strlen($z_zac)) : '') : // Bez alternativy
-                    ($i < $id_user_roles ? substr($text, $p_zac+strlen($z_zac), $p_alt-$p_zac-strlen($z_zac)) : substr($text, $p_alt+strlen($z_alt), $p_kon-$p_alt-strlen($z_alt))))// S alternativou
+                   ($i < $id_user_roles ? substr($text, $p_zac+strlen($z_zac), $p_kon-$p_zac-strlen($z_zac)) : '') : // Bez alternativy
+                   ($i < $id_user_roles ? substr($text, $p_zac+strlen($z_zac), $p_alt-$p_zac-strlen($z_zac)) : substr($text, $p_alt+strlen($z_alt), $p_kon-$p_alt-strlen($z_alt))))// S alternativou
                   .substr($text, $p_kon+strlen($z_kon)); //Od koncovej znacky
         } 
       }
@@ -310,7 +305,7 @@ abstract class BasePresenter extends Presenter {
     $this->template->addFilter('vytvor_odkaz', function ($row) use($servise){
       return isset($row->absolutna) ? $row->absolutna :
                           (isset($row->spec_nazov) ? $servise->link($row->druh->presenter.':default',$row->spec_nazov)
-                                                  : $servise->link($row->druh->presenter.':default'));
+                                                   : $servise->link($row->druh->presenter.':default'));
     });
     $this->template->addFilter('menu_mutacia_nazov', function ($id) use($servise){
       $pom = $servise->hlavne_menu_lang->findOneBy(['id_hlavne_menu'=>$id, 'id_lang'=>$servise->language_id]);
@@ -344,7 +339,6 @@ abstract class BasePresenter extends Presenter {
     $this->id_reg = 0;    
 		$this->flashRedirect('Homepage:', $this->texty_presentera->translate('base_log_out_mess'), 'success');
 	}
-
   /** 
    * Signal prepinania jazykov
    * @param string $language skratka noveho jazyka */
@@ -358,22 +352,14 @@ abstract class BasePresenter extends Presenter {
     $this->redirect('this');
 	}
   
-  /** 
-   * Komponenta pre výpis css a js súborov
-   * @return \PeterVojtech\Base\CssJsFilesControl */
-  /*public function createComponentFiles() {
-    return new PeterVojtech\Base\CssJsFilesControl($this->nastavenie['web_files'], $this->name, $this->action);
-  }*/
-  
   /**
    * Vytvorenie komponenty pre menu uzivatela
-   * @return \App\FrontModule\Components\User\UserMenu */
+   * @return Components\User\UserMenu */
   public function createComponentUserMenu() {
     $ulm = $this->userMenuControlFactory->create();
     $ulm->setLanguage($this->language)->setStoreRequest($this->storeRequest());
     return $ulm;
   }
-
   /**
    * Vytvorenie komponenty pre panel jazykov
    * @return \App\FrontModule\Components\Lang\LangMenu */
@@ -385,7 +371,7 @@ abstract class BasePresenter extends Presenter {
   
   /**
    * Vytvorenie komponenty pre doplňovanie pri vyhľadávaní
-   * @return \App\FrontModule\Components\Autocomplete\AutocompleteControl */
+   * @return Components\Autocomplete\AutocompleteControl */
   public function createComponentAutocomplete() {
     $autocomplete = $this->autocompleteControlFactory->create();
     $autocomplete->setLanguage($this->language);
@@ -419,7 +405,7 @@ abstract class BasePresenter extends Presenter {
   
   /** 
    * Vytvorenie komponenty slideru
-   * @return \App\FrontModule\Components\Slider\Slider */
+   * @return Components\Slider\Slider */
 	public function createComponentSlider() {
     return $this->sliderControlFactory->create();
 	}
@@ -450,7 +436,7 @@ abstract class BasePresenter extends Presenter {
   
   /** 
    * Vytvorenie komponenty pre vypisanie aktualnych oznamov
-   * @return \App\FrontModule\Components\Oznam\AktualneOznamyControl */
+   * @return Components\Oznam\AktualneOznamyControl */
 	public function createComponentAktualne() {
     $aktualne = $this->aktualneOznamyControlFactory->create();
     $aktualne->setNastavenie($this->context->parameters['oznam']);
@@ -459,7 +445,7 @@ abstract class BasePresenter extends Presenter {
   
   /** 
    * Komponenta pre zobrazenie aktualnych clankov 
-   * @return \App\FrontModule\Components\Clanky\AktualneClankyControl */
+   * @return Components\Clanky\AktualneClankyControl */
   public function createComponentAktualneClanky() {
     $aktualne_clanky = $this->aktualneClankyControlFactory->create();
     $aktualne_clanky->setLanguage($this->language);
@@ -469,7 +455,7 @@ abstract class BasePresenter extends Presenter {
   
   /** 
    * Komponenta pre zobrazenie noviniek
-   * @return \App\FrontModule\Components\News\INewsControl */
+   * @return Components\News\INewsControl */
   public function createComponentNews() {
     $news = $this->newsControlFactory->create();
     $news->setLanguage($this->language);
@@ -477,7 +463,7 @@ abstract class BasePresenter extends Presenter {
   }
   
   /** Komponenta pre vypis kontaktneho formulara
-   * @return \App\FrontModule\Components\User\KontaktControl */
+   * @return Components\User\KontaktControl */
 	public function createComponentKontakt() {
     $spravca = $this->user_main->findOneBy(["user_roles.role" => "manager"]);
 		$kontakt = $this->kontaktControlFactory->create();
@@ -486,31 +472,14 @@ abstract class BasePresenter extends Presenter {
             ->setNazovStranky($this->nazov_stranky);
 		return $kontakt;	
 	}
-  /** 
-   * Formular pre prihlasenie uzivatela.
-   * @return Nette\Application\UI\Form */
-  protected function createComponentSignInForm() {
-    $form = $this->signInForm->create($this->language);
-    $servise = $this;
-    $form['login']->onClick[] = function ($form) use ($servise) {
-      $er_txt = $servise->texty_presentera->translate('base_login_error');
-      $servise->restoreRequest($servise->backlink);
-      $servise->flashOut(!count($form->errors), 'Homepage:', 
-                          $servise->texty_presentera->translate('base_login_ok'), 
-                          sprintf($er_txt, isset($form->errors[0]) ? $servise->texty_presentera->translate('base_Log_In_Error_'.$form->errors[0]) : 'Ch'));
-    };
-    $form['forgottenPassword']->onClick[] = function () {
-      $this->redirect('User:forgottenPassword');
-    };
-    return $form;
-  }
+
   
   /** Funkcia pre zjednodusenie vypisu flash spravy a presmerovania
    * @param array|string $redirect Adresa presmerovania
    * @param string $text Text pre vypis hlasenia
    * @param string $druh - druh hlasenia */
 
-  public function flashRedirect($redirect, $text = "", $druh = "info") {
+  public function flashRedirect(array|string $redirect, string $text = "", string $druh = "info") {
 		$this->flashMessage($text, $druh);
     if (is_array($redirect)) {
       if (count($redirect) > 1) {
@@ -561,16 +530,28 @@ abstract class BasePresenter extends Presenter {
     $renderer->wrappers['control']['container'] = 'div class="col-12 col-sm-9 control-field"';
     $renderer->wrappers['control']['description'] = 'div class="help-block alert alert-info"';
     $renderer->wrappers['control']['errorcontainer'] = 'div class="help-block alert alert-danger"';
-    // make form and controls compatible with Twitter Bootstrap
     
+    // make form and controls compatible with Twitter Bootstrap
     foreach ($form->getControls() as $control) {
-      if ($control instanceof Controls\Button) {
+      $type = $control->getOption('type');
+      if ($type === 'button') {
         $control->getControlPrototype()->addClass(empty($usedPrimary) ? 'btn btn-primary' : 'btn btn-default');
-        $usedPrimary = TRUE;
-      } elseif ($control instanceof Controls\TextBase || $control instanceof Controls\SelectBox || $control instanceof Controls\MultiSelectBox) {
+        $usedPrimary = true;
+  
+      } elseif (in_array($type, ['text', 'textarea', 'select'], true)) {
         $control->getControlPrototype()->addClass('form-control');
-      } elseif ($control instanceof Controls\Checkbox || $control instanceof Controls\CheckboxList || $control instanceof Controls\RadioList) {
-        $control->getSeparatorPrototype()->setName('div')->addClass($control->getControlPrototype()->type);
+  
+      } elseif ($type === 'file') {
+        $control->getControlPrototype()->addClass('form-control-file');
+  
+      } elseif (in_array($type, ['checkbox', 'radio'], true)) {
+        if ($control instanceof Forms\Controls\Checkbox) {
+          $control->getLabelPrototype()->addClass('form-check-label');
+        } else {
+          $control->getItemLabelPrototype()->addClass('form-check-label');
+        }
+        $control->getControlPrototype()->addClass('form-check-input');
+        $control->getSeparatorPrototype()->setName('div')->addClass('form-check');
       }
     }
     return $form;

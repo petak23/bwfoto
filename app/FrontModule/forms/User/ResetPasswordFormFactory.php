@@ -54,7 +54,6 @@ class ResetPasswordFormFactory {
 				 ->setRequired('ResetPasswordForm_new_heslo2_sr')
          ->setOmitted(); // https://doc.nette.org/cs/3.1/form-presenter#toc-validacni-pravidla;
 		$form->addSubmit('uloz', 'base_save');
-    $form->onValidate[] = [$this, 'validateResetForm'];
     $form->onSuccess[] = [$this, 'userPasswordResetFormSubmitted'];
 		return $form;
 	}

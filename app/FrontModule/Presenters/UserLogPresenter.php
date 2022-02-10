@@ -13,15 +13,15 @@ use Nette\Utils\Random;
 /**
  * Prezenter pre spravu uzivatela po prihlásení.
  * (c) Ing. Peter VOJTECH ml.
- * Posledna zmena(last change): 16.12.2019
+ * Posledna zmena(last change): 10.02.2022
  *
  *	Modul: FRONT
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2019 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.7
+ * @version 1.1.9
  */
 class UserLogPresenter extends BasePresenter {
   
@@ -33,10 +33,17 @@ class UserLogPresenter extends BasePresenter {
   
   /** @var \Nette\Database\Table\ActiveRow|FALSE */
   private $uzivatel;
+  /** @var Passwords */
+  private $passwords;
 
   // -- Forms
   /** @var \App\FrontModule\Forms\UserLog\UserEditFormFactory @inject*/
 	public $userEditFormFactory;
+
+  public function __construct($parameters, Passwords $passwords) {
+    parent::__construct($parameters);
+    $this->passwords = $passwords;
+	}
 
 	protected function startup() {
     parent::startup();
@@ -65,10 +72,11 @@ class UserLogPresenter extends BasePresenter {
 
   /**
 	 * Edit user form component factory.
-	 * @return Nette\Application\UI\Form
-	 */
-	protected function createComponentUserEditForm() {
-    $form = $this->userEditFormFactory->create($this->nastavenie, $this->template->basePath, $this->uzivatel, $this->language);  
+	 * @return Form */
+	protected function createComponentUserEditForm(): Form {
+    $form = $this->userEditFormFactory->create($this->nastavenie, 
+                                               $this->template->basePath,
+                                               $this->language);  
     $form['uloz']->onClick[] = function ($form) {
       $this->flashOut(!count($form->errors), 'UserLog:', $this->texty_presentera->translate('user_edit_save_ok'), $this->texty_presentera->translate('user_edit_save_err'));
 		};
@@ -114,7 +122,7 @@ class UserLogPresenter extends BasePresenter {
 
 	public function userMailChangeFormSubmitted($button) {
 		$values = $button->getForm()->getValues(); 	//Nacitanie hodnot formulara
-		if (!Passwords::verify($values->heslo, $this->uzivatel->password)) {
+		if (!$this->passwords->verify($values->heslo, $this->uzivatel->password)) {
 			$this->flashRedirect('this', $this->texty_presentera->translate('pass_incorect'), 'danger');
 		}
     // Over, ci dany email uz existuje. Ak ano konaj.
@@ -140,7 +148,7 @@ class UserLogPresenter extends BasePresenter {
     $mail->setFrom($this->nazov_stranky.' <'.$uzivatel->email.'>')
          ->addTo($values->email)
          ->setSubject($this->texty_presentera->translate('mail_change'))
-         ->setHtmlBody($templ->renderToString(__DIR__ . '/templates/UserLog/email_change-html.latte', $params));
+         ->setHtmlBody($templ->renderToString(__DIR__ . '/../templates/UserLog/email_change-html.latte', $params));
     try {
       $sendmail = new SendmailMailer;
       $sendmail->send($mail);
@@ -186,7 +194,8 @@ class UserLogPresenter extends BasePresenter {
 				 ->setRequired('PasswordChangeForm_new_heslo_sr');
 		$form->addPassword('new_heslo2', 'PasswordChangeForm_new_heslo2', 50, 80)
          ->addRule(Form::EQUAL, 'PasswordChangeForm_new_heslo2_ar', $form['new_heslo'])
-				 ->setRequired('PasswordChangeForm_new_heslo2_sr');
+				 ->setRequired('PasswordChangeForm_new_heslo2_sr')
+         ->setOmitted(); // https://doc.nette.org/cs/3.1/form-presenter#toc-validacni-pravidla;
     $form->addSubmit('uloz', 'base_save')
          ->setAttribute('class', 'btn btn-success')
          ->onClick[] = [$this, 'userPasswordChangeFormSubmitted'];
@@ -197,17 +206,13 @@ class UserLogPresenter extends BasePresenter {
 		return $this->_vzhladForm($form);
 	}
 
-	public function userPasswordChangeFormSubmitted($button) {
-		$values = $button->getForm()->getValues(); 	//Nacitanie hodnot formulara
-		if ($values->new_heslo != $values->new_heslo2) {
-			$this->flashRedirect('this', $this->texty_presentera->translate('PasswordChangeForm_new_heslo2_ar'), 'danger');
-		}
-		if (!Passwords::verify($values->heslo, $this->uzivatel->password)) {
+	public function userPasswordChangeFormSubmitted(Form $form, $values) {
+		if (!$this->passwords->verify($values->heslo, $this->uzivatel->password)) {
 			$this->flashRedirect('this', $this->texty_presentera->translate('pass_incorect'), 'danger');
 		}
 		//Vygeneruj kluc pre zmenu hesla
-		$new_password = Passwords::hash($values->new_heslo);
-    unset($values->new_heslo, $values->new_heslo2);
+		$new_password = $this->passwords->hash($values->new_heslo);
+    unset($values->new_heslo);
     try {
       $this->uzivatel->update(['password'=>$new_password]);
 			$this->flashMessage($this->texty_presentera->translate('pass_change_ok'), 'success');
