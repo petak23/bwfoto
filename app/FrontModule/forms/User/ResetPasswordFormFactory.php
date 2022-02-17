@@ -9,13 +9,13 @@ use Nette\Security;
 
 /**
  * Formular pre reset hesla
- * Posledna zmena 21.01.2022
+ * Posledna zmena 08.02.2022
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.8
+ * @version    1.0.9
  */
 class ResetPasswordFormFactory {
   /** @var User */
@@ -61,13 +61,14 @@ class ResetPasswordFormFactory {
   /** 
    * Overenie po odoslani */
   public function userPasswordResetFormSubmitted(Form $form, $values) {
+
     //Vygeneruj kluc pre zmenu hesla
     $new_password = $this->passwords->hash($values->new_heslo);
-    unset($values->new_heslo, $values->new_heslo2); //Len pre istotu
-    try {
-      $this->user_main->find($values->id)->update(['password'=>$new_password, 'new_password_key'=>NULL, 'new_password_requested'=>NULL]);
-    } catch (Exception $e) {
-      $form->addError($e->getMessage());
-    }
+    unset($values->new_heslo); //Len pre istotu
+    $this->user_main->find($values->id)
+                    ->update(['password'=>$new_password, 
+                              'new_password_key'=>NULL, 
+                              'new_password_requested'=>NULL
+                              ]);
 	}
 }

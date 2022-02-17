@@ -1,16 +1,16 @@
 <script>
 /** 
  * Component Fotocollage
- * Posledná zmena(last change): 03.02.2022
+ * Posledná zmena(last change): 17.02.2022
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.8
- * pouzita kniznica: https://github.com/seanghay/vue-photo-collage
+ * @version 1.0.9
+ * Z kniznica pouzite súbory a upravene: https://github.com/seanghay/vue-photo-collage
  */
-import { PhotoCollageWrapper } from 'vue-photo-collage'
+import PhotoCollageWrapper from "./vue-photo-collage/PhotoCollageWrapper.vue";
 import axios from 'axios'
 
 export default {
@@ -25,39 +25,53 @@ export default {
   },
   data() {
     return {
-      id: 0,
-      col_len: 0,
-      min_row: 2,
-      schema: [1, 0, 3, 2, 1, 4],
-      //wid: 0,
-      uroven: 0, // Premenná sleduje uroveň zobrazenia
+      id: 0, 
 
-      collage: {
-        width: "600px",
-        height: ["250px", "180px", "350px", "150px", "250px", "150px"],
+      collage: { // Objekt pre koláž
+        width: "",
+        height: [],
         layout: [],
         photos: [],
         borderRadius: ".2rem",
-        showNumOfRemainingPhotos: true,
+        showNumOfRemainingPhotos: false,
       },
       image: {
         name: "",
         main_file: "",
         description: null
-      }
+      },
+      sch: [
+        {
+          max_width: 320,
+          min_row: 1,
+          schema: [1, 0, 2, 1, 4, 0],
+          height: ["125px", "150px", "200px", "100px", "50px", "150px"],
+          layout: [],
+        },
+        {
+          max_width: 700,
+          min_row: 2,
+          schema: [1, 0, 2, 1, 4, 0],
+          height: ["175px", "200px", "125px", "150px", "100px", "200px"],
+          layout: [],
+        },
+        {
+          max_width: 2000,
+          min_row: 3,
+          schema: [1, 0, 3, 2, 1, 4],
+          height: ["250px", "180px", "350px", "150px", "250px", "150px"],
+          layout: [],
+        },
+      ],
     }
   },
   methods: {
     itemClickHandler(data, i) {
       // click event
-      //console.log(data.id_foto)
       var odkaz = this.basepath + '/api/documents/document/' + data.id_foto
       axios.get(odkaz)
               .then(response => {
-                //this.items = Object.values(response.data)
-                //this.$store.commit('SET_INIT_ADMIN_MENU', this.convert(response.data))
                 this.image = response.data
-                //console.log(response.data)
                 this.$bvModal.show("modal-multi-1")
               })
               .catch((error) => {
@@ -66,7 +80,35 @@ export default {
               })
     },
     matchHeight () {
-      this.collage.width = this.$refs.imgDetail.clientWidth + 'px';
+      this.computeLayout(this.$refs.imgDetail.clientWidth)
+    },
+    computeLayout(client_width) {
+      var res = { 
+        max_width: 0,
+        min_row: 0,  
+        schema: [],  
+        height: [],  
+        layout: [],
+      };
+      this.sch.forEach(x => {
+        if (client_width < x.max_width && res.max_width == 0) {
+          res = x
+        }
+      })
+      res.layout = [] // Musí ostať inak nefunguje !?!
+      this.collage.photos = JSON.parse(this.attachments)
+      var i = this.collage.photos.length
+      var r = 0 // riadok
+      do {
+        res.layout.push( res.min_row + res.schema[r] )
+
+        r = r + 1 >= res.schema.length ? 0 : r + 1 
+        i -= res.min_row + res.schema[r]
+      }
+      while (i > 0);
+      this.collage.width = client_width + 'px';
+      this.collage.height = res.height
+      this.collage.layout = res.layout
     },
     // Generovanie url pre lazyloading obrázky
     /*getImageUrl(text) {
@@ -75,21 +117,6 @@ export default {
   },
   created() {
     window.addEventListener("resize", this.matchHeight);
-
-    this.collage.photos = JSON.parse(this.attachments)
-    this.col_len = this.collage.photos.length;
-    this.collage.layout = []
-    var i = this.col_len
-    var r = 0 // riadok
-    do {
-      this.collage.layout.push( this.min_row + this.schema[r] )
-
-      r = r + 1 >= this.schema.length ? 0 : r + 1 
-      i -= this.min_row + this.schema[r]
-    }
-    while (i > 0);
-    //console.log(this.col_len)
-    //console.log(this.collage.layout)
   },
   destroyed() {
     window.removeEventListener("resize", this.matchHeight);

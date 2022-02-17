@@ -154,6 +154,10 @@ SignInForm_password_req: 'Uveďte, prosím, heslo.'
 SignInForm_remember: ' Pamätať si ma'
 SignInForm_login: 'Prihlásiť sa...'
 SignInForm_forgottenPassword: 'Zabudnuté heslo?'
+SignInForm_error_1: "Užívateľský email som nenašiel v databáze. Pravdepodobne konto neexzistuje!"
+SignInForm_error_4: "Váš uživateľský účet ešte nie je aktivovaný! Aktiváciu urobíte kliknutím na odkaz, ktorý nájdete v e-maile po registrácii."
+SignInForm_error_3: "Váš uživateľský účet je zablokovaný!"
+SignInForm_error_2: "Chybný užívateľský email alebo heslo!"
 
 #Clanky
 clanky_nic_nie_je: 'V tejto časti ešte nie je zadaný žiaden platný článok.'

@@ -442,6 +442,14 @@ abstract class BasePresenter extends Presenter {
     $aktualne->setNastavenie($this->context->parameters['oznam']);
     return $aktualne;
 	}
+  /** Komponenta pre zobrazenie adresy
+   * @return Multiplier */
+  public function createComponentUkazAdresu() {
+    $servise = $this;
+		return new Multiplier(function ($id) use ($servise) {
+      return New \App\FrontModule\Components\Adresar\ZobrazAdresuControl($servise->adresar->find($id));
+    });
+  }
   
   /** 
    * Komponenta pre zobrazenie aktualnych clankov 
