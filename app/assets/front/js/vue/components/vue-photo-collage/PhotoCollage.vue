@@ -12,6 +12,8 @@
       :layoutNum="layoutNum"
       :remainingNum="remainingNum"
       :showNumOfRemainingPhotos="showNumOfRemainingPhotos"
+      :maxRandomPercWidth="maxRandomPercWidth"
+      :widerPhotoId="widerPhotoId[i]"
     ></row-photos>
   </div>
 </template>
@@ -35,6 +37,8 @@ export default {
     layoutNum: Number,
     remainingNum: Number,
     showNumOfRemainingPhotos: Boolean,
+    maxRandomPercWidth: Number,
+    widerPhotoId: Array,
   },
   computed: {
     photoCollageStyle() {

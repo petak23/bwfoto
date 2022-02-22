@@ -1,13 +1,13 @@
 <script>
 /** 
  * Component Fotocollage
- * Posledná zmena(last change): 17.02.2022
+ * Posledná zmena(last change): 22.02.2022
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.9
+ * @version 1.1.0
  * Z kniznica pouzite súbory a upravene: https://github.com/seanghay/vue-photo-collage
  */
 import PhotoCollageWrapper from "./vue-photo-collage/PhotoCollageWrapper.vue";
@@ -22,6 +22,10 @@ export default {
       type: String
     },
     basepath: String,
+    maxrandompercwidth: { // Percento, o ktoré sa môže meniť naviac šírka fotky
+      type: String,
+    },
+    myschema: String
   },
   data() {
     return {
@@ -34,6 +38,10 @@ export default {
         photos: [],
         borderRadius: ".2rem",
         showNumOfRemainingPhotos: false,
+        maxRandomPercWidth: 20,
+        widerPhotoId: [], // poradie fotky v riadku, ktorá má byť širšia 1,2,... 
+                          // ak je zadané 0 generuje sa náhodne
+                          // ak je zadané -1 všetky fotky budú rovnaké
       },
       image: {
         name: "",
@@ -42,25 +50,45 @@ export default {
       },
       sch: [
         {
-          max_width: 320,
-          min_row: 1,
-          schema: [1, 0, 2, 1, 4, 0],
-          height: ["125px", "150px", "200px", "100px", "50px", "150px"],
-          layout: [],
+          // Max. šírka koláže pre ktorú platí
+          max_width: 320,  
+          // Minimálny počet fotiek na riadok
+          min_row: 1,      
+          // Počet fotiek v jednotlivých riadkoch + min_row
+          schema: [1, 0, 2, 1, 2, 0, 1, 2], 
+          // Výška jednotlivých riadkov
+          height: ["110px", "150px", "78px", "110px", "78px", "150px", "110px", "78px"],
+          // Poradie fotky v riadku, ktorá má byť širšia ako ostatné v riadku:
+          // Ak je zadané číslo väčšie ako 0 (1,2,...) tak tá konkrétna bude širšia, 
+          // ak je zadané 0 generuje sa náhodne,
+          // ak je zadané -1 všetky fotky v riadku budú rovnaké.
+          widerPhotoId: [1, 0, 1, 0, 2, 0, 1, 2],
+          // Výsledok, vypočítaný programom !!! NIČ NEZADǍVAŤ !!!
+          layout: [],  
         },
         {
           max_width: 700,
           min_row: 2,
-          schema: [1, 0, 2, 1, 4, 0],
-          height: ["175px", "200px", "125px", "150px", "100px", "200px"],
+          schema: [1, 0, 1, 2, 1, 0, 2, 1],
+          height: ["170px", "235px", "170px", "120px", "170px", "235px", "120px", "170px"],
           layout: [],
+          widerPhotoId: [1, 0, 1, 0, 2, 0, 1, 2],
         },
         {
-          max_width: 2000,
+          max_width: 1300,
           min_row: 3,
-          schema: [1, 0, 3, 2, 1, 4],
-          height: ["250px", "180px", "350px", "150px", "250px", "150px"],
+          schema: [0, 1, 2, 3, 0, 1],
+          height: ["300px", "220px", "180px", "170px", "235px", "220px"],
           layout: [],
+          widerPhotoId: [1, 0, -1, 0, 2, 0],
+        },
+        {
+          max_width: 10000,
+          min_row: 3,
+          schema: [0, 1, 2, 3, 1, 0],
+          height: ["400px", "300px", "265px", "220px", "300px", "400px"],
+          layout: [],
+          widerPhotoId: [1, 0, -1, 0, 2, 0],
         },
       ],
     }
@@ -89,6 +117,7 @@ export default {
         schema: [],  
         height: [],  
         layout: [],
+        widerPhotoId: []
       };
       this.sch.forEach(x => {
         if (client_width < x.max_width && res.max_width == 0) {
@@ -109,6 +138,8 @@ export default {
       this.collage.width = client_width + 'px';
       this.collage.height = res.height
       this.collage.layout = res.layout
+      this.collage.maxRandomPercWidth = parseInt(this.maxrandompercwidth)
+      this.collage.widerPhotoId = res.widerPhotoId
     },
     // Generovanie url pre lazyloading obrázky
     /*getImageUrl(text) {
@@ -123,6 +154,10 @@ export default {
   },
   computed: {},
   mounted () {
+    if (typeof this.myschema !== 'undefined') {
+      this.sch = JSON.parse(this.myschema)
+      console.log(this.sch)
+    }
     /* Naviazanie na sledovanie zmeny veľkosti stránky */
     this.matchHeight();
   },

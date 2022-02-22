@@ -2,7 +2,7 @@
  *
  * Modul: FRONT
  *
- * Posledna zmena(last change): 03.02.2022
+ * Posledna zmena(last change): 22.02.2022
  * @copyright  Copyright (c) 2021 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
@@ -13,14 +13,7 @@
   <fotocollage
     attachments="{$attachments}"
     basepath="{$basePath}/"
+    maxrandompercwidth="30"
+    {* myschema="{$schema}" *}
   ></fotocollage>
 </div>
-
-{* 
-    border_a="{$hlavne_menu->border_a|border_x_vue|noescape}"
-    border_b="{$hlavne_menu->border_b|border_x_vue|noescape}"
-    border_c="{$hlavne_menu->border_c|border_x_vue|noescape}"
-    text_before="{_'galery_arrows_before'}"
-    text_after="{_'galery_arrows_after'}"
-    first_id={$first_id}
-    large={$large} *}

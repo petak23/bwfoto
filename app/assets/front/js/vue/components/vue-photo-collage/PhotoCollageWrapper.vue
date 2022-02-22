@@ -9,6 +9,8 @@
       :layoutNum="layoutNum"
       :remainingNum="remainingNum"
       :showNumOfRemainingPhotos="showNumOfRemainingPhotos"
+      :maxRandomPercWidth="maxRandomPercWidth"
+      :widerPhotoId="widerPhotoId"
       @itemClick="(data, i) => $emit('itemClick', data, i)"
     >
     </photo-collage>
@@ -66,6 +68,14 @@ export default {
     showNumOfRemainingPhotos: {
       type: Boolean,
       default: false,
+    },
+    maxRandomPercWidth: {
+      type: Number,
+      default: 20
+    },
+    widerPhotoId: {
+      type: Array,
+      default: [],
     },
     gapSize: String,
     borderRadius: String,
