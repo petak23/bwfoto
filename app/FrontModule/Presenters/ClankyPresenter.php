@@ -5,13 +5,14 @@ namespace App\FrontModule\Presenters;
 
 use App\FrontModule\Components;
 use DbTable;
+use Nette;
 use Nette\Application\UI\Multiplier;
 use PeterVojtech;
 
 /**
  * Prezenter pre vypisanie clankov.
  * 
- * Posledna zmena(last change): 01.02.2022
+ * Posledna zmena(last change): 25.02.2022
  *
  *	Modul: FRONT
  *
@@ -19,7 +20,7 @@ use PeterVojtech;
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.3.9
+ * @version 1.4.0
  */
 
 class ClankyPresenter extends BasePresenter {
@@ -42,8 +43,8 @@ class ClankyPresenter extends BasePresenter {
   /** @var Components\Faktury\IViewFakturyControl @inject */
   public $viewFakturyControlFactory;
   
-  /** @var \Nette\Database\Table\ActiveRow|FALSE */
-	public $zobraz_clanok = FALSE;
+  /** @var Nette\Database\Table\ActiveRow */
+	public $zobraz_clanok;
   /** @var string */
   private $kotva = "";
   
@@ -93,11 +94,10 @@ class ClankyPresenter extends BasePresenter {
     if ($this->zobraz_clanok !== FALSE) {
       $this->getComponent('menu')->selectByUrl($this->link('Clanky:', ["id"=>$this->zobraz_clanok->id_hlavne_menu]));
       $this->template->komentare_povolene =  $this->udaje_webu["komentare"] && ($this->user->isAllowed('Front:Clanky', 'komentar') && $this->zobraz_clanok->hlavne_menu->komentar) ? $this->zobraz_clanok->id_hlavne_menu : 0;
-      $this->template->h2 = $this->zobraz_clanok->view_name;
+      //$this->template->h2 = $this->zobraz_clanok->view_name;
+      $this->template->article = $this->zobraz_clanok;
       $this->template->uroven = $this->zobraz_clanok->hlavne_menu->uroven + 2;
       $this->template->avatar = $this->zobraz_clanok->hlavne_menu->avatar;
-      $this->template->clanok_view = $this->zobraz_clanok->id_clanok_lang == NULL ? FALSE : TRUE;
-      $this->template->clanok_hl_menu = $this->zobraz_clanok->hlavne_menu;
       $this->template->podclanky = $this->hlavne_menu->maPodradenu($this->zobraz_clanok->id);
       $this->template->view_submenu = $this->zobraz_clanok->hlavne_menu->id_hlavicka < 3;
       $this->template->viac_info = $this->texty_presentera->translate('clanky_viac_info');
