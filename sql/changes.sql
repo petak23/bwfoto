@@ -1,6 +1,6 @@
 /**
  * Author:  petak23
- * Change: 02.12.2021
+ * Change: 28.02.2022
  *
  * to 0.8.32 
  */
@@ -21,7 +21,7 @@ WHERE ((`id` = '8') OR (`id` = '9') OR (`id` = '10') OR (`id` = '11') OR (`id` =
 
 INSERT INTO `hlavne_menu_template` (`name`, `description`)
 VALUES ('BWfoto_foto_collage', 'Koláž fotiek');
-*/
+
 INSERT INTO `user_resource` (`name`)
 VALUES ('Api:Dokumenty');
 
@@ -30,4 +30,4 @@ VALUES ('0', '29', NULL);
 
 ALTER TABLE `hlavne_menu_lang`
 ADD `text` text COLLATE 'utf8_bin' NULL COMMENT 'Text článku v danom jazyku',
-ADD `anotacia` varchar(255) COLLATE 'utf8_bin' NULL COMMENT 'Anotácia článku v danom jazyku' AFTER `text`;
+ADD `anotacia` varchar(255) COLLATE 'utf8_bin' NULL COMMENT 'Anotácia článku v danom jazyku' AFTER `text`;*/
