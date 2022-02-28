@@ -9,13 +9,13 @@ use Nette\Utils\Strings;
 /**
  * Reprezentuje repozitar pre databázovu tabulku
  * 
- * Posledna zmena(last change): 02.12.2021
+ * Posledna zmena(last change): 14.02.2022
  * 
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.7
+ * @version 1.1.8
  */
 abstract class Table {
 
@@ -68,11 +68,16 @@ abstract class Table {
    * Funkcia v poli vrati zakladne info. o pripojeni.
    * @return array */
   public function getDBInfo(): array {
-    $pom = explode(":", $this->connection->getConnection()->getDsn());
+    $pom = explode(";", $this->connection->getConnection()->getDsn()); // Rozlozi text na host a dbname napr. "mysql:host=localhost:8111;dbname=d264787_echomsz"
     $out = [];
-    foreach (explode(";", $pom[1]) as $v) {
-      $t = explode("=", $v);
-      $out[$t[0]] = $t[1];
+    foreach ($pom as $p) {
+      $t = explode("=", $p);
+      $x = explode(":", $t[0]);
+      if (is_array($x) && count($x) == 2) {
+        $out[$x[1]] = $t[1]; 
+      } else {
+        $out[$t[0]] = $t[1];
+      }
     }
     return $out;
   }
@@ -122,7 +127,7 @@ abstract class Table {
    * @param int $id Id polozky
    * @param int $id_reg Min. uroven registracie
    * @return ActiveRow|null */
-  public function hladaj_id(int $id = 0, int $id_reg = 5) {
+  public function hladaj_id(int $id = 0, int $id_reg = 5): ?ActiveRow {
     return $this->findOneBy(["id"=>$id, "id_user_roles <= ".$id_reg]);
   }
 
@@ -169,7 +174,7 @@ abstract class Table {
   }
 
   /**
-   * @deprecated */
+   * @deprecated use repair */
   public function oprav($id, $data): ?ActiveRow {
     return $this->repair($id, $data);
   }
@@ -179,8 +184,8 @@ abstract class Table {
    * @param iterable $data
    * @param mixed $id primary key
    * @return ActiveRow|int|bool */
-  public function uloz($data, $id) {
-    return (isset($id) && $id) ? $this->repair($id, $data) : $this->pridaj($data);
+  public function uloz($data, $id = 0) {
+    return $id ? $this->repair($id, $data) : $this->pridaj($data);
   }
   
   /**

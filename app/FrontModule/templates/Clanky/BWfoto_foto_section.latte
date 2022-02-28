@@ -28,8 +28,8 @@
       </button>
     </div>
   </h1>
-  <span class="popis" n:ifset="$article->clanok_lang->text">
-    {$article->clanok_lang->text|texy|noescape|obr_v_txt|koncova_znacka}
+  <span class="popis" n:ifset="$article->text">
+    {$article->text|texy|noescape|obr_v_txt|koncova_znacka}
   </span>
 </article>
 <section id="webAlbums" class="row">

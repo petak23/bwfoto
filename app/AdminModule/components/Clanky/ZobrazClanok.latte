@@ -2,7 +2,7 @@
  *
  * Modul: ADMIN
  *
- * Posledna zmena(last change): 24.09.2020
+ * Posledna zmena(last change): 28.02.2022
  * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
@@ -19,13 +19,13 @@
 <div n:tag-if="count($cl_texts) > 1" class="tab-content" n:inner-foreach="$cl_texts as $c"> 
   <div n:tag-if="count($cl_texts) > 1" role="tabpanel" class="tab-pane{first} active{/first}" id="tabs-{$iterator->counter}">
     <div class="panel panel-default">
-      <div class="panel-heading" n:if="$zobraz_anotaciu && isset($c->clanok_lang->anotacia) && strlen($c->clanok_lang->anotacia)">
+      <div class="panel-heading" n:if="$zobraz_anotaciu && isset($c->anotacia) && strlen($c->anotacia)">
         <h4>Anotácia:</h4>
-        {$c->clanok_lang->anotacia}
+        {$c->anotacia}
       </div>
-      <div n:ifset="$c->clanok_lang->text" class="panel-body">
+      <div n:ifset="$c->text" class="panel-body">
         <h4>Text článku:</h4>
-        {$c->clanok_lang->text|noescape|texy|obr_v_txt}
+        {$c->text|noescape|texy|obr_v_txt}
       </div>
     </div>
   </div>

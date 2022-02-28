@@ -2,7 +2,7 @@
  * Author:  petak23
  * Change: 02.12.2021
  *
- * to 0.8.20 
+ * to 0.8.32 
  */
 
 /*INSERT INTO `user_resource` (`name`) VALUES 
@@ -27,3 +27,7 @@ VALUES ('Api:Dokumenty');
 
 INSERT INTO `user_permission` (`id_user_roles`, `id_user_resource`, `actions`)
 VALUES ('0', '29', NULL);
+
+ALTER TABLE `hlavne_menu_lang`
+ADD `text` text COLLATE 'utf8_bin' NULL COMMENT 'Text článku v danom jazyku',
+ADD `anotacia` varchar(255) COLLATE 'utf8_bin' NULL COMMENT 'Anotácia článku v danom jazyku' AFTER `text`;

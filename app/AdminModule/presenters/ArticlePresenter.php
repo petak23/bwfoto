@@ -11,7 +11,7 @@ use PeterVojtech;
 /**
  * Zakladny presenter pre presentery obsluhujuce polozky hlavneho menu v module ADMIN
  * 
- * Posledna zmena(last change): 01.02.2022
+ * Posledna zmena(last change): 28.02.2022
  *
  * Modul: ADMIN
  *
@@ -19,7 +19,7 @@ use PeterVojtech;
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.4.9
+ * @version 1.5.0
  */
 abstract class ArticlePresenter extends BasePresenter {
   
@@ -29,8 +29,6 @@ abstract class ArticlePresenter extends BasePresenter {
   use PeterVojtech\Clanky\Fotocollage\fotocollageTrait;
   
   // -- DB
-  /** @var DbTable\Clanok_lang @inject*/
-	public $clanok_lang;
   /** @var DbTable\Clanok_komponenty @inject */
 	public $clanok_komponenty;
   /** @var DbTable\Druh @inject */
@@ -115,17 +113,20 @@ abstract class ArticlePresenter extends BasePresenter {
   /** Akcia pre zobrazenie polozky.
    * @param int $id Id polozky
    */
-  public function actionDefault($id = 1) {
-    if (($this->zobraz_clanok = $this->hlavne_menu_lang->getOneArticleId($id, $this->language_id, $this->id_reg)) === FALSE) {
-      $this->setView('notFound');
+  public function actionDefault(int $id = 1) {
+    try {
+      $this->zobraz_clanok = $this->hlavne_menu_lang->getOneArticleId($id, $this->language_id, $this->id_reg);
+    } catch (DbTable\ArticleMainMenuException $th) {
+      $this->setView("notFound");
+      return;
     }
 	}
   
   /** 
    * Funkcia overi vlastnictvo clanku
    * @param int $id_user_main
-   * @return boolean */
-  public function vlastnik($id_user_main = 0) {
+   * @return bool */
+  public function vlastnik(int $id_user_main = 0): bool {
     $user = $this->user;
     return $user->isInRole('admin') ? TRUE : $user->getIdentity()->id == $id_user_main;
   }
@@ -154,10 +155,10 @@ abstract class ArticlePresenter extends BasePresenter {
     $this->template->clanok = $this->zobraz_clanok;
   }
   
-  /** Vypis ponuky s polozkami, ktore je mozne pridavat
-   * @param int $id Id nadradenej polozky
-   */
-  public function actionAddpol($id)	{
+  /** 
+   * Vypis ponuky s polozkami, ktore je mozne pridavat
+   * @param int $id Id nadradenej polozky */
+  public function actionAddpol(int $id)	{
     $this->add_menu_id = $id;
   }
   
@@ -176,7 +177,7 @@ abstract class ArticlePresenter extends BasePresenter {
   /** Akcia pre editovanie polozky - krok c.1 - udaje pre DB tab.: hlavne_menu a hlavne_menu_lang
    * @param int $id Id editovanej polozky
    */
-  public function actionEdit($id)	{
+  public function actionEdit(int $id)	{
     if (($hlm_lang = $this->hlavne_menu_lang->findBy(["id_hlavne_menu"=>$id])) !== FALSE) {
       $this->pol_menu = $hlm_lang->fetch()->hlavne_menu->toArray();
       $this["menuEditForm"]->setDefaults($this->pol_menu);
@@ -201,11 +202,11 @@ abstract class ArticlePresenter extends BasePresenter {
     $this->setView("krok1");
 	}
   
-  /** Akcia pre pridanie polozky polozky - krok c.1 - udaje pre DB tab.: hlavne_menu a hlavne_menu_lang
+  /** 
+   * Akcia pre pridanie polozky polozky - krok c.1 - udaje pre DB tab.: hlavne_menu a hlavne_menu_lang
    * @param int $id - id nadradenej polozky
-   * @param int $uroven - uroven menu
-   */
-  public function actionAdd($id, $uroven) {
+   * @param int $uroven - uroven menu */
+  public function actionAdd(int $id, int $uroven) {
     //Kontrola urovne
     if (!(isset($uroven))) { return $this->_toNotFound("Nezadaná úroveň!"); }
     $this->uroven = (int)$uroven;
@@ -258,10 +259,10 @@ abstract class ArticlePresenter extends BasePresenter {
    * @return Nette\Application\UI\Form */
   public function createComponentMenuEditForm()  {
 		$form = $this->editMenuFormFactory->create()->form($this->uroven, $this->menuformuloz["text"], $this->udaje_webu["meno_presentera"]);
-    $form['uloz']->onClick[] = [$this, 'menuEditFormSubmitted'];
+    $form['uloz']->onClick[] = function ($button) { $this->menuEditFormSubmitted($button);};
     $form['cancel']->onClick[] = function ($button) {
-      $fo = $button->getForm();
-      $id = $fo["id"]->value ? $fo["id"]->value : ($fo["uroven"]->value ? $fo["id_nadradenej"]->value : -1* $fo["id_hlavne_menu_cast"]->value);
+      $values = $button->getForm()->getValues();
+      $id = $values->id ? $values->id : ($values->uroven ? $values->id_nadradenej : -1*$values->id_hlavne_menu_cast);
       $pol = ($id > 0) ? $this->hlavne_menu->find($id)->druh->presenter : 'Homepage';
       $this->redirect($pol.":",$id);
 		};
@@ -269,9 +270,13 @@ abstract class ArticlePresenter extends BasePresenter {
 	}
 
   /** 
-   * Spracovanie formulara pre editaciu udajov menu(clanku) */
-	public function menuEditFormSubmitted(Form $form, $data): void {
-    if (($ulozenie = $this->hlavne_menu->saveArticle($data, $this->pol_menu, $this->jaz))) {
+   * Spracovanie formulara pre editaciu udajov menu(clanku).
+   * @param Nette\Forms\Controls\SubmitButton $button Data formulara */
+	public function menuEditFormSubmitted($button) {
+		$values = $button->getForm()->getValues(); 	//Nacitanie hodnot formulara
+    if (($ulozenie = $this->hlavne_menu->saveArticle($values, $this->pol_menu, $this->jaz))) {
+
+
       $this->flashMessage('Položka menu bola uložená!', 'success');
       $this->redirect($this->menuformuloz["redirect"] ? $this->menuformuloz["redirect"] : 'Menu:' ,$ulozenie);
     } else {
@@ -297,15 +302,14 @@ abstract class ArticlePresenter extends BasePresenter {
     return $title;
   }
   
-	/** 
-   * Funkcia pre spracovanie signálu vymazavania
-	 * @param array $id Id polozky v hlavnom menu
-	 * @param string $druh Blizsia specifikacia, kde je to potrebne */
-	function confirmedDelete(array $conf_form, string $druh = "")	{
+	/** Funkcia pre spracovanie signálu vymazavania
+	  * @param int $id Id polozky v hlavnom menu
+		* @param string $druh Blizsia specifikacia, kde je to potrebne
+		*/
+	function confirmedDelete($data, $druh = "")	{
+    $id = $data["id"]; 
 		//Vstupna kontrola
-    if (!(isset($conf_form['id']) && $conf_form['id'])) { $this->error("Id položky nie je nastavené!"); }
-
-    $id = $conf_form['id'];
+    if (!(isset($id) && $id)) { $this->error("Id položky nie je nastavené!"); }
     if ($druh != 'priloha') {
       $hl_m = $this->hlavne_menu_lang->findOneBy(["id_hlavne_menu"=>$id, "id_lang"=>1]);
       if ($hl_m === FALSE) { $this->error("Položka s id = ".$id." sa nenašla!"); }
@@ -373,7 +377,6 @@ abstract class ArticlePresenter extends BasePresenter {
     $products = $this->products->findBy(["id_hlavne_menu"=>$id]);
 
     $this->hlavne_menu->zmazTitleImage($id, $this->nastavenie["dir_to_menu"], $this->nastavenie["wwwDir"]);
-    $hl_m_m = $this->hlavne_menu_lang->findBy(["id_hlavne_menu"=>$id])->fetchPairs("id", "id_clanok_lang");
     if ($dokumenty !== null && ($pocita = count($dokumenty))) {
       $do = 0;
       foreach ($dokumenty as $pr) {
@@ -390,18 +393,8 @@ abstract class ArticlePresenter extends BasePresenter {
       $out_p = ($do == $pocita) ? ($products->delete() == $pocita ? TRUE : FALSE) : FALSE;
     } else { $out_p = TRUE; }
     $out_k = ($komponenty !== FALSE && ($pocita = count($komponenty))) ? ($komponenty->delete() == $pocita ? TRUE : FALSE) : TRUE;
-    $pocita = 0;
-    $this->hlavne_menu_lang->findBy(["id_hlavne_menu"=>$id])->update(["id_clanok_lang"=>NULL]);
-    foreach ($hl_m_m as $k=>$v) {
-      if ($v == NULL) {
-        $pocita++;
-      } else {
-        $pocita = $pocita + ($this->clanok_lang->find(['id'=>$v])->delete());
-      }
-    }
-    $out_c = (count($hl_m_m) == $pocita);
     $out_h = $this->_delHlMenu($id);
-    return $out AND $out_p AND $out_k AND $out_c AND $out_h;
+    return $out AND $out_p AND $out_k AND $out_h;
   }
   
   /** Komponenta pre vypis kontaktneho formulara

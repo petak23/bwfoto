@@ -1,6 +1,6 @@
 <h1 n:if="!(isset($nastav['view_h2']) && !$nastav['view_h2'])">
   {$clanok->view_name} <small n:if="$clanok->h1part2 != null && strlen($clanok->h1part2)">{$clanok->h1part2}</small>
 </h1>
-<span class="popis text-justify" n:if="$clanok->clanok_lang->text">
-  {$clanok->clanok_lang->text|texy|noescape|obr_v_txt|koncova_znacka}
+<span class="popis text-justify" n:ifset="$clanok->text">
+  {$clanok->text|texy|noescape|obr_v_txt|koncova_znacka}
 </span>

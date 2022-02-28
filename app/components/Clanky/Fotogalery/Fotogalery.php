@@ -8,13 +8,13 @@ use Nette\Utils\Json;
 
 /**
  * Komponenta pre zobrazenie fotogalérie k článku 
- * Posledna zmena(last change): 15.11.2021
+ * Posledna zmena(last change): 28.02.2022
  * 
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
- * @copyright Copyright (c) 2021 - 2021 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2021 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.4
+ * @version 1.0.5
  */
 class FotogaleryControl extends Nette\Application\UI\Control {
   
@@ -136,7 +136,7 @@ class FotogaleryControl extends Nette\Application\UI\Control {
         'type'=>'menu',
         'name' => $v->view_name,
         'web_name' => $this->presenter->link('Clanky:', $v->id_hlavne_menu),
-        'description' => $v->clanok_lang->anotacia,
+        'description' => $v->anotacia,
         'main_file' => ($av && is_file($av)) ? $av : 'ikonky/128/list_ceruza128.png',
         'thumb_file' => ($av && is_file($av)) ? $av : 'ikonky/128/list_ceruza128.png',
       ];

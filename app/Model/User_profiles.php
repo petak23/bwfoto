@@ -98,7 +98,6 @@ class User_profiles extends Table {
   public function delUser($clen_id_up) {
     try {
       $this->connection->table('user_prihlasenie')->where(['id_user_main'=>$clen_id_up])->delete();
-//      $this->connection->table('clanok_lang')->where(['id_user_main'=>$clen_id_up])->update(['id_user_main'=>1]);
 //      $this->connection->table('dokumenty')->where(['id_user_main'=>$clen_id_up])->update(['id_user_main'=>1]);
 //      $this->connection->table('oznam')->where(['id_user_main'=>$clen_id_up])->update(['id_user_main'=>1]);
       $this->connection->table('verzie')->where(['id_user_main'=>$clen_id_up])->update(['id_user_main'=>1]);

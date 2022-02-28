@@ -9,7 +9,6 @@ services:
   authorizator: App\Model\AuthorizatorFactory::create(@Nette\Database\Context)
   - DbTable\Admin_menu
   - DbTable\Clanok_komponenty
-  - DbTable\Clanok_lang
   - DbTable\Dlzka_novinky
   - DbTable\Dokumenty
   - DbTable\Druh

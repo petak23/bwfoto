@@ -7,15 +7,15 @@ use Nette\Application\Responses;
 /**
  * Prezenter pre vyhadavania.
  * 
- * Posledna zmena(last change): 02.05.2021
+ * Posledna zmena(last change): 28.02.2022
  *
  *	Modul: FRONT
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.4
+ * @version 1.0.5
  */
 class SearchPresenter extends BasePresenter {
 
@@ -52,10 +52,10 @@ class SearchPresenter extends BasePresenter {
     // -- Hladanie v textoch článkov --
     $search = $this->hlavne_menu_lang
                     ->findBy(['hlavne_menu.hlavne_menu_cast.mapa_stranky'=>1])
-                    ->where('LOWER(clanok_lang.text) LIKE LOWER(?) OR LOWER(clanok_lang.anotacia) LIKE LOWER(?)', $searchStr, $searchStr)
+                    ->where('LOWER(text) LIKE LOWER(?) OR LOWER(anotacia) LIKE LOWER(?)', $searchStr, $searchStr)
                     ->limit($this->max_finds);
     foreach ($search as $s) {
-      $tmp = explode(" ", $s->clanok_lang->text);
+      $tmp = explode(" ", $s->text);
       $my_key = [];
       foreach ($tmp as $key => $value) {
         if (mb_stripos($value,$searchOld) !== false) {

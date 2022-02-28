@@ -7,13 +7,13 @@ use Nette;
 /**
  * Model starajuci sa o tabulku hlavne_menu_lang
  * 
- * Posledna zmena 30.11.2021
+ * Posledna zmena 16.02.2022
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.1.1
+ * @version    1.1.4
  */
 class Hlavne_menu_lang extends Table {
   const 
@@ -30,15 +30,15 @@ class Hlavne_menu_lang extends Table {
 		* @param int $id_user_roles - min. uroven registracie uzivatela. Ak nemam tak sa berie 5
 		* @return Nette\Database\Table\ActiveRow
     * @throws ArticleExteption */
-	public function getOneArticleSp($spec_nazov, $language_id = 1, $id_user_roles = 5) {
+	public function getOneArticleSp(string $spec_nazov, int $language_id = 1, int $id_user_roles = 5) {
     $articles = clone $this;
 		//Najdi v tabulke hlavne_menu polozku podla spec. nazvu a urovne registracie
-    $tmp_article = $articles->getTable()->where(["hlavne_menu.spec_nazov" => $spec_nazov, "id_lang" => $id_lang]);
+    $tmp_article = $articles->getTable()->where(["hlavne_menu.spec_nazov" => $spec_nazov, "id_lang" => $language_id]);
     if ($tmp_article->count() == 0) {
       throw new ArticleMainMenuException("Article not exist", self::NOT_EXIST);
     } else { // Article found
       $tmp_article_final = $tmp_article->where("hlavne_menu.id_user_roles <= ?", $id_user_roles)->fetch();
-      if ($tmp_article_final === FALSE) {
+      if ($tmp_article_final === null) {
         throw new ArticleMainMenuException("Missing permissions", self::MISSING_PERMISSIONS);
       } else {
         return $tmp_article_final;
@@ -54,7 +54,7 @@ class Hlavne_menu_lang extends Table {
 	 * @param int $id_user_roles Min. uroven registracie uzivatela. Ak nemam tak sa berie 0 - guest
 	 * @return Nette\Database\Table\ActiveRow
    * @throws ArticleExteption */
-  public function getOneArticleId(int $id_hlavne_menu,int $id_lang = 1,int $id_user_roles = 0) {
+  public function getOneArticleId(int $id_hlavne_menu,int $id_lang = 1, int $id_user_roles = 0) {
     $articles = clone $this;
     //Najdi v tabulke hlavne_menu polozku podla id
     $tmp_article = $articles->getTable()->where(["id_hlavne_menu" => $id_hlavne_menu, "id_lang" => $id_lang]);
@@ -62,7 +62,7 @@ class Hlavne_menu_lang extends Table {
       throw new ArticleMainMenuException("Article not exist", self::NOT_EXIST);
     } else { // Article found
       $tmp_article_final = $tmp_article->where("hlavne_menu.id_user_roles <= ?", $id_user_roles)->fetch();
-      if ($tmp_article_final === FALSE) {
+      if ($tmp_article_final == null) {
         throw new ArticleMainMenuException("Missing permissions", self::MISSING_PERMISSIONS);
       } else {
         return $tmp_article_final;
@@ -72,39 +72,19 @@ class Hlavne_menu_lang extends Table {
   
   /**
    * Funkcia pre ulozenie textov clanku */
-  public function ulozTextClanku(array $values, string $action, int $id_hlavne_menu): int {
+  public function ulozTextClanku(Nette\Utils\ArrayHash $values): void {
     $uloz_txt = [];
     foreach ($values as $k => $v) {
       $a = explode("_", $k, 2);
       // Ak v texte a anotacii je len prazdny text, tak uloz null
       $uloz_txt[$a[0]][$a[1]] = in_array($a[1], ["text", "anotacia"]) ? (strlen($v) ? $v : null) : $v;
     }
-    $ulozenie = 1;
-		if (($utc = count($uloz_txt))) {
-			foreach($uloz_txt as $ke => $ut){
-        $cid = ($action == "edit2") ? (isset($ut["id"]) ? $ut["id"] : 0) : 0;
-				$uloz_t = $this->ulozClanokLang($ut, $cid);
-        if ($uloz_t !== FALSE && $uloz_t['id']) { //Ulozenie v poriadku
-          $this->_prepojHlavneMenuLang($cid, $id_hlavne_menu, $uloz_t['id'], $ut["id_lang"]);
-          $ulozenie++;
-        }
-			}
-			if ($ulozenie != $utc+1) { //Nieco sa neulozilo v poriadku
-				//TODO!!! Zmazanie toho co sa uz ulozilo
-				$ulozenie = 0; 
-			}
-    } else { $ulozenie = ($this->action == "add2") ? 0 : 1;} //Ak pri pridani nemam texty je to chyba!
-    return $ulozenie;
-  }
-  
-  /** Funkcia pridava alebo aktualizuje v DB tabulke 'clanok_lang' podla toho, ci je zadané ID
-   * @param array $data
-   * @param int $id
-   * @return Nette\Database\Table\ActiveRow|null */
-  public function ulozClanokLang(array $data, int $id = 0): ?Nette\Database\Table\ActiveRow {
-    $clanok_lang = $this->connection->table('clanok_lang');
-    if ($id == 0) unset($data["id"]);
-    return $id ? ($clanok_lang->where(['id'=>$id])->update($data) !== FALSE ? $clanok_lang->get($id) : FALSE): $clanok_lang->insert($data);
+		$utc = count($uloz_txt);
+    foreach($uloz_txt as $ke => $ut){
+      $cid = $ut["id"];
+      unset($ut['id']);
+      $uloz_t = $this->uloz($ut, $cid);
+    }
   }
   
   /** 
@@ -130,18 +110,6 @@ class Hlavne_menu_lang extends Table {
       }
     }
     return ($ulozenie == count($jazyky));
-  }
-  
-  /** Ak pridavam tak vytvorim zavislost na hlavne_menu_lang
-   * @param int $cid
-   * @param int $id_hlavne_menu
-   * @param int $id_clanok_lang
-   * @param int $id_lang */
-  public function _prepojHlavneMenuLang($cid, $id_hlavne_menu, $id_clanok_lang, $id_lang) {
-    if ($cid == 0) { //
-      $pol = $this->findOneBy(["id_hlavne_menu"=>$id_hlavne_menu, "id_lang"=>$id_lang]);
-      $this->uloz(["id_clanok_lang"=>$id_clanok_lang], $pol->id);
-    } 
   }
   
   /**

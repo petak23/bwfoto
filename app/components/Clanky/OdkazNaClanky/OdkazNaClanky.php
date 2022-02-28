@@ -6,13 +6,13 @@ use Language_support;
 
 /**
  * Komponenta pre zobrazenie odkazu na iny clanok
- * Posledna zmena(last change): 16.12.2019
+ * Posledna zmena(last change): 28.02.2022
  * 
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
- * @copyright Copyright (c) 2012 - 2019 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.8
+ * @version 1.0.9
  */
 class OdkazNaClankyControl extends Nette\Application\UI\Control {
   
@@ -61,7 +61,7 @@ class OdkazNaClankyControl extends Nette\Application\UI\Control {
     $this->template->nazov = $article->menu_name;
     $this->template->datum_platnosti = $p_hlm->datum_platnosti;
     $this->template->avatar = $p_hlm->avatar;
-    $this->template->anotacia = isset($article->id_clanok_lang) ? $article->clanok_lang->anotacia : NULL;
+    $this->template->anotacia = $article->anotacia;
     $this->template->texty = $this->texts;
     $this->template->link_presenter = $p_hlm->druh->presenter == "Menu" ? "Clanky:" : $p_hlm->druh->presenter.":";
     $this->template->to_link = $p_hlm->druh;

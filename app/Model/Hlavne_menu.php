@@ -92,7 +92,7 @@ class Hlavne_menu extends Table {
         $temp_pol->tooltip = $ja->h1part2;
         $temp_pol->view_name = $ja->view_name;
         $temp_pol->avatar = $v->avatar;
-        $temp_pol->anotacia = ($v->druh->presenter == "Clanky" && isset($ja->clanok_lang->anotacia)) ? $ja->clanok_lang->anotacia : FALSE;
+        $temp_pol->anotacia = ($v->druh->presenter == "Clanky" && isset($ja->anotacia)) ? $ja->anotacia : FALSE;
         $temp_pol->node_class = ($v->ikonka !== NULL && strlen($v->ikonka)>2) ? $v->ikonka : NULL;
         $temp_pol->link = $v->druh->je_spec_naz ? [$for_link] : $for_link;
         $temp_pol->absolutna = $v->absolutna;
@@ -186,7 +186,7 @@ class Hlavne_menu extends Table {
         $temp_pol->tooltip = $ja->h1part2;
         $temp_pol->view_name = $ja->view_name;
         $temp_pol->avatar = $v->avatar;
-        $temp_pol->anotacia = ($v->druh->presenter == "Clanky" && isset($ja->clanok_lang->anotacia)) ? $ja->clanok_lang->anotacia : FALSE;
+        $temp_pol->anotacia = ($v->druh->presenter == "Clanky" && isset($ja->anotacia)) ? $ja->anotacia : FALSE;
         $temp_pol->node_class = ($v->ikonka !== NULL && strlen($v->ikonka)>2) ? "fa fa-".$v->ikonka : NULL;
         $temp_pol->link = $v->druh->je_spec_naz ? [$v->druh->presenter.":"] : $v->druh->presenter.":";
         $temp_pol->id = $v->id;

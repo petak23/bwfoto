@@ -147,7 +147,7 @@ class FotocollageControl extends Nette\Application\UI\Control {
         'type'=>'menu',
         'name' => $v->view_name,
         'web_name' => $this->presenter->link('Clanky:', $v->id_hlavne_menu),
-        'description' => $v->clanok_lang->anotacia,
+        'description' => $v->anotacia,
         'main_file' => ($av && is_file($av)) ? $av : 'ikonky/128/list_ceruza128.png',
         'thumb_file' => ($av && is_file($av)) ? $av : 'ikonky/128/list_ceruza128.png',
       ];

@@ -26,7 +26,7 @@
        class="btn btn-outline-success">
       <i class="fas fa-pencil-alt"></i> Zmeň nastavenie
     </a>
-    <a n:if="$admin_links['elink'] && isset($clanok->id_clanok_lang) && $clanok->hlavne_menu->id_druh == 1" 
+    <a n:if="$admin_links['elink'] && $clanok->hlavne_menu->id_druh == 1" 
        href="{plink Clanky:edit2 $clanok->id_hlavne_menu}" 
        title="Zmeň text článku" 
        class="btn btn-outline-success">

@@ -16,6 +16,6 @@
   </div>
 </div>
 
-<span class="popis" n:if="$clanok->clanok_lang->text">
-  {$clanok->clanok_lang->text|texy|noescape|obr_v_txt|koncova_znacka}
+<span class="popis" n:ifset="$clanok->text">
+  {$clanok->text|texy|noescape|obr_v_txt|koncova_znacka}
 </span>

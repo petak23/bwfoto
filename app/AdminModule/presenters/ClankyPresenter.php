@@ -9,12 +9,12 @@ use PeterVojtech;
 /**
  * Prezenter pre spravu clankov.
  * 
- * Posledna zmena(last change): 16.11.2021
+ * Posledna zmena(last change): 16.02.2022
  *
  *	Modul: ADMIN
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @copyright Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
  * @version 1.3.7
@@ -31,7 +31,6 @@ class ClankyPresenter extends ArticlePresenter {
   public $komponentyControlFactory;
   /** @var Components\Products\IProductsControl @inject */
   public $productsControlFactory;
-  
   
 	/** @var string */
   protected $nadpis_h2 = "";
@@ -64,50 +63,23 @@ class ClankyPresenter extends ArticlePresenter {
    * Akcia pre 1. krok pridania clanku - udaje pre hl. menu.
    * @param int $id - id nadradenej polozky
    * @param int $uroven - uroven menu */
-  public function actionAdd($id, $uroven) {
-		$this->menuformuloz = ["text"=>"Ulož základ a pokračuj na texty >>","redirect"=>"Clanky:add2"];
+  public function actionAdd(int $id, int $uroven) {
+		$this->menuformuloz = ["text"=>"Ulož základ a pokračuj na texty >>","redirect"=>"Clanky:edit2"];
     parent::actionAdd($id, $uroven);
 	}
 	
   /** 
    * Akcia pre 1. krok editovania clanku - udaje pre hl. menu.
    * @param int $id - id editovanej polozky */
-  public function actionEdit($id) {
+  public function actionEdit(int $id) {
     $this->menuformuloz = ["text"=>"Ulož","redirect"=>"Clanky:default"];
     parent::actionEdit($id);
 	}
   
-	/** 
-   * Akcia pre 2. krok pridania clanku - udaje pre clanok.
-   * @param int $id - id pridavanej polozky v hl. menu */
-	public function actionAdd2($id) {
-    //Najdi pozadovany clanok
-    try {
-      $this->zobraz_clanok = $this->hlavne_menu_lang->getOneArticleId($id, $this->language_id, $this->id_reg);
-    } catch (DbTable\ArticleMainMenuException $th) {
-      $this->setView("notFound");
-      return;
-    }
-
-    $this->nadpis_h2 = 'Pridanie textov k článku: ';
-    $vychodzie = [];
-    foreach ($this->jaz as $j) {
-      $la = $j->skratka."_";
-      $vychodzie = array_merge($vychodzie, [//Nastav vychodzie hodnoty
-          $la.'id_lang'   => $j->id, 
-          $la.'text'    	=> NULL,
-          $la.'anotacia'	=> NULL,	
-        ]);
-    }
-    $this["clankyEditForm"]->setDefaults($vychodzie);
-    $this->setView("krok2");
-	}
-	
   /** 
    * Akcia pre 2. krok editovania clanku - udaje pre clanok.
    * @param int $id - id editovaneho clanku v hl. menu */
-	public function actionEdit2($id) {
-
+	public function actionEdit2(int $id) {
     //Najdi pozadovany clanok
     try {
       $this->zobraz_clanok = $this->hlavne_menu_lang->getOneArticleId($id, $this->language_id, $this->id_reg);
@@ -121,20 +93,11 @@ class ClankyPresenter extends ArticlePresenter {
     foreach ($this->jaz as $j) {
       $pom = $this->hlavne_menu_lang->findOneBy(["id_lang"=>$j->id, "id_hlavne_menu"=>$id]);
       $la = $j->skratka."_";
-      if ($pom === FALSE OR $pom->id_clanok_lang == NULL) { //Polozku som nenasiel a tak ju vytvorim
-        $vychodzie = array_merge($vychodzie, [//Nastav vychodzie hodnoty
-          $la.'id_lang'   => $j->id, 
-          $la.'text'    	=> NULL,
-          $la.'anotacia'	=> NULL,	
-        ]);
-      } else {
-        $vychodzie = array_merge($vychodzie, [ //Nastav vychodzie hodnoty
-          $la.'id'        => $pom->clanok_lang->id,
-          $la.'id_lang'   => $pom->clanok_lang->id_lang, 
-          $la.'text'    	=> $pom->clanok_lang->text,
-          $la.'anotacia'	=> $pom->clanok_lang->anotacia,	
-        ]);
-      }  
+      $vychodzie = array_merge($vychodzie, [ //Nastav vychodzie hodnoty
+        $la.'id'        => $pom->id, //hlavne_menu_lang -> id
+        $la.'text'    	=> $pom->text,
+        $la.'anotacia'	=> $pom->anotacia,	
+      ]);  
     }
     $this["clankyEditForm"]->setDefaults($vychodzie);
     $this->setView("krok2");
@@ -152,14 +115,9 @@ class ClankyPresenter extends ArticlePresenter {
 		$form = new Form();
 		$form->addProtection();
     $form->addGroup();
-    if ($this->nastavenie['send_e_mail_news']) {
-      $form->addCheckbox('posli_news', ' Posielatie NEWS')
-            ->setOption('description', 'Zaškrtnutím sa pri uložení pošle informačný e-mail všetkým užívateľom, ktorý majú oprávnenie na čítanie článku(min. úroveň registrácie).');
-    }
 		$form->addGroup();
 		foreach ($this->jaz as $j) {
-      $form->addHidden($j->skratka.'_id');
-			$form->addHidden($j->skratka.'_id_lang');
+      $form->addHidden($j->skratka.'_id'); // hlavne_menu_lang -> id
       if ($this->nastavenie['clanky']['zobraz_anotaciu']) {
         $form->addText($j->skratka.'_anotacia', 'Anotácia článku pre jazyk '.$j->nazov.':', 0, 255);
       }
@@ -180,35 +138,10 @@ class ClankyPresenter extends ArticlePresenter {
 	}
 
   /** 
-   * Spracovanie formulara pre editaciu clanku.
-   * @param Nette\Application\UI\Form $form Hodnoty formulara */
-	public function clankyEditFormSubmitted($form) {
-		$values = $form->getValues(TRUE);             //Nacitanie hodnot formulara
-		//Inicializacia
-		$posli_news = isset($values["posli_news"]) ? $values["posli_news"] : FALSE;
-    unset($values["posli_news"]);
-		if ($this->hlavne_menu_lang->ulozTextClanku($values, $this->action, $this->zobraz_clanok->id_hlavne_menu)) { //Ulozenie v poriadku
-			if ($this->nastavenie['send_e_mail_news'] && $posli_news) { $this->_sendClankyEmail(); }
-      $this->flashRedirect(['Clanky:default', $this->zobraz_clanok->id_hlavne_menu], 'Váš článok bol úspešne uložený!', 'success');
-		} else {													//Ulozenie sa nepodarilo
-			$this->flashMessage('Došlo k chybe a článok sa neuložil. Skúste neskôr znovu...', 'danger');
-		}
-	}
-  
-  /** Odoslanie info e-mailu */
-	public function _sendClankyEmail() {
-    $params = [ "site_name" => $this->nazov_stranky,
-                "nazov" 		=> $this->zobraz_clanok->view_name,
-                "odkaz" 		=> $this->link(":Front:Clanky:default", $this->zobraz_clanok->id_hlavne_menu),
-                "datum_platnosti" => $this->zobraz_clanok->hlavne_menu->datum_platnosti,
-              ];
-    $send = new PeterVojtech\Email\EmailControl($this->user_main);
-    $send->nastav(__DIR__.'/templates/Clanky/email_clanky_html.latte', 1, $this->zobraz_clanok->hlavne_menu->id_user_roles);
-    try {
-      $this->flashMessage('E-mail bol odoslany v poriadku na emaily: '.$send->send($params, 'Nový článok na stránke '.$this->nazov_stranky), 'success');
-    } catch (PeterVojtech\Email\SendException $e) {
-      $this->flashMessage($e->getMessage(), 'danger');
-    }
+   * Spracovanie formulara pre editaciu clanku. */
+	public function clankyEditFormSubmitted(Form $form, $values) {
+		$this->hlavne_menu_lang->ulozTextClanku($values);
+    $this->flashRedirect(['Clanky:default', $this->zobraz_clanok->id_hlavne_menu], 'Váš článok bol úspešne uložený!', 'success');
 	}
   
   /** 
@@ -256,5 +189,14 @@ class ClankyPresenter extends ArticlePresenter {
     $k = $this->nastavenie["komponenty"][$komponenta_spec_nazov];
     $this->clanok_komponenty->pridaj(["id_hlavne_menu"=>(int)$id_hlavne_menu, "spec_nazov"=>$komponenta_spec_nazov]);
     $this->flashRedirect(["Clanky:default", $id_hlavne_menu],'Komponenta "'.$k["nazov"].'" bola pridaná!', "success");
+  }
+
+  public function actionKonvertuj($id = 0) {
+    $cl = $this->hlavne_menu_lang->findBy(['id_clanok_lang IS NOT NULL']);
+    foreach ($cl as $c) {
+      $c->update(['text'=>$c->clanok_lang->text,
+                  'anotacia'=>$c->clanok_lang->anotacia]);
+    }
+    $this->flashRedirect("Homepage:",'OK!', "success");
   }
 }
