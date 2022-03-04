@@ -1,6 +1,6 @@
 <script>
 /** 
- * Component Fotogalery
+ * Component Fotopanorama
  * Posledná zmena(last change): 15.11.2021
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
@@ -22,7 +22,6 @@ export default {
     text_before: String,
     text_after: String,
     first_id: String,
-    large: String,
   },
   data() {
     return {
@@ -40,9 +39,6 @@ export default {
     modalchangebig (id) {
       this.id = id;
       this.$bvModal.show("modal-multi-1")
-    },
-    openmodal2 () {
-      if (this.wid > 0) this.$bvModal.show("modal-multi-2")
     },
     // Zmena id na predošlé
     before: function() {
@@ -104,9 +100,6 @@ export default {
     myatt() {
       return JSON.parse(this.attachments)
     },
-    large_thumbs() {
-      return this.large == "large"
-    }
   },
   mounted () {
     /* Naviazanie na sledovanie zmeny veľkosti stránky */
@@ -132,43 +125,7 @@ export default {
     </h4>
   </div>
   <div class="row">
-    <div class="d-none d-sm-flex justify-content-center col-sm-8 detail" ref="imgDetail" id="imgDetail"
-         v-if="large_thumbs == false">
-      <div id="squarePlace" 
-           v-bind:style="{height: square + 'px', width: square + 'px'}">
-        <a  v-if="myatt[id].type == 'menu'"
-            :href="myatt[id].web_name" 
-            :title="myatt[id].name">
-          <img  :src="basepath + myatt[id].main_file" 
-                :alt="myatt[id].name" class="img-fluid">
-          <h4>{{ myatt[id].name }}</h4>
-        </a>
-        <video v-if="myatt[id].type == 'attachments3'"
-              class="video-priloha" 
-              :src="basepath + myatt[id].main_file" 
-              :poster="basepath + myatt[id].thumb_file"
-              type="video/mp4" controls="controls" preload="none">
-        </video>
-        <a v-else-if="myatt[id].type == 'attachments1'"
-            :title="myatt[id].name"
-            :href="basepath + myatt[id].main_file"
-            target="_blank"
-            class="for-pdf"
-                >
-          <img :src="basepath + myatt[id].thumb_file" 
-              :alt="myatt[id].name" class="img-fluid">
-          <br><h6>{{ myatt[id].name }}</h6>
-        </a>  
-        <button v-else-if="myatt[id].type == 'attachments2' || myatt[id].type == 'product'"
-                v-b-modal.modal-multi-1
-                type="button" class="btn btn-link">
-          <img :src="basepath + myatt[id].main_file" 
-              :alt="myatt[id].name" class="img-fluid">
-        </button>
-      </div>
-    </div>
-    <div class="col-12  thumbgrid" 
-         :class="{'thumbs-large': large_thumbs, 'col-sm-4': !large_thumbs}">
+    <div class="col-12 thumbgrid">
       <div v-for="(im, index) in myatt" :key="im.id">
         <a  v-if="wid > 0" 
             @click.prevent="changebig(index)" href=""
@@ -225,17 +182,15 @@ export default {
             ref="modal1fo">
     <div class="modal-content">
       <div class="modal-body my-img-content">
-        <b-button @click.prevent="openmodal2">
-          <div class="border-a" :style="border_a">
-            <div class="border-b" :style="border_b">
-              <img :src="basepath + myatt[id].main_file" 
-                    :alt="myatt[id].name" 
-                    id="big-main-img"
-                    class="border-c" 
-                    :style="border_c" />
-            </div>
+        <div class="border-a" :style="border_a">
+          <div class="border-b" :style="border_b">
+            <img :src="basepath + myatt[id].main_file" 
+                  :alt="myatt[id].name" 
+                  id="big-main-img"
+                  class="border-c" 
+                  :style="border_c" />
           </div>
-        </b-button>
+        </div>
         <div class="text-center description" v-if="myatt[id].description != null">
           {{ myatt[id].description }}
         </div>
@@ -247,9 +202,6 @@ export default {
               :title="text_before">&#10094;
           </a>
         </div>
-        <div class="go-to-hight"
-            @click.prevent="openmodal2">
-        </div>
         <div class="arrows-r flex-row-reverse"
             @click="after">
           <a href="#" class="text-light"
@@ -258,10 +210,6 @@ export default {
         </div>
       </div>
     </div>
-  </b-modal>
-
-  <b-modal id="modal-multi-2" centered size="xl" ok-only >
-    <img :src="basepath + myatt[id].main_file" :alt="myatt[id].name" @click="closeme">
   </b-modal>
 </div>
 </template>

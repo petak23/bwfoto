@@ -12,7 +12,7 @@ use PeterVojtech;
 /**
  * Prezenter pre vypisanie clankov.
  * 
- * Posledna zmena(last change): 25.02.2022
+ * Posledna zmena(last change): 02.03.2022
  *
  *	Modul: FRONT
  *
@@ -20,7 +20,7 @@ use PeterVojtech;
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.4.0
+ * @version 1.4.1
  */
 
 class ClankyPresenter extends BasePresenter {
@@ -29,6 +29,7 @@ class ClankyPresenter extends BasePresenter {
   use PeterVojtech\Clanky\OdkazNaClanky\odkazNaClankyTrait;
   use PeterVojtech\Clanky\Fotogalery\fotogaleryTrait;
   use PeterVojtech\Clanky\Fotocollage\fotocollageTrait;
+  use PeterVojtech\Clanky\Fotopanorama\fotopanoramaTrait;
   
 	/** @var DbTable\Clanok_komponenty @inject*/
 	public $clanok_komponenty;

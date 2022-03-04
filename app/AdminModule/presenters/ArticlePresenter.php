@@ -11,7 +11,7 @@ use PeterVojtech;
 /**
  * Zakladny presenter pre presentery obsluhujuce polozky hlavneho menu v module ADMIN
  * 
- * Posledna zmena(last change): 28.02.2022
+ * Posledna zmena(last change): 02.03.2022
  *
  * Modul: ADMIN
  *
@@ -19,7 +19,7 @@ use PeterVojtech;
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.5.0
+ * @version 1.5.1
  */
 abstract class ArticlePresenter extends BasePresenter {
   
@@ -27,6 +27,7 @@ abstract class ArticlePresenter extends BasePresenter {
 //  use PeterVojtech\Clanky\ZobrazKartyPodclankov\zobrazKartyPodclankovTrait;
   use PeterVojtech\Clanky\OdkazNaClanky\odkazNaClankyTrait;
   use PeterVojtech\Clanky\Fotocollage\fotocollageTrait;
+  use PeterVojtech\Clanky\Fotopanorama\fotopanoramaTrait;
   
   // -- DB
   /** @var DbTable\Clanok_komponenty @inject */
