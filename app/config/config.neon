@@ -8,7 +8,7 @@ parameters:
   admin_email: petak23@echo-msz.eu
   homepage_redirect: false #Clanky:default 1 #Presmerovanie na hlavnej stranke Cesta|FALSE
   add_uroven0: FALSE # Globalne povolenie pre pridavanie do urovne 0 pre spravcu. TRUE|FALSE
-  send_e_mail_news: FALSE # Globalne povolenie posielania info mailov v pripade pridania polozky TRUE|FALSE
+  send_e_mail_news: TRUE # Globalne povolenie posielania info mailov v pripade pridania polozky TRUE|FALSE
   aktualny_projekt_enabled: FALSE # Globalne povolenie nastavovania aktualneho projektu TRUE|FALSE
   dir_to_images: images/ # Globalne nastanenie adresara pre "pevne" obrazky webu 
   dir_to_icons: ikonky/ # Globalne nastanenie adresara pre ikonky webu 

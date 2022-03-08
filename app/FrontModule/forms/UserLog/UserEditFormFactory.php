@@ -14,13 +14,13 @@ use PeterVojtech\News_key;
 
 /**
  * Formular editacie prihlaseneho uzivatela
- * Posledna zmena 10.02.2022
+ * Posledna zmena 12.03.2022
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.8
+ * @version    1.0.9
  */
 class UserEditFormFactory {
   /** @var Language_support\LanguageMain */
@@ -37,7 +37,15 @@ class UserEditFormFactory {
   
   /** @var string */
   private $wwwDir;
-  
+  /** @var string */
+  private $dir_to_user;
+  /** @var array */
+  private $user_view_fields;
+  /** @var String */
+  private $dir_to_icons;
+  /** @var bool */
+  private $send_e_mail_news;
+
   /** @var string */
   private $avatar_path;
   
@@ -46,16 +54,21 @@ class UserEditFormFactory {
   /** @var News_key\NewsKeyControl */
   private $news_key;
 
-  /**
-   * @param Security\User $user
-   * @param Language_support\LanguageMain $language_main
-   * @param DbTable\User_profiles $user_profiles
-   * @param DbTable\User_main $user_main */
-  public function __construct(Security\User $user, 
+  public function __construct(String $wwwDir,
+                              String $dir_to_user,
+                              array $user_view_fields,
+                              String $dir_to_icons,
+                              bool $send_e_mail_news,
+                              Security\User $user, 
                               Language_support\LanguageMain $language_main, 
                               DbTable\User_profiles $user_profiles, 
                               DbTable\User_main $user_main,
                               News_key\NewsKeyControl $news_key) {
+    $this->wwwDir = $wwwDir;
+    $this->dir_to_user = $dir_to_user;
+    $this->user_view_fields = $user_view_fields;
+    $this->dir_to_icons = $dir_to_icons;
+    $this->send_e_mail_news = $send_e_mail_news;
     $this->user = $user;
     $this->texts = $language_main;
     $this->user_profiles = $user_profiles;
@@ -65,14 +78,12 @@ class UserEditFormFactory {
 
   /**
    * Formular pre editaciu prihlaseneho pouzivatela
-   * @param array $nastavenie
    * @param string $basePath
    * @param Nette\Database\Table\ActiveRow $clen
    * @return Form  */
-  public function create(array $nastavenie, string $basePath, string $language): Form  {
-    $this->wwwDir = $nastavenie["wwwDir"];
+  public function create(string $basePath, string $language): Form  {
     $this->clen = $this->user_main->find($this->user->getIdentity()->id);
-    $this->avatar_path = $nastavenie["dir_to_user"].$this->user->getIdentity()->id."/";
+    $this->avatar_path = $this->dir_to_user.$this->user->getIdentity()->id."/";
     $this->texts->setLanguage($language);
     $form = new Form();
 		$form->addProtection();
@@ -85,20 +96,20 @@ class UserEditFormFactory {
 				 ->addRule(Form::MIN_LENGTH, 'UserEditForm_priezvisko_ar', 3)
 				 ->setRequired('UserEditForm_priezvisko_sr');
     $form->addText('email', 'default_email', 30)->setDisabled(TRUE);
-    if ($nastavenie['user_view_fields']["pohl"]) {
+    if ($this->user_view_fields["pohl"]) {
       $form->addSelect('pohl', 'UserEditForm_pohl',
                      ['M'=>'UserEditForm_m','Z'=>'UserEditForm_z']);
     }
-    if ($nastavenie["send_e_mail_news"]) {
+    if ($this->send_e_mail_news) {
       $form->addSelect('news', 'UserEditForm_news',
                        ['A'=>'UserEditForm_news_a','N'=>'UserEditForm_news_n']);
     }
-    if ($nastavenie['user_view_fields']["avatar"]) {
+    if ($this->user_view_fields["avatar"]) {
       $user_avatar = $this->avatar_path.$this->clen->user_profiles->avatar;
       $form->addUpload('avatar', 'UserEditForm_avatar')
            ->setHtmlAttribute('accept', 'image/*')
            ->setOption('description', Utils\Html::el('p')->setHtml(
-              Utils\Html::el('img')->src($basePath."/".(is_file($user_avatar) ? $user_avatar : $nastavenie["dir_to_icons"]."64/figurky_64.png"))->alt('avatar').
+              Utils\Html::el('img')->src($basePath."/".(is_file($user_avatar) ? $user_avatar : $this->dir_to_icons."64/figurky_64.png"))->alt('avatar').
               "<br>".$this->texts->trText('default_avatar_txt')))
            ->addCondition(Form::FILLED)
             ->addRule(Form::IMAGE, 'UserEditForm_avatar_oi')
@@ -125,7 +136,7 @@ class UserEditFormFactory {
       unset($values->id, $values->avatar, $values->news, $values->pohl);
       $this->user_main->uloz($values, $id);
       if ($pohl != null) $this->user_profiles->uloz(['pohl'=>$pohl], $this->user->getIdentity()->id_user_profiles); 
-      if (isset($uloz['id']) && $this->clen->user_profiles->news != $news) { //Ak doslo k zmene v posielani noviniek
+      if ($this->clen->user_profiles->news != $news) { //Ak doslo k zmene v posielani noviniek
         $this->news_key->Spracuj($news == "A", $id);
       } 
     } catch (Security\AuthenticationException $e) {

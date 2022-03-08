@@ -16,6 +16,7 @@ import Autocomplete from './components/Autocomplete.vue';
 import Fotogalery from './components/Fotogalery.vue';
 import Fotocollage from './components/Fotocollage.vue';
 import Fotopanorama from './components/Fotopanorama.vue';
+import Edittitle from './components/EditArticle/EditTitle.vue';
 
 // Make BootstrapVue available throughout your project
 Vue.use(BootstrapVue);
@@ -27,6 +28,7 @@ var vm = new Vue({
   components: { 
     Slider, 
     Autocomplete,
+    Edittitle,
     Fotogalery,
     Fotocollage,
     Fotopanorama,

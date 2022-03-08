@@ -23,9 +23,11 @@
         role="group" 
         aria-label="Button group with nested dropdown"
         style="right: 0;">
-      <button type="button" class="btn btn-secondary" title="Edituj nadpis a podnadpis">
-        <i class="fas fa-pen"></i>
-      </button>
+      <edittitle
+        articlename="{$article->view_name}"
+        title="Edituj nadpis a podnadpis"
+      >
+      </edittitle>
     </div>
   </h1>
   <span class="popis" n:ifset="$article->text">

@@ -13,7 +13,7 @@ use Nette\Utils\Random;
 /**
  * Prezenter pre spravu uzivatela po prihlásení.
  * (c) Ing. Peter VOJTECH ml.
- * Posledna zmena(last change): 10.02.2022
+ * Posledna zmena(last change): 12.03.2022
  *
  *	Modul: FRONT
  *
@@ -21,7 +21,7 @@ use Nette\Utils\Random;
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.9
+ * @version 1.2.0
  */
 class UserLogPresenter extends BasePresenter {
   
@@ -74,8 +74,7 @@ class UserLogPresenter extends BasePresenter {
 	 * Edit user form component factory.
 	 * @return Form */
 	protected function createComponentUserEditForm(): Form {
-    $form = $this->userEditFormFactory->create($this->nastavenie, 
-                                               $this->template->basePath,
+    $form = $this->userEditFormFactory->create($this->template->basePath,
                                                $this->language);  
     $form['uloz']->onClick[] = function ($form) {
       $this->flashOut(!count($form->errors), 'UserLog:', $this->texty_presentera->translate('user_edit_save_ok'), $this->texty_presentera->translate('user_edit_save_err'));

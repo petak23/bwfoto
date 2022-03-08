@@ -1,13 +1,13 @@
 <script>
 /** 
  * Component Fotocollage
- * Posledná zmena(last change): 04.03.2022
+ * Posledná zmena(last change): 12.03.2022
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.1
+ * @version 1.1.3
  * Z kniznica pouzite súbory a upravene: https://github.com/seanghay/vue-photo-collage
  */
 import PhotoCollageWrapper from "./vue-photo-collage/PhotoCollageWrapper.vue";
@@ -21,9 +21,13 @@ export default {
     attachments: {
       type: String
     },
-    basepath: String,
+    basepath: {
+      type: String,
+      required: true,
+    },
     maxrandompercwidth: { // Percento, o ktoré sa môže meniť naviac šírka fotky
       type: String,
+      default: 20,
     },
     myschema: String
   },
@@ -52,10 +56,8 @@ export default {
         {
           // Max. šírka koláže pre ktorú platí
           max_width: 320,  
-          // Minimálny počet fotiek na riadok
-          min_row: 1,      
-          // Počet fotiek v jednotlivých riadkoch + min_row
-          schema: [2, 3, 2, 3, 3, 2, 3, 3], 
+          // Počet fotiek v jednotlivých riadkoch
+          schema: [2, 1, 3, 4, 4, 3, 4, 4], 
           // Výška jednotlivých riadkov
           height: ["85px", "60px", "85px", "60px", "70px", "95px", "70px", "60px"],
           // Poradie fotky v riadku, ktorá má byť širšia ako ostatné v riadku:
@@ -68,29 +70,27 @@ export default {
         },
         {
           max_width: 700,
-          min_row: 1, 
-          schema: [3, 2, 4, 3, 2, 3, 4, 3],
+          schema: [4, 3, 5, 4, 3, 4, 5, 4],
           height: ["130px", "175px", "105px", "120px", "175px", "130px", "105px", "120px"],
           layout: [],
           widerPhotoId: [-1, 0, 2, 0, -1, 2, 3, 1],
         },
         {
           max_width: 1300,
-          min_row: 3,
-          schema: [3, 4, 5, 4, 3, 5, 4],
+          schema: [6, 7, 8, 7, 6, 8, 7],
           height: ["225px", "170px", "135px", "170px", "225px", "135px", "170px", "225px"],
           layout: [],
           widerPhotoId: [2, -1, 0, 2, -1, 1, 2, 1],
         },
         {
           max_width: 10000,
-          min_row: 3,
-          schema: [3, 4, 5, 4, 3, 5, 4],
+          schema: [6, 7, 8, 7, 6, 8, 7],
           height: ["318px", "240px", "190px", "240px", "318px", "190px", "240px"],
           layout: [],
           widerPhotoId: [3, 0, -1, 2, 2, -1, 3],
         },
       ],
+      // Koniec sch -----
     }
   },
   methods: {
@@ -112,8 +112,7 @@ export default {
     },
     computeLayout(client_width) {
       var res = { 
-        max_width: 0,
-        min_row: 0,  
+        max_width: 0,  
         schema: [],  
         height: [],  
         layout: [],
@@ -129,10 +128,12 @@ export default {
       var i = this.collage.photos.length
       var r = 0 // riadok
       do {
-        res.layout.push( res.min_row + res.schema[r] )
+        // Zisti počet foto v riadku. Ak by bolo 0 tak nahraď to 1
+        var fr = res.schema[r] > 0 ? res.schema[r] : 1;
+        res.layout.push( fr )
 
         r = r + 1 >= res.schema.length ? 0 : r + 1 
-        i -= res.min_row + res.schema[r]
+        i -= fr
       }
       while (i > 0);
       this.collage.width = client_width + 'px';

@@ -1,15 +1,14 @@
 <script>
 /** 
  * Component Fotopanorama
- * Posledná zmena(last change): 08.03.2022
+ * Posledná zmena(last change): 11.03.2022
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.7
+ * @version 1.0.8
  */
-
 export default {
   props: {
     attachments: {
@@ -26,9 +25,6 @@ export default {
   data() {
     return {
       id: 0,
-      square: 0,
-      wid: 0,
-      uroven: 0, // Premenná sleduje uroveň zobrazenia
     }
   },
   methods: {
@@ -51,30 +47,14 @@ export default {
     closeme: function() {
       this.$bvModal.hide("modal-multi-2");
     },
-    matchHeight () {
-      let height = this.$refs.imgDetail.clientHeight;
-      let width = this.$refs.imgDetail.clientWidth;
-      var height2 = parseInt(window.innerHeight * 0.8);
-      var h = height2 > height ? height2 : height;
-      this.square = (h>width ? width-20 : h);
-      this.wid = width;
-    },
-    urovenUp () { // Funkcia pre zmenu úrovne o +1 na max. 2
-      this.uroven += this.uroven < 2 ? 1 : 0;;
-    },
-    urovenDwn () {// Funkcia pre zmenu úrovne o -1 na min. 0
-      this.uroven -= this.uroven > 0 ? 1 : 0;
-    },
     keyPush(event) {
-      if (this.uroven <= 1) {
-				switch (event.key) {
-					case "ArrowLeft":
-						this.before();
-						break;
-					case "ArrowRight":
-						this.after();
-						break;
-        }
+      switch (event.key) {
+        case "ArrowLeft":
+          this.before();
+          break;
+        case "ArrowRight":
+          this.after();
+          break;
       }
     },
     // Generovanie url pre lazyloading obrázky
@@ -83,7 +63,6 @@ export default {
     },
   },
   created() {
-    window.addEventListener("resize", this.matchHeight);
     if (parseInt(this.first_id) > 0) { // Ak mám first_id tak k nemu nájdem položku v myatt
       Object.keys(this.myatt).forEach(ma => { 
         if (this.myatt[ma].id == this.first_id) {
@@ -92,9 +71,6 @@ export default {
       });
     }
   },
-  destroyed() {
-    window.removeEventListener("resize", this.matchHeight);
-  },
   computed: {
     // Parsovanie JSON-u  na array
     myatt() {
@@ -102,16 +78,8 @@ export default {
     },
   },
   mounted () {
-    /* Naviazanie na sledovanie zmeny veľkosti stránky */
-    this.matchHeight();
-
-    /* Naviazanie na sledovanie stláčania klávesnice */
+    // Naviazanie na sledovanie stláčania klávesnice
     document.addEventListener("keydown", this.keyPush);
-
-    /* Naviazanie funkcií na $emit na root elemente pre zobrazenie/skrytie modálneho okna fotogalérie 
-     * najdené na: https://stackoverflow.com/questions/50181858/this-root-emit-not-working-in-vue */
-    this.$root.$on("bv::modal::shown", this.urovenUp);
-    this.$root.$on("bv::modal::hidden", this.urovenDwn);
   },
 
 };
@@ -119,24 +87,15 @@ export default {
 
 <template>
 <div class="main-win">
-  <div class="row" v-if="wid > 0">
+  <div class="row">
     <h4 class="col-12 bigimg-name">
       {{ myatt[id].name }}
     </h4>
   </div>
   <div class="row">
-    <div class="col-12 thumbpanorama">
+    <div class="col-12 thumbpanorama" id="imgDetail" ref="imgDetail">
       <div v-for="(im, index) in myatt" :key="im.id">
-        <a  v-if="wid > 0" 
-            @click.prevent="changebig(index)" href=""
-            :title="'Odkaz' + (im.type == 'menu' ? im.view_name : im.name)" 
-            class="pok thumb-a, ajax">
-          <b-img-lazy
-            :src="getImageUrl(im.thumb_file)"
-            :alt="im.name" class="img-fluid">
-          ></b-img-lazy>
-        </a>
-        <a  v-else-if="wid == 0 && im.type == 'menu'" 
+        <a  v-if="im.type == 'menu'" 
             :href="im.web_name" 
             :title="im.name">
           <b-img-lazy
@@ -145,13 +104,13 @@ export default {
           ></b-img-lazy>
           <h4 class="h4-podclanok">{{ im.name }}</h4>
         </a>
-        <video v-if="wid == 0 && im.type == 'attachments3'"
+        <video v-else-if="im.type == 'attachments3'"
               class="video-priloha" 
               :src="basepath + im.main_file" 
               :poster="basepath + im.thumb_file"
               type="video/mp4" controls="controls" preload="none">
         </video>
-        <button v-else-if="wid == 0 && im.type == 'attachments1'" 
+        <button v-else-if="im.type == 'attachments1'" 
                 :title="im.name">
           <b-img-lazy
             :src="getImageUrl(im.thumb_file)" 
@@ -160,7 +119,7 @@ export default {
           ></b-img-lazy>
           <br><h6>{{ im.name }}</h6>
         </button>
-        <button v-else-if="wid == 0 && (im.type == 'attachments2' || im.type == 'product')"
+        <button v-else-if="(im.type == 'attachments2' || im.type == 'product')"
                 @click.prevent="modalchangebig(index)" 
                 type="button" 
                 class="btn btn-link">
@@ -228,7 +187,7 @@ export default {
   }
   img{
     position: absolute;
-    width: 90%; 
+    max-width: 90%; 
     max-height: 90%;
     top: 50%;
     left: 50%;
@@ -248,5 +207,8 @@ export default {
     color: #ddd;
     text-align: center;
   }
+}
+.btn:focus {
+  box-shadow: none;
 }
 </style>

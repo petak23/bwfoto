@@ -18,7 +18,7 @@ services:
   - App\FrontModule\Forms\User\RegisterFormFactory
   - App\FrontModule\Forms\User\ResetPasswordFormFactory
   - App\FrontModule\Components\Faktury\DokumentFormFactory
-  - App\FrontModule\Forms\UserLog\UserEditFormFactory
+  - App\FrontModule\Forms\UserLog\UserEditFormFactory(%wwwDir%, %dir_to_user%, %user_view_fields%, %dir_to_icons%, %send_e_mail_news%)
 
   - App\FrontModule\Components\Autocomplete\IAutocompleteControl
 
