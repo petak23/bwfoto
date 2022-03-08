@@ -9,27 +9,25 @@ use Zet\FileUpload\Model;
 /**
  * Model, ktory sa stara o tabulku products
  * 
- * Posledna zmena 10.01.2021
+ * Posledna zmena 08.03.2022
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.6
+ * @version    1.0.7
  */
 class Products extends Table implements Model\IUploadModel {
   /** @var string */
   protected $tableName = 'products';
-  
-  /** @var string www adresar aplikacie */
-  private $www_dir;
 
-  public function setWwwDir(string $www_dir) {
-    $this->www_dir = $www_dir;
-  }
-  
-  public function getWwwDir(): string {
-    return $this->www_dir;
+  /** @var string relativny adresar k produktom */
+  private $dir_to_products;
+
+  public function __construct(string $dir_to_products,
+                              Nette\Database\Explorer $db)  {
+    parent::__construct($db);
+    $this->dir_to_products = $dir_to_products;
   }
 
   /** 
@@ -56,15 +54,15 @@ class Products extends Table implements Model\IUploadModel {
 	 * @param array $params Pole vlastnych hodnot.
 	 * @return int Id ulozenej polozky ulozena v DB. */
   public function save(Nette\Http\FileUpload $file, array $params = []): int {
-    $tmp_dir = $params['products_dir']."tmp/";
+    $tmp_dir = $this->dir_to_products."tmp/";
     $fileName = $file->getSanitizedName();
     $pi = pathinfo($fileName);
 		$fname = $pi['filename'];
 		$ext = $pi['extension'];
 		$additionalToken = 0;
-    if (file_exists($params['products_dir'].$fileName)) {
+    if (file_exists($this->dir_to_products.$fileName)) {
 			do { $additionalToken++;
-			} while (file_exists($params['products_dir'].$fname.$additionalToken.".".$ext));
+			} while (file_exists($this->dir_to_products.$fname.$additionalToken.".".$ext));
     }
 		$finalFileName = ($additionalToken == 0) ? $fname : $fname.$additionalToken;
     $image_name = $tmp_dir.$finalFileName.".". $ext;
@@ -72,17 +70,18 @@ class Products extends Table implements Model\IUploadModel {
 
     $file->move($image_name);
     $image = Utils\Image::fromFile($image_name);
-    $image->resize($params['products_settings']['product_main_x'],
-                   $params['products_settings']['product_main_y'], 
+    $products_settings = $params['products_settings'];
+    $image->resize($products_settings['product_main_x'],
+                   $products_settings['product_main_y'], 
                    Utils\Image::SHRINK_ONLY);
-    $image->save($image_name, $params['products_settings']['product_main_quality']);
+    $image->save($image_name, $products_settings['product_main_quality']);
     
     copy($image_name, $thumb_name);
     $thumb = Utils\Image::fromFile($thumb_name);
-    $thumb->resize($params['products_settings']['product_thumb_x'],
-                   $params['products_settings']['product_thumb_y'], 
+    $thumb->resize($params['panorama'] ? null : $products_settings['product_thumb_x'],
+                   $products_settings['product_thumb_y'], 
                    Utils\Image::SHRINK_ONLY); //| Image::EXACT
-    $thumb->save($thumb_name, $params['products_settings']['product_thumb_quality']);
+    $thumb->save($thumb_name, $products_settings['product_thumb_quality']);
     
     $saved = $this->getTable()->insert(array_merge($params['main_data'],[
       'name'      => $finalFileName,
@@ -122,7 +121,7 @@ class Products extends Table implements Model\IUploadModel {
 	 * @param string $subor Nazov suboru aj srelativnou cestou
 	 * @return bool Ak zmaze alebo neexistuje(nie je co mazat) tak true inak false */
 	private function _vymazSubor(string $subor): bool {
-		return (is_file($subor)) ? unlink(/*$this->www_dir.*/$subor) : true;
+		return (is_file($subor)) ? unlink($subor) : true;
   }
   
   /**

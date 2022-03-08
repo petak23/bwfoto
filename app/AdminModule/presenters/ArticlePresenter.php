@@ -262,8 +262,9 @@ abstract class ArticlePresenter extends BasePresenter {
 		$form = $this->editMenuFormFactory->create()->form($this->uroven, $this->menuformuloz["text"], $this->udaje_webu["meno_presentera"]);
     $form['uloz']->onClick[] = function ($button) { $this->menuEditFormSubmitted($button);};
     $form['cancel']->onClick[] = function ($button) {
-      $values = $button->getForm()->getValues();
-      $id = $values->id ? $values->id : ($values->uroven ? $values->id_nadradenej : -1*$values->id_hlavne_menu_cast);
+      $form = $button->getForm();
+      $values = $form->getHttpData($form::DATA_TEXT | $form::DATA_KEYS);
+      $id = $values['id'] ? $values['id'] : ($values['uroven'] ? $values['id_nadradenej'] : -1*$values['id_hlavne_menu_cast']);
       $pol = ($id > 0) ? $this->hlavne_menu->find($id)->druh->presenter : 'Homepage';
       $this->redirect($pol.":",$id);
 		};

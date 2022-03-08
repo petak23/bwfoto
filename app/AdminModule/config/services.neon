@@ -42,7 +42,7 @@ services:
 
   - App\AdminModule\Forms\Article\IEditMenuFormFactory
 
-  - App\AdminModule\Forms\Products\AddMultiProductsFormFactory
+  - App\AdminModule\Forms\Products\AddMultiProductsFormFactory(%wwwDir%, %dir_to_products%)
   - App\AdminModule\Forms\Products\EditProoductFormFactory
 
   - App\AdminModule\Forms\Slider\EditSliderFormFactory

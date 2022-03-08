@@ -15,13 +15,13 @@ use Ublaboo\DataGrid\Localization\SimpleTranslator;
 /**
  * Komponenta pre spravu produktov clanku.
  * 
- * Posledna zmena(last change): 29.09.2021
+ * Posledna zmena(last change): 08.03.2022
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
- * @copyright Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.5
+ * @version 1.1.6
  */
 
 class ProductsControl extends Nette\Application\UI\Control {
@@ -34,8 +34,7 @@ class ProductsControl extends Nette\Application\UI\Control {
   private $clanok;
   /** @var int */
   private $upload_size;
-  /** &var EditProductFormFactory */
-  public $editProductForm;
+
   /** &var AddMultiProductsFormFactory */
   public $addMultiProductsForm;
   /** @var array */
@@ -45,9 +44,6 @@ class ProductsControl extends Nette\Application\UI\Control {
   /** @var DbTable\Hlavne_menu */
   private $hlavne_menu;
   
-  /** @var ZmenOkrajFormFactory */
-	//public $zmenOkraj;
-
   /** @var mixed */
   protected $big_img;
 
@@ -66,8 +62,6 @@ class ProductsControl extends Nette\Application\UI\Control {
    * @param DbTable\Hlavne_menu $hlavne_menu
    * @param DbTable\Products $products
    * @param \App\AdminModule\Forms\Products\AddMultiProductsFormFactory $addMultiProductsFormFactory
-   * @param \App\AdminModule\Forms\Products\EditProoductFormFactory $editProductFormFactory
-   * @param \App\AdminModule\Components\Products\ZmenOkrajFormFactory $zmenOkrajFormFactory
    * @param User $user
    * @param Nette\Http\Request $request */
   public function __construct(array $texts_for_translator,
@@ -76,8 +70,6 @@ class ProductsControl extends Nette\Application\UI\Control {
                               DbTable\Hlavne_menu $hlavne_menu,
                               DbTable\Products $products, 
                               \App\AdminModule\Forms\Products\AddMultiProductsFormFactory $addMultiProductsFormFactory,
-                              \App\AdminModule\Forms\Products\EditProoductFormFactory $editProductFormFactory, 
-                              //ZmenOkrajFormFactory $zmenOkrajFormFactory,
                               User $user,
                               Nette\Http\Request $request
                               ) {
@@ -87,9 +79,7 @@ class ProductsControl extends Nette\Application\UI\Control {
     $this->hlavne_menu = $hlavne_menu;
     $this->products = $products;
     $this->addMultiProductsForm = $addMultiProductsFormFactory;
-    $this->editProductForm = $editProductFormFactory;
     $this->user = $user;
-    //$this->zmenOkraj = $zmenOkrajFormFactory;
     $this->httpRequest = $request;
   }
   
@@ -99,7 +89,9 @@ class ProductsControl extends Nette\Application\UI\Control {
    * @param string $nazov_stranky
    * @param string $name
    * @return \App\AdminModule\Products\ProductsControl */
-  public function setTitle(Nette\Database\Table\ActiveRow $clanok, string $nazov_stranky,string $name): self {
+  public function setTitle(Nette\Database\Table\ActiveRow $clanok, 
+                           string $nazov_stranky,
+                           string $name): self {
     $this->clanok = $clanok;
     $this->nazov_stranky = $nazov_stranky;
     $ini_v = trim(ini_get("upload_max_filesize"));
@@ -130,16 +122,9 @@ class ProductsControl extends Nette\Application\UI\Control {
   /** 
    * Render */
 	public function render(): void {
-    //$this->template->setFile(__DIR__ . '/Products.latte');
     $this->template->clanok = $this->clanok;
-    $this->template->admin_links_prilohy = $this->admin_links;
+    $this->template->elink = $this->admin_links['elink'];
     $this->template->big_img = $this->big_img;
-    $this->template->addFilter('border_x', function ($text){
-      $pom = $text != null && strlen($text)>2 ? explode("|", $text) : ['#000000','0'];
-      $xs = 'style="border: '.$pom[1].'px solid '.(strlen($pom[0])>2 ? $pom[0]:'inherit').'"';
-      return $xs;
-    });
-    $this->products->setWwwDir($this->wwwDir."/");
 		$this->template->render(__DIR__ . '/Products.latte');
 	}
   
@@ -168,15 +153,7 @@ class ProductsControl extends Nette\Application\UI\Control {
           ->setEditableCallback(function($id, $value) {
             $this->products->oprav($id, ['description'=>$value]);
           });
-    if ($this->admin_links['elink']) {
-      $service = $this;
-      $grid->addActionCallback('edit', '')
-            ->setIcon('pencil-alt fa-2x')
-            ->setClass('btn btn-success btn-sm')
-            ->setTitle('Editácia položky')
-            ->onClick[] = function($item_id) use ($service) {
-              $service->presenter->redirect('Products:edit', ['id'=>$item_id, 'id_hlavne_menu' => $service->clanok->id_hlavne_menu]);
-            };
+    if ($this->admin_links['dlink']) {
       $grid->addAction('delete', '', 'confirmedDelete!')
             ->setIcon('trash-alt fa-2x')
             ->setClass('btn btn-danger btn-sm ajax')
@@ -207,48 +184,19 @@ class ProductsControl extends Nette\Application\UI\Control {
   }
   
   /** 
-   * Komponenta formulara pre pridanie a editaciu produktu polozky.
-   * @return Nette\Application\UI\Form */
-  public function createComponentEditProductForm(): Nette\Application\UI\Form {
-    $form = $this->editProductForm->create($this->dir_to_products);
-    $form->setDefaults(["id"=>0, "id_hlavne_menu"=>$this->clanok->id_hlavne_menu, "id_user_roles"=>$this->clanok->hlavne_menu->id_user_roles]);
-    $form['uloz']->onClick[] = function ($button) { 
-      $this->presenter->flashOut(!count($button->getForm()->errors), ['this',['tab'=>'products-tab']], 'Produkt bol úspešne uložený!', 'Došlo k chybe a zmena sa neuložila. Skúste neskôr znovu...');
-		};
-    return $this->makeBootstrap4($form);
-  }
-  
-  /** 
    * Komponenta formulara pre pridanie viacerich produktov polozky.
    * @return Nette\Application\UI\Form */
   public function createComponentAddMultiProductsForm(): Nette\Application\UI\Form {
-    $form = $this->addMultiProductsForm
-                  ->create($this->dir_to_products, $this->wwwDir."/", $this->clanok);
+    $form = $this->addMultiProductsForm->create($this->clanok);
     $form->setDefaults(["id"=>0, "id_hlavne_menu"=>$this->clanok->id_hlavne_menu, "id_user_roles"=>$this->clanok->hlavne_menu->id_user_roles]);
-    $form['ulozz']->onClick[] = function (/*$button*/) { 
-//      $this->presenter->flashOut(!count($button->getForm()->errors), ['this',['tab'=>'products-tab']], 'Produkty boli úspešne uložené!', 'Došlo k chybe a zmena sa neuložila. Skúste neskôr znovu...');
+    $form['ulozz']->onClick[] = function () { 
       $this->presenter->redirect('this',['tab'=>'products-tab']);
 		};
-    $form['ulozk']->onClick[] = function (/*$button*/) { 
-//      $this->presenter->flashOut(!count($button->getForm()->errors), ['this',['tab'=>'products-tab']], 'Produkty boli úspešne uložené!', 'Došlo k chybe a zmena sa neuložila. Skúste neskôr znovu...');
+    $form['ulozk']->onClick[] = function () { 
       $this->presenter->redirect('this',['tab'=>'products-tab']);
 		};
     return $this->makeBootstrap4($form);
   }
-  
-  /** 
-   * Komponenta formulara pre zmenu okraja obrázkových príloh polozky.
-   * @return Nette\Application\UI\Form */
-  /*public function createComponentZmenOkrajForm(): Nette\Application\UI\Form {
-    $form = $this->zmenOkraj->create($this->clanok->hlavne_menu);
-    $form['uloz']->onClick[] = function ($button) { 
-      $this->presenter->flashOut(!count($button->getForm()->errors), 
-                                  'this', 
-                                  'Zmena bola úspešne uložená!', 
-                                  'Došlo k chybe a zmena sa neuložila. Skúste neskôr znovu...');
-		};
-    return $this->makeBootstrap4($form); 
-  }*/
   
   /** 
    * Spracovanie signálu vymazavania

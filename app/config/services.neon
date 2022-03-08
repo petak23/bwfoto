@@ -22,7 +22,7 @@ services:
   - DbTable\Ikonka
   - DbTable\Lang
   - DbTable\News
-  - DbTable\Products
+  - DbTable\Products(%dir_to_products%)
   - DbTable\Slider
   - DbTable\Udaje
   - DbTable\Udaje_typ

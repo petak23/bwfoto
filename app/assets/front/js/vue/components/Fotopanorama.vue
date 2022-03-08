@@ -1,13 +1,13 @@
 <script>
 /** 
  * Component Fotopanorama
- * Posledná zmena(last change): 15.11.2021
+ * Posledná zmena(last change): 08.03.2022
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @copyright Copyright (c) 2021 - 2021 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2021 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.6
+ * @version 1.0.7
  */
 
 export default {
@@ -125,12 +125,12 @@ export default {
     </h4>
   </div>
   <div class="row">
-    <div class="col-12 thumbgrid">
+    <div class="col-12 thumbpanorama">
       <div v-for="(im, index) in myatt" :key="im.id">
         <a  v-if="wid > 0" 
             @click.prevent="changebig(index)" href=""
             :title="'Odkaz' + (im.type == 'menu' ? im.view_name : im.name)" 
-            :class="'pok thumb-a, ajax' + (index == id ? ', selected' : '')">
+            class="pok thumb-a, ajax">
           <b-img-lazy
             :src="getImageUrl(im.thumb_file)"
             :alt="im.name" class="img-fluid">
@@ -160,9 +160,10 @@ export default {
           ></b-img-lazy>
           <br><h6>{{ im.name }}</h6>
         </button>
-        <button v-else-if="wid == 0 && (im.type == 'attachments2' || im.type == 'product')"
+        <button v-else-if="wid == 0 && (im.type == 'attachments2' || im.type == 'product')"
                 @click.prevent="modalchangebig(index)" 
-                type="button" class="btn btn-link">
+                type="button" 
+                class="btn btn-link">
           <b-img-lazy
             :src="getImageUrl(im.thumb_file)" 
             :alt="im.name" 
@@ -171,9 +172,6 @@ export default {
         </button>
       </div>
     </div>
-  </div> 
-  <div class="row d-none d-sm-inline-block" v-if="wid > 0">
-    <div class="col-12 bigimg-description popis">{{ myatt[id].description }}</div>
   </div>
 
   <b-modal  id="modal-multi-1" centered size="xl" 
@@ -213,3 +211,42 @@ export default {
   </b-modal>
 </div>
 </template>
+
+<style lang="scss" scoped>
+.thumbpanorama {
+	display: grid;
+	grid-template-columns: repeat(1, 1fr);
+	grid-gap: 0.5rem;
+	overflow: auto;
+  max-height: 80vh;
+  grid-auto-rows: 7rem;
+
+  > div{
+    position: relative;
+    background-color: rgba(44,44,44,1.00);
+    padding: 1rem;
+  }
+  img{
+    position: absolute;
+    width: 90%; 
+    max-height: 90%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: solid 3px #ddd;
+    color: transparent;
+  }	
+  img.podclanok {
+    opacity: .5;
+  }
+  .h4-podclanok {
+    position: absolute;
+    max-width: 90%; max-height: 90%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #ddd;
+    text-align: center;
+  }
+}
+</style>

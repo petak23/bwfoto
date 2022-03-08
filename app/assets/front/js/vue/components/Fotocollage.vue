@@ -1,13 +1,13 @@
 <script>
 /** 
  * Component Fotocollage
- * Posledná zmena(last change): 22.02.2022
+ * Posledná zmena(last change): 04.03.2022
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.0
+ * @version 1.1.1
  * Z kniznica pouzite súbory a upravene: https://github.com/seanghay/vue-photo-collage
  */
 import PhotoCollageWrapper from "./vue-photo-collage/PhotoCollageWrapper.vue";
@@ -55,40 +55,40 @@ export default {
           // Minimálny počet fotiek na riadok
           min_row: 1,      
           // Počet fotiek v jednotlivých riadkoch + min_row
-          schema: [1, 0, 2, 1, 2, 0, 1, 2], 
+          schema: [2, 3, 2, 3, 3, 2, 3, 3], 
           // Výška jednotlivých riadkov
-          height: ["110px", "150px", "78px", "110px", "78px", "150px", "110px", "78px"],
+          height: ["85px", "60px", "85px", "60px", "70px", "95px", "70px", "60px"],
           // Poradie fotky v riadku, ktorá má byť širšia ako ostatné v riadku:
           // Ak je zadané číslo väčšie ako 0 (1,2,...) tak tá konkrétna bude širšia, 
           // ak je zadané 0 generuje sa náhodne,
           // ak je zadané -1 všetky fotky v riadku budú rovnaké.
-          widerPhotoId: [1, 0, 1, 0, 2, 0, 1, 2],
+          widerPhotoId: [-1, 2, 0, 1, -1, 0, 2, 1], 
           // Výsledok, vypočítaný programom !!! NIČ NEZADǍVAŤ !!!
           layout: [],  
         },
         {
           max_width: 700,
-          min_row: 2,
-          schema: [1, 0, 1, 2, 1, 0, 2, 1],
-          height: ["170px", "235px", "170px", "120px", "170px", "235px", "120px", "170px"],
+          min_row: 1, 
+          schema: [3, 2, 4, 3, 2, 3, 4, 3],
+          height: ["130px", "175px", "105px", "120px", "175px", "130px", "105px", "120px"],
           layout: [],
-          widerPhotoId: [1, 0, 1, 0, 2, 0, 1, 2],
+          widerPhotoId: [-1, 0, 2, 0, -1, 2, 3, 1],
         },
         {
           max_width: 1300,
           min_row: 3,
-          schema: [0, 1, 2, 3, 0, 1],
-          height: ["300px", "220px", "180px", "170px", "235px", "220px"],
+          schema: [3, 4, 5, 4, 3, 5, 4],
+          height: ["225px", "170px", "135px", "170px", "225px", "135px", "170px", "225px"],
           layout: [],
-          widerPhotoId: [1, 0, -1, 0, 2, 0],
+          widerPhotoId: [2, -1, 0, 2, -1, 1, 2, 1],
         },
         {
           max_width: 10000,
           min_row: 3,
-          schema: [0, 1, 2, 3, 1, 0],
-          height: ["400px", "300px", "265px", "220px", "300px", "400px"],
+          schema: [3, 4, 5, 4, 3, 5, 4],
+          height: ["318px", "240px", "190px", "240px", "318px", "190px", "240px"],
           layout: [],
-          widerPhotoId: [1, 0, -1, 0, 2, 0],
+          widerPhotoId: [3, 0, -1, 2, 2, -1, 3],
         },
       ],
     }

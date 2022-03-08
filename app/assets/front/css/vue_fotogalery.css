@@ -67,9 +67,9 @@
 
 /* ---- časť obsahu albumu - foto album - úroveň 3 ---- */
 .detail button {
-    background: none;
-    width: 100%;
-    height: 100%;
+  background: none;
+  width: 100%;
+  height: 100%;
 }
 .thumbgrid{
 	display: grid;
@@ -130,9 +130,6 @@
   .thumbgrid{
     grid-template-columns: repeat(3, 1fr);
   }
-}
-.thumbs-large {
-    grid-template-columns: repeat(1, 1fr);
 }
 
 /* ---- časť obsahu album - Zvätšená fotka - úroveň 4 ---- */
