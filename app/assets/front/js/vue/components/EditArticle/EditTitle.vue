@@ -1,3 +1,36 @@
+<script>
+export default {
+  props: {
+    articlename: String,
+    title: String,
+  },
+  data() {
+    return {
+      show: true
+    }
+  },
+  methods: {
+    /*onSubmit(event) {
+      event.preventDefault()
+      alert(JSON.stringify(this.form))
+    },
+    onReset(event) {
+      event.preventDefault()
+      // Reset our form values
+      this.form.email = ''
+      this.form.name = ''
+      this.form.food = null
+      this.form.checked = []
+      // Trick to reset/clear native browser form validation state
+      this.show = false
+      this.$nextTick(() => {
+        this.show = true
+      })
+    }*/
+  }
+}
+</script>
+
 <template>
   <span>
     <b-button 
@@ -17,7 +50,7 @@
       footer-bg-variant="dark"
       footer-text-variant="light"  
     >
-      <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+      <!--b-form @submit="onSubmit" @reset="onReset" v-if="show">
         <b-form-group
           id="input-group-1"
           label="Názov zobrazený v nadpise pre jazyk Slovenčina:"
@@ -32,43 +65,10 @@
             required
           ></b-form-input>
         </b-form-group>
-      </b-form>
+      </b-form -->
     </b-modal>
   </span>
 </template>
-
-<script>
-export default {
-  props: {
-    articlename: String,
-    title: String,
-  },
-  data() {
-    return {
-      show: true
-    }
-  },
-  methods: {
-    onSubmit(event) {
-      event.preventDefault()
-      alert(JSON.stringify(this.form))
-    },
-    onReset(event) {
-      event.preventDefault()
-      // Reset our form values
-      this.form.email = ''
-      this.form.name = ''
-      this.form.food = null
-      this.form.checked = []
-      // Trick to reset/clear native browser form validation state
-      this.show = false
-      this.$nextTick(() => {
-        this.show = true
-      })
-    }
-  }
-}
-</script>
 
 <style>
 

@@ -1,0 +1,40 @@
+<h1 class="position-relative">
+  {$article->view_name}
+  <small n:if="$article->h1part2 != null && strlen($article->h1part2)">
+    {$article->h1part2}
+  </small>
+  <div n:if="$edit_enabled"
+      class="btn-group btn-group-sm position-absolute" 
+      role="group" 
+      aria-label="Button group with nested dropdown"
+      style="right: 0;">
+      <button class="btn btn-sm btn-secondary" 
+              title="{_'base_edit_title'}"
+              data-toggle="modal"
+              data-target="#editArticleTitleModal">
+        <i class="fas fa-pen"></i>
+      </button>
+  </div>
+</h1>
+
+<div class="modal fade" id="editArticleTitleModal" tabindex="-1" 
+     aria-labelledby="editArticleTitleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <div class="modal-header bg-dark">
+        <h5 class="modal-title" id="editArticleTitleModalLabel">{_'base_edit_title'}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body bg-dark">
+        {control editArticleTitleForm}
+      </div>
+      {*<div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>*}
+    </div>
+  </div>
+</div>
+

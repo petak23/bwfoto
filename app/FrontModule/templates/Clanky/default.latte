@@ -2,7 +2,7 @@
  *
  * Modul: FRONT
  *
- * Posledna zmena(last change): 28.02.2022
+ * Posledna zmena(last change): 13.03.2022
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
@@ -14,7 +14,29 @@
 <article class="article-main">
   <div class="row main-text">
     <div class="col-12">
-      {control ukazTentoClanok}
+      <div class="page-header">
+        <div class="col-sm-12 col-md-3" n:if="($article_avatar_view_in & 2) && isset($article->hlavne_menu->avatar) && is_file('www/'.$avatar_path.$article->hlavne_menu->avatar)">
+          <div class="thumbnail">
+            <img src="{$basePath}/www/{$avatar_path}{$article->hlavne_menu->avatar}" alt="{_'base_text_title_image'}">
+          </div>
+        </div>
+        {embed 'title_block.latte', article: $article, edit_enabled: ($user->isInRole('admin') && $user->isAllowed('Front:Clanky', 'edit'))}{/embed}
+        <div>
+          <span n:if="$article_hlavicka & 1">
+            {$article->hlavne_menu->modified|date:'j.n.Y'}
+          </span>
+          <span n:ifset="$article->hlavne_menu->datum_platnosti">
+            {_'base_platnost_do'}{$article->hlavne_menu->datum_platnosti|date:'j.n.Y'}
+          </span>
+          <span n:if="$article_hlavicka & 2">
+            {_'base_zadal'}{$article->hlavne_menu->user_profiles->priezvisko}
+          </span>
+        </div>
+      </div>
+
+      <span class="popis" n:ifset="$article->text">
+        {$article->text|texy|noescape|obr_v_txt|koncova_znacka}
+      </span>
     </div>
     <div class="col-12">  
         {control menu templateType  => 'single', 

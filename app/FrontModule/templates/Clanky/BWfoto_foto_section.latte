@@ -2,7 +2,7 @@
  *
  * Modul: FRONT
  *
- * Posledna zmena(last change): 27.02.2021
+ * Posledna zmena(last change): 13.03.2022
  * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
@@ -13,21 +13,7 @@
 
 {block content}
 <article id="uvodnyText">
-  <h1 class="position-relative">
-    {$article->view_name}
-    <small n:if="$article->h1part2 != null && strlen($article->h1part2)">
-      {$article->h1part2}
-    </small>
-    <div n:if="$user->isInRole('admin')"
-        class="btn-group btn-group-sm position-absolute" 
-        role="group" 
-        aria-label="Button group with nested dropdown"
-        style="right: 0;">
-      <button type="button" class="btn btn-secondary" title="Edituj nadpis a podnadpis">
-        <i class="fas fa-pen"></i>
-      </button>
-    </div>
-  </h1>
+  {embed 'title_block.latte', article: $article, edit_enabled: ($user->isInRole('admin') && $user->isAllowed('Front:Clanky', 'edit'))}{/embed}
   <span class="popis" n:ifset="$article->text">
     {$article->text|texy|noescape|obr_v_txt|koncova_znacka}
   </span>

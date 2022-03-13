@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\FrontModule\Presenters;
 
 use App\FrontModule\Components;
+use App\FrontModule\Forms;
 use DbTable;
 use Nette;
 use Nette\Application\UI\Multiplier;
@@ -12,7 +13,7 @@ use PeterVojtech;
 /**
  * Prezenter pre vypisanie clankov.
  * 
- * Posledna zmena(last change): 02.03.2022
+ * Posledna zmena(last change): 13.03.2022
  *
  *	Modul: FRONT
  *
@@ -20,7 +21,7 @@ use PeterVojtech;
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.4.1
+ * @version 1.4.2
  */
 
 class ClankyPresenter extends BasePresenter {
@@ -43,6 +44,10 @@ class ClankyPresenter extends BasePresenter {
   public $productsViewControlFactory;
   /** @var Components\Faktury\IViewFakturyControl @inject */
   public $viewFakturyControlFactory;
+
+  // -- Forms
+  /** @var Forms\Article\EditArticleTitleFormFactory @inject */
+  public $editArticleTitleFormControlFactory;
   
   /** @var Nette\Database\Table\ActiveRow */
 	public $zobraz_clanok;
@@ -95,7 +100,6 @@ class ClankyPresenter extends BasePresenter {
     if ($this->zobraz_clanok !== FALSE) {
       $this->getComponent('menu')->selectByUrl($this->link('Clanky:', ["id"=>$this->zobraz_clanok->id_hlavne_menu]));
       $this->template->komentare_povolene =  $this->udaje_webu["komentare"] && ($this->user->isAllowed('Front:Clanky', 'komentar') && $this->zobraz_clanok->hlavne_menu->komentar) ? $this->zobraz_clanok->id_hlavne_menu : 0;
-      //$this->template->h2 = $this->zobraz_clanok->view_name;
       $this->template->article = $this->zobraz_clanok;
       $this->template->uroven = $this->zobraz_clanok->hlavne_menu->uroven + 2;
       $this->template->avatar = $this->zobraz_clanok->hlavne_menu->avatar;
@@ -174,5 +178,17 @@ class ClankyPresenter extends BasePresenter {
     $odkaz = $this->zobrazKartyPodclankovControlFactory->create();
     $odkaz->setArticle($this->zobraz_clanok->id_hlavne_menu, $this->language_id, $this->kotva);
     return $odkaz;
+  }
+
+  /** 
+   * Komponenta pre vykreslenie podclankov na kartach
+   * @return Components\Clanky\ZobrazKartyPodclankov\ZobrazKartyPodclankovControl */
+  public function createComponentEditArticleTitleForm() {
+    $form = $this->editArticleTitleFormControlFactory->create($this->zobraz_clanok->id_hlavne_menu);
+    $form['uloz']->onClick[] = function () { 
+      $this->flashMessage('Položka menu bola uložená!', 'success');
+      $this->redirect('this');
+    };
+		return $form;
   }
 }

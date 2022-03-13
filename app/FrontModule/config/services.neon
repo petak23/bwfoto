@@ -13,6 +13,7 @@ services:
   - App\FrontModule\Presenters\UserPresenter(%parameters%)
 
 # forms
+  - App\FrontModule\Forms\Article\EditArticleTitleFormFactory
   - App\FrontModule\Forms\User\ForgottenPasswordFormFactory
   - App\FrontModule\Forms\User\SignInFormFactory
   - App\FrontModule\Forms\User\RegisterFormFactory

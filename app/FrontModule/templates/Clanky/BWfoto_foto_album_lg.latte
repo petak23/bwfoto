@@ -13,23 +13,7 @@
 
 {block content}
 <article id="uvodnyText">
-  <h1 class="position-relative">
-    {$article->view_name} 
-    <small n:if="$article->h1part2 != null && strlen($article->h1part2)">
-      {$article->h1part2}
-    </small>
-    <div n:if="$user->isInRole('admin')"
-        class="btn-group btn-group-sm position-absolute" 
-        role="group" 
-        aria-label="Button group with nested dropdown"
-        style="right: 0;">
-      <edittitle
-        articlename="{$article->view_name}"
-        title="Edituj nadpis a podnadpis"
-      >
-      </edittitle>
-    </div>
-  </h1>
+  {embed 'title_block.latte', article: $article, edit_enabled: ($user->isInRole('admin') && $user->isAllowed('Front:Clanky', 'edit'))}{/embed}
   <span class="popis" n:ifset="$article->text">
     {$article->text|texy|noescape|obr_v_txt|koncova_znacka}
   </span>

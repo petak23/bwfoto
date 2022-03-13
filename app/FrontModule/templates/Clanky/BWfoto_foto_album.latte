@@ -2,7 +2,7 @@
  *
  * Modul: FRONT
  *
- * Posledna zmena(last change): 25.02.2022
+ * Posledna zmena(last change): 13.03.2022
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
@@ -13,7 +13,10 @@
 
 {block content}
 <article id="uvodnyText">
-  {control ukazTentoClanok}
+  {embed 'title_block.latte', article: $article, edit_enabled: ($user->isInRole('admin') && $user->isAllowed('Front:Clanky', 'edit'))}{/embed}
+  <span class="popis" n:ifset="$article->text">
+    {$article->text|texy|noescape|obr_v_txt|koncova_znacka}
+  </span>
 </article>
 <section id="webThumbnails" class="row">
   {control fotogalery template=>'BWfoto'}
