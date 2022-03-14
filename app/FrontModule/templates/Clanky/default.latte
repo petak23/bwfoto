@@ -20,7 +20,7 @@
             <img src="{$basePath}/www/{$avatar_path}{$article->hlavne_menu->avatar}" alt="{_'base_text_title_image'}">
           </div>
         </div>
-        {embed 'title_block.latte', article: $article, edit_enabled: ($user->isInRole('admin') && $user->isAllowed('Front:Clanky', 'edit'))}{/embed}
+        {embed 'title_block.latte', article: $article, edit_enabled: $user->isAllowed('Front:Clanky', 'edit')}{/embed}
         <div>
           <span n:if="$article_hlavicka & 1">
             {$article->hlavne_menu->modified|date:'j.n.Y'}

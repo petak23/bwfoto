@@ -13,13 +13,18 @@
 
 {block content}
 <article id="uvodnyText">
-  {embed 'title_block.latte', article: $article, edit_enabled: ($user->isInRole('admin') && $user->isAllowed('Front:Clanky', 'edit'))}{/embed}
+  {embed 'title_block.latte', article: $article, edit_enabled: $user->isAllowed('Front:Clanky', 'edit')}{/embed}
   <span class="popis" n:ifset="$article->text">
     {$article->text|texy|noescape|obr_v_txt|koncova_znacka}
   </span>
 </article>
 <section id="webAlbums" class="row">
-  {control menu templateType  => 'single', 
+  <menucardorder
+    basepath = "{$basePath}"
+    id_hlavne_menu = "{$article->id_hlavne_menu}"
+  >
+  </menucardorder>
+  {*control menu templateType  => 'single', 
                 templateFile  => $article->hlavne_menu->hlavne_menu_template->name, 
                 cast          => $article->hlavne_menu->id_hlavne_menu_cast, 
                 level         => $uroven, 
@@ -27,5 +32,5 @@
                 article_avatar_view_in => TRUE, 
                 anotacia      => TRUE, 
                 nadpis        => $viac_info
-  }
+  *}
 </section>

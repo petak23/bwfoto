@@ -13,7 +13,7 @@
 
 {block content}
 <article id="uvodnyText">
-  {embed 'title_block.latte', article: $article, edit_enabled: ($user->isInRole('admin') && $user->isAllowed('Front:Clanky', 'edit'))}{/embed}
+  {embed 'title_block.latte', article: $article, edit_enabled: $user->isAllowed('Front:Clanky', 'edit')}{/embed}
   <span class="popis" n:ifset="$article->text">
     {$article->text|texy|noescape|obr_v_txt|koncova_znacka}
   </span>

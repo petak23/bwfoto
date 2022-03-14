@@ -1,8 +1,10 @@
 <script>
 export default {
   props: {
-    articlename: String,
+    //articlename: String,
+    article: Object,
     title: String,
+    edit_enabled: String,
   },
   data() {
     return {
@@ -32,14 +34,21 @@ export default {
 </script>
 
 <template>
-  <span>
-    <b-button 
-      v-b-modal.modal-1
-      class="btn btn-sm btn-primary"
-      :title="title"
-    >
-      <i class="fas fa-pen"></i>
-    </b-button>
+  <h1 class="title-article">
+    {{ article.view_name }}
+    <small v-if="article.h1part2 != null">
+      {{ article.h1part2 }}
+    </small>
+    <div v-if="edit_enabled == '1'"
+        class="btn-group btn-group-sm editable" 
+        role="group" 
+        aria-label="Button group with nested dropdown">
+        <v-button class="btn btn-sm btn-outline-warning" 
+                v-b-modal.modal-1
+                :title="title">
+          <i class="fas fa-pen"></i>
+        </v-button>
+    </div>
 
     <b-modal id="modal-1" centered 
       :title="title + ': ' + articlename" 
@@ -67,7 +76,7 @@ export default {
         </b-form-group>
       </b-form -->
     </b-modal>
-  </span>
+  </h1>
 </template>
 
 <style>

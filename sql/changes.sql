@@ -1,8 +1,8 @@
 /**
  * Author:  petak23
- * Change: 28.02.2022
+ * Change: 13.03.2022
  *
- * to 0.8.32 
+ * to 0.9.0 
  */
 
 /*INSERT INTO `user_resource` (`name`) VALUES 
@@ -31,3 +31,6 @@ VALUES ('0', '29', NULL);
 ALTER TABLE `hlavne_menu_lang`
 ADD `text` text COLLATE 'utf8_bin' NULL COMMENT 'Text článku v danom jazyku',
 ADD `anotacia` varchar(255) COLLATE 'utf8_bin' NULL COMMENT 'Anotácia článku v danom jazyku' AFTER `text`;*/
+
+UPDATE `user_permission` SET `actions` = 'default' WHERE `id_user_resource` = '7' AND `id` = '3';
+UPDATE `user_permission` SET `id_user_roles` = '4', `actions` = 'default,edit' WHERE `id_user_resource` = '7' AND `id` = '33';

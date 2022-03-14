@@ -32,9 +32,6 @@
   </div>
   <h2>
     <small>Názov zobrazený v nadpise:</small> <strong>{$clanok->view_name}</strong> <small>[id={$clanok->id_hlavne_menu}]</small>
-    <button n:if="$user->isInRole('admin') && $admin_links['edit']" type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#myModalTitleH2Change" title="Zmena nadpisu">
-      <i class="fas fa-pen"></i>
-    </button>
     <br />
     <small>Názov zobrazený v menu: <strong>{$clanok->menu_name}</strong></small>
     <br />
@@ -51,20 +48,6 @@
       </div>
       <div class="modal-body">
         {control editTitleImageForm}
-      </div>
-    </div>
-  </div>
-</div>
-      
-{* -- Modal dialog pre editaciu nadpisu -- *}
-<div class="modal fade" id="myModalTitleH2Change" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" n:if="$admin_links['edit']">
-  <div class="modal-dialog modal-xl" role="document">
-    <div class="modal-content">
-      <div class="modal-header bg-success text-white">
-        <h5 class="modal-title">Zmena nadpisu</h5>
-      </div>
-      <div class="modal-body">
-        {control zmenNadpisForm}
       </div>
     </div>
   </div>

@@ -10,13 +10,13 @@ use PeterVojtech;
 /**
  * Komponenta pre titulku polozky(titulny obrazok a nadpis).
  * 
- * Posledna zmena(last change): 30.09.2021
+ * Posledna zmena(last change): 13.03.2022
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
- * @copyright Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.8
+ * @version 1.0.9
  */
 
 class TitleImageControl extends Nette\Application\UI\Control {
@@ -37,9 +37,6 @@ class TitleImageControl extends Nette\Application\UI\Control {
   /** @var EditTitleImageFormFactory */
 	public $editTitleImage;
 
-  /** @var ZmenNadpisFormFactory */
-	public $zmenNadpis;
-
   /**
    * @param string $dir_to_menu Cesta k adresaru pre ukladanie obrazkov menu od www adresara - Nastavenie priamo cez servises.neon
    * @param string $www_dir WWW adresar - Nastavenie priamo cez servises.neon
@@ -49,11 +46,9 @@ class TitleImageControl extends Nette\Application\UI\Control {
   public function __construct(string $dir_to_menu, 
                               string $www_dir,
                               EditTitleImageFormFactory $editTitleImageFormFactory, 
-                              ZmenNadpisFormFactory $zmenNadpis,
                               Nette\Security\User $user, 
                               DbTable\Hlavne_menu $hlavne_menu) {
     $this->editTitleImage = $editTitleImageFormFactory;
-    $this->zmenNadpis = $zmenNadpis;
     $this->user = $user;
     $this->hlavne_menu = $hlavne_menu;
     $this->dir_to_menu = $dir_to_menu;
@@ -99,17 +94,6 @@ class TitleImageControl extends Nette\Application\UI\Control {
                         "old_avatar" => $this->clanok->hlavne_menu->avatar,
                         "ikonka"=> $this->clanok->hlavne_menu->ikonka,
                        ]);
-    $form['uloz']->onClick[] = function ($button) { 
-      $this->presenter->flashOut(!count($button->getForm()->errors), 'this', 'Zmena bola úspešne uložená!', 'Došlo k chybe a zmena sa neuložila. Skúste neskôr znovu...');
-		};
-    return $this->presenter->_vzhladForm($form);
-  }
-
-  /** 
-   * Komponenta formulara pre zmenu nadpisu.
-   * @return Nette\Application\UI\Form */
-  public function createComponentZmenNadpisForm(): Nette\Application\UI\Form {
-    $form = $this->zmenNadpis->create($this->clanok->id_hlavne_menu);
     $form['uloz']->onClick[] = function ($button) { 
       $this->presenter->flashOut(!count($button->getForm()->errors), 'this', 'Zmena bola úspešne uložená!', 'Došlo k chybe a zmena sa neuložila. Skúste neskôr znovu...');
 		};

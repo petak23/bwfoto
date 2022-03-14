@@ -17,11 +17,16 @@ import Fotogalery from './components/Fotogalery.vue';
 import Fotocollage from './components/Fotocollage.vue';
 import Fotopanorama from './components/Fotopanorama.vue';
 import Edittitle from './components/EditArticle/EditTitle.vue';
+import Menucardorder from './components/Menucardorder.vue';
+import VueDndZone from 'vue-dnd-zone'
+import 'vue-dnd-zone/vue-dnd-zone.css'
 
 // Make BootstrapVue available throughout your project
 Vue.use(BootstrapVue);
 // Optionally install the BootstrapVue icon components plugin
 Vue.use(IconsPlugin);
+
+Vue.use(VueDndZone);
 
 var vm = new Vue({
   el: '#vueapp',
@@ -32,5 +37,6 @@ var vm = new Vue({
     Fotogalery,
     Fotocollage,
     Fotopanorama,
+    Menucardorder,
   },
 });   

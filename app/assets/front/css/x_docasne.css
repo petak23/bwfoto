@@ -145,3 +145,17 @@ a[href^="#error:"] {
   width: 16px;
   height: 16px;
 }
+
+/** Pre ditačnú časť titulky článku */
+.title-article {
+  position: relative !important;
+}
+.title-article .editable {
+  position: absolute;
+  top: 0;
+  right: -20px;
+  opacity: .75;
+}
+.title-article .editable:hover {
+  opacity: 1;
+}
