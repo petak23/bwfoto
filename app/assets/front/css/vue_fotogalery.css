@@ -1,10 +1,11 @@
 /* 
  * Fotogaléria s Vue.js
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * Last update: 19.03.2021 
+ * Last update: 15.03.2022 
  */
 
-[v-cloak] #webThumbnails .vue-fotogalery > div { /* Pre schovanie počas načítania */
+[v-cloak] #webThumbnails .vue-fotogalery > div, 
+[v-cloak] #webAlbums .menu-section > div { /* Pre schovanie počas načítania */
     display: none;
 }
 /* ---- 
@@ -21,7 +22,8 @@
         transform: translate3d(-50%, -50%, 0) rotate(360deg);
     }
 }
-[v-cloak] #webThumbnails .vue-fotogalery {
+[v-cloak] #webThumbnails .vue-fotogalery,
+[v-cloak] #webAlbums .menu-section {
     height: 80vh;
     display: inline-block;
     width: 100%;
@@ -31,7 +33,8 @@
     opacity: 1;
     transition: opacity linear 0.1s;
 }
-[v-cloak] #webThumbnails .vue-fotogalery::before {
+[v-cloak] #webThumbnails .vue-fotogalery::before,
+[v-cloak] #webAlbums .menu-section::before {
     animation: 2s linear infinite spinner;
     border: solid 5px rgb(54,54,54,1);
     border-bottom-color: #ef6565;
@@ -47,8 +50,9 @@
     width: 40px;
     will-change: transform;
 }
-[v-cloak] #webThumbnails .vue-fotogalery::after {
-    content: "Nahrávam fotogalériu...";
+[v-cloak] #webThumbnails .vue-fotogalery::after,
+[v-cloak] #webAlbums .menu-section::after {
+    content: "Nahrávam...";
     color: #ffeb3b;
     font-weight: bold;
     text-align: center;

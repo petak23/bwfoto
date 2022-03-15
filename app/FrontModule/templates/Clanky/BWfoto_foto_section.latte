@@ -19,18 +19,20 @@
   </span>
 </article>
 <section id="webAlbums" class="row">
-  <menucardorder
-    basepath = "{$basePath}"
-    id_hlavne_menu = "{$article->id_hlavne_menu}"
-  >
-  </menucardorder>
-  {*control menu templateType  => 'single', 
-                templateFile  => $article->hlavne_menu->hlavne_menu_template->name, 
-                cast          => $article->hlavne_menu->id_hlavne_menu_cast, 
-                level         => $uroven, 
-                avatar        => $nastavenie['dir_to_menu'], 
-                article_avatar_view_in => TRUE, 
-                anotacia      => TRUE, 
-                nadpis        => $viac_info
-  *}
+  <div class="col-12 menu-section">
+    <menucardorder
+      basepath = "{$basePath}"
+      id_hlavne_menu = "{$article->id_hlavne_menu}"
+      edit_enabled = "{$user->isAllowed('Api:Menu', 'saveordersubmenu')}">
+    </menucardorder>
+    {*control menu templateType  => 'single', 
+                  templateFile  => $article->hlavne_menu->hlavne_menu_template->name, 
+                  cast          => $article->hlavne_menu->id_hlavne_menu_cast, 
+                  level         => $uroven, 
+                  avatar        => $nastavenie['dir_to_menu'], 
+                  article_avatar_view_in => TRUE, 
+                  anotacia      => TRUE, 
+                  nadpis        => $viac_info
+    *}
+  </div>
 </section>

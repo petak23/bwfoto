@@ -13,7 +13,7 @@ use PeterVojtech;
 /**
  * Prezenter pre vypisanie clankov.
  * 
- * Posledna zmena(last change): 13.03.2022
+ * Posledna zmena(last change): 15.03.2022
  *
  *	Modul: FRONT
  *
@@ -21,7 +21,7 @@ use PeterVojtech;
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.4.2
+ * @version 1.4.3
  */
 
 class ClankyPresenter extends BasePresenter {
@@ -109,6 +109,7 @@ class ClankyPresenter extends BasePresenter {
       //Zisti, ci su k clanku priradene komponenty
       $this->template->komponenty = $this->clanok_komponenty->getKomponenty($this->zobraz_clanok->id_hlavne_menu, $this->nastavenie["komponenty"]);
       $this->template->id_hlavne_menu_lang = $this->zobraz_clanok->id;
+      $this->template->article_hlavicka = $this->udaje->getValByName("clanok_hlavicka");
       $servise = $this;
       $this->template->addFilter('odkazdo', function ($id) use($servise){
         $serv = $servise->link("Dokumenty:default", ["id"=>$id]);

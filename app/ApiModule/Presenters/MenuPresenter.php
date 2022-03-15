@@ -6,15 +6,15 @@ use Nette\Utils;
 
 /**
  * Prezenter pre pristup k api hlavneho menu.
- * Posledna zmena(last change): 11.11.2021
+ * Posledna zmena(last change): 15.03.2022
  *
  * Modul: API
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.2
+ * @version 1.0.3
  */
 class MenuPresenter extends BasePresenter {
 
@@ -47,18 +47,20 @@ class MenuPresenter extends BasePresenter {
 
   /** 
    * @param int $id Id nadradenej polozky */
-  public function actionGetSubmenu(int $id) {
+  public function actionGetSubmenu(int $id, String $lmodule = "Admin") {
     $tmp = $this->hlavne_menu_lang
                 ->findBy(['hlavne_menu.id_nadradenej'=>$id, 'id_lang'=>1])
                 ->order('poradie ASC');
     $out = [];
     foreach ($tmp as $v) {
+      $p = $lmodule == "front" && $v->hlavne_menu->druh->presenter == "Menu" ? "Clanky" : $v->hlavne_menu->druh->presenter;
       $out[$v->hlavne_menu->poradie] = [
         'id'		=> $v->id_hlavne_menu,
         'order'	=> $v->hlavne_menu->poradie,
         'name'	=> $v->menu_name,
-        'link'	=> $this->link(":Admin:".$v->hlavne_menu->druh->presenter.":", $v->id_hlavne_menu), 
-        'avatar'=> $v->hlavne_menu->avatar
+        'link'	=> $this->link(":".ucfirst($lmodule).":$p:", $v->id_hlavne_menu), 
+        'avatar'=> $v->hlavne_menu->avatar,
+        'node_class' => ($v->hlavne_menu->ikonka !== null && strlen($v->hlavne_menu->ikonka)>2) ? $v->hlavne_menu->ikonka : null,
         ];
     }
     //dumpe($out);
