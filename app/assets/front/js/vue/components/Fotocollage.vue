@@ -1,13 +1,13 @@
 <script>
 /** 
  * Component Fotocollage
- * Posledná zmena(last change): 12.03.2022
+ * Posledná zmena(last change): 17.03.2022
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.3
+ * @version 1.1.4
  * Z kniznica pouzite súbory a upravene: https://github.com/seanghay/vue-photo-collage
  */
 import PhotoCollageWrapper from "./vue-photo-collage/PhotoCollageWrapper.vue";
@@ -58,36 +58,31 @@ export default {
           max_width: 320,  
           // Počet fotiek v jednotlivých riadkoch
           schema: [2, 1, 3, 4, 4, 3, 4, 4], 
-          // Výška jednotlivých riadkov
-          height: ["85px", "60px", "85px", "60px", "70px", "95px", "70px", "60px"],
+          // Výška jednotlivých riadkov v px
+          height: [85, 60, 85, 60, 70, 95, 70, 60],
           // Poradie fotky v riadku, ktorá má byť širšia ako ostatné v riadku:
           // Ak je zadané číslo väčšie ako 0 (1,2,...) tak tá konkrétna bude širšia, 
           // ak je zadané 0 generuje sa náhodne,
           // ak je zadané -1 všetky fotky v riadku budú rovnaké.
           widerPhotoId: [-1, 2, 0, 1, -1, 0, 2, 1], 
-          // Výsledok, vypočítaný programom !!! NIČ NEZADǍVAŤ !!!
-          layout: [],  
         },
         {
           max_width: 700,
           schema: [4, 3, 5, 4, 3, 4, 5, 4],
-          height: ["130px", "175px", "105px", "120px", "175px", "130px", "105px", "120px"],
-          layout: [],
+          height: [130, 175, 105, 120, 175, 130, 105, 120],
           widerPhotoId: [-1, 0, 2, 0, -1, 2, 3, 1],
         },
         {
           max_width: 1300,
-          schema: [6, 7, 8, 7, 6, 8, 7],
-          height: ["225px", "170px", "135px", "170px", "225px", "135px", "170px", "225px"],
-          layout: [],
+          schema: [6, 7, 8, 7, 6, 8, 7, 6],
+          height: [225, 170, 135, 170, 225, 135, 170, 225],
           widerPhotoId: [2, -1, 0, 2, -1, 1, 2, 1],
         },
         {
           max_width: 10000,
-          schema: [6, 7, 8, 7, 6, 8, 7],
-          height: ["318px", "240px", "190px", "240px", "318px", "190px", "240px"],
-          layout: [],
-          widerPhotoId: [3, 0, -1, 2, 2, -1, 3],
+          schema: [6, 7, 8, 7, 6, 8, 7, 6],
+          height: [318, 240, 190, 240, 318, 190, 240, 318],
+          widerPhotoId: [3, 0, -1, 2, 2, -1, 3, 4],
         },
       ],
       // Koniec sch -----
@@ -155,10 +150,10 @@ export default {
   },
   computed: {},
   mounted () {
-    if (typeof this.myschema !== 'undefined') {
+    /*if (typeof this.myschema !== 'undefined') {
       this.sch = JSON.parse(this.myschema)
       console.log(this.sch)
-    }
+    }*/
     /* Naviazanie na sledovanie zmeny veľkosti stránky */
     this.matchHeight();
   },
@@ -197,7 +192,7 @@ export default {
 
 <style lang="scss" scoped>
   img {
-    width: 80vw;
+    max-width: 80vw;
     height: 80vh;
   }
 </style>

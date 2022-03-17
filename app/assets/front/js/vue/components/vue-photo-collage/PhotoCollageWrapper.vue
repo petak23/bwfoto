@@ -1,23 +1,10 @@
-<template>
-  <div class="vue-photo-collage-wrapper">
-    <photo-collage
-      :disabled="disabled"
-      :width="width"
-      :height="internalHeight"
-      :layout="layout"
-      :layoutPhotoMaps="layoutPhotoMaps"
-      :layoutNum="layoutNum"
-      :remainingNum="remainingNum"
-      :showNumOfRemainingPhotos="showNumOfRemainingPhotos"
-      :maxRandomPercWidth="maxRandomPercWidth"
-      :widerPhotoId="widerPhotoId"
-      @itemClick="(data, i) => $emit('itemClick', data, i)"
-    >
-    </photo-collage>
-  </div>
-</template>
-
 <script>
+/** 
+ * @lastchange 17.03.2022
+ *
+ * @editedby Ing. Peter VOJTECH ml <petak23@gmail.com>
+ * @version 1.0.1
+ */
 import PhotoCollage from "./PhotoCollage.vue";
 
 function createPhotoIds(photos) {
@@ -124,10 +111,10 @@ export default {
     height: {
       handler() {
         this.internalHeight = this.height
-
-        if (this.internalHeight.length < this.layout.length) {
-          for (let i = 0; i < this.layout.length; i++) {
-            this.internalHeight[i] = "200px";
+        let r = this.layout.length - this.internalHeight.length // Počet riadkov, pre ktoré nemám výšku
+        if (r > 0) {
+          for (let i = 0; i < r; i++) { // Doplnenie výšok riadkov ak chýbajú
+            this.internalHeight.push(this.height[i % this.height.length])
           }
         }
       },
@@ -175,3 +162,22 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="vue-photo-collage-wrapper">
+    <photo-collage
+      :disabled="disabled"
+      :width="width"
+      :height="internalHeight"
+      :layout="layout"
+      :layoutPhotoMaps="layoutPhotoMaps"
+      :layoutNum="layoutNum"
+      :remainingNum="remainingNum"
+      :showNumOfRemainingPhotos="showNumOfRemainingPhotos"
+      :maxRandomPercWidth="maxRandomPercWidth"
+      :widerPhotoId="widerPhotoId"
+      @itemClick="(data, i) => $emit('itemClick', data, i)"
+    >
+    </photo-collage>
+  </div>
+</template>

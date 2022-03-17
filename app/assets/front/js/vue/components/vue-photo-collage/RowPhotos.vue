@@ -1,23 +1,10 @@
-<template>
-  <photo-row :rowHeight="height">
-    <photo-grid 
-      v-for="(data, i) in photos"
-      @click="$emit('itemClick', data, i)"  
-      :key="i"
-      :photostyle="i == randId ? photoStyle : {}"
-    >
-      <template v-if="showNumOfRemainingPhotos && remainingNum > 0 && data.id === (layoutNum - 1)">
-        <photo-mask></photo-mask>
-        <view-more>
-          <num-of-remaining>{{remainingNum}}</num-of-remaining>
-        </view-more>
-      </template>
-      <photo-thumb :thumb="data.source"></photo-thumb>
-    </photo-grid>
-  </photo-row>
-</template>
-
 <script>
+/** 
+ * @lastchange 17.03.2022
+ *
+ * @editedby Ing. Peter VOJTECH ml <petak23@gmail.com>
+ * @version 1.0.1
+ */
 import PhotoGrid from "./PhotoGrid.vue"
 import PhotoRow from "./PhotoRow.vue"
 import PhotoMask from "./PhotoMask.vue"
@@ -35,7 +22,7 @@ export default {
     PhotoThumb,
   },
   props: {
-    height: String,
+    height: Number, // Výška riadku v px
     photos: Array,
     layoutNum: Number,
     remainingNum: Number,
@@ -65,3 +52,22 @@ export default {
   }
 }
 </script>
+
+<template>
+  <photo-row :rowHeight="height">
+    <photo-grid 
+      v-for="(data, i) in photos"
+      @click="$emit('itemClick', data, i)"  
+      :key="i"
+      :photostyle="i == randId ? photoStyle : {}"
+    >
+      <template v-if="showNumOfRemainingPhotos && remainingNum > 0 && data.id === (layoutNum - 1)">
+        <photo-mask></photo-mask>
+        <view-more>
+          <num-of-remaining>{{remainingNum}}</num-of-remaining>
+        </view-more>
+      </template>
+      <photo-thumb :thumb="data.source"></photo-thumb>
+    </photo-grid>
+  </photo-row>
+</template>
