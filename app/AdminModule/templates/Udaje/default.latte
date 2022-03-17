@@ -53,7 +53,7 @@
             <td class="editacne" n:if="$user->isAllowed('Admin:Udaje', 'edit')">
               <a n:href="Udaje:edit $u->id" title="Editacia údaja {$u->nazov}" role="button" class="btn btn-success btn-sm float-left"><i class="fas fa-pencil-alt"></i></a>
               <a href="{link confirmForm:confirmDelete! id => $u->id, nazov => $u->nazov}"
-                title="Vymazanie údaja {$u->nazov}" role="button" class="btn btn-danger btn-sm"><i class="far fa-trash-alt"></i></a>
+                title="Vymazanie údaja {$u->nazov}" role="button" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></a>
             </td>
           </tr>
         </tbody>

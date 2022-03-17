@@ -2,7 +2,7 @@
 <div class="alert alert-info form-info-box">
   <div class="row">
     <div class="col-2 text-center ">
-      <i class="far fa-question-circle fa-2x align-middle"></i>
+      <i class="fas fa-question-circle fa-2x align-middle"></i>
     </div>
     <div class="col-10">
       {$text|noescape}
@@ -18,7 +18,7 @@
        href="{if $al['druh_opravnenia'] == 1}{plink $al['link']['main'] id=>$clanok->id_hlavne_menu}{else}{plink $al['link']['main'] id=>$clanok->id_hlavne_menu, uroven=>$al['link']['uroven']}{/if}" 
        title="Pridanie podčlánku" 
        class="btn btn-outline-success">
-      <i class="far fa-file"></i> {$admin_links['alink']['text']}
+      <i class="fas fa-file"></i> {$admin_links['alink']['text']}
     </a>
     <a n:if="$admin_links['elink']" 
        href="{plink $clanok->hlavne_menu->druh->presenter.':edit' $clanok->id_hlavne_menu}" 
@@ -36,13 +36,13 @@
        href="{plink confirmForm:confirmDelete! id => $clanok->id_hlavne_menu, druh=>'', nazov=>$clanok->view_name, zdroj_na_zmazanie=>'článok'}" 
        title="Vymazanie článku" 
        class="btn btn-outline-danger" href="#" role="button">
-      <i class="far fa-trash-alt"></i>
+      <i class="fas fa-trash-alt"></i>
     </a>
   </div>
 
   <div n:snippet="zmenVlastnika" class="btn-group btn-group-sm edit-link-bar" role="group" aria-label="zmen-vlastnika-link">
     <div class="btn btn-outline-info disabled" role="button" title="Posledná zmena: {$clanok->hlavne_menu->modified|date:'j.n.Y'}">
-      <i class="far fa-calendar-check"></i> {$clanok->hlavne_menu->modified|date:'j.n.Y'}
+      <i class="fas fa-calendar-check"></i> {$clanok->hlavne_menu->modified|date:'j.n.Y'}
     </div>
     <div class="btn btn-outline-info disabled" title="Zadal: {$clanok->hlavne_menu->user_main->meno} {$clanok->hlavne_menu->user_main->priezvisko}" type="button">
       <i class="fas fa-user"></i> {$clanok->hlavne_menu->user_main->meno} {$clanok->hlavne_menu->user_main->priezvisko}
@@ -87,14 +87,14 @@
   </div>
   <div n:snippet="dlzka_novinky" class="btn-group btn-group-sm edit-link-bar" role="group" aria-label="dlzka_novinky-link">
     <div n:if="$admin_links['vlastnik']" class="btn btn-outline-warning disabled" title="Sledovanie dĺžky novinky: {$clanok->hlavne_menu->dlzka_novinky->nazov}">
-      <i class="far fa-newspaper"></i>
+      <i class="fas fa-newspaper"></i>
       Ako novinka: {$clanok->hlavne_menu->dlzka_novinky->nazov}
     </div>
     <button n:if="$admin_links['vlastnik']" type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#myModalDlzkaNovinkyChange" title="Zmeň sledovanie dĺžky novinky"><i class="fas fa-pencil-alt"></i></button>
   </div>
   <div n:snippet="opravnenie_nevlastnikov" class="btn-group btn-group-sm edit-link-bar" role="group" aria-label="opravnenie_nevlastnikov-link">
     <div n:if="$admin_links['vlastnik']" class="btn btn-outline-warning disabled" title="Oprávnenia nevlastníkov: {$clanok->hlavne_menu->hlavne_menu_opravnenie->nazov}">
-      <i class="far fa-id-card"></i>
+      <i class="fas fa-id-card"></i>
       Opravnenie nevlastníkov: {$clanok->hlavne_menu->hlavne_menu_opravnenie->nazov}
     </div>
     <button n:if="$admin_links['vlastnik']" type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#myModalOpravnenieNevlastnikovChange" title="Zmeň oprávnenia nevlastníkov"><i class="fas fa-pencil-alt"></i></button>
@@ -102,7 +102,7 @@
   <div n:snippet="opravnenie_kategoria" n:if="$categori" class="btn-group btn-group-sm edit-link-bar" role="group" aria-label="opravnenie_kategoria-link">
     {var $ok_txt = $clanok->hlavne_menu->id_user_categories != null ? $clanok->hlavne_menu->user_categories->name : 'Nenastavené'}
     <div n:if="$admin_links['vlastnik']" class="btn btn-outline-warning disabled" title="Oprávnenia podľa kategórie: {$ok_txt}">
-      <i class="far fa-id-card"></i>
+      <i class="fas fa-id-card"></i>
       Opravnenie podľa kategórie: {$ok_txt}
     </div>
     <button n:if="$admin_links['vlastnik']" type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#myModalOpravnenieKategoriaChange" title="Zmeň oprávnenia podľa kategórie"><i class="fas fa-pencil-alt"></i></button>
@@ -110,7 +110,7 @@
   <div n:if="$komentare_enabled" n:snippet="komentare" class="btn-group btn-group-sm edit-link-bar" role="group" aria-label="komentare-enabled-link">
     {var $kom_enab = $clanok->hlavne_menu->komentar}
     {var $kom_text = $kom_enab ? 'Zakázať' : 'Povoliť'}
-    <div class="btn btn-outline-{if $kom_enab}warning{else}info{/if} disabled" title="Komentáre k článku sú {if $kom_enab}dovolené{else}zakázané{/if}."><i class="far fa-comment-alt"></i>{*Komentáre k článku sú {if $kom_enab}dovolené{else}zakázané{/if}.*}</div>
+    <div class="btn btn-outline-{if $kom_enab}warning{else}info{/if} disabled" title="Komentáre k článku sú {if $kom_enab}dovolené{else}zakázané{/if}."><i class="fas fa-comment-alt"></i>{*Komentáre k článku sú {if $kom_enab}dovolené{else}zakázané{/if}.*}</div>
     <a n:if="$vlastnik" n:href="komentare! volba => (1-$kom_enab)" title="{$kom_text}" class="btn btn-outline-info">
       <i class="fas fa-{if $kom_enab}times{else}check{/if}"></i>
     </a>

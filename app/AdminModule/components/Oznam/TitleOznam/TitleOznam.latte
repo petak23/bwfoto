@@ -1,6 +1,6 @@
 <div class="page-header edit-link-bar col-12" data-toggle="tooltip" data-placement="bottom">
   <a n:if="$user->isAllowed('Admin:Oznam', 'add')" href="{plink 'Oznam:add'}" title="Pridaj nový oznam" class="btn btn-success">
-    <i class="far fa-file"></i>Pridaj nový oznam 
+    <i class="fas fa-file"></i>Pridaj nový oznam 
   </a>
   <div n:snippet="zmenPresmerovanie" class="btn-group edit-link-bar" role="group" aria-label="zmen-presmerovanie-link">
     <div class="btn btn-info disabled" title="Aktuálne presmerovanie na: {if $clanok_presmerovanie !== FALSE}{$clanok_presmerovanie->menu_name}{else}Nie je nastavené!{/if}" type="button">

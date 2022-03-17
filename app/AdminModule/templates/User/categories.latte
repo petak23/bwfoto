@@ -32,7 +32,7 @@
       <td class="editacne center" n:if="$user->isInRole('admin')">
         <a href="{link confirmForm:confirmDelete! id => $ca->id, nazov => $ca->nazov, druh =>'categori', zdroj_na_zmazanie => 'kategóriu'}"
           n:if="$ca->id_user_roles <= $user->getIdentity()->id_user_roles" title="Vymazanie kategórie {$ca->nazov}" class="button-right">
-          <i class="far fa-trash-alt fa-1_5x"></i></a>
+          <i class="fas fa-trash-alt fa-1_5x"></i></a>
       </td>
     </tr>
   </table>
