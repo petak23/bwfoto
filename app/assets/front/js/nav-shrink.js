@@ -1,17 +1,3 @@
-// --- jquery version
-/*$(document).ready(function () {
-	$(window).scroll(function () {
-		if ($(document).scrollTop() > 80) {
-			$("#topNav").addClass('shrink');
-		} else {
-			$("#topNav").removeClass('shrink');
-		}
-	});
-	$("#topMenuButton").click(function () {
-		$("#topNav").height("auto");
-	});
-});*/
-
 // --- pure js equivalent
 document.addEventListener('DOMContentLoaded', function(){
   // Pre male rozlisenia

@@ -2,11 +2,13 @@
 namespace App\ApiModule\Presenters;
 
 use DbTable;
+use Nette\Application\Responses\TextResponse;
 use Nette\Utils;
+use Texy;
 
 /**
  * Prezenter pre pristup k api hlavneho menu.
- * Posledna zmena(last change): 15.03.2022
+ * Posledna zmena(last change): 25.03.2022
  *
  * Modul: API
  *
@@ -23,6 +25,9 @@ class MenuPresenter extends BasePresenter {
 	public $hlavne_menu_lang;
   /** @var DbTable\Admin_menu @inject */
   public $admin_menu;
+
+  /** @var Texy\Texy @inject */
+	public $texy;
 
   /**
    * Vráti kompletné menu v json */
@@ -88,5 +93,20 @@ class MenuPresenter extends BasePresenter {
     }
     
     $this->sendJson($am);
+  }
+
+  /**
+   * Vráti jednu položku menu */
+  public function actionGetOneMenuArticle(int $id = null) {
+    $tmp = $this->hlavne_menu_lang->getOneArticleId($id, $id_lang = 1, $this->user->getIdentity()->id_user_roles = 0);
+    //dumpe($tmp->toArray());
+    $this->sendJson($tmp->toArray());
+  }
+  
+  public function actionTexylaPreview() {
+    // https://forum.nette.org/cs/28370-data-z-post-request-body-reactjs-appka-se-po-ceste-do-php-ztrati
+    $_post = json_decode(file_get_contents("php://input"), true);
+
+    $this->sendResponse(new TextResponse($this->texy->process($_post["texy"])));
   }
 }

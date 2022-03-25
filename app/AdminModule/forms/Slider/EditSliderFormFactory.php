@@ -13,13 +13,13 @@ use Nette\Utils\Image;
 /**
  * Komponenta pre formular slidera 
  * 
- * Posledna zmena(last change): 23.02.2021
+ * Posledna zmena(last change): 25.03.2022
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
- * @copyright Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.6
+ * @version 1.0.7
  */
 class EditSliderFormFactory {
   /** @var DbTable\Slider */
@@ -73,7 +73,7 @@ class EditSliderFormFactory {
             ->addCondition(Form::FILLED)
             ->addRule(Form::INTEGER, 'Id článku musí byť číslo!');
     }
-    $form->addCheckbox("zobrazenie_null", " Obrázok sa zobrazí vždy")
+    $form->addCheckbox("zobrazenie_null", ' Obrázok sa zobrazí: "Vždy okrem..."')
           ->setDefaultValue(TRUE)
           ->addCondition(Form::EQUAL, TRUE)
           ->toggle("zobr", FALSE);

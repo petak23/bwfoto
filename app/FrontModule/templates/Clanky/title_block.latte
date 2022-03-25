@@ -19,11 +19,19 @@
               data-target="#editArticleTitleModal">
         <i class="fas fa-pen"></i>
       </button>
+      <button class="btn btn-sm btn-outline-warning"
+              n:if="$user_admin" 
+              title="{_'base_edit_texts'}"
+              data-toggle="modal"
+              data-target="#editArticleTextsModal">
+        <i class="fa-solid fa-file-lines"></i>
+      </button>
   </div>
 </h1>
 
-<div class="modal fade" id="editArticleTitleModal" tabindex="-1" 
-     aria-labelledby="editArticleTitleModalLabel" aria-hidden="true">
+<div  n:if="$edit_enabled"
+      class="modal fade" id="editArticleTitleModal" tabindex="-1" 
+      aria-labelledby="editArticleTitleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-xl">
     <div class="modal-content">
       <div class="modal-header bg-dark">
@@ -34,6 +42,28 @@
       </div>
       <div class="modal-body bg-dark">
         {control editArticleTitleForm}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div  n:if="$edit_enabled"
+      class="modal fade" id="editArticleTextsModal" tabindex="-1" 
+      aria-labelledby="editArticleTextsModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <div class="modal-header bg-dark">
+        <h5 class="modal-title" id="editArticleTextsModalLabel">{_'base_edit_texts'}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body bg-dark">
+        <edittexts
+          id_hlavne_menu="{$article->id_hlavne_menu}"
+          basepath="{$basePath}/"
+        >
+        </edittexts>
       </div>
     </div>
   </div>
