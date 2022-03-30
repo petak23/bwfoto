@@ -1,3 +1,26 @@
+<script>
+/** 
+ * @lastchange 30.03.2022
+ *
+ * @editedby Ing. Peter VOJTECH ml <petak23@gmail.com>
+ * @version 1.0.1
+ */
+export default {
+  props: {
+    photostyle: Object,
+  },
+  computed: {
+    thumbStyle() {
+      let style = {};
+      if (typeof this.photostyle.width !== 'undefined') {
+        style.width = this.photostyle.width + '%';
+      }
+      return style;
+    }
+  }
+}
+</script>
+
 <template>
   <div 
     class="vue-photo-grid" 
@@ -8,23 +31,6 @@
     <slot></slot>
   </div>
 </template>
-
-<script>
-export default {
-  props: {
-    photostyle: Object,
-  },
-  computed: {
-    thumbStyle() {
-      var style = {};
-      if (typeof this.photostyle.width !== 'undefined') {
-        style.width = this.photostyle.width + '%';
-      }
-      return style;
-    }
-  }
-}
-</script>
 
 <style lang="scss" scoped>
 .vue-photo-grid {

@@ -6,18 +6,18 @@ $(function() {
 				$.datepicker.regional[ 'sk' ] );
 	});
 	$("input.date").each(function () { // input[type=date] does not work in IE
-        var el = $(this);
-        var value = el.val();
-        var date = (value ? $.datepicker.parseDate($.datepicker.W3C, value) : null);
+        let el = $(this);
+        let value = el.val();
+        let date = (value ? $.datepicker.parseDate($.datepicker.W3C, value) : null);
 
-        var minDate = el.attr("min") || null;
+        let minDate = el.attr("min") || null;
         if (minDate) minDate = $.datepicker.parseDate($.datepicker.W3C, minDate);
-        var maxDate = el.attr("max") || null;
+        let maxDate = el.attr("max") || null;
         if (maxDate) maxDate = $.datepicker.parseDate($.datepicker.W3C, maxDate);
 
         // input.attr("type", "text") throws exception
         if (el.attr("type") == "date") {
-            var tmp = $("<input/>");
+            let tmp = $("<input/>");
             $.each("class,disabled,id,maxlength,name,readonly,required,size,style,tabindex,title,value".split(","), function(i, attr)  {
                 tmp.attr(attr, el.attr(attr));
             });
@@ -33,10 +33,10 @@ $(function() {
 
   // -----------------------
 	//Pre zobrazenie celého článku
-	var cely = $('.cely_clanok'); //Nájdem doplnok textu
-	cely.parent().next().hide();              //Skryjem ho
+	let cely_cl = $('.cely_clanok'); //Nájdem doplnok textu
+	cely_cl.parent().next().hide();              //Skryjem ho
 	//ostatok.hide();
-	cely.click(function()  //Pri kliku na článok
+	cely_cl.click(function()  //Pri kliku na článok
 	{
 		$(this).fadeOut(200, function()
 		{
@@ -46,14 +46,14 @@ $(function() {
 	});
 	// -----------------------
 	//Pre zobrazenie celého oznamu
-	var cely = $('.cely_oznam'); //Nájdem doplnok textu
-	var textC = cely.next().html();		//Najdem cely text
-	var textU = cely.prev();		//Najdem upraveny text
+	let cely = $('.cely_oznam'); //Nájdem doplnok textu
+	let textC = cely.next().html();		//Najdem cely text
+	let textU = cely.prev();		//Najdem upraveny text
 	cely.next().hide().remove();              //Skryjem ho
 	cely.click(function()  //Pri kliku na článok
 	{
 		textU.append('<span class="ost">' + textC + '</span>');
-		var ost = $('.ost');
+		let ost = $('.ost');
 		ost.hide();
 		$(this).fadeOut(200, function()
 		{
@@ -101,10 +101,10 @@ $(function() {
   
   /* pre zmenu náhľadu pri zmenách okrajového rámčeka */
   $("#frm-titleArticle-zmenOkrajForm").find("input.input_number").each(function(){ // frm-products-zmenOkrajForm
-    var el = $(this);
+    let el = $(this);
     el.change(function(){
-      var val = el.val();
-      var cl = el.attr('name').split("_");
+      let val = el.val();
+      let cl = el.attr('name').split("_");
       $(".okraj-"+cl[1]).each(function(){
         $(this).css("border-width", val+"px");
       });
@@ -112,10 +112,10 @@ $(function() {
   });
   
   $("#frm-titleArticle-zmenOkrajForm").find("input[type=color]").each(function(){ //frm-products-zmenOkrajForm
-    var el = $(this);
+    let el = $(this);
     el.change(function(){
-      var val = el.val();
-      var cl = el.attr('name').split("_");
+      let val = el.val();
+      let cl = el.attr('name').split("_");
       $(".okraj-"+cl[1]).each(function(){
         $(this).css("border-color", val);
       });
@@ -123,10 +123,10 @@ $(function() {
   });
 
   $(".btn-for-big-image").on('click', function() {
-    var targ = $(this).data('target');
-  	var imc = $(targ);
-  	var imgsrc = $(this).data('imgsrc');
-  	var img = imc.find('.modal-body img');
+    let targ = $(this).data('target');
+  	let imc = $(targ);
+  	let imgsrc = $(this).data('imgsrc');
+  	let img = imc.find('.modal-body img');
   	img.attr("src", function() {
   		return $(this).data('src') + imgsrc;
   	});

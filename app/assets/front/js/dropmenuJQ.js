@@ -3,8 +3,8 @@ $(document).ready (function(){
   {
     $( ".nav-item a.dropdown-toggle" ).on( "click", function(event)//ak sa klikne na polozku menu 
     {  
-      var curElement=$( event.target ).next();//aktualne kliknuta polozka
-      var heightTopmenu=$( "#topmenu" ).height()+21;//vyska horneho topmenu 
+      let curElement=$( event.target ).next();//aktualne kliknuta polozka
+      let heightTopmenu=$( "#topmenu" ).height()+21;//vyska horneho topmenu 
       $( ".dropdown-menu" ).css("top", heightTopmenu);//pozicia dropdowmenu sa nastavi podla vysky topmenu 
       if (curElement.is(':visible'))//ak je aktualne vysunute stiahne iba jedno
       {

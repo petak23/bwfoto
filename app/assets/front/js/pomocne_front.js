@@ -4,9 +4,9 @@ import jquery from 'jquery';
 jquery(function() {
   
 	/*Pre zobrazenie celého článku*/
-	var cely = jquery('.cely_clanok');     //Nájdem doplnok textu
-	cely.next().hide();               //Skryjem ho
-	cely.click(function() {           //Pri kliku na článok
+	let cely_cl = jquery('.cely_clanok');     //Nájdem doplnok textu
+	cely_cl.next().hide();               //Skryjem ho
+	cely_cl.click(function() {           //Pri kliku na článok
 		jquery(this).fadeOut(200, function() {
 			jquery(this).remove();             //Odstránim odkaz
 		}).next().slideDown('slow');		//Skryjem samotný odkaz
@@ -14,13 +14,13 @@ jquery(function() {
 	});
 
 	/*Pre zobrazenie celého oznamu*/
-	var cely = jquery('.cely_oznam');      //Nájdem doplnok textu
-	var textC = cely.next().html();		//Najdem cely text
-	var textU = cely.prev();          //Najdem upraveny text
+	let cely = jquery('.cely_oznam');      //Nájdem doplnok textu
+	let textC = cely.next().html();		//Najdem cely text
+	let textU = cely.prev();          //Najdem upraveny text
 	cely.next().hide().remove();      //Skryjem ho
 	cely.click(function() {           //Pri kliku na článok
 		textU.append('<span class="ost">' + textC + '</span>');
-		var ost = jquery('.ost');
+		let ost = jquery('.ost');
 		ost.hide();
 		jquery(this).fadeOut(200, function() {
 			jquery(this).remove();             //Odstránim odkaz
@@ -30,7 +30,7 @@ jquery(function() {
 	});
 
   jquery('.thumbnails').find('.thumb-a').each(function(){
-    var el = jquery(this);
+    let el = jquery(this);
     el.click(function(){
       jquery('.thumb-a').removeClass('selected');
       jquery(this).addClass('selected');

@@ -1,13 +1,13 @@
 <script>
 /** 
  * Component Fotogalery
- * Posledná zmena(last change): 15.11.2021
+ * Posledná zmena(last change): 30.03.2022
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @copyright Copyright (c) 2021 - 2021 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2021 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.6
+ * @version 1.0.7
  */
 
 export default {
@@ -58,8 +58,8 @@ export default {
     matchHeight () {
       let height = this.$refs.imgDetail.clientHeight;
       let width = this.$refs.imgDetail.clientWidth;
-      var height2 = parseInt(window.innerHeight * 0.8);
-      var h = height2 > height ? height2 : height;
+      let height2 = parseInt(window.innerHeight * 0.8);
+      let h = height2 > height ? height2 : height;
       this.square = (h>width ? width-20 : h);
       this.wid = width;
     },

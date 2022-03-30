@@ -1,13 +1,13 @@
 <script>
 /** 
  * Component Menucardorder
- * Posledná zmena(last change): 15.03.2022
+ * Posledná zmena(last change): 30.03.2022
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.1
+ * @version 1.0.2
  */
 
 import axios from 'axios'
@@ -49,12 +49,12 @@ export default {
       let from = ai.from.index
       let to = ai.to.index
       this.odkaz = this.basepath + '/api/menu/saveordersubmenu/' + this.id_hlavne_menu
-      var out = []
+      let out = []
       for (let i = 0; i < this.items.length; i++) {
         out.push(this.items[i].id)
       }
       // https://www.codegrepper.com/code-examples/javascript/change+index+order+in+array+javascript
-      var element = out[from];
+      let element = out[from];
       out.splice(from, 1);
       out.splice(to, 0, element);
       axios.post(this.odkaz, {
@@ -73,7 +73,7 @@ export default {
     }
   },
   mounted () {
-    var odkaz = this.basepath + '/api/menu/getsubmenu/' + this.id_hlavne_menu + '/front'
+    let odkaz = this.basepath + '/api/menu/getsubmenu/' + this.id_hlavne_menu + '/front'
     this.items = []
     axios.get(odkaz)
               .then(response => {

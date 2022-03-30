@@ -1,8 +1,7 @@
-// --- pure js equivalent
 document.addEventListener('DOMContentLoaded', function(){
   // Pre male rozlisenia
-  var topNav = document.getElementById('topNav');
-  var contentNav = document.getElementById('navbarSupportedContent');
+  let topNav = document.getElementById('topNav');
+  let contentNav = document.getElementById('navbarSupportedContent');
   if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
 		topNav.classList.add('shrink');
 		contentNav.classList.add('hidecont');

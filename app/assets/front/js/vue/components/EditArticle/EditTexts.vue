@@ -1,13 +1,13 @@
 <script>
 /** 
  * Component Fotocollage
- * Posledná zmena(last change): 25.03.2022
+ * Posledná zmena(last change): 30.03.2022
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.0
+ * @version 1.0.1
  * 
  */
 import axios from 'axios'
@@ -54,7 +54,7 @@ export default {
       this.insertSomething("//","//")
     },
     insertH(id=3) {
-      var h = {
+      let h = {
         3: "***********",
         4: "===========",
         5: "-----------"
@@ -63,8 +63,8 @@ export default {
       this.insertSomething("", "\n" + h[id] + "\n")
     },
     insertSomething(valueBefore, valueAfter = null) {
-        var textArea = document.getElementsByName('texyla')[0];
-        var startPos = textArea.selectionStart,
+        let textArea = document.getElementsByName('texyla')[0];
+        let startPos = textArea.selectionStart,
             // get cursor's position:
             endPos = textArea.selectionEnd,
             cursorPos = startPos, 
@@ -74,7 +74,7 @@ export default {
         }
 
         // insert:
-        var tst = tmpStr.substring(0, startPos) + valueBefore
+        let tst = tmpStr.substring(0, startPos) + valueBefore
         if (valueAfter !== null) {
           if (startPos < endPos) {
             tst += tmpStr.substring(startPos, endPos)
@@ -91,9 +91,9 @@ export default {
         }, 10);
     },
     getPreview: function () {
-      var odkaz = this.basepath + 'api/menu/texylapreview'
+      let odkaz = this.basepath + 'api/menu/texylapreview'
       //this.preview = "Vytváram náhľad..."
-      var vm = this
+      let vm = this
       axios.post(odkaz, {
           texy: this.textin,
         })
@@ -113,8 +113,8 @@ export default {
     },
   },
   created: function () {
-    var odkaz = this.basepath + 'api/menu/getonemenuarticle/' + this.id_hlavne_menu
-    var tm = this
+    let odkaz = this.basepath + 'api/menu/getonemenuarticle/' + this.id_hlavne_menu
+    let tm = this
     axios.get(odkaz)
       .then(response => {
         tm.textin = response.data.text

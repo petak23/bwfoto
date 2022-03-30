@@ -1,13 +1,13 @@
 <script>
 /** 
  * Component Fotocollage
- * Posledná zmena(last change): 17.03.2022
+ * Posledná zmena(last change): 30.03.2022
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.4
+ * @version 1.1.5
  * Z kniznica pouzite súbory a upravene: https://github.com/seanghay/vue-photo-collage
  */
 import PhotoCollageWrapper from "./vue-photo-collage/PhotoCollageWrapper.vue";
@@ -91,7 +91,7 @@ export default {
   methods: {
     itemClickHandler(data, i) {
       // click event
-      var odkaz = this.basepath + '/api/documents/document/' + data.id_foto
+      let odkaz = this.basepath + '/api/documents/document/' + data.id_foto
       axios.get(odkaz)
               .then(response => {
                 this.image = response.data
@@ -106,7 +106,7 @@ export default {
       this.computeLayout(this.$refs.imgDetail.clientWidth)
     },
     computeLayout(client_width) {
-      var res = { 
+      let res = { 
         max_width: 0,  
         schema: [],  
         height: [],  
@@ -120,11 +120,11 @@ export default {
       })
       res.layout = [] // Musí ostať inak nefunguje !?!
       this.collage.photos = JSON.parse(this.attachments)
-      var i = this.collage.photos.length
-      var r = 0 // riadok
+      let i = this.collage.photos.length
+      let r = 0 // riadok
       do {
         // Zisti počet foto v riadku. Ak by bolo 0 tak nahraď to 1
-        var fr = res.schema[r] > 0 ? res.schema[r] : 1;
+        let fr = res.schema[r] > 0 ? res.schema[r] : 1;
         res.layout.push( fr )
 
         r = r + 1 >= res.schema.length ? 0 : r + 1 

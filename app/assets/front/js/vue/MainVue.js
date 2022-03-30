@@ -1,12 +1,12 @@
 /* 
  * Main Vue.js app file
- * Posledná zmena(last change): 01.02.2022
+ * Posledná zmena(last change): 30.03.2022
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.0
+ * @version 1.1.1
  */
 
 import Vue from 'vue';
@@ -28,7 +28,7 @@ Vue.use(IconsPlugin);
 
 Vue.use(VueDndZone);
 
-var vm = new Vue({
+let vm = new Vue({
   el: '#vueapp',
   components: { 
     Slider, 
