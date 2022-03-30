@@ -121,6 +121,11 @@ class Hlavne_menu_lang extends Table {
     return $this->findBy(["id_lang"=>$id_lang, "hlavne_menu.id_nadradenej"=>$id_nadradenej])
                 ->where("datum_platnosti ? OR datum_platnosti >= ? ", NULL, StrFTime("%Y-%m-%d",strtotime("0 day")));
   }
+
+  public function saveText(int $id_hlavne_menu, int $id_lang, $text) {
+    return $this->findOneBy(['id_hlavne_menu'=>$id_hlavne_menu, 'id_lang'=>$id_lang])
+                ->update(['text'=>$text]);
+  }
 }
 
 /**

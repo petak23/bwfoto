@@ -1,3 +1,13 @@
+/* 
+ * Js súbor pre zmenu hlavného navbar-u.
+ * Posledná zmena(last change): 30.03.2022
+ *
+ * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
+ * @copyright Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
+ * @license
+ * @link http://petak23.echo-msz.eu
+ * @version 1.0.1
+ */
 document.addEventListener('DOMContentLoaded', function(){
   // Pre male rozlisenia
   let topNav = document.getElementById('topNav');
@@ -21,7 +31,6 @@ document.addEventListener('DOMContentLoaded', function(){
 		}
   };
   document.getElementById("topMenuButton").onclick = function(){
-		contentNav.classList.toggle("hidecont");
-    
+		contentNav.classList.toggle("hidecont"); 
   };
 });

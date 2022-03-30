@@ -20,8 +20,7 @@
         <i class="fas fa-pen"></i>
       </button>
       <button class="btn btn-sm btn-outline-warning"
-              n:if="$user_admin" 
-              title="{_'base_edit_texts'}"
+              title="{_'base_edit_texts'} - pokusná funkcionalita"
               data-toggle="modal"
               data-target="#editArticleTextsModal">
         <i class="fa-solid fa-file-lines"></i>
@@ -53,15 +52,23 @@
   <div class="modal-dialog modal-dialog-centered modal-xl">
     <div class="modal-content">
       <div class="modal-header bg-dark">
-        <h5 class="modal-title" id="editArticleTextsModalLabel">{_'base_edit_texts'}</h5>
+        <h5 class="modal-title" id="editArticleTextsModalLabel">
+          {_'base_edit_texts'}
+          <span class="text-warning">&nbsp;- táto časť je len pokusná. Nie všetko je funkčné!!!</span>
+        </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body bg-dark">
+        Pomoc pri editácii textov nájdete aj na: 
+        <a href="https://texy.info/cs/syntax-podrobne" title="texy.info" target="_blank" class="text-info">
+          texy.info
+        </a>
         <edittexts
           id_hlavne_menu="{$article->id_hlavne_menu}"
           basepath="{$basePath}/"
+          link="{link this}"
         >
         </edittexts>
       </div>

@@ -21,10 +21,10 @@ use Texy;
 class MenuPresenter extends BasePresenter {
 
   // -- DB
-  /** @var DbTable\Hlavne_menu_lang @inject */
-	public $hlavne_menu_lang;
   /** @var DbTable\Admin_menu @inject */
   public $admin_menu;
+  /** @var DbTable\Hlavne_menu_lang @inject */
+	public $hlavne_menu_lang;
 
   /** @var Texy\Texy @inject */
 	public $texy;
@@ -108,5 +108,14 @@ class MenuPresenter extends BasePresenter {
     $_post = json_decode(file_get_contents("php://input"), true);
 
     $this->sendResponse(new TextResponse($this->texy->process($_post["texy"])));
+  }
+
+  public function actionTexylaSave(int $id) {
+    // https://forum.nette.org/cs/28370-data-z-post-request-body-reactjs-appka-se-po-ceste-do-php-ztrati
+    $_post = json_decode(file_get_contents("php://input"), true);
+    
+    $this->sendJson([
+      'result' => $this->hlavne_menu_lang->saveText($id, $this->lang->getLngId($this->language), $_post['texy']) ? 'OK' : 'ERR'
+    ]);
   }
 }

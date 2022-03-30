@@ -7,7 +7,7 @@
  * @copyright Copyright (c) 2021 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.1
+ * @version 1.0.2
  * 
  */
 import axios from 'axios'
@@ -22,6 +22,7 @@ export default {
     basepath: String,
     title: String,
     edit_enabled: String,
+    link: String,
   },
   data() {
     return {
@@ -33,19 +34,25 @@ export default {
   methods: {
     onSubmit(event) {
       event.preventDefault()
-      alert(JSON.stringify(this.textin))
-      
+      let odkaz = this.basepath + 'api/menu/texylasave/' + this.id_hlavne_menu
+      let vm = this
+      axios.post(odkaz, {
+          texy: this.textin,
+        })
+        .then(function (response) {
+          //vm.preview = response.data
+          //console.log(response.data)
+          // https://stackoverflow.com/questions/35664550/vue-js-redirection-to-another-page
+          window.location.href = vm.link;
+        })
+        .catch(function (error) {
+          console.log(odkaz)
+          console.log(error)
+        });      
     },
     onCancel(event) {
       event.preventDefault()
-      // Reset our form values
-      /*this.form.anotacia = ''
-      this.textin = ''
-      // Trick to reset/clear native browser form validation state
-      this.show = false
-      this.$nextTick(() => {
-        this.show = true
-      })*/
+      window.location.href = this.link;
     },
     insertB() {
       this.insertSomething("**","**")
@@ -131,7 +138,7 @@ export default {
 
 <template>
   <div>
-    <b-form @submit="onSubmit" @cancel="onCancel" v-if="show">
+    <b-form @submit="onSubmit" @reset="onCancel" v-if="show">
       <!-- b-form-group id="input-group-2" label="Text:" label-for="text" -->
         <b-button-toolbar key-nav aria-label="Application toolbar">
           <b-button-group size="sm" class="mx-1">
@@ -178,9 +185,9 @@ export default {
       <!-- /b-form-group -->
 
       <b-button type="submit" variant="primary">Ulož</b-button>
-      <b-button type="cancel" variant="secondary">Cancel</b-button>
+      <b-button type="reset" variant="secondary">Cancel</b-button>
     </b-form>
-    <div class="mt-2 text-white">Náhľad:</div>
+    <div class="mt-2 text-white">Náhľad<small>(aktualizuje sa cca. 1x za sekundu)</small>:</div>
     <b-card class="text-dark text-left" v-html="preview"></b-card>
   </div>
 </template>

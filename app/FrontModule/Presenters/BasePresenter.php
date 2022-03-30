@@ -17,7 +17,7 @@ use Texy;
 /**
  * Zakladny presenter pre vsetky presentery vo FRONT module
  * 
- * Posledna zmena(last change): 15.03.2022
+ * Posledna zmena(last change): 30.03.2022
  *
  *	Modul: FRONT
  *
@@ -25,7 +25,7 @@ use Texy;
  * @copyright Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link      http://petak23.echo-msz.eu
- * @version 1.6.9
+ * @version 1.7.0
  */
 abstract class BasePresenter extends Presenter {
   
@@ -270,8 +270,13 @@ abstract class BasePresenter extends Presenter {
       $rozloz = explode("{end}", $text);
       $vysledok = $text;
       if (count($rozloz)>1) {    //Ak som nasiel znacku
-        $vysledok = $rozloz[0].\Nette\Utils\Html::el('a class="cely_clanok"')->href($servise->link("this"))->title($servise->texty_presentera->translate("base_title"))
-                ->setHtml('&gt;&gt;&gt; '.$servise->texty_presentera->translate("base_viac")).'<div class="ostatok">'.$rozloz[1].'</div>';
+        $vysledok = $rozloz[0]   // Podľa: https://getbootstrap.com/docs/4.6/components/collapse/#example
+                    .Html::el('a class="btn btn-link" data-toggle="collapse" aria-expanded="false" aria-controls="collapseArticle" id="colArt"')
+                    ->href("#collapseArticle")
+                    ->title($servise->texty_presentera->translate("base_title"))
+                    ->setHtml('&gt;&gt;&gt; '.$servise->texty_presentera->translate("base_viac"))
+                    .Html::el('div class="collapse" id="collapseArticle"')
+                    ->setHtml($rozloz[1]);
       }
       return $vysledok;
     });
@@ -285,7 +290,6 @@ abstract class BasePresenter extends Presenter {
       return (int)rand(0, $max);
     });
     $this->template->addFilter('uprav_email', function ($email) { //Upravi email aby sa nedal pouzit ako nema
-
       return Strings::replace($email, ['~@~' => '[@]', '~\.~' => '[dot]']);
     });
     $this->template->addFilter('textreg', function ($text, $id_user_roles, $max_id_reg) {
