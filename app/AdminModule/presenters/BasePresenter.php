@@ -13,7 +13,7 @@ use Texy;
 /**
  * Zakladny presenter pre vsetky presentery v module ADMIN
  * 
- * Posledna zmena(last change): 07.01.2022
+ * Posledna zmena(last change): 01.04.2022
  *
  * Modul: ADMIN
  *
@@ -21,7 +21,7 @@ use Texy;
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.3.7
+ * @version 1.3.8
  */
 abstract class BasePresenter extends UI\Presenter {
   
@@ -108,14 +108,14 @@ abstract class BasePresenter extends UI\Presenter {
     // Kontrola prihlasenia
     if ($this->id_reg) { //Prihlaseny uzivatel
       if (!$user->isAllowed($this->name, $this->action)) { //Kontrola ACL
-        $this->flashRedirect('Homepage:', 'Na požadovanú akciu nemáte dostatočné oprávnenie!', 'danger');
+        $this->flashRedirect('Homepage:', 'Na požadovanú akciu nemáte dostatočné oprávnenie! Ide o:'.$this->name.':'.$this->action , 'danger');
       }
     } else { //Neprihlaseny
       if ($user->getLogoutReason() === Nette\Security\UserStorage::LOGOUT_INACTIVITY) { 
         $backlink = $this->getApplication()->storeRequest();
         $this->flashRedirect([':Front:User:', ['backlink' => $backlink]], 'Boli ste príliš dlho neaktívny a preto ste boli odhlásený! Prosím, prihláste sa znovu.', 'danger');
       } else {
-        $this->flashRedirect(':Front:User:', 'Nemáte dostatočné oprávnenie na danú operáciu!', 'danger');
+        $this->flashRedirect(':Front:User:', 'Nemáte dostatočné oprávnenie na danú operáciu! (Možná príčina Er: '.$user->getLogoutReason().')(Systém: '.$this->name.':'.$this->action.') ', 'danger');
       }
     }
     $modul_presenter = explode(":", $this->name);

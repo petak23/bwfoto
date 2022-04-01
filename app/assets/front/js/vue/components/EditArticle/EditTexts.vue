@@ -69,11 +69,24 @@ export default {
       id = (id > 5 || id < 3) ? 3 : id
       this.insertSomething("", "\n" + h[id] + "\n")
     },
+    align(id=1) {
+      let a = {
+        1: ".<",
+        2: ".<>",
+        3: ".>",
+        4: ".=",
+      }
+      id = (id > 4 || id < 1) ? 1 : id
+      this.insertSomething(a[id] + "\n")
+    },
+    insertListUl() {
+      this.insertSomething("- \n- \n- \n")
+    },
     insertSomething(valueBefore, valueAfter = null) {
         let textArea = document.getElementsByName('texyla')[0];
         let startPos = textArea.selectionStart,
             // get cursor's position:
-            endPos = textArea.selectionEnd,
+            endPos = valueAfter !== null ? textArea.selectionEnd : startPos,
             cursorPos = startPos, 
             tmpStr = textArea.value;
         if (valueBefore === null) {
@@ -164,12 +177,42 @@ export default {
             <b-button variant="outline-info">
               <i class="fa-solid fa-ruler-horizontal"></i>
             </b-button>
-            <b-button variant="outline-info">
+            <b-button variant="outline-info" @click="insertListUl" title="Nečíslovaný zoznam">
               <i class="fa-solid fa-list-ul"></i>
+            </b-button>
+            <b-button variant="outline-info">
+              <i class="fa-solid fa-list-ol"></i>
             </b-button>
             <b-button variant="outline-info">
               <i class="fa-solid fa-image"></i>
             </b-button>
+          </b-button-group>
+          <b-button-group size="sm" class="mx-1">
+            <b-dropdown class="mx-1" right variant="outline-info">
+              <template #button-content>
+                <i class="fa-solid fa-align-left"></i>
+              </template>
+              <b-dropdown-item>
+                <b-button variant="link" @click="align(1)" title="Zarovnaj vľavo">
+                  <i class="fa-solid fa-align-left"></i> Zarovnaj vľavo
+                </b-button></b-dropdown-item>
+              <b-dropdown-item>
+                <b-button variant="link" @click="align(2)" title="Zarovnaj na stred">
+                  <i class="fa-solid fa-align-center"></i> Zarovnaj na stred
+                </b-button>
+              </b-dropdown-item>
+              <b-dropdown-item>
+                <b-button variant="link" @click="align(3)" title="Zarovnaj vpravo">
+                  <i class="fa-solid fa-align-right"></i> Zarovnaj vpravo
+                </b-button>
+              </b-dropdown-item>
+              <b-dropdown-item>
+                <b-button variant="link" @click="align(4)" title="Zarovnaj do bloku">
+                  <i class="fa-solid fa-align-justify"></i> Zarovnaj do bloku
+                </b-button>
+              </b-dropdown-item>
+            </b-dropdown>
+            
           </b-button-group>
         </b-button-toolbar>
       
