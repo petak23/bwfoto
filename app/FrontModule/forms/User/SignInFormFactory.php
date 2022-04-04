@@ -46,7 +46,7 @@ class SignInFormFactory {
     $this->texts->setLanguage($language);
     $form->setTranslator($this->texts);
     $form->addEmail('email', 'SignInForm_email')
-         ->setHtmlAttribute('autofocus', 'autofocus')
+         //->setHtmlAttribute('autofocus', 'autofocus')
          ->setHtmlAttribute('placeholder', 'SignInForm_email')
          ->addRule(Form::EMAIL, 'Musíte zadať platnú e-mailovú adresu!')
 				 ->setRequired('SignInForm_email_req');

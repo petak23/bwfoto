@@ -110,6 +110,7 @@ class ClankyPresenter extends BasePresenter {
       $this->template->komponenty = $this->clanok_komponenty->getKomponenty($this->zobraz_clanok->id_hlavne_menu, $this->nastavenie["komponenty"]);
       $this->template->id_hlavne_menu_lang = $this->zobraz_clanok->id;
       $this->template->article_hlavicka = $this->udaje->getValByName("clanok_hlavicka");
+      $this->template->this_link = $this->link('this');
       $servise = $this;
       $this->template->addFilter('odkazdo', function ($id) use($servise){
         $serv = $servise->link("Dokumenty:default", ["id"=>$id]);

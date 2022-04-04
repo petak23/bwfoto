@@ -34,6 +34,8 @@ abstract class BasePresenter extends UI\Presenter {
 	public $hlavne_menu;
   /** @var DbTable\Lang @inject*/
 	public $lang;
+  /** @var DbTable\User_main @inject */
+	public $user_main;
   /** @var DbTable\User_roles @inject */
 	public $user_roles;
   /** @var DbTable\Udaje @inject */
@@ -104,18 +106,18 @@ abstract class BasePresenter extends UI\Presenter {
     // Sprava uzivatela
     $user = $this->getUser(); //Nacitanie uzivatela
     // Kontrola prihlasenia a nacitania urovne registracie
-    $this->id_reg = ($user->isLoggedIn()) ? $user->getIdentity()->id_user_roles : 0;
+    $this->id_reg = ($user->isLoggedIn()) ? $this->user_main->getUser($user->id)->id_user_roles : 0;
     // Kontrola prihlasenia
-    if ($this->id_reg) { //Prihlaseny uzivatel
+    if ($user->isLoggedIn()) { //Prihlaseny uzivatel
       if (!$user->isAllowed($this->name, $this->action)) { //Kontrola ACL
         $this->flashRedirect('Homepage:', 'Na požadovanú akciu nemáte dostatočné oprávnenie! Ide o:'.$this->name.':'.$this->action , 'danger');
       }
     } else { //Neprihlaseny
-      if ($user->getLogoutReason() === Nette\Security\UserStorage::LOGOUT_INACTIVITY) { 
+      if (($ur = $user->getLogoutReason()) === Nette\Security\UserStorage::LOGOUT_INACTIVITY) { 
         $backlink = $this->getApplication()->storeRequest();
         $this->flashRedirect([':Front:User:', ['backlink' => $backlink]], 'Boli ste príliš dlho neaktívny a preto ste boli odhlásený! Prosím, prihláste sa znovu.', 'danger');
       } else {
-        $this->flashRedirect(':Front:User:', 'Nemáte dostatočné oprávnenie na danú operáciu! (Možná príčina Er: '.$user->getLogoutReason().')(Systém: '.$this->name.':'.$this->action.') ', 'danger');
+        $this->flashRedirect(':Front:User:', 'Nemáte dostatočné oprávnenie na danú operáciu! (Možná príčina Er: '.$ur.')(Systém: '.$this->name.':'.$this->action.') ', 'danger');
       }
     }
     $modul_presenter = explode(":", $this->name);

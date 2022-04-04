@@ -146,6 +146,10 @@ class User_main extends Table {
   public function findIdBy(array $param = []): int {
     return ($tmp = $this->findOneBy($param)) !== FALSE ? $tmp->{self::COLUMN_ID} : 0;
   }
+
+  public function getUser(int $id): ?Nette\Database\Table\ActiveRow {
+    return $this->find($id);
+  }
 }
 
 class DuplicateEmailException extends \Exception

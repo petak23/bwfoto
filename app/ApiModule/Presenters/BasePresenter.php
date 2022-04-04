@@ -1,13 +1,15 @@
 <?php
+declare(strict_types=1);
+
 namespace App\ApiModule\Presenters;
 
 use DbTable;
-use Nette;
+use Nette\Application\UI\Presenter;
 
 /**
  * Zakladny presenter pre vsetky presentery v module API
  * 
- * Posledna zmena(last change): 15.03.2022
+ * Posledna zmena(last change): 04.04.2022
  *
  * Modul: API
  *
@@ -15,9 +17,9 @@ use Nette;
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.2
+ * @version 1.0.3
  */
-abstract class BasePresenter extends Nette\Application\UI\Presenter {
+abstract class BasePresenter extends Presenter {
 
   // -- DB
   /** @var DbTable\Hlavne_menu @inject */
@@ -56,7 +58,7 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter {
   }
 
   /** Vychodzie nastavenia */
-  protected function startup() {
+  protected function startup(): void {
     parent::startup();
     // Sprava uzivatela
     $user = $this->getUser(); //Nacitanie uzivatela

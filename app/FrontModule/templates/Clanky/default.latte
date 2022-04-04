@@ -24,7 +24,8 @@
                 article: $article, 
                 edit_enabled: $user->isLoggedIn() && $user->isAllowed('Front:Clanky', 'edit'),
                 user_admin: $user->isInRole('admin'),
-                basePath: $basePath
+                basePath: $basePath,
+                this_link: $this_link
         }{/embed}
         <div>
           <span n:if="$article_hlavicka & 1">

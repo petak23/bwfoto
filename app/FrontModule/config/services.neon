@@ -32,7 +32,7 @@ services:
   AttachmentsControl:
     implement: App\FrontModule\Components\Clanky\Attachments\IAttachmentsControl
     arguments:
-      dir_to_menu: %dir_to_menu%´
+      dir_to_menu: %dir_to_menu%
 
   ZobrazClanokControl:
     implement: App\FrontModule\Components\Clanky\ZobrazClanok\IZobrazClanokControl

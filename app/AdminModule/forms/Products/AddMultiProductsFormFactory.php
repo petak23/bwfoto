@@ -10,13 +10,13 @@ use Nette\Security\User;
 
 /**
  * Formular a jeho spracovanie pre pridanie viacerich produktov polozky.
- * Posledna zmena 08.03.2022
+ * Posledna zmena 04.04.2022
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.7
+ * @version    1.0.8
  */
 class AddMultiProductsFormFactory {
   
@@ -27,19 +27,15 @@ class AddMultiProductsFormFactory {
   /** @var int */
   private $id_user_main;
   /** @var string */
-  private $wwwDir;
-  /** @var string */
   private $products_dir;
   
-  public function __construct(string $wwwDir = "",
-                              string $dir_to_products,
+  public function __construct(string $dir_to_products,
                               DbTable\Products $products, 
                               DbTable\Udaje $udaje, 
                               User $user) {
     $this->products = $products;
     $this->products_settings = $udaje->findBy(['id_druh'=>8])->fetchPairs('nazov', 'text');
     $this->id_user_main = $user->getId();
-    $this->wwwDir = $wwwDir;
     $this->products_dir = $dir_to_products;
 	}
   
@@ -51,7 +47,7 @@ class AddMultiProductsFormFactory {
     $form = new Form();
 		$form->addProtection();
     $form->addSubmit('ulozz', 'Ukonč')
-         ->setAttribute('class', 'btn btn-success')
+         ->setHtmlAttribute('class', 'btn btn-success')
          ->onClick[] = [$this, 'productsFormSubmitted'];
     $form->addFileUpload("uploader")
          ->setMaxFiles((int)$this->products_settings["product_max_upload_files"])
@@ -71,7 +67,7 @@ class AddMultiProductsFormFactory {
                         )
                 );
 		$form->addSubmit('ulozk', 'Ukonč')
-         ->setAttribute('class', 'btn btn-success')
+         ->setHtmlAttribute('class', 'btn btn-success')
          ->onClick[] = [$this, 'productsFormSubmitted'];
 		return $form;
 	}

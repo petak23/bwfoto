@@ -1,13 +1,13 @@
 <script>
 /** 
  * Component Fotocollage
- * Posledná zmena(last change): 30.03.2022
+ * Posledná zmena(last change): 04.04.2022
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.2
+ * @version 1.0.3
  * 
  */
 import axios from 'axios'
@@ -20,8 +20,6 @@ export default {
   props: {
     id_hlavne_menu: String,
     basepath: String,
-    title: String,
-    edit_enabled: String,
     link: String,
   },
   data() {
@@ -133,11 +131,12 @@ export default {
     },
   },
   created: function () {
-    let odkaz = this.basepath + 'api/menu/getonemenuarticle/' + this.id_hlavne_menu
-    let tm = this
+    var odkaz = this.basepath + 'api/menu/getonemenuarticle/' + this.id_hlavne_menu
+    var tm = this
     axios.get(odkaz)
       .then(response => {
         tm.textin = response.data.text
+        tm.getPreview()
       })
       .catch((error) => {
         console.log(odkaz);
@@ -152,7 +151,6 @@ export default {
 <template>
   <div>
     <b-form @submit="onSubmit" @reset="onCancel" v-if="show">
-      <!-- b-form-group id="input-group-2" label="Text:" label-for="text" -->
         <b-button-toolbar key-nav aria-label="Application toolbar">
           <b-button-group size="sm" class="mx-1">
             <b-button variant="outline-info" @click="insertB" title="Bold">
@@ -218,23 +216,19 @@ export default {
       
         <b-form-textarea
           id="text"
-          v-model="textin" debounce="500"
+          v-model="textin"
           placeholder="Zadajte text..."
           rows="6"
           max-rows="6"
           description="Pre formátovanie využite syntax texy."
           name="texyla"
         ></b-form-textarea>
-      <!-- /b-form-group -->
 
       <b-button type="submit" variant="primary">Ulož</b-button>
       <b-button type="reset" variant="secondary">Cancel</b-button>
     </b-form>
     <div class="mt-2 text-white">Náhľad<small>(aktualizuje sa cca. 1x za sekundu)</small>:</div>
-    <b-card class="text-dark text-left" v-html="preview"></b-card>
+    <div class="text-left" v-html="preview"></div>
+    <!-- b-card class="text-dark text-left" v-html="preview"></b-card -->
   </div>
 </template>
-
-<style>
-
-</style>

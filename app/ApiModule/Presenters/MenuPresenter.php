@@ -1,14 +1,16 @@
 <?php
+declare(strict_types=1);
+
 namespace App\ApiModule\Presenters;
 
+use App\AdminModule\Components\Menu;
 use DbTable;
 use Nette\Application\Responses\TextResponse;
-use Nette\Utils;
 use Texy;
 
 /**
- * Prezenter pre pristup k api hlavneho menu.
- * Posledna zmena(last change): 25.03.2022
+ * Prezenter pre pristup k api hlavneho menu a pridružených vecí ako je aj obsah článku.
+ * Posledna zmena(last change): 04.04.2022
  *
  * Modul: API
  *
@@ -16,7 +18,9 @@ use Texy;
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.3
+ * @version 1.0.4
+ * 
+ * @help 1.) https://forum.nette.org/cs/28370-data-z-post-request-body-reactjs-appka-se-po-ceste-do-php-ztrati
  */
 class MenuPresenter extends BasePresenter {
 
@@ -31,8 +35,8 @@ class MenuPresenter extends BasePresenter {
 
   /**
    * Vráti kompletné menu v json */
-  public function actionGetMenu() { 
-    $menu = new \App\AdminModule\Components\Menu\Menu;
+  public function actionGetMenu(): void { 
+    $menu = new Menu\Menu;
     $menu->setNastavenie($this->nastavenie);
     $hl_m = $this->hlavne_menu->getMenuAdmin(1);
     if (count($hl_m)) {
@@ -51,8 +55,10 @@ class MenuPresenter extends BasePresenter {
   }
 
   /** 
-   * @param int $id Id nadradenej polozky */
-  public function actionGetSubmenu(int $id, String $lmodule = "Admin") {
+   * Akcia vráti konkrétne submenu pre nadradenú položku
+   * @param int $id Id nadradenej polozky
+   * @param String $lmodule Modul, pre ktorý sa vatvárajú odkazy v submenu */
+  public function actionGetSubmenu(int $id, String $lmodule = "Admin"): void {
     $tmp = $this->hlavne_menu_lang
                 ->findBy(['hlavne_menu.id_nadradenej'=>$id, 'id_lang'=>1])
                 ->order('poradie ASC');
@@ -68,25 +74,22 @@ class MenuPresenter extends BasePresenter {
         'node_class' => ($v->hlavne_menu->ikonka !== null && strlen($v->hlavne_menu->ikonka)>2) ? $v->hlavne_menu->ikonka : null,
         ];
     }
-    //dumpe($out);
     $this->sendJson($out);
 	}
 
   /**
    * Uloženie zmeny v poradí submenu */
-  public function actionSaveOrderSubmenu(int $id = null) {
-    // https://forum.nette.org/cs/28370-data-z-post-request-body-reactjs-appka-se-po-ceste-do-php-ztrati
-    $_post = json_decode(file_get_contents("php://input"), true);
+  public function actionSaveOrderSubmenu(?int $id = null): void {
+    $_post = json_decode(file_get_contents("php://input"), true); // @help 1.)
 
     $this->sendJson([
       'result' => $this->hlavne_menu->saveOrderSubmenu($_post['items']) ? 'OK' : 'ERR'
     ]);
   }
 
-  /**
-   * Vráti administračné menu podľa úrovne registrácie */
-  public function actionGetAdminMenu() {
-    $am = $this->admin_menu->getAdminMenu($this->user->getIdentity()->id_user_roles);
+  /** Vráti administračné menu podľa úrovne registrácie */
+  public function actionGetAdminMenu(): void {
+    $am = $this->admin_menu->getAdminMenu($this->id_reg);
     
     foreach ($am as $k => $v) {
       $am[$k]['link'] = $this->link(':Admin:'.$v['link']);
@@ -95,24 +98,22 @@ class MenuPresenter extends BasePresenter {
     $this->sendJson($am);
   }
 
-  /**
-   * Vráti jednu položku menu */
-  public function actionGetOneMenuArticle(int $id = null) {
-    $tmp = $this->hlavne_menu_lang->getOneArticleId($id, $id_lang = 1, $this->user->getIdentity()->id_user_roles = 0);
+  /** Vráti jednu položku menu */
+  public function actionGetOneMenuArticle(?int $id = null): void {
+    $tmp = $this->hlavne_menu_lang->getOneArticleId($id, 1, $this->id_reg);
     //dumpe($tmp->toArray());
     $this->sendJson($tmp->toArray());
   }
   
-  public function actionTexylaPreview() {
-    // https://forum.nette.org/cs/28370-data-z-post-request-body-reactjs-appka-se-po-ceste-do-php-ztrati
-    $_post = json_decode(file_get_contents("php://input"), true);
-
-    $this->sendResponse(new TextResponse($this->texy->process($_post["texy"])));
+  /** Akcia vráti náhľad editovaného textu */
+  public function actionTexylaPreview(): void {
+    $_post = json_decode(file_get_contents("php://input"), true); // @help 1.)
+    $this->sendResponse(new TextResponse($this->texy->process($_post["texy"] != null ? $_post["texy"] : "")));
   }
 
-  public function actionTexylaSave(int $id) {
-    // https://forum.nette.org/cs/28370-data-z-post-request-body-reactjs-appka-se-po-ceste-do-php-ztrati
-    $_post = json_decode(file_get_contents("php://input"), true);
+  /** Akcia uloží editovaný text článku */
+  public function actionTexylaSave(int $id): void {
+    $_post = json_decode(file_get_contents("php://input"), true); // @help 1.)
     
     $this->sendJson([
       'result' => $this->hlavne_menu_lang->saveText($id, $this->lang->getLngId($this->language), $_post['texy']) ? 'OK' : 'ERR'

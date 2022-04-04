@@ -23,6 +23,8 @@ class EditArticleTitleFormFactory {
 	private $hlavne_menu_lang;
   /** @var DbTable\Lang */
   public $lang;
+
+  private $id_hlavne_menu169;
  
   public function __construct(DbTable\Hlavne_menu_lang $hlavne_menu_lang,
                               DbTable\Lang $lang) {
@@ -35,9 +37,10 @@ class EditArticleTitleFormFactory {
    * @param int $id Id polozky v hlavnom menu
    * @return Form */  
   public function create(int $id): Form  {
+    $this->id_hlavne_menu169 = $id;
     $form = new Form();
 		$form->addProtection();
-    $form->addHidden("id_hlavne_menu", $id);
+    //$form->addHidden("id_hlavne_menu", $id);
     foreach ($this->lang as $j) {
       if ($this->lang->count() > 1) $form->addGroup('Časť pre jazyk: '.$j->nazov);
       $form->addText($j->skratka.'_view_name', 'Názov zobrazený v nadpise pre jazyk '.$j->nazov.":", 90, 255)
@@ -61,11 +64,11 @@ class EditArticleTitleFormFactory {
     $form->addSubmit('uloz', 'Zmeň')
          ->setHtmlAttribute('class', 'btn btn-success')
          ->onClick[] = [$this, 'formSubmitted'];
-    $form->addSubmit('cancel', 'Cancel')
+    /*$form->addSubmit('cancel', 'Cancel')
          ->setHtmlAttribute('class', 'btn btn-default')
          ->setHtmlAttribute('data-dismiss', 'modal')
          ->setHtmlAttribute('aria-label', 'Close')
-         ->setValidationScope([]);
+         ->setValidationScope([]);*/
 		return $this->_vzhladForm($form);
 	}
   
@@ -73,8 +76,9 @@ class EditArticleTitleFormFactory {
    * Spracovanie formulara pre zmenu nadpisov. */
   public function formSubmitted(Form $form, $values) {
     try {
+      //dumpe($this->id_hlavne_menu169, $values);
       foreach ($this->lang as $j) {
-        $h = $this->hlavne_menu_lang->findOneBy(['id_hlavne_menu'=>$values->id_hlavne_menu, 'id_lang' => $j->id]);
+        $h = $this->hlavne_menu_lang->findOneBy(['id_hlavne_menu'=>$this->id_hlavne_menu169, 'id_lang' => $j->id]);
         $h1part2 = $values->{$h->lang->skratka.'_h1part2'};
         $data = [
           'menu_name' => $values->{$h->lang->skratka.'_menu_name'},
