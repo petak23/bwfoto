@@ -1,13 +1,13 @@
 <script>
 /** 
  * Component Fotogalery
- * Posledná zmena(last change): 30.03.2022
+ * Posledná zmena(last change): 06.04.2022
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.7
+ * @version 1.0.8
  */
 
 export default {
@@ -44,6 +44,14 @@ export default {
     openmodal2 () {
       if (this.wid > 0) this.$bvModal.show("modal-multi-2")
     },
+    swipe (direction) {
+      //console.log(direction)
+      if (direction == 'Left' || direction == 'Up') {
+        this.id = this.id <= 0 ? (this.myatt.length - 1) : this.id - 1;
+      } else if (direction == 'Right' || direction == 'Down') {
+        this.id = this.id >= (this.myatt.length - 1) ? 0 : this.id + 1;
+      }
+    },
     // Zmena id na predošlé
     before: function() {
       this.id = this.id <= 0 ? (this.myatt.length - 1) : this.id - 1;
@@ -60,7 +68,8 @@ export default {
       let width = this.$refs.imgDetail.clientWidth;
       let height2 = parseInt(window.innerHeight * 0.8);
       let h = height2 > height ? height2 : height;
-      this.square = (h>width ? width-20 : h);
+      //console.log(h, width)
+      this.square = (h > width ? width-20 : h);
       this.wid = width;
     },
     urovenUp () { // Funkcia pre zmenu úrovne o +1 na max. 2
@@ -203,7 +212,7 @@ export default {
           ></b-img-lazy>
           <br><h6>{{ im.name }}</h6>
         </button>
-        <button v-else-if="wid == 0 && (im.type == 'attachments2' || im.type == 'product')"
+        <button v-else-if="wid == 0 && (im.type == 'attachments2' || im.type == 'product')"
                 @click.prevent="modalchangebig(index)" 
                 type="button" class="btn btn-link">
           <b-img-lazy
@@ -224,8 +233,11 @@ export default {
             modal-class="lightbox-img"
             ref="modal1fo">
     <div class="modal-content">
-      <div class="modal-body my-img-content">
-        <b-button @click.prevent="openmodal2">
+      <div class="modal-body my-img-content"> <!-- @click.prevent="openmodal2"  -->
+        <!--b-button 
+            v-touch.prevent="openmodal2"
+            class="nepoznam"
+        -->
           <div class="border-a" :style="border_a">
             <div class="border-b" :style="border_b">
               <img :src="basepath + myatt[id].main_file" 
@@ -235,7 +247,7 @@ export default {
                     :style="border_c" />
             </div>
           </div>
-        </b-button>
+        <!-- /b-button -->
         <div class="text-center description" v-if="myatt[id].description != null">
           {{ myatt[id].description }}
         </div>
@@ -248,7 +260,13 @@ export default {
           </a>
         </div>
         <div class="go-to-hight"
-            @click.prevent="openmodal2">
+            v-touch="{
+              left: () => swipe('Left'),
+              right: () => swipe('Right'),
+              up: () => swipe('Up'),
+              down: () => swipe('Down')
+            }"
+            @click="openmodal2">
         </div>
         <div class="arrows-r flex-row-reverse"
             @click="after">

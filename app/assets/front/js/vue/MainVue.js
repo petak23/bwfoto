@@ -20,6 +20,8 @@ import Edittexts from './components/EditArticle/EditTexts.vue';
 import Menucardorder from './components/Menucardorder.vue';
 import VueDndZone from 'vue-dnd-zone'
 import 'vue-dnd-zone/vue-dnd-zone.css'
+import Vuetify from 'vuetify'
+//import Vue2TouchEvents from 'vue2-touch-events'
 
 // Make BootstrapVue available throughout your project
 Vue.use(BootstrapVue);
@@ -27,6 +29,8 @@ Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 
 Vue.use(VueDndZone);
+
+Vue.use(Vuetify);
 
 let vm = new Vue({
   el: '#vueapp',
