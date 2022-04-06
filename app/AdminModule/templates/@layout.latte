@@ -4,8 +4,8 @@
  *
  *	Modul: ADMIN
  *
- * Posledna zmena(last change): 30.11.2020
- * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
+ * Posledna zmena(last change): 06.04.2022
+ * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
  *
@@ -32,7 +32,7 @@
 	<title>{$udaje['titulka']} - Administracia</title>
   <link rel="stylesheet" type="text/css" href="{webpack admin.css}">
   <!-- upload -->
-  {\Zet\FileUpload\FileUploadControl::getHead($basePath . '/vendor/ijvo/jquery-fileupload/src/www/')}
+  {* \Zet\FileUpload\FileUploadControl::getHead($basePath . '/vendor/ijvo/jquery-fileupload/src/www/')*}
   {block spec_css}{/block}
 	
   {control favicon}
@@ -41,11 +41,10 @@
 </head>
 
 <body>
-  <div class="container-fluid" id="vueappadmin">
+  <div class="container-fluid" id="vueapp">
     <div class="row">
       <div class="col bg-dark">
         <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-          {*<a class="navbar-brand" n:href="Homepage:">Administrácia</a>*}
           {var $up = $user->getIdentity()}
           <span class="navbar-text uroven-registracie-new uroven-registracie-{$up->id_user_roles}-new">
             {$up->meno} {$up->priezvisko|upper} - {$up->user_role}

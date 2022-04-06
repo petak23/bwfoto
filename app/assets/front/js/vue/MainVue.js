@@ -21,7 +21,6 @@ import Menucardorder from './components/Menucardorder.vue';
 import VueDndZone from 'vue-dnd-zone'
 import 'vue-dnd-zone/vue-dnd-zone.css'
 import Vuetify from 'vuetify'
-//import Vue2TouchEvents from 'vue2-touch-events'
 
 // Make BootstrapVue available throughout your project
 Vue.use(BootstrapVue);

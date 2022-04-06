@@ -207,7 +207,45 @@ INSERT INTO `dokumenty` (`id`, `id_hlavne_menu`, `id_user_main`, `id_user_roles`
 (326,	133,	2,	0,	'#I-326#',	'test-klaz-BWfoto-032',	'jpeg',	'test-klaz-bwfoto-032',	NULL,	'files/prilohy/test-klaz-BWfoto-032.jpeg',	'files/prilohy/tb_test-klaz-BWfoto-032.jpeg',	'2022-03-11 22:29:12',	1,	2,	0),
 (327,	133,	2,	0,	'#I-327#',	'test-klaz-BWfoto-033',	'jpeg',	'test-klaz-bwfoto-033',	NULL,	'files/prilohy/test-klaz-BWfoto-033.jpeg',	'files/prilohy/tb_test-klaz-BWfoto-033.jpeg',	'2022-03-11 22:29:12',	1,	2,	0),
 (328,	133,	2,	0,	'#I-328#',	'test-klaz-BWfoto-034',	'jpeg',	'test-klaz-bwfoto-034',	NULL,	'files/prilohy/test-klaz-BWfoto-034.jpeg',	'files/prilohy/tb_test-klaz-BWfoto-034.jpeg',	'2022-03-11 22:29:12',	1,	2,	0),
-(329,	133,	2,	0,	'#I-329#',	'test-klaz-BWfoto-035',	'jpeg',	'test-klaz-bwfoto-035',	NULL,	'files/prilohy/test-klaz-BWfoto-035.jpeg',	'files/prilohy/tb_test-klaz-BWfoto-035.jpeg',	'2022-03-11 22:29:12',	1,	2,	0);
+(329,	133,	2,	0,	'#I-329#',	'test-klaz-BWfoto-035',	'jpeg',	'test-klaz-bwfoto-035',	NULL,	'files/prilohy/test-klaz-BWfoto-035.jpeg',	'files/prilohy/tb_test-klaz-BWfoto-035.jpeg',	'2022-03-11 22:29:12',	1,	2,	0),
+(330,	141,	2,	0,	'#I-330#',	'01-REN-9-17-BIG-A',	'jpeg',	'01-ren-9-17-big-a',	NULL,	'files/prilohy/01-REN-9-17-BIG-A.jpeg',	'files/prilohy/tb_01-REN-9-17-BIG-A.jpeg',	'2022-03-18 14:37:56',	1,	2,	0),
+(331,	141,	2,	0,	'#I-331#',	'01-REN-9-19-A-kopia',	'jpeg',	'01-ren-9-19-a-kopia',	NULL,	'files/prilohy/01-REN-9-19-A-kopia.jpeg',	'files/prilohy/tb_01-REN-9-19-A-kopia.jpeg',	'2022-03-18 14:37:56',	1,	2,	0),
+(332,	141,	2,	0,	'#I-332#',	'01-REN-9-19-A',	'jpeg',	'01-ren-9-19-a',	NULL,	'files/prilohy/01-REN-9-19-A.jpeg',	'files/prilohy/tb_01-REN-9-19-A.jpeg',	'2022-03-18 14:37:56',	1,	2,	0),
+(333,	141,	2,	0,	'#I-333#',	'01-REN-10-4',	'jpeg',	'01-ren-10-4',	NULL,	'files/prilohy/01-REN-10-4.jpeg',	'files/prilohy/tb_01-REN-10-4.jpeg',	'2022-03-18 14:37:56',	1,	2,	0),
+(334,	141,	2,	0,	'#I-334#',	'1-2-kopia',	'jpeg',	'1-2-kopia',	NULL,	'files/prilohy/1-2-kopia.jpeg',	'files/prilohy/tb_1-2-kopia.jpeg',	'2022-03-18 14:37:56',	1,	2,	0),
+(335,	141,	2,	0,	'#I-335#',	'1-2',	'jpeg',	'1-2',	NULL,	'files/prilohy/1-2.jpeg',	'files/prilohy/tb_1-2.jpeg',	'2022-03-18 14:37:56',	1,	2,	0),
+(336,	141,	2,	0,	'#I-336#',	'04-kopia',	'jpeg',	'04-kopia',	NULL,	'files/prilohy/04-kopia.jpeg',	'files/prilohy/tb_04-kopia.jpeg',	'2022-03-18 14:37:56',	1,	2,	0),
+(337,	141,	2,	0,	'#I-337#',	'04',	'jpeg',	'04',	NULL,	'files/prilohy/04.jpeg',	'files/prilohy/tb_04.jpeg',	'2022-03-18 14:37:56',	1,	2,	0),
+(338,	141,	2,	0,	'#I-338#',	'06',	'jpeg',	'06',	NULL,	'files/prilohy/06.jpeg',	'files/prilohy/tb_06.jpeg',	'2022-03-18 14:37:56',	1,	2,	0),
+(339,	141,	2,	0,	'#I-339#',	'13-REN-INTERIER-21',	'jpeg',	'13-ren-interier-21',	NULL,	'files/prilohy/13-REN-INTERIER-21.jpeg',	'files/prilohy/tb_13-REN-INTERIER-21.jpeg',	'2022-03-18 14:37:56',	1,	2,	0),
+(340,	141,	2,	0,	'#I-340#',	'13-REN-INTERIER-21Xx-kopia',	'jpeg',	'13-ren-interier-21xx-kopia',	NULL,	'files/prilohy/13-REN-INTERIER-21Xx-kopia.jpeg',	'files/prilohy/tb_13-REN-INTERIER-21Xx-kopia.jpeg',	'2022-03-18 14:37:56',	1,	2,	0),
+(341,	141,	2,	0,	'#I-341#',	'13-REN-INTERIER-21Xx',	'jpeg',	'13-ren-interier-21xx',	NULL,	'files/prilohy/13-REN-INTERIER-21Xx.jpeg',	'files/prilohy/tb_13-REN-INTERIER-21Xx.jpeg',	'2022-03-18 14:37:56',	1,	2,	0),
+(342,	141,	2,	0,	'#I-342#',	'14-REN-svetlik-9xx',	'jpeg',	'14-ren-svetlik-9xx',	NULL,	'files/prilohy/14-REN-svetlik-9xx.jpeg',	'files/prilohy/tb_14-REN-svetlik-9xx.jpeg',	'2022-03-18 14:37:56',	1,	2,	0),
+(343,	141,	2,	0,	'#I-343#',	'15-REN-izba-6x',	'jpeg',	'15-ren-izba-6x',	NULL,	'files/prilohy/15-REN-izba-6x.jpeg',	'files/prilohy/tb_15-REN-izba-6x.jpeg',	'2022-03-18 14:37:56',	1,	2,	0),
+(344,	141,	2,	0,	'#I-344#',	'17-REN-DISPOZICE-prizemie-4x-kopia',	'jpeg',	'17-ren-dispozice-prizemie-4x-kopia',	NULL,	'files/prilohy/17-REN-DISPOZICE-prizemie-4x-kopia.jpeg',	'files/prilohy/tb_17-REN-DISPOZICE-prizemie-4x-kopia.jpeg',	'2022-03-18 14:37:56',	1,	2,	0),
+(345,	141,	2,	0,	'#I-345#',	'17-REN-DISPOZICE-prizemie-4x',	'jpeg',	'17-ren-dispozice-prizemie-4x',	NULL,	'files/prilohy/17-REN-DISPOZICE-prizemie-4x.jpeg',	'files/prilohy/tb_17-REN-DISPOZICE-prizemie-4x.jpeg',	'2022-03-18 14:37:56',	1,	2,	0),
+(346,	141,	2,	0,	'#I-346#',	'22-REN-HI-9x',	'jpeg',	'22-ren-hi-9x',	NULL,	'files/prilohy/22-REN-HI-9x.jpeg',	'files/prilohy/tb_22-REN-HI-9x.jpeg',	'2022-03-18 14:37:56',	1,	2,	0),
+(347,	141,	2,	0,	'#I-347#',	'23-REN-KAVIAREN-4X',	'jpeg',	'23-ren-kaviaren-4x',	NULL,	'files/prilohy/23-REN-KAVIAREN-4X.jpeg',	'files/prilohy/tb_23-REN-KAVIAREN-4X.jpeg',	'2022-03-18 14:37:56',	1,	2,	0),
+(348,	141,	2,	0,	'#I-348#',	'43-REN-KAVIAREN-7x',	'jpeg',	'43-ren-kaviaren-7x',	NULL,	'files/prilohy/43-REN-KAVIAREN-7x.jpeg',	'files/prilohy/tb_43-REN-KAVIAREN-7x.jpeg',	'2022-03-18 14:37:56',	1,	2,	0),
+(349,	141,	2,	0,	'#I-349#',	'2021-08-04-193144-kopia',	'jpeg',	'2021-08-04-193144-kopia',	NULL,	'files/prilohy/2021-08-04-193144-kopia.jpeg',	'files/prilohy/tb_2021-08-04-193144-kopia.jpeg',	'2022-03-18 14:37:56',	1,	2,	0),
+(350,	141,	2,	0,	'#I-350#',	'2021-08-04-193144',	'jpeg',	'2021-08-04-193144',	NULL,	'files/prilohy/2021-08-04-193144.jpeg',	'files/prilohy/tb_2021-08-04-193144.jpeg',	'2022-03-18 14:37:56',	1,	2,	0),
+(351,	141,	2,	0,	'#I-351#',	'2021-08-04-193224',	'jpeg',	'2021-08-04-193224',	NULL,	'files/prilohy/2021-08-04-193224.jpeg',	'files/prilohy/tb_2021-08-04-193224.jpeg',	'2022-03-18 14:37:56',	1,	2,	0),
+(352,	141,	2,	0,	'#I-352#',	'29032010452-kopia',	'jpeg',	'29032010452-kopia',	NULL,	'files/prilohy/29032010452-kopia.jpeg',	'files/prilohy/tb_29032010452-kopia.jpeg',	'2022-03-18 14:37:56',	1,	2,	0),
+(353,	141,	2,	0,	'#I-353#',	'29032010452',	'jpeg',	'29032010452',	NULL,	'files/prilohy/29032010452.jpeg',	'files/prilohy/tb_29032010452.jpeg',	'2022-03-18 14:37:56',	1,	2,	0),
+(354,	141,	2,	0,	'#I-354#',	'070420111106-kopia',	'jpeg',	'070420111106-kopia',	NULL,	'files/prilohy/070420111106-kopia.jpeg',	'files/prilohy/tb_070420111106-kopia.jpeg',	'2022-03-18 14:37:56',	1,	2,	0),
+(355,	141,	2,	0,	'#I-355#',	'070420111106',	'jpeg',	'070420111106',	NULL,	'files/prilohy/070420111106.jpeg',	'files/prilohy/tb_070420111106.jpeg',	'2022-03-18 14:37:56',	1,	2,	0),
+(356,	141,	2,	0,	'#I-356#',	'Archit-pohlady-1-kopia',	'jpeg',	'archit-pohlady-1-kopia',	NULL,	'files/prilohy/Archit-pohlady-1-kopia.jpeg',	'files/prilohy/tb_Archit-pohlady-1-kopia.jpeg',	'2022-03-18 14:37:56',	1,	2,	0),
+(357,	141,	2,	0,	'#I-357#',	'Archit-pohlady-1',	'jpeg',	'archit-pohlady-1',	NULL,	'files/prilohy/Archit-pohlady-1.jpeg',	'files/prilohy/tb_Archit-pohlady-1.jpeg',	'2022-03-18 14:37:56',	1,	2,	0),
+(358,	141,	2,	0,	'#I-358#',	'Archit-pohlady-3-kopia',	'jpeg',	'archit-pohlady-3-kopia',	NULL,	'files/prilohy/Archit-pohlady-3-kopia.jpeg',	'files/prilohy/tb_Archit-pohlady-3-kopia.jpeg',	'2022-03-18 14:37:56',	1,	2,	0),
+(359,	141,	2,	0,	'#I-359#',	'Archit-pohlady-3',	'jpeg',	'archit-pohlady-3',	NULL,	'files/prilohy/Archit-pohlady-3.jpeg',	'files/prilohy/tb_Archit-pohlady-3.jpeg',	'2022-03-18 14:37:56',	1,	2,	0),
+(360,	141,	2,	0,	'#I-360#',	'Archit-pohlady-4',	'jpeg',	'archit-pohlady-4',	NULL,	'files/prilohy/Archit-pohlady-4.jpeg',	'files/prilohy/tb_Archit-pohlady-4.jpeg',	'2022-03-18 14:37:56',	1,	2,	0),
+(361,	141,	2,	0,	'#I-361#',	'Axonometrie-1',	'jpeg',	'axonometrie-1',	NULL,	'files/prilohy/Axonometrie-1.jpeg',	'files/prilohy/tb_Axonometrie-1.jpeg',	'2022-03-18 14:37:56',	1,	2,	0),
+(362,	141,	2,	0,	'#I-362#',	'Axonometrie-3',	'jpeg',	'axonometrie-3',	NULL,	'files/prilohy/Axonometrie-3.jpeg',	'files/prilohy/tb_Axonometrie-3.jpeg',	'2022-03-18 14:37:56',	1,	2,	0),
+(363,	141,	2,	0,	'#I-363#',	'Axonometrie-6',	'jpeg',	'axonometrie-6',	NULL,	'files/prilohy/Axonometrie-6.jpeg',	'files/prilohy/tb_Axonometrie-6.jpeg',	'2022-03-18 14:37:56',	1,	2,	0),
+(364,	141,	2,	0,	'#I-364#',	'Axonometrie-7',	'jpeg',	'axonometrie-7',	NULL,	'files/prilohy/Axonometrie-7.jpeg',	'files/prilohy/tb_Axonometrie-7.jpeg',	'2022-03-18 14:37:56',	1,	2,	0),
+(365,	141,	2,	0,	'#I-365#',	'Axonometrie-8',	'jpeg',	'axonometrie-8',	NULL,	'files/prilohy/Axonometrie-8.jpeg',	'files/prilohy/tb_Axonometrie-8.jpeg',	'2022-03-18 14:37:56',	1,	2,	0),
+(366,	141,	2,	0,	'#I-366#',	'balkon1-kopia',	'jpeg',	'balkon1-kopia',	NULL,	'files/prilohy/balkon1-kopia.jpeg',	'files/prilohy/tb_balkon1-kopia.jpeg',	'2022-03-18 14:37:56',	1,	2,	0),
+(367,	141,	2,	0,	'#I-367#',	'balkon1',	'jpeg',	'balkon1',	NULL,	'files/prilohy/balkon1.jpeg',	'files/prilohy/tb_balkon1.jpeg',	'2022-03-18 14:37:56',	1,	2,	0);
 
 DROP TABLE IF EXISTS `druh`;
 CREATE TABLE `druh` (
@@ -336,14 +374,14 @@ INSERT INTO `hlavne_menu` (`id`, `spec_nazov`, `id_hlavne_menu_cast`, `id_user_r
 (13,	'kalibracia',	2,	0,	NULL,	1,	0,	NULL,	2,	3,	0,	0,	0,	0,	NULL,	1,	NULL,	NULL,	NULL,	0,	'2017-10-05 06:14:20',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
 (14,	'homepage',	3,	0,	NULL,	1,	0,	NULL,	2,	1,	0,	0,	0,	0,	NULL,	4,	NULL,	NULL,	NULL,	0,	'2017-11-23 11:49:33',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
 (15,	'homepage-dole',	3,	0,	NULL,	1,	0,	NULL,	2,	2,	0,	0,	0,	0,	NULL,	5,	NULL,	NULL,	NULL,	0,	'2017-11-23 11:49:33',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
-(26,	'cast-a-4',	1,	0,	NULL,	1,	1,	2,	2,	2,	0,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'cqmz0u5mpda0oap.jpeg',	0,	'2022-03-16 17:14:44',	NULL,	0,	NULL,	1,	'#000000|2',	'#543f3f|2',	'#dbce81|2',	NULL),
+(26,	'cast-a-4',	1,	0,	NULL,	1,	1,	2,	2,	2,	0,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'cqmz0u5mpda0oap.jpeg',	0,	'2022-03-31 22:34:01',	NULL,	0,	NULL,	1,	'#000000|5',	'#543f3f|7',	'#f5f2de|2',	NULL),
 (27,	'a-gggddd',	1,	0,	NULL,	1,	1,	2,	2,	1,	0,	0,	0,	0,	NULL,	1,	NULL,	NULL,	'gwd9srdvv86ui1u.jpeg',	0,	'2022-03-16 17:17:14',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
 (30,	'test-bw-ramceky-1',	1,	0,	NULL,	1,	1,	1,	2,	3,	0,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'2oii2se0seasgkq.jpeg',	0,	'2021-12-01 18:15:07',	NULL,	0,	NULL,	1,	'#c0c0c0|10',	'#ffffff|10',	'#808040|10',	NULL),
-(33,	'test-rozlisenia-2021-2',	1,	0,	NULL,	1,	1,	3,	2,	1,	0,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'jgfwsqeyo3kg9td.jpeg',	0,	'2022-03-15 16:44:13',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
-(34,	'slajdery',	1,	0,	NULL,	3,	1,	3,	2,	3,	0,	0,	0,	0,	NULL,	3,	NULL,	NULL,	'e4779iqcbvy3t3l.jpeg',	0,	'2022-03-15 16:44:13',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
+(33,	'test-rozlisenia-2021-2',	1,	0,	NULL,	1,	1,	3,	2,	1,	0,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'jgfwsqeyo3kg9td.jpeg',	0,	'2022-03-25 23:06:43',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
+(34,	'slajdery',	1,	0,	NULL,	3,	1,	3,	2,	3,	0,	0,	0,	0,	NULL,	3,	NULL,	NULL,	'e4779iqcbvy3t3l.jpeg',	0,	'2022-03-25 23:06:44',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
 (35,	'podslajder-1',	1,	0,	NULL,	1,	2,	34,	2,	1,	0,	0,	0,	0,	NULL,	6,	NULL,	NULL,	'4y0qi1pzlxvzpl7.jpeg',	0,	'2021-11-25 15:00:59',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
 (36,	'test-rozlisenia-3',	1,	0,	NULL,	1,	1,	1,	2,	4,	0,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'2hud47ztjhk2f4h.jpeg',	0,	'2021-12-01 18:14:45',	NULL,	0,	NULL,	1,	'#000000|5',	'#c0c0c0|20',	'#ffffff|5',	NULL),
-(38,	'krajina1',	1,	0,	NULL,	3,	1,	3,	2,	2,	0,	0,	0,	0,	NULL,	3,	NULL,	NULL,	'e3065bzw2g2l0n0.jpeg',	0,	'2022-03-15 16:44:13',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
+(38,	'krajina1',	1,	0,	NULL,	3,	1,	3,	2,	2,	0,	0,	0,	0,	NULL,	3,	NULL,	NULL,	'e3065bzw2g2l0n0.jpeg',	0,	'2022-03-25 23:06:44',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
 (39,	'krajina-top',	1,	0,	NULL,	1,	2,	38,	2,	1,	0,	0,	0,	0,	NULL,	2,	NULL,	NULL,	'9ihvtanix4x7t5c.jpeg',	0,	'2021-12-01 22:10:03',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
 (40,	'krajina-jesenna',	1,	0,	NULL,	1,	2,	38,	2,	2,	0,	0,	0,	0,	NULL,	1,	NULL,	NULL,	'0yf6t9g9vhkwjmu.jpeg',	0,	'2021-11-28 00:29:51',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
 (41,	'krajina-letna',	1,	0,	NULL,	1,	2,	38,	2,	3,	0,	0,	0,	0,	NULL,	1,	NULL,	NULL,	'tz56c6l5w6a4e65.jpeg',	0,	'2021-11-28 00:30:14',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
@@ -440,7 +478,8 @@ INSERT INTO `hlavne_menu` (`id`, `spec_nazov`, `id_hlavne_menu_cast`, `id_user_r
 (137,	'hotove-obrazy-2',	1,	0,	NULL,	1,	2,	130,	2,	2,	0,	0,	0,	0,	NULL,	2,	NULL,	NULL,	NULL,	0,	'2022-03-07 13:53:02',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
 (138,	'hotove-obrazy-3',	1,	0,	NULL,	1,	2,	130,	2,	3,	0,	0,	0,	0,	NULL,	2,	NULL,	NULL,	NULL,	0,	'2022-03-07 14:20:27',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
 (139,	'panoramy-test-3-2-2mb',	1,	0,	NULL,	1,	2,	34,	2,	3,	0,	0,	0,	0,	NULL,	6,	NULL,	NULL,	NULL,	0,	'2022-03-09 17:37:04',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
-(140,	'test-podsloziek-a1',	1,	0,	NULL,	3,	1,	2,	2,	10,	0,	0,	0,	0,	NULL,	1,	NULL,	NULL,	NULL,	0,	'2022-03-16 16:04:57',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL);
+(140,	'test-podsloziek-a1',	1,	0,	NULL,	3,	1,	2,	2,	10,	0,	0,	0,	0,	NULL,	1,	NULL,	NULL,	NULL,	0,	'2022-03-16 16:04:57',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL),
+(141,	'test-podslozky',	1,	0,	NULL,	1,	2,	26,	2,	1,	0,	0,	0,	0,	NULL,	2,	NULL,	NULL,	NULL,	0,	'2022-03-18 13:41:14',	NULL,	0,	NULL,	1,	NULL,	NULL,	NULL,	NULL);
 
 DROP TABLE IF EXISTS `hlavne_menu_cast`;
 CREATE TABLE `hlavne_menu_cast` (
@@ -477,24 +516,24 @@ CREATE TABLE `hlavne_menu_lang` (
 
 INSERT INTO `hlavne_menu_lang` (`id`, `id_lang`, `id_hlavne_menu`, `menu_name`, `h1part2`, `view_name`, `text`, `anotacia`) VALUES
 (1,	1,	1,	'Čiernobiela fotografia',	'Viete čo znamená logo BW ? - Black&White fotography - začiatky a dlhé roky to bolo len o čiernobiel',	'Čiernobiela fotografia',	'Popis časti BW fotografie.',	NULL),
-(2,	1,	2,	'Architektúra',	'Podtiulok stále nejde....',	'Architektúra',	'Popis časti fotografií architektúry.',	NULL),
-(3,	1,	3,	'Farebná fotografia',	NULL,	'Farebná fotografia',	'Popis časti RGB fotografie.',	NULL),
+(2,	1,	2,	'Architektúra',	'Podtitulok stále nejde....',	'Architektúra',	'Popis časti fotografií architektúry.',	NULL),
+(3,	1,	3,	'Farebná fotografia',	'A TERAZ PODNATPIS UŽ FUNGUJE ??? JÉÉÉÉJ UŽ FUNGUJE',	'Farebná fotografia',	'jÉÉÉÉJ UŽ TO FUNGUJE - PERFEKT',	NULL),
 (4,	1,	4,	'Produkty',	NULL,	'Produkty',	'Táto časť predstavuje ponuku našich produktov.',	'Táto časť predstavuje ponuku našich produktov.'),
 (5,	1,	5,	'Novinky',	NULL,	'Novinky',	'1)  *Niečo nové* - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque. Sed pharetra nibh eget orci.\n2)  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque. Sed pharetra nibh eget orci.\n3)  **Novinka X** - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque. Sed pharetra nibh eget orci.\n\n\n',	'Tu nájdete všetky novinky.'),
 (6,	1,	6,	'Výber toho najlepšieho',	NULL,	'Výber toho najlepšieho',	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque. Sed pharetra nibh eget orci convallis at posuere leo convallis. Sed blandit augue vitae augue scelerisque bibendum. Vivamus sit amet libero turpis, non venenatis urna.\n\nIn blandit, odio convallis suscipit venenatis, ante ipsum cursus augue, et mollis nunc diam eget sapien. Nulla facilisi. Etiam feugiat imperdiet rhoncus. Sed suscipit bibendum enim, sed volutpat tortor malesuada non. Morbi fringilla dui non purus porttitor mattis. Suspendisse quis.\n\nVýstava\n-------\n\nVulputate risus. Phasellus erat velit, sagittis sed varius volutpat, placerat nec urna. Nam eu metus vitae dolor fringilla feugiat. Nulla facilisi. Etiam enim metus, luctus in adipiscing at, consectetur quis sapien. Duis imperdiet egestas ligula, quis hendrerit ipsum ullamcorper et.\n\n',	'Tu nás môžete vidieť naživo.'),
-(11,	1,	11,	'Obchodné podmienky',	NULL,	'Naše obchodné podmienky',	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque. Sed pharetra nibh eget orci convallis at posuere leo convallis. Sed blandit augue vitae augue scelerisque bibendum. Vivamus sit amet libero turpis, non venenatis urna. In blandit, odio convallis suscipit venenatis, ante ipsum cursus augue.\n\nEt mollis nunc diam eget sapien. Nulla facilisi. Etiam feugiat imperdiet rhoncus. Sed suscipit bibendum enim, sed volutpat tortor malesuada non. Morbi fringilla dui non purus porttitor mattis. Suspendisse quis vulputate risus. Phasellus erat velit, sagittis sed varius volutpat, placerat nec urna. Nam eu metus vitae dolor fringilla feugiat. Nulla.\n\nFacilisi. Etiam enim metus, luctus in adipiscing at, consectetur quis sapien. Duis imperdiet egestas ligula, quis hendrerit ipsum ullamcorper et. Phasellus id tristique orci. Proin consequat mi at felis scelerisque ullamcorper. Etiam tempus, felis vel eleifend porta, velit nunc mattis urna, at ullamcorper erat diam dignissim ante. Pellentesque justo risus.\n\nRutrum ac semper a, faucibus nec lorem. Nullam eget quam tellus, eget sagittis justo.Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Proin ante enim, tincidunt ut interdum in, adipiscing quis tortor. Nulla turpis lacus, rutrum in adipiscing ut, porttitor ac ante. Sed euismod, mauris a.\n\n',	''),
-(12,	1,	12,	'Kontakt',	NULL,	'Kontakt',	'**Juraj Zámečník**\n\nSpišské Bystré 256\n\n0905 150 400\n\nbwfoto@bwfoto.sk',	'pokusná anotácia'),
+(11,	1,	11,	'Obchodné podmienky',	NULL,	'Naše obchodné podmienky',	'.<>\nLorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque. Sed pharetra nibh eget orci convallis at posuere leo convallis. Sed blandit augue vitae augue scelerisque bibendum. Vivamus sit amet libero turpis, non venenatis urna. In blandit, odio convallis suscipit venenatis, ante ipsum cursus augue.\n\n.>\nEt mollis nunc diam eget sapien. Nulla facilisi. Etiam feugiat imperdiet rhoncus. Sed suscipit bibendum enim, sed volutpat tortor malesuada non. Morbi fringilla dui non purus porttitor mattis. Suspendisse quis vulputate risus. Phasellus erat velit, sagittis sed varius volutpat, placerat nec urna. Nam eu metus vitae dolor fringilla feugiat. Nulla.\n\nFacilisi. Etiam enim metus, luctus in adipiscing at, consectetur quis sapien. Duis imperdiet egestas ligula, quis hendrerit ipsum ullamcorper et. Phasellus id tristique orci. Proin consequat mi at felis scelerisque ullamcorper. Etiam tempus, felis vel eleifend porta, velit nunc mattis urna, at ullamcorper erat diam dignissim ante. Pellentesque justo risus.\n\n.=\nRutrum ac semper a, faucibus nec lorem. Nullam eget quam tellus, eget sagittis justo.Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Proin ante enim, tincidunt ut interdum in, adipiscing quis tortor. Nulla turpis lacus, rutrum in adipiscing ut, porttitor ac ante. Sed euismod, mauris a.\n\n',	''),
+(12,	1,	12,	'Kontakt',	NULL,	'Kontakt',	'**Juraj Zámečník**\n\nSpišské Bystré \n\n**bwfoto@bwfoto.sk**',	'pokusná anotácia'),
 (13,	1,	13,	'Kalibrácia',	NULL,	'Kalibrácia',	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque. Sed pharetra nibh eget orci convallis at posuere leo convallis. Sed blandit augue vitae augue scelerisque bibendum. Vivamus sit amet libero turpis, non venenatis urna. In blandit, odio convallis suscipit venenatis, ante ipsum cursus augue.\n\n-------------------\n\nEt mollis nunc diam eget sapien. Nulla facilisi. Etiam feugiat imperdiet rhoncus. Sed suscipit bibendum enim, sed volutpat tortor malesuada non. Morbi fringilla dui non purus porttitor mattis. Suspendisse quis vulputate risus. Phasellus erat velit, sagittis sed varius volutpat, placerat nec urna. Nam eu metus vitae dolor fringilla feugiat. Nulla.\n\n|* A	| 12	| 0.125	|\n|* B	| 13	| 1.45	|\n|* C	| 19	| 2.14	|\n|* D	| 22	| 0.658	|\n|* E	| 11	| 3.14	|\n\n\n\n',	''),
 (14,	1,	14,	'Homepage hore',	NULL,	'Ateliér architektúry a fotografie',	'Každá ľudská snaha alebo výtvor, ktorý sa pohráva s krásou a harmóniou\n je len drobný dôkaz našej ľudskosti..... .<>',	NULL),
 (15,	1,	15,	'Homepage dole',	NULL,	'--',	'Tento web vznikol z jednoduchého dôvodu : pripomínať si krásu, ktorá nás obklopuje.\n Architektonická časť webu je priložená ako doplnok - ako sa krásou okolitej prírody môže autor inšpirovať pri \"troška\" hmotnejšej tvorbe. Na svojej ceste som bol pri mnohých ideách , ktoré prešli do realizácie, ale stále platí : Čia ruka ťa vedie, koho dar používaš a na akom diele pracuješ ??? .... \n S úctou j.  .<>',	NULL),
 (26,	1,	26,	'TEST 1',	NULL,	'TEST X1',	'',	''),
-(27,	1,	27,	'A GGGDDD',	'AAA',	'A GGGDDD',	'fsgslakjfghalksjfhalskjfghalskjfghalskjfgaslkjfghaslkjghaslkjghaslkjgfhaslkgjhaslkgjhalkgjha',	'A XXX 2'),
+(27,	1,	27,	'A GGGDDD',	'AAA',	'ahoj kl',	'fsgslakjfghalksjfhalskjfghalskjfghalskjfgaslkjfghaslkjghaslkjghaslkjgfhaslkgjhaslkgjhalkgjha',	'A XXX 2'),
 (30,	1,	30,	'TEST BW ramceky 1',	NULL,	'TEST BW ramceky 1',	'Každá ľudská snaha alebo výtvor, ktorý sa pohráva s krásou a harmóniou je len jemný dokaz našej ľudskosti.....  .<>',	''),
 (33,	1,	33,	'TEST ROZLIŠENIA 2021 2',	'ASSS',	'TEST ROZLIŠENIA 2021 1',	'AHOJ\n',	NULL),
 (34,	1,	34,	'Výber z archívu',	NULL,	'Výber z archívu',	NULL,	NULL),
 (35,	1,	35,	'TEST PANORAM 1',	NULL,	'TEST PANORAM 1',	'',	''),
 (36,	1,	36,	'TEST ROZLÍŠENIA 3 1500dpi',	NULL,	'TEST ROZLÍŠENIA 3 1500dpi',	'',	''),
-(38,	1,	38,	'Krajina',	NULL,	'Krajina',	NULL,	NULL),
+(38,	1,	38,	'Krajina',	'Krajina Slovenská krásna',	'Krajina',	NULL,	NULL),
 (39,	1,	39,	'TOP Krajina',	NULL,	'TOP Krajina',	'',	''),
 (40,	1,	40,	'Krajina jesenná',	NULL,	'Krajina jesenná',	'',	''),
 (41,	1,	41,	'Krajina letná',	NULL,	'Krajina letná',	'',	''),
@@ -569,7 +608,7 @@ INSERT INTO `hlavne_menu_lang` (`id`, `id_lang`, `id_hlavne_menu`, `menu_name`, 
 (112,	1,	112,	'BW Zátišie',	NULL,	'BW Zátišie',	NULL,	NULL),
 (113,	1,	113,	'BW Výber zo zátišia',	NULL,	'BW Výber zo zátišia',	'',	''),
 (114,	1,	114,	'BW',	NULL,	'BW',	'',	''),
-(115,	1,	115,	'Výber z kategórie',	NULL,	'Výber z kategórie',	'',	''),
+(115,	1,	115,	'Výber z kategórie',	'AHOJ',	'Výber z kategórie',	'',	''),
 (116,	1,	116,	'Sakrálny dizajn',	NULL,	'Sakrálny dizajn',	NULL,	NULL),
 (117,	1,	117,	'Občianske stavby',	NULL,	'Občianske stavby',	NULL,	NULL),
 (118,	1,	118,	'Rodinné domy',	NULL,	'Rodinné domy',	NULL,	NULL),
@@ -584,14 +623,15 @@ INSERT INTO `hlavne_menu_lang` (`id`, `id_lang`, `id_hlavne_menu`, `menu_name`, 
 (130,	1,	130,	'HOTOVÉ OBRAZY',	'SSSS',	'HOTOVÉ OBRAZY',	NULL,	NULL),
 (131,	1,	131,	'OBRAZY TEST 1',	NULL,	'OBRAZY TEST 1',	NULL,	NULL),
 (132,	1,	132,	'Test kolaže zmenšene foto 2',	NULL,	'Test kolaže zmenšene foto 2',	'rychlosť načítania menších foto\n',	NULL),
-(133,	1,	133,	'Test kolaže zmenšene foto 3',	'test 2 sa nezobrazil',	'Test kolaže zmenšene foto 3',	'test 2 sa nezobrazil',	NULL),
+(133,	1,	133,	'Test kolaže zmenšene foto 3',	'uŽ SA VŠETKO ZOBRAZUJE',	'Test kolaže zmenšene foto 3',	'**TEST SA ZOBRAZIL HURÁ !!!!!**',	NULL),
 (134,	1,	134,	'BW Štruktúra',	NULL,	'BW Štruktúra',	NULL,	NULL),
 (135,	1,	135,	'BW Ateliér',	NULL,	'BW Ateliér',	NULL,	NULL),
 (136,	1,	136,	'TEST hotové obrazy 1',	NULL,	'TEST hotové obrazy 1',	'- obrazy 592 x 432',	NULL),
 (137,	1,	137,	'HOTOVÉ OBRAZY 2',	NULL,	'HOTOVÉ OBRAZY 2',	'- TEST UPLOAD VEĽKÉ SUBORY 3000x2000',	NULL),
 (138,	1,	138,	'HOTOVE OBRAZY 3',	NULL,	'HOTOVE OBRAZY 3',	'test načitanie menšie 1200x900',	NULL),
-(139,	1,	139,	'Panoramy test 3 2,2MB do 32000dpi',	NULL,	'Panoramy test 3 2,2MB',	'ahoj\n',	NULL),
-(140,	1,	140,	'Test podsložiek A1',	NULL,	'Test podsložiek A1',	NULL,	NULL);
+(139,	1,	139,	'Panoramy test 3 2,2MB do 32000dpi',	NULL,	'Panoramy test 3 2,2MB',	'JÉÉÉÉJ UŽ TO FUNGUJE !!!!!\n',	NULL),
+(140,	1,	140,	'Test podsložiek A1',	NULL,	'Test podsložiek A1',	NULL,	NULL),
+(141,	1,	141,	'TEST PODSLOŽKY',	'CCCCCC',	'TEST PODSLOŽKY',	NULL,	NULL);
 
 DROP TABLE IF EXISTS `hlavne_menu_opravnenie`;
 CREATE TABLE `hlavne_menu_opravnenie` (
@@ -1126,41 +1166,6 @@ INSERT INTO `products` (`id`, `id_hlavne_menu`, `id_user_main`, `id_user_roles`,
 (502,	131,	2,	0,	'OBRAZ-BWfoto-003',	'obraz-bwfoto-003',	NULL,	'files/products/OBRAZ-BWfoto-003.jpeg',	'files/products/tb_OBRAZ-BWfoto-003.jpeg',	'2022-02-24 18:07:08',	1),
 (503,	131,	2,	0,	'OBRAZ-BWfoto-006',	'obraz-bwfoto-006',	NULL,	'files/products/OBRAZ-BWfoto-006.jpeg',	'files/products/tb_OBRAZ-BWfoto-006.jpeg',	'2022-02-24 18:07:08',	1),
 (504,	131,	2,	0,	'OBRAZ-BWfoto-005',	'obraz-bwfoto-005',	NULL,	'files/products/OBRAZ-BWfoto-005.jpeg',	'files/products/tb_OBRAZ-BWfoto-005.jpeg',	'2022-02-24 18:07:08',	1),
-(505,	132,	2,	0,	'test-klaz-BWfoto-001',	'test-klaz-bwfoto-001',	NULL,	'files/products/test-klaz-BWfoto-001.jpeg',	'files/products/tb_test-klaz-BWfoto-001.jpeg',	'2022-02-28 17:50:46',	1),
-(506,	132,	2,	0,	'test-klaz-BWfoto-007',	'test-klaz-bwfoto-007',	NULL,	'files/products/test-klaz-BWfoto-007.jpeg',	'files/products/tb_test-klaz-BWfoto-007.jpeg',	'2022-02-28 17:50:46',	1),
-(507,	132,	2,	0,	'test-klaz-BWfoto-004',	'test-klaz-bwfoto-004',	NULL,	'files/products/test-klaz-BWfoto-004.jpeg',	'files/products/tb_test-klaz-BWfoto-004.jpeg',	'2022-02-28 17:50:46',	1),
-(508,	132,	2,	0,	'test-klaz-BWfoto-006',	'test-klaz-bwfoto-006',	NULL,	'files/products/test-klaz-BWfoto-006.jpeg',	'files/products/tb_test-klaz-BWfoto-006.jpeg',	'2022-02-28 17:50:46',	1),
-(509,	132,	2,	0,	'test-klaz-BWfoto-009',	'test-klaz-bwfoto-009',	NULL,	'files/products/test-klaz-BWfoto-009.jpeg',	'files/products/tb_test-klaz-BWfoto-009.jpeg',	'2022-02-28 17:50:46',	1),
-(510,	132,	2,	0,	'test-klaz-BWfoto-008',	'test-klaz-bwfoto-008',	NULL,	'files/products/test-klaz-BWfoto-008.jpeg',	'files/products/tb_test-klaz-BWfoto-008.jpeg',	'2022-02-28 17:50:46',	1),
-(511,	132,	2,	0,	'test-klaz-BWfoto-002',	'test-klaz-bwfoto-002',	NULL,	'files/products/test-klaz-BWfoto-002.jpeg',	'files/products/tb_test-klaz-BWfoto-002.jpeg',	'2022-02-28 17:50:46',	1),
-(512,	132,	2,	0,	'test-klaz-BWfoto-005',	'test-klaz-bwfoto-005',	NULL,	'files/products/test-klaz-BWfoto-005.jpeg',	'files/products/tb_test-klaz-BWfoto-005.jpeg',	'2022-02-28 17:50:46',	1),
-(513,	132,	2,	0,	'test-klaz-BWfoto-003',	'test-klaz-bwfoto-003',	NULL,	'files/products/test-klaz-BWfoto-003.jpeg',	'files/products/tb_test-klaz-BWfoto-003.jpeg',	'2022-02-28 17:50:46',	1),
-(514,	132,	2,	0,	'test-klaz-BWfoto-010',	'test-klaz-bwfoto-010',	NULL,	'files/products/test-klaz-BWfoto-010.jpeg',	'files/products/tb_test-klaz-BWfoto-010.jpeg',	'2022-02-28 17:50:46',	1),
-(515,	132,	2,	0,	'test-klaz-BWfoto-012',	'test-klaz-bwfoto-012',	NULL,	'files/products/test-klaz-BWfoto-012.jpeg',	'files/products/tb_test-klaz-BWfoto-012.jpeg',	'2022-02-28 17:50:46',	1),
-(516,	132,	2,	0,	'test-klaz-BWfoto-014',	'test-klaz-bwfoto-014',	NULL,	'files/products/test-klaz-BWfoto-014.jpeg',	'files/products/tb_test-klaz-BWfoto-014.jpeg',	'2022-02-28 17:50:46',	1),
-(517,	132,	2,	0,	'test-klaz-BWfoto-016',	'test-klaz-bwfoto-016',	NULL,	'files/products/test-klaz-BWfoto-016.jpeg',	'files/products/tb_test-klaz-BWfoto-016.jpeg',	'2022-02-28 17:50:46',	1),
-(518,	132,	2,	0,	'test-klaz-BWfoto-011',	'test-klaz-bwfoto-011',	NULL,	'files/products/test-klaz-BWfoto-011.jpeg',	'files/products/tb_test-klaz-BWfoto-011.jpeg',	'2022-02-28 17:50:46',	1),
-(519,	132,	2,	0,	'test-klaz-BWfoto-015',	'test-klaz-bwfoto-015',	NULL,	'files/products/test-klaz-BWfoto-015.jpeg',	'files/products/tb_test-klaz-BWfoto-015.jpeg',	'2022-02-28 17:50:46',	1),
-(520,	132,	2,	0,	'test-klaz-BWfoto-018',	'test-klaz-bwfoto-018',	NULL,	'files/products/test-klaz-BWfoto-018.jpeg',	'files/products/tb_test-klaz-BWfoto-018.jpeg',	'2022-02-28 17:50:46',	1),
-(521,	132,	2,	0,	'test-klaz-BWfoto-017',	'test-klaz-bwfoto-017',	NULL,	'files/products/test-klaz-BWfoto-017.jpeg',	'files/products/tb_test-klaz-BWfoto-017.jpeg',	'2022-02-28 17:50:46',	1),
-(522,	132,	2,	0,	'test-klaz-BWfoto-013',	'test-klaz-bwfoto-013',	NULL,	'files/products/test-klaz-BWfoto-013.jpeg',	'files/products/tb_test-klaz-BWfoto-013.jpeg',	'2022-02-28 17:50:46',	1),
-(523,	132,	2,	0,	'test-klaz-BWfoto-019',	'test-klaz-bwfoto-019',	NULL,	'files/products/test-klaz-BWfoto-019.jpeg',	'files/products/tb_test-klaz-BWfoto-019.jpeg',	'2022-02-28 17:50:46',	1),
-(524,	132,	2,	0,	'test-klaz-BWfoto-020',	'test-klaz-bwfoto-020',	NULL,	'files/products/test-klaz-BWfoto-020.jpeg',	'files/products/tb_test-klaz-BWfoto-020.jpeg',	'2022-02-28 17:50:46',	1),
-(525,	132,	2,	0,	'test-klaz-BWfoto-021',	'test-klaz-bwfoto-021',	NULL,	'files/products/test-klaz-BWfoto-021.jpeg',	'files/products/tb_test-klaz-BWfoto-021.jpeg',	'2022-02-28 17:50:46',	1),
-(526,	132,	2,	0,	'test-klaz-BWfoto-025',	'test-klaz-bwfoto-025',	NULL,	'files/products/test-klaz-BWfoto-025.jpeg',	'files/products/tb_test-klaz-BWfoto-025.jpeg',	'2022-02-28 17:50:46',	1),
-(527,	132,	2,	0,	'test-klaz-BWfoto-024',	'test-klaz-bwfoto-024',	NULL,	'files/products/test-klaz-BWfoto-024.jpeg',	'files/products/tb_test-klaz-BWfoto-024.jpeg',	'2022-02-28 17:50:46',	1),
-(528,	132,	2,	0,	'test-klaz-BWfoto-022',	'test-klaz-bwfoto-022',	NULL,	'files/products/test-klaz-BWfoto-022.jpeg',	'files/products/tb_test-klaz-BWfoto-022.jpeg',	'2022-02-28 17:50:46',	1),
-(529,	132,	2,	0,	'test-klaz-BWfoto-028',	'test-klaz-bwfoto-028',	NULL,	'files/products/test-klaz-BWfoto-028.jpeg',	'files/products/tb_test-klaz-BWfoto-028.jpeg',	'2022-02-28 17:50:46',	1),
-(530,	132,	2,	0,	'test-klaz-BWfoto-027',	'test-klaz-bwfoto-027',	NULL,	'files/products/test-klaz-BWfoto-027.jpeg',	'files/products/tb_test-klaz-BWfoto-027.jpeg',	'2022-02-28 17:50:46',	1),
-(531,	132,	2,	0,	'test-klaz-BWfoto-023',	'test-klaz-bwfoto-023',	NULL,	'files/products/test-klaz-BWfoto-023.jpeg',	'files/products/tb_test-klaz-BWfoto-023.jpeg',	'2022-02-28 17:50:46',	1),
-(532,	132,	2,	0,	'test-klaz-BWfoto-026',	'test-klaz-bwfoto-026',	NULL,	'files/products/test-klaz-BWfoto-026.jpeg',	'files/products/tb_test-klaz-BWfoto-026.jpeg',	'2022-02-28 17:50:46',	1),
-(533,	132,	2,	0,	'test-klaz-BWfoto-030',	'test-klaz-bwfoto-030',	NULL,	'files/products/test-klaz-BWfoto-030.jpeg',	'files/products/tb_test-klaz-BWfoto-030.jpeg',	'2022-02-28 17:50:46',	1),
-(534,	132,	2,	0,	'test-klaz-BWfoto-029',	'test-klaz-bwfoto-029',	NULL,	'files/products/test-klaz-BWfoto-029.jpeg',	'files/products/tb_test-klaz-BWfoto-029.jpeg',	'2022-02-28 17:50:46',	1),
-(535,	132,	2,	0,	'test-klaz-BWfoto-031',	'test-klaz-bwfoto-031',	NULL,	'files/products/test-klaz-BWfoto-031.jpeg',	'files/products/tb_test-klaz-BWfoto-031.jpeg',	'2022-02-28 17:50:46',	1),
-(536,	132,	2,	0,	'test-klaz-BWfoto-032',	'test-klaz-bwfoto-032',	NULL,	'files/products/test-klaz-BWfoto-032.jpeg',	'files/products/tb_test-klaz-BWfoto-032.jpeg',	'2022-02-28 17:50:46',	1),
-(537,	132,	2,	0,	'test-klaz-BWfoto-034',	'test-klaz-bwfoto-034',	NULL,	'files/products/test-klaz-BWfoto-034.jpeg',	'files/products/tb_test-klaz-BWfoto-034.jpeg',	'2022-02-28 17:50:46',	1),
-(538,	132,	2,	0,	'test-klaz-BWfoto-033',	'test-klaz-bwfoto-033',	NULL,	'files/products/test-klaz-BWfoto-033.jpeg',	'files/products/tb_test-klaz-BWfoto-033.jpeg',	'2022-02-28 17:50:46',	1),
-(539,	132,	2,	0,	'test-klaz-BWfoto-035',	'test-klaz-bwfoto-035',	NULL,	'files/products/test-klaz-BWfoto-035.jpeg',	'files/products/tb_test-klaz-BWfoto-035.jpeg',	'2022-02-28 17:50:46',	1),
 (575,	136,	2,	0,	'20220307-131341',	'20220307-131341',	NULL,	'files/products/20220307-131341.jpeg',	'files/products/tb_20220307-131341.jpeg',	'2022-03-07 13:24:33',	1),
 (576,	136,	2,	0,	'20220307-132935',	'20220307-132935',	NULL,	'files/products/20220307-132935.jpeg',	'files/products/tb_20220307-132935.jpeg',	'2022-03-07 13:24:33',	1),
 (577,	136,	2,	0,	'20220307-132729',	'20220307-132729',	NULL,	'files/products/20220307-132729.jpeg',	'files/products/tb_20220307-132729.jpeg',	'2022-03-07 13:24:33',	1),
@@ -1279,21 +1284,29 @@ CREATE TABLE `slider` (
   `nadpis` varchar(50) COLLATE utf8_bin DEFAULT NULL COMMENT 'Nadpis obrázku',
   `popis` varchar(150) COLLATE utf8_bin DEFAULT NULL COMMENT 'Popis obrázku slideru vypisovaný v dolnej časti',
   `subor` varchar(50) COLLATE utf8_bin NOT NULL DEFAULT '*.jpg' COMMENT 'Názov obrázku slideru aj s relatívnou cestou',
-  `zobrazenie` varchar(20) COLLATE utf8_bin DEFAULT NULL COMMENT 'Kedy sa obrázok zobrazí',
+  `zobrazenie` varchar(200) COLLATE utf8_bin DEFAULT NULL COMMENT 'Kedy sa obrázok zobrazí',
   `id_hlavne_menu` int(11) DEFAULT NULL COMMENT 'Odkaz na položku hlavného menu',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Popis obrázkou slideru aj s názvami súborov';
 
 INSERT INTO `slider` (`id`, `poradie`, `nadpis`, `popis`, `subor`, `zobrazenie`, `id_hlavne_menu`) VALUES
-(24,	3,	NULL,	NULL,	'SLAJDER-TATRY-1-C.jpeg',	'1',	NULL),
-(25,	1,	NULL,	NULL,	'SLAJDER-TATRY-2-C.jpeg',	'107,108,109,110',	NULL),
-(26,	4,	'trava 1',	NULL,	'TRAVA-2-2.jpeg',	'3',	NULL),
-(27,	5,	NULL,	NULL,	'TRAVA-3-2.jpeg',	'2',	NULL),
-(28,	6,	NULL,	NULL,	'TRAVA-4-2.jpeg',	'99,100,101,102,103,1',	NULL),
-(29,	7,	NULL,	NULL,	'TRAVA-5-2.jpeg',	'52,53,54,55,56,57,58',	NULL),
-(30,	-1,	'HLAVNÉ PANORAMA 1',	NULL,	'bg-site-x.jpeg',	NULL,	NULL),
-(33,	8,	'ARCH 2',	NULL,	'ARCHITEKTURA-2022-6.jpeg',	'2',	NULL),
-(34,	9,	'ARCH 3',	NULL,	'ARCHITEKTURA-2022-8.jpeg',	'10',	NULL);
+(30,	-6,	'HLAVNÉ PANORAMA 1',	NULL,	'bg-site-x.jpeg',	NULL,	NULL),
+(39,	0,	NULL,	NULL,	'TRAVA-7zm.jpeg',	'33,38',	NULL),
+(40,	-2,	NULL,	NULL,	'TRAVA-6zm.jpeg',	'38',	NULL),
+(41,	-4,	NULL,	NULL,	'STROMY-1zm-22.jpeg',	'34',	NULL),
+(42,	1,	NULL,	NULL,	'STROMY-1.jpeg',	'133',	NULL),
+(43,	2,	NULL,	NULL,	'ARCHITEKTURA-2022-1.jpeg',	'27',	NULL),
+(44,	3,	NULL,	NULL,	'ARCHITEKTURA-2022-2.jpeg',	'26',	NULL),
+(45,	4,	NULL,	NULL,	'ARCHITEKTURA-2022-3.jpeg',	'115',	NULL),
+(46,	5,	NULL,	NULL,	'ARCHITEKTURA-2022-4.jpeg',	'116',	NULL),
+(47,	6,	NULL,	NULL,	'ARCHITEKTURA-2022-5.jpeg',	'117',	NULL),
+(48,	7,	NULL,	NULL,	'ARCHITEKTURA-2022-6.jpeg',	'118',	NULL),
+(49,	8,	NULL,	NULL,	'ARCHITEKTURA-2022-7.jpeg',	'119',	NULL),
+(50,	9,	NULL,	NULL,	'ARCHITEKTURA-2022-8.jpeg',	'122',	NULL),
+(51,	10,	NULL,	NULL,	'TRAVA-5-2.jpeg',	'39',	NULL),
+(52,	11,	NULL,	NULL,	'TRAVA-4-2.jpeg',	'40',	NULL),
+(53,	12,	NULL,	NULL,	'TRAVA-3-2.jpeg',	'42',	NULL),
+(54,	13,	NULL,	NULL,	'TRAVA-2-2.jpeg',	'43',	NULL);
 
 DROP TABLE IF EXISTS `udaje`;
 CREATE TABLE `udaje` (
@@ -1402,7 +1415,7 @@ CREATE TABLE `user_main` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Hlavné údaje užívateľa';
 
 INSERT INTO `user_main` (`id`, `id_user_roles`, `id_user_profiles`, `password`, `meno`, `priezvisko`, `email`, `activated`, `banned`, `ban_reason`, `new_password_key`, `new_password_requested`, `new_email`, `new_email_key`, `last_ip`, `created`, `modified`) VALUES
-(1,	5,	1,	'$2y$10$qyQp0ZLifZDtSJVz0W62XuOZM4xIZiCBrVN2YM6auzLnqjaY5q4ri',	'Peter',	'Vojtech',	'petak23@echo-msz.eu',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'188.112.101.206',	'2017-05-15 09:11:19',	'2022-03-15 13:51:49'),
+(1,	5,	1,	'$2y$10$qyQp0ZLifZDtSJVz0W62XuOZM4xIZiCBrVN2YM6auzLnqjaY5q4ri',	'Peter',	'Vojtech',	'petak23@echo-msz.eu',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'188.112.97.122',	'2017-05-15 09:11:19',	'2022-04-04 12:16:30'),
 (2,	4,	2,	'$2y$10$0KPg/2sE8I5EjAsgolRttulqhQPsUoVrhIHAxX8Ej3NAOHGuZIbW.',	'Juraj',	'Zámečník',	'bwfoto@bwfoto.sk',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.143.103.217',	'2017-05-15 09:13:38',	'2022-03-14 22:12:07'),
 (3,	4,	3,	'$2y$10$rrhoDAbAniSaH5IxLhobiO4ym.Qt83LdCyDUyXkw/TQCiNebhwjkq',	'Jozef',	'Petrenčík',	'tatravisual@tatravisual.sk',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.253.139.152',	'2017-05-15 09:12:22',	'2017-07-11 07:10:29');
 
@@ -1422,7 +1435,7 @@ CREATE TABLE `user_permission` (
 INSERT INTO `user_permission` (`id`, `id_user_roles`, `id_user_resource`, `actions`) VALUES
 (1,	0,	4,	NULL),
 (2,	0,	6,	NULL),
-(3,	0,	7,	NULL),
+(3,	0,	7,	'default'),
 (4,	0,	8,	NULL),
 (5,	0,	1,	NULL),
 (6,	0,	5,	NULL),
@@ -1452,7 +1465,7 @@ INSERT INTO `user_permission` (`id`, `id_user_roles`, `id_user_resource`, `actio
 (30,	5,	19,	NULL),
 (31,	3,	21,	NULL),
 (32,	1,	23,	'default,mailChange,passwordChange,activateNewEmail'),
-(33,	3,	7,	'default'),
+(33,	4,	7,	'default,edit'),
 (34,	4,	25,	NULL),
 (35,	0,	26,	NULL),
 (36,	0,	27,	'getsubmenu'),
@@ -1490,7 +1503,28 @@ INSERT INTO `user_prihlasenie` (`id`, `id_user_main`, `log_in_datetime`) VALUES
 (187,	2,	'2022-03-16 16:59:44'),
 (188,	1,	'2022-03-16 17:46:29'),
 (189,	2,	'2022-03-16 18:12:52'),
-(190,	1,	'2022-03-17 11:14:25');
+(190,	1,	'2022-03-17 11:14:25'),
+(191,	1,	'2022-03-17 11:27:08'),
+(192,	1,	'2022-03-17 13:40:26'),
+(193,	2,	'2022-03-18 13:57:58'),
+(194,	2,	'2022-03-18 19:13:55'),
+(195,	2,	'2022-03-18 20:48:03'),
+(196,	2,	'2022-03-20 16:47:35'),
+(197,	2,	'2022-03-22 16:25:25'),
+(198,	1,	'2022-03-23 06:19:32'),
+(199,	2,	'2022-03-26 00:03:42'),
+(200,	1,	'2022-03-30 13:10:03'),
+(201,	2,	'2022-03-30 16:43:17'),
+(202,	2,	'2022-03-30 16:48:23'),
+(203,	2,	'2022-03-30 16:52:01'),
+(204,	2,	'2022-03-30 16:55:12'),
+(205,	2,	'2022-03-30 17:16:07'),
+(206,	2,	'2022-03-30 17:18:33'),
+(207,	2,	'2022-03-31 17:24:47'),
+(208,	2,	'2022-03-31 17:28:22'),
+(209,	2,	'2022-04-01 00:26:56'),
+(210,	1,	'2022-04-04 14:16:30'),
+(211,	2,	'2022-04-05 21:53:55');
 
 DROP TABLE IF EXISTS `user_profiles`;
 CREATE TABLE `user_profiles` (
@@ -1508,8 +1542,8 @@ CREATE TABLE `user_profiles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 INSERT INTO `user_profiles` (`id`, `rok`, `telefon`, `poznamka`, `pocet_pr`, `pohl`, `prihlas_teraz`, `avatar`, `news`, `news_key`) VALUES
-(1,	NULL,	NULL,	NULL,	102,	'M',	'2022-03-17 11:14:25',	NULL,	'A',	'$2y$10$cukOQnmZahKNwUmxXbVKyOYjx0MIfj9gDs6ovQPTHrcmqTQG/JzRi'),
-(2,	NULL,	NULL,	NULL,	88,	'M',	'2022-03-16 18:12:52',	NULL,	'A',	NULL),
+(1,	NULL,	NULL,	NULL,	107,	'M',	'2022-04-04 14:16:30',	NULL,	'A',	'$2y$10$cukOQnmZahKNwUmxXbVKyOYjx0MIfj9gDs6ovQPTHrcmqTQG/JzRi'),
+(2,	NULL,	NULL,	NULL,	104,	'M',	'2022-04-05 21:53:55',	NULL,	'A',	NULL),
 (3,	NULL,	NULL,	NULL,	0,	'M',	NULL,	NULL,	'A',	NULL);
 
 DROP TABLE IF EXISTS `user_resource`;
@@ -1611,6 +1645,8 @@ INSERT INTO `verzie` (`id`, `id_user_main`, `cislo`, `subory`, `text`, `modified
 (26,	1,	'0.8.29',	'Foto koláž',	'Úprava koláže. Pridaná možnosť mať 1 fotku v riadku inej šírky ako ostatné podľa nasledujúcej schémy:\n/--code js\nsch: [\n        { // 1. schéma pre šírku koláže do 320px\n\n          // Max. šírka koláže pre ktorú platí\n          max_width: 320,  \n\n          // Minimálny počet fotiek na riadok\n          min_row: 1,      \n\n          // Počet fotiek v jednotlivých riadkoch + min_row\n          schema: [1, 0, 2, 1, 2, 0, 1, 2], \n\n          // Výška jednotlivých riadkov\n          height: [\"110px\", \"150px\", \"78px\", \"110px\", \"78px\", \"150px\", \"110px\", \"78px\"],\n\n          // Poradie fotky v riadku, ktorá má byť širšia ako ostatné v riadku:\n          // Ak je zadané číslo väčšie ako 0 (1,2,...) tak tá konkrétna bude širšia, \n          // ak je zadané 0 generuje sa náhodne,\n          // ak je zadané -1 všetky fotky v riadku budú rovnaké.\n          widerPhotoId: [1, 0, 1, 0, 2, 0, 1, 2],\n        },\n        { // 2. schéma pre šírku koláže od 321px do 700 px\n          max_width: 700,\n          min_row: 2,\n          schema: [1, 0, 1, 2, 1, 0, 2, 1],\n          height: [\"170px\", \"235px\", \"170px\", \"120px\", \"170px\", \"235px\", \"120px\", \"170px\"],\n          widerPhotoId: [1, 0, 1, 0, 2, 0, 1, 2],\n        },\n        { // 3. schéma pre šírku koláže od 701px do 1300 px\n          max_width: 1300,\n          min_row: 3,\n          schema: [0, 1, 2, 3, 0, 1],\n          height: [\"300px\", \"220px\", \"180px\", \"170px\", \"235px\", \"220px\"],\n          widerPhotoId: [1, 0, -1, 0, 2, 0],\n        },\n        { // 4. schéma pre šírku koláže od 1301px do 100000 px\n          max_width: 100000,\n          min_row: 3,\n          schema: [0, 1, 2, 3, 1, 0],\n          height: [\"400px\", \"300px\", \"265px\", \"220px\", \"300px\", \"400px\"],\n          widerPhotoId: [1, 0, -1, 0, 2, 0],\n        },\n      ],\n\\--',	'2022-02-22 12:45:32'),
 (27,	1,	'0.8.33',	'články',	'- Oprava chyby v zobrazení článku.\n- Refaktoring časti článkov na front module.\n- Odstránenie nepotrebnej DB tabuľky: clanok_lang.',	'2022-02-28 16:26:45'),
 (28,	1,	'0.8.37',	'Panorámy',	'\"Aktualizované: 13.03.2022: .{color: red}\"\n- Zjednodušená konfigurácia fotokoláže.\n- Odstránené chyby v panorámach a fotokoláži.\n- Oprava ukladania užívateľských dát na FrontModule.\n\n-------------------\n\n\n- Aktualizovaná časť fotopanorám. \n- Aktualizovaná časť pridávania produktov. Miniatúry produktov sa vytvárajú podľa toho, či je nastavená ako šablóna článku panoráma alebo nie. \n- Nahrané nové nastavenie pre fotokoláž.',	'2022-03-12 20:42:31'),
-(29,	1,	'0.9.3',	'Editácia na front module',	'Nová funkcionalita\n------------------\n\n- Editácia nadpisu článku: Pridaná možnosť editovať nadpisy článkov priamo z FrontModulu\n- Zmena poradia položiek:  Pridaná možnosť zmeniť poradie položiek na FrontModule.',	'2022-03-15 16:47:58');
+(29,	1,	'0.9.03',	'Editácia na front module',	'Nová funkcionalita\n------------------\n\n- Editácia nadpisu článku: Pridaná možnosť editovať nadpisy článkov priamo z FrontModulu\n- Zmena poradia položiek:  Pridaná možnosť zmeniť poradie položiek na FrontModule.',	'2022-04-04 12:20:29'),
+(30,	1,	'0.9.05',	'Oprava chýb',	'- Oprava chýb vo fotokoláži (zmena výšky riadku) a zlé proporcie obrázku po kliknutí naň.\n- Zjednodušenie konfigurácie fotokoláže.\n- Oprava chybného zobrazenia editácie na titiulke.\n- Oprava podtitulky\n- Oprava chybných ikoniek v administrácii.',	'2022-04-04 12:20:29'),
+(31,	1,	'0.9.11',	'texyla, fontawesome 6, slider,',	'\"**Aktualizácia 6.4.2022:** .{color: orange}\"\n- Do fotogalérie pridaná možnosť posúvať fotky v 4. kat. prstom pohybom všetkými smermi.\n\n-------------------\n\n- Opravy zobrazenia slider-u. Doplnené pomocné informácie.\n- Začaté práce na editácii textov pre vue.js priamo na front module. Ikonka vedľa editácie nadpisov. \"Táto funkcionalita je v štádiu experimentovania, takže nie všetko je funkčné. .{color: orange}\"\n- \"V js a vue súboroch nahradenie definovania premennej var za let .{color: gray}\"\n- Aktualizovaný fontawesome na verziu 6.\n- Oprava zistených chýb.',	'2022-04-06 08:38:48');
 
--- 2022-03-17 10:14:41
+-- 2022-04-06 08:49:46

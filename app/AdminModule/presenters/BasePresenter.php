@@ -13,7 +13,7 @@ use Texy;
 /**
  * Zakladny presenter pre vsetky presentery v module ADMIN
  * 
- * Posledna zmena(last change): 01.04.2022
+ * Posledna zmena(last change): 06.04.2022
  *
  * Modul: ADMIN
  *
@@ -21,7 +21,7 @@ use Texy;
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.3.8
+ * @version 1.3.9
  */
 abstract class BasePresenter extends UI\Presenter {
   
@@ -45,10 +45,6 @@ abstract class BasePresenter extends UI\Presenter {
   
   /** @var string Adresar pre prilohy clankov */
   public $prilohy_adresar;
-  
-  // -- Components
-  /** @var Components\User\IUserLastControl @inject */
-  public $userLastControlFactory;
 
   /** @persistent */
   public $language = 'sk';
@@ -234,13 +230,6 @@ abstract class BasePresenter extends UI\Presenter {
   public function createComponentFiles() {
     return new PeterVojtech\Base\CssJsFilesControl($this->nastavenie['web_files'], $this->name, $this->action);
   }
-
-  /** 
-   * Vytvorenie komponenty pre posledných 25 prihlásení
-   * @return \App\AdminModule\Components\User\UserLastControl */
-	public function createComponentLast() {
-    return $this->userLastControlFactory->create();
-	}
   
   /** 
    * Vytvorenie komponenty pre hlavne menu

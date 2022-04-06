@@ -125,6 +125,7 @@ class ProductsControl extends Nette\Application\UI\Control {
     $this->template->clanok = $this->clanok;
     $this->template->elink = $this->admin_links['elink'];
     $this->template->big_img = $this->big_img;
+    $this->template->dir_to_products = $this->dir_to_products;
 		$this->template->render(__DIR__ . '/Products.latte');
 	}
   

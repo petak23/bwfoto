@@ -14,13 +14,13 @@ use Ublaboo\DataGrid\Localization\SimpleTranslator;
 /**
  * Komponenta pre spravu priloh clanku.
  * 
- * Posledna zmena(last change): 24.11.2021
+ * Posledna zmena(last change): 06.04.2022
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
- * @copyright Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.3
+ * @version 1.1.4
  */
 class PrilohyClanokAControl extends Nette\Application\UI\Control {
 
@@ -48,6 +48,8 @@ class PrilohyClanokAControl extends Nette\Application\UI\Control {
   
   /** @var mixed */
   protected $big_img;
+  /** @var string */
+  private $prilohy_adresar;
 
   /**
    * @param array $prilohy_images Nastavenie obrazkov pre prilohy - Nastavenie priamo cez servises.neon
@@ -58,6 +60,7 @@ class PrilohyClanokAControl extends Nette\Application\UI\Control {
    * @param User $user */
   public function __construct(array $prilohy_images,
                               string $wwwDir,
+                              string $prilohy_adresar,
                               DbTable\Dokumenty $dokumenty, DbTable\Hlavne_menu $hlavne_menu,
                               EditPrilohyFormFactory $editPrilohyFormFactory,
                               AddMultiPrilohyFormFactory $addMultiPrilohyFormFactory, 
@@ -68,6 +71,7 @@ class PrilohyClanokAControl extends Nette\Application\UI\Control {
     $this->user = $user;
     $this->hlavne_menu = $hlavne_menu;
     $this->prilohy_images = $prilohy_images;
+    $this->prilohy_adresar = $prilohy_adresar;
     $this->wwwDir = $wwwDir;
   }
   
@@ -109,6 +113,7 @@ class PrilohyClanokAControl extends Nette\Application\UI\Control {
     $this->template->clanok = $this->clanok;
     $this->template->admin_links_prilohy = $this->admin_links;
     $this->template->big_img = $this->big_img;
+    $this->template->prilohy_adresar = $this->prilohy_adresar;
 		$this->template->render();
 	}
   

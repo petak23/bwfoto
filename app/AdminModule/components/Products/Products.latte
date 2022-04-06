@@ -27,7 +27,8 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       </div>
       <div class="modal-body">
-        {control addMultiProductsForm}
+        {* control addMultiProductsForm *}
+        <multipleupload api-url="{$dir_to_products}" path="{$basePath}/" id="multiple-uploader-component" />
       </div>
     </div>
   </div>
