@@ -1,2 +1,2 @@
 /* eslint-disable */
-export const baseURL = 'http://localhost:3000/api';
+export const baseURL = 'http://localhost/~petak23/bwfoto';

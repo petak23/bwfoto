@@ -8,13 +8,13 @@ use Nette;
 /**
  * Model, ktory sa stara o tabulku user_main
  * 
- * Posledna zmena 30.09.2021
+ * Posledna zmena 13.04.2022
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.4
+ * @version    1.0.5
  */
 class User_main extends Table {
   const
@@ -72,7 +72,7 @@ class User_main extends Table {
         self::COLUMN_ID_USER_PROFILES => $user_profiles->id,
         self::COLUMN_ACTIVATED        => $activated,
         self::COLUMN_ID_USER_ROLES    => $role,
-        self::COLUMN_CREATED          => StrFTime("%Y-%m-%d %H:%M:%S", Time()),
+        self::COLUMN_CREATED          => date("Y-m-d H:i:s", Time()),
 			]);
 		} catch (Nette\Database\UniqueConstraintViolationException $e) {
       throw new DuplicateEmailException($e->getMessage());

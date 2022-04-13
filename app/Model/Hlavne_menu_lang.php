@@ -7,13 +7,13 @@ use Nette;
 /**
  * Model starajuci sa o tabulku hlavne_menu_lang
  * 
- * Posledna zmena 16.02.2022
+ * Posledna zmena 13.04.2022
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.1.4
+ * @version    1.1.5
  */
 class Hlavne_menu_lang extends Table {
   const 
@@ -119,7 +119,7 @@ class Hlavne_menu_lang extends Table {
    * @return Nette\Database\Table\Selection */
   public function subArticleToView(int $id_lang, int $id_nadradenej) {
     return $this->findBy(["id_lang"=>$id_lang, "hlavne_menu.id_nadradenej"=>$id_nadradenej])
-                ->where("datum_platnosti ? OR datum_platnosti >= ? ", NULL, StrFTime("%Y-%m-%d",strtotime("0 day")));
+                ->where("datum_platnosti ? OR datum_platnosti >= ? ", NULL, date("Y-m-d",strtotime("0 day")));
   }
 
   public function saveText(int $id_hlavne_menu, int $id_lang, $text) {

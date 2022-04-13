@@ -238,15 +238,15 @@ if (process.env.NODE_ENV === 'development') {
     devServer: {
       host: WEBPACK_DEV_SERVER_HOST,
       port: WEBPACK_DEV_SERVER_PORT,
-      disableHostCheck: true,
-      contentBase: path.join(ROOT_PATH, 'www'),
+      //disableHostCheck: true,
+      //contentBase: path.join(ROOT_PATH, 'www'),
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Headers': '*'
       },
-      stats: 'errors-only',
+      //stats: 'errors-only',
       hot: true,
-      inline: true,
+      //inline: true,
       proxy: {
         '/': `http://${WEBPACK_DEV_SERVER_PROXY_HOST}:${WEBPACK_DEV_SERVER_PROXY_PORT}`
       }

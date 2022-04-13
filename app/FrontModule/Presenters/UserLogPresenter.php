@@ -13,7 +13,7 @@ use Nette\Utils\Random;
 /**
  * Prezenter pre spravu uzivatela po prihlásení.
  * (c) Ing. Peter VOJTECH ml.
- * Posledna zmena(last change): 12.03.2022
+ * Posledna zmena(last change): 13.04.2022
  *
  *	Modul: FRONT
  *
@@ -21,7 +21,7 @@ use Nette\Utils\Random;
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.2.0
+ * @version 1.2.1
  */
 class UserLogPresenter extends BasePresenter {
   
@@ -130,7 +130,7 @@ class UserLogPresenter extends BasePresenter {
       return;
     }
     //Vygeneruj kluc pre zmenu e-mailu
-    $email_key = Random::generate(25);//$this->hasser->HashPassword($values->email.StrFTime("%Y-%m-%d %H:%M:%S", Time()));
+    $email_key = Random::generate(25);//$this->hasser->HashPassword($values->email.date("Y-m-d H:i:s", Time()));
     $uzivatel = $this->user_main->find(1); //Najdenie odosielatela emailu
     $templ = new Latte\Engine;
     $params = [

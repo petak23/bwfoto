@@ -2,7 +2,7 @@
   <h2><a href="{plink $link_presenter $id_hlavne_menu}" title="{$nazov}">{$nazov}</a></h2>
   {if $datum_platnosti != NULL}
     &nbsp;
-    {if $datum_platnosti < strftime("%Y-%m-%d", time())}
+    {if $datum_platnosti < date("Y-m-d", time())}
       <strong>{$texty["neplatny"]}</strong> {$texty["platil_do"]}{$datum_platnosti|date:'%d.%m.%Y'}
     {else}
       {$texty["platny_do"]}{$datum_platnosti|date:'%d.%m.%Y'}

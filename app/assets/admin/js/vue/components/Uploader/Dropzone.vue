@@ -88,3 +88,31 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.dropzone-upload {
+  .upload-container {
+    height: 200px !important;
+    border: 2px dashed #ccc !important;
+    border-radius: 10px !important;
+
+    :hover {
+      background-color: #ccc !important;
+    }
+  }
+
+  .input-uploader {
+    position: absolute;
+    height: 200px !important;
+    width: 93% !important;
+    border-radius: 10px !important;
+    opacity: 0 !important;
+    border: 2px solid balck;
+  }
+
+  .uploader-icon {
+    width: 100px !important;
+    height: 100px !important;
+  }
+}
+</style>

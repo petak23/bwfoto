@@ -10,7 +10,8 @@
           class="input-uploader"
           @change="imagesInserted"
         />
-        <img class="uploader-icon" src="../../assets/img/upload.png" alt />
+        <div class="uploader-icon"><i class="fa-solid fa-upload"></i></div>
+        <!-- img class="uploader-icon" :src="path + 'images/upload.png'" alt / -->
       </div>
       <div class="flex-grow-1 d-flex flex-column px-3 justify-content-around">
         <bProgress v-if="isUploading" :value="value" :max="max" show-progress animated />
@@ -70,7 +71,7 @@ export default {
         formData.append("files", file);
       });
       this.isUploading = true;
-      let { data } = await API.post(this.apiUrl, formData, {
+      let { data } = await API.post(this.apiUrl + 'tmp/', formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -85,8 +86,35 @@ export default {
     },
   },
   mounted () {
-    const url = window.location.origin;
+    const url = "" //window.location.origin;
     API.defaults.baseURL = url + this.path
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.multiple-upload {
+  .upload-container {
+    height: 100px !important;
+    width: 100px !important;
+    border: 2px dashed #ccc;
+    border-radius: 5px !important;
+
+    :hover {
+      background-color: #ccc !important;
+    }
+  }
+
+  .input-uploader {
+    opacity: 0;
+    position: absolute;
+    width: 100px !important;
+    height: 100px !important;
+  }
+
+  .uploader-icon {
+    width: 35px !important;
+    height: 35px !important;
+  }
+}
+</style>

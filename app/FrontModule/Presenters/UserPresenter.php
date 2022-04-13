@@ -10,7 +10,7 @@ use PeterVojtech\Email;
 
 /**
  * Prezenter pre prihlasenie, registraciu a aktiváciu uzivatela, obnovenie zabudnutého hesla a zresetovanie hesla.
- * Posledna zmena(last change): 10.02.2022
+ * Posledna zmena(last change): 13.04.2022
  *
  *	Modul: FRONT
  *
@@ -18,7 +18,7 @@ use PeterVojtech\Email;
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.2.6
+ * @version 1.2.7
  */
 class UserPresenter extends BasePresenter {
 	
@@ -144,7 +144,7 @@ class UserPresenter extends BasePresenter {
         'password'  => $this->passwords->hash($values->heslo),
         'email'     => $values->email,
         'activated' => 0,
-        'created'   => StrFTime("%Y-%m-%d %H:%M:%S", Time()),
+        'created'   => date("Y-m-d H:i:s", Time()),
       ]);
    }
    if ($uloz_user_main !== FALSE) { //Ulozenie v poriadku
@@ -206,7 +206,9 @@ class UserPresenter extends BasePresenter {
       try {
         $this->myMailer->sendMail(1, $values->email, $this->texty_presentera->translate('forgot_pass'), null, $params, __DIR__ . '/../templates/User/forgot_password-html.latte');
         $user_forg = $this->user_main->find($user_info->id);
-        $user_forg->update(['new_password_key'=>$new_password_key, 'new_password_requested'=>StrFTime("%Y-%m-%d %H:%M:%S", Time())]);
+        $user_forg->update(['new_password_key'=>$new_password_key,
+                            'new_password_requested'=>date("Y-m-d H:i:s", Time())
+                          ]);
         $this->flashMessage($this->texty_presentera->translate('forgot_pass_email_ok'), 'success');
         $this->myMailer->sendAdminMail("Zabudnuté heslo", "Požiadavka na zabudnuté heslo užívateľa:".$user_forg->meno." ". $user_forg->priezvisko);
       } catch (Email\SendException $e) {

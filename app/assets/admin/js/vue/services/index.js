@@ -1,9 +1,9 @@
 /* eslint-disable */
 import axios from 'axios';
-//import { baseURL } from '../constants';
+import { baseURL } from '../constants';
 
-const API = axios.create(/*{
+const API = axios.create({
     baseURL,
-}*/);
+});
 
 export default API;

@@ -68,16 +68,16 @@
   <div n:snippet="platnost" class="btn-group btn-group-sm edit-link-bar" role="group" aria-label="platnost-link">
     {var $cl='primary'}
     {if $clanok->hlavne_menu->datum_platnosti}
-      {if $clanok->hlavne_menu->datum_platnosti < strftime("%Y-%m-%d", time())}
-          {var $datum = 'Článok už nie je platný! Platil do:'.strftime('%d.%m.%Y', strtotime($clanok->hlavne_menu->datum_platnosti))}{var $cl='warning'}
-      {else}{var $datum = 'Článok platí do:'.strftime('%d.%m.%Y', strtotime($clanok->hlavne_menu->datum_platnosti))}{/if}
+      {if $clanok->hlavne_menu->datum_platnosti < date("Y-m-d", time())}
+          {var $datum = 'Článok už nie je platný! Platil do:'.date('d.m.Y', strtotime($clanok->hlavne_menu->datum_platnosti))}{var $cl='warning'}
+      {else}{var $datum = 'Článok platí do:'.date('d.m.Y', strtotime($clanok->hlavne_menu->datum_platnosti))}{/if}
     {else}
       {var $datum = 'Dátum platnosti sa nesleduje.'}
     {/if}
     <div class="btn btn-outline-{$cl} disabled" title="{$datum}">
       <i class="fas fa-calendar-alt"></i>
       {if $clanok->hlavne_menu->datum_platnosti}
-        {if $clanok->hlavne_menu->datum_platnosti < strftime("%Y-%m-%d", time())}Platil {else}Platí {/if}
+        {if $clanok->hlavne_menu->datum_platnosti < date("Y-m-d", time())}Platil {else}Platí {/if}
         do:<strong> {$clanok->hlavne_menu->datum_platnosti|date:'%d.%m.%Y'}</strong>
       {/if}
     </div>

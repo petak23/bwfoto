@@ -12,13 +12,13 @@ use Nette\Utils\Image;
 
 /**
  * Formular a jeho spracovanie pre pridanie viacerich prilohy polozky.
- * Posledna zmena 19.06.2020
+ * Posledna zmena 13.04.2022
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.8
+ * @version    1.0.9
  */
 class AddMultiPrilohyFormFactory {
   
@@ -100,7 +100,7 @@ class AddMultiPrilohyFormFactory {
             'id_hlavne_menu'	 	=> $values->id_hlavne_menu,
             'id_user_main'      => $this->id_user_main,
             'id_user_roles'     => $values->id_user_roles,
-            'change'						=> StrFTime("%Y-%m-%d %H:%M:%S", Time()),
+            'change'						=> date("Y-m-d H:i:s", Time()),
         ]);
       } 
 		} catch (Database\DriverException $e) {

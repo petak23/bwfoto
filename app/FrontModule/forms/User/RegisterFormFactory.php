@@ -10,13 +10,13 @@ use Nette\Security\User;
 
 /**
  * Registracny formular
- * Posledna zmena 27.01.2021
+ * Posledna zmena 13.04.2022
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.1.0
+ * @version    1.1.1
  */
 class RegisterFormFactory {
   /** @var Security\User */
@@ -100,7 +100,7 @@ class RegisterFormFactory {
           'password'  => $this->passwords->hash($values->heslo),
           'email'     => $values->email,
           'activated' => 0,
-          'created'   => StrFTime("%Y-%m-%d %H:%M:%S", Time()),
+          'created'   => date("Y-m-d H:i:s", Time()),
         ]);
       }
 		//} catch (Security\AuthenticationException $e) {

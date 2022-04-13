@@ -12,13 +12,13 @@ use Nette\Utils\Strings;
 
 /**
  * Formular a jeho spracovanie pre pridanie a editaciu prilohy polozky.
- * Posledna zmena 26.04.2021
+ * Posledna zmena 13.04.2022
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.1.5
+ * @version    1.1.6
  */
 class EditPrilohyFormFactory {
   
@@ -104,7 +104,7 @@ class EditPrilohyFormFactory {
         'id_user_main'      => $this->id_user_main,
         'id_user_roles'     => $values->id_user_roles,
         'description'				=> isset($values->description) && strlen($values->description)>2 ? $values->description : NULL,
-        'change'						=> StrFTime("%Y-%m-%d %H:%M:%S", Time()),
+        'change'						=> date("Y-m-d H:i:s", Time()),
         'type'              => $values->type
       ];
       $nazov = isset($values->name) ? $values->name : "";
@@ -135,6 +135,7 @@ class EditPrilohyFormFactory {
    * @param \Nette\Utils\ArrayHash $values
    * @return array */
   private function _uploadPriloha(\Nette\Utils\ArrayHash $values): array {
+    dumpe($values);
     $pr = $this->dokumenty->find($values->id);//Zmazanie starej prílohy
     if ($pr != null) {
       if (is_file($pr->main_file)) { unlink($this->wwwDir."/".$pr->main_file);}
