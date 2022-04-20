@@ -210,16 +210,13 @@ class PrilohyClanokAControl extends Nette\Application\UI\Control {
    * Komponenta formulara pre pridanie a editaciu prílohy polozky.
    * @return Nette\Application\UI\Form */
   public function createComponentEditPrilohyForm(): Nette\Application\UI\Form {
-    $form = $this->editPrilohyForm->create();
+    $form = $this->editPrilohyForm->create($this->clanok->id_hlavne_menu, 
+                                           $this->template->basePath,
+                                           /*$this->presenter->link('Clanky:', $this->clanok->id_hlavne_menu)*/
+                                          );
     $form->setDefaults(["id"=>0, "id_hlavne_menu"=>$this->clanok->id_hlavne_menu, "id_user_roles"=>$this->clanok->hlavne_menu->id_user_roles]);
-    $form['uloz']->onClick[] = function ($button) { 
-      //$this->presenter->flashOut(!count($button->getForm()->errors), ['this',['tab'=>'prilohy-tab']], 'Príloha bola úspešne uložená!', 'Došlo k chybe a zmena sa neuložila. Skúste neskôr znovu...');
-      if (!count($button->getForm()->errors)) {
-        $this->presenter->flashRedirect(['this',['tab'=>'prilohy-tab']], 'Príloha bola úspešne uložená!', 'success');
-      } else {
-        $this->flashMessage('Došlo k chybe a zmena sa neuložila. Skúste neskôr znovu...', 'danger');
-        $this->flashMessage($button->getForm()->errors);
-      }
+    $form['uloz']->onClick[] = function ($button) {
+      $this->presenter->flashRedirect(['this',['tab'=>'prilohy-tab']], 'Príloha bola úspešne uložená!', 'success');
 		};
     return $this->presenter->_vzhladForm($form);
   }

@@ -12,13 +12,13 @@ use Nette\Utils\Html;
 
 /**
  * Tovarnicka pre formular na editaciu uzivatela
- * Posledna zmena 13.01.2022
+ * Posledna zmena 20.04.2022
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.1.0
+ * @version    1.1.1
  */
 class EditUserMainFormFactory {
   /** @var DbTable\User_main */
@@ -109,7 +109,6 @@ class EditUserMainFormFactory {
   /** 
    * Vlastná validácia */
   public function validateEditUserForm(Form $form, \stdClass $values): void {
-    //dumpe($form);
     if ($form['uloz']->isSubmittedBy()) {
       $user = $this->user_main->find($values->id);
       // Over, ci dany email uz existuje.

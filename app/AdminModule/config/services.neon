@@ -32,7 +32,7 @@ services:
   - App\AdminModule\Components\Article\TitleImage\EditTitleImageFormFactory(%dir_to_menu%, %wwwDir%)
 
   - App\AdminModule\Components\Clanky\PrilohyClanok\AddMultiPrilohyFormFactory(%prilohy_dir%, %prilohy_images%, %wwwDir%)
-  - App\AdminModule\Components\Clanky\PrilohyClanok\EditPrilohyFormFactory(%prilohy_dir%, %prilohy_images%, %wwwDir%)
+  - App\AdminModule\Components\Clanky\PrilohyClanok\EditPrilohyFormFactory
 
   - App\AdminModule\Components\User\AddPasswordLess\IAddPasswordLessControl
   - App\AdminModule\Components\User\AddPasswordLess\AddPasswordLessFormFactory
