@@ -10,7 +10,7 @@ use Texy;
 
 /**
  * Prezenter pre pristup k api hlavneho menu a pridružených vecí ako je aj obsah článku.
- * Posledna zmena(last change): 04.04.2022
+ * Posledna zmena(last change): 22.04.2022
  *
  * Modul: API
  *
@@ -18,7 +18,7 @@ use Texy;
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.4
+ * @version 1.0.5
  * 
  * @help 1.) https://forum.nette.org/cs/28370-data-z-post-request-body-reactjs-appka-se-po-ceste-do-php-ztrati
  */
@@ -98,7 +98,7 @@ class MenuPresenter extends BasePresenter {
     $this->sendJson($am);
   }
 
-  /** Vráti jednu položku menu */
+  /** Vráti jednu položku hlavne_menu_lang */
   public function actionGetOneMenuArticle(?int $id = null): void {
     $tmp = $this->hlavne_menu_lang->getOneArticleId($id, 1, $this->id_reg);
     //dumpe($tmp->toArray());
@@ -117,6 +117,22 @@ class MenuPresenter extends BasePresenter {
     
     $this->sendJson([
       'result' => $this->hlavne_menu_lang->saveText($id, $this->lang->getLngId($this->language), $_post['texy']) ? 'OK' : 'ERR'
+    ]);
+  }
+
+  /** Vráti jednu položku hlavne_menu */
+  public function actionGetOneHlavneMenuArticle(?int $id = null): void {
+    $tmp = $this->hlavne_menu->findOneBy(['id' => $id, 'id_user_roles <='.$this->id_reg]);
+    //dumpe($tmp->toArray());
+    $this->sendJson($tmp->toArray());
+  }
+
+  /** Akcia uloží okrajové rámčeky pre položku */
+  public function actionSaveBorder(int $id): void {
+    $_post = json_decode(file_get_contents("php://input"), true); // @help 1.)
+
+    $this->sendJson([
+      'result' => $this->hlavne_menu->changeBorders($_post['borders'], $id)->toArray(),
     ]);
   }
 }

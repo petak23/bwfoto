@@ -43,11 +43,14 @@ class ZmenDatumPlatnostiFormFactory {
          ->addCondition(Form::EQUAL, TRUE)
          ->toggle("platnost-i", TRUE);
     $form->addGroup()->setOption('container', Utils\Html::el('fieldset')->id("platnost-i"));
-		$form->addText('datum_platnosti', 'Dátum platnosti')
-         ->setHtmlType('date')
-         ->setDefaultValue($datum_platnosti->format('Y-m-d'))
-         ->addConditionOn($form['platnost'], Form::EQUAL, TRUE)
-         ->addRule(Form::FILLED, 'Je nutné vyplniť dátum platnosti!');
+		$idp = $form->addText('datum_platnosti', 'Dátum platnosti')
+         ->setHtmlType('date');
+    if ($datum_platnosti != null) {
+      $idp->setDefaultValue($datum_platnosti->format('Y-m-d'));
+    }     
+    $idp->addConditionOn($form['platnost'], Form::EQUAL, TRUE)
+        ->addRule(Form::FILLED, 'Je nutné vyplniť dátum platnosti!');
+         
 		$form->addGroup();
     $form->addSubmit('uloz', 'Zmeň')
          ->setAttribute('class', 'btn btn-success')

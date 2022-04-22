@@ -269,14 +269,18 @@ class Hlavne_menu extends Table {
   
   /**
    * Zmena okrajov
-   * @param Nette\Utils\ArrayHash $values udaje
    * @return Nette\Database\Table\ActiveRow|null */
-  public function changeBorders(Nette\Utils\ArrayHash $values): ?Nette\Database\Table\ActiveRow {
+  public function changeBorders(array $values, int $id): ?Nette\Database\Table\ActiveRow {
     return $this->uloz([
+      'border_a'=>$values['border_a'],
+      'border_b'=>$values['border_b'],
+      'border_c'=>$values['border_c'],
+    ], $id);
+    /*return $this->uloz([
         'border_a'=>$values->border_a_width != 0 ? ($values->border_a_color.'|'.$values->border_a_width) : '#000000|0',
         'border_b'=>$values->border_b_width != 0 ? ($values->border_b_color.'|'.$values->border_b_width) : '#000000|0',
         'border_c'=>$values->border_c_width != 0 ? ($values->border_c_color.'|'.$values->border_c_width) : '#000000|0'
-    ], $values->id);
+    ], $values->id);*/
   }
   
   /**

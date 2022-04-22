@@ -10,10 +10,11 @@
  */
 
 import Vue from 'vue';
-import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
-import singleupload from './components/Uploader/SingleUpload';
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+import singleupload from './components/Uploader/SingleUpload'
 import multipleupload from './components/Uploader/MultipleUpload'
 import lastlogin from './components/MainFrame/LastLogin'
+import colorBorderChange from './components/ColorBorderChange.vue'
 
 
 // Make BootstrapVue available throughout your project
@@ -27,5 +28,6 @@ let vm = new Vue({
     singleupload,
     lastlogin,
     multipleupload,
+    colorBorderChange
   },
 });   

@@ -22,7 +22,6 @@ services:
 
   - App\AdminModule\Components\Article\TitleArticle\ZmenDatumPlatnostiFormFactory
   - App\AdminModule\Components\Article\TitleArticle\ZmenDlzkuNovinkyFormFactory
-  - App\AdminModule\Components\Article\TitleArticle\ZmenOkrajFormFactory
   - App\AdminModule\Components\Article\TitleArticle\ZmenOpravnenieKategoriaFormFactory
   - App\AdminModule\Components\Article\TitleArticle\ZmenOpravnenieNevlastnikovFormFactory
   - App\AdminModule\Components\Article\TitleArticle\ZmenSablonuFormFactory
@@ -36,8 +35,6 @@ services:
 
   - App\AdminModule\Components\User\AddPasswordLess\IAddPasswordLessControl
   - App\AdminModule\Components\User\AddPasswordLess\AddPasswordLessFormFactory
-
-#  - App\AdminModule\Components\Products\ZmenOkrajFormFactory
 
   - App\AdminModule\Forms\Article\IEditMenuFormFactory
 
