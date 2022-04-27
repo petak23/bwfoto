@@ -17,10 +17,11 @@
                 article: $article, 
                 edit_enabled: $user->isLoggedIn() && $user->isAllowed('Front:Clanky', 'edit'),
                 user_admin: $user->isInRole('admin'),
-                basePath: $basePath
+                basePath: $basePath,
+                this_link: $this_link
   }{/embed}
   <span class="popis" n:ifset="$article->text">
-    {$article->text|texy|noescape|obr_v_txt|koncova_znacka}
+    {$article->text|texy|obr_v_txt|koncova_znacka|noescape}
   </span>
 </article>
 <section id="webThumbnails" class="row">

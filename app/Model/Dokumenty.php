@@ -7,13 +7,13 @@ use Nette;
 /**
  * Model, ktory sa stara o tabulku dokumenty
  * 
- * Posledna zmena 03.02.2022
+ * Posledna zmena 27.04.2022
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.1.0
+ * @version    1.1.1
  */
 class Dokumenty extends Table {
   /** @var string */
@@ -117,7 +117,9 @@ class Dokumenty extends Table {
       'id'          => $doc->id,
       'name'        => $doc->name,
       'main_file'   => $doc->main_file,
+      'thumb_file'  => $doc->thumb_file,
       'description' => $doc->description,
+      'type'        => $doc->type,
     ];
   }
 }

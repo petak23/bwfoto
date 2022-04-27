@@ -63,11 +63,11 @@ class PrilohyClanokAControl extends Nette\Application\UI\Control {
                               string $prilohy_adresar,
                               DbTable\Dokumenty $dokumenty, DbTable\Hlavne_menu $hlavne_menu,
                               EditPrilohyFormFactory $editPrilohyFormFactory,
-                              AddMultiPrilohyFormFactory $addMultiPrilohyFormFactory, 
+                              //AddMultiPrilohyFormFactory $addMultiPrilohyFormFactory, 
                               User $user) {
     $this->dokumenty = $dokumenty;
     $this->editPrilohyForm = $editPrilohyFormFactory;
-    $this->addMultiPrilohyForm = $addMultiPrilohyFormFactory;
+    //$this->addMultiPrilohyForm = $addMultiPrilohyFormFactory;
     $this->user = $user;
     $this->hlavne_menu = $hlavne_menu;
     $this->prilohy_images = $prilohy_images;
@@ -224,14 +224,14 @@ class PrilohyClanokAControl extends Nette\Application\UI\Control {
   /** 
    * Komponenta formulara pre pridanie viacerich prílohy polozky.
    * @return Nette\Application\UI\Form */
-  public function createComponentAddMultiPrilohyForm(): Nette\Application\UI\Form {
+  /*public function createComponentAddMultiPrilohyForm(): Nette\Application\UI\Form {
     $form = $this->addMultiPrilohyForm->create();
     $form->setDefaults(["id"=>0, "id_hlavne_menu"=>$this->clanok->id_hlavne_menu, "id_user_roles"=>$this->clanok->hlavne_menu->id_user_roles]);
     $form['uloz']->onClick[] = function ($button) { 
       $this->presenter->flashOut(!count($button->getForm()->errors), ['this',['tab'=>'prilohy-tab']], 'Prílohy boli úspešne uložené!', 'Došlo k chybe a zmena sa neuložila. Skúste neskôr znovu...');
 		};
     return $this->presenter->_vzhladForm($form);
-  }
+  }*/
   
   public function handleShowInText(int $id): void {
     $priloha = $this->dokumenty->find($id);

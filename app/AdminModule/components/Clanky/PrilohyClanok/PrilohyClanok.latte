@@ -58,8 +58,14 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       </div>
       <div class="modal-body">
-        {control editPrilohyForm}
-        {*<singleupload api-url="{$prilohy_adresar}" path="{$basePath}/" id="single-uploader-component" />*}
+        {*control editPrilohyForm*}
+        <single-upload 
+          api-url="api/documents/save"
+          base-path="{$basePath}" 
+          id="single-uploader-component"
+          back-link="{link this}"
+          id_hlavne_menu="{$clanok->id_hlavne_menu}"
+        />
       </div>
     </div>
   </div>
@@ -67,15 +73,21 @@
       
 {* -- Modal dialog pre pridanie viacerích priloh -- *}
 <div class="modal fade" id="myModalAddMultiPrilohaChange" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" n:if="$admin_links_prilohy['elink']" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
     <div class="modal-content">
       <div class="modal-header text-white bg-primary">
-        <h4 class="modal-title" id="myModalLabel">Pridanie viacerích príloh k položke: {$clanok->view_name}</h4>
+        <h4 class="modal-title" id="myModalLabel">Pridanie viacerích príloh</h4>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       </div>
       <div class="modal-body">
         {*control addMultiPrilohyForm*}
-        <multipleupload api-url="{$prilohy_adresar}" path="{$basePath}/" id="multiple-uploader-component" />
+        <multiple-upload 
+          api-url="api/documents" 
+          base-path="{$basePath}"
+          id="multiple-uploader-component" 
+          back-link="{link this}"
+          id_hlavne_menu="{$clanok->id_hlavne_menu}"
+        />
       </div>
     </div>
   </div>

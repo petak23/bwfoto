@@ -33,7 +33,6 @@
 		"ublaboo/datagrid": "^6.2",
 		"ublaboo/datagrid-nette-database-data-source": "^2.0",
 		"texy/texy": "^3.1",
-		"ijvo/jquery-fileupload": "^2.1",
 		"dg/adminer-custom": "^1.24",
 		"contributte/webpack": "^2.0"
 	},

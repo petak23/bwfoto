@@ -11,8 +11,8 @@
 
 import Vue from 'vue';
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
-import singleupload from './components/Uploader/SingleUpload'
-import multipleupload from './components/Uploader/MultipleUpload'
+import SingleUpload from './components/Uploader/SingleUpload'
+import MultipleUpload from './components/Uploader/MultipleUpload'
 import lastlogin from './components/MainFrame/LastLogin'
 import colorBorderChange from './components/ColorBorderChange.vue'
 
@@ -25,9 +25,9 @@ Vue.use(IconsPlugin);
 let vm = new Vue({
   el: '#vueapp',
   components: { 
-    singleupload,
+    SingleUpload,
     lastlogin,
-    multipleupload,
+    MultipleUpload,
     colorBorderChange
   },
 });   

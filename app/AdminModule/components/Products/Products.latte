@@ -28,7 +28,13 @@
       </div>
       <div class="modal-body">
         {* control addMultiProductsForm *}
-        <multipleupload api-url="{$dir_to_products}" path="{$basePath}/" id="multiple-uploader-component" />
+        <multiple-upload 
+          api-url="api/products/save" 
+          base-path="{$basePath}"
+          id="multiple-uploader-component" 
+          back-link="{link this}"
+          id_hlavne_menu="{$clanok->id_hlavne_menu}"
+        />
       </div>
     </div>
   </div>

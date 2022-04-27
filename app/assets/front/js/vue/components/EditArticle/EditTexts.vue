@@ -12,11 +12,13 @@
  */
 import axios from 'axios'
 import _ from 'lodash'
+import Verte from 'verte'
 
 //for Tracy Debug Bar
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 export default {
+  components: { Verte },
   props: {
     id_hlavne_menu: String,
     basepath: String,
@@ -26,7 +28,8 @@ export default {
     return {
       textin: '',
       preview: '',
-      show: true
+      show: true,
+      color: '',
     }
   },
   methods: {
@@ -77,8 +80,20 @@ export default {
       id = (id > 4 || id < 1) ? 1 : id
       this.insertSomething(a[id] + "\n")
     },
+    insertHr() {
+      this.insertSomething("\n------------\n")
+    },
     insertListUl() {
       this.insertSomething("- \n- \n- \n")
+    },
+    insertListOl() {
+      this.insertSomething("1) \n2) \n3) \n")
+    },
+    insertLink() {
+      this.insertSomething('"', '":[http://www.odkaz.sk]')
+    },
+    insertColor() {
+      //...
     },
     insertSomething(valueBefore, valueAfter = null) {
         let textArea = document.getElementsByName('texyla')[0];
@@ -172,17 +187,17 @@ export default {
             </b-button>
           </b-button-group>
           <b-button-group size="sm" class="mx-1">
-            <b-button variant="outline-info">
+            <b-button variant="outline-info" @click="insertHr" title="Horizontálna čiara">
               <i class="fa-solid fa-ruler-horizontal"></i>
             </b-button>
             <b-button variant="outline-info" @click="insertListUl" title="Nečíslovaný zoznam">
               <i class="fa-solid fa-list-ul"></i>
             </b-button>
-            <b-button variant="outline-info">
+            <b-button variant="outline-info" @click="insertListOl" title="Číslovaný zoznam">
               <i class="fa-solid fa-list-ol"></i>
             </b-button>
-            <b-button variant="outline-info">
-              <i class="fa-solid fa-image"></i>
+            <b-button variant="outline-info" @click="insertLink" title="Odkaz">
+              <i class="fa-solid fa-link"></i>
             </b-button>
           </b-button-group>
           <b-button-group size="sm" class="mx-1">
@@ -211,6 +226,15 @@ export default {
               </b-dropdown-item>
             </b-dropdown>
             
+          </b-button-group>
+          <b-button-group size="sm" class="mx-1">
+            <b-button variant="outline-info" @click="insertColor" title="Vlož farbu">
+              
+              <verte v-model="color" model="hex">
+                <i class="fa-solid fa-palette"></i>
+              </verte>
+
+            </b-button>
           </b-button-group>
         </b-button-toolbar>
       

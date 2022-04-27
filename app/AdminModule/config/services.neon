@@ -94,21 +94,16 @@ services:
   - App\AdminModule\Components\User\ContactCategori\IContactCategoriControl
   - App\AdminModule\Components\User\IKontaktControl
 
-extensions:
-  fileUpload: Zet\FileUpload\FileUploadExtension
 
-fileUpload:
-	maxFiles: 30
-	fileFilter: Zet\FileUpload\Filter\ImageFilter
-	uploadModel: DbTable\Products
-	renderer: App\AdminModule\Forms\Products\Bootstrap4Renderer
-	messages:
-		maxFiles: "Presiahli ste max. počet naraz nahrávaných súborov. Naraz môžete nahrať max {maxFiles} súborov."
-		maxSize: "Presiahli ste max. veľkosť nahrávaného súboru, ktorá je {maxSize}."
-		fileTypes: "Povolené typy súborov sú {fileTypes}."
-		fileSize: "Súbor je príliš veľký."
-		partialUpload: "Súbor bol nahraný len čiastočne."
-		noFile: "Nebyl nahraný žiaden súbor."
-		tmpFolder: "Chyba dočasný adresár!"
-		cannotWrite: "Nepodarilo sa zapísať súbor na disk."
-		stopped: "Nahrávanie súboru bolo prerušené."
+#fileUpload:
+#	maxFiles: 30
+#	messages:
+#		maxFiles: "Presiahli ste max. počet naraz nahrávaných súborov. Naraz môžete nahrať max {maxFiles} súborov."
+#		maxSize: "Presiahli ste max. veľkosť nahrávaného súboru, ktorá je {maxSize}."
+#		fileTypes: "Povolené typy súborov sú {fileTypes}."
+#		fileSize: "Súbor je príliš veľký."
+#		partialUpload: "Súbor bol nahraný len čiastočne."
+#		noFile: "Nebyl nahraný žiaden súbor."
+#		tmpFolder: "Chyba dočasný adresár!"
+#		cannotWrite: "Nepodarilo sa zapísať súbor na disk."
+#		stopped: "Nahrávanie súboru bolo prerušené."

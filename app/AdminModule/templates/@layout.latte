@@ -31,8 +31,6 @@
 	<meta name="author" content="{$udaje['autor']}" />
 	<title>{$udaje['titulka']} - Administracia</title>
   <link rel="stylesheet" type="text/css" href="{webpack admin.css}">
-  <!-- upload -->
-  {* \Zet\FileUpload\FileUploadControl::getHead($basePath . '/vendor/ijvo/jquery-fileupload/src/www/')*}
   {block spec_css}{/block}
 	
   {control favicon}
@@ -66,10 +64,10 @@
                 </a>
               </li>
               <li class="nav-item" class="nav-link" n:if="$user->isInRole('admin')">
-                <a href="https://getbootstrap.com/" class="nav-link" title="Bootstrao 4" target="_blank">Bootstrap 4</a>
+                <a href="https://getbootstrap.com/" class="nav-link" title="Bootstrap" target="_blank">Bootstrap</a>
               </li>
               <li class="nav-item">
-                <a href="http://fontawesome.io/icons/" class="nav-link" title="FontAwesome 5" target="_blank"><i class="fas fa-flag"></i></a>
+                <a href="https://fontawesome.com/search?m=free" class="nav-link" title="FontAwesome" target="_blank"><i class="fas fa-flag"></i></a>
               </li>
               <li class="nav-item"  class="nav-link" n:if="$user->isInRole('admin')">
                 <a href="{$basePath}/www/adminer/?server={$udaje['host']}&db={$udaje['dbname']}" class="nav-link" title="Adminer" target="_blank"><i class="fas fa-database"></i></a>

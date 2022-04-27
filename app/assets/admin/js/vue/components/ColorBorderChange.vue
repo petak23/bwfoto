@@ -57,7 +57,7 @@ export default {
   },
   methods: {
     async save() {
-      console.log(this.border_a_l)
+      //console.log(this.border_a_l)
       this.$bvModal.hide('modalBorderChange')
       let odkaz = this.basePath + '/api/menu/saveborder/' + this.idHlavneMenu
       let vm = this
@@ -82,7 +82,7 @@ export default {
       this.$bvModal.hide('modalBorderChange')
     },
     dataSet(data) {
-      console.log(data)
+      //console.log(data)
       this.border_a_c = data.border_a != null ? data.border_a.split('|')[0] : '#cc0000'
       this.border_a_w = data.border_a != null ? data.border_a.split('|')[1] : '1'
       this.border_b_c = data.border_a != null ? data.border_b.split('|')[0] : '#00cc00'

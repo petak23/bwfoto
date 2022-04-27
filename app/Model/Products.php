@@ -4,20 +4,19 @@ namespace DbTable;
 
 use Nette;
 use Nette\Utils;
-use Zet\FileUpload\Model;
 
 /**
  * Model, ktory sa stara o tabulku products
  * 
- * Posledna zmena 08.03.2022
+ * Posledna zmena 27.04.2022
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.7
+ * @version    1.0.8
  */
-class Products extends Table implements Model\IUploadModel {
+class Products extends Table {
   /** @var string */
   protected $tableName = 'products';
 
