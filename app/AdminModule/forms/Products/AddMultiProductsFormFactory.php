@@ -49,7 +49,7 @@ class AddMultiProductsFormFactory {
     $form->addSubmit('ulozz', 'Ukonč')
          ->setHtmlAttribute('class', 'btn btn-success')
          ->onClick[] = [$this, 'productsFormSubmitted'];
-    $form->addFileUpload("uploader")
+    /*$form->addFileUpload("uploader")
          ->setMaxFiles((int)$this->products_settings["product_max_upload_files"])
          ->setFileFilter('\Zet\FileUpload\Filter\ImageFilter')
          ->setParams(['products_settings' => $this->products_settings,
@@ -65,7 +65,7 @@ class AddMultiProductsFormFactory {
                          $form['uploader']->getFileSizeString(), 
                          $form['uploader']->getMaxFiles()
                         )
-                );
+                );*/
 		$form->addSubmit('ulozk', 'Ukonč')
          ->setHtmlAttribute('class', 'btn btn-success')
          ->onClick[] = [$this, 'productsFormSubmitted'];

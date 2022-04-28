@@ -8,13 +8,13 @@ use Nette\Utils;
 /**
  * Model, ktory sa stara o tabulku products
  * 
- * Posledna zmena 27.04.2022
+ * Posledna zmena 28.04.2022
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.8
+ * @version    1.0.9
  */
 class Products extends Table {
   /** @var string */
@@ -46,14 +46,12 @@ class Products extends Table {
     return $this->uloz($data, $id);
   }
   
-  // --- Funkcie pre upload ---
   /**
-	 * Ulozenie nahravaneho suboru.
+	 * Ulozenie nahravaneho suboru cez vue uploader.
 	 * @param Nette\Http\FileUpload $file
 	 * @param array $params Pole vlastnych hodnot.
 	 * @return int Id ulozenej polozky ulozena v DB. */
-  public function save(Nette\Http\FileUpload $file, array $params = []): int {
-    $tmp_dir = $this->dir_to_products."tmp/";
+  public function saveUpload(Nette\Http\FileUpload $file, array $params = []): int {
     $fileName = $file->getSanitizedName();
     $pi = pathinfo($fileName);
 		$fname = $pi['filename'];
@@ -64,8 +62,8 @@ class Products extends Table {
 			} while (file_exists($this->dir_to_products.$fname.$additionalToken.".".$ext));
     }
 		$finalFileName = ($additionalToken == 0) ? $fname : $fname.$additionalToken;
-    $image_name = $tmp_dir.$finalFileName.".". $ext;
-    $thumb_name = $tmp_dir.'tb_'.$finalFileName.".". $ext;
+    $image_name = $this->dir_to_products.$finalFileName.".". $ext;
+    $thumb_name = $this->dir_to_products.'tb_'.$finalFileName.".". $ext;
 
     $file->move($image_name);
     $image = Utils\Image::fromFile($image_name);
@@ -96,23 +94,27 @@ class Products extends Table {
 	 * Zpracování přejmenování souboru.
 	 * @param $upload Hodnota navrácená funkcí save.
 	 * @param $newName Nové jméno souboru.
-	 * @return mixed Vlastní návratová hodnota. */
+	 * @return mixed Vlastní návratová hodnota. 
+   * @todo ---------- Nedokončené ------------
+   * */
   public function rename($upload, $newName) {
     return $upload;
   }
 
 	/**
 	 * Zpracování požadavku o smazání souboru.
-	 * @param $uploaded Hodnota navrácená funkcí save. */
-  public function remove($uploaded) {
-    $pr = $this->find($uploaded);
+	 * @param $id Id mazaného produktu. 
+   * @return bool Ak zmaze alebo neexistuje(nie je co mazat) tak true inak false */
+  public function remove(int $id): bool {
+    $pr = $this->find($id);
     if ($pr !== null) {
-      $vysledok = $this->_vymazSubor($pr->main_file) ? $this->_vymazSubor($pr->thumb_file) : FALSE;
+      $vysledok = $this->_vymazSubor($pr->main_file) ? $this->_vymazSubor($pr->thumb_file) : false;
       if ($vysledok) {
         $pr->delete();
+        return true;
       }
     }
-    return true;
+    return false;
   }
   
   /** 
@@ -141,5 +143,19 @@ class Products extends Table {
       ];
     }
     return $out;
+  }
+
+  /**
+   * Vráti konkrétny produkt s daným id 
+   * @param int $id Id produktu */
+  public function getProduct(int $id): array {
+    $p = $this->find($id);
+    return [
+      'id'          => $p->id,
+      'name'        => $p->name,
+      'main_file'   => $p->main_file,
+      'thumb_file'  => $p->thumb_file,
+      'description' => $p->description,
+    ];
   }
 }

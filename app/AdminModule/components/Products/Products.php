@@ -29,14 +29,14 @@ class ProductsControl extends Nette\Application\UI\Control {
   /** @var DbTable\Products */
   public $products;
   /** @var string $nazov_stranky */
-  private $nazov_stranky;
+  //private $nazov_stranky;
   /** @var Nette\Database\Table\ActiveRow $clanok Info o clanku */
   private $clanok;
   /** @var int */
-  private $upload_size;
+  //private $upload_size;
 
   /** &var AddMultiProductsFormFactory */
-  public $addMultiProductsForm;
+  //public $addMultiProductsForm;
   /** @var array */
   private $admin_links;
   /** @var Nette\Security\User */
@@ -69,7 +69,7 @@ class ProductsControl extends Nette\Application\UI\Control {
                               string $dir_to_products,
                               DbTable\Hlavne_menu $hlavne_menu,
                               DbTable\Products $products, 
-                              \App\AdminModule\Forms\Products\AddMultiProductsFormFactory $addMultiProductsFormFactory,
+                              //\App\AdminModule\Forms\Products\AddMultiProductsFormFactory $addMultiProductsFormFactory,
                               User $user,
                               Nette\Http\Request $request
                               ) {
@@ -78,7 +78,7 @@ class ProductsControl extends Nette\Application\UI\Control {
     $this->dir_to_products = $dir_to_products;
     $this->hlavne_menu = $hlavne_menu;
     $this->products = $products;
-    $this->addMultiProductsForm = $addMultiProductsFormFactory;
+    //$this->addMultiProductsForm = $addMultiProductsFormFactory;
     $this->user = $user;
     $this->httpRequest = $request;
   }
@@ -148,11 +148,11 @@ class ProductsControl extends Nette\Application\UI\Control {
           });
     $grid->addColumnText('name', 'Názov')
           ->setEditableCallback(function($id, $value) {
-            $this->products->oprav($id, ['name'=>$value]);
+            $this->products->repair($id, ['name'=>$value]);
           });
     $grid->addColumnText('description', 'Popis')
           ->setEditableCallback(function($id, $value) {
-            $this->products->oprav($id, ['description'=>$value]);
+            $this->products->repair($id, ['description'=>$value]);
           });
     if ($this->admin_links['dlink']) {
       $grid->addAction('delete', '', 'confirmedDelete!')
@@ -187,7 +187,7 @@ class ProductsControl extends Nette\Application\UI\Control {
   /** 
    * Komponenta formulara pre pridanie viacerich produktov polozky.
    * @return Nette\Application\UI\Form */
-  public function createComponentAddMultiProductsForm(): Nette\Application\UI\Form {
+  /*public function createComponentAddMultiProductsForm(): Nette\Application\UI\Form {
     $form = $this->addMultiProductsForm->create($this->clanok);
     $form->setDefaults(["id"=>0, "id_hlavne_menu"=>$this->clanok->id_hlavne_menu, "id_user_roles"=>$this->clanok->hlavne_menu->id_user_roles]);
     $form['ulozz']->onClick[] = function () { 
@@ -197,7 +197,7 @@ class ProductsControl extends Nette\Application\UI\Control {
       $this->presenter->redirect('this',['tab'=>'products-tab']);
 		};
     return $this->makeBootstrap4($form);
-  }
+  }*/
   
   /** 
    * Spracovanie signálu vymazavania
@@ -234,7 +234,7 @@ class ProductsControl extends Nette\Application\UI\Control {
    * Vzhlad formularov v style Bootstrap 4
    * @param Nette\Application\UI\Form $form
    * @return \Nette\Application\UI\Form */
-  function makeBootstrap4(Nette\Application\UI\Form $form): Nette\Application\UI\Form {
+  /*function makeBootstrap4(Nette\Application\UI\Form $form): Nette\Application\UI\Form {
     $renderer = $form->getRenderer();
     $renderer->wrappers['controls']['container'] = null;
     $renderer->wrappers['pair']['container'] = 'div class="form-group row"';
@@ -268,7 +268,7 @@ class ProductsControl extends Nette\Application\UI\Control {
       }
     }
     return $form;
-  }
+  }*/
 }
 
 interface IProductsControl {

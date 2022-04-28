@@ -1,3 +1,105 @@
+<script>
+/**
+ * Komponenta pre multiupload súborov.
+ * Posledna zmena 28.04.2022
+ * 
+ * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
+ * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
+ * @license
+ * @link       http://petak23.echo-msz.eu
+ * @version    1.0.1
+ */
+
+import _ from "lodash";
+import axios from 'axios';
+
+export default {
+  props: {
+    apiUrl: {  // Relatívna adresa pre API
+      type: String,
+      required: true,
+    },
+    basePath: {
+      type: String,
+      required: true,
+    },
+    id: {   // Id komponenty
+      type: String,
+      default: "multiple-uploader-component",
+    },
+    id_hlavne_menu: { // Id článku, ku ktorému nahrávam súbory
+      type: String,
+      required: true,
+    },
+    backLink: { // Link na presmerovanie po úspešnom nahratí
+      type: String,
+      required: true,
+    }
+  },
+  data: () => ({
+    value: 0,
+    max: 100,
+    files: null,
+    isUploading: false,
+    uploadedImages: [],
+  }),
+  methods: {
+    async imagesInserted() {
+      this.files = this.$refs.imageUploader.files;
+      await this.uploadImagesMethod();
+    },
+    async uploadImagesMethod() {
+      let formData = new FormData();
+      _.forEach(this.files, (file) => {
+        formData.append("files[]", file);
+      });
+      this.isUploading = true;
+      let odkaz = this.basePath + "/" + this.apiUrl + "/save/" + this.id_hlavne_menu
+      //let _this = this
+      await axios.post(odkaz, formData, {  
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        onUploadProgress: ({ total, loaded }) => {
+          this.value = (loaded / total).toFixed(2) * 100;
+        },
+      })
+      .then(response => {
+        _.forEach(response.data.data, (file) => {
+          this.uploadedImages.push(file)
+        })
+        this.files = null;
+        this.isUploading = false;
+        this.$refs.imageUploader.value = null;
+
+      })
+      .catch((error) => {
+        console.log(odkaz);
+        console.log(error);
+      });
+    },
+    deleteFile(id) {
+      console.log(id)
+      let odkaz =  this.basePath + "/" + this.apiUrl + "/delete/" + id
+
+      axios.get(odkaz)
+              .then(response => {
+                console.log(response.data)
+                //this.uploadedImages
+              })
+              .catch((error) => {
+                console.log(this.odkaz);
+                console.log(error);
+              });
+    },
+    close() {
+      // https://stackoverflow.com/questions/35664550/vue-js-redirection-to-another-page
+      window.location.href = this.backLink;
+    },
+  },
+};
+</script>
+
 <template>
   <div class="multiple-upload">
     <div class="d-flex justify-content-around">
@@ -38,100 +140,6 @@
     </div>
   </div>
 </template>
-
-<script>
-import _ from "lodash";
-import axios from 'axios';
-export default {
-  props: {
-    apiUrl: {
-      type: String,
-      required: true,
-    },
-    basePath: {
-      type: String,
-      required: true,
-    },
-    id: {
-      type: String,
-      required: true,
-    },
-    id_hlavne_menu: {
-      type: String,
-      required: true,
-    },
-    backLink: String,
-  },
-  data: () => ({
-    value: 0,
-    max: 100,
-    files: null,
-    isUploading: false,
-    uploadedImages: [],
-  }),
-  methods: {
-    async imagesInserted() {
-      this.files = this.$refs.imageUploader.files;
-      await this.uploadImagesMethod();
-    },
-    async uploadImagesMethod() {
-      let formData = new FormData();
-      //console.log("FILES", this.files);
-      _.forEach(this.files, (file) => {
-        formData.append("priloha[]", file);
-      });
-      this.isUploading = true;
-      let odkaz = this.basePath + "/" + this.apiUrl + "/save/" + this.id_hlavne_menu
-      let _this = this
-      await axios.post(odkaz, formData, {
-      //let { data } = await API.post(this.apiUrl + 'tmp/', formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        onUploadProgress: ({ total, loaded }) => {
-          this.value = (loaded / total).toFixed(2) * 100;
-        },
-      })
-      .then(response => {
-        _.forEach(response.data.data, (file) => {
-          this.uploadedImages.push(file)
-        })
-        this.files = null;
-        this.isUploading = false;
-        this.$refs.imageUploader.value = null;
-
-      })
-      .catch((error) => {
-        console.log(odkaz);
-        console.log(error);
-      });
-      /*this.uploadedImages = [...this.uploadedImages, ...data];
-      console.log(this.uploadedImages)
-      this.files = null;
-      this.isUploading = false;
-      this.$refs.imageUploader.value = null;*/
-    },
-    deleteFile(id) {
-      console.log(id)
-      let odkaz =  this.basePath + "/" + this.apiUrl + "/delete/" + id
-
-      axios.get(odkaz)
-              .then(response => {
-                console.log(response.data)
-                //this.uploadedImages
-              })
-              .catch((error) => {
-                console.log(this.odkaz);
-                console.log(error);
-              });
-    },
-    close() {
-      // https://stackoverflow.com/questions/35664550/vue-js-redirection-to-another-page
-      window.location.href = this.backLink;
-    },
-  },
-};
-</script>
 
 <style lang="scss" scoped>
 .multiple-upload {

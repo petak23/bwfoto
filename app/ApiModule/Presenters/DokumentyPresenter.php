@@ -3,14 +3,14 @@ namespace App\ApiModule\Presenters;
 
 use DbTable;
 use Nette\Http\FileUpload;
-use Nette\Utils\ArrayHash;
+//use Nette\Utils\ArrayHash;
 use Nette\Utils\Image;
 use Nette\Utils\Strings;
 
 
 /**
  * Prezenter pre pristup k api dokumentov.
- * Posledna zmena(last change): 27.04.2022
+ * Posledna zmena(last change): 28.04.2022
  *
  * Modul: API
  *
@@ -18,7 +18,7 @@ use Nette\Utils\Strings;
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.2
+ * @version 1.0.3
  */
 class DokumentyPresenter extends BasePresenter {
 
@@ -74,13 +74,13 @@ class DokumentyPresenter extends BasePresenter {
 
     if (is_array($files['priloha'])) { //MultiUpload
       $upload = [
-        'status'  => 202,
+        'status'  => 200,
         'data'    => [],
       ];
       foreach ($files['priloha'] as $file) {
         $_up = $this->_saveDocument($file, 0, $data_save);  
         if ($_up == null) {
-          $upload['status'] = 210;
+          $upload['status'] = 500;
           $upload['data'][] = null;
         } else {
           $upload['data'][] = $_up;
@@ -88,7 +88,7 @@ class DokumentyPresenter extends BasePresenter {
       }
     } else {  // SingleUpload
       $_up = $this->_saveDocument($files['priloha'], isset($values['id']) ? $values['id'] : 0, $data_save);
-      $upload = $_up !== null ? ['status'=>202, 'data'=>$_up] : ['status'=>404, 'data'=>null];
+      $upload = $_up !== null ? ['status'=>200, 'data'=>$_up] : ['status'=>500, 'data'=>null];
     }
 
     if ($this->isAjax()) {
@@ -117,7 +117,7 @@ class DokumentyPresenter extends BasePresenter {
 
     $vysledok = $this->documents->uloz($data_save, $id_doc);
     if (!empty($vysledok) && isset($file_info['is_image']) && $file_info['is_image']) { 
-        $this->documents->oprav($vysledok['id'], ['znacka'=>'#I-'.$vysledok['id'].'#']);
+        $this->documents->repair($vysledok['id'], ['znacka'=>'#I-'.$vysledok['id'].'#']);
     }
 
     return !empty($vysledok) ? $this->documents->getDocument($vysledok['id']) : null;
@@ -160,7 +160,7 @@ class DokumentyPresenter extends BasePresenter {
         $thumb->resize($this->nastavenie['prilohy_images']['tx'], $this->nastavenie['prilohy_images']['ty'], Image::SHRINK_ONLY);// | Image::EXACT
         $thumb->save($thumb_name, $this->nastavenie['prilohy_images']['tkvalita']);
       } else {*/ // Ak nemam nahlad
-        $thumb_name = is_file($this->wwwDir. "/ikonky/Free-file-icons-master/48px/". $fname['extension'].".png") ? "www/ikonky/Free-file-icons-master/48px/". $pi['extension'].".png" : NULL;
+        $thumb_name = is_file($this->wwwDir. "/ikonky/Free-file-icons-master/48px/". $fname['extension'].".png") ? "www/ikonky/Free-file-icons-master/48px/". $fname['extension'].".png" : NULL;
       //}
     }
   
@@ -219,13 +219,13 @@ class DokumentyPresenter extends BasePresenter {
   /** Vymazanie dokumentu z DB 
    * @param int $id Iddokumentu */
   public function actionDelete(int $id) {
-    if ($this->getUser()->isLoggedIn() && $user->isAllowed($this->name, $this->action)) { //Preventývna kontrola
+    if ($this->getUser()->isLoggedIn() && $this->getUser()->isAllowed($this->name, $this->action)) { //Preventývna kontrola
       $pr = $this->dokumenty->find($id);//najdenie dokumentu
       $id_hl_m = $pr->id_hlavne_menu;
       $vysledok = $this->_vymazSubor($pr->main_file) ? (in_array(strtolower($pr->pripona), ['png', 'gif', 'jpg']) ? $this->_vymazSubor($pr->thumb_file) : true) : false;
-      $out = ($vysledok ? $pr->delete() : false) ? ['status'=>202, 'data'=>'OK'] : ['status'=>404, 'data'=>null];
+      $out = ($vysledok ? $pr->delete() : false) ? ['status'=>200, 'data'=>'OK'] : ['status'=>500, 'data'=>null];
     } else {
-      $out = ['status'=>404, 'data'=>null];
+      $out = ['status'=>401, 'data'=>null]; //401 Unauthorized (RFC 7235) Používaný tam, kde je vyžadovaná autorizácia, ale zatiaľ nebola vykonaná. 
     }
 
     if ($this->isAjax()) {
