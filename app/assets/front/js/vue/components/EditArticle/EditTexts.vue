@@ -230,9 +230,9 @@ export default {
           <b-button-group size="sm" class="mx-1">
             <b-button variant="outline-info" @click="insertColor" title="Vlož farbu">
               
-              <verte v-model="color" model="hex">
+              <!--verte v-model="color" model="hex">
                 <i class="fa-solid fa-palette"></i>
-              </verte>
+              </verte -->
 
             </b-button>
           </b-button-group>

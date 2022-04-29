@@ -29,11 +29,11 @@ class ProductsControl extends Nette\Application\UI\Control {
   /** @var DbTable\Products */
   public $products;
   /** @var string $nazov_stranky */
-  //private $nazov_stranky;
+  private $nazov_stranky;
   /** @var Nette\Database\Table\ActiveRow $clanok Info o clanku */
   private $clanok;
   /** @var int */
-  //private $upload_size;
+  private $upload_size;
 
   /** &var AddMultiProductsFormFactory */
   //public $addMultiProductsForm;
