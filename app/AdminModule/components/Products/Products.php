@@ -15,13 +15,13 @@ use Ublaboo\DataGrid\Localization\SimpleTranslator;
 /**
  * Komponenta pre spravu produktov clanku.
  * 
- * Posledna zmena(last change): 08.03.2022
+ * Posledna zmena(last change): 03.05.2022
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
  * @copyright Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.6
+ * @version 1.1.7
  */
 
 class ProductsControl extends Nette\Application\UI\Control {
@@ -35,8 +35,6 @@ class ProductsControl extends Nette\Application\UI\Control {
   /** @var int */
   private $upload_size;
 
-  /** &var AddMultiProductsFormFactory */
-  //public $addMultiProductsForm;
   /** @var array */
   private $admin_links;
   /** @var Nette\Security\User */
@@ -61,7 +59,6 @@ class ProductsControl extends Nette\Application\UI\Control {
    * @param string $wwwDir 
    * @param DbTable\Hlavne_menu $hlavne_menu
    * @param DbTable\Products $products
-   * @param \App\AdminModule\Forms\Products\AddMultiProductsFormFactory $addMultiProductsFormFactory
    * @param User $user
    * @param Nette\Http\Request $request */
   public function __construct(array $texts_for_translator,
@@ -69,7 +66,6 @@ class ProductsControl extends Nette\Application\UI\Control {
                               string $dir_to_products,
                               DbTable\Hlavne_menu $hlavne_menu,
                               DbTable\Products $products, 
-                              //\App\AdminModule\Forms\Products\AddMultiProductsFormFactory $addMultiProductsFormFactory,
                               User $user,
                               Nette\Http\Request $request
                               ) {
@@ -78,7 +74,6 @@ class ProductsControl extends Nette\Application\UI\Control {
     $this->dir_to_products = $dir_to_products;
     $this->hlavne_menu = $hlavne_menu;
     $this->products = $products;
-    //$this->addMultiProductsForm = $addMultiProductsFormFactory;
     $this->user = $user;
     $this->httpRequest = $request;
   }
@@ -113,7 +108,7 @@ class ProductsControl extends Nette\Application\UI\Control {
                   "text"    => "Pridaj produkt"
                   ],
       "elink" => $opravnenie_edit && $this->user->isAllowed($name, 'edit'),
-      "dlink" => $opravnenie_del && $this->user->isAllowed($name, 'del') && !$this->hlavne_menu->maPodradenu($this->clanok->id_hlavne_menu),
+      "dlink" => $opravnenie_del && $this->user->isAllowed($name, 'del'),
       "vlastnik" => $vlastnik,
     ];
     return $this;
@@ -185,21 +180,6 @@ class ProductsControl extends Nette\Application\UI\Control {
   }
   
   /** 
-   * Komponenta formulara pre pridanie viacerich produktov polozky.
-   * @return Nette\Application\UI\Form */
-  /*public function createComponentAddMultiProductsForm(): Nette\Application\UI\Form {
-    $form = $this->addMultiProductsForm->create($this->clanok);
-    $form->setDefaults(["id"=>0, "id_hlavne_menu"=>$this->clanok->id_hlavne_menu, "id_user_roles"=>$this->clanok->hlavne_menu->id_user_roles]);
-    $form['ulozz']->onClick[] = function () { 
-      $this->presenter->redirect('this',['tab'=>'products-tab']);
-		};
-    $form['ulozk']->onClick[] = function () { 
-      $this->presenter->redirect('this',['tab'=>'products-tab']);
-		};
-    return $this->makeBootstrap4($form);
-  }*/
-  
-  /** 
    * Spracovanie signálu vymazavania
 	 * @param int $id Id polozky */
 	function handleConfirmedDelete(int $id): void	{
@@ -229,46 +209,6 @@ class ProductsControl extends Nette\Application\UI\Control {
 	private function _vymazSubor(string $subor): bool {
 		return (is_file($subor)) ? unlink($this->wwwDir."/".$subor) : true;
 	}
-  
-  /**
-   * Vzhlad formularov v style Bootstrap 4
-   * @param Nette\Application\UI\Form $form
-   * @return \Nette\Application\UI\Form */
-  /*function makeBootstrap4(Nette\Application\UI\Form $form): Nette\Application\UI\Form {
-    $renderer = $form->getRenderer();
-    $renderer->wrappers['controls']['container'] = null;
-    $renderer->wrappers['pair']['container'] = 'div class="form-group row"';
-    $renderer->wrappers['pair']['.error'] = 'has-danger';
-    $renderer->wrappers['control']['container'] = 'div class=col-sm-9';
-    $renderer->wrappers['label']['container'] = 'div class="col-sm-3 col-form-label"';
-    $renderer->wrappers['control']['description'] = 'div class="help-block alert alert-info"';
-    $renderer->wrappers['control']['errorcontainer'] = 'span class=form-control-feedback';
-    $renderer->wrappers['control']['.error'] = 'is-invalid';
-
-    foreach ($form->getControls() as $control) {
-      $type = $control->getOption('type');
-      if ($type === 'button') {
-        $control->getControlPrototype()->addClass(empty($usedPrimary) ? 'btn btn-primary' : 'btn btn-secondary');
-        $usedPrimary = true;
-
-      } elseif (in_array($type, ['text', 'textarea', 'select'], true)) {
-        $control->getControlPrototype()->addClass('form-control');
-
-      } elseif ($type === 'file') {
-        $control->getControlPrototype()->addClass('form-control-file');
-
-      } elseif (in_array($type, ['checkbox', 'radio'], true)) {
-        if ($control instanceof Nette\Forms\Controls\Checkbox) {
-          $control->getLabelPrototype()->addClass('form-check-label');
-        } else {
-          $control->getItemLabelPrototype()->addClass('form-check-label');
-        }
-        $control->getControlPrototype()->addClass('form-check-input');
-        $control->getSeparatorPrototype()->setName('div')->addClass('form-check');
-      }
-    }
-    return $form;
-  }*/
 }
 
 interface IProductsControl {

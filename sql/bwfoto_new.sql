@@ -1,4 +1,4 @@
--- Adminer 4.8.1 MySQL 5.5.5-10.5.13-MariaDB-1:10.5.13+maria~focal dump
+-- Adminer 4.8.1 MySQL 10.5.15-MariaDB-1:10.5.15+maria~focal dump
 
 SET NAMES utf8;
 SET time_zone = '+00:00';
@@ -517,7 +517,7 @@ CREATE TABLE `hlavne_menu_lang` (
 INSERT INTO `hlavne_menu_lang` (`id`, `id_lang`, `id_hlavne_menu`, `menu_name`, `h1part2`, `view_name`, `text`, `anotacia`) VALUES
 (1,	1,	1,	'Čiernobiela fotografia',	'Viete čo znamená logo BW ? - Black&White fotography - začiatky a dlhé roky to bolo len o čiernobiel',	'Čiernobiela fotografia',	'Popis časti BW fotografie.',	NULL),
 (2,	1,	2,	'Architektúra',	'Podtitulok stále nejde....',	'Architektúra',	'Popis časti fotografií architektúry.',	NULL),
-(3,	1,	3,	'Farebná fotografia',	'A TERAZ PODNATPIS UŽ FUNGUJE ??? JÉÉÉÉJ UŽ FUNGUJE',	'Farebná fotografia',	'jÉÉÉÉJ UŽ TO FUNGUJE - PERFEKT',	NULL),
+(3,	1,	3,	'Farebná fotografia',	'Podnatpis ku téme farebná fotografia',	'Farebná fotografia',	'Miestnosť kde prezeráte fotografie by mala mať tlmené svetlo a na monitor by nemali smerovať okolité svetelné zdroje - vznikajú nevhodné reflexie.\nTeplota chromatickosti monitoru by mala byť nastavená na 5000K kelvinov / obrazový mód - STANDARD - niektorý budú veľmi prekvapený s takto nastaveného monitoru.\nDOPORUČUJEM : VEČER -  kontrast 65% jas 40% - CEZ DEŇ -  kontrast 70% jas 30%  - každý monitor je jedinečný !!!! najma keď je starší.\nPri správne nastavenom monitore je na zobrazenej fotografii stupnice šedých tónov znatelný rozdiel medzi prvími dvoma a poslednými dvoma prúžkmi sivého odtieňu\nV prípade že tento rozdiel nevidíte alebo je veľmi nepatrný skúste nastaviť na monitore jas a kontrast tak aby sa rozdiel ukázal.',	NULL),
 (4,	1,	4,	'Produkty',	NULL,	'Produkty',	'Táto časť predstavuje ponuku našich produktov.',	'Táto časť predstavuje ponuku našich produktov.'),
 (5,	1,	5,	'Novinky',	NULL,	'Novinky',	'1)  *Niečo nové* - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque. Sed pharetra nibh eget orci.\n2)  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque. Sed pharetra nibh eget orci.\n3)  **Novinka X** - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque. Sed pharetra nibh eget orci.\n\n\n',	'Tu nájdete všetky novinky.'),
 (6,	1,	6,	'Výber toho najlepšieho',	NULL,	'Výber toho najlepšieho',	'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus quis lectus metus, at posuere neque. Sed pharetra nibh eget orci convallis at posuere leo convallis. Sed blandit augue vitae augue scelerisque bibendum. Vivamus sit amet libero turpis, non venenatis urna.\n\nIn blandit, odio convallis suscipit venenatis, ante ipsum cursus augue, et mollis nunc diam eget sapien. Nulla facilisi. Etiam feugiat imperdiet rhoncus. Sed suscipit bibendum enim, sed volutpat tortor malesuada non. Morbi fringilla dui non purus porttitor mattis. Suspendisse quis.\n\nVýstava\n-------\n\nVulputate risus. Phasellus erat velit, sagittis sed varius volutpat, placerat nec urna. Nam eu metus vitae dolor fringilla feugiat. Nulla facilisi. Etiam enim metus, luctus in adipiscing at, consectetur quis sapien. Duis imperdiet egestas ligula, quis hendrerit ipsum ullamcorper et.\n\n',	'Tu nás môžete vidieť naživo.'),
@@ -1415,7 +1415,7 @@ CREATE TABLE `user_main` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Hlavné údaje užívateľa';
 
 INSERT INTO `user_main` (`id`, `id_user_roles`, `id_user_profiles`, `password`, `meno`, `priezvisko`, `email`, `activated`, `banned`, `ban_reason`, `new_password_key`, `new_password_requested`, `new_email`, `new_email_key`, `last_ip`, `created`, `modified`) VALUES
-(1,	5,	1,	'$2y$10$qyQp0ZLifZDtSJVz0W62XuOZM4xIZiCBrVN2YM6auzLnqjaY5q4ri',	'Peter',	'Vojtech',	'petak23@echo-msz.eu',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'188.112.97.122',	'2017-05-15 09:11:19',	'2022-04-04 12:16:30'),
+(1,	5,	1,	'$2y$10$qyQp0ZLifZDtSJVz0W62XuOZM4xIZiCBrVN2YM6auzLnqjaY5q4ri',	'Peter',	'Vojtech',	'petak23@echo-msz.eu',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'46.34.241.201',	'2017-05-15 09:11:19',	'2022-04-29 19:28:43'),
 (2,	4,	2,	'$2y$10$0KPg/2sE8I5EjAsgolRttulqhQPsUoVrhIHAxX8Ej3NAOHGuZIbW.',	'Juraj',	'Zámečník',	'bwfoto@bwfoto.sk',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.143.103.217',	'2017-05-15 09:13:38',	'2022-03-14 22:12:07'),
 (3,	4,	3,	'$2y$10$rrhoDAbAniSaH5IxLhobiO4ym.Qt83LdCyDUyXkw/TQCiNebhwjkq',	'Jozef',	'Petrenčík',	'tatravisual@tatravisual.sk',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.253.139.152',	'2017-05-15 09:12:22',	'2017-07-11 07:10:29');
 
@@ -1471,7 +1471,8 @@ INSERT INTO `user_permission` (`id`, `id_user_roles`, `id_user_resource`, `actio
 (36,	0,	27,	'getsubmenu'),
 (37,	4,	28,	NULL),
 (38,	0,	29,	NULL),
-(39,	4,	27,	NULL);
+(39,	4,	27,	NULL),
+(40,	4,	30,	NULL);
 
 DROP TABLE IF EXISTS `user_prihlasenie`;
 CREATE TABLE `user_prihlasenie` (
@@ -1524,7 +1525,10 @@ INSERT INTO `user_prihlasenie` (`id`, `id_user_main`, `log_in_datetime`) VALUES
 (208,	2,	'2022-03-31 17:28:22'),
 (209,	2,	'2022-04-01 00:26:56'),
 (210,	1,	'2022-04-04 14:16:30'),
-(211,	2,	'2022-04-05 21:53:55');
+(211,	2,	'2022-04-05 21:53:55'),
+(212,	2,	'2022-04-11 11:54:14'),
+(213,	1,	'2022-04-29 16:10:24'),
+(214,	1,	'2022-04-29 21:28:43');
 
 DROP TABLE IF EXISTS `user_profiles`;
 CREATE TABLE `user_profiles` (
@@ -1542,8 +1546,8 @@ CREATE TABLE `user_profiles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 INSERT INTO `user_profiles` (`id`, `rok`, `telefon`, `poznamka`, `pocet_pr`, `pohl`, `prihlas_teraz`, `avatar`, `news`, `news_key`) VALUES
-(1,	NULL,	NULL,	NULL,	107,	'M',	'2022-04-04 14:16:30',	NULL,	'A',	'$2y$10$cukOQnmZahKNwUmxXbVKyOYjx0MIfj9gDs6ovQPTHrcmqTQG/JzRi'),
-(2,	NULL,	NULL,	NULL,	104,	'M',	'2022-04-05 21:53:55',	NULL,	'A',	NULL),
+(1,	NULL,	NULL,	NULL,	109,	'M',	'2022-04-29 21:28:43',	NULL,	'A',	'$2y$10$cukOQnmZahKNwUmxXbVKyOYjx0MIfj9gDs6ovQPTHrcmqTQG/JzRi'),
+(2,	NULL,	NULL,	NULL,	105,	'M',	'2022-04-11 11:54:14',	NULL,	'A',	NULL),
 (3,	NULL,	NULL,	NULL,	0,	'M',	NULL,	NULL,	'A',	NULL);
 
 DROP TABLE IF EXISTS `user_resource`;
@@ -1582,7 +1586,8 @@ INSERT INTO `user_resource` (`id`, `name`) VALUES
 (26,	'Front:Search'),
 (27,	'Api:Menu'),
 (28,	'Api:User'),
-(29,	'Api:Dokumenty');
+(29,	'Api:Dokumenty'),
+(30,	'Api:Products');
 
 DROP TABLE IF EXISTS `user_roles`;
 CREATE TABLE `user_roles` (
@@ -1647,6 +1652,7 @@ INSERT INTO `verzie` (`id`, `id_user_main`, `cislo`, `subory`, `text`, `modified
 (28,	1,	'0.8.37',	'Panorámy',	'\"Aktualizované: 13.03.2022: .{color: red}\"\n- Zjednodušená konfigurácia fotokoláže.\n- Odstránené chyby v panorámach a fotokoláži.\n- Oprava ukladania užívateľských dát na FrontModule.\n\n-------------------\n\n\n- Aktualizovaná časť fotopanorám. \n- Aktualizovaná časť pridávania produktov. Miniatúry produktov sa vytvárajú podľa toho, či je nastavená ako šablóna článku panoráma alebo nie. \n- Nahrané nové nastavenie pre fotokoláž.',	'2022-03-12 20:42:31'),
 (29,	1,	'0.9.03',	'Editácia na front module',	'Nová funkcionalita\n------------------\n\n- Editácia nadpisu článku: Pridaná možnosť editovať nadpisy článkov priamo z FrontModulu\n- Zmena poradia položiek:  Pridaná možnosť zmeniť poradie položiek na FrontModule.',	'2022-04-04 12:20:29'),
 (30,	1,	'0.9.05',	'Oprava chýb',	'- Oprava chýb vo fotokoláži (zmena výšky riadku) a zlé proporcie obrázku po kliknutí naň.\n- Zjednodušenie konfigurácie fotokoláže.\n- Oprava chybného zobrazenia editácie na titiulke.\n- Oprava podtitulky\n- Oprava chybných ikoniek v administrácii.',	'2022-04-04 12:20:29'),
-(31,	1,	'0.9.11',	'texyla, fontawesome 6, slider,',	'\"**Aktualizácia 6.4.2022:** .{color: orange}\"\n- Do fotogalérie pridaná možnosť posúvať fotky v 4. kat. prstom pohybom všetkými smermi.\n\n-------------------\n\n- Opravy zobrazenia slider-u. Doplnené pomocné informácie.\n- Začaté práce na editácii textov pre vue.js priamo na front module. Ikonka vedľa editácie nadpisov. \"Táto funkcionalita je v štádiu experimentovania, takže nie všetko je funkčné. .{color: orange}\"\n- \"V js a vue súboroch nahradenie definovania premennej var za let .{color: gray}\"\n- Aktualizovaný fontawesome na verziu 6.\n- Oprava zistených chýb.',	'2022-04-06 08:38:48');
+(31,	1,	'0.9.11',	'texyla, fontawesome 6, slider,',	'\"**Aktualizácia 6.4.2022:** .{color: orange}\"\n- Do fotogalérie pridaná možnosť posúvať fotky v 4. kat. prstom pohybom všetkými smermi.\n\n-------------------\n\n- Opravy zobrazenia slider-u. Doplnené pomocné informácie.\n- Začaté práce na editácii textov pre vue.js priamo na front module. Ikonka vedľa editácie nadpisov. \"Táto funkcionalita je v štádiu experimentovania, takže nie všetko je funkčné. .{color: orange}\"\n- \"V js a vue súboroch nahradenie definovania premennej var za let .{color: gray}\"\n- Aktualizovaný fontawesome na verziu 6.\n- Oprava zistených chýb.',	'2022-04-06 08:38:48'),
+(32,	1,	'0.9.18',	'Uploadery, chyby',	'- Práce na vue single uploadery.\n- Práce na multi uploadery a upratovanie okolo.\n- Výmena funkcie strftime za date.\n- Oprava zadávania dátumu pri platnosti článku.\n- Presun komponenty pre zmenu okrajového rámčeka do vue.\n- Odstránenie chyby: User Deprecated Filter |noescape should be placed at the very end.\n- Odstránenie chýb.',	'2022-04-29 14:15:19');
 
--- 2022-04-06 08:49:46
+-- 2022-05-03 12:41:17

@@ -10,7 +10,7 @@ use Nette\Utils\Strings;
 
 /**
  * Prezenter pre pristup k api produktov.
- * Posledna zmena(last change): 28.04.2022
+ * Posledna zmena(last change): 03.05.2022
  *
  * Modul: API
  *
@@ -18,7 +18,7 @@ use Nette\Utils\Strings;
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.0
+ * @version 1.0.1
  */
 class ProductsPresenter extends BasePresenter {
 
@@ -35,7 +35,6 @@ class ProductsPresenter extends BasePresenter {
     // Nastavenie z config-u
     $this->nastavenie = $parameters;
     $this->wwwDir = $wwwDir;
-    $this->products_settings = $this->udaje->findBy(['id_druh'=>8])->fetchPairs('nazov', 'text');
   }
 
   /**
@@ -45,7 +44,8 @@ class ProductsPresenter extends BasePresenter {
     $this->sendJson($this->products->getProduct($id));
   }
 
-  /** Uloženie produktu/produktov do DB 
+  /** 
+   * Uloženie produktu/produktov do DB 
    * @param int $id Id_hlavne_menu, ku ktorému ukladám produkt */
   public function actionSave(int $id) {
     /* from POST:
@@ -56,9 +56,20 @@ class ProductsPresenter extends BasePresenter {
     /* from POST:
     * - files */
     $files = $this->getHttpRequest()->getFiles();
-    //dumpe($values, $files, is_array($files['files']));
+     
+    //dumpe($files, is_array($files['files']));
+    // Ak niet čo ukladať...
+    if (!(isset($files['files']) && is_array($files['files']) && count($files['files']))) {
+      $this->sendJson([
+        'status'  => 500,
+        'data'    => null,
+        'error'   => 'Nothing to save...',
+      ]);
+      exit;
+    }
     $user = $this->getUser();
     $hl_menu = $this->hlavne_menu->find($id);
+    $this->products_settings = $this->udaje->findBy(['id_druh'=>8])->fetchPairs('nazov', 'text');
 
     $data_save = [ 
       'id_hlavne_menu'	 	=> $id,
@@ -96,13 +107,14 @@ class ProductsPresenter extends BasePresenter {
   }
 
   private function _saveProduct(FileUpload $file, array $data_save): ?array {
-    $result = ($file->error == 0) ? $this->products->save($file, 
+    //dumpe($data_save);
+    $result = ($file->error == 0) ? $this->products->saveUpload($file, 
                           ['products_settings' => $this->products_settings,
                             'panorama' => $data_save['panorama'],
                             'main_data' => [ 
-                                'id_hlavne_menu'	 	=> $data_save['id'],
-                                'id_user_main'      => $data_save['id_user_main'],
-                                'id_user_roles'     => $data_save['id_user_roles'],
+                                'id_hlavne_menu'  => $data_save['id_hlavne_menu'],
+                                'id_user_main'    => $data_save['id_user_main'],
+                                'id_user_roles'   => $data_save['id_user_roles'],
                               ]
                             ]) : 0; // Ak je chyba v uploade
     return $result ? $this->products->getProduct($result) : null;

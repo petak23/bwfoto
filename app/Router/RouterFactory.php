@@ -7,17 +7,15 @@ use Nette;
 use Nette\Application\Routers\Route;
 use Nette\Application\Routers\RouteList;
 
-
-
 /**
  * Router
- * Posledna zmena 03.02.2022
+ * Posledna zmena 03.05.2022
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.4
+ * @version    1.0.5
  */
 class RouterFactory {
 
@@ -66,7 +64,8 @@ class RouterFactory {
     $router->withModule('Api')
       ->addRoute('api/menu/<action>[/<id>[/<lmodule>]]', 'Menu:default')
       ->addRoute('api/user/<action>[/<id>]', 'User:default')
-      ->addRoute('api/documents/<action>[/<id>]', 'Dokumenty:default');
+      ->addRoute('api/documents/<action>[/<id>]', 'Dokumenty:default')
+      ->addRoute('api/products/<action>[/<id>]', 'Products:default');
 
     $router->withModule('Front')
       ->addRoute('clanky[/<id>]', [

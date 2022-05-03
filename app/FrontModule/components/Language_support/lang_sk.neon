@@ -4,7 +4,7 @@
 # If you don't protect this directory from direct web access, anybody will be able to see your passwords.
 # http:#nette.org/security-warning
 #
-# Last change 03.05.2021
+# Last change 03.05.2022
 #
 base_lang_not_def: 'Jazyk, ktorý požadujete, nie je pre tento web definovaný!<br />Language you require is not defined for this site!'
 base_nie_je_opravnenie: 'Na požadovanú akciu %s nemáte dostatočné oprávnenie!'
@@ -52,6 +52,7 @@ base_last_update: 'Posledná aktualizácia'
 base_spravca: 'Správca obsahu'
 base_edit_title: 'Edituj nadpis a podnadpis'
 base_edit_texts: 'Edituj texty'
+base_to_admin: 'Prejdi na článok v administrácii'
 komponent_kontakt_h4: 'Kontaktný formulár'
 komponent_kontakt_uvod: ''
 komponent_kontakt_header: 'Nová správa pre: '

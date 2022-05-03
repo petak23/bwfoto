@@ -25,6 +25,12 @@
               data-target="#editArticleTextsModal">
         <i class="fa-solid fa-file-lines"></i>
       </button>
+      {var $link_to = ':Admin:'.$article->hlavne_menu->druh->presenter.':'}
+      <a class="btn btn-sm btn-outline-warning"
+          n:href="$link_to $article->id"
+          title="{_'base_to_admin'}">
+        <i class="fa-solid fa-person-walking-dashed-line-arrow-right"></i>
+      </a>
   </div>
 </h1>
 
