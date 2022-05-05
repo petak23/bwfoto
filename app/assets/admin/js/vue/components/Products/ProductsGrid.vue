@@ -32,6 +32,22 @@ export default {
       items: [],
     };
   },
+  methods: {
+    deleteProduct(id) {
+      let odkaz = this.basePath + '/api/products/delete/' + id
+      axios.get(odkaz)
+                .then(response => {
+                  if (response.data.data == 'OK') {
+
+                    this.items = []
+                  }
+                })
+                .catch((error) => {
+                  console.log(odkaz);
+                  console.log(error);
+                });
+    },
+  },
   mounted() {
     // Načítanie údajov priamo z DB
     let odkaz = this.basePath + '/api/products/getproducts/' + this.id_hlavne_menu
@@ -49,30 +65,48 @@ export default {
 </script>
 
 <template>
-  <table class="table">
-    <tr>
-      <th>Obrázok</th>
-      <th>Názov</th>
-      <th>Popis</th>
-      <th>Akcia</th>
-    </tr>
-    <tr v-for="item in items" :key="item.id">
-      <td>
-        <img  :src="basePath + '/' + item.thumb_file" 
-              :alt="item.name"
-              class="img-thumbnail"
-        />
-      </td>
-      <td>{{item.name}}</td>
-      <td>{{item.description}}</td>
-      <td>
-        <a href="#" title="Edit">Edit</a>
-        <a href="#" title="Zmaž">Zmaž</a>
-      </td>
-    </tr>
+  <table class="table table-striped">
+    <thead class="thead-light">
+      <tr>
+        <th>Obrázok</th>
+        <th>Názov</th>
+        <th>Popis</th>
+        <th class="action-col">Akcia</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="item in items" :key="item.id">
+        <td>
+          <img  :src="basePath + '/' + item.thumb_file" 
+                :alt="item.name"
+                class="img-thumbnail"
+          />
+        </td>
+        <td>{{item.name}}</td>
+        <td>{{item.description}}</td>
+        <td class="action-col">
+          <button type="button" class="btn btn-info btn-sm" title="Edit">
+            <i class="fa-solid fa-pen"></i>
+          </button>
+          <button 
+            type="button" 
+            class="btn btn-danger btn-sm" 
+            title="Zmaž"
+            @click="deleteProduct(item.id)"
+          >
+            <i class="fa-solid fa-trash-can"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
   </table>
 </template>
 
-<style>
-
+<style lang="scss" scoped>
+.action-col {
+  min-width: 40px;
+}
+button {
+  margin-left: 0.1em;
+}
 </style>

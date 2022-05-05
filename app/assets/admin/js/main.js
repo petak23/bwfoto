@@ -1,6 +1,4 @@
-//import jquery from 'jquery';
 import 'bootstrap/dist/js/bootstrap.bundle';
-//import './jquery-ui-1.12.1.js';
 
 import naja from 'naja';
 document.addEventListener('DOMContentLoaded', naja.initialize.bind(naja));
