@@ -15,13 +15,13 @@ use Ublaboo\DataGrid\Localization\SimpleTranslator;
 /**
  * Komponenta pre spravu produktov clanku.
  * 
- * Posledna zmena(last change): 03.05.2022
+ * Posledna zmena(last change): 04.05.2022
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
  * @copyright Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.7
+ * @version 1.1.8
  */
 
 class ProductsControl extends Nette\Application\UI\Control {

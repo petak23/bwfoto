@@ -11,7 +11,7 @@ use PeterVojtech;
 /**
  * Zakladny presenter pre presentery obsluhujuce polozky hlavneho menu v module ADMIN
  * 
- * Posledna zmena(last change): 02.03.2022
+ * Posledna zmena(last change): 03.05.2022
  *
  * Modul: ADMIN
  *
@@ -19,7 +19,7 @@ use PeterVojtech;
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.5.1
+ * @version 1.5.2
  */
 abstract class ArticlePresenter extends BasePresenter {
   
@@ -408,7 +408,7 @@ abstract class ArticlePresenter extends BasePresenter {
   /** Univerzalny formular pre pridanie komponenty k clanku.
 	 * @return Nette\Application\UI\Form
 	 */
-	protected function createComponentKomponentaAddForm() {
+	/*protected function createComponentKomponentaAddForm() {
 		$form = new Form;
 		$form->addSubmit('uloz', 'Ulož')->setHtmlAttribute('class', 'btn btn-success');
 		$form->onSuccess[] = [$this, 'komponentaUloz'];
@@ -429,7 +429,7 @@ abstract class ArticlePresenter extends BasePresenter {
     $out["parametre"] = substr($out["parametre"], 0, strlen($out["parametre"])-1);
     $this->clanok_komponenty->pridaj($out);
     $this->flashRedirect("this", "Komponenta bola pridaná", "success");
-  }
+  }*/
   
   /** 
    * Komponenta pre vykreslenie kontaktov pre skupinu uzivatelov

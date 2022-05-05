@@ -139,6 +139,16 @@
     edit-button-view="{$admin_links['vlastnik']}"
     id-hlavne-menu="{$clanok->id_hlavne_menu}"
   />
+  <div n:snippet="articleComponents" class="btn-group btn-group-sm edit-link-bar" role="group" aria-label="article-components">
+    <button n:if="$admin_links['vlastnik']" type="button" 
+            class="btn btn-outline-info" 
+            data-toggle="modal" 
+            data-target="#myModalArticleComponent" 
+            title="Správa komponent k článku">
+      <i class="fa-solid fa-laptop-code"></i>
+      Správa komponent k článku {if $komponentyCount}({$komponentyCount}){/if}
+    </button>
+  </div>
 </div>
       
 {* --------   MODALNE OKNA -------- *}
@@ -246,6 +256,22 @@
       </div>
       <div class="modal-body">
         {control zmenSablonuForm}
+      </div>
+    </div>
+  </div>
+</div>
+
+{* -- Modal dialog pre zmenu sablony -- *}
+<div class="modal fade" id="myModalArticleComponent" 
+     tabindex="-1" role="dialog" 
+     aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Správa komponent k článku</h4>
+      </div>
+      <div class="modal-body">
+        {control komponenty}
       </div>
     </div>
   </div>

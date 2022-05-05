@@ -15,7 +15,11 @@
       </div>
     </div>
   </div>
-  {control productsGrid}
+  {*control productsGrid*}
+  <products-grid
+    base-path="{$basePath}"
+    id_hlavne_menu="{$clanok->id_hlavne_menu}"
+  />
 </div>
       
 {* -- Modal dialog pre pridanie viacerích produktov -- *}

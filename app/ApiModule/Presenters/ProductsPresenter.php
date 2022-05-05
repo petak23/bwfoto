@@ -44,6 +44,13 @@ class ProductsPresenter extends BasePresenter {
     $this->sendJson($this->products->getProduct($id));
   }
 
+  /**
+   * Vráti informácie o produkte
+   * @param int id Id hlavného menu */
+  public function actionGetProducts(int $id): void { 
+    $this->sendJson($this->products->getProductsArray($id));
+  }
+
   /** 
    * Uloženie produktu/produktov do DB 
    * @param int $id Id_hlavne_menu, ku ktorému ukladám produkt */

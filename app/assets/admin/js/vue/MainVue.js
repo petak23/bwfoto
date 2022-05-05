@@ -15,6 +15,7 @@ import SingleUpload from './components/Uploader/SingleUpload'
 import MultipleUpload from './components/Uploader/MultipleUpload'
 import lastlogin from './components/MainFrame/LastLogin'
 import colorBorderChange from './components/ColorBorderChange.vue'
+import ProductsGrid from './components/Products/ProductsGrid.vue'
 
 
 // Make BootstrapVue available throughout your project
@@ -28,6 +29,7 @@ let vm = new Vue({
     SingleUpload,
     lastlogin,
     MultipleUpload,
-    colorBorderChange
+    colorBorderChange,
+    ProductsGrid,
   },
 });   

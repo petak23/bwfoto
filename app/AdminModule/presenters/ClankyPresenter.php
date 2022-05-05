@@ -4,12 +4,12 @@ namespace App\AdminModule\Presenters;
 use App\AdminModule\Components;
 use DbTable;
 use Nette\Application\UI\Form;
-use PeterVojtech;
+//use PeterVojtech;
 
 /**
  * Prezenter pre spravu clankov.
  * 
- * Posledna zmena(last change): 16.02.2022
+ * Posledna zmena(last change): 04.05.2022
  *
  *	Modul: ADMIN
  *
@@ -17,7 +17,7 @@ use PeterVojtech;
  * @copyright Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.3.7
+ * @version 1.3.8
  */
 
 class ClankyPresenter extends ArticlePresenter {
@@ -27,8 +27,6 @@ class ClankyPresenter extends ArticlePresenter {
   public $zobrazClanokControlFactory;
   /** @var Components\Clanky\PrilohyClanok\IPrilohyClanokAControl @inject */
   public $prilohyClanokControlFactory;
-  /** @var Components\Clanky\Komponenty\IKomponentyControl @inject */
-  public $komponentyControlFactory;
   /** @var Components\Products\IProductsControl @inject */
   public $productsControlFactory;
   
@@ -52,8 +50,6 @@ class ClankyPresenter extends ArticlePresenter {
     parent::renderDefault();
 		$this->template->prilohy = $this->dokumenty->getPrilohy($this->zobraz_clanok->id_hlavne_menu);
     $this->template->products_count = $this->products->findBy(['id_hlavne_menu'=>$this->zobraz_clanok->id_hlavne_menu])->count();
-    //Zisti, ci su k clanku priradene komponenty
-    $this->template->komponenty = $this->clanok_komponenty->getKomponenty($this->zobraz_clanok->id_hlavne_menu, $this->nastavenie["komponenty"]);
     //Kontrola jedinecnych komponent. Ak uz su priradene tak sa vypustia
     $this->template->zoznam_komponent = $this->clanok_komponenty->testJedinecnosti($this->nastavenie["komponenty"], $this->zobraz_clanok->id_hlavne_menu);
     $this->template->tabs = isset($this->params["tab"]) ? $this->params["tab"] : "prilohy-tab";
@@ -150,8 +146,7 @@ class ClankyPresenter extends ArticlePresenter {
 	public function createComponentZobrazClanok() {
     $zobrazClanok = $this->zobrazClanokControlFactory->create();
     $zobrazClanok->setZobraz($this->zobraz_clanok->id_hlavne_menu);
-    return $zobrazClanok;
-    
+    return $zobrazClanok; 
   }
   
   /** 
@@ -170,25 +165,6 @@ class ClankyPresenter extends ArticlePresenter {
     $products = $this->productsControlFactory->create(); 
     $products->setTitle($this->zobraz_clanok, $this->nazov_stranky, $this->name);
     return $products;
-  }
-
-  /**
-   * Komponenta pre ukazanie komponent clanku.
-   * @return \App\AdminModule\Components\Clanky\Komponenty\KomponentyControl */
-	public function createComponentKomponenty() {
-    $komponenty = $this->komponentyControlFactory->create();
-    $komponenty->setTitle($this->zobraz_clanok, $this->nazov_stranky/*, $this->name*/);
-    return $komponenty;
-  }
-  
-  /** 
-   * Signal pre pridanie komponenty, ktora nema parametre
-   * @param string $komponenta_spec_nazov Specificky nazov komponenty
-   * @param int $id_hlavne_menu Id clanku */
-  public function handleAddKomponenta($komponenta_spec_nazov, $id_hlavne_menu = 0) {
-    $k = $this->nastavenie["komponenty"][$komponenta_spec_nazov];
-    $this->clanok_komponenty->pridaj(["id_hlavne_menu"=>(int)$id_hlavne_menu, "spec_nazov"=>$komponenta_spec_nazov]);
-    $this->flashRedirect(["Clanky:default", $id_hlavne_menu],'Komponenta "'.$k["nazov"].'" bola pridaná!', "success");
   }
 
   public function actionKonvertuj($id = 0) {

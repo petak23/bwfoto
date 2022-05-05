@@ -158,4 +158,25 @@ class Products extends Table {
       'description' => $p->description,
     ];
   }
+
+  /** Vráti všetky produkty ako pole */
+  public function getProductsArray(int $id_hlavne_menu): array {
+    $t = $this->findBy(['id_hlavne_menu'=>$id_hlavne_menu]);
+    $o = [];
+    foreach ($t as $p) {
+      $o[] = [
+        'id'          => $p->id,
+        'id_hlavne_menu'=> $p->id_hlavne_menu,
+        'id_user_main'=> $p->id_user_main,
+        'id_user_roles'=> $p->id_user_roles,
+        'name'        => $p->name,
+        'web_name'    => $p->web_name,
+        'description' => $p->description,
+        'main_file'   => $p->main_file,
+        'thumb_file'  => $p->thumb_file,
+        'change'      => $p->change,
+      ];
+    }
+    return $o;
+  }
 }
