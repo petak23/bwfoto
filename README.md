@@ -10,9 +10,15 @@ Toto je [Nette](https://nette.org) a [Vue.js](https://vuejs.org/) projekt web-s
 
 ## Install
 
-- `composer install`
-- `npm install`
-- vytvor `app\cofig\config.local.neon` a `app\cofig\database.neon`
+- spusť príkaz `git clone https://github.com/petak23/bwfoto.git`
+- presuň sa do adresára `cd bwfoto`
+- vytvor podadresáre `temp` a `log` 
+- na linuxe spusť: `chmod -R a+rw temp log` viď aj: [Nette - Nastavení práv adresářů](https://doc.nette.org/cs/troubleshooting#toc-nastaveni-prav-adresaru)
+- vytvor databázu `bwfoto_new` a importuj do nej súbor `sql\bwfoto_new.sql`
+- spusť `composer install`
+- spusť `npm install`
+- premenuj `app\cofig\config.local.neon.temp` a `app\cofig\database.neon.temp` odstránením koncovky `.temp` a vyplň v nich potrebné údaje
+
 
 ## Webpack
 

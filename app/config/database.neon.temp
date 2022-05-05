@@ -1,0 +1,7 @@
+database:
+	# Doplniť vlastné prihlasovacie údaje na localhost
+	dsn: 'mysql:host=dw26.nameserver.sk;dbname=bwfoto_new'
+	user:	*****
+	password: *****
+	options:
+		lazy: yes

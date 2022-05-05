@@ -1,0 +1,13 @@
+database:
+	dsn: 'mysql:host=localhost;dbname=bwfoto_new'
+	# Doplniť vlastné prihlasovacie údaje na localhost
+	user:	root
+	password: *****
+	options:
+		lazy: yes
+
+webpack:
+  devServer:
+    enabled: %debugMode%
+    # Upraviť adresu podľa vlastného localhost-u napr. na: http://http://localhost/bwfoto/dist
+    url: http://http://localhost/~petak23/bwfoto/dist 
