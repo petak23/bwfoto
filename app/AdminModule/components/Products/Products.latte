@@ -1,41 +1,43 @@
 <div class="panel panel-info" n:snippet="products-in">
   <div class="panel-heading">
-    <button n:if="$elink" type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalAddMultiProductsChange" title="Pridaj viacej produktov k položke: {$clanok->view_name}">
+    <button 
+      n:if="$admin_links['alink']" 
+      type="button" 
+      class="btn btn-primary" 
+      data-toggle="modal" 
+      data-target="#myModalAddMultiProductsChange" 
+      title="Pridaj viacej produktov k položke"
+    >
       <i class="fas fa-copy"></i> Pridaj produkt(y)
     </button>
   </div>
-  <div class="row" n:snippet="flashes"> 
-    <div class="col-md-6 col-md-offset-3" n:inner-foreach="$flashes as $flash">
-      {var $nees = explode(',', $flash->type)}
-      <div class="alert alert-{$nees[0]}" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        {if isset($nees[1]) && $nees[1] == 'n'}{$flash->message|noescape}{else}{$flash->message}{/if}
-      </div>
-    </div>
-  </div>
+  
   {*control productsGrid*}
   <products-grid
     base-path="{$basePath}"
-    id_hlavne_menu="{$clanok->id_hlavne_menu}"
+    id_hlavne_menu="{$id_hlavne_menu}"
+    admin-links="{($admin_links|to_json)}"
   />
 </div>
       
 {* -- Modal dialog pre pridanie viacerích produktov -- *}
-<div class="modal fade" id="myModalAddMultiProductsChange" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" n:if="$elink">
+<div class="modal fade" id="myModalAddMultiProductsChange" tabindex="-1" 
+      role="dialog" aria-labelledby="myModalLabel" 
+      n:if="$admin_links['alink']">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="myModalLabel">Pridanie viacerích produktov k položke: {$clanok->view_name}</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h5 class="modal-title" id="myModalLabel">Pridanie viacerích produktov k položke</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
       <div class="modal-body">
         <multiple-upload 
           api-url="api/products" 
           base-path="{$basePath}"
           back-link="{link this}"
-          id_hlavne_menu="{$clanok->id_hlavne_menu}"
+          id_hlavne_menu="{$id_hlavne_menu}"
         />
       </div>
     </div>

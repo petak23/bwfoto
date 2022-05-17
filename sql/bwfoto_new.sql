@@ -1415,7 +1415,7 @@ CREATE TABLE `user_main` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Hlavné údaje užívateľa';
 
 INSERT INTO `user_main` (`id`, `id_user_roles`, `id_user_profiles`, `password`, `meno`, `priezvisko`, `email`, `activated`, `banned`, `ban_reason`, `new_password_key`, `new_password_requested`, `new_email`, `new_email_key`, `last_ip`, `created`, `modified`) VALUES
-(1,	5,	1,	'$2y$10$qyQp0ZLifZDtSJVz0W62XuOZM4xIZiCBrVN2YM6auzLnqjaY5q4ri',	'Peter',	'Vojtech',	'petak23@echo-msz.eu',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'46.34.241.201',	'2017-05-15 09:11:19',	'2022-04-29 19:28:43'),
+(1,	5,	1,	'$2y$10$qyQp0ZLifZDtSJVz0W62XuOZM4xIZiCBrVN2YM6auzLnqjaY5q4ri',	'Peter',	'Vojtech',	'petak23@echo-msz.eu',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'188.112.117.83',	'2017-05-15 09:11:19',	'2022-05-10 09:10:52'),
 (2,	4,	2,	'$2y$10$0KPg/2sE8I5EjAsgolRttulqhQPsUoVrhIHAxX8Ej3NAOHGuZIbW.',	'Juraj',	'Zámečník',	'bwfoto@bwfoto.sk',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.143.103.217',	'2017-05-15 09:13:38',	'2022-03-14 22:12:07'),
 (3,	4,	3,	'$2y$10$rrhoDAbAniSaH5IxLhobiO4ym.Qt83LdCyDUyXkw/TQCiNebhwjkq',	'Jozef',	'Petrenčík',	'tatravisual@tatravisual.sk',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.253.139.152',	'2017-05-15 09:12:22',	'2017-07-11 07:10:29');
 
@@ -1472,7 +1472,8 @@ INSERT INTO `user_permission` (`id`, `id_user_roles`, `id_user_resource`, `actio
 (37,	4,	28,	NULL),
 (38,	0,	29,	NULL),
 (39,	4,	27,	NULL),
-(40,	4,	30,	NULL);
+(40,	4,	30,	NULL),
+(41,	0,	31,	NULL);
 
 DROP TABLE IF EXISTS `user_prihlasenie`;
 CREATE TABLE `user_prihlasenie` (
@@ -1528,7 +1529,8 @@ INSERT INTO `user_prihlasenie` (`id`, `id_user_main`, `log_in_datetime`) VALUES
 (211,	2,	'2022-04-05 21:53:55'),
 (212,	2,	'2022-04-11 11:54:14'),
 (213,	1,	'2022-04-29 16:10:24'),
-(214,	1,	'2022-04-29 21:28:43');
+(214,	1,	'2022-04-29 21:28:43'),
+(215,	1,	'2022-05-10 11:10:52');
 
 DROP TABLE IF EXISTS `user_profiles`;
 CREATE TABLE `user_profiles` (
@@ -1546,7 +1548,7 @@ CREATE TABLE `user_profiles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 INSERT INTO `user_profiles` (`id`, `rok`, `telefon`, `poznamka`, `pocet_pr`, `pohl`, `prihlas_teraz`, `avatar`, `news`, `news_key`) VALUES
-(1,	NULL,	NULL,	NULL,	109,	'M',	'2022-04-29 21:28:43',	NULL,	'A',	'$2y$10$cukOQnmZahKNwUmxXbVKyOYjx0MIfj9gDs6ovQPTHrcmqTQG/JzRi'),
+(1,	NULL,	NULL,	NULL,	110,	'M',	'2022-05-10 11:10:52',	NULL,	'A',	'$2y$10$cukOQnmZahKNwUmxXbVKyOYjx0MIfj9gDs6ovQPTHrcmqTQG/JzRi'),
 (2,	NULL,	NULL,	NULL,	105,	'M',	'2022-04-11 11:54:14',	NULL,	'A',	NULL),
 (3,	NULL,	NULL,	NULL,	0,	'M',	NULL,	NULL,	'A',	NULL);
 
@@ -1587,7 +1589,8 @@ INSERT INTO `user_resource` (`id`, `name`) VALUES
 (27,	'Api:Menu'),
 (28,	'Api:User'),
 (29,	'Api:Dokumenty'),
-(30,	'Api:Products');
+(30,	'Api:Products'),
+(31,	'Api:Texyla');
 
 DROP TABLE IF EXISTS `user_roles`;
 CREATE TABLE `user_roles` (
@@ -1655,4 +1658,4 @@ INSERT INTO `verzie` (`id`, `id_user_main`, `cislo`, `subory`, `text`, `modified
 (31,	1,	'0.9.11',	'texyla, fontawesome 6, slider,',	'\"**Aktualizácia 6.4.2022:** .{color: orange}\"\n- Do fotogalérie pridaná možnosť posúvať fotky v 4. kat. prstom pohybom všetkými smermi.\n\n-------------------\n\n- Opravy zobrazenia slider-u. Doplnené pomocné informácie.\n- Začaté práce na editácii textov pre vue.js priamo na front module. Ikonka vedľa editácie nadpisov. \"Táto funkcionalita je v štádiu experimentovania, takže nie všetko je funkčné. .{color: orange}\"\n- \"V js a vue súboroch nahradenie definovania premennej var za let .{color: gray}\"\n- Aktualizovaný fontawesome na verziu 6.\n- Oprava zistených chýb.',	'2022-04-06 08:38:48'),
 (32,	1,	'0.9.19',	'Uploadery, chyby',	'\"Aktualizované 03.05.2022: .{color: orange}\"\n- Pridanie odkazu z článku na front-e priamo do administrácie.\n\n-------------------\n\n- Práce na vue single uploadery.\n- Práce na multi uploadery a upratovanie okolo.\n- Výmena funkcie strftime za date.\n- Oprava zadávania dátumu pri platnosti článku.\n- Presun komponenty pre zmenu okrajového rámčeka do vue.\n- Odstránenie chyby: User Deprecated Filter |noescape should be placed at the very end.\n- Odstránenie chýb.',	'2022-05-03 13:38:50');
 
--- 2022-05-03 13:39:02
+-- 2022-05-10 09:12:32

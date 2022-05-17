@@ -13,7 +13,6 @@ import 'ublaboo-datagrid/assets/datagrid-instant-url-refresh.js';
 import 'ublaboo-datagrid/assets/datagrid-spinners.js';
 
 //import './pomocne_admin.js';
+import '../css/main.scss';
 
 import './vue/MainVue.js';
-
-import '../css/main.scss';

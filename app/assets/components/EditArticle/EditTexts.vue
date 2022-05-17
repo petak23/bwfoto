@@ -21,8 +21,9 @@ export default {
   components: { Verte },
   props: {
     id_hlavne_menu: String,
-    basepath: String,
+    basePath: String,
     link: String,
+    articleText: String,
   },
   data() {
     return {
@@ -35,7 +36,7 @@ export default {
   methods: {
     onSubmit(event) {
       event.preventDefault()
-      let odkaz = this.basepath + 'api/menu/texylasave/' + this.id_hlavne_menu
+      let odkaz = this.basePath + 'api/menu/texylasave/' + this.id_hlavne_menu
       let vm = this
       axios.post(odkaz, {
           texy: this.textin,
@@ -124,7 +125,7 @@ export default {
         }, 10);
     },
     getPreview: function () {
-      let odkaz = this.basepath + 'api/menu/texylapreview'
+      let odkaz = this.basePath + 'api/texyla/preview'
       //this.preview = "Vytváram náhľad..."
       let vm = this
       axios.post(odkaz, {
@@ -132,7 +133,6 @@ export default {
         })
         .then(function (response) {
           vm.preview = response.data
-          //console.log(response.data)
         })
         .catch(function (error) {
           console.log(odkaz)
@@ -146,17 +146,7 @@ export default {
     },
   },
   created: function () {
-    var odkaz = this.basepath + 'api/menu/getonemenuarticle/' + this.id_hlavne_menu
-    var tm = this
-    axios.get(odkaz)
-      .then(response => {
-        tm.textin = response.data.text
-        tm.getPreview()
-      })
-      .catch((error) => {
-        console.log(odkaz);
-        console.log(error);
-      });
+    this.textin = this.articleText
     // https://v2.vuejs.org/v2/guide/computed.html?redirect=true#Watchers
     this.debouncedGetPreview = _.debounce(this.getPreview, 1000)
   },

@@ -8,4 +8,5 @@ services:
   - App\ApiModule\Presenters\DokumentyPresenter(%parameters%, %wwwDir%)
   - App\ApiModule\Presenters\MenuPresenter(%parameters%)
   - App\ApiModule\Presenters\ProductsPresenter(%parameters%, %wwwDir%)
+  - App\ApiModule\Presenters\TexylaPresenter(%parameters%)
   - App\ApiModule\Presenters\UserPresenter(%parameters%)

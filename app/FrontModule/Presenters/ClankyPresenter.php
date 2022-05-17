@@ -13,7 +13,7 @@ use PeterVojtech;
 /**
  * Prezenter pre vypisanie clankov.
  * 
- * Posledna zmena(last change): 15.03.2022
+ * Posledna zmena(last change): 10.05.2022
  *
  *	Modul: FRONT
  *
@@ -21,7 +21,7 @@ use PeterVojtech;
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.4.3
+ * @version 1.4.4
  */
 
 class ClankyPresenter extends BasePresenter {
@@ -116,6 +116,9 @@ class ClankyPresenter extends BasePresenter {
       $this->template->addFilter('odkazdo', function ($id) use($servise){
         $serv = $servise->link("Dokumenty:default", ["id"=>$id]);
         return $serv;
+      });
+      $this->template->addFilter('tojson', function ($data){
+        return Nette\Utils\Json::encode($data);
       });
     }
 	}

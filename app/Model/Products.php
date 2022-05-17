@@ -8,13 +8,13 @@ use Nette\Utils;
 /**
  * Model, ktory sa stara o tabulku products
  * 
- * Posledna zmena 28.04.2022
+ * Posledna zmena 06.05.2022
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.9
+ * @version    1.1.0
  */
 class Products extends Table {
   /** @var string */
@@ -91,20 +91,9 @@ class Products extends Table {
   }
   
 	/**
-	 * Zpracování přejmenování souboru.
-	 * @param $upload Hodnota navrácená funkcí save.
-	 * @param $newName Nové jméno souboru.
-	 * @return mixed Vlastní návratová hodnota. 
-   * @todo ---------- Nedokončené ------------
-   * */
-  public function rename($upload, $newName) {
-    return $upload;
-  }
-
-	/**
-	 * Zpracování požadavku o smazání souboru.
+	 * Zpracovanie požiadavky na zmazanie.
 	 * @param $id Id mazaného produktu. 
-   * @return bool Ak zmaze alebo neexistuje(nie je co mazat) tak true inak false */
+   * @return bool Ak zmaže alebo neexistuje(nie je co mazat) tak true inak false */
   public function remove(int $id): bool {
     $pr = $this->find($id);
     if ($pr !== null) {

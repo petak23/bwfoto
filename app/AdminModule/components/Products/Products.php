@@ -7,108 +7,71 @@ namespace App\AdminModule\Components\Products;
 use DbTable;
 use Nette;
 use Nette\Security\User;
-use Nette\Utils\Html;
-use Ublaboo\DataGrid\DataGrid;
-use Ublaboo\DataGrid\Column\Action\Confirmation;
-use Ublaboo\DataGrid\Localization\SimpleTranslator;
+use Nette\Utils\Json;
+//use Nette\Utils\Html;
+//use Ublaboo\DataGrid\DataGrid;
+//use Ublaboo\DataGrid\Column\Action\Confirmation;
+//use Ublaboo\DataGrid\Localization\SimpleTranslator;
 
 /**
  * Komponenta pre spravu produktov clanku.
  * 
- * Posledna zmena(last change): 04.05.2022
+ * Posledna zmena(last change): 06.05.2022
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
  * @copyright Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.8
+ * @version 1.1.9
  */
 
 class ProductsControl extends Nette\Application\UI\Control {
 
   /** @var DbTable\Products */
   public $products;
-  /** @var string $nazov_stranky */
-  private $nazov_stranky;
   /** @var Nette\Database\Table\ActiveRow $clanok Info o clanku */
   private $clanok;
-  /** @var int */
-  private $upload_size;
 
   /** @var array */
   private $admin_links;
   /** @var Nette\Security\User */
   private $user;
-  /** @var DbTable\Hlavne_menu */
-  private $hlavne_menu;
   
-  /** @var mixed */
-  protected $big_img;
-
-  /** @var mixed */
-  protected $httpRequest; 
   /** @var array */
-  private $texts_for_translator;
-  /** @var string */
-  private $wwwDir;
-  /** @var string */
-  private $dir_to_products;
+//  private $texts_for_translator;
 
   /**
    * @param array $texts_for_translator
-   * @param string $wwwDir 
-   * @param DbTable\Hlavne_menu $hlavne_menu
    * @param DbTable\Products $products
    * @param User $user
    * @param Nette\Http\Request $request */
-  public function __construct(array $texts_for_translator,
-                              string $wwwDir,
-                              string $dir_to_products,
-                              DbTable\Hlavne_menu $hlavne_menu,
+  public function __construct(//array $texts_for_translator,
                               DbTable\Products $products, 
                               User $user,
-                              Nette\Http\Request $request
                               ) {
-    $this->texts_for_translator = $texts_for_translator;
-    $this->wwwDir = $wwwDir;
-    $this->dir_to_products = $dir_to_products;
-    $this->hlavne_menu = $hlavne_menu;
+//    $this->texts_for_translator = $texts_for_translator;
     $this->products = $products;
     $this->user = $user;
-    $this->httpRequest = $request;
   }
   
   /** 
    * Nastavenie komponenty
    * @param Nette\Database\Table\ActiveRow $clanok
-   * @param string $nazov_stranky
    * @param string $name
-   * @return \App\AdminModule\Products\ProductsControl */
+   * @return ProductsControl */
   public function setTitle(Nette\Database\Table\ActiveRow $clanok, 
-                           string $nazov_stranky,
                            string $name): self {
     $this->clanok = $clanok;
-    $this->nazov_stranky = $nazov_stranky;
-    $ini_v = trim(ini_get("upload_max_filesize"));
-    $s = ['g'=> 1<<30, 'm' => 1<<20, 'k' => 1<<10];
-    $this->upload_size =  intval($ini_v) * ($s[strtolower(substr($ini_v,-1))] ?: 1);
-    
+   
     $hlm = $this->clanok->hlavne_menu; // Pre skratenie zapisu
-    $vlastnik = $this->user->isInRole('admin') ? TRUE : $this->user->getIdentity()->id == $hlm->id_user_main;//$this->vlastnik($hlm->id_user_main);
-    // Test opravnenia na pridanie podclanku: Si admin? Ak nie, si vlastnik? Ak nie, povolil vlastnik pridanie, editaciu? A mám dostatocne id reistracie?
-    $opravnenie_add = $vlastnik ? TRUE : (boolean)($hlm->id_hlavne_menu_opravnenie & 1);
-    $opravnenie_edit = $vlastnik ? TRUE : (boolean)($hlm->id_hlavne_menu_opravnenie & 2);
-    $opravnenie_del = $vlastnik ? TRUE : (boolean)($hlm->id_hlavne_menu_opravnenie & 4);
-    // Test pre pridanie a odkaz: 0 - nemám oprávnenie; 1 - odkaz bude na addpol; 2 - odkaz bude na Clanky:add
-    $druh_opravnenia = $opravnenie_add ? ($this->user->isAllowed($name, 'addpol') ? 1 : ($this->user->isAllowed($this->name, 'add') ? 2 : 0)) : 0;
+    
+    // Test opravnenia: Si vlastnik alebo admin? Ak nie, povolil vlastnik editaciu? A mám dostatocne id reistracie?
+    $vlastnik = $this->user->isInRole('admin') ? true : $this->user->getIdentity()->id == $hlm->id_user_main;
+    $opravnenie = $vlastnik || (boolean)($hlm->id_hlavne_menu_opravnenie & 2);
     $this->admin_links = [
-      "alink" => ["druh_opravnenia" => $druh_opravnenia,
-                  "link"    => $druh_opravnenia ? ($druh_opravnenia == 1 ? ['main'=>$name.':addpol']
-                                                                          : ['main'=>'Clanky:add', 'uroven'=>$hlm->uroven+1]) : NULL,
-                  "text"    => "Pridaj produkt"
-                  ],
-      "elink" => $opravnenie_edit && $this->user->isAllowed($name, 'edit'),
-      "dlink" => $opravnenie_del && $this->user->isAllowed($name, 'del'),
+      "alink" => $opravnenie && $this->user->isAllowed($name, 'add'),
+      "elink" => $opravnenie && $this->user->isAllowed($name, 'edit'),
+      "dlink" => $opravnenie && $this->user->isAllowed($name, 'del'),
       "vlastnik" => $vlastnik,
     ];
     return $this;
@@ -117,10 +80,11 @@ class ProductsControl extends Nette\Application\UI\Control {
   /** 
    * Render */
 	public function render(): void {
-    $this->template->clanok = $this->clanok;
-    $this->template->elink = $this->admin_links['elink'];
-    $this->template->big_img = $this->big_img;
-    $this->template->dir_to_products = $this->dir_to_products;
+    $this->template->id_hlavne_menu = $this->clanok->id_hlavne_menu;
+    $this->template->admin_links = $this->admin_links;
+    $this->template->addFilter('to_json', function ($value) {
+      return Json::encode($value);
+    }); 
 		$this->template->render(__DIR__ . '/Products.latte');
 	}
   
@@ -128,7 +92,7 @@ class ProductsControl extends Nette\Application\UI\Control {
    * Grid pre produkty
    * @param string $name
    * @return void */
-  public function createComponentProductsGrid(string $name): void {
+  /*public function createComponentProductsGrid(string $name): void {
 		$grid = new DataGrid($this, $name);
 
 		$grid->setDataSource($this->products->findBy(['id_hlavne_menu'=>$this->clanok->id_hlavne_menu]));
@@ -159,56 +123,43 @@ class ProductsControl extends Nette\Application\UI\Control {
             );
     }
     $grid->setTranslator(new SimpleTranslator($this->texts_for_translator));
-	}
+	}*/
   
   /**
    * Signal na editaciu
    * @param int $id Id polozky na editaciu */
-  public function handleEdit(int $id): void {
+  /*public function handleEdit(int $id): void {
     $this->presenter->redirect('Products:edit', $id);
-  }
+  }*/
 
   /**
    * Signal pre zobrazenie velkeho nahladu obrazka
    * @param int $id_big_image 
    * @return void */
-  public function handleBigImg(int $id_big_image): void {
+  /*public function handleBigImg(int $id_big_image): void {
     $this->big_img = $this->products->find($id_big_image);
-    if ($this->httpRequest->isAjax()) {
+    if ($this->presenter->isAjax()) {
       $this->redrawControl('lightbox-image');
     }
-  }
+  }*/
   
   /** 
    * Spracovanie signálu vymazavania
 	 * @param int $id Id polozky */
-	function handleConfirmedDelete(int $id): void	{
-    $pr = $this->products->find($id);//najdenie prislusnej polozky menu, ku ktorej priloha patri
-    $pthis = $this->presenter;
-    if ($pr !== null) {
-      $vysledok = $this->_vymazSubor($pr->main_file) ? $this->_vymazSubor($pr->thumb_file) : FALSE;
-      if (($vysledok ? $pr->delete() : FALSE)) { 
-        $this->flashMessage('Produkt bol vymazaný!', 'success'); 
-      } else { 
-        $this->flashMessage('Došlo k chybe a produkt nebol vymazaný!', 'danger'); 
-      }
-    } else { $this->flashMessage('Došlo k chybe a produkt nebol vymazaný!', 'danger');}
-    if (!$pthis->isAjax()) {
-      $pthis->redirect('this', ['tab'=>'products-tab']);
+	/*function handleConfirmedDelete(int $id): void	{
+    if ($this->products->remove($id)) { 
+      $this->flashMessage('Produkt bol vymazaný!', 'success'); 
+    } else { 
+      $this->flashMessage('Došlo k chybe a produkt nebol vymazaný!', 'danger'); 
+    }
+    if (!$this->presenter->isAjax()) {
+      $this->presenter->redirect('this', ['tab'=>'products-tab']);
     } else {
       $this->redrawControl('flashes');
       $this->redrawControl('products');
       $this['productsGrid']->reload();
     }
-  }
-  
-  /** 
-   * Funkcia vymaze subor ak exzistuje
-	 * @param string $subor Nazov suboru aj srelativnou cestou
-	 * @return bool Ak zmaze alebo neexistuje(nie je co mazat) tak true inak false */
-	private function _vymazSubor(string $subor): bool {
-		return (is_file($subor)) ? unlink($this->wwwDir."/".$subor) : true;
-	}
+  }*/
 }
 
 interface IProductsControl {

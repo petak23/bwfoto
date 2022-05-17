@@ -70,11 +70,12 @@
         Pomoc pri editácii textov nájdete aj na: 
         <a href="https://texy.info/cs/syntax-podrobne" title="texy.info" target="_blank" class="text-info">
           texy.info
-        </a>{dump $this_link}
+        </a>
         <edittexts
           id_hlavne_menu="{$article->id_hlavne_menu}"
-          basepath="{$basePath}/"
+          base-path="{$basePath}/"
           link="{$this_link}"
+          article-text="{($article->text)}"
         >
         </edittexts>
       </div>

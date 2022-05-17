@@ -4,13 +4,10 @@ namespace App\ApiModule\Presenters;
 use DbTable;
 use Nette\Http\FileUpload;
 //use Nette\Utils\ArrayHash;
-use Nette\Utils\Image;
-use Nette\Utils\Strings;
-
 
 /**
  * Prezenter pre pristup k api produktov.
- * Posledna zmena(last change): 03.05.2022
+ * Posledna zmena(last change): 06.05.2022
  *
  * Modul: API
  *
@@ -18,7 +15,7 @@ use Nette\Utils\Strings;
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.1
+ * @version 1.0.2
  */
 class ProductsPresenter extends BasePresenter {
 
@@ -53,7 +50,12 @@ class ProductsPresenter extends BasePresenter {
 
   /** 
    * Uloženie produktu/produktov do DB 
-   * @param int $id Id_hlavne_menu, ku ktorému ukladám produkt */
+   * @param int $id Id_hlavne_menu, ku ktorému ukladám produkt 
+   * ----------------------------------------
+   * @todo Kontrola duplicitných súborov
+   * @todo Kontrola max. veľkosti súboru
+   * ----------------------------------------
+   * */
   public function actionSave(int $id) {
     /* from POST:
     * - description
@@ -105,6 +107,7 @@ class ProductsPresenter extends BasePresenter {
       $_up = $this->_saveProduct($files['files'], $data_save);
       $upload = $_up !== null ? ['status'=>200, 'data'=>$_up] : ['status'=>500, 'data'=>null];
     }
+    $this->flashMessage('Upload úspešný', 'success');
 
     if ($this->isAjax()) {
       $this->sendJson($upload);

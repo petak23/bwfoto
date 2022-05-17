@@ -9,7 +9,7 @@ use Nette\Application\UI\Form;
 /**
  * Prezenter pre spravu clankov.
  * 
- * Posledna zmena(last change): 04.05.2022
+ * Posledna zmena(last change): 06.05.2022
  *
  *	Modul: ADMIN
  *
@@ -17,7 +17,7 @@ use Nette\Application\UI\Form;
  * @copyright Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.3.8
+ * @version 1.3.9
  */
 
 class ClankyPresenter extends ArticlePresenter {
@@ -163,7 +163,7 @@ class ClankyPresenter extends ArticlePresenter {
    * @return \App\AdminModule\Components\Clanky\Products\ProductsControl */
 	public function createComponentProducts() {
     $products = $this->productsControlFactory->create(); 
-    $products->setTitle($this->zobraz_clanok, $this->nazov_stranky, $this->name);
+    $products->setTitle($this->zobraz_clanok, $this->name);
     return $products;
   }
 

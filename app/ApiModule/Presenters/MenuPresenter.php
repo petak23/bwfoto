@@ -10,7 +10,7 @@ use Texy;
 
 /**
  * Prezenter pre pristup k api hlavneho menu a pridružených vecí ako je aj obsah článku.
- * Posledna zmena(last change): 22.04.2022
+ * Posledna zmena(last change): 10.05.2022
  *
  * Modul: API
  *
@@ -18,7 +18,7 @@ use Texy;
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.5
+ * @version 1.0.6
  * 
  * @help 1.) https://forum.nette.org/cs/28370-data-z-post-request-body-reactjs-appka-se-po-ceste-do-php-ztrati
  */
@@ -99,17 +99,10 @@ class MenuPresenter extends BasePresenter {
   }
 
   /** Vráti jednu položku hlavne_menu_lang */
-  public function actionGetOneMenuArticle(?int $id = null): void {
+  /*public function actionGetOneMenuArticle(?int $id = null): void {
     $tmp = $this->hlavne_menu_lang->getOneArticleId($id, 1, $this->id_reg);
-    //dumpe($tmp->toArray());
     $this->sendJson($tmp->toArray());
-  }
-  
-  /** Akcia vráti náhľad editovaného textu */
-  public function actionTexylaPreview(): void {
-    $_post = json_decode(file_get_contents("php://input"), true); // @help 1.)
-    $this->sendResponse(new TextResponse($this->texy->process($_post["texy"] != null ? $_post["texy"] : "")));
-  }
+  }*/
 
   /** Akcia uloží editovaný text článku */
   public function actionTexylaSave(int $id): void {

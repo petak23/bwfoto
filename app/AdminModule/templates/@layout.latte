@@ -98,17 +98,14 @@
         </div>*}
       </div>
       <div class="col-12 col-sm-9 col-md-10">
-        <div class="row" n:snippet="flashes"> 
-          <div class="col-md-6 col-md-offset-3" n:inner-foreach="$flashes as $flash">
-            {var $nees = explode(',', $flash->type)}
-            <div class="alert alert-{$nees[0]} alert-dismissible fade show" role="alert">
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-              {if isset($nees[1]) && $nees[1] == 'n'}{$flash->message|noescape}{else}{$flash->message}{/if}
-            </div>
-          </div>
-        </div>
+        
+        {* $flashes = array
+            0 => stdClass
+              message: 'Váš článok bol úspešne uložený!',
+              type: 'success' *}
+        <flash-message   
+          flash-messages="{($flashes|to_json)}"
+        />
         {control confirmForm}
         <div class="row" n:snippet="content">
           {include #content}
