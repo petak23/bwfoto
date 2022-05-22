@@ -4,15 +4,15 @@ use DbTable;
 /**
  * Domovský preseter administracie.
  *
- * Posledna zmena(last change): 08.11.2021
+ * Posledna zmena(last change): 18.05.2022
  *
  *	Modul: ADMIN
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.7
+ * @version 1.0.8
  */
 class HomepagePresenter extends BasePresenter {
   
@@ -21,7 +21,10 @@ class HomepagePresenter extends BasePresenter {
   public $hlavne_menu_cast;
   
   /** Vychodzi render  pre zobrazenie základného panela */
-  public function renderDefault() {}
+  public function renderDefault() {
+    $this->template->parts = $this->hlavne_menu_cast->findAll();
+    $this->template->useri = $this->user_main->getUser($this->user->id);
+  }
 
   /** Pre zobrazenie článokv v časti menu 
    * @param int $id Id casti hlavneho menu ako zaporne cislo */

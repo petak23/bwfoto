@@ -34,6 +34,9 @@ export default {
     backLink: { // Link na presmerovanie po úspešnom nahratí
       type: String,
       required: true,
+    },
+    withThumb: {
+      default: 0
     }
   },
   data: () => ({
@@ -68,6 +71,18 @@ export default {
         _.forEach(response.data.data, (file) => {
           this.uploadedImages.push(file)
         })
+        if (response.data.status == 200) {
+          this.$root.$emit('flash_message', [{'message':'Položka(y) bola(i) úspešne nahratá(é).', 
+                                              'type':'success',
+                                              'heading': 'Podarilo sa...'
+                                            }])
+        } else if (response.data.status == 500) {
+          this.$root.$emit('flash_message', [{'message':'Niektorá položka sa nenahrala správne.', 
+                                              'type':'danger',
+                                              'heading': 'Ups...'
+                                            }])
+        }
+
         this.files = null;
         this.isUploading = false;
         this.$refs.imageUploader.value = null;
@@ -94,7 +109,10 @@ export default {
     },
     close() {
       // https://stackoverflow.com/questions/35664550/vue-js-redirection-to-another-page
-      window.location.href = this.backLink;
+      //window.location.href = this.backLink;
+
+      this.$root.$emit('products_add', this.uploadedImages)
+      this.$bvModal.hide("myModalAddMultiProductsChange")
     },
   },
 };

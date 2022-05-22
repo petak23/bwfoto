@@ -81,8 +81,9 @@
     <div class="row">
       <div class="col-12 col-sm-3 col-md-2 left-col">
         <div class="menu_new">
+          <h6 class="mt-1">Administračná ponuka</h6>
           <ul>
-          <li n:if="$user->isInRole('admin')"><a href="{link :Front:Homepage:default}api/" title="API" target="_blank">API</a></li>
+          {*<li n:if="$user->isInRole('admin')"><a href="{link :Front:Homepage:default}api/" title="API" target="_blank">API</a></li>*}
           {foreach $admin_menu as $am}
             <li n:if="$am->id_user_roles <= $user->getIdentity()->id_user_roles">
               <a n:href="$am->odkaz" title="{$am->nazov}" n:class="$presenter->isLinkCurrent($am->odkaz.'*') ? selected">
@@ -92,13 +93,15 @@
           {/foreach}
           </ul>
         </div>
-        <div class="menu_new">{control menu:tree}</div>
+        <div class="menu_new">
+          <h6>Ponuka obsahu webu:</h6>
+          {control menu:tree}
+        </div>
         {*<div class="menu_new" n:if="$user->isInRole('admin')">
           <a n:href="Clanky:konvertuj 1">Konvertuj Clanky -> Hl. menu</a>
         </div>*}
       </div>
-      <div class="col-12 col-sm-9 col-md-10">
-        
+      <div class="col-12 col-sm-9 col-md-10">        
         {* $flashes = array
             0 => stdClass
               message: 'Váš článok bol úspešne uložený!',

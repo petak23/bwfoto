@@ -1,4 +1,5 @@
 <?php
+
 namespace App\ApiModule\Presenters;
 
 use DbTable;
@@ -17,7 +18,8 @@ use Nette\Http\FileUpload;
  * @link       http://petak23.echo-msz.eu
  * @version 1.0.2
  */
-class ProductsPresenter extends BasePresenter {
+class ProductsPresenter extends BasePresenter
+{
 
   // -- DB
   /** @var DbTable\Products @inject */
@@ -28,7 +30,8 @@ class ProductsPresenter extends BasePresenter {
   /** @var array */
   private $products_settings;
 
-  public function __construct(array $parameters, String $wwwDir) {
+  public function __construct(array $parameters, String $wwwDir)
+  {
     // Nastavenie z config-u
     $this->nastavenie = $parameters;
     $this->wwwDir = $wwwDir;
@@ -37,14 +40,16 @@ class ProductsPresenter extends BasePresenter {
   /**
    * Vráti informácie o produkte
    * @param int $id Id produktu */
-  public function actionProduct(int $id): void { 
+  public function actionProduct(int $id): void
+  {
     $this->sendJson($this->products->getProduct($id));
   }
 
   /**
    * Vráti informácie o produkte
    * @param int id Id hlavného menu */
-  public function actionGetProducts(int $id): void { 
+  public function actionGetProducts(int $id): void
+  {
     $this->sendJson($this->products->getProductsArray($id));
   }
 
@@ -56,7 +61,8 @@ class ProductsPresenter extends BasePresenter {
    * @todo Kontrola max. veľkosti súboru
    * ----------------------------------------
    * */
-  public function actionSave(int $id) {
+  public function actionSave(int $id)
+  {
     /* from POST:
     * - description
     * - name */
@@ -65,7 +71,7 @@ class ProductsPresenter extends BasePresenter {
     /* from POST:
     * - files */
     $files = $this->getHttpRequest()->getFiles();
-     
+
     //dumpe($files, is_array($files['files']));
     // Ak niet čo ukladať...
     if (!(isset($files['files']) && is_array($files['files']) && count($files['files']))) {
@@ -78,10 +84,10 @@ class ProductsPresenter extends BasePresenter {
     }
     $user = $this->getUser();
     $hl_menu = $this->hlavne_menu->find($id);
-    $this->products_settings = $this->udaje->findBy(['id_druh'=>8])->fetchPairs('nazov', 'text');
+    $this->products_settings = $this->udaje->findBy(['id_druh' => 8])->fetchPairs('nazov', 'text');
 
-    $data_save = [ 
-      'id_hlavne_menu'	 	=> $id,
+    $data_save = [
+      'id_hlavne_menu'     => $id,
       'id_user_main'      => $user->id,
       'id_user_roles'     => $hl_menu->id_user_roles,
       //'description'				=> isset($values['description']) && strlen($values['description'])>2 ? $values['description'] : NULL,
@@ -95,7 +101,7 @@ class ProductsPresenter extends BasePresenter {
         'data'    => [],
       ];
       foreach ($files['files'] as $file) {
-        $_up = $this->_saveProduct($file, $data_save);  
+        $_up = $this->_saveProduct($file, $data_save);
         if ($_up == null) {
           $upload['status'] = 500;
           $upload['data'][] = null;
@@ -105,9 +111,8 @@ class ProductsPresenter extends BasePresenter {
       }
     } else {  // SingleUpload
       $_up = $this->_saveProduct($files['files'], $data_save);
-      $upload = $_up !== null ? ['status'=>200, 'data'=>$_up] : ['status'=>500, 'data'=>null];
+      $upload = $_up !== null ? ['status' => 200, 'data' => $_up] : ['status' => 500, 'data' => null];
     }
-    $this->flashMessage('Upload úspešný', 'success');
 
     if ($this->isAjax()) {
       $this->sendJson($upload);
@@ -116,27 +121,32 @@ class ProductsPresenter extends BasePresenter {
     }
   }
 
-  private function _saveProduct(FileUpload $file, array $data_save): ?array {
+  private function _saveProduct(FileUpload $file, array $data_save): ?array
+  {
     //dumpe($data_save);
-    $result = ($file->error == 0) ? $this->products->saveUpload($file, 
-                          ['products_settings' => $this->products_settings,
-                            'panorama' => $data_save['panorama'],
-                            'main_data' => [ 
-                                'id_hlavne_menu'  => $data_save['id_hlavne_menu'],
-                                'id_user_main'    => $data_save['id_user_main'],
-                                'id_user_roles'   => $data_save['id_user_roles'],
-                              ]
-                            ]) : 0; // Ak je chyba v uploade
+    $result = ($file->error == 0) ? $this->products->saveUpload(
+      $file,
+      [
+        'products_settings' => $this->products_settings,
+        'panorama' => $data_save['panorama'],
+        'main_data' => [
+          'id_hlavne_menu'  => $data_save['id_hlavne_menu'],
+          'id_user_main'    => $data_save['id_user_main'],
+          'id_user_roles'   => $data_save['id_user_roles'],
+        ]
+      ]
+    ) : 0; // Ak je chyba v uploade
     return $result ? $this->products->getProduct($result) : null;
   }
 
   /** Vymazanie dokumentu z DB 
    * @param int $id Iddokumentu */
-  public function actionDelete(int $id) {
+  public function actionDelete(int $id)
+  {
     if ($this->getUser()->isLoggedIn() && $this->getUser()->isAllowed($this->name, $this->action)) { //Preventývna kontrola
-      $out = $this->products->remove($id) ? ['status'=>200, 'data'=>'OK'] : ['status'=>500, 'data'=>null]; // 500 Internal Server Error
+      $out = $this->products->remove($id) ? ['status' => 200, 'data' => 'OK'] : ['status' => 500, 'data' => null]; // 500 Internal Server Error
     } else {
-      $out = ['status'=>401, 'data'=>null]; //401 Unauthorized (RFC 7235) Používaný tam, kde je vyžadovaná autorizácia, ale zatiaľ nebola vykonaná. 
+      $out = ['status' => 401, 'data' => null]; //401 Unauthorized (RFC 7235) Používaný tam, kde je vyžadovaná autorizácia, ale zatiaľ nebola vykonaná. 
     }
 
     if ($this->isAjax()) {
@@ -144,6 +154,5 @@ class ProductsPresenter extends BasePresenter {
     } else {
       $this->redirect(':Admin:Clanky:', $id);
     }
-    
   }
 }

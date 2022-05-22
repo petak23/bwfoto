@@ -84,11 +84,6 @@ services:
 #  - App\AdminModule\Components\Oznam\IAktualneOznamyControl
 #  - App\AdminModule\Components\Oznam\TitleOznam\ITitleOznamControl
 
-  PoductsControl:
-    implement: App\AdminModule\Components\Products\IProductsControl
-    arguments: 
-#      texts_for_translator: %datagrid.texts_for_translator%
-
   - App\AdminModule\Components\User\ContactCategori\IContactCategoriControl
   - App\AdminModule\Components\User\IKontaktControl
 

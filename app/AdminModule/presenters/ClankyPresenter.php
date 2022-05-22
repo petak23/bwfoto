@@ -1,15 +1,15 @@
 <?php
+
 namespace App\AdminModule\Presenters;
 
 use App\AdminModule\Components;
 use DbTable;
 use Nette\Application\UI\Form;
-//use PeterVojtech;
 
 /**
  * Prezenter pre spravu clankov.
  * 
- * Posledna zmena(last change): 06.05.2022
+ * Posledna zmena(last change): 22.05.2022
  *
  *	Modul: ADMIN
  *
@@ -17,65 +17,69 @@ use Nette\Application\UI\Form;
  * @copyright Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.3.9
+ * @version 1.4.0
  */
 
-class ClankyPresenter extends ArticlePresenter {
+class ClankyPresenter extends ArticlePresenter
+{
 
   // -- Komponenty
   /** @var Components\Clanky\IZobrazClanokAControl @inject */
   public $zobrazClanokControlFactory;
   /** @var Components\Clanky\PrilohyClanok\IPrilohyClanokAControl @inject */
   public $prilohyClanokControlFactory;
-  /** @var Components\Products\IProductsControl @inject */
-  public $productsControlFactory;
-  
-	/** @var string */
+
+  /** @var string */
   protected $nadpis_h2 = "";
-	
+
   /** @var mixed */
-	public $priloha;
-  
+  public $priloha;
+
   /** @persistent */
   public $tabs_clanky = 'prilohy-tab';
 
   /** Vychodzie nastavenia */
-  protected function startup() {
+  protected function startup()
+  {
     parent::startup();
     $this->template->jazyky = $this->lang->findAll();
   }
-  
+
   /** Render pre defaultnu akciu */
-	public function renderDefault() {
+  public function renderDefault()
+  {
     parent::renderDefault();
-		$this->template->prilohy = $this->dokumenty->getPrilohy($this->zobraz_clanok->id_hlavne_menu);
-    $this->template->products_count = $this->products->findBy(['id_hlavne_menu'=>$this->zobraz_clanok->id_hlavne_menu])->count();
+    $this->template->prilohy = $this->dokumenty->getPrilohy($this->zobraz_clanok->id_hlavne_menu);
+    $this->template->products_count = $this->products->findBy(['id_hlavne_menu' => $this->zobraz_clanok->id_hlavne_menu])->count();
     //Kontrola jedinecnych komponent. Ak uz su priradene tak sa vypustia
     $this->template->zoznam_komponent = $this->clanok_komponenty->testJedinecnosti($this->nastavenie["komponenty"], $this->zobraz_clanok->id_hlavne_menu);
     $this->template->tabs = isset($this->params["tab"]) ? $this->params["tab"] : "prilohy-tab";
-	}
+  }
 
   /** 
    * Akcia pre 1. krok pridania clanku - udaje pre hl. menu.
    * @param int $id - id nadradenej polozky
    * @param int $uroven - uroven menu */
-  public function actionAdd(int $id, int $uroven) {
-		$this->menuformuloz = ["text"=>"Ulož základ a pokračuj na texty >>","redirect"=>"Clanky:edit2"];
+  public function actionAdd(int $id, int $uroven)
+  {
+    $this->menuformuloz = ["text" => "Ulož základ a pokračuj na texty >>", "redirect" => "Clanky:edit2"];
     parent::actionAdd($id, $uroven);
-	}
-	
+  }
+
   /** 
    * Akcia pre 1. krok editovania clanku - udaje pre hl. menu.
    * @param int $id - id editovanej polozky */
-  public function actionEdit(int $id) {
-    $this->menuformuloz = ["text"=>"Ulož","redirect"=>"Clanky:default"];
+  public function actionEdit(int $id)
+  {
+    $this->menuformuloz = ["text" => "Ulož", "redirect" => "Clanky:default"];
     parent::actionEdit($id);
-	}
-  
+  }
+
   /** 
    * Akcia pre 2. krok editovania clanku - udaje pre clanok.
    * @param int $id - id editovaneho clanku v hl. menu */
-	public function actionEdit2(int $id) {
+  public function actionEdit2(int $id)
+  {
     //Najdi pozadovany clanok
     try {
       $this->zobraz_clanok = $this->hlavne_menu_lang->getOneArticleId($id, $this->language_id, $this->id_reg);
@@ -83,96 +87,95 @@ class ClankyPresenter extends ArticlePresenter {
       $this->setView("notFound");
       return;
     }
-    
+
     $this->nadpis_h2 = 'Editácia textov k článku: ';
     $vychodzie = [];
     foreach ($this->jaz as $j) {
-      $pom = $this->hlavne_menu_lang->findOneBy(["id_lang"=>$j->id, "id_hlavne_menu"=>$id]);
-      $la = $j->skratka."_";
+      $pom = $this->hlavne_menu_lang->findOneBy(["id_lang" => $j->id, "id_hlavne_menu" => $id]);
+      $la = $j->skratka . "_";
       $vychodzie = array_merge($vychodzie, [ //Nastav vychodzie hodnoty
-        $la.'id'        => $pom->id, //hlavne_menu_lang -> id
-        $la.'text'    	=> $pom->text,
-        $la.'anotacia'	=> $pom->anotacia,	
-      ]);  
+        $la . 'id'        => $pom->id, //hlavne_menu_lang -> id
+        $la . 'text'      => $pom->text,
+        $la . 'anotacia'  => $pom->anotacia,
+      ]);
     }
     $this["clankyEditForm"]->setDefaults($vychodzie);
     $this->setView("krok2");
-	}
-  
+  }
+
   /** Render pre 2. krok editacie clanku. */
-  public function renderKrok2() {
-		$this->template->h2 = $this->nadpis_h2.$this->zobraz_clanok->view_name;
-	}
-	
-	/** 
+  public function renderKrok2()
+  {
+    $this->template->h2 = $this->nadpis_h2 . $this->zobraz_clanok->view_name;
+  }
+
+  /** 
    * Formular pre editaciu clanku.
-	 * @return Nette\Application\UI\Form */
-	protected function createComponentClankyEditForm() {
-		$form = new Form();
-		$form->addProtection();
+   * @return Nette\Application\UI\Form */
+  protected function createComponentClankyEditForm()
+  {
+    $form = new Form();
+    $form->addProtection();
     $form->addGroup();
-		$form->addGroup();
-		foreach ($this->jaz as $j) {
-      $form->addHidden($j->skratka.'_id'); // hlavne_menu_lang -> id
+    $form->addGroup();
+    foreach ($this->jaz as $j) {
+      $form->addHidden($j->skratka . '_id'); // hlavne_menu_lang -> id
       if ($this->nastavenie['clanky']['zobraz_anotaciu']) {
-        $form->addText($j->skratka.'_anotacia', 'Anotácia článku pre jazyk '.$j->nazov.':', 0, 255);
+        $form->addText($j->skratka . '_anotacia', 'Anotácia článku pre jazyk ' . $j->nazov . ':', 0, 255);
       }
-			$form->addTextArea($j->skratka.'_text', 'Text článku pre jazyk '.$j->nazov.':')
-            ->setHtmlAttribute('cols', 0)
-            ->setHtmlAttribute('rows', 20)
-            ->getControlPrototype()->class("texyla");
+      $form->addTextArea($j->skratka . '_text', 'Text článku pre jazyk ' . $j->nazov . ':')
+        ->setHtmlAttribute('cols', 0)
+        ->setHtmlAttribute('rows', 20)
+        ->getControlPrototype()->class("texyla");
     }
-		$form->addGroup();
-		$form->addSubmit('uloz', 'Ulož článok')->setHtmlAttribute('class', 'btn btn-success');
-		$form->onSuccess[] = [$this,'clankyEditFormSubmitted'];
-		$form = $this->_vzhladForm($form);
+    $form->addGroup();
+    $form->addSubmit('uloz', 'Ulož článok')->setHtmlAttribute('class', 'btn btn-success');
+    $form->onSuccess[] = [$this, 'clankyEditFormSubmitted'];
+    $form = $this->_vzhladForm($form);
     $renderer = $form->getRenderer();
     $renderer->wrappers['pair']['.odd'] = 'r1';
     $renderer->wrappers['control']['container'] = 'div class="col-sm-12 control-field"';
     $renderer->wrappers['label']['container'] = 'div class="col-sm-12 control-label control-label-clanky"';
     return $form;
-	}
+  }
 
   /** 
    * Spracovanie formulara pre editaciu clanku. */
-	public function clankyEditFormSubmitted(Form $form, $values) {
-		$this->hlavne_menu_lang->ulozTextClanku($values);
+  public function clankyEditFormSubmitted(Form $form, $values)
+  {
+    $this->hlavne_menu_lang->ulozTextClanku($values);
     $this->flashRedirect(['Clanky:default', $this->zobraz_clanok->id_hlavne_menu], 'Váš článok bol úspešne uložený!', 'success');
-	}
-  
+  }
+
   /** 
    * Komponenta pre ukazanie obsahu clanku.
    * @return \App\AdminModule\Components\Clanky\ZobrazClanokControl */
-	public function createComponentZobrazClanok() {
+  public function createComponentZobrazClanok()
+  {
     $zobrazClanok = $this->zobrazClanokControlFactory->create();
     $zobrazClanok->setZobraz($this->zobraz_clanok->id_hlavne_menu);
-    return $zobrazClanok; 
+    return $zobrazClanok;
   }
-  
+
   /** 
    * Komponenta pre ukazanie priloh clanku.
    * @return \App\AdminModule\Components\Clanky\PrilohyClanok\PrilohyClanokAControl */
-	public function createComponentPrilohyClanok() {
-    $prilohyClanok = $this->prilohyClanokControlFactory->create(); 
+  public function createComponentPrilohyClanok()
+  {
+    $prilohyClanok = $this->prilohyClanokControlFactory->create();
     $prilohyClanok->setTitle($this->zobraz_clanok, $this->nazov_stranky, $this->name);
     return $prilohyClanok;
   }
-  
-  /** 
-   * Komponenta pre ukazanie produktov k clanku.
-   * @return \App\AdminModule\Components\Clanky\Products\ProductsControl */
-	public function createComponentProducts() {
-    $products = $this->productsControlFactory->create(); 
-    $products->setTitle($this->zobraz_clanok, $this->name);
-    return $products;
-  }
 
-  public function actionKonvertuj($id = 0) {
+  public function actionKonvertuj($id = 0)
+  {
     $cl = $this->hlavne_menu_lang->findBy(['id_clanok_lang IS NOT NULL']);
     foreach ($cl as $c) {
-      $c->update(['text'=>$c->clanok_lang->text,
-                  'anotacia'=>$c->clanok_lang->anotacia]);
+      $c->update([
+        'text' => $c->clanok_lang->text,
+        'anotacia' => $c->clanok_lang->anotacia
+      ]);
     }
-    $this->flashRedirect("Homepage:",'OK!', "success");
+    $this->flashRedirect("Homepage:", 'OK!', "success");
   }
 }

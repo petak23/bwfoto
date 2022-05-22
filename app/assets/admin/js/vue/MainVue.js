@@ -15,7 +15,7 @@ import SingleUpload from './components/Uploader/SingleUpload'
 import MultipleUpload from './components/Uploader/MultipleUpload'
 import lastlogin from './components/MainFrame/LastLogin'
 import colorBorderChange from './components/ColorBorderChange.vue'
-import ProductsGrid from './components/Products/ProductsGrid.vue'
+import ProductsMain from './components/Products/ProductsMain.vue'
 import Edittexts from '../../../components/EditArticle/EditTexts'
 import FlashMessage from "./components/FlashMessage";
 
@@ -32,7 +32,7 @@ let vm = new Vue({
     lastlogin,
     MultipleUpload,
     colorBorderChange,
-    ProductsGrid,
+    ProductsMain,
     Edittexts,
     FlashMessage,
   },
