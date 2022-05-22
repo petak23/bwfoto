@@ -30,7 +30,7 @@ export default {
       type: String,
       required: true,
     },
-    adminLinks: {
+    adminLinks: { // Oprávnenia pre administratívne úkony
       type: String,
       required: true,
     },
@@ -47,32 +47,37 @@ export default {
 }
 </script>
 <template>
-  <div class="panel panel-info">
-    <div class="panel-heading">
-      <b-button v-if="admin_links.elink" v-b-modal.myModalAddMultiProductsChange variant="primary">
+  <div class="card card-info">
+    <div class="card-header">
+      <b-button v-if="admin_links.elink" v-b-modal.myModalAddMultiProductsUpload variant="primary">
         <i class="fas fa-copy"></i> Pridaj produkt(y)
       </b-button>
     </div>
-    
-    <products-grid
-      :base-path="basePath"
-      :id_hlavne_menu="id_hlavne_menu"
-      :edit-enabled="admin_links.elink"
-    />
+    <div class="card-body">
+      <products-grid
+        :base-path="basePath"
+        :id_hlavne_menu="id_hlavne_menu"
+        :edit-enabled="admin_links.elink"
+      />
 
-    <b-modal 
-      id="myModalAddMultiProductsChange"
-      title="Pridanie viacerích produktov k položke"
-      v-if="admin_links.elink"
-      size="lg"
-      :hide-footer="true"
-    >
       <multiple-upload 
+        v-if="admin_links.elink"
         api-url="api/products" 
         :base-path="basePath"
         :back-link="backLink"
         :id_hlavne_menu="id_hlavne_menu"
+        id-of-modal-uplad="myModalAddMultiProductsUpload"
+        title="Pridanie viacerích produktov k položke"
+        item-emit-name="products_add"
       />
-    </b-modal>
+    </div>
   </div>
 </template>
+
+<style scoped>
+.card-body {
+  padding-top: 0;
+  padding-left: 0;
+  padding-right: 0; 
+}
+</style>

@@ -1,13 +1,13 @@
 <script>
 /**
  * Komponenta pre multiupload súborov.
- * Posledna zmena 28.04.2022
+ * Posledna zmena 22.05.2022
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.1
+ * @version    1.0.2
  */
 
 import _ from "lodash";
@@ -35,8 +35,20 @@ export default {
       type: String,
       required: true,
     },
-    withThumb: {
-      default: 0
+    withThumb: {  // Tobrazenie nahratých uploadov, ak '1' tak áno 
+      type: String,
+      default: '0'
+    },
+    idOfModalUplad: { // Id modálneho okna v ktorom je uploader
+      type: String
+    },
+    title: {  // Titulka modálneho okna
+      type: String,
+      default: 'Title',
+    },
+    itemEmitName: {
+      type: String,
+      default: 'multi_upload',
     }
   },
   data: () => ({
@@ -76,6 +88,10 @@ export default {
                                               'type':'success',
                                               'heading': 'Podarilo sa...'
                                             }])
+          setTimeout(() => {
+            this.$bvModal.hide(this.idOfModalUplad)
+            this.$root.$emit(this.itemEmitName, this.uploadedImages)
+          }, 500)
         } else if (response.data.status == 500) {
           this.$root.$emit('flash_message', [{'message':'Niektorá položka sa nenahrala správne.', 
                                               'type':'danger',
@@ -100,7 +116,6 @@ export default {
       axios.get(odkaz)
               .then(response => {
                 console.log(response.data)
-                //this.uploadedImages
               })
               .catch((error) => {
                 console.log(this.odkaz);
@@ -108,55 +123,61 @@ export default {
               });
     },
     close() {
-      // https://stackoverflow.com/questions/35664550/vue-js-redirection-to-another-page
-      //window.location.href = this.backLink;
-
-      this.$root.$emit('products_add', this.uploadedImages)
-      this.$bvModal.hide("myModalAddMultiProductsChange")
+      if (this.withThumb == '1') {
+        this.$root.$emit(this.itemEmitName, this.uploadedImages)
+        this.$bvModal.hide(this.idOfModalUplad)
+      }
     },
   },
 };
 </script>
 
 <template>
-  <div class="multiple-upload">
-    <div class="d-flex justify-content-around">
-      <div class="upload-container d-flex justify-content-center align-items-center">
-        <input
-          :id="id"
-          multiple
-          type="file"
-          ref="imageUploader"
-          class="input-uploader"
-          @change="imagesInserted"
-        />
-        <div class="uploader-icon"><i class="fa-solid fa-upload fa-2x"></i></div>
+  <b-modal 
+      :id="idOfModalUplad"
+      :title="title"
+      size="lg"
+      :hide-footer="true"
+    >
+    <div class="multiple-upload">
+      <div class="d-flex justify-content-around">
+        <div class="upload-container d-flex justify-content-center align-items-center">
+          <input
+            :id="id"
+            multiple
+            type="file"
+            ref="imageUploader"
+            class="input-uploader"
+            @change="imagesInserted"
+          />
+          <div class="uploader-icon"><i class="fa-solid fa-upload fa-2x"></i></div>
+        </div>
+        <div class="flex-grow-1 d-flex flex-column px-3 justify-content-around">
+          <bProgress v-if="isUploading" :value="value" :max="max" show-progress animated />
+        </div>
       </div>
-      <div class="flex-grow-1 d-flex flex-column px-3 justify-content-around">
-        <bProgress v-if="isUploading" :value="value" :max="max" show-progress animated />
+      <div class="d-flex flex-column mt-3" v-if="withThumb == '1'">
+        <div v-for="img in uploadedImages" :key="img.id">
+          <bImg
+            class="mt-1 mr-2"
+            height="80px"
+            width="80px"
+            :src="basePath + '/' +  img.thumb_file"
+            thumbnail
+            fluid
+            alt="Responsive image"
+          />
+          <button class="btn btn-outline-danger" @click="deleteFile(img.id)">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </div>
+        
+      </div>
+      <div class="d-flex justify-content-end" v-if="withThumb == '1'">
+        <button class="btn btn-success" @click="close">Skonč</button>
       </div>
     </div>
-    <div class="d-flex flex-column mt-3">
-      <div v-for="img in uploadedImages" :key="img.id">
-        <bImg
-          class="mt-1 mr-2"
-          height="80px"
-          width="80px"
-          :src="basePath + '/' +  img.thumb_file"
-          thumbnail
-          fluid
-          alt="Responsive image"
-        />
-        <button class="btn btn-outline-danger" @click="deleteFile(img.id)">
-          <i class="fa-solid fa-trash"></i>
-        </button>
-      </div>
-      
-    </div>
-    <div class="d-flex justify-content-end">
-      <button class="btn btn-success" @click="close">Skonč</button>
-    </div>
-  </div>
+  </b-modal>  
 </template>
 
 <style lang="scss" scoped>
