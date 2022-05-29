@@ -8,7 +8,7 @@ use Nette\Http\FileUpload;
 
 /**
  * Prezenter pre pristup k api produktov.
- * Posledna zmena(last change): 06.05.2022
+ * Posledna zmena(last change): 29.05.2022
  *
  * Modul: API
  *
@@ -16,7 +16,7 @@ use Nette\Http\FileUpload;
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.2
+ * @version 1.0.3
  */
 class ProductsPresenter extends BasePresenter
 {
@@ -151,6 +151,26 @@ class ProductsPresenter extends BasePresenter
 
     if ($this->isAjax()) {
       $this->sendJson($out);
+    } else {
+      $this->redirect(':Admin:Clanky:', $id);
+    }
+  }
+
+  /** 
+   * Oprava produktu v DB 
+   * @param int $id Id_hlavne_menu, ku ktorému ukladám produkt 
+   * */
+  public function actionUpdate(int $id)
+  {
+    /* from POST: */
+    //$values = $this->getHttpRequest()->getPost();
+    $values = json_decode(file_get_contents("php://input"), true); // @help 1.)
+
+    //dumpe($values);
+
+    $this->products->saveProduct($values, $id);
+    if ($this->isAjax()) {
+      $this->sendJson(['status' => 200, 'data' => 'OK']);
     } else {
       $this->redirect(':Admin:Clanky:', $id);
     }

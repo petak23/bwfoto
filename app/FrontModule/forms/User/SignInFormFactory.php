@@ -10,63 +10,68 @@ use Nette\Security;
 
 /**
  * Sign in form
- * Last change 03.02.2022
+ * Last change 27.05.2022
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.1.2
+ * @version    1.1.3
  */
-class SignInFormFactory {
+class SignInFormFactory
+{
   /** @var User */
   private $user;
   /** @var Language_support\LanguageMain */
   private $texts;
 
-  public function __construct(Security\User $user, 
-                              Language_support\LanguageMain $language_main) {
+  public function __construct(
+    Security\User $user,
+    Language_support\LanguageMain $language_main
+  ) {
     $this->user = $user;
     $this->texts = $language_main;
-	}
-  
+  }
+
   /**
    * @return string */
-  public function getTexts() {
+  public function getTexts()
+  {
     return $this->texts;
   }
-  
+
   /**
    * Prihlasovaci formular
    * @var string $language Skratka aktualneho jazyka
    * @return Form */
-  public function create(string $language): Form  {
+  public function create(string $language): Form
+  {
     $form = new Form();
-		$form->addProtection();
+    $form->addProtection();
     $this->texts->setLanguage($language);
     $form->setTranslator($this->texts);
     $form->addEmail('email', 'SignInForm_email')
-         //->setHtmlAttribute('autofocus', 'autofocus')
-         ->setHtmlAttribute('placeholder', 'SignInForm_email')
-         ->addRule(Form::EMAIL, 'Musíte zadať platnú e-mailovú adresu!')
-				 ->setRequired('SignInForm_email_req');
-		$form->addPassword('password', 'SignInForm_password')
-         ->setHtmlAttribute('placeholder', 'SignInForm_password')
-         ->addRule(Form::MIN_LENGTH, 'SignInForm_password_min_lenght', 3)
-				 ->setRequired('SignInForm_password_req');
-		$form->addCheckbox('remember', 'SignInForm_remember');
+      //->setHtmlAttribute('autofocus', 'autofocus')
+      ->setHtmlAttribute('placeholder', 'SignInForm_email')
+      ->addRule(Form::EMAIL, 'Musíte zadať platnú e-mailovú adresu!')
+      ->setRequired('SignInForm_email_req');
+    $form->addPassword('password', 'SignInForm_password')
+      ->setHtmlAttribute('placeholder', 'SignInForm_password')
+      ->addRule(Form::MIN_LENGTH, 'SignInForm_password_min_lenght', 3)
+      ->setRequired('SignInForm_password_req');
+    $form->addCheckbox('remember', 'SignInForm_remember');
     $form->addSubmit('login', 'SignInForm_login')
-         ->setHtmlAttribute('class', 'btn btn-success')
-         ->onClick[] = [$this, 'signInFormSubmitted'];
+      ->setHtmlAttribute('class', 'btn btn-success')
+      ->onClick[] = [$this, 'signInFormSubmitted'];
     $form->addSubmit('forgottenPassword', 'SignInForm_forgottenPassword')
-         ->setValidationScope([])
-         ->setHtmlAttribute('class', 'btn btn-link');
+      ->setValidationScope([])
+      ->setHtmlAttribute('class', 'btn btn-link');
     $renderer = $form->getRenderer();
     $renderer->wrappers['controls']['container'] = 'div class=sign-in-form';
     $renderer->wrappers['pair']['container'] = 'div class="form-group row justify-content-center"';
     $renderer->wrappers['pair']['.error'] = 'has-danger';
     $renderer->wrappers['control']['container'] = 'div class="col-12 col-sm-6"';
-    $renderer->wrappers['label']['container'] = 'div class="d-none"';//'div class="col-sm-3 col-form-label"';
+    $renderer->wrappers['label']['container'] = 'div class="d-none"'; //'div class="col-sm-3 col-form-label"';
     $renderer->wrappers['control']['description'] = 'span class=form-text';
     $renderer->wrappers['control']['errorcontainer'] = 'span class=form-control-feedback';
     $renderer->wrappers['control']['.error'] = 'is-invalid';
@@ -85,17 +90,22 @@ class SignInFormFactory {
         $control->getSeparatorPrototype()->setName('div')->addClass('form-check');
       }
     }
-		return $form;
-	}
-  
+    return $form;
+  }
+
   /**
    * Overenie po prihlaseni */
-	public function signInFormSubmitted(Form $form, $values) {
+  public function signInFormSubmitted(Form $form, $values)
+  {
     try {
-      $this->user->setExpiration($values->remember ? '13 days' : '30 minutes');
-			$this->user->login($values->email, $values->password);
-		} catch (Security\AuthenticationException $e) {
-      $form->addError($this->texts->translate("SignInForm_error_".$e->getCode()));
+      if (!$values->remember) {
+        $this->user->setExpiration('30 minutes');
+      } else {
+        $this->user->setExpiration('14 days');
+      }
+      $this->user->login($values->email, $values->password);
+    } catch (Security\AuthenticationException $e) {
+      $form->addError($this->texts->translate("SignInForm_error_" . $e->getCode()));
     }
-	}
+  }
 }

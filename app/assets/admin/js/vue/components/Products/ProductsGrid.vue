@@ -1,22 +1,25 @@
 <script>
 /**
  * Komponenta pre vypísanie a spracovanie produktov.
- * Posledna zmena 22.05.2022
+ * Posledna zmena 29.05.2022
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.3
+ * @version    1.0.4
  */
 
 import axios from "axios";
+import textCell from '../Grid/TextCell.vue'
 
 //for Tracy Debug Bar
 axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
 export default {
-  components: {},
+  components: {
+    textCell,
+  },
   props: {
     id_hlavne_menu: {
       type: String,
@@ -100,7 +103,7 @@ export default {
           console.log(odkaz);
           console.log(error);
         });
-    }
+    },
   },
   created() {
     // Načítanie údajov priamo z DB
@@ -114,7 +117,7 @@ export default {
 
 <template>
   <div>
-    <table class="table table-striped" v-if="loading == 0">
+    <table class="table table-bordered table-striped" v-if="loading == 0">
       <thead class="thead-light">
         <tr>
           <th>Obrázok</th>
@@ -133,12 +136,18 @@ export default {
               @click="openmodal(index)"
             />
           </td>
-          <td>
-            <span>{{ item.name }}</span>
-          </td>
-          <td>
-            <span>{{ item.description }}</span>
-          </td>
+          <text-cell
+            :value="item.name"
+            :apiLink="basePath + '/api/products/update/'"
+            colName="name"
+            :id="item.id"
+          ></text-cell>
+          <text-cell
+            :value="item.description"
+            :apiLink="basePath + '/api/products/update/'"
+            colName="description"
+            :id="item.id"
+          ></text-cell>
           <td class="action-col" v-if="editEnabled">
             <button type="button" class="btn btn-info btn-sm" title="Edit">
               <i class="fa-solid fa-pen"></i>

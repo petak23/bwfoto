@@ -74,7 +74,7 @@ application:
 
 session:
   autoStart: true
-  expiration: 14 days
+  expiration: 30 days
   debugger: true
 
 tracy:
