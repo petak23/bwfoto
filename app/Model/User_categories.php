@@ -6,13 +6,13 @@ use Nette\Database;
 /**
  * Model, ktory sa stara o tabulku user_categories
  * 
- * Posledna zmena 12.10.2018
+ * Posledna zmena 31.05.2022
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2018 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.1
+ * @version    1.0.2
  */
 class User_categories extends Table {
   const
@@ -43,7 +43,7 @@ class User_categories extends Table {
       $id = isset($values->id) ? $values->id : 0;
       unset($values->id);
       return $this->uloz($values, $id);
-    } catch (Exception $e) {
+    } catch (Database\DriverException $e) {
       throw new Database\DriverException('Chyba ulozenia: '.$e->getMessage());
     }
   }

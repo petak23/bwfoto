@@ -1,20 +1,21 @@
 <?php
 namespace App\AdminModule\Presenters;
 
+use App\AdminModule\Forms\Products;
 use DbTable;
 
 /**
  * Prezenter pre smerovanie na dokumenty a editaciu produktov.
  * 
- * Posledna zmena(last change): 08.07.2020
+ * Posledna zmena(last change): 30.05.2022
  *
  * Modul: ADMIN
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.1
+ * @version 1.0.2
  */
 
 class ProductsPresenter extends BasePresenter {
@@ -32,37 +33,10 @@ class ProductsPresenter extends BasePresenter {
   /** @var \Nette\Database\Table\Selection */
   protected $products_data;
 
-  /** Vychodzia akcia
-   * @param int $id Id produktu na zobrazenie */
-	public function actionDefault(/*$id*/) {
+  /** Vychodzia akcia */
+	public function actionDefault() {
     $this->redirect('Products:setup');
-//		if (($this->product = $this->products->find($id)) === null) {
-//      $this->error('Produkt, ktorý hľadáte, sa žiaľ nenašiel!');
-//    }
-//		$this->redirectUrl("http://".$this->nazov_stranky."/".$this->product->main_file);
-//		exit;
 	}
-
-//  public function actionUpdate() {
-//    $docc = $this->documents->findAll();
-//    foreach ($docc as $do) {
-//      $out = [
-//         'main_file' => $this->nastavenie['prilohy_dir'].$do->main_file,
-//         'thumb_file' => $this->nastavenie['prilohy_dir'].$do->thumb_file
-//      ];
-//      $this->documents->oprav($do->id, $out);
-//    }
-//    $proc = $this->products->findBy(['id < 17']);
-//    foreach ($proc as $do) {
-//      $out = [
-//         'main_file' => $this->nastavenie['dir_to_products'].$do->main_file,
-//         'thumb_file' => $this->nastavenie['dir_to_products'].$do->thumb_file
-//      ];
-//      $this->products->oprav($do->id, $out);
-//    }
-//    $this->flashRedirect('Products:setup', "Opravené oba", "succese");
-//  }
-  
     
   /** Akcia pre nastavenie časti produktov */
   public function actionSetup() {
@@ -98,7 +72,7 @@ class ProductsPresenter extends BasePresenter {
    * Formular pre editaciu nastaveni casti produktov.
 	 * @return Nette\Application\UI\Form */
 	protected function createComponentSetupForm() {
-    $ft = new \App\AdminModule\Forms\Products\SetupProductDataFormFactory($this->udaje, $this->user);
+    $ft = new Products\SetupProductDataFormFactory($this->udaje, $this->user);
     $form = $ft->create();
     $form['uloz']->onClick[] = function ($button) {
       $this->flashOut(!count($button->getForm()->errors), 'Products:setup', 'Nastavenia boli úspešne uložené!', 'Došlo k chybe a zmena sa neuložila. Skúste neskôr znovu...');
@@ -113,7 +87,7 @@ class ProductsPresenter extends BasePresenter {
    * Formular pre editaciu info. o produkte.
 	 * @return Nette\Application\UI\Form */
 	protected function createComponentEditForm() {
-    $ft = new \App\AdminModule\Forms\Products\EditProoductFormFactory($this->products, $this->udaje, $this->user, $this->nastavenie['wwwDir']);
+    $ft = new Products\EditProoductFormFactory($this->products, $this->udaje, $this->user, $this->nastavenie['wwwDir']);
     $form = $ft->create($this->nastavenie['dir_to_products']);
     $form->setDefaults($this->product);
     $form['uloz']->onClick[] = function ($button) {

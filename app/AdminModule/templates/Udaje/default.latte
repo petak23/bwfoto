@@ -2,8 +2,8 @@
  *
  * Modul: ADMIN
  *
- * Posledna zmena(last change): 09.11.2020
- * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
+ * Posledna zmena(last change): 31.05.2022
+ * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
  *
@@ -47,7 +47,12 @@
               {$ra[(int)$u->text]}
             </td>
             <td n:if="$u->id_udaje_typ < 2 ">{$u->text}</td>
-            <td n:if="$user->isInRole('admin')">{$u->user_roles->role}</td>
+            <td n:if="$user->isInRole('admin')">
+              {$u->user_roles->role}
+              <div n:if="$u->id_user_main != null">
+                Len pre: {$u->user_main->meno} {$u->user_main->priezvisko|upper}
+              </div>
+            </td>
             <td n:if="$user->isInRole('admin')">{ifset $u->id_druh}{$u->druh->presenter}{/ifset}</td>
             <td n:if="$user->isInRole('admin')">{$u->udaje_typ->nazov}</td>
             <td class="editacne" n:if="$user->isAllowed('Admin:Udaje', 'edit')">

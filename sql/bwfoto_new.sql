@@ -1312,6 +1312,7 @@ DROP TABLE IF EXISTS `udaje`;
 CREATE TABLE `udaje` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
   `id_user_roles` int(11) NOT NULL DEFAULT 5 COMMENT 'Id min úrovne pre editáciu',
+  `id_user_main` int(11) DEFAULT NULL COMMENT 'Id užívateľa, pre ktorého toto nastavenie platí.',
   `id_druh` int(11) DEFAULT NULL COMMENT 'Druhová skupina pre nastavenia',
   `id_udaje_typ` int(11) NOT NULL DEFAULT 1 COMMENT 'Typ input-u',
   `nazov` varchar(30) COLLATE utf8_bin NOT NULL DEFAULT 'nazov' COMMENT 'Názov prvku',
@@ -1322,33 +1323,35 @@ CREATE TABLE `udaje` (
   KEY `id_reg` (`id_user_roles`),
   KEY `id_druh` (`id_druh`),
   KEY `id_udaje_typ` (`id_udaje_typ`),
+  KEY `id_user_main` (`id_user_main`),
   CONSTRAINT `udaje_ibfk_2` FOREIGN KEY (`id_druh`) REFERENCES `druh` (`id`),
   CONSTRAINT `udaje_ibfk_3` FOREIGN KEY (`id_udaje_typ`) REFERENCES `udaje_typ` (`id`),
-  CONSTRAINT `udaje_ibfk_4` FOREIGN KEY (`id_user_roles`) REFERENCES `user_roles` (`id`)
+  CONSTRAINT `udaje_ibfk_4` FOREIGN KEY (`id_user_roles`) REFERENCES `user_roles` (`id`),
+  CONSTRAINT `udaje_ibfk_5` FOREIGN KEY (`id_user_main`) REFERENCES `user_main` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Tabuľka na uschovanie základných údajov o stránke';
 
-INSERT INTO `udaje` (`id`, `id_user_roles`, `id_druh`, `id_udaje_typ`, `nazov`, `text`, `comment`, `separate_settings`) VALUES
-(1,	4,	NULL,	1,	'titulka-sk',	'BW Foto - Ateliér architektúry a fotografie',	'Názov zobrazený v titulke',	0),
-(2,	5,	NULL,	1,	'titulka_2-sk',	'',	'Druhá časť titulky pre jazyk: sk',	0),
-(6,	4,	NULL,	1,	'keywords-sk',	'BW Foto, Spišské Bystré, ateliér,  architektúra, fotografie',	'Kľúčové slová',	0),
-(7,	5,	NULL,	1,	'autor',	'Ing. Peter VOJTECH ml. - VZ',	'Autor stránky',	0),
-(14,	4,	NULL,	1,	'copy',	'BW Foto',	'Text, ktorý sa vypíše za znakom copyright-u',	0),
-(17,	5,	NULL,	3,	'komentare',	'0',	'Globálne povolenie komentárov',	0),
-(18,	5,	NULL,	3,	'registracia_enabled',	'0',	'Globálne registrácie(ak 1 tak áno, ak 0 tak nie)',	0),
-(19,	4,	1,	1,	'clanok_hlavicka',	'0',	'Nastavuje, ktoré hodnoty sa zobrazia v hlavičke článku Front modulu. Výsledok je súčet čísel.[1=Dátum, 2=Zadávateľ, 4=Počet zobrazení]',	0),
-(21,	4,	5,	3,	'oznam_komentare',	'0',	'Povolenie komentárov k aktualitám(oznamom).',	0),
-(22,	5,	5,	2,	'oznam_usporiadanie',	'1',	'Usporiadanie aktualít podľa dátumu platnosti. [1=od najstaršieho; 0=od najmladšieho]',	0),
-(23,	4,	5,	3,	'oznam_ucast',	'0',	'Povolenie potvrdenia účasti.',	0),
-(24,	5,	5,	1,	'oznam_prva_stranka',	'1',	'Id stránky, ktorá sa zobrazí ako 1. po načítaní webu',	0),
-(25,	4,	5,	3,	'oznam_title_image_en',	'1',	'Povolenie pridávania titulného obrázku k oznamu. Ak je zakázané používajú sa ikonky.',	0),
-(26,	5,	NULL,	1,	'google-analytics',	'UA-52835371-1',	'Id pre google-analytics. Ak sa reťazec nezačína na \"UA-\" nie je akceptovaný.',	0),
-(27,	4,	8,	4,	'product_main_x',	'2000',	'Šírka hlavného obrázku produktu[10,2000]',	1),
-(28,	4,	8,	4,	'product_main_y',	'1500',	'Výška hlavného obrázku produktu[10,2000]',	1),
-(29,	4,	8,	4,	'product_main_quality',	'80',	'Kvalita kompresie hlavného obrázku[1,100]',	1),
-(30,	4,	8,	4,	'product_thumb_x',	'226',	'Šírka náhľadového obrázku produktu[10,1000]',	1),
-(31,	4,	8,	4,	'product_thumb_y',	'150',	'Výška náhľadového obrázku produktu[10,1000]',	1),
-(32,	4,	8,	4,	'product_thumb_quality',	'70',	'Kvalita kompresie náhľadového obrázku[1,100]',	1),
-(33,	4,	8,	4,	'product_max_upload_files',	'150',	'Max. počet naraz nahrávaných súborov[5,500]',	1);
+INSERT INTO `udaje` (`id`, `id_user_roles`, `id_user_main`, `id_druh`, `id_udaje_typ`, `nazov`, `text`, `comment`, `separate_settings`) VALUES
+(1,	4,	NULL,	NULL,	1,	'titulka-sk',	'BW Foto - Ateliér architektúry a fotografie',	'Názov zobrazený v titulke',	0),
+(2,	5,	NULL,	NULL,	1,	'titulka_2-sk',	'',	'Druhá časť titulky pre jazyk: sk',	0),
+(6,	4,	NULL,	NULL,	1,	'keywords-sk',	'BW Foto, Spišské Bystré, ateliér,  architektúra, fotografie',	'Kľúčové slová',	0),
+(7,	5,	NULL,	NULL,	1,	'autor',	'Ing. Peter VOJTECH ml. - VZ',	'Autor stránky',	0),
+(14,	4,	NULL,	NULL,	1,	'copy',	'BW Foto',	'Text, ktorý sa vypíše za znakom copyright-u',	0),
+(17,	5,	NULL,	NULL,	3,	'komentare',	'0',	'Globálne povolenie komentárov',	0),
+(18,	5,	NULL,	NULL,	3,	'registracia_enabled',	'0',	'Globálne registrácie(ak 1 tak áno, ak 0 tak nie)',	0),
+(19,	4,	NULL,	1,	1,	'clanok_hlavicka',	'0',	'Nastavuje, ktoré hodnoty sa zobrazia v hlavičke článku Front modulu. Výsledok je súčet čísel.[1=Dátum, 2=Zadávateľ, 4=Počet zobrazení]',	0),
+(21,	4,	NULL,	5,	3,	'oznam_komentare',	'0',	'Povolenie komentárov k aktualitám(oznamom).',	0),
+(22,	5,	NULL,	5,	2,	'oznam_usporiadanie',	'1',	'Usporiadanie aktualít podľa dátumu platnosti. [1=od najstaršieho; 0=od najmladšieho]',	0),
+(23,	4,	NULL,	5,	3,	'oznam_ucast',	'0',	'Povolenie potvrdenia účasti.',	0),
+(24,	5,	NULL,	5,	1,	'oznam_prva_stranka',	'1',	'Id stránky, ktorá sa zobrazí ako 1. po načítaní webu',	0),
+(25,	4,	NULL,	5,	3,	'oznam_title_image_en',	'1',	'Povolenie pridávania titulného obrázku k oznamu. Ak je zakázané používajú sa ikonky.',	0),
+(26,	5,	NULL,	NULL,	1,	'google-analytics',	'UA-52835371-1',	'Id pre google-analytics. Ak sa reťazec nezačína na \"UA-\" nie je akceptovaný.',	0),
+(27,	4,	NULL,	8,	4,	'product_main_x',	'2000',	'Šírka hlavného obrázku produktu[10,2000]',	1),
+(28,	4,	NULL,	8,	4,	'product_main_y',	'1500',	'Výška hlavného obrázku produktu[10,2000]',	1),
+(29,	4,	NULL,	8,	4,	'product_main_quality',	'80',	'Kvalita kompresie hlavného obrázku[1,100]',	1),
+(30,	4,	NULL,	8,	4,	'product_thumb_x',	'226',	'Šírka náhľadového obrázku produktu[10,1000]',	1),
+(31,	4,	NULL,	8,	4,	'product_thumb_y',	'150',	'Výška náhľadového obrázku produktu[10,1000]',	1),
+(32,	4,	NULL,	8,	4,	'product_thumb_quality',	'70',	'Kvalita kompresie náhľadového obrázku[1,100]',	1),
+(33,	4,	NULL,	8,	4,	'product_max_upload_files',	'150',	'Max. počet naraz nahrávaných súborov[5,500]',	1);
 
 DROP TABLE IF EXISTS `udaje_typ`;
 CREATE TABLE `udaje_typ` (
@@ -1415,7 +1418,7 @@ CREATE TABLE `user_main` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Hlavné údaje užívateľa';
 
 INSERT INTO `user_main` (`id`, `id_user_roles`, `id_user_profiles`, `password`, `meno`, `priezvisko`, `email`, `activated`, `banned`, `ban_reason`, `new_password_key`, `new_password_requested`, `new_email`, `new_email_key`, `last_ip`, `created`, `modified`) VALUES
-(1,	5,	1,	'$2y$10$qyQp0ZLifZDtSJVz0W62XuOZM4xIZiCBrVN2YM6auzLnqjaY5q4ri',	'Peter',	'Vojtech',	'petak23@echo-msz.eu',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'188.112.117.83',	'2017-05-15 09:11:19',	'2022-05-10 09:10:52'),
+(1,	5,	1,	'$2y$10$qyQp0ZLifZDtSJVz0W62XuOZM4xIZiCBrVN2YM6auzLnqjaY5q4ri',	'Peter',	'Vojtech',	'petak23@echo-msz.eu',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'188.112.83.190',	'2017-05-15 09:11:19',	'2022-05-31 12:09:24'),
 (2,	4,	2,	'$2y$10$0KPg/2sE8I5EjAsgolRttulqhQPsUoVrhIHAxX8Ej3NAOHGuZIbW.',	'Juraj',	'Zámečník',	'bwfoto@bwfoto.sk',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.143.103.217',	'2017-05-15 09:13:38',	'2022-03-14 22:12:07'),
 (3,	4,	3,	'$2y$10$rrhoDAbAniSaH5IxLhobiO4ym.Qt83LdCyDUyXkw/TQCiNebhwjkq',	'Jozef',	'Petrenčík',	'tatravisual@tatravisual.sk',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.253.139.152',	'2017-05-15 09:12:22',	'2017-07-11 07:10:29');
 
@@ -1530,7 +1533,9 @@ INSERT INTO `user_prihlasenie` (`id`, `id_user_main`, `log_in_datetime`) VALUES
 (212,	2,	'2022-04-11 11:54:14'),
 (213,	1,	'2022-04-29 16:10:24'),
 (214,	1,	'2022-04-29 21:28:43'),
-(215,	1,	'2022-05-10 11:10:52');
+(215,	1,	'2022-05-10 11:10:52'),
+(216,	1,	'2022-05-12 10:21:09'),
+(217,	1,	'2022-05-31 14:09:24');
 
 DROP TABLE IF EXISTS `user_profiles`;
 CREATE TABLE `user_profiles` (
@@ -1548,7 +1553,7 @@ CREATE TABLE `user_profiles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 INSERT INTO `user_profiles` (`id`, `rok`, `telefon`, `poznamka`, `pocet_pr`, `pohl`, `prihlas_teraz`, `avatar`, `news`, `news_key`) VALUES
-(1,	NULL,	NULL,	NULL,	110,	'M',	'2022-05-10 11:10:52',	NULL,	'A',	'$2y$10$cukOQnmZahKNwUmxXbVKyOYjx0MIfj9gDs6ovQPTHrcmqTQG/JzRi'),
+(1,	NULL,	NULL,	NULL,	112,	'M',	'2022-05-31 14:09:24',	NULL,	'A',	'$2y$10$cukOQnmZahKNwUmxXbVKyOYjx0MIfj9gDs6ovQPTHrcmqTQG/JzRi'),
 (2,	NULL,	NULL,	NULL,	105,	'M',	'2022-04-11 11:54:14',	NULL,	'A',	NULL),
 (3,	NULL,	NULL,	NULL,	0,	'M',	NULL,	NULL,	'A',	NULL);
 
@@ -1658,4 +1663,4 @@ INSERT INTO `verzie` (`id`, `id_user_main`, `cislo`, `subory`, `text`, `modified
 (31,	1,	'0.9.11',	'texyla, fontawesome 6, slider,',	'\"**Aktualizácia 6.4.2022:** .{color: orange}\"\n- Do fotogalérie pridaná možnosť posúvať fotky v 4. kat. prstom pohybom všetkými smermi.\n\n-------------------\n\n- Opravy zobrazenia slider-u. Doplnené pomocné informácie.\n- Začaté práce na editácii textov pre vue.js priamo na front module. Ikonka vedľa editácie nadpisov. \"Táto funkcionalita je v štádiu experimentovania, takže nie všetko je funkčné. .{color: orange}\"\n- \"V js a vue súboroch nahradenie definovania premennej var za let .{color: gray}\"\n- Aktualizovaný fontawesome na verziu 6.\n- Oprava zistených chýb.',	'2022-04-06 08:38:48'),
 (32,	1,	'0.9.19',	'Uploadery, chyby',	'\"Aktualizované 03.05.2022: .{color: orange}\"\n- Pridanie odkazu z článku na front-e priamo do administrácie.\n\n-------------------\n\n- Práce na vue single uploadery.\n- Práce na multi uploadery a upratovanie okolo.\n- Výmena funkcie strftime za date.\n- Oprava zadávania dátumu pri platnosti článku.\n- Presun komponenty pre zmenu okrajového rámčeka do vue.\n- Odstránenie chyby: User Deprecated Filter |noescape should be placed at the very end.\n- Odstránenie chýb.',	'2022-05-03 13:38:50');
 
--- 2022-05-10 09:12:32
+-- 2022-05-31 12:11:24

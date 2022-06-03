@@ -2,12 +2,53 @@
  *
  * Modul: ADMIN
  *
- * Posledna zmena(last change): 28.09.2016
- * @copyright  Copyright (c) 2012 - 2016 Ing. Peter VOJTECH ml.
+ * Posledna zmena(last change): 03.06.2022
+ * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
  *}
 {block content}
-<h2>Kategórie užívateľov</h2>
+<div class="col-12">
+  <h2>Kategórie užívateľov</h2>
+  <div class="row">
+    <div class="col-12">
+      <a n:if="$user->isAllowed('Admin:User', 'add')" 
+        {* n: *} href="User:add"  title="Pridanie novej kategórie" 
+        class="btn btn-success button-right">
+        <i class="fas fa-user-plus fa-lg"></i> Pridanie novej kategórie
+      </a>
+    </div>
+  </div>
 
-{control categoriesGrid}
+  <table class="table table-bordered table-striped">
+    <caption n:if="!count($user_categories)" class="py-3 text-dark">
+      Zatiaľ neexzistuje žiadna kategória...
+    </caption>
+    <thead class="thead-dark" n:if="count($user_categories)">
+      <tr>
+        <th style="width: 2rem">Id</th>
+        <th>Skratka</th>
+        <th>Názov</th>
+        <th n:if="$user->isInRole('admin')">Akcie</th>
+      </tr>
+    </thead>
+    <tbody n:if="count($user_categories)">
+      <tr n:foreach="$user_categories as $u">
+        <td class="text-right align-middle">{$u->id}</td>
+        <td>{$u->shortcut|upper}</td>
+        <td>{$u->name}</td>
+        <td class="align-middle" n:if="$user->isInRole('admin')">
+          <a {* n: *} href="User:edit $u->id" title="Edituj kategóriu" class="btn btn-sm btn-default btn-secondary">
+            <span class="fa fa-pencil-alt"></span>
+          </a>
+          <a  n:href="confirmedDeleteCategory! $u->id" 
+              title="Zmazať kategóriu" 
+              data-datagrid-confirm="Naozaj chceš zmazať kategóriu: '{$u->name}'?"
+              class="btn btn-sm btn-danger">
+            <span class="fa fa-trash-alt"></span>
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
