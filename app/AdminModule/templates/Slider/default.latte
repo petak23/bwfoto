@@ -2,8 +2,8 @@
  *
  * Modul: ADMIN
  *
- * Posledna zmena(last change): 25.11.2021
- * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
+ * Posledna zmena(last change): 03.06.2022
+ * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
  *
@@ -11,7 +11,7 @@
 *}
 {block content}
 <div class="col-12">
-  <h2 n:block=title>Administrácia slider-u</h2>
+  <h2>Administrácia slider-u</h2>
   <div class="row">
     <div class="col-12 col-lg-9" >
       <div class="alert alert-warning" role="alert" n:if="$slider_i['sleduj_rozmer']">
@@ -53,5 +53,64 @@
       <a n:if="$user->isAllowed('Admin:Slider', 'add')" n:href="Slider:add"  title="Pridaj položku" class="button-right edit-link"><i class="fas fa-plus fa-2x"></i>Pridaj položku</a>
     </div>
   </div>
-  {control sliderGrid}
+
+  <table class="table table-bordered table-striped">
+    <caption class="bg-secondary text-white py-1">
+      <div class="d-flex justify-content-between">
+        <div class="px-2">Počet obrázkov: {count($slider_data)}</div>
+      </div>
+    </caption>
+    <thead class="thead-dark">
+      <tr>
+        <th style="width: 15rem">Obrázok</th>
+        <th>Súbor</th>
+        <th n:if="false">Poradie</th>
+        <th>Nadpis</th>
+        <th>Zobrazenie</th>
+        <th>Akcie</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr n:foreach="$slider_data as $item">
+        <td class="text-center align-middle">
+          {if is_file($slider_i['dir'].$item->subor)}
+            <img class="img-rounded slider-small-img" 
+                  src="{$basePath}/{$slider_i['dir']}{$item->subor}" 
+                  alt="obrázok" 
+                  data-jslghtbx="{$basePath}/{$slider_i['dir']}{$item->subor}">
+          {else}
+            <img class="img-rounded slider-small-img" 
+                  src="{$basePath}/{$dir_to_images}otaznik.png"
+                  alt="Chybný obrázok" title="Chybný obrázok">
+          {/if}  
+        </td>
+        <td class="text-right align-middle"><small>{$item->subor}</small></td>
+        <td class="text-center align-middle" n:if="false">{$item->poradie}</td>
+        <td>{$item->nadpis !== null ? $item->nadpis : 'Bez nadpisu'}</td>
+        <td>{$item->zobrazenie !== null ? $item->zobrazenie : 'Vždy okrem...'}</td>
+        <td class="align-middle">
+          <button class="btn btn-sm btn-secondary">
+            <i class="fas fa-arrows-alt-v"></i>
+          </button>
+          <a n:href="Slider:edit $item->id" 
+            title="Edituj slider" class="btn btn-sm btn-default btn-secondary">
+            <span class="fa fa-pencil-alt"></span>
+          </a>
+          <a  n:href="confirmedDelete! $item->id" 
+              title="Zmazať obrázok slider-a" 
+              data-datagrid-confirm="Naozaj chceš zmazať obrázok slider-a?"
+              class="btn btn-sm btn-danger">
+            <span class="fa fa-trash-alt"></span>
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <hr />
+  <slider-grid
+    base-path="{$basePath}"
+    slider-dir="{$slider_i['dir']}"
+  >
+  </slider-grid>
 </div>

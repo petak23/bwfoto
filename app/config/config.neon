@@ -55,7 +55,7 @@ parameters:
     delete: FALSE    #Zobrazenie moznosti zmazat profil
     titul_pred: FALSE #Zobrazenie titulu pred menom
     titul_za: FALSE   #Zobrazenie titulu za menom
-    categori: TRUE   #Zobrazenie kategórie
+    categori: FALSE   #Zobrazenie kategórie
   oznam: #Nastavuje viditelne(volitelne) polozky oznamu(aktuality)
     datum_zadania: TRUE      #Zobrazenie datumu zadania
     datum_platnosti: TRUE    #Zobrazenie datumu platnosti

@@ -17,7 +17,8 @@ import lastlogin from './components/MainFrame/LastLogin'
 import colorBorderChange from './components/ColorBorderChange.vue'
 import ProductsMain from './components/Products/ProductsMain.vue'
 import Edittexts from '../../../components/EditArticle/EditTexts'
-import FlashMessage from "./components/FlashMessage";
+import FlashMessage from "./components/FlashMessage"
+import SliderGrid from './components/Slider/SliderGrid'
 
 
 // Make BootstrapVue available throughout your project
@@ -35,5 +36,6 @@ let vm = new Vue({
     ProductsMain,
     Edittexts,
     FlashMessage,
+    SliderGrid,
   },
 });   

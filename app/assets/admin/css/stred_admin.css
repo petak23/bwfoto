@@ -308,11 +308,7 @@ h6 {
   color: #ccc;
 }
 .slider-small-img {
-	width: 50%;
-	/*float: left;*/
-}
-.slider-file-name {
-  margin-top: -.5em;
+	width: 100%;  
 }
 
 .uroven-registracie {
