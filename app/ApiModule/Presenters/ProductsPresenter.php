@@ -175,4 +175,11 @@ class ProductsPresenter extends BasePresenter
       $this->redirect(':Admin:Clanky:', $id);
     }
   }
+
+  public function actionChangeperpage()
+  {
+    /* from POST: */
+    $values = json_decode(file_get_contents("php://input"), true); // @help 1.)
+    $this->udaje->editKey('products_per_page', $values['items_per_page'], $this->user->id);
+  }
 }

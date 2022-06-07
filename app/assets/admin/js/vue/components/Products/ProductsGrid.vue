@@ -40,6 +40,14 @@ export default {
       id_p: 1,
       loading: 0,     // Načítanie údajov 0 - nič, 1 - načítavanie, 2 - chyba načítania
       error_msg: '',  // Chybová hláška
+      items_per_page: [
+        { value: 10, text: "10"}, 
+        { value: 20, text: "20"}, 
+        { value: 50, text: "50"},
+        { value: 0, text: "Všetky"},
+      ],
+      items_per_page_selected: 10,
+      page: 1,
     };
   },
   methods: {
@@ -104,6 +112,36 @@ export default {
           console.log(error);
         });
     },
+    changeItemsPerPage() {
+      let odkaz = this.basePath + "api/products/changeperpage"
+      let vm = this
+      axios.post(odkaz, {
+          'items_per_page': this.items_per_page_selected,
+        })
+        .then(function (response) {
+          //vm.preview = response.data
+          //console.log(response.data)
+          vm.$root.$emit('flash_message', 
+                           [{ 'message': 'Uloženie v poriadku', 
+                              'type':'success',
+                              'heading': 'Uložené'
+                              }])
+        })
+        .catch(function (error) {
+          console.log(odkaz)
+          console.log(error)
+          vm.$root.$emit('flash_message', 
+                           [{ 'message': 'Pri uklasaní došlo k chybe',
+                              'type':'danger',
+                              'heading': 'Chyba'
+                              }])
+        });
+    }
+  },
+  computed: {
+    pages() {
+      return Math.ceil(this.items.length / this.items_per_page_selected)
+    }
   },
   created() {
     // Načítanie údajov priamo z DB
@@ -118,6 +156,31 @@ export default {
 <template>
   <div>
     <table class="table table-bordered table-striped" v-if="loading == 0">
+      <caption class="bg-secondary text-white py-1">
+        <div class="d-flex justify-content-between">
+          <div class="px-2">Počet produktov: {{ items.length }}</div>
+          <b-pagination
+            v-if="pages > 1"
+            v-model="page"
+            :total-rows="items.length"
+            :per-page="items_per_page_selected"
+            aria-controls="my-table"
+            size="sm"
+            class="bg-secondary text-white my-0"
+          >
+          </b-pagination>
+          <form class="px-2 form-inline" v-if="items.length > 10">
+            <label class="my-0 mr-2" for="itemsPerPage">Položiek na stránku:</label>
+            <b-form-select 
+              v-model="items_per_page_selected"
+              :options="items_per_page"
+              id="itemsPerPage"
+              size="sm"
+              @change="changeItemsPerPage">
+            </b-form-select>
+          </form>
+        </div>
+      </caption>
       <thead class="thead-light">
         <tr>
           <th>Obrázok</th>
