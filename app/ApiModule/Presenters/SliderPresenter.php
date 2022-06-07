@@ -6,7 +6,7 @@ use DbTable;
 
 /**
  * Prezenter pre pristup k api slider-a.
- * Posledna zmena(last change): 03.06.2022
+ * Posledna zmena(last change): 07.06.2022
  *
  * Modul: API
  *
@@ -14,7 +14,7 @@ use DbTable;
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.0
+ * @version 1.0.1
  */
 class SliderPresenter extends BasePresenter
 {
@@ -76,5 +76,17 @@ class SliderPresenter extends BasePresenter
     } else {
       $this->redirect(':Admin:Slider:');
     }
+  }
+
+  /**
+   * Uloženie zmeny v poradí submenu */
+  public function actionSaveOrder(?int $id = null): void
+  {
+    $_post = json_decode(file_get_contents("php://input"), true); // @help 1.)
+
+    //dumpe($_post['items']);
+    $this->sendJson([
+      'result' => $this->slider->saveOrder($_post['items']) ? 'OK' : 'ERR'
+    ]);
   }
 }

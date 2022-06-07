@@ -23,7 +23,7 @@ services:
   - DbTable\Lang
   - DbTable\News
   - DbTable\Products(%dir_to_products%)
-  - DbTable\Slider
+  - DbTable\Slider(%slider.dir%, %wwwDir%)
   - DbTable\Udaje
   - DbTable\Udaje_typ
   - DbTable\User_categories

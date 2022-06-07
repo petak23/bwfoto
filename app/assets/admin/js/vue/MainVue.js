@@ -11,6 +11,8 @@
 
 import Vue from 'vue';
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+import VueDndZone from 'vue-dnd-zone'
+import 'vue-dnd-zone/vue-dnd-zone.css'
 import SingleUpload from './components/Uploader/SingleUpload'
 import MultipleUpload from './components/Uploader/MultipleUpload'
 import lastlogin from './components/MainFrame/LastLogin'
@@ -25,6 +27,8 @@ import SliderGrid from './components/Slider/SliderGrid'
 Vue.use(BootstrapVue);
 // Optionally install the BootstrapVue icon components plugin
 Vue.use(IconsPlugin);
+
+Vue.use(VueDndZone);
 
 let vm = new Vue({
   el: '#vueapp',

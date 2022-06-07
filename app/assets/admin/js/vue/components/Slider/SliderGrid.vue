@@ -1,13 +1,13 @@
 <script>
 /**
  * Komponenta pre vypísanie a spracovanie obrázkov slider-a.
- * Posledna zmena 03.06.2022
+ * Posledna zmena 07.06.2022
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.0
+ * @version    1.0.1
  */
 
 import axios from "axios";
@@ -40,7 +40,7 @@ export default {
   },
   methods: {
     deleteSlider(id) {
-      if (window.confirm('Naozaj chceš vymazať?')) {
+      if (window.confirm('Naozaj chceš vymazať obrázok123 slider-a?')) {
         let odkaz = this.basePath + "/api/slider/delete/" + id;
         axios
           .get(odkaz)
@@ -100,6 +100,37 @@ export default {
           console.log(error);
         });
     },
+     moveArticle: function(ai) {
+      let from = ai.from.index
+      let to = ai.to.index
+      let odkaz = this.basePath + '/api/slider/saveorder/'
+      let out = []
+      for (let i = 0; i < this.items.length; i++) {
+        out.push(this.items[i].id)
+      }
+      // https://www.codegrepper.com/code-examples/javascript/change+index+order+in+array+javascript
+      let element = out[from];
+      out.splice(from, 1);
+      out.splice(to, 0, element);
+      let vm = this
+      axios.post(odkaz, {
+          items: out,
+        })
+        .then(function (response) {
+          if (response.data.result == 'OK') {
+            console.log("OK")
+            vm.$root.$emit('flash_message', 
+                           [{ 'message': 'Poradie bolo zmenené!', 
+                              'type':'success',
+                              'heading': 'OK'
+                              }])
+          }
+        })
+        .catch(function (error) {
+          console.log(odkaz);
+          console.log(error);
+        });
+    },
   },
   created() {
     // Načítanie údajov priamo z DB
@@ -113,54 +144,6 @@ export default {
 
 <template>
   <div>
-    <!-- table class="table table-bordered table-striped" v-if="loading == 0">
-      <thead class="thead-light">
-        <tr>
-          <th>Obrázok</th>
-          <th>Názov</th>
-          <th>Popis</th>
-          <th class="action-col">Akcia</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(item, index) in items" :key="item.id">
-          <td>
-            <img
-              :src="basePath + '/' + item.thumb_file"
-              :alt="item.name"
-              class="img-thumbnail"
-              @click="openmodal(index)"
-            />
-          </td>
-          <text-cell
-            :value="item.name"
-            :apiLink="basePath + '/api/slider/update/'"
-            colName="name"
-            :id="item.id"
-          ></text-cell>
-          <text-cell
-            :value="item.description"
-            :apiLink="basePath + '/api/slider/update/'"
-            colName="description"
-            :id="item.id"
-          ></text-cell>
-          <td class="action-col">
-            <button type="button" class="btn btn-info btn-sm" title="Edit">
-              <i class="fa-solid fa-pen"></i>
-            </button>
-            <button
-              type="button"
-              class="btn btn-danger btn-sm"
-              title="Zmaž"
-              @click="deleteSlider(item.id)"
-            >
-              <i class="fa-solid fa-trash-can"></i>
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table -->
-
     <table class="table table-bordered table-striped" v-if="loading == 0">
       <caption class="bg-secondary text-white py-1">
         <div class="d-flex justify-content-between">
@@ -176,42 +159,63 @@ export default {
           <th class="action-col">Akcie</th>
         </tr>
       </thead>
-      <tbody>
-        <tr v-for="(item, index) in items" :key="item.id">
-          <td class="text-center align-middle">
-            <img
-              :src="basePath + '/' + sliderDir + item.subor"
-              :alt="item.subor"
-              class="img-thumbnail"
-              @click="openmodal(index)"
-            />
-          </td>
-          <td class="text-right align-middle"><small>{{ item.subor }}</small></td>
-          <!--td>{{ item.nadpis !== null ? item.nadpis : 'Bez nadpisu' }}</td-->
-          <text-cell
-            :value="item.nadpis"
-            :apiLink="basePath + '/api/slider/update/'"
-            colName="nadpis"
-            :id="item.id"
-          ></text-cell>
-          <td>{{ item.zobrazenie !== null ? item.zobrazenie : 'Vždy okrem...' }}</td>
-          <td class="align-middle">
-            <button class="btn btn-sm btn-secondary">
-              <i class="fas fa-arrows-alt-v"></i>
-            </button>
-            <a n:href="Slider:edit $item->id" 
-              title="Edituj slider" class="btn btn-sm btn-default btn-secondary">
-              <span class="fa fa-pencil-alt"></span>
-            </a>
-            <a  n:href="confirmedDelete! $item->id" 
-                title="Zmazať obrázok slider-a" 
-                data-datagrid-confirm="Naozaj chceš zmazať obrázok slider-a?"
-                class="btn btn-sm btn-danger">
-              <span class="fa fa-trash-alt"></span>
-            </a>
-          </td>
-        </tr>
-      </tbody>
+      <dnd-zone
+        :transition-duration="0.3"
+        handle-class="move-item"
+        v-on:move="moveArticle"
+      >
+        <dnd-container
+          :dnd-model="items"
+          dnd-id="slider-grid"
+          dense
+          tag="tbody"
+          :vertical-search="true"
+        >
+          <dnd-item
+            v-for="(item, index) in items" 
+            :key="item.id"
+            :dnd-id="item.id"
+            :dnd-model="item"
+          >
+            <tr>
+              <td class="text-center align-middle">
+                <img
+                  :src="basePath + '/' + sliderDir + item.subor"
+                  :alt="item.subor"
+                  class="img-thumbnail"
+                  @click="openmodal(index)"
+                />
+              </td>
+              <td class="text-right align-middle"><small>{{ item.subor }}</small></td>
+              <!--td>{{ item.nadpis !== null ? item.nadpis : 'Bez nadpisu' }}</td-->
+              <text-cell
+                :value="item.nadpis"
+                :apiLink="basePath + '/api/slider/update/'"
+                colName="nadpis"
+                :id="item.id"
+              ></text-cell>
+              <td>{{ item.zobrazenie !== null ? item.zobrazenie : 'Vždy okrem...' }}</td>
+              <td class="align-middle">
+                <button class="btn btn-sm btn-secondary move-item">
+                  <i class="fas fa-arrows-alt-v"></i>
+                </button>
+                <a :href="basePath + '/administration/slider/edit?id=' + item.id" 
+                  title="Edituj slider" class="btn btn-sm btn-default btn-secondary">
+                  <span class="fa fa-pencil-alt"></span>
+                </a>
+                <button
+                  type="button"
+                  class="btn btn-danger btn-sm"
+                  title="Zmaž"
+                  @click="deleteSlider(item.id)"
+                >
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              </td>
+            </tr>
+          </dnd-item>
+        </dnd-container>
+      </dnd-zone>
     </table>
 
     <div class="alert alert-danger" v-if="loading == 2" v-html="error_msg"></div>

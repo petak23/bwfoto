@@ -8,7 +8,7 @@ use DbTable;
 /**
  * Prezenter pre administraciu slider-u.
  * 
- * Posledna zmena(last change): 03.06.2022
+ * Posledna zmena(last change): 04.06.2022
  *
  * Modul: ADMIN
  *
@@ -16,7 +16,7 @@ use DbTable;
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.6
+ * @version 1.1.7
  */
 
 class SliderPresenter extends BasePresenter
@@ -24,9 +24,6 @@ class SliderPresenter extends BasePresenter
   // -- DB
   /** @var DbTable\Slider @inject */
   public $slider;
-
-  /** @var array Nastavenie slider-u */
-  private $slider_i;
 
   // -- Forms
   /** @var Slider\EditSliderFormFactory @inject*/
@@ -38,12 +35,11 @@ class SliderPresenter extends BasePresenter
     $this->nastavenie = $parameters;
   }
 
-  protected function startup()
+  public function startup()
   {
     parent::startup();
     if (isset($this->nastavenie['slider'])) {
-      $this->slider_i = $this->nastavenie['slider'];
-      $this->template->slider_i = $this->slider_i;
+      $this->template->slider_i = $this->nastavenie['slider'];
     }
   }
 
@@ -103,33 +99,5 @@ class SliderPresenter extends BasePresenter
       $this->redirect('Slider:');
     };
     return $this->_vzhladForm($form);
-  }
-
-  /** 
-   * Spracovanie signálu vymazavania
-   * @param int $id Id polozky */
-  function handleConfirmedDelete(int $id): void
-  {
-    $temp_del = $this->slider->find($id);
-    if (is_file($this->nastavenie['slider']['dir'] . $temp_del->subor)) {
-      unlink($this->nastavenie["wwwDir"] . '/' . $this->nastavenie['slider']['dir'] . $temp_del->subor);
-    }
-    $this->_ifMessage($temp_del->delete() == 1, 'Položka bola úspešne vymazaná!', 'Došlo k chybe a položka nebola vymazaná!');
-    if (!$this->isAjax()) {
-      $this->redirect('Slider:');
-    } else {
-      $this->redrawControl('flashes');
-    }
-  }
-
-  /**
-   * Spracovanie signalu pri zmene poradia
-   * @param int $item_id Prvok, ktoreho poradie sa meni
-   * @param int $prev_id Za ktory prvok sa vklada
-   * @param int $next_id Pred ktory prvok sa vklada */
-  public function handleSort($item_id, $prev_id, $next_id)
-  {
-    $this->slider->sortItem($item_id, $prev_id, $next_id);
-    $this->redrawControl('flashes');
   }
 }
