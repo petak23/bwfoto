@@ -1,17 +1,18 @@
 <script>
 /**
- * Komponenta pre vypísanie a spracovanie produktov.
- * Posledna zmena 09.06.2022
+ * Komponenta pre vypísanie a spracovanie príloh.
+ * Posledna zmena 14.06.2022
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.6
+ * @version    1.0.2
  */
 
 import axios from "axios";
 import textCell from '../Grid/TextCell.vue'
+import selectCell from '../Grid/SelectCell.vue'
 
 //for Tracy Debug Bar
 axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
@@ -19,6 +20,7 @@ axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 export default {
   components: {
     textCell,
+    selectCell,
   },
   props: {
     id_hlavne_menu: {
@@ -31,7 +33,7 @@ export default {
     },
     baseApiPath: {
       type: String,
-      default: '/api/products/'
+      default: '/api/documents/'
     },
     editEnabled: {
       type: Boolean,
@@ -47,6 +49,10 @@ export default {
             thStyle: 'width: 15rem;'
           },
           {
+            key: 'znacka',
+            label: 'Značka',
+          },
+          {
             key: 'name',
             label: 'Názov',
             tdClass: "position-relative"
@@ -54,6 +60,11 @@ export default {
           {
             key: 'description',
             label: 'Popis',
+            tdClass: "position-relative"
+          },
+          {
+            key: 'type',
+            label: 'Typ',
             tdClass: "position-relative"
           },
           {
@@ -74,10 +85,16 @@ export default {
       items_per_page_selected: 10,
       items_per_page_selected_old: 10,
       currentPage: 1,
+      type: [
+        {value: 1, text: "Iné"}, 
+        {value: 2, text: "Obrázok"},
+        {value: 3, text: "Video"},
+        {value: 4, text: "Audio"}
+      ],
     };
   },
   methods: {
-    deleteProduct(id) {
+    deleteDocument(id) {
       if (window.confirm('Naozaj chceš vymazať?')) {
         let odkaz = this.basePath + this.baseApiPath + "delete/" + id;
         axios
@@ -100,10 +117,10 @@ export default {
     },
     openmodal(index) {
       this.id_p = index + (this.currentPage - 1) * this.items_per_page_selected;
-      this.$bvModal.show("modal-multi-product");
+      this.$bvModal.show("modal-multi-documents");
     },
     closeme: function () {
-      this.$bvModal.hide("modal-multi-product");
+      this.$bvModal.hide("modal-multi-documents");
     },
     imgUrl() {
       return this.items[this.id_p] === undefined
@@ -128,7 +145,7 @@ export default {
           this.items_count()
         })
         .catch((error) => {
-          this.error_msg = 'Nepodarilo sa načítať údaje do tabuľky produktov. <br/>Možná príčina: ' + error
+          this.error_msg = 'Nepodarilo sa načítať údaje do tabuľky príloh. <br/>Možná príčina: ' + error
           this.loading = 2
           this.$root.$emit('flash_message', 
                            [{ 'message': this.error_msg, 
@@ -178,7 +195,7 @@ export default {
         });
     },
     items_count() {
-      this.$root.$emit('products_count', this.items.length)
+      this.$root.$emit('documents_count', this.items.length)
     }
   },
   computed: {
@@ -189,7 +206,7 @@ export default {
   created() {
     // Načítanie údajov priamo z DB
     this.loadItems()
-    this.$root.$on('products_add', data => {
+    this.$root.$on('documents_add', data => {
 			this.items.push(...data)
       this.items_count()
 		})
@@ -200,7 +217,7 @@ export default {
 <template>
   <div>
     <b-table
-      id="my-products"
+      id="my-documents"
       :items="items"
       :per-page="items_per_page_selected"
       :current-page="currentPage"
@@ -218,7 +235,7 @@ export default {
             v-model="currentPage"
             :total-rows="items.length"
             :per-page="items_per_page_selected"
-            aria-controls="my-products"
+            aria-controls="my-documents"
             size="sm"
             class="bg-secondary text-white my-0"
           >
@@ -243,6 +260,9 @@ export default {
           @click="openmodal(data.index)"
         />
       </template>
+      <template #cell(znacka)="data">
+        {{ data.item.znacka }}
+      </template>
       <template #cell(name)="data">
         <text-cell
           :value="data.item.name"
@@ -259,6 +279,15 @@ export default {
           :id="data.item.id"
         ></text-cell>
       </template>
+      <template #cell(type)="data">
+        <select-cell
+          :value="data.item.type"
+          :apiLink="basePath + baseApiPath + 'update/'"
+          colName="type"
+          :id="data.item.id"
+          :options="type"
+        ></select-cell>
+      </template>
       <template #cell(action)="data" v-if="editEnabled">
         <!--button type="button" class="btn btn-info btn-sm" title="Edit">
           <i class="fa-solid fa-pen"></i>
@@ -267,7 +296,7 @@ export default {
           type="button"
           class="btn btn-danger btn-sm"
           title="Zmaž"
-          @click="deleteProduct(data.item.id)"
+          @click="deleteDocument(data.item.id)"
         >
           <i class="fa-solid fa-trash-can"></i>
         </button>
@@ -280,13 +309,13 @@ export default {
       <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
     </div>
     <b-modal
-      id="modal-multi-product"
+      id="modal-multi-document"
       centered
       size="xl"
       ok-only
       hide-header
       hide-footer
-      dialog-class="product-dialog"
+      dialog-class="document-dialog"
     >
       <img :src="imgUrl()" :alt="imgName()" @click="closeme" />
     </b-modal>
@@ -300,8 +329,8 @@ export default {
 button {
   margin-left: 0.1em;
 }
-#modal-multi-product {
-  .product-dialog {
+#modal-multi-document {
+  .document-dialog {
     max-width: 95vw !important;
   }
 

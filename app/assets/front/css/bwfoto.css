@@ -19,15 +19,6 @@ body{
 	margin: 0;
 	color: #ddd;
 }
-/* Vymazané PV 27.02.2021 */
-/*body#colorphoto{
-	background-image: url("./images/bg-color-winter-sm.jpg");
-	background-repeat: repeat-x;
-	background-color: black;
-	margin: 0;
-	color: #ddd;
-}*/
-/* Koniec vymazaného PV 27.02.2021 */
 
 p{
 	font-weight: 300;
@@ -142,18 +133,18 @@ nav .form-control {
 	}
 #webParts .row, #webParts-md .row{
 		margin-left: 0;
-	}
-	#webParts-md figure .img-fluid {
-			width: 100%;
+}
+#webParts-md figure .img-fluid {
+		width: 100%;
 		height: 100%;
-			object-fit: cover;
-			object-position: center;
-	}
-	#webParts-md .part-small {
-		background-color: #996600;
-		padding: 1rem;
-		margin-top: .5rem;
-	}
+		object-fit: cover;
+		object-position: top;
+}
+#webParts-md .part-small {
+	background-color: #996600;
+	padding: 1rem;
+	margin-top: .5rem;
+}
 #webParts-md .part-small:first-child {
 		margin: 0;
 	}
@@ -331,7 +322,7 @@ footer .pv-footer a{
 	}
 }
 
-@media (min-width: 992px) {
+@media (min-width: 960px) {
 .frame{
 	width: 80vw;
 	}
@@ -352,6 +343,7 @@ footer .pv-footer a{
 		position: relative;
 		flex-grow: 1;
 		height: 45vh;
+		min-height: 347px;
 	}
 	#webParts figcaption{
 		position: absolute;
@@ -378,10 +370,11 @@ footer .pv-footer a{
 			width: 100%;
 			height: 100%;
 			object-fit: cover;
-			object-position: center;
+			object-position: top;
 	}
 	#webParts .part-small {
-			background-color: #996600;
+		background-color: #996600;
+		height: 55px !important;
 	}
 	.thumbgrid{
 			grid-template-columns: repeat(3, 1fr);

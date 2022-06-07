@@ -1,13 +1,13 @@
 <script>
 /**
  * Komponenta pre multiupload súborov.
- * Posledna zmena 22.05.2022
+ * Posledna zmena 09.06.2022
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.2
+ * @version    1.0.3
  */
 
 import _ from "lodash";
@@ -28,10 +28,6 @@ export default {
       default: "multiple-uploader-component",
     },
     id_hlavne_menu: { // Id článku, ku ktorému nahrávam súbory
-      type: String,
-      required: true,
-    },
-    backLink: { // Link na presmerovanie po úspešnom nahratí
       type: String,
       required: true,
     },

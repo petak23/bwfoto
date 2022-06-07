@@ -28,7 +28,7 @@
     <div n:class="'col d-flex', $iterator->counter != 3 ? 'flex-column justify-content-between' : 'flex-column-reverse justify-content-around'">
       {include #figure node => $node, avatar => $avatar, if_part => $iterator->counter != 3}
     {else}
-      {include #part-small node => $node, main_class => 'd-flex flex-column justify-content-center h-25', is_bolder => $node->id == 5}
+      {include #part-small node => $node, main_class => 'd-flex flex-column justify-content-center', is_bolder => $node->id == 5}
     </div>
     {/if}
   </div>

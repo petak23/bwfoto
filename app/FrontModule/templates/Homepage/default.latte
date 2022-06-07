@@ -7,6 +7,12 @@
  * @version 1.0.7
  *}
 {block content}
+
+<small id="windwid" n:if="$user->isLoggedIn()"></small>
+<script>
+ document.getElementById("windwid").innerHTML =
+"SW: " + screen.width;
+</script>
 <!-- text nad nahladmi-->
 <div id="uvodnyText">
   {control ukazClanok-14}
