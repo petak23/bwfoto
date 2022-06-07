@@ -1,13 +1,13 @@
 <script>
 /**
  * Komponenta pre vypísanie textového políčka gridu.
- * Posledna zmena 29.05.2022
+ * Posledna zmena 07.06.2022
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.0
+ * @version    1.0.1
  */
 
 import axios from "axios";
@@ -81,7 +81,7 @@ export default {
 </script>
 
 <template>
-  <td 
+  <span 
     class="text-col"
     @click="edit"
   >
@@ -91,7 +91,7 @@ export default {
       v-if="editing"
       @blur="updateItem">
     </textarea>
-  </td>
+  </span>
 </template>
 
 

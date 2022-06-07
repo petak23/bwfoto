@@ -17,6 +17,8 @@ use Nette\Http\FileUpload;
  * @license
  * @link       http://petak23.echo-msz.eu
  * @version 1.0.3
+ * 
+ * @help 1.) https://forum.nette.org/cs/28370-data-z-post-request-body-reactjs-appka-se-po-ceste-do-php-ztrati
  */
 class ProductsPresenter extends BasePresenter
 {
@@ -160,26 +162,22 @@ class ProductsPresenter extends BasePresenter
    * Oprava produktu v DB 
    * @param int $id Id_hlavne_menu, ku ktorému ukladám produkt 
    * */
-  public function actionUpdate(int $id)
+  public function actionUpdate(int $id): void
   {
     /* from POST: */
-    //$values = $this->getHttpRequest()->getPost();
     $values = json_decode(file_get_contents("php://input"), true); // @help 1.)
-
-    //dumpe($values);
 
     $this->products->saveProduct($values, $id);
-    if ($this->isAjax()) {
-      $this->sendJson(['status' => 200, 'data' => 'OK']);
-    } else {
-      $this->redirect(':Admin:Clanky:', $id);
-    }
+    $this->sendJson(['status' => 200, 'data' => 'OK']);
   }
 
-  public function actionChangeperpage()
+  public function actionChangeperpage(): void
   {
     /* from POST: */
     $values = json_decode(file_get_contents("php://input"), true); // @help 1.)
-    $this->udaje->editKey('products_per_page', $values['items_per_page'], $this->user->id);
+
+    $out = $this->udaje->editKey('products_per_page', $values['items_per_page'], $this->user->id);
+
+    $this->sendJson($out != null ? ['status' => 200, 'data' => 'OK'] : ['status' => 500, 'data' => 'ER']);
   }
 }

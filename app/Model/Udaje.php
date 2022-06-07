@@ -64,8 +64,8 @@ class Udaje extends Table
     if ($tmp !== null) {
       return ($tmp->{self::COLUMN_TEXT} != $value) ? $tmp->update($update) : true;
     } elseif ($id_user_main !== null) {
-      $update = array_merge($update, [self::COLUMN_ID_USER_MAIN => $id_user_main]);
-      $this->pridaj($update);
+      $update = array_merge($update, [self::COLUMN_ID_USER_MAIN => $id_user_main, self::COLUMN_NAME => $key]);
+      return $this->pridaj($update) != null ? true : false;
     } else {
       return null;
     }

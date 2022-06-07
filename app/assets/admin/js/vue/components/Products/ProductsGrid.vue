@@ -36,6 +36,24 @@ export default {
   },
   data() {
     return {
+      fields: [
+          {
+            key: 'thumb_file',
+            label: 'Obrázok'
+          },
+          {
+            key: 'name',
+            label: 'Názov'
+          },
+          {
+            key: 'description',
+            label: 'Popis',
+          },
+          {
+            key: 'action',
+            label: 'Akcie',
+          },
+        ],
       items: [],
       id_p: 1,
       loading: 0,     // Načítanie údajov 0 - nič, 1 - načítavanie, 2 - chyba načítania
@@ -113,7 +131,7 @@ export default {
         });
     },
     changeItemsPerPage() {
-      let odkaz = this.basePath + "api/products/changeperpage"
+      let odkaz = this.basePath + "/api/products/changeperpage"
       let vm = this
       axios.post(odkaz, {
           'items_per_page': this.items_per_page_selected,
@@ -121,20 +139,20 @@ export default {
         .then(function (response) {
           //vm.preview = response.data
           //console.log(response.data)
-          vm.$root.$emit('flash_message', 
-                           [{ 'message': 'Uloženie v poriadku', 
-                              'type':'success',
-                              'heading': 'Uložené'
-                              }])
+          //vm.$root.$emit('flash_message', 
+          //                 [{ 'message': 'Uloženie v poriadku', 
+          //                    'type':'success',
+          //                    'heading': 'Uložené'
+          //                    }])
         })
         .catch(function (error) {
           console.log(odkaz)
           console.log(error)
-          vm.$root.$emit('flash_message', 
-                           [{ 'message': 'Pri uklasaní došlo k chybe',
-                              'type':'danger',
-                              'heading': 'Chyba'
-                              }])
+          //vm.$root.$emit('flash_message', 
+          //                 [{ 'message': 'Pri uklasaní došlo k chybe',
+          //                    'type':'danger',
+          //                    'heading': 'Chyba'
+          //                    }])
         });
     }
   },
@@ -199,18 +217,22 @@ export default {
               @click="openmodal(index)"
             />
           </td>
+          <td>
           <text-cell
             :value="item.name"
             :apiLink="basePath + '/api/products/update/'"
             colName="name"
             :id="item.id"
           ></text-cell>
+          </td>
+          <td>
           <text-cell
             :value="item.description"
             :apiLink="basePath + '/api/products/update/'"
             colName="description"
             :id="item.id"
           ></text-cell>
+          </td>
           <td class="action-col" v-if="editEnabled">
             <button type="button" class="btn btn-info btn-sm" title="Edit">
               <i class="fa-solid fa-pen"></i>
@@ -227,6 +249,33 @@ export default {
         </tr>
       </tbody>
     </table>
+
+    <b-table
+      id="my-products"
+      :items="items"
+      :per-page="items_per_page_selected"
+      :current-page="pages"
+      :fields="fields"
+      small
+    >
+      <template #cell(thumb_file)="data">
+        <img
+          :src="basePath + '/' + data.item.thumb_file"
+          :alt="data.item.name"
+          class="img-thumbnail"
+          @click="openmodal(index)"
+        />
+      </template>
+      <template #cell(name)="data">
+        <text-cell
+          :value="data.item.name"
+          :apiLink="basePath + '/api/products/update/'"
+          colName="name"
+          :id="data.item.id"
+        ></text-cell>
+      </template>
+    </b-table>
+
     <div class="alert alert-danger" v-if="loading == 2" v-html="error_msg"></div>
     <div class="d-flex align-items-center" v-if="loading == 1">
       <strong>Nahrávam...</strong>
