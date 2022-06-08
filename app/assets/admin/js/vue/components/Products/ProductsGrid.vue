@@ -1,13 +1,13 @@
 <script>
 /**
  * Komponenta pre vypísanie a spracovanie produktov.
- * Posledna zmena 29.05.2022
+ * Posledna zmena 08.06.2022
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.4
+ * @version    1.0.5
  */
 
 import axios from "axios";
@@ -29,6 +29,10 @@ export default {
       type: String,
       required: true,
     },
+    baseApiPath: {
+      type: String,
+      default: '/api/products/'
+    },
     editEnabled: {
       type: Boolean,
       default: false,
@@ -39,15 +43,18 @@ export default {
       fields: [
           {
             key: 'thumb_file',
-            label: 'Obrázok'
+            label: 'Obrázok',
+            thStyle: 'width: 15rem;'
           },
           {
             key: 'name',
-            label: 'Názov'
+            label: 'Názov',
+            tdClass: "position-relative"
           },
           {
             key: 'description',
             label: 'Popis',
+            tdClass: "position-relative"
           },
           {
             key: 'action',
@@ -65,13 +72,14 @@ export default {
         { value: 0, text: "Všetky"},
       ],
       items_per_page_selected: 10,
-      page: 1,
+      items_per_page_selected_old: 10,
+      currentPage: 1,
     };
   },
   methods: {
     deleteProduct(id) {
       if (window.confirm('Naozaj chceš vymazať?')) {
-        let odkaz = this.basePath + "/api/products/delete/" + id;
+        let odkaz = this.basePath + this.baseApiPath + "delete/" + id;
         axios
           .get(odkaz)
           .then((response) => {
@@ -90,7 +98,7 @@ export default {
       }
     },
     openmodal(index) {
-      this.id_p = index;
+      this.id_p = index + (this.currentPage - 1) * this.items_per_page_selected;
       this.$bvModal.show("modal-multi-product");
     },
     closeme: function () {
@@ -109,7 +117,7 @@ export default {
     loadItems() { // Načítanie údajov priamo z DB
       this.loading = 1
       let odkaz =
-        this.basePath + "/api/products/getproducts/" + this.id_hlavne_menu;
+        this.basePath + this.baseApiPath + "getitems/" + this.id_hlavne_menu;
       this.items = [];
       axios
         .get(odkaz)
@@ -129,16 +137,28 @@ export default {
           console.log(odkaz);
           console.log(error);
         });
+      odkaz = this.basePath + this.baseApiPath + "getperpage";
+      axios
+        .get(odkaz)
+        .then((response) => {
+          this.items_per_page_selected = response.data;
+        })
+        .catch((error) => {
+          console.log(odkaz);
+          console.log(error);
+        });
     },
     changeItemsPerPage() {
-      let odkaz = this.basePath + "/api/products/changeperpage"
-      let vm = this
+      let odkaz = this.basePath + this.baseApiPath + "changeperpage"
+      // Výpočet novej aktuálnej stránky
+      let first_id = this.items_per_page_selected_old * (this.currentPage - 1)
+      this.currentPage = first_id > 0 ? Math.ceil(first_id / this.items_per_page_selected) : 1
+      //let vm = this
       axios.post(odkaz, {
           'items_per_page': this.items_per_page_selected,
         })
         .then(function (response) {
-          //vm.preview = response.data
-          //console.log(response.data)
+          console.log(response.data)
           //vm.$root.$emit('flash_message', 
           //                 [{ 'message': 'Uloženie v poriadku', 
           //                    'type':'success',
@@ -173,16 +193,26 @@ export default {
 
 <template>
   <div>
-    <table class="table table-bordered table-striped" v-if="loading == 0">
-      <caption class="bg-secondary text-white py-1">
+    <b-table
+      id="my-products"
+      :items="items"
+      :per-page="items_per_page_selected"
+      :current-page="currentPage"
+      :fields="fields"
+      :bordered="true"
+      :striped="true"
+      :busy="loading > 0"
+      small
+    >
+      <template #table-caption>
         <div class="d-flex justify-content-between">
           <div class="px-2">Počet produktov: {{ items.length }}</div>
           <b-pagination
             v-if="pages > 1"
-            v-model="page"
+            v-model="currentPage"
             :total-rows="items.length"
             :per-page="items_per_page_selected"
-            aria-controls="my-table"
+            aria-controls="my-products"
             size="sm"
             class="bg-secondary text-white my-0"
           >
@@ -198,89 +228,51 @@ export default {
             </b-form-select>
           </form>
         </div>
-      </caption>
-      <thead class="thead-light">
-        <tr>
-          <th>Obrázok</th>
-          <th>Názov</th>
-          <th>Popis</th>
-          <th class="action-col" v-if="editEnabled">Akcia</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(item, index) in items" :key="item.id">
-          <td>
-            <img
-              :src="basePath + '/' + item.thumb_file"
-              :alt="item.name"
-              class="img-thumbnail"
-              @click="openmodal(index)"
-            />
-          </td>
-          <td>
-          <text-cell
-            :value="item.name"
-            :apiLink="basePath + '/api/products/update/'"
-            colName="name"
-            :id="item.id"
-          ></text-cell>
-          </td>
-          <td>
-          <text-cell
-            :value="item.description"
-            :apiLink="basePath + '/api/products/update/'"
-            colName="description"
-            :id="item.id"
-          ></text-cell>
-          </td>
-          <td class="action-col" v-if="editEnabled">
-            <button type="button" class="btn btn-info btn-sm" title="Edit">
-              <i class="fa-solid fa-pen"></i>
-            </button>
-            <button
-              type="button"
-              class="btn btn-danger btn-sm"
-              title="Zmaž"
-              @click="deleteProduct(item.id)"
-            >
-              <i class="fa-solid fa-trash-can"></i>
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
-    <b-table
-      id="my-products"
-      :items="items"
-      :per-page="items_per_page_selected"
-      :current-page="pages"
-      :fields="fields"
-      small
-    >
+      </template>
       <template #cell(thumb_file)="data">
         <img
           :src="basePath + '/' + data.item.thumb_file"
           :alt="data.item.name"
           class="img-thumbnail"
-          @click="openmodal(index)"
+          @click="openmodal(data.index)"
         />
       </template>
       <template #cell(name)="data">
         <text-cell
           :value="data.item.name"
-          :apiLink="basePath + '/api/products/update/'"
+          :apiLink="basePath + baseApiPath + 'update/'"
           colName="name"
           :id="data.item.id"
         ></text-cell>
       </template>
+      <template #cell(description)="data">
+        <text-cell
+          :value="data.item.description"
+          :apiLink="basePath + baseApiPath + 'update/'"
+          colName="description"
+          :id="data.item.id"
+        ></text-cell>
+      </template>
+      <template #cell(action)="data" v-if="editEnabled">
+        <!--button type="button" class="btn btn-info btn-sm" title="Edit">
+          <i class="fa-solid fa-pen"></i>
+        </button-->
+        <button
+          type="button"
+          class="btn btn-danger btn-sm"
+          title="Zmaž"
+          @click="deleteProduct(data.item.id)"
+        >
+          <i class="fa-solid fa-trash-can"></i>
+        </button>
+      </template>
     </b-table>
 
     <div class="alert alert-danger" v-if="loading == 2" v-html="error_msg"></div>
-    <div class="d-flex align-items-center" v-if="loading == 1">
+    <!--div class="d-flex align-items-center" v-if="loading == 1">
       <strong>Nahrávam...</strong>
       <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
-    </div>
+    </div-->
     <b-modal
       id="modal-multi-product"
       centered
@@ -310,5 +302,14 @@ button {
   .modal-body img {
     max-width: 100%;
   }
+}
+table.b-table[aria-busy='true'] {
+  opacity: 0.6;
+}
+table.b-table caption {
+  padding-top: .25rem;
+  padding-bottom: .25rem;
+  background-color: #555;
+  color: #fff;
 }
 </style>

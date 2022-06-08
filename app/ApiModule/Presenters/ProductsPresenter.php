@@ -4,11 +4,10 @@ namespace App\ApiModule\Presenters;
 
 use DbTable;
 use Nette\Http\FileUpload;
-//use Nette\Utils\ArrayHash;
 
 /**
  * Prezenter pre pristup k api produktov.
- * Posledna zmena(last change): 29.05.2022
+ * Posledna zmena(last change): 08.06.2022
  *
  * Modul: API
  *
@@ -16,7 +15,7 @@ use Nette\Http\FileUpload;
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.3
+ * @version 1.0.4
  * 
  * @help 1.) https://forum.nette.org/cs/28370-data-z-post-request-body-reactjs-appka-se-po-ceste-do-php-ztrati
  */
@@ -50,7 +49,7 @@ class ProductsPresenter extends BasePresenter
   /**
    * Vráti informácie o produkte
    * @param int id Id hlavného menu */
-  public function actionGetProducts(int $id): void
+  public function actionGetItems(int $id): void
   {
     $this->sendJson($this->products->getProductsArray($id));
   }
@@ -74,7 +73,6 @@ class ProductsPresenter extends BasePresenter
     * - files */
     $files = $this->getHttpRequest()->getFiles();
 
-    //dumpe($files, is_array($files['files']));
     // Ak niet čo ukladať...
     if (!(isset($files['files']) && is_array($files['files']) && count($files['files']))) {
       $this->sendJson([
@@ -125,7 +123,6 @@ class ProductsPresenter extends BasePresenter
 
   private function _saveProduct(FileUpload $file, array $data_save): ?array
   {
-    //dumpe($data_save);
     $result = ($file->error == 0) ? $this->products->saveUpload(
       $file,
       [
@@ -160,8 +157,7 @@ class ProductsPresenter extends BasePresenter
 
   /** 
    * Oprava produktu v DB 
-   * @param int $id Id_hlavne_menu, ku ktorému ukladám produkt 
-   * */
+   * @param int $id Id_hlavne_menu, ku ktorému ukladám produkt */
   public function actionUpdate(int $id): void
   {
     /* from POST: */
@@ -171,6 +167,8 @@ class ProductsPresenter extends BasePresenter
     $this->sendJson(['status' => 200, 'data' => 'OK']);
   }
 
+  /**
+   * Nastaví počet položiek na stránku pre konkrétneho užívateľa */
   public function actionChangeperpage(): void
   {
     /* from POST: */
@@ -179,5 +177,12 @@ class ProductsPresenter extends BasePresenter
     $out = $this->udaje->editKey('products_per_page', $values['items_per_page'], $this->user->id);
 
     $this->sendJson($out != null ? ['status' => 200, 'data' => 'OK'] : ['status' => 500, 'data' => 'ER']);
+  }
+
+  /**
+   * Vráti počet položiek na stránku pre prihláseného používateľa */
+  public function actionGetPerPage(): void
+  {
+    $this->sendJson($this->udaje->getValByName('products_per_page', $this->user->id));
   }
 }

@@ -7,13 +7,13 @@ use Nette;
 /**
  * Model, ktory sa stara o tabulku udaje
  * 
- * Posledna zmena 07.06.2022
+ * Posledna zmena 08.06.2022
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.8
+ * @version    1.0.9
  */
 class Udaje extends Table
 {
@@ -35,19 +35,25 @@ class Udaje extends Table
   /** 
    * Vrati pozadovany zaznam kluca alebo false
    * @param string $name Nazov kluca
+   * @param int|null $id_user_main Ak je udaj viazany na konkretneho uzivatela
    * @return Nette\Database\Table\ActiveRow|null */
-  public function getByName(string $name): ?Nette\Database\Table\ActiveRow
+  public function getByName(string $name, ?int $id_user_main = null): ?Nette\Database\Table\ActiveRow
   {
-    return strlen($name) ? $this->findOneBy([self::COLUMN_NAME => $name]) : null;
+    return strlen($name) ?
+      ($id_user_main == null ?
+        $this->findOneBy([self::COLUMN_NAME => $name])
+        : $this->findOneBy([self::COLUMN_NAME => $name, self::COLUMN_ID_USER_MAIN => $id_user_main]))
+      : null;
   }
 
   /** 
    * Vrati pozadovanu hodnotu kluca (pole text) alebo prázdny string
    * @param string $name Nazov kluca
+   * @param int|null $id_user_main Ak je udaj viazany na konkretneho uzivatela
    * @return string */
-  public function getValByName(string $name): string
+  public function getValByName(string $name, ?int $id_user_main = null): string
   {
-    return ($t = $this->getByName($name)) !== null ? $t->{self::COLUMN_TEXT} : "";
+    return ($t = $this->getByName($name, $id_user_main)) !== null ? $t->{self::COLUMN_TEXT} : "";
   }
 
   /**
