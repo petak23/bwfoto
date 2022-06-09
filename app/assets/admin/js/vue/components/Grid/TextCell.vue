@@ -1,13 +1,13 @@
 <script>
 /**
  * Komponenta pre vypísanie textového políčka gridu.
- * Posledna zmena 08.06.2022
+ * Posledna zmena 09.06.2022
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.2
+ * @version    1.0.3
  */
 
 import axios from "axios";
@@ -58,6 +58,7 @@ export default {
                               'type':'success',
                               'heading': 'Uložené'
                               }])
+          vm.my_value
         })
         .catch(function (error) {
           console.log(odkaz)
@@ -76,6 +77,11 @@ export default {
       this.$nextTick(() => {
         this.$refs.text_area.focus()
       })
+    }
+  },
+  watch: { 
+    value: function() {
+      this.my_value = this.value  
     }
   },
   created: function () {

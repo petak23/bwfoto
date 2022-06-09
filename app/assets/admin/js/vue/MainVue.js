@@ -1,12 +1,12 @@
 /* 
  * Main Vue.js app file
- * Posledná zmena(last change): 10.05.2022
+ * Posledná zmena(last change): 09.06.2022
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.1
+ * @version 1.0.2
  */
 
 import Vue from 'vue';
@@ -18,6 +18,7 @@ import MultipleUpload from './components/Uploader/MultipleUpload'
 import lastlogin from './components/MainFrame/LastLogin'
 import colorBorderChange from './components/ColorBorderChange.vue'
 import ProductsMain from './components/Products/ProductsMain.vue'
+import DocumentsMain from './components/Documents/DocumentsMain.vue'
 import Edittexts from '../../../components/EditArticle/EditTexts'
 import FlashMessage from "./components/FlashMessage"
 import SliderGrid from './components/Slider/SliderGrid'
@@ -38,6 +39,7 @@ let vm = new Vue({
     MultipleUpload,
     colorBorderChange,
     ProductsMain,
+    DocumentsMain,
     Edittexts,
     FlashMessage,
     SliderGrid,

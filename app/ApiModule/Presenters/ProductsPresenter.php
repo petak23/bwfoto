@@ -47,7 +47,7 @@ class ProductsPresenter extends BasePresenter
   }
 
   /**
-   * Vráti informácie o produkte
+   * Vráti relevantné produkty
    * @param int id Id hlavného menu */
   public function actionGetItems(int $id): void
   {
