@@ -89,6 +89,7 @@ export default {
                                                   'type':'success',
                                                   'heading': 'Podarilo sa...'
                                                   }])
+              this.items_count()
             }
           })
           .catch((error) => {
@@ -124,6 +125,7 @@ export default {
         .then((response) => {
           this.items = Object.values(response.data);
           this.loading = 0
+          this.items_count()
         })
         .catch((error) => {
           this.error_msg = 'Nepodarilo sa načítať údaje do tabuľky produktov. <br/>Možná príčina: ' + error
@@ -141,7 +143,7 @@ export default {
       axios
         .get(odkaz)
         .then((response) => {
-          this.items_per_page_selected = response.data;
+          this.items_per_page_selected = response.data < 10 ? 10 : response.data;
         })
         .catch((error) => {
           console.log(odkaz);
@@ -174,6 +176,9 @@ export default {
           //                    'heading': 'Chyba'
           //                    }])
         });
+    },
+    items_count() {
+      this.$root.$emit('products_count', this.items.length)
     }
   },
   computed: {
@@ -186,6 +191,7 @@ export default {
     this.loadItems()
     this.$root.$on('products_add', data => {
 			this.items.push(...data)
+      this.items_count()
 		})
   },
 };

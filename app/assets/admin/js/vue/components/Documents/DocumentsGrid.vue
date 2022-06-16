@@ -1,17 +1,18 @@
 <script>
 /**
  * Komponenta pre vypísanie a spracovanie príloh.
- * Posledna zmena 09.06.2022
+ * Posledna zmena 14.06.2022
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.6
+ * @version    1.0.2
  */
 
 import axios from "axios";
 import textCell from '../Grid/TextCell.vue'
+import selectCell from '../Grid/SelectCell.vue'
 
 //for Tracy Debug Bar
 axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
@@ -19,6 +20,7 @@ axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 export default {
   components: {
     textCell,
+    selectCell,
   },
   props: {
     id_hlavne_menu: {
@@ -47,6 +49,10 @@ export default {
             thStyle: 'width: 15rem;'
           },
           {
+            key: 'znacka',
+            label: 'Značka',
+          },
+          {
             key: 'name',
             label: 'Názov',
             tdClass: "position-relative"
@@ -54,6 +60,11 @@ export default {
           {
             key: 'description',
             label: 'Popis',
+            tdClass: "position-relative"
+          },
+          {
+            key: 'type',
+            label: 'Typ',
             tdClass: "position-relative"
           },
           {
@@ -74,6 +85,12 @@ export default {
       items_per_page_selected: 10,
       items_per_page_selected_old: 10,
       currentPage: 1,
+      type: [
+        {value: 1, text: "Iné"}, 
+        {value: 2, text: "Obrázok"},
+        {value: 3, text: "Video"},
+        {value: 4, text: "Audio"}
+      ],
     };
   },
   methods: {
@@ -89,6 +106,7 @@ export default {
                                                   'type':'success',
                                                   'heading': 'Podarilo sa...'
                                                   }])
+              this.items_count()
             }
           })
           .catch((error) => {
@@ -124,6 +142,7 @@ export default {
         .then((response) => {
           this.items = Object.values(response.data);
           this.loading = 0
+          this.items_count()
         })
         .catch((error) => {
           this.error_msg = 'Nepodarilo sa načítať údaje do tabuľky príloh. <br/>Možná príčina: ' + error
@@ -141,7 +160,7 @@ export default {
       axios
         .get(odkaz)
         .then((response) => {
-          this.items_per_page_selected = response.data;
+          this.items_per_page_selected = response.data < 10 ? 10 : response.data;
         })
         .catch((error) => {
           console.log(odkaz);
@@ -174,6 +193,9 @@ export default {
           //                    'heading': 'Chyba'
           //                    }])
         });
+    },
+    items_count() {
+      this.$root.$emit('documents_count', this.items.length)
     }
   },
   computed: {
@@ -186,6 +208,7 @@ export default {
     this.loadItems()
     this.$root.$on('documents_add', data => {
 			this.items.push(...data)
+      this.items_count()
 		})
   },
 };
@@ -237,6 +260,9 @@ export default {
           @click="openmodal(data.index)"
         />
       </template>
+      <template #cell(znacka)="data">
+        {{ data.item.znacka }}
+      </template>
       <template #cell(name)="data">
         <text-cell
           :value="data.item.name"
@@ -252,6 +278,15 @@ export default {
           colName="description"
           :id="data.item.id"
         ></text-cell>
+      </template>
+      <template #cell(type)="data">
+        <select-cell
+          :value="data.item.type"
+          :apiLink="basePath + baseApiPath + 'update/'"
+          colName="type"
+          :id="data.item.id"
+          :options="type"
+        ></select-cell>
       </template>
       <template #cell(action)="data" v-if="editEnabled">
         <!--button type="button" class="btn btn-info btn-sm" title="Edit">

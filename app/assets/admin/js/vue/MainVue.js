@@ -17,11 +17,10 @@ import SingleUpload from './components/Uploader/SingleUpload'
 import MultipleUpload from './components/Uploader/MultipleUpload'
 import lastlogin from './components/MainFrame/LastLogin'
 import colorBorderChange from './components/ColorBorderChange.vue'
-import ProductsMain from './components/Products/ProductsMain.vue'
-import DocumentsMain from './components/Documents/DocumentsMain.vue'
 import Edittexts from '../../../components/EditArticle/EditTexts'
 import FlashMessage from "./components/FlashMessage"
 import SliderGrid from './components/Slider/SliderGrid'
+import MainDocumentsPart from "./components/MainFrame/MainDocumentsPart.vue";
 
 
 // Make BootstrapVue available throughout your project
@@ -38,8 +37,7 @@ let vm = new Vue({
     lastlogin,
     MultipleUpload,
     colorBorderChange,
-    ProductsMain,
-    DocumentsMain,
+    MainDocumentsPart,
     Edittexts,
     FlashMessage,
     SliderGrid,

@@ -7,7 +7,7 @@ use Nette\Http\FileUpload;
 
 /**
  * Prezenter pre pristup k api produktov.
- * Posledna zmena(last change): 08.06.2022
+ * Posledna zmena(last change): 14.06.2022
  *
  * Modul: API
  *
@@ -15,7 +15,7 @@ use Nette\Http\FileUpload;
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.4
+ * @version 1.0.5
  * 
  * @help 1.) https://forum.nette.org/cs/28370-data-z-post-request-body-reactjs-appka-se-po-ceste-do-php-ztrati
  */
@@ -183,6 +183,6 @@ class ProductsPresenter extends BasePresenter
    * Vráti počet položiek na stránku pre prihláseného používateľa */
   public function actionGetPerPage(): void
   {
-    $this->sendJson($this->udaje->getValByName('products_per_page', $this->user->id));
+    $this->sendJson((int)$this->udaje->getValByName('products_per_page', $this->user->id));
   }
 }

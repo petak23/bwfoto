@@ -9,13 +9,13 @@ use Nette;
 /**
  * Model, ktory sa stara o tabulku dokumenty
  * 
- * Posledna zmena 27.04.2022
+ * Posledna zmena 15.06.2022
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.1.1
+ * @version    1.1.2
  */
 class Dokumenty extends Table
 {
@@ -88,7 +88,7 @@ class Dokumenty extends Table
    * @return Nette\Database\Table\ActiveRow|null */
   public function ulozPrilohu(array $data, $id): ?Nette\Database\Table\ActiveRow
   {
-    $is_image = $data['is_image'];
+    $is_image = isset($data['is_image']) ? $data['is_image'] : false;
     unset($data['is_image']);
     $vysledok = $this->uloz($data, $id);
     if ($vysledok !== FALSE && $is_image) { //Ak je to obrazok, tak prida znacku
@@ -124,15 +124,8 @@ class Dokumenty extends Table
    * @param int $id Id dokumentu */
   public function getDocument(int $id): array
   {
-    $doc = $this->find($id);
-    return [
-      'id'          => $doc->id,
-      'name'        => $doc->name,
-      'main_file'   => $doc->main_file,
-      'thumb_file'  => $doc->thumb_file,
-      'description' => $doc->description,
-      'type'        => $doc->type,
-    ];
+    $p = $this->find($id)->toArray();
+    return $p;
   }
 
 
@@ -142,24 +135,28 @@ class Dokumenty extends Table
     $t = $this->findBy(['id_hlavne_menu' => $id_hlavne_menu]);
     $o = [];
     foreach ($t as $p) {
-      $o[] = [
-        'id'          => $p->id,
-        'id_hlavne_menu' => $p->id_hlavne_menu,
-        'id_user_main' => $p->id_user_main,
-        'id_user_roles' => $p->id_user_roles,
-        'znacka'      => $p->znacka,
-        'name'        => $p->name,
-        'pripona'     => $p->pripona,
-        'web_name'    => $p->web_name,
-        'description' => $p->description,
-        'main_file'   => $p->main_file,
-        'thumb_file'  => $p->thumb_file,
-        'change'      => $p->change,
-        'zobraz_v_texte' => $p->zobraz_v_texte,
-        'type'        => $p->type,
-        'pocitadlo'   => $p->pocitadlo
-      ];
+      $o[] = $p->toArray();
     }
     return $o;
+  }
+
+  /**
+   * Zpracovanie požiadavky na zmazanie.
+   * @param $id Id mazaného súboru. 
+   * @return bool Ak zmaže alebo neexistuje(nie je co mazat) tak true inak false */
+  public function removeFile(int $id): bool
+  {
+    $pr = $this->find($id);
+    if ($pr !== null) {
+      $o = $this->deleteFile($pr->main_file)
+        ? (in_array(strtolower($pr->pripona), ['png', 'gif', 'jpg'])
+          ? $this->deleteFile($pr->thumb_file) : true)
+        : false;
+      if ($o) {
+        $pr->delete();
+        return true;
+      }
+    }
+    return false;
   }
 }

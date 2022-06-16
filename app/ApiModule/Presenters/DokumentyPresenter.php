@@ -10,7 +10,7 @@ use Nette\Utils\Strings;
 
 /**
  * Prezenter pre pristup k api dokumentov.
- * Posledna zmena(last change): 09.06.2022
+ * Posledna zmena(last change): 15.06.2022
  *
  * Modul: API
  *
@@ -18,7 +18,7 @@ use Nette\Utils\Strings;
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.4
+ * @version 1.0.5
  */
 class DokumentyPresenter extends BasePresenter
 {
@@ -67,11 +67,11 @@ class DokumentyPresenter extends BasePresenter
     $values = $this->getHttpRequest()->getPost();
 
     /* from POST:
-    * - priloha
+    * - files
     * - thumb
     */
     $files = $this->getHttpRequest()->getFiles();
-    //dumpe($values, $files, is_array($files['priloha']));
+    //dumpe($values, $files, is_array($files['files']));
     $user = $this->getUser();
     $hl_menu = $this->hlavne_menu->find($id);
 
@@ -85,12 +85,12 @@ class DokumentyPresenter extends BasePresenter
       'name'              => (isset($values['name']) && strlen($values["name"]) > 2) ? $values['name'] : "",
     ];
 
-    if (is_array($files['priloha'])) { //MultiUpload
+    if (is_array($files['files'])) { //MultiUpload
       $upload = [
         'status'  => 200,
         'data'    => [],
       ];
-      foreach ($files['priloha'] as $file) {
+      foreach ($files['files'] as $file) {
         $_up = $this->_saveDocument($file, 0, $data_save);
         if ($_up == null) {
           $upload['status'] = 500;
@@ -100,7 +100,7 @@ class DokumentyPresenter extends BasePresenter
         }
       }
     } else {  // SingleUpload
-      $_up = $this->_saveDocument($files['priloha'], isset($values['id']) ? $values['id'] : 0, $data_save);
+      $_up = $this->_saveDocument($files['files'], isset($values['id']) ? $values['id'] : 0, $data_save);
       $upload = $_up !== null ? ['status' => 200, 'data' => $_up] : ['status' => 500, 'data' => null];
     }
 
@@ -198,7 +198,7 @@ class DokumentyPresenter extends BasePresenter
   private function _uploadThumb(int $id, FileUpload $thumb): String
   {
     if ($id) { // Mazanie sa vykoná len ak je $id > 0
-      $pr = $this->dokumenty->find($id); //Zmazanie starej prílohy
+      $pr = $this->documents->find($id); //Zmazanie starej prílohy
       if ($pr !== FALSE) {
         if (is_file($pr->thumb_file)) {
           unlink($this->wwwDir . "/" . $pr->thumb_file);
@@ -244,10 +244,7 @@ class DokumentyPresenter extends BasePresenter
   public function actionDelete(int $id)
   {
     if ($this->getUser()->isLoggedIn() && $this->getUser()->isAllowed($this->name, $this->action)) { //Preventývna kontrola
-      $pr = $this->dokumenty->find($id); //najdenie dokumentu
-      $id_hl_m = $pr->id_hlavne_menu;
-      $vysledok = $this->_vymazSubor($pr->main_file) ? (in_array(strtolower($pr->pripona), ['png', 'gif', 'jpg']) ? $this->_vymazSubor($pr->thumb_file) : true) : false;
-      $out = ($vysledok ? $pr->delete() : false) ? ['status' => 200, 'data' => 'OK'] : ['status' => 500, 'data' => null];
+      $out = ($this->documents->removeFile($id)) ? ['status' => 200, 'data' => 'OK'] : ['status' => 500, 'data' => null];
     } else {
       $out = ['status' => 401, 'data' => null]; //401 Unauthorized (RFC 7235) Používaný tam, kde je vyžadovaná autorizácia, ale zatiaľ nebola vykonaná. 
     }
@@ -257,6 +254,18 @@ class DokumentyPresenter extends BasePresenter
     } else {
       $this->redirect(':Admin:Clanky:', $id);
     }
+  }
+
+  /** 
+   * Oprava dokumentu v DB 
+   * @param int $id Id_hlavne_menu, ku ktorému ukladám dokument */
+  public function actionUpdate(int $id): void
+  {
+    /* from POST: */
+    $values = json_decode(file_get_contents("php://input"), true); // @help 1.)
+
+    $this->documents->uloz($values, $id);
+    $this->sendJson(['status' => 200, 'data' => 'OK']);
   }
 
   /**
@@ -275,6 +284,6 @@ class DokumentyPresenter extends BasePresenter
    * Vráti počet položiek na stránku pre prihláseného používateľa */
   public function actionGetPerPage(): void
   {
-    $this->sendJson($this->udaje->getValByName('documents_per_page', $this->user->id));
+    $this->sendJson((int)$this->udaje->getValByName('documents_per_page', $this->user->id));
   }
 }
