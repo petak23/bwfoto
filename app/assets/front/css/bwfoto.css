@@ -331,7 +331,7 @@ footer .pv-footer a{
 	}
 }
 
-@media (min-width: 992px) {
+@media (min-width: 960px) {
 .frame{
 	width: 80vw;
 	}
