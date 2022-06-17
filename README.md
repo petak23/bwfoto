@@ -12,7 +12,7 @@ Toto je [Nette](https://nette.org) a [Vue.js](https://vuejs.org/) projekt web-s
 
 - spusť príkaz `git clone https://github.com/petak23/bwfoto.git`
 - presuň sa do adresára `cd bwfoto`
-- vytvor podadresáre `temp` a `log` 
+- vytvor podadresáre `temp` a `log` (`mkdir log temp`)
 - na linuxe spusť: `chmod -R a+rw temp log` viď aj: [Nette - Nastavení práv adresářů](https://doc.nette.org/cs/troubleshooting#toc-nastaveni-prav-adresaru)
 - vytvor databázu `bwfoto_new` a importuj do nej súbor `sql\bwfoto_new.sql`
 - spusť `composer install`

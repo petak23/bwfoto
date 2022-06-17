@@ -1,13 +1,13 @@
 <script>
 /**
  * Komponenta pre vypísanie a spracovanie príloh.
- * Posledna zmena 14.06.2022
+ * Posledna zmena 17.06.2022
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.2
+ * @version    1.0.3
  */
 
 import axios from "axios";
@@ -43,6 +43,10 @@ export default {
   data() {
     return {
       fields: [
+          {
+            key: 'selected',
+            label: 'Označ',
+          },
           {
             key: 'thumb_file',
             label: 'Obrázok',
@@ -91,6 +95,7 @@ export default {
         {value: 3, text: "Video"},
         {value: 4, text: "Audio"}
       ],
+      selected: [],
     };
   },
   methods: {
@@ -196,7 +201,16 @@ export default {
     },
     items_count() {
       this.$root.$emit('documents_count', this.items.length)
-    }
+    },
+    onRowSelected(items) {
+      this.selected = items
+    },
+    selectAllRows() {
+      this.$refs.documentsTable.selectAllRows()
+    },
+    clearSelected() {
+      this.$refs.documentsTable.clearSelected()
+    },
   },
   computed: {
     pages() {
@@ -218,6 +232,7 @@ export default {
   <div>
     <b-table
       id="my-documents"
+      sticky-header
       :items="items"
       :per-page="items_per_page_selected"
       :current-page="currentPage"
@@ -226,6 +241,10 @@ export default {
       :striped="true"
       :busy="loading > 0"
       small
+      select-mode="multi"
+      selectable
+      @row-selected="onRowSelected"
+      ref="documentsTable"
     >
       <template #table-caption>
         <div class="d-flex justify-content-between">
@@ -251,6 +270,21 @@ export default {
             </b-form-select>
           </form>
         </div>
+      </template>
+      <template #head(selected)="data">
+        {{ data.label }} 
+        <b-icon icon="square" @click="selectAllRows" v-if="selected.length < items.length"></b-icon>
+        <b-icon icon="check2-square" @click="clearSelected" v-if="selected.length == items.length"></b-icon>
+      </template>
+      <template #cell(selected)="{ rowSelected }">
+        <template v-if="rowSelected">
+          <span aria-hidden="true"><b-icon icon="check2-square"></b-icon></span>
+          <span class="sr-only">Selected</span>
+        </template>
+        <template v-else>
+          <span aria-hidden="true"><b-icon icon="square"></b-icon></span>
+          <span class="sr-only">Not selected</span>
+        </template>
       </template>
       <template #cell(thumb_file)="data">
         <img

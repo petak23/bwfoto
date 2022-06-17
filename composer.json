@@ -41,5 +41,10 @@
   "autoload": {
 		"classmap": ["app/Bootstrap.php"]
 	},
-	"minimum-stability": "stable"
+	"minimum-stability": "stable",
+	"config": {
+		"allow-plugins": {
+			"symfony/thanks": true
+		}
+	}
 }
