@@ -1,13 +1,13 @@
 <script>
 /**
  * Komponenta pre vypísanie a spracovanie príloh.
- * Posledna zmena 17.06.2022
+ * Posledna zmena 21.06.2022
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.3
+ * @version    1.0.4
  */
 
 import axios from "axios";
@@ -46,6 +46,7 @@ export default {
           {
             key: 'selected',
             label: 'Označ',
+            thStyle: 'width: 2.1rem; padding-left: .5rem'
           },
           {
             key: 'thumb_file',
@@ -117,6 +118,41 @@ export default {
           .catch((error) => {
             console.log(odkaz);
             console.log(error);
+          });
+      }
+    },
+    deleteMore() {
+      if (window.confirm('Naozaj chceš vymazať?')) {
+        let to_del = []
+        let odkaz = this.basePath + this.baseApiPath + "deletemore";
+        this.selected.forEach(function(item) {
+          to_del.push(item.id)
+        })
+        let vm = this
+        axios.post(odkaz, {
+            /*'to_delete': */to_del,
+          })
+          .then(function (response) {
+            console.log(response.data)
+            vm.$root.$emit('flash_message', 
+                             [{ 'message': 'Vymazanie prebehlo v poriadku', 
+                                'type':'success',
+                                'heading': 'Vymazané'
+                                }])
+            vm.selected.forEach(function(items) {
+              vm.items = vm.items.filter((item) => item.id !== items.id)
+            })
+            vm.clearSelected()
+            vm.items_count()
+          })
+          .catch(function (error) {
+            console.log(odkaz)
+            console.log(error)
+            vm.$root.$emit('flash_message', 
+                             [{ 'message': 'Pri vymazávaní došlo k chybe',
+                                'type':'danger',
+                                'heading': 'Chyba'
+                                }])
           });
       }
     },
@@ -204,12 +240,15 @@ export default {
     },
     onRowSelected(items) {
       this.selected = items
+      this.$root.$emit('documents_selected', this.selected.length)
     },
     selectAllRows() {
       this.$refs.documentsTable.selectAllRows()
+      this.$root.$emit('documents_selected', this.selected.length)
     },
     clearSelected() {
       this.$refs.documentsTable.clearSelected()
+      this.$root.$emit('documents_selected', this.selected.length)
     },
   },
   computed: {
@@ -224,6 +263,8 @@ export default {
 			this.items.push(...data)
       this.items_count()
 		})
+
+    this.$root.$on('documents_delete', this.deleteMore)
   },
 };
 </script>
@@ -232,7 +273,6 @@ export default {
   <div>
     <b-table
       id="my-documents"
-      sticky-header
       :items="items"
       :per-page="items_per_page_selected"
       :current-page="currentPage"
@@ -245,6 +285,7 @@ export default {
       selectable
       @row-selected="onRowSelected"
       ref="documentsTable"
+      sticky-header="30rem"
     >
       <template #table-caption>
         <div class="d-flex justify-content-between">
@@ -271,8 +312,7 @@ export default {
           </form>
         </div>
       </template>
-      <template #head(selected)="data">
-        {{ data.label }} 
+      <template #head(selected)>
         <b-icon icon="square" @click="selectAllRows" v-if="selected.length < items.length"></b-icon>
         <b-icon icon="check2-square" @click="clearSelected" v-if="selected.length == items.length"></b-icon>
       </template>
@@ -385,5 +425,8 @@ table.b-table caption {
   padding-bottom: .25rem;
   background-color: #555;
   color: #fff;
+}
+.b-table-sticky-header {
+  overflow: auto;
 }
 </style>

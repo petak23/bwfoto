@@ -1,13 +1,13 @@
 <script>
 /**
  * Komponenta pre vypísanie a spracovanie produktov.
- * Posledna zmena 09.06.2022
+ * Posledna zmena 21.06.2022
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.6
+ * @version    1.0.7
  */
 
 import axios from "axios";
@@ -42,6 +42,11 @@ export default {
     return {
       fields: [
           {
+            key: 'selected',
+            label: 'Označ',
+            thStyle: 'width: 2.1rem; padding-left: .5rem'
+          },
+          {
             key: 'thumb_file',
             label: 'Obrázok',
             thStyle: 'width: 15rem;'
@@ -74,6 +79,7 @@ export default {
       items_per_page_selected: 10,
       items_per_page_selected_old: 10,
       currentPage: 1,
+      selected: [],
     };
   },
   methods: {
@@ -95,6 +101,41 @@ export default {
           .catch((error) => {
             console.log(odkaz);
             console.log(error);
+          });
+      }
+    },
+    deleteMore() {
+      if (window.confirm('Naozaj chceš vymazať?')) {
+        let to_del = []
+        let odkaz = this.basePath + this.baseApiPath + "deletemore";
+        this.selected.forEach(function(item) {
+          to_del.push(item.id)
+        })
+        let vm = this
+        axios.post(odkaz, {
+            to_del,
+          })
+          .then(function (response) {
+            console.log(response.data)
+            vm.$root.$emit('flash_message', 
+                             [{ 'message': 'Vymazanie prebehlo v poriadku', 
+                                'type':'success',
+                                'heading': 'Vymazané'
+                                }])
+            vm.selected.forEach(function(items) {
+              vm.items = vm.items.filter((item) => item.id !== items.id)
+            })
+            vm.clearSelected()
+            vm.items_count()
+          })
+          .catch(function (error) {
+            console.log(odkaz)
+            console.log(error)
+            vm.$root.$emit('flash_message', 
+                             [{ 'message': 'Pri vymazávaní došlo k chybe',
+                                'type':'danger',
+                                'heading': 'Chyba'
+                                }])
           });
       }
     },
@@ -179,7 +220,19 @@ export default {
     },
     items_count() {
       this.$root.$emit('products_count', this.items.length)
-    }
+    },
+    onRowSelected(items) {
+      this.selected = items
+      this.$root.$emit('products_selected', this.selected.length)
+    },
+    selectAllRows() {
+      this.$refs.productsTable.selectAllRows()
+      this.$root.$emit('products_selected', this.selected.length)
+    },
+    clearSelected() {
+      this.$refs.productsTable.clearSelected()
+      this.$root.$emit('products_selected', this.selected.length)
+    },
   },
   computed: {
     pages() {
@@ -192,6 +245,11 @@ export default {
     this.$root.$on('products_add', data => {
 			this.items.push(...data)
       this.items_count()
+		})
+
+    this.$root.$on('products_delete', this.deleteMore)
+    this.$root.$on('products_currentPage', products_currentPage => {
+			this.currentPage = products_currentPage
 		})
   },
 };
@@ -209,6 +267,11 @@ export default {
       :striped="true"
       :busy="loading > 0"
       small
+      select-mode="multi"
+      selectable
+      @row-selected="onRowSelected"
+      ref="productsTable"
+      sticky-header="30rem"
     >
       <template #table-caption>
         <div class="d-flex justify-content-between">
@@ -234,6 +297,20 @@ export default {
             </b-form-select>
           </form>
         </div>
+      </template>
+      <template #head(selected)>
+        <b-icon icon="square" @click="selectAllRows" v-if="selected.length < items.length"></b-icon>
+        <b-icon icon="check2-square" @click="clearSelected" v-if="selected.length == items.length"></b-icon>
+      </template>
+      <template #cell(selected)="{ rowSelected }">
+        <template v-if="rowSelected">
+          <span aria-hidden="true"><b-icon icon="check2-square"></b-icon></span>
+          <span class="sr-only">Selected</span>
+        </template>
+        <template v-else>
+          <span aria-hidden="true"><b-icon icon="square"></b-icon></span>
+          <span class="sr-only">Not selected</span>
+        </template>
       </template>
       <template #cell(thumb_file)="data">
         <img
@@ -322,5 +399,8 @@ table.b-table caption {
   padding-bottom: .25rem;
   background-color: #555;
   color: #fff;
+}
+.b-table-sticky-header {
+  overflow: auto;
 }
 </style>

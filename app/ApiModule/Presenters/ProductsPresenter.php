@@ -7,7 +7,7 @@ use Nette\Http\FileUpload;
 
 /**
  * Prezenter pre pristup k api produktov.
- * Posledna zmena(last change): 14.06.2022
+ * Posledna zmena(last change): 21.06.2022
  *
  * Modul: API
  *
@@ -15,7 +15,7 @@ use Nette\Http\FileUpload;
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.5
+ * @version 1.0.6
  * 
  * @help 1.) https://forum.nette.org/cs/28370-data-z-post-request-body-reactjs-appka-se-po-ceste-do-php-ztrati
  */
@@ -153,6 +153,24 @@ class ProductsPresenter extends BasePresenter
     } else {
       $this->redirect(':Admin:Clanky:', $id);
     }
+  }
+
+  /** Vymazanie viacerých dokumentu z DB */
+  public function actionDeleteMore()
+  {
+    if ($this->getUser()->isLoggedIn() && $this->getUser()->isAllowed($this->name, $this->action)) { //Preventývna kontrola
+      /* from POST: */
+      $values = json_decode(file_get_contents("php://input"), true); // @help 1.)
+      $o = true;
+      foreach ($values['to_del'] as $k => $v) {
+        if (!$this->products->removeFile($v)) $o = false;
+      }
+      $out = $o ? ['status' => 200, 'data' => 'OK'] : ['status' => 500, 'data' => null];
+    } else {
+      $out = ['status' => 401, 'data' => null]; //401 Unauthorized (RFC 7235) Používaný tam, kde je vyžadovaná autorizácia, ale zatiaľ nebola vykonaná. 
+    }
+
+    $this->sendJson($out);
   }
 
   /** 
