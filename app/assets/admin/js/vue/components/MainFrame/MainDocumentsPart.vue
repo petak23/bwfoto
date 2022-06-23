@@ -46,8 +46,10 @@ export default {
     this.$root.$on('documents_count', documents_count => {
 			this.documents_count = documents_count
 		})
-    this.$root.$on('products_count', products_count => {
-			this.products_count = products_count
+    this.$root.$on('items_count', data => {
+      if (data.id = "products") { // Len ak je to určené pre mňa...
+			  this.products_count = data.length
+      }
 		})
   },
 }

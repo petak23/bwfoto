@@ -1,13 +1,13 @@
 <script>
 /**
  * Komponenta pre vypísanie a spracovanie produktov.
- * Posledna zmena 21.06.2022
+ * Posledna zmena 23.06.2022
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.7
+ * @version    1.0.8
  */
 
 import axios from "axios";
@@ -36,7 +36,19 @@ export default {
     editEnabled: {
       type: Boolean,
       default: false,
-    }
+    },
+    itemsPerPageSelected: {
+      type: Number,
+      default: 10,
+    },
+    currentPage: {
+      type: Number,
+      default: 1,
+    },
+    id: {
+      type: String,
+      required: true,
+    },
   },
   data() {
     return {
@@ -70,15 +82,6 @@ export default {
       id_p: 1,
       loading: 0,     // Načítanie údajov 0 - nič, 1 - načítavanie, 2 - chyba načítania
       error_msg: '',  // Chybová hláška
-      items_per_page: [
-        { value: 10, text: "10"}, 
-        { value: 20, text: "20"}, 
-        { value: 50, text: "50"},
-        { value: 0, text: "Všetky"},
-      ],
-      items_per_page_selected: 10,
-      items_per_page_selected_old: 10,
-      currentPage: 1,
       selected: [],
     };
   },
@@ -140,7 +143,7 @@ export default {
       }
     },
     openmodal(index) {
-      this.id_p = index + (this.currentPage - 1) * this.items_per_page_selected;
+      this.id_p = index + (this.currentPage - 1) * this.itemsPerPageSelected;
       this.$bvModal.show("modal-multi-product");
     },
     closeme: function () {
@@ -180,77 +183,33 @@ export default {
           console.log(odkaz);
           console.log(error);
         });
-      odkaz = this.basePath + this.baseApiPath + "getperpage";
-      axios
-        .get(odkaz)
-        .then((response) => {
-          this.items_per_page_selected = response.data < 10 ? 10 : response.data;
-        })
-        .catch((error) => {
-          console.log(odkaz);
-          console.log(error);
-        });
     },
-    changeItemsPerPage() {
-      let odkaz = this.basePath + this.baseApiPath + "changeperpage"
-      // Výpočet novej aktuálnej stránky
-      let first_id = this.items_per_page_selected_old * (this.currentPage - 1)
-      this.currentPage = first_id > 0 ? Math.ceil(first_id / this.items_per_page_selected) : 1
-      //let vm = this
-      axios.post(odkaz, {
-          'items_per_page': this.items_per_page_selected,
-        })
-        .then(function (response) {
-          console.log(response.data)
-          //vm.$root.$emit('flash_message', 
-          //                 [{ 'message': 'Uloženie v poriadku', 
-          //                    'type':'success',
-          //                    'heading': 'Uložené'
-          //                    }])
-        })
-        .catch(function (error) {
-          console.log(odkaz)
-          console.log(error)
-          //vm.$root.$emit('flash_message', 
-          //                 [{ 'message': 'Pri uklasaní došlo k chybe',
-          //                    'type':'danger',
-          //                    'heading': 'Chyba'
-          //                    }])
-        });
-    },
-    items_count() {
-      this.$root.$emit('products_count', this.items.length)
+    items_count() { // Emituje celkový počet položiek
+      this.$root.$emit('items_count', { id: this.id, length: this.items.length })
     },
     onRowSelected(items) {
       this.selected = items
-      this.$root.$emit('products_selected', this.selected.length)
+      this.$root.$emit('items_selected', { id: this.id, length: this.selected.length })
     },
     selectAllRows() {
       this.$refs.productsTable.selectAllRows()
-      this.$root.$emit('products_selected', this.selected.length)
+      this.$root.$emit('items_selected', { id: this.id, length: this.selected.length })
     },
     clearSelected() {
       this.$refs.productsTable.clearSelected()
-      this.$root.$emit('products_selected', this.selected.length)
+      this.$root.$emit('items_selected', { id: this.id, length: this.selected.length })
     },
-  },
-  computed: {
-    pages() {
-      return Math.ceil(this.items.length / this.items_per_page_selected)
-    }
   },
   created() {
     // Načítanie údajov priamo z DB
     this.loadItems()
+    
     this.$root.$on('products_add', data => {
 			this.items.push(...data)
       this.items_count()
 		})
 
     this.$root.$on('products_delete', this.deleteMore)
-    this.$root.$on('products_currentPage', products_currentPage => {
-			this.currentPage = products_currentPage
-		})
   },
 };
 </script>
@@ -260,7 +219,7 @@ export default {
     <b-table
       id="my-products"
       :items="items"
-      :per-page="items_per_page_selected"
+      :per-page="itemsPerPageSelected"
       :current-page="currentPage"
       :fields="fields"
       :bordered="true"
@@ -273,31 +232,6 @@ export default {
       ref="productsTable"
       sticky-header="30rem"
     >
-      <template #table-caption>
-        <div class="d-flex justify-content-between">
-          <div class="px-2">Počet produktov: {{ items.length }}</div>
-          <b-pagination
-            v-if="pages > 1"
-            v-model="currentPage"
-            :total-rows="items.length"
-            :per-page="items_per_page_selected"
-            aria-controls="my-products"
-            size="sm"
-            class="bg-secondary text-white my-0"
-          >
-          </b-pagination>
-          <form class="px-2 form-inline" v-if="items.length > 10">
-            <label class="my-0 mr-2" for="itemsPerPage">Položiek na stránku:</label>
-            <b-form-select 
-              v-model="items_per_page_selected"
-              :options="items_per_page"
-              id="itemsPerPage"
-              size="sm"
-              @change="changeItemsPerPage">
-            </b-form-select>
-          </form>
-        </div>
-      </template>
       <template #head(selected)>
         <b-icon icon="square" @click="selectAllRows" v-if="selected.length < items.length"></b-icon>
         <b-icon icon="check2-square" @click="clearSelected" v-if="selected.length == items.length"></b-icon>

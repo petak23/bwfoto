@@ -1,21 +1,27 @@
 <script>
 /**
  * Komponenta pre vypísanie a spracovanie produktov.
- * Posledna zmena 21.06.2022
+ * Posledna zmena 23.06.2022
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.2
+ * @version    1.0.3
  */
 import ProductsGrid from '../Products/ProductsGrid.vue'
 import MultipleUpload from '../Uploader/MultipleUpload.vue'
+import GridFooter from "../Grid/GridFooter.vue";
+import axios from "axios";
+
+//for Tracy Debug Bar
+axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
 export default {
   components: { 
     MultipleUpload,
     ProductsGrid,
+    GridFooter,
   },
   props: {
     id_hlavne_menu: {
@@ -26,64 +32,84 @@ export default {
       type: String,
       required: true,
     },
+    baseApiPath: {
+      type: String,
+      default: '/api/products/'
+    },
     adminLinks: { // Oprávnenia pre administratívne úkony
       type: String,
       required: true,
     },
+    currentLang: { // Skratka aktuálneho jazyka
+      type: String,
+      default: 'sk',
+    },
+    id: {
+      type: String,
+      default: 'products',
+    }
+    
   },
   data() {
     return {
       admin_links: {},
-      products_selected: 0,
-      items_count: 0,
-      items_per_page: [
-        { value: 10, text: "10"}, 
-        { value: 20, text: "20"}, 
-        { value: 50, text: "50"},
-        { value: 0, text: "Všetky"},
-      ],
-      items_per_page_selected: 10,
-      items_per_page_selected_old: 10,
-      currentPage: 1,
+      items_selected: 0, // Počet označených položiek
+      items_count: 0,    // Celkový počet položiek
+      items_per_page_selected: 10,  // Počet položiek na stránku
+      currentPage: 1,    // Aktuálne zobrazená stránka
+      language_texts: {  // Texty pre jazykové mutácie
+        sk: {
+          add_items: "Pridaj produkt(y)",
+          add_more_items: "Pridanie viacerích produktov k položke",
+        },
+      },
     };
   },
   methods: {
-    deleteProducts() {
+    deleteProducts() { // V prípade mazania viac položiek 
       this.$root.$emit('products_delete')
     },
-    changeItemsPerPage() {
-      let odkaz = this.basePath + this.baseApiPath + "changeperpage"
-      // Výpočet novej aktuálnej stránky
-      let first_id = this.items_per_page_selected_old * (this.currentPage - 1)
-      this.currentPage = first_id > 0 ? Math.ceil(first_id / this.items_per_page_selected) : 1
-      let vm = this
-      axios.post(odkaz, {
-          'items_per_page': this.items_per_page_selected,
-        })
-        .then(function (response) {
-          console.log(response.data)
-          vm.$root.$emit('products_currentPage', vm.currentPage)
-        })
-        .catch(function (error) {
-          console.log(odkaz)
-          console.log(error)
-        });
-    },
-  },
-  computed: {
-    pages() {
-      return Math.ceil(this.items_count / this.items_per_page_selected)
+    trans(key) {  // Preklad textov
+      // help: https://stackoverflow.com/questions/6921803/how-to-access-object-using-dynamic-key
+      if (this.language_texts[this.currentLang].hasOwnProperty(key)) {
+        return this.language_texts[this.currentLang][key]
+      } else {
+        return key
+      }
     }
   },
   created() {
     this.admin_links = JSON.parse(this.adminLinks);
 
-    this.$root.$on('products_selected', products_selected => {
-			this.products_selected = products_selected
+    // Reaguje na zmenu počtu označených položiek 
+    this.$root.$on('items_selected', data => {
+      if (data.id = this.id) { // Len ak je to určené pre mňa...
+			  this.items_selected = data.length
+      }
 		})
-    this.$root.$on('products_count', items_count => {
-			this.items_count = items_count
+
+    // Reaguje na zmenu počtu položiek
+    this.$root.$on('items_count', data => {
+      if (data.id = this.id) { // Len ak je to určené pre mňa...
+			  this.items_count = data.length
+      }
 		})
+
+    // Reaguje na zmenu počtu položiek na stránku v gride
+    this.$root.$on('changed_items_per_page', data => { 
+      if (data.id = this.id) { // Len ak je to určené pre mňa...
+        this.items_per_page_selected = data.items_per_page_selected
+        this.currentPage = data.currentPage
+      }
+    })
+
+    // Reaguje na zmenu aktuálnej stránky
+    this.$root.$on('current_page', data => { 
+      if (data.id = this.id) { // Len ak je to určené pre mňa...
+        this.currentPage = data.currentPage
+      }
+    })
+    
   },
   
 }
@@ -96,11 +122,11 @@ export default {
         v-b-modal.myModalAddMultiProductsUpload variant="primary"
         size="sm"
       >
-        <i class="fas fa-copy"></i> Pridaj produkt(y)
+        <i class="fas fa-copy"></i> {{ trans('add_items') }}
       </b-button>
       <b-button class="ml-2" 
         variant="danger" 
-        v-if="products_selected > 0"
+        v-if="items_selected > 0"
         size="sm"
         @click="deleteProducts"
       >
@@ -112,42 +138,29 @@ export default {
         :base-path="basePath"
         :id_hlavne_menu="id_hlavne_menu"
         :edit-enabled="admin_links.elink"
+        :items-per-page-selected = "items_per_page_selected"
+        :id="id"
+        :current-page="currentPage"
       />
 
       <multiple-upload 
         v-if="admin_links.elink"
         api-url="api/products" 
         :base-path="basePath"
+        :base-api-path="baseApiPath"
         :id_hlavne_menu="id_hlavne_menu"
         id-of-modal-uplad="myModalAddMultiProductsUpload"
-        title="Pridanie viacerích produktov k položke"
+        :title="trans('add_more_items')"
         item-emit-name="products_add"
       />
     </div>
     <div class="card-footer">
-      <div class="d-flex justify-content-between">
-        <div class="px-2">Počet produktov: {{ items_count }}</div>
-        <b-pagination
-          v-if="pages > 1"
-          v-model="currentPage"
-          :total-rows="items_count"
-          :per-page="items_per_page_selected"
-          aria-controls="my-products"
-          size="sm"
-          class="bg-secondary text-white my-0"
-        >
-        </b-pagination>
-        <form class="px-2 form-inline" v-if="items_count > 10">
-          <label class="my-0 mr-2" for="itemsPerPage">Položiek na stránku:</label>
-          <b-form-select 
-            v-model="items_per_page_selected"
-            :options="items_per_page"
-            id="itemsPerPage"
-            size="sm"
-            @change="changeItemsPerPage">
-          </b-form-select>
-        </form>
-      </div>
+      <grid-footer
+        :base-path="basePath"
+        :base-api-path="baseApiPath"
+        :id="id"
+        :items_count="items_count"
+      />
     </div>
   </div>
 </template>
