@@ -7,7 +7,7 @@
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.2
+ * @version    1.0.3
  * 
  * @doc see file Grid_readme.md
  */
@@ -22,7 +22,7 @@ export default {
       type: String,
       required: true,
     },
-    baseApiPath: { // Základná časť cesty k API
+    baseApiPath: { // Základná časť cesty k API s lomítkom na začiatku a na konci
       type: String,
       required: true,
     },
@@ -92,7 +92,14 @@ export default {
       axios
         .get(odkaz)
         .then((response) => {
-          this.items_per_page_selected = response.data < 10 ? 10 : response.data;
+          this.items_per_page_selected = response.data;
+          this.$root.$emit('changed_items_per_page', 
+                          { 
+                            id: this.id, 
+                            items_per_page_selected: this.items_per_page_selected,
+                            currentPage: this.currentPage,
+                          }
+                        )
         })
         .catch((error) => {
           console.log(odkaz);
@@ -130,13 +137,6 @@ export default {
     },
   },
   created() {
-    // Reaguje na zmenu počtu položiek na stránku v gride
-    /*this.$root.$on('changed_items_per_page', data => { 
-      if (data.id = this.id) { // Len ak je to určené pre mňa...
-        this.items_per_page_selected = data.items_per_page_selected
-      }
-    })*/
-    
     // Načíta aktuálny počet položiek na stránku
     this.loadItemsPerPage()
   },
@@ -147,7 +147,7 @@ export default {
   <div class="d-flex justify-content-between">
     <div class="px-2">
       {{ trans('items') }}{{ items_count }} 
-      <small>
+      <small v-if="items_count > 1">
         ({{ count_from }} {{ count_to }})
       </small>
     </div> 
@@ -156,7 +156,6 @@ export default {
       v-model="currentPage"
       :total-rows="items_count"
       :per-page="items_per_page_selected"
-      aria-controls="my-products"
       size="sm"
       class="bg-secondary text-white my-0"
     >

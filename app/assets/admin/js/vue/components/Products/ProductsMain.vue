@@ -1,13 +1,13 @@
 <script>
 /**
  * Komponenta pre vypísanie a spracovanie produktov.
- * Posledna zmena 23.06.2022
+ * Posledna zmena 24.06.2022
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.3
+ * @version    1.0.4
  */
 import ProductsGrid from '../Products/ProductsGrid.vue'
 import MultipleUpload from '../Uploader/MultipleUpload.vue'
@@ -32,9 +32,9 @@ export default {
       type: String,
       required: true,
     },
-    baseApiPath: {
+    baseApiPath: {  // Základná časť cesty k API s lomítkom na začiatku a na konci
       type: String,
-      default: '/api/products/'
+      required: true,
     },
     adminLinks: { // Oprávnenia pre administratívne úkony
       type: String,
@@ -66,7 +66,7 @@ export default {
     };
   },
   methods: {
-    deleteProducts() { // V prípade mazania viac položiek 
+    deleteItems() { // V prípade mazania viac položiek 
       this.$root.$emit('products_delete')
     },
     trans(key) {  // Preklad textov
@@ -83,21 +83,21 @@ export default {
 
     // Reaguje na zmenu počtu označených položiek 
     this.$root.$on('items_selected', data => {
-      if (data.id = this.id) { // Len ak je to určené pre mňa...
+      if (data.id == this.id) { // Len ak je to určené pre mňa...
 			  this.items_selected = data.length
       }
 		})
 
     // Reaguje na zmenu počtu položiek
     this.$root.$on('items_count', data => {
-      if (data.id = this.id) { // Len ak je to určené pre mňa...
+      if (data.id == this.id) { // Len ak je to určené pre mňa...
 			  this.items_count = data.length
       }
 		})
 
     // Reaguje na zmenu počtu položiek na stránku v gride
     this.$root.$on('changed_items_per_page', data => { 
-      if (data.id = this.id) { // Len ak je to určené pre mňa...
+      if (data.id == this.id) { // Len ak je to určené pre mňa...
         this.items_per_page_selected = data.items_per_page_selected
         this.currentPage = data.currentPage
       }
@@ -105,7 +105,7 @@ export default {
 
     // Reaguje na zmenu aktuálnej stránky
     this.$root.$on('current_page', data => { 
-      if (data.id = this.id) { // Len ak je to určené pre mňa...
+      if (data.id == this.id) { // Len ak je to určené pre mňa...
         this.currentPage = data.currentPage
       }
     })
@@ -128,7 +128,7 @@ export default {
         variant="danger" 
         v-if="items_selected > 0"
         size="sm"
-        @click="deleteProducts"
+        @click="deleteItems"
       >
         <i class="fa-solid fa-trash-can"></i>
       </b-button>
@@ -136,6 +136,7 @@ export default {
     <div class="card-body">
       <products-grid
         :base-path="basePath"
+        :base-api-path="baseApiPath"
         :id_hlavne_menu="id_hlavne_menu"
         :edit-enabled="admin_links.elink"
         :items-per-page-selected = "items_per_page_selected"
@@ -144,14 +145,13 @@ export default {
       />
 
       <multiple-upload 
-        v-if="admin_links.elink"
-        api-url="api/products" 
+        v-if="admin_links.elink" 
         :base-path="basePath"
         :base-api-path="baseApiPath"
         :id_hlavne_menu="id_hlavne_menu"
         id-of-modal-uplad="myModalAddMultiProductsUpload"
         :title="trans('add_more_items')"
-        item-emit-name="products_add"
+        :item-emit-name="id + '_add'"
       />
     </div>
     <div class="card-footer">

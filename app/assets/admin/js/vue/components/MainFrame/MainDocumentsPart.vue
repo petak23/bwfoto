@@ -1,13 +1,13 @@
 <script>
 /**
  * Komponenta pre vypísanie kariet dokumentov a produktov
- * Posledna zmena 15.06.2022
+ * Posledna zmena 24.06.2022
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.0
+ * @version    1.0.1
  */
 
 import DocumentsMain from "../Documents/DocumentsMain.vue";
@@ -43,12 +43,12 @@ export default {
     }
   },
   created () {
-    this.$root.$on('documents_count', documents_count => {
-			this.documents_count = documents_count
-		})
     this.$root.$on('items_count', data => {
-      if (data.id = "products") { // Len ak je to určené pre mňa...
+      if (data.id == "products") { // Len ak je to určené pre mňa...
 			  this.products_count = data.length
+      }
+      if (data.id == "documents") { // Len ak je to určené pre mňa...
+			  this.documents_count = data.length
       }
 		})
   },
@@ -64,6 +64,7 @@ export default {
       </template>
       <documents-main 
         :base-path="basePath"
+        base-api-path="/api/documents/"
         :id_hlavne_menu="id_hlavne_menu"
         :admin-links="adminLinks"
       />
@@ -75,6 +76,7 @@ export default {
       </template>
       <products-main 
         :base-path="basePath"
+        base-api-path="/api/products/"
         :id_hlavne_menu="id_hlavne_menu"
         :admin-links="adminLinks"
       />

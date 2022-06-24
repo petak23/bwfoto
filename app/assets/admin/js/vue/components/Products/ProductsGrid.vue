@@ -1,13 +1,13 @@
 <script>
 /**
  * Komponenta pre vypísanie a spracovanie produktov.
- * Posledna zmena 23.06.2022
+ * Posledna zmena 24.06.2022
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.8
+ * @version    1.0.9
  */
 
 import axios from "axios";
@@ -29,9 +29,9 @@ export default {
       type: String,
       required: true,
     },
-    baseApiPath: {
+    baseApiPath: {  // Základná časť cesty k API s lomítkom na začiatku a na konci
       type: String,
-      default: '/api/products/'
+      required: true,
     },
     editEnabled: {
       type: Boolean,
