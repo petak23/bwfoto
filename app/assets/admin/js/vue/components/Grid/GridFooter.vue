@@ -1,13 +1,15 @@
 <script>
 /**
  * Komponenta pre vypísanie footer-u gridu. Tj. paginátor a položiek na stránku
- * Posledna zmena 23.06.2022
+ * Posledna zmena 24.06.2022
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.1
+ * @version    1.0.2
+ * 
+ * @doc see file Grid_readme.md
  */
 import axios from "axios";
 
@@ -16,11 +18,11 @@ axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
 export default {
   props: {
-    basePath: {
+    basePath: {    // Základná cesta v adrese
       type: String,
       required: true,
     },
-    baseApiPath: {
+    baseApiPath: { // Základná časť cesty k API
       type: String,
       required: true,
     },
@@ -28,11 +30,11 @@ export default {
       type: String,
       default: 'sk',
     },
-    id: {
+    id: {          // Id časti
       type: String,
       required: true,
     },
-    items_count: {
+    items_count: { // Celkový počet položiek
       type: Number,
       required: true,
     },
@@ -64,7 +66,7 @@ export default {
       let odkaz = this.basePath + this.baseApiPath + "changeperpage"
       // Výpočet novej aktuálnej stránky
       let first_id = this.items_per_page_selected_old * (this.currentPage - 1)
-      this.currentPage = first_id > 0 ? Math.ceil(first_id / this.items_per_page_selected) : 1
+      this.currentPage = (first_id > 0 && this.items_per_page_selected > 0) ? Math.ceil(first_id / this.items_per_page_selected) : 1
       let vm = this
       axios.post(odkaz, {
           'items_per_page': this.items_per_page_selected,
@@ -97,7 +99,7 @@ export default {
           console.log(error);
         });
     },
-    trans(key) {
+    trans(key) { // Preloží kľúč do aktuálneho jazyka
       // help: https://stackoverflow.com/questions/6921803/how-to-access-object-using-dynamic-key
       if (this.language_texts[this.currentLang].hasOwnProperty(key)) {
         return this.language_texts[this.currentLang][key]
@@ -108,14 +110,14 @@ export default {
   },
   computed: {
     pages() { // Spočíta celkový počet stránok
-      return Math.ceil(this.items_count / this.items_per_page_selected)
+      return Math.ceil(this.items_per_page_selected > 0 ? this.items_count / this.items_per_page_selected : 1)
     },
-    count_from() {
+    count_from() { // Spočíta dolnú hranicu (od) zobrazených položiek pre časť: od - do. Vráti text v tvare:"od xxx".
       let n = (this.currentPage - 1) * this.items_per_page_selected + 1
       return this.trans('from') + n.toString()
     },
-    count_to() { // Spočíta hornú hranicu (do) zobrazených položiek pre časť: od - do
-      let c = this.currentPage * this.items_per_page_selected
+    count_to() { // Spočíta hornú hranicu (do) zobrazených položiek pre časť: od - do. Vráti text v tvare:"do xxx".
+      let c = this.items_per_page_selected > 0 ? this.currentPage * this.items_per_page_selected : this.items_count
       return this.trans('to') + (c > this.items_count ? this.items_count.toString() : c.toString())
     }
   },
@@ -129,11 +131,11 @@ export default {
   },
   created() {
     // Reaguje na zmenu počtu položiek na stránku v gride
-    this.$root.$on('changed_items_per_page', data => { 
+    /*this.$root.$on('changed_items_per_page', data => { 
       if (data.id = this.id) { // Len ak je to určené pre mňa...
         this.items_per_page_selected = data.items_per_page_selected
       }
-    })
+    })*/
     
     // Načíta aktuálny počet položiek na stránku
     this.loadItemsPerPage()
