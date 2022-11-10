@@ -10,7 +10,11 @@ use Nette\Utils\Strings;
 
 /**
  * Prezenter pre pristup k api dokumentov.
+<<<<<<< HEAD
  * Posledna zmena(last change): 15.06.2022
+=======
+ * Posledna zmena(last change): 21.06.2022
+>>>>>>> 0300db6e5c2fe474a2c7f3db310def98c43d64e0
  *
  * Modul: API
  *
@@ -18,7 +22,13 @@ use Nette\Utils\Strings;
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
+<<<<<<< HEAD
  * @version 1.0.5
+=======
+ * @version 1.0.6
+ * 
+ * @help 1.) https://forum.nette.org/cs/28370-data-z-post-request-body-reactjs-appka-se-po-ceste-do-php-ztrati
+>>>>>>> 0300db6e5c2fe474a2c7f3db310def98c43d64e0
  */
 class DokumentyPresenter extends BasePresenter
 {
@@ -256,6 +266,28 @@ class DokumentyPresenter extends BasePresenter
     }
   }
 
+<<<<<<< HEAD
+=======
+  /** Vymazanie viacerých dokumentu z DB */
+  public function actionDeleteMore()
+  {
+    if ($this->getUser()->isLoggedIn() && $this->getUser()->isAllowed($this->name, $this->action)) { //Preventývna kontrola
+      /* from POST: */
+      $values = json_decode(file_get_contents("php://input"), true); // @help 1.)
+      //dumpe($values['to_del']);
+      $o = true;
+      foreach ($values['to_del'] as $k => $v) {
+        if (!$this->documents->removeFile($v)) $o = false;
+      }
+      $out = $o ? ['status' => 200, 'data' => 'OK'] : ['status' => 500, 'data' => null];
+    } else {
+      $out = ['status' => 401, 'data' => null]; //401 Unauthorized (RFC 7235) Používaný tam, kde je vyžadovaná autorizácia, ale zatiaľ nebola vykonaná. 
+    }
+
+    $this->sendJson($out);
+  }
+
+>>>>>>> 0300db6e5c2fe474a2c7f3db310def98c43d64e0
   /** 
    * Oprava dokumentu v DB 
    * @param int $id Id_hlavne_menu, ku ktorému ukladám dokument */

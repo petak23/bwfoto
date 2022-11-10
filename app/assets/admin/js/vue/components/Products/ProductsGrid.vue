@@ -1,13 +1,21 @@
 <script>
 /**
  * Komponenta pre vypísanie a spracovanie produktov.
+<<<<<<< HEAD
  * Posledna zmena 09.06.2022
+=======
+ * Posledna zmena 24.06.2022
+>>>>>>> 0300db6e5c2fe474a2c7f3db310def98c43d64e0
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
+<<<<<<< HEAD
  * @version    1.0.6
+=======
+ * @version    1.0.9
+>>>>>>> 0300db6e5c2fe474a2c7f3db310def98c43d64e0
  */
 
 import axios from "axios";
@@ -29,19 +37,45 @@ export default {
       type: String,
       required: true,
     },
+<<<<<<< HEAD
     baseApiPath: {
       type: String,
       default: '/api/products/'
+=======
+    baseApiPath: {  // Základná časť cesty k API s lomítkom na začiatku a na konci
+      type: String,
+      required: true,
+>>>>>>> 0300db6e5c2fe474a2c7f3db310def98c43d64e0
     },
     editEnabled: {
       type: Boolean,
       default: false,
-    }
+    },
+    itemsPerPageSelected: {
+      type: Number,
+      default: 10,
+    },
+    currentPage: {
+      type: Number,
+      default: 1,
+    },
+    id: {
+      type: String,
+      required: true,
+    },
   },
   data() {
     return {
       fields: [
           {
+<<<<<<< HEAD
+=======
+            key: 'selected',
+            label: 'Označ',
+            thStyle: 'width: 2.1rem; padding-left: .5rem'
+          },
+          {
+>>>>>>> 0300db6e5c2fe474a2c7f3db310def98c43d64e0
             key: 'thumb_file',
             label: 'Obrázok',
             thStyle: 'width: 15rem;'
@@ -65,6 +99,7 @@ export default {
       id_p: 1,
       loading: 0,     // Načítanie údajov 0 - nič, 1 - načítavanie, 2 - chyba načítania
       error_msg: '',  // Chybová hláška
+<<<<<<< HEAD
       items_per_page: [
         { value: 10, text: "10"}, 
         { value: 20, text: "20"}, 
@@ -74,6 +109,9 @@ export default {
       items_per_page_selected: 10,
       items_per_page_selected_old: 10,
       currentPage: 1,
+=======
+      selected: [],
+>>>>>>> 0300db6e5c2fe474a2c7f3db310def98c43d64e0
     };
   },
   methods: {
@@ -98,8 +136,47 @@ export default {
           });
       }
     },
+    deleteMore() {
+      if (window.confirm('Naozaj chceš vymazať?')) {
+        let to_del = []
+        let odkaz = this.basePath + this.baseApiPath + "deletemore";
+        this.selected.forEach(function(item) {
+          to_del.push(item.id)
+        })
+        let vm = this
+        axios.post(odkaz, {
+            to_del,
+          })
+          .then(function (response) {
+            console.log(response.data)
+            vm.$root.$emit('flash_message', 
+                             [{ 'message': 'Vymazanie prebehlo v poriadku', 
+                                'type':'success',
+                                'heading': 'Vymazané'
+                                }])
+            vm.selected.forEach(function(items) {
+              vm.items = vm.items.filter((item) => item.id !== items.id)
+            })
+            vm.clearSelected()
+            vm.items_count()
+          })
+          .catch(function (error) {
+            console.log(odkaz)
+            console.log(error)
+            vm.$root.$emit('flash_message', 
+                             [{ 'message': 'Pri vymazávaní došlo k chybe',
+                                'type':'danger',
+                                'heading': 'Chyba'
+                                }])
+          });
+      }
+    },
     openmodal(index) {
+<<<<<<< HEAD
       this.id_p = index + (this.currentPage - 1) * this.items_per_page_selected;
+=======
+      this.id_p = index + (this.currentPage - 1) * this.itemsPerPageSelected;
+>>>>>>> 0300db6e5c2fe474a2c7f3db310def98c43d64e0
       this.$bvModal.show("modal-multi-product");
     },
     closeme: function () {
@@ -150,6 +227,7 @@ export default {
           console.log(error);
         });
     },
+<<<<<<< HEAD
     changeItemsPerPage() {
       let odkaz = this.basePath + this.baseApiPath + "changeperpage"
       // Výpočet novej aktuálnej stránky
@@ -185,14 +263,34 @@ export default {
     pages() {
       return Math.ceil(this.items.length / this.items_per_page_selected)
     }
+=======
+    items_count() { // Emituje celkový počet položiek
+      this.$root.$emit('items_count', { id: this.id, length: this.items.length })
+    },
+    onRowSelected(items) {
+      this.selected = items
+      this.$root.$emit('items_selected', { id: this.id, length: this.selected.length })
+    },
+    selectAllRows() {
+      this.$refs.productsTable.selectAllRows()
+      this.$root.$emit('items_selected', { id: this.id, length: this.selected.length })
+    },
+    clearSelected() {
+      this.$refs.productsTable.clearSelected()
+      this.$root.$emit('items_selected', { id: this.id, length: this.selected.length })
+    },
+>>>>>>> 0300db6e5c2fe474a2c7f3db310def98c43d64e0
   },
   created() {
     // Načítanie údajov priamo z DB
     this.loadItems()
+    
     this.$root.$on('products_add', data => {
 			this.items.push(...data)
       this.items_count()
 		})
+
+    this.$root.$on('products_delete', this.deleteMore)
   },
 };
 </script>
@@ -202,13 +300,18 @@ export default {
     <b-table
       id="my-products"
       :items="items"
+<<<<<<< HEAD
       :per-page="items_per_page_selected"
+=======
+      :per-page="itemsPerPageSelected"
+>>>>>>> 0300db6e5c2fe474a2c7f3db310def98c43d64e0
       :current-page="currentPage"
       :fields="fields"
       :bordered="true"
       :striped="true"
       :busy="loading > 0"
       small
+<<<<<<< HEAD
     >
       <template #table-caption>
         <div class="d-flex justify-content-between">
@@ -234,6 +337,27 @@ export default {
             </b-form-select>
           </form>
         </div>
+=======
+      select-mode="multi"
+      selectable
+      @row-selected="onRowSelected"
+      ref="productsTable"
+      sticky-header="30rem"
+    >
+      <template #head(selected)>
+        <b-icon icon="square" @click="selectAllRows" v-if="selected.length < items.length"></b-icon>
+        <b-icon icon="check2-square" @click="clearSelected" v-if="selected.length == items.length"></b-icon>
+      </template>
+      <template #cell(selected)="{ rowSelected }">
+        <template v-if="rowSelected">
+          <span aria-hidden="true"><b-icon icon="check2-square"></b-icon></span>
+          <span class="sr-only">Selected</span>
+        </template>
+        <template v-else>
+          <span aria-hidden="true"><b-icon icon="square"></b-icon></span>
+          <span class="sr-only">Not selected</span>
+        </template>
+>>>>>>> 0300db6e5c2fe474a2c7f3db310def98c43d64e0
       </template>
       <template #cell(thumb_file)="data">
         <img
@@ -323,4 +447,10 @@ table.b-table caption {
   background-color: #555;
   color: #fff;
 }
+<<<<<<< HEAD
+=======
+.b-table-sticky-header {
+  overflow: auto;
+}
+>>>>>>> 0300db6e5c2fe474a2c7f3db310def98c43d64e0
 </style>

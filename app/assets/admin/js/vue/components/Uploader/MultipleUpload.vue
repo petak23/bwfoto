@@ -1,13 +1,21 @@
 <script>
 /**
  * Komponenta pre multiupload súborov.
+<<<<<<< HEAD
  * Posledna zmena 09.06.2022
+=======
+ * Posledna zmena 24.06.2022
+>>>>>>> 0300db6e5c2fe474a2c7f3db310def98c43d64e0
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
+<<<<<<< HEAD
  * @version    1.0.3
+=======
+ * @version    1.0.4
+>>>>>>> 0300db6e5c2fe474a2c7f3db310def98c43d64e0
  */
 
 import _ from "lodash";
@@ -15,7 +23,7 @@ import axios from 'axios';
 
 export default {
   props: {
-    apiUrl: {  // Relatívna adresa pre API
+    baseApiPath: {  // Relatívna adresa pre API s lomítkom na začiatku a na konci
       type: String,
       required: true,
     },
@@ -65,7 +73,7 @@ export default {
         formData.append("files[]", file);
       });
       this.isUploading = true;
-      let odkaz = this.basePath + "/" + this.apiUrl + "/save/" + this.id_hlavne_menu
+      let odkaz = this.basePath + this.baseApiPath + "save/" + this.id_hlavne_menu
       //let _this = this
       await axios.post(odkaz, formData, {  
         headers: {
@@ -107,7 +115,7 @@ export default {
     },
     deleteFile(id) {
       console.log(id)
-      let odkaz =  this.basePath + "/" + this.apiUrl + "/delete/" + id
+      let odkaz =  this.basePath + this.baseApiPath + "delete/" + id
 
       axios.get(odkaz)
               .then(response => {

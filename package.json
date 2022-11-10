@@ -18,12 +18,11 @@
     "naja": "^2.3.0",
     "nette-forms": "^3.3.1",
     "portal-vue": "^2.1.7",
-    "ublaboo-datagrid": "^6.9.1",
     "verte": "^0.0.12",
     "vue": "^2.6.14",
     "vue-dnd-zone": "^0.4.0",
     "vuedraggable": "^2.24.3",
-    "vuetify": "^2.5.10",
+    "vuetify": "^2.6.10",
     "vuex": "^3.6.2"
   },
   "devDependencies": {
@@ -41,7 +40,7 @@
     "file-loader": "^6.2.0",
     "jsonlylightbox": "^0.5.5",
     "mini-css-extract-plugin": "^1.6.2",
-    "node-sass": "^7.0.1",
+    "node-sass": "^7.0.3",
     "postcss": "^8.4.5",
     "postcss-loader": "^6.2.1",
     "raw-loader": "^4.0.2",
