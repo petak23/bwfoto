@@ -1,21 +1,13 @@
 <script>
 /**
  * Komponenta pre multiupload súborov.
-<<<<<<< HEAD
- * Posledna zmena 09.06.2022
-=======
  * Posledna zmena 24.06.2022
->>>>>>> 0300db6e5c2fe474a2c7f3db310def98c43d64e0
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
-<<<<<<< HEAD
- * @version    1.0.3
-=======
  * @version    1.0.4
->>>>>>> 0300db6e5c2fe474a2c7f3db310def98c43d64e0
  */
 
 import _ from "lodash";

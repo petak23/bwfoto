@@ -1,21 +1,13 @@
 <script>
 /**
  * Komponenta pre vypísanie a spracovanie produktov.
-<<<<<<< HEAD
- * Posledna zmena 07.06.2022
-=======
  * Posledna zmena 24.06.2022
->>>>>>> 0300db6e5c2fe474a2c7f3db310def98c43d64e0
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
-<<<<<<< HEAD
- * @version    1.0.1
-=======
  * @version    1.0.4
->>>>>>> 0300db6e5c2fe474a2c7f3db310def98c43d64e0
  */
 import ProductsGrid from '../Products/ProductsGrid.vue'
 import MultipleUpload from '../Uploader/MultipleUpload.vue'
@@ -40,13 +32,10 @@ export default {
       type: String,
       required: true,
     },
-<<<<<<< HEAD
-=======
     baseApiPath: {  // Základná časť cesty k API s lomítkom na začiatku a na konci
       type: String,
       required: true,
     },
->>>>>>> 0300db6e5c2fe474a2c7f3db310def98c43d64e0
     adminLinks: { // Oprávnenia pre administratívne úkony
       type: String,
       required: true,
@@ -158,10 +147,7 @@ export default {
       <multiple-upload 
         v-if="admin_links.elink" 
         :base-path="basePath"
-<<<<<<< HEAD
-=======
         :base-api-path="baseApiPath"
->>>>>>> 0300db6e5c2fe474a2c7f3db310def98c43d64e0
         :id_hlavne_menu="id_hlavne_menu"
         id-of-modal-uplad="myModalAddMultiProductsUpload"
         :title="trans('add_more_items')"

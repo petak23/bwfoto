@@ -1,10 +1,10 @@
 /* 
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @file stred_admin.css
- * Last update: 07.01.2022 
+ * Last update: 23.11.2022 
  */
 
- .uroven-registracie {
+.uroven-registracie {
   padding: 2px 4px;
   -webkit-border-radius: 2px;
   -moz-border-radius: 2px;
@@ -37,6 +37,10 @@
   background-color: #CC0F0840; 
   border-color: #CC0F08AA;
 } 
+
+li > p {
+  margin-bottom: 0;
+}
 
 .navbar {
   padding: 0;

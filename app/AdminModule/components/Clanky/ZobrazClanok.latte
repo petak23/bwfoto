@@ -2,7 +2,7 @@
  *
  * Modul: ADMIN
  *
- * Posledna zmena(last change): 15.06.2022
+ * Posledna zmena(last change): 23.11.2022
  * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
@@ -26,7 +26,7 @@
       <div n:ifset="$c->text" class="panel-body mb-2">
         {if strlen($c->text)}
           <h4>Text článku:</h4>
-          {$c->text|texy|obr_v_txt|noescape}
+          {$c->text_c|obr_v_txt|noescape}
         {else}
           <div class="p-1 bg-warning"> Text článku ešte nie je zadaný ... </div>
         {/if}

@@ -1,21 +1,13 @@
 <script>
 /**
  * Komponenta pre vypísanie a spracovanie produktov.
-<<<<<<< HEAD
- * Posledna zmena 09.06.2022
-=======
  * Posledna zmena 24.06.2022
->>>>>>> 0300db6e5c2fe474a2c7f3db310def98c43d64e0
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
-<<<<<<< HEAD
- * @version    1.0.6
-=======
  * @version    1.0.9
->>>>>>> 0300db6e5c2fe474a2c7f3db310def98c43d64e0
  */
 
 import axios from "axios";
@@ -37,15 +29,9 @@ export default {
       type: String,
       required: true,
     },
-<<<<<<< HEAD
-    baseApiPath: {
-      type: String,
-      default: '/api/products/'
-=======
     baseApiPath: {  // Základná časť cesty k API s lomítkom na začiatku a na konci
       type: String,
       required: true,
->>>>>>> 0300db6e5c2fe474a2c7f3db310def98c43d64e0
     },
     editEnabled: {
       type: Boolean,
@@ -68,14 +54,11 @@ export default {
     return {
       fields: [
           {
-<<<<<<< HEAD
-=======
             key: 'selected',
             label: 'Označ',
             thStyle: 'width: 2.1rem; padding-left: .5rem'
           },
           {
->>>>>>> 0300db6e5c2fe474a2c7f3db310def98c43d64e0
             key: 'thumb_file',
             label: 'Obrázok',
             thStyle: 'width: 15rem;'
@@ -99,19 +82,7 @@ export default {
       id_p: 1,
       loading: 0,     // Načítanie údajov 0 - nič, 1 - načítavanie, 2 - chyba načítania
       error_msg: '',  // Chybová hláška
-<<<<<<< HEAD
-      items_per_page: [
-        { value: 10, text: "10"}, 
-        { value: 20, text: "20"}, 
-        { value: 50, text: "50"},
-        { value: 0, text: "Všetky"},
-      ],
-      items_per_page_selected: 10,
-      items_per_page_selected_old: 10,
-      currentPage: 1,
-=======
       selected: [],
->>>>>>> 0300db6e5c2fe474a2c7f3db310def98c43d64e0
     };
   },
   methods: {
@@ -172,11 +143,7 @@ export default {
       }
     },
     openmodal(index) {
-<<<<<<< HEAD
-      this.id_p = index + (this.currentPage - 1) * this.items_per_page_selected;
-=======
       this.id_p = index + (this.currentPage - 1) * this.itemsPerPageSelected;
->>>>>>> 0300db6e5c2fe474a2c7f3db310def98c43d64e0
       this.$bvModal.show("modal-multi-product");
     },
     closeme: function () {
@@ -227,43 +194,6 @@ export default {
           console.log(error);
         });
     },
-<<<<<<< HEAD
-    changeItemsPerPage() {
-      let odkaz = this.basePath + this.baseApiPath + "changeperpage"
-      // Výpočet novej aktuálnej stránky
-      let first_id = this.items_per_page_selected_old * (this.currentPage - 1)
-      this.currentPage = first_id > 0 ? Math.ceil(first_id / this.items_per_page_selected) : 1
-      //let vm = this
-      axios.post(odkaz, {
-          'items_per_page': this.items_per_page_selected,
-        })
-        .then(function (response) {
-          console.log(response.data)
-          //vm.$root.$emit('flash_message', 
-          //                 [{ 'message': 'Uloženie v poriadku', 
-          //                    'type':'success',
-          //                    'heading': 'Uložené'
-          //                    }])
-        })
-        .catch(function (error) {
-          console.log(odkaz)
-          console.log(error)
-          //vm.$root.$emit('flash_message', 
-          //                 [{ 'message': 'Pri uklasaní došlo k chybe',
-          //                    'type':'danger',
-          //                    'heading': 'Chyba'
-          //                    }])
-        });
-    },
-    items_count() {
-      this.$root.$emit('products_count', this.items.length)
-    }
-  },
-  computed: {
-    pages() {
-      return Math.ceil(this.items.length / this.items_per_page_selected)
-    }
-=======
     items_count() { // Emituje celkový počet položiek
       this.$root.$emit('items_count', { id: this.id, length: this.items.length })
     },
@@ -279,7 +209,6 @@ export default {
       this.$refs.productsTable.clearSelected()
       this.$root.$emit('items_selected', { id: this.id, length: this.selected.length })
     },
->>>>>>> 0300db6e5c2fe474a2c7f3db310def98c43d64e0
   },
   created() {
     // Načítanie údajov priamo z DB
@@ -300,44 +229,13 @@ export default {
     <b-table
       id="my-products"
       :items="items"
-<<<<<<< HEAD
-      :per-page="items_per_page_selected"
-=======
       :per-page="itemsPerPageSelected"
->>>>>>> 0300db6e5c2fe474a2c7f3db310def98c43d64e0
       :current-page="currentPage"
       :fields="fields"
       :bordered="true"
       :striped="true"
       :busy="loading > 0"
       small
-<<<<<<< HEAD
-    >
-      <template #table-caption>
-        <div class="d-flex justify-content-between">
-          <div class="px-2">Počet produktov: {{ items.length }}</div>
-          <b-pagination
-            v-if="pages > 1"
-            v-model="currentPage"
-            :total-rows="items.length"
-            :per-page="items_per_page_selected"
-            aria-controls="my-products"
-            size="sm"
-            class="bg-secondary text-white my-0"
-          >
-          </b-pagination>
-          <form class="px-2 form-inline" v-if="items.length > 10">
-            <label class="my-0 mr-2" for="itemsPerPage">Položiek na stránku:</label>
-            <b-form-select 
-              v-model="items_per_page_selected"
-              :options="items_per_page"
-              id="itemsPerPage"
-              size="sm"
-              @change="changeItemsPerPage">
-            </b-form-select>
-          </form>
-        </div>
-=======
       select-mode="multi"
       selectable
       @row-selected="onRowSelected"
@@ -357,7 +255,6 @@ export default {
           <span aria-hidden="true"><b-icon icon="square"></b-icon></span>
           <span class="sr-only">Not selected</span>
         </template>
->>>>>>> 0300db6e5c2fe474a2c7f3db310def98c43d64e0
       </template>
       <template #cell(thumb_file)="data">
         <img
@@ -447,10 +344,7 @@ table.b-table caption {
   background-color: #555;
   color: #fff;
 }
-<<<<<<< HEAD
-=======
 .b-table-sticky-header {
   overflow: auto;
 }
->>>>>>> 0300db6e5c2fe474a2c7f3db310def98c43d64e0
 </style>

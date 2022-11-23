@@ -1,22 +1,12 @@
 <script>
 /**
  * Komponenta pre vypísanie a spracovanie príloh.
-<<<<<<< HEAD
- * Posledna zmena 09.06.2022
-=======
  * Posledna zmena 24.06.2022
->>>>>>> 0300db6e5c2fe474a2c7f3db310def98c43d64e0
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
-<<<<<<< HEAD
- * @version    1.0.0
- */
-import DocumentsGrid from '../Documents/DocumentsGrid.vue'
-import MultipleUpload from '../Uploader/MultipleUpload.vue'
-=======
  * @version    1.0.2
  */
 import DocumentsGrid from '../Documents/DocumentsGrid.vue'
@@ -26,16 +16,12 @@ import axios from "axios";
 
 //for Tracy Debug Bar
 axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
->>>>>>> 0300db6e5c2fe474a2c7f3db310def98c43d64e0
 
 export default {
   components: { 
     MultipleUpload,
     DocumentsGrid,
-<<<<<<< HEAD
-=======
     GridFooter,
->>>>>>> 0300db6e5c2fe474a2c7f3db310def98c43d64e0
   },
   props: {
     id_hlavne_menu: {
@@ -46,19 +32,14 @@ export default {
       type: String,
       required: true,
     },
-<<<<<<< HEAD
-=======
     baseApiPath: {  // Základná časť cesty k API s lomítkom na začiatku a na konci
       type: String,
       required: true,
     },
->>>>>>> 0300db6e5c2fe474a2c7f3db310def98c43d64e0
     adminLinks: { // Oprávnenia pre administratívne úkony
       type: String,
       required: true,
     },
-<<<<<<< HEAD
-=======
     currentLang: { // Skratka aktuálneho jazyka
       type: String,
       default: 'sk',
@@ -67,17 +48,10 @@ export default {
       type: String,
       default: 'documents',
     }
->>>>>>> 0300db6e5c2fe474a2c7f3db310def98c43d64e0
   },
   data() {
     return {
       admin_links: {},
-<<<<<<< HEAD
-    };
-  },
-  created() {
-    this.admin_links = JSON.parse(this.adminLinks);
-=======
       items_selected: 0, // Počet označených položiek
       items_count: 0,    // Celkový počet položiek
       items_per_page_selected: 10,  // Počet položiek na stránku
@@ -136,7 +110,6 @@ export default {
       }
     })
 
->>>>>>> 0300db6e5c2fe474a2c7f3db310def98c43d64e0
   },
   
 }
@@ -144,10 +117,6 @@ export default {
 <template>
   <div class="card card-info">
     <div class="card-header">
-<<<<<<< HEAD
-      <b-button v-if="admin_links.elink" v-b-modal.myModalAddMultiDocumentsUpload variant="primary">
-        <i class="fas fa-copy"></i> Pridaj prílohu(y)
-=======
       <b-button 
         v-if="admin_links.elink" 
         v-b-modal.myModalAddMultiDocumentsUpload variant="primary"
@@ -162,35 +131,21 @@ export default {
         @click="deleteItems"
       >
         <i class="fa-solid fa-trash-can"></i>
->>>>>>> 0300db6e5c2fe474a2c7f3db310def98c43d64e0
       </b-button>
     </div>
     <div class="card-body">
       <documents-grid
         :base-path="basePath"
-<<<<<<< HEAD
-        :id_hlavne_menu="id_hlavne_menu"
-        :edit-enabled="admin_links.elink"
-=======
         :base-api-path="baseApiPath"
         :id_hlavne_menu="id_hlavne_menu"
         :edit-enabled="admin_links.elink"
         :items-per-page-selected = "items_per_page_selected"
         :id="id"
         :current-page="currentPage"
->>>>>>> 0300db6e5c2fe474a2c7f3db310def98c43d64e0
       />
 
       <multiple-upload 
         v-if="admin_links.elink"
-<<<<<<< HEAD
-        api-url="api/documents" 
-        :base-path="basePath"
-        :id_hlavne_menu="id_hlavne_menu"
-        id-of-modal-uplad="myModalAddMultiDocumentsUpload"
-        title="Pridanie viacerích príloh k položke"
-        item-emit-name="documents_add"
-=======
         :base-path="basePath"
         :base-api-path="baseApiPath"
         :id_hlavne_menu="id_hlavne_menu"
@@ -205,7 +160,6 @@ export default {
         :base-api-path="baseApiPath"
         :id="id"
         :items_count="items_count"
->>>>>>> 0300db6e5c2fe474a2c7f3db310def98c43d64e0
       />
     </div>
   </div>
@@ -217,11 +171,8 @@ export default {
   padding-left: 0;
   padding-right: 0; 
 }
-<<<<<<< HEAD
-=======
 .card-header {
   padding-top: .25rem;
   padding-bottom: .25rem;
 }
->>>>>>> 0300db6e5c2fe474a2c7f3db310def98c43d64e0
 </style>

@@ -11,3 +11,4 @@ services:
   - App\ApiModule\Presenters\SliderPresenter(%parameters%, %wwwDir%)
   - App\ApiModule\Presenters\TexylaPresenter(%parameters%)
   - App\ApiModule\Presenters\UserPresenter(%parameters%)
+  - App\ApiModule\Presenters\VerziePresenter(%parameters%)

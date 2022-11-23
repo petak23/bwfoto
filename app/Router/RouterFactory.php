@@ -71,7 +71,8 @@ class RouterFactory
       ->addRoute('api/documents/<action>[/<id>]', 'Dokumenty:default')
       ->addRoute('api/products/<action>[/<id>]', 'Products:default')
       ->addRoute('api/slider/<action>[/<id>]', 'Slider:default')
-      ->addRoute('api/texyla[/<action>[/<id>]]', 'Texyla:default');
+      ->addRoute('api/texyla[/<action>[/<id>]]', 'Texyla:default')
+      ->addRoute('api/verzie[/<action>[/<id>]]', 'Verzie:default');
 
     $router->withModule('Front')
       ->addRoute('clanky[/<id>]', [

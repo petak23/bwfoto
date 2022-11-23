@@ -7,11 +7,7 @@ use Nette\Http\FileUpload;
 
 /**
  * Prezenter pre pristup k api produktov.
-<<<<<<< HEAD
- * Posledna zmena(last change): 14.06.2022
-=======
  * Posledna zmena(last change): 21.06.2022
->>>>>>> 0300db6e5c2fe474a2c7f3db310def98c43d64e0
  *
  * Modul: API
  *
@@ -19,11 +15,7 @@ use Nette\Http\FileUpload;
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
-<<<<<<< HEAD
- * @version 1.0.5
-=======
  * @version 1.0.6
->>>>>>> 0300db6e5c2fe474a2c7f3db310def98c43d64e0
  * 
  * @help 1.) https://forum.nette.org/cs/28370-data-z-post-request-body-reactjs-appka-se-po-ceste-do-php-ztrati
  */
