@@ -9,7 +9,7 @@ use Nette\Application\UI\Form;
 /**
  * Prezenter pre spravu clankov.
  * 
- * Posledna zmena(last change): 23.11.2022
+ * Posledna zmena(last change): 24.11.2022
  *
  *	Modul: ADMIN
  *
@@ -150,29 +150,29 @@ class ClankyPresenter extends ArticlePresenter
     return $zobrazClanok;
   }
 
-  public function actionKonvertuj($id = 0)
-  {
-    /*$cl = $this->hlavne_menu_lang->findBy(['id_clanok_lang IS NOT NULL']);
+  //public function actionKonvertuj($id = 0)
+  //{
+  /*$cl = $this->hlavne_menu_lang->findBy(['id_clanok_lang IS NOT NULL']);
     foreach ($cl as $c) {
       $c->update([
         'text' => $c->clanok_lang->text,
         'anotacia' => $c->clanok_lang->anotacia
       ]);
     }*/
-    $cl = $this->hlavne_menu_lang->findAll();
+  /*$cl = $this->hlavne_menu_lang->findAll();
     foreach ($cl as $c) {
       if ($c->text !== null)
         $c->update([
           'text_c' => $this->texy->process($c->text),
         ]);
-    }
-    $ve = $this->verzie->findAll();
+    }*/
+  /*$ve = $this->verzie->findAll();
     foreach ($ve as $v) {
       if ($v->text !== null)
         $v->update([
           'text' => $this->texy->process($v->text),
         ]);
-    }
-    $this->flashRedirect("Homepage:", 'OK!', "success");
-  }
+    }*/
+  //$this->flashRedirect("Homepage:", 'OK!', "success");
+  //}
 }
