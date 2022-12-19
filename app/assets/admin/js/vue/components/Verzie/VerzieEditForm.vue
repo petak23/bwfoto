@@ -1,15 +1,16 @@
 <script>
 /**
  * Komponenta pre formulár na zadanie/editáciu verzií.
- * Posledna zmena 18.11.2022
+ * Posledna zmena 24.11.2022
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.3
+ * @version    1.0.4
  */
-import Tiptap from "../Tiptap/tiptap-editor.vue";
+
+import Tiptap from "../../../../../components/Tiptap/tiptap-editor.vue"
 import axios from 'axios'
 
 //for Tracy Debug Bar

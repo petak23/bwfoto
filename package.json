@@ -1,6 +1,6 @@
 {
   "name": "bwfoto",
-  "version": "0.9.38",
+  "version": "0.9.40",
   "description": "webpage bwfoto.sk",
   "main": "index.js",
   "directories": {
@@ -26,7 +26,6 @@
     "nette-forms": "^3.3.1",
     "portal-vue": "^2.1.7",
     "remixicon": "^2.5.0",
-    "verte": "^0.0.12",
     "vue": "^2.6.14",
     "vue-dnd-zone": "^0.4.0",
     "vuedraggable": "^2.24.3",

@@ -1,0 +1,54 @@
+<div class="page-header">
+  <div class="col-sm-12 col-md-3" n:if="($article_avatar_view_in & 2) && isset($article->hlavne_menu->avatar) && is_file('www/'.$avatar_path.$article->hlavne_menu->avatar)">
+    <div class="thumbnail">
+      <img src="{$basePath}/www/{$avatar_path}{$article->hlavne_menu->avatar}" alt="{_'base_text_title_image'}">
+    </div>
+  </div>
+  {var $link_to = ':Admin:'.$article->hlavne_menu->druh->presenter.':'}
+  <edit-title
+    base-path="{$basePath}"
+    title="{_'base_edit_title'}"
+    title_text="{_'base_edit_texts'}"
+    title_admin="{_'base_to_admin'}"
+    title_last_change="{_'base_last_change'}"
+    title_platnost_do="{_'base_platnost_do'}"
+    title_zadal="{_'base_zadal'}"
+    edit_enabled="1"
+    article_id="{$article->id}"
+    link="{$this_link}"
+    link_to_admin="{link $link_to $article->id}"
+    article_hlavicka={$article_hlavicka}
+  ></edit-title>
+</div>
+
+<span class="popis" n:ifset="$article_text">
+  {$article_text}
+</span>
+<div  
+  class="modal fade" id="editArticleTextsModal" tabindex="-1" 
+  aria-labelledby="editArticleTextsModalLabel" aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <div class="modal-header bg-dark">
+        <h5 class="modal-title" id="editArticleTextsModalLabel">
+          {_'base_edit_texts'}
+          <span class="text-warning">&nbsp;- táto časť je len pokusná. Nie všetko je funkčné!!!</span>
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body bg-dark">
+        <edit-texts
+          id_hlavne_menu="{$article->id_hlavne_menu}"
+          base-path="{$basePath}"
+          link="{$this_link}"
+          article-text="{($article->text_c)}"
+          article_id="{$article->id}"
+        >
+        </edit-texts>
+      </div>
+    </div>
+  </div>
+</div>

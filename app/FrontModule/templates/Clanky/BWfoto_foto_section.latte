@@ -2,7 +2,7 @@
  *
  * Modul: FRONT
  *
- * Posledna zmena(last change): 24.03.2022
+ * Posledna zmena(last change): 24.11.2022
  * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
@@ -12,7 +12,7 @@
 {block title}{$article->view_name}{/block}
 
 {block content}
-<article id="uvodnyText">{dump $user->isLoggedIn()}{dump $user->isAllowed('Front:Clanky', 'edit')}
+<article id="uvodnyText">
   {embed 'title_block.latte', 
                 article: $article, 
                 edit_enabled: $user->isLoggedIn() && $user->isAllowed('Front:Clanky', 'edit'),
@@ -20,8 +20,8 @@
                 basePath: $basePath,
                 this_link: $this_link
   }{/embed}
-  <span class="popis" n:ifset="$article->text">
-    {$article->text|texy|obr_v_txt|koncova_znacka|noescape}
+  <span class="popis" n:ifset="$article->text_c">
+    {$article->text_c|obr_v_txt|koncova_znacka|noescape}
   </span>
 </article>
 <section id="webAlbums" class="row">
@@ -31,14 +31,5 @@
       id_hlavne_menu = "{$article->id_hlavne_menu}"
       edit_enabled = "{$user->isAllowed('Api:Menu', 'saveordersubmenu')}">
     </menucardorder>
-    {*control menu templateType  => 'single', 
-                  templateFile  => $article->hlavne_menu->hlavne_menu_template->name, 
-                  cast          => $article->hlavne_menu->id_hlavne_menu_cast, 
-                  level         => $uroven, 
-                  avatar        => $nastavenie['dir_to_menu'], 
-                  article_avatar_view_in => TRUE, 
-                  anotacia      => TRUE, 
-                  nadpis        => $viac_info
-    *}
   </div>
 </section>

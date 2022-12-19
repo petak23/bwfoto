@@ -8,33 +8,35 @@ use Nette;
 /**
  * Hlavna trieda pre podporu jazykov lang_supp_main pre presentre vo FrontModule.
  * 
- * Posledna zmena(last change): 12.11.2020
+ * Posledna zmena(last change): 24.11.2022
  * 
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.2.0
+ * @version 1.2.1
  *
  * @property-read string $jazyk Skratka aktualneho jazyka
  * @property-read int $language_id Id aktualneho jazyka
  */
-class LanguageMain implements Nette\Localization\ITranslator {
+class LanguageMain implements Nette\Localization\Translator
+{
   use Nette\SmartObject;
-  
+
   /** @var string Skratka jazyka */
   private $jazyk = 'sk';
   /** @var int Id jazyka */
   private $language_id = 1;
   /** @var DbTable\Lang */
-	public $lang;
+  public $lang;
   /** @var array Samotne texty podla jazykov */
   //protected $texty;
   /** @var array Konkretny jazyk pre vystup */
   private $out_texty = [];
-  
+
   /** @param DbTable\Lang $lang */
-  public function __construct(DbTable\Lang $lang) {
+  public function __construct(DbTable\Lang $lang)
+  {
     $this->lang = $lang;
   }
 
@@ -42,18 +44,20 @@ class LanguageMain implements Nette\Localization\ITranslator {
    * Pripojenie textov z neon súboru
    * @param string $file subor aj s cestou
    * @return $this */
-  public function appendLanguageFile(string $file) {
+  public function appendLanguageFile(string $file)
+  {
     $this->out_texty = array_merge($this->out_texty, Nette\Neon\Neon::decode(file_get_contents($file)));
     return $this;
   }
-  
+
   /**
    * Nahradí existujúce texty novmi z neon súboru
    * @param string $file subor aj s cestou
    * @return $this */
-  public function setNewLanguageFile(string $file) {
+  public function setNewLanguageFile(string $file)
+  {
     $this->out_texty = Nette\Neon\Neon::decode(file_get_contents($file));
-    return $this; 
+    return $this;
   }
 
   /** 
@@ -61,8 +65,9 @@ class LanguageMain implements Nette\Localization\ITranslator {
    * @param string|int $language Skratka jazyka alebo jeho id 
    * @throws LanguageNotExist 
    * @return $this */
-  public function setLanguage($language) {
-    $lang = $this->lang->findOneBy(is_numeric($language) ? ['id'=>$language] : ['skratka' => $language]);
+  public function setLanguage($language)
+  {
+    $lang = $this->lang->findOneBy(is_numeric($language) ? ['id' => $language] : ['skratka' => $language]);
     if (!$lang) {
       throw new LanguageNotExist("This language is not set! Požadovaný jazyk sa nenašiel!", 0);
     }
@@ -71,39 +76,43 @@ class LanguageMain implements Nette\Localization\ITranslator {
     $this->jazyk = $lang->skratka;
     // Nacitanie ID jazyka
     $this->language_id = $lang->id;
-    
+
     // Nacitanie základných textov z neon suboru podla jazyka
-    $this->out_texty = Nette\Neon\Neon::decode(file_get_contents(__DIR__ . '/lang_'.$this->jazyk.'.neon'));
+    $this->out_texty = Nette\Neon\Neon::decode(file_get_contents(__DIR__ . '/lang_' . $this->jazyk . '.neon'));
     return $this;
   }
 
   /**
    * @return string */
-  public function getJazyk():string {
+  public function getJazyk(): string
+  {
     return $this->jazyk;
   }
-  
+
   /** 
    * Vratenie textu pre dany kluc a jazyk
    * @param string $key Kluc daneho textu
    * @return string 
-   * @deprecated since version 1.3.0  */
-  public function trText(string $key): string {
+   * @deprecated since version 1.3.0 use translate */
+  public function trText(string $key): string
+  {
     return isset($this->out_texty[$key]) ? $this->out_texty[$key] : $key;
   }
-  
+
   /**
    * Preklad kluca
    * @param string $message
    * @return string */
-  public function translate($message, ...$parameters): string {
+  public function translate($message, ...$parameters): string
+  {
     return array_key_exists($message, $this->out_texty) ?  $this->out_texty[$message] : $message;
   }
-  
+
   /** 
    * Vrati id jazyka 
    * @return int */
-  public function getLanguage_id(): int {
+  public function getLanguage_id(): int
+  {
     return $this->language_id;
   }
 
@@ -111,14 +120,17 @@ class LanguageMain implements Nette\Localization\ITranslator {
    * Vrati pole textov ak je pod klucm definovane
    * @param string $key Nazov kluca 
    * @return array|boolean */
-  public function getKeyArray(string $key) {
+  public function getKeyArray(string $key)
+  {
     return is_array($this->out_texty[$key]) ? $this->out_texty[$key] : FALSE;
   }
 
-  public function getOutTexty() {
+  public function getOutTexty()
+  {
     return $this->out_texty;
   }
 }
 
 class LanguageNotExist extends \Exception
-{}
+{
+}

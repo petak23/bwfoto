@@ -14,6 +14,6 @@
     <span n:if="$clanok_hlavicka & 2">{$texts->trText('base_zadal')}{$clanok->hlavne_menu->user_profiles->priezvisko}</span>
   </div>
   <div n:ifset="$clanok->text" class="text-clanku">
-    {$clanok->text|texy|obr_v_txt|koncova_znacka|noescape}
+    {$clanok->text_c|obr_v_txt|koncova_znacka|noescape}
   </div>
 </div>

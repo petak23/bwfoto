@@ -16,7 +16,8 @@ import Autocomplete from './components/Autocomplete.vue';
 import Fotogalery from './components/Fotogalery.vue';
 import Fotocollage from './components/Fotocollage.vue';
 import Fotopanorama from './components/Fotopanorama.vue';
-import Edittexts from '../../../components/EditArticle/EditTexts';
+import EditTexts from '../../../components/EditArticle/EditTexts';
+import EditTitle from '../../../components/EditArticle/EditTitle';
 import Menucardorder from './components/Menucardorder.vue';
 import VueDndZone from 'vue-dnd-zone'
 import 'vue-dnd-zone/vue-dnd-zone.css'
@@ -36,7 +37,8 @@ let vm = new Vue({
   components: { 
     Slider, 
     Autocomplete,
-    Edittexts,
+    EditTexts,
+    EditTitle,
     Fotogalery,
     Fotocollage,
     Fotopanorama,
