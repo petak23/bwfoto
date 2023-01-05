@@ -108,8 +108,7 @@ export default {
         variant="outline-warning"
         size="sm"
         :title="title_text + '- pokusná funkcionalita'"
-        data-toggle="modal"
-        data-target="#editArticleTextsModal"
+        v-b-modal.editArticleTextsModal
       >
         <i class="fa-solid fa-file-lines"></i>
       </b-button>
@@ -171,6 +170,21 @@ export default {
         <b-button type="submit" variant="success" class="main-submit">Ulož</b-button>&nbsp;
         <b-button type="reset" variant="secondary" class="main-reset">Cancel</b-button>
       </b-form>
+    </b-modal>
+    
+
+    <b-modal 
+      id="editArticleTextsModal" 
+      title="BootstrapVue"
+      header-bg-variant="dark"
+      header-text-variant="light"
+      body-bg-variant="dark"
+      body-text-variant="light"
+      footer-bg-variant="dark"
+      footer-text-variant="light" 
+      :hide-footer="true" 
+    >
+      <p class="my-4">Hello from modal!</p>
     </b-modal>
   </h1>
   <div>

@@ -10,13 +10,13 @@ use Nette\Security;
 
 /**
  * Sign in form
- * Last change 27.05.2022
+ * Last change 05.01.2023
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.1.3
+ * @version    1.1.4
  */
 class SignInFormFactory
 {
@@ -33,17 +33,14 @@ class SignInFormFactory
     $this->texts = $language_main;
   }
 
-  /**
-   * @return string */
-  public function getTexts()
+  public function getTexts(): Language_support\LanguageMain
   {
     return $this->texts;
   }
 
   /**
    * Prihlasovaci formular
-   * @var string $language Skratka aktualneho jazyka
-   * @return Form */
+   * @var string $language Skratka aktualneho jazyka */
   public function create(string $language): Form
   {
     $form = new Form();

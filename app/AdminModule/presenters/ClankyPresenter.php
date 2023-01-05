@@ -9,15 +9,15 @@ use Nette\Application\UI\Form;
 /**
  * Prezenter pre spravu clankov.
  * 
- * Posledna zmena(last change): 24.11.2022
+ * Posledna zmena(last change): 04.01.2023
  *
  *	Modul: ADMIN
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @copyright Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.4.2
+ * @version 1.4.3
  */
 
 class ClankyPresenter extends ArticlePresenter
@@ -103,9 +103,8 @@ class ClankyPresenter extends ArticlePresenter
   }
 
   /** 
-   * Formular pre editaciu clanku.
-   * @return Nette\Application\UI\Form */
-  protected function createComponentClankyEditForm()
+   * Formular pre editaciu clanku. */
+  protected function createComponentClankyEditForm(): Form
   {
     $form = new Form();
     $form->addProtection();
@@ -141,9 +140,8 @@ class ClankyPresenter extends ArticlePresenter
   }
 
   /** 
-   * Komponenta pre ukazanie obsahu clanku.
-   * @return \App\AdminModule\Components\Clanky\ZobrazClanokControl */
-  public function createComponentZobrazClanok()
+   * Komponenta pre ukazanie obsahu clanku. */
+  public function createComponentZobrazClanok(): Components\Clanky\ZobrazClanokAControl
   {
     $zobrazClanok = $this->zobrazClanokControlFactory->create();
     $zobrazClanok->setZobraz($this->zobraz_clanok->id_hlavne_menu);

@@ -7,13 +7,13 @@ use Nette;
 /**
  * Model, ktory sa stara o tabulku udaje
  * 
- * Posledna zmena 08.06.2022
+ * Posledna zmena 05.01.2023
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.9
+ * @version    1.1.0
  */
 class Udaje extends Table
 {
@@ -35,8 +35,7 @@ class Udaje extends Table
   /** 
    * Vrati pozadovany zaznam kluca alebo false
    * @param string $name Nazov kluca
-   * @param int|null $id_user_main Ak je udaj viazany na konkretneho uzivatela
-   * @return Nette\Database\Table\ActiveRow|null */
+   * @param int|null $id_user_main Ak je udaj viazany na konkretneho uzivatela */
   public function getByName(string $name, ?int $id_user_main = null): ?Nette\Database\Table\ActiveRow
   {
     return strlen($name) ?
@@ -49,8 +48,7 @@ class Udaje extends Table
   /** 
    * Vrati pozadovanu hodnotu kluca (pole text) alebo prázdny string
    * @param string $name Nazov kluca
-   * @param int|null $id_user_main Ak je udaj viazany na konkretneho uzivatela
-   * @return string */
+   * @param int|null $id_user_main Ak je udaj viazany na konkretneho uzivatela */
   public function getValByName(string $name, ?int $id_user_main = null): string
   {
     return ($t = $this->getByName($name, $id_user_main)) !== null ? $t->{self::COLUMN_TEXT} : "";
@@ -61,7 +59,7 @@ class Udaje extends Table
    * @param string $key Nazov kluca zo stlpca nazov
    * @param string $value Nova hodnota kluca
    * @param int|null $id_user_main Ak je udaj viazany na konkretneho uzivatela
-   * @return bool|null Ak bolo co opravit alebo je to bez zmeny tak true inak false. Ak sa kluc nenasiel tak null.*/
+   * Ak bolo co opravit alebo je to bez zmeny tak vráti true inak false. Ak sa kluc nenasiel tak null.*/
   public function editKey(string $key, string $value, ?int $id_user_main = null): ?bool
   {
     //update - Ak bolo co opravit tak true inak(nema co opravit) false
@@ -79,8 +77,7 @@ class Udaje extends Table
 
   /** 
    * Vrati vsetky dostupne udaje podla urovne registracie
-   * @param int $id_user_roles min. uroven registracie
-   * @return Nette\Database\Table\Selection */
+   * @param int $id_user_roles min. uroven registracie */
   public function vypisUdaje(int $id_user_roles = 0): Nette\Database\Table\Selection
   {
     return $this->getTable()->where(self::COLUMN_ID_USER_ROLES . " <= ?", $id_user_roles);
@@ -88,8 +85,7 @@ class Udaje extends Table
 
   /** 
    * Funkcia vrati celociselnu hodnotu udaju s nazvom
-   * @param string $nazov Nazov udaju
-   * @return int */
+   * @param string $nazov Nazov udaju */
   public function getUdajInt(string $nazov): int
   {
     $p = $this->getByName($nazov);
@@ -100,9 +96,8 @@ class Udaje extends Table
    * Funkcia pre ulozenie udaju z formulara
    * @param Nette\Utils\ArrayHash $values
    * @param array $ur_reg
-   * @return Nette\Database\Table\ActiveRow|FALSE
    * @throws Nette\Database\DriverException */
-  public function ulozUdaj(Nette\Utils\ArrayHash $values, array $ur_reg)
+  public function ulozUdaj(Nette\Utils\ArrayHash $values, array $ur_reg): ?Nette\Database\Table\ActiveRow
   {
     $id = isset($values->id) ? $values->id : 0;
     unset($values->id);
@@ -124,9 +119,8 @@ class Udaje extends Table
   }
 
   /** 
-   * Vrati pozadovane usporiadanie oznamov alebo false
-   * @return boolean */
-  public function getOznamUsporiadanie()
+   * Vrati pozadovane usporiadanie oznamov alebo false */
+  public function getOznamUsporiadanie(): bool
   {
     $tmp = $this->findOneBy([self::COLUMN_NAME => "oznam_usporiadanie"]);
     return $tmp !== null ? (bool)$tmp->text : FALSE;
@@ -135,17 +129,14 @@ class Udaje extends Table
   /** 
    * Vrati pozadovanu skupinu udajov alebo false podla druhu
    * @param string $kluc Nazov druhu
-   * @param int $ur_reg Minimalna uroven registracie
-   * @return \Nette\Database\Table\Selection|FALSE */
-  public function getDruh(string $kluc = "", int $ur_reg = 5)
+   * @param int $ur_reg Minimalna uroven registracie */
+  public function getDruh(string $kluc = "", int $ur_reg = 5): Nette\Database\Table\Selection
   {
     return strlen($kluc) ? $this->findBy(['druh.presenter' => $kluc, self::COLUMN_ID_USER_ROLES . " <= " . $ur_reg]) : FALSE;
   }
 
   /**
-   * Nacitanie a spracovanie hlavnych udajov webu na základe jazyka
-   * @param string $language
-   * @return array */
+   * Nacitanie a spracovanie hlavnych udajov webu na základe jazyka */
   public function hlavneUdaje(string $language = "sk"): array
   {
     $out = [];

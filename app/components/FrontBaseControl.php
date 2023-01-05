@@ -1,41 +1,43 @@
 <?php
 
+declare(strict_types=1);
+
 namespace PeterVojtech;
 
-use DbTable;
-use Language_support;
+use Nette\Localization\Translator;
 use Nette\Application\UI\Control;
 
 /**
  * Komponenta pre vypis pokladnicky.
  * 
- * Posledna zmena(last change): 27.11.2019
+ * Posledna zmena(last change): 04.01.2023
  * 
  *	Modul: ADMIN
  * 
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2019 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.0
-  */
-class FrontBaseControl extends Control {
+ * @version 1.0.1
+ */
+class FrontBaseControl extends Control
+{
 
-  /** @var Language_support\lang_supp_main */
+  /** @var Translator */
   public $texts;
   /** @var array */
   private $paramsFromConfig;
-  
+
   /**
-   * Parametre z komponenty.neon
-   * @param array $params
-   * @return this */
-  public function fromConfig(array $params) {
+   * Parametre z komponenty.neon */
+  public function fromConfig(array $params): FrontBaseControl
+  {
     $this->paramsFromConfig = $params;
     return $this;
   }
 
-  public function main_render() {
+  public function main_render()
+  {
     $this->template->setTranslator($this->texts);
     $this->template->render();
   }

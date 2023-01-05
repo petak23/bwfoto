@@ -11,13 +11,13 @@ use Nette\Utils\Html;
 
 /**
  * Tovarnicka pre formular pre pridanie/editaciu udaja
- * Posledna zmena 31.05.2022
+ * Posledna zmena 04.01.2023
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.3
+ * @version    1.0.4
  */
 class EditUdajeFormFactory
 {
@@ -33,12 +33,7 @@ class EditUdajeFormFactory
   }
 
   /**
-   * Formular pre editaciu udajov
-   * @param bool $admin
-   * @param array $druh
-   * @param array $ur_reg
-   * @param array $editFormDefaults
-   * @return Form */
+   * Formular pre editaciu udajov */
   public function create(bool $admin, array $druh, array $ur_reg, array $editFormDefaults): Form
   {
     $this->ur_reg = $ur_reg;
@@ -102,8 +97,7 @@ class EditUdajeFormFactory
   }
 
   /** 
-   * Spracovanie vstupov z formulara
-   * @param \Nette\Forms\Controls\SubmitButton $button Data formulara */
+   * Spracovanie vstupov z formulara */
   public function editUdajeFormSubmitted(\Nette\Forms\Controls\SubmitButton $button)
   {
     try {

@@ -5,32 +5,33 @@ namespace PeterVojtech\Clanky\ZobrazKartyPodclankov;
 /**
  * Traita pre zobrazenie podclankov na kartach
  * 
- * Posledna zmena(last change): 16.12.2019
+ * Posledna zmena(last change): 04.01.2023
  * 
  * 
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2019 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.2
+ * @version 1.0.3
  */
- trait zobrazKartyPodclankovTrait {
+trait zobrazKartyPodclankovTrait
+{
   /** @var IFrontZobrazKartyPodclankovControl @inject */
   public $zobrazKartyPodclankovFControlFactory;
-  
+
   /** @var IAdminZobrazKartyPodclankovControl @inject */
   public $zobrazKartyPodclankovAControlFactory;
-  
+
   /** 
-   * Vytvorenie komponenty 
-   * @return FrontZobrazKartyPodclankovControl|AdminZobrazKartyPodclankovControl */
-	public function createComponentZobrazKartyPodclankov() {
+   * Vytvorenie komponenty */
+  public function createComponentZobrazKartyPodclankov(): FrontZobrazKartyPodclankovControl|AdminZobrazKartyPodclankovControl
+  {
     if (explode(":", $this->name)[0] == "Front") {
       $out = $this->zobrazKartyPodclankovFControlFactory->create();
       $out->setArticle($this->zobraz_clanok->id_hlavne_menu, $this->language, $this->kotva);
-    } else { 
+    } else {
       $out = $this->zobrazKartyPodclankovAControlFactory->create();
     }
     return $out->fromConfig($this->nastavenie['komponenty']['zobrazKartyPodclankov']); //Vrati komponentu aj s nastaveniami z komponenty.neon
-	}
+  }
 }

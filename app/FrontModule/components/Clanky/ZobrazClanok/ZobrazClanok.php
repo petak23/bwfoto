@@ -12,13 +12,13 @@ use Nette\Utils\Html;
 /**
  * Komponenta pre zobrazenie konkretneho clanku pre FRONT modul
  * 
- * Posledna zmena(last change): 24.11.2022
+ * Posledna zmena(last change): 04.01.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @copyright Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.7
+ * @version 1.1.8
  */
 class ZobrazClanokControl extends Control
 {
@@ -174,6 +174,5 @@ class ZobrazClanokControl extends Control
 }
 interface IZobrazClanokControl
 {
-  /** @return ZobrazClanokControl */
-  function create();
+  function create(): ZobrazClanokControl;
 }

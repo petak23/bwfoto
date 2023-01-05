@@ -1,30 +1,32 @@
 <?php
+
 namespace App\FrontModule\Components\User\UserMenu;
 
 use App\FrontModule\Forms;
 use DbTable;
 use Language_support;
 use Nette\Application\UI\Control;
+use Nette\Application\UI\Form;
 use Nette\Security\User;
-use Nette\Utils\Html;
 
 /**
  * Plugin pre zobrazenie ponuky o užívateľovi
  * 
- * Posledna zmena(last change): 02.12.2021
+ * Posledna zmena(last change): 04.01.2023
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2013 - 2021 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2013 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.2.2
+ * @version 1.2.3
  */
-class UserMenuControl extends Control {
+class UserMenuControl extends Control
+{
   /** @var Language_support\LanguageMain Texty pre dany jazyk */
   public $texty;
-	
+
   /** @var array Lokalne nastavenia */
-	private $nastavenie = [];
+  private $nastavenie = [];
   /** @var string Adresar k uzivatelom */
   private $dir_to_user = "";
   /** @var boolean Viditelnost avatara */
@@ -53,133 +55,135 @@ class UserMenuControl extends Control {
    * @param DbTable\User_main $user_main
    * @param DbTable\Udaje $udaje
    * @param User $user */
-  public function __construct(array $nastavenie, 
-                              string $dir_to_user,
-                              bool $avatar_view,
-                              Language_support\LanguageMain $language, 
-                              DbTable\User_main $user_main,
-                              DbTable\Udaje $udaje,
-                              User $user,
-                              Forms\User\SignInFormFactory $signInForm
-                              ) {
+  public function __construct(
+    array $nastavenie,
+    string $dir_to_user,
+    bool $avatar_view,
+    Language_support\LanguageMain $language,
+    DbTable\User_main $user_main,
+    DbTable\Udaje $udaje,
+    User $user,
+    Forms\User\SignInFormFactory $signInForm
+  ) {
     $this->user = $user;
-    $this->texty = $language; 
+    $this->texty = $language;
     $this->user_main = $user_main;
     $this->nastavenie = $nastavenie;
     $this->dir_to_user = $dir_to_user;
-    $this->avatar_view = (boolean)$avatar_view;
-    $this->registracia_enabled = (boolean)$udaje->getValByName('registracia_enabled');
+    $this->avatar_view = (bool)$avatar_view;
+    $this->registracia_enabled = (bool)$udaje->getValByName('registracia_enabled');
     $this->signInForm = $signInForm;
   }
-  
+
   /** Nastavenie aktualneho jazyka
    * @param string|int $language Skratka jazyka alebo jeho id */
-  public function setLanguage($language) {
+  public function setLanguage($language)
+  {
     // Nacitanie základných textov z neon suboru podla jazyka
-    $this->texty->setLanguage($language)->appendLanguageFile(__DIR__ . '/lang_'. $this->texty->jazyk.'.neon');
+    $this->texty->setLanguage($language)->appendLanguageFile(__DIR__ . '/lang_' . $this->texty->jazyk . '.neon');
     return $this;
   }
-  
+
   /** 
-   * Panel neprihlaseneho uzivatela
-   * @param string $store_request
-   * @return \App\FrontModule\Components\User\MenuItem  */
-  private function _panelNeprihlaseny(string $store_request) {
+   * Panel neprihlaseneho uzivatela */
+  private function _panelNeprihlaseny(string $store_request): array
+  {
     $vlnh = $this->nastavenie['view_log_in_link_in_header']; //Skratenie zapisu
     $menu_user = [];
     $menu_user[] = new MenuItem([
-        'odkaz'=>[0=>'User:', 1=>['meno'=>'backlink', 'obsah'=>$store_request]], 
-        'class'=>'log-in'.(($vlnh) ? "" : " prazdny fa fa-lock"),
-        'title'=> $this->texty->translate('log_in'),
-        'nazov'=>($vlnh & 1) ? $this->texty->translate('log_in') : ($vlnh ? NULL : ""),
-        'ikonka'=>($vlnh & 2) ? "fas fa-sign-in-alt" : NULL,
-        'class'=>'btn-success noajax',
-        'data'=>['ajax'=>'false', 'toggle'=>'modal', 'target'=>'#modalSignInForm'],
-                        ]);
+      'odkaz' => [0 => 'User:', 1 => ['meno' => 'backlink', 'obsah' => $store_request]],
+      'class' => 'log-in' . (($vlnh) ? "" : " prazdny fa fa-lock"),
+      'title' => $this->texty->translate('log_in'),
+      'nazov' => ($vlnh & 1) ? $this->texty->translate('log_in') : ($vlnh ? NULL : ""),
+      'ikonka' => ($vlnh & 2) ? "fas fa-sign-in-alt" : NULL,
+      'class' => 'btn-success noajax',
+      'data' => ['ajax' => 'false', 'toggle' => 'modal', 'target' => '#modalSignInForm'],
+    ]);
     if ($this->registracia_enabled) {
       $menu_user[] = new MenuItem([
-          'odkaz'=>'User:registracia', 
-          'nazov'=> $this->texty->translate('register'),
-          'ikonka'=>($vlnh & 2) ? "fas fa-user-plus" : NULL,
-          'class'=>'btn-info',
-                          ]);
+        'odkaz' => 'User:registracia',
+        'nazov' => $this->texty->translate('register'),
+        'ikonka' => ($vlnh & 2) ? "fas fa-user-plus" : NULL,
+        'class' => 'btn-info',
+      ]);
     }
     return $menu_user;
   }
 
   /** 
-   * Panel prihlaseneho uzivatela
-   * @param string $baseUrl
-   * @return \App\FrontModule\Components\User\MenuItem */
-  private function _panelPrihlaseny(string $baseUrl) {
+   * Panel prihlaseneho uzivatela */
+  private function _panelPrihlaseny(string $baseUrl): array
+  {
     $menu_user = [];
     $udata = $this->user_main->find($this->user->getIdentity()->getId());
-    $avatar = $this->dir_to_user.$udata->id."/".$udata->user_profiles->avatar;
+    $avatar = $this->dir_to_user . $udata->id . "/" . $udata->user_profiles->avatar;
     $menu_user[] = new MenuItem([
-          'odkaz'=>'UserLog:', 
-          'nazov'=>$udata->meno.' '.$udata->priezvisko,
-          'class'=>'btn-outline-info btn-sm noajax',
-          'image'=> $this->nastavenie['view_avatar'] ? (($udata->user_profiles->avatar && is_file($avatar)) ? $avatar : "ikonky/64/figurky_64.png") : NULL,
-        ]);
+      'odkaz' => 'UserLog:',
+      'nazov' => $udata->meno . ' ' . $udata->priezvisko,
+      'class' => 'btn-outline-info btn-sm noajax',
+      'image' => $this->nastavenie['view_avatar'] ? (($udata->user_profiles->avatar && is_file($avatar)) ? $avatar : "ikonky/64/figurky_64.png") : NULL,
+    ]);
     if ($this->user->isAllowed('Admin:Homepage', 'default')) {
       $menu_user[] = new MenuItem([
-        'odkaz'=> ':Admin:Homepage:',
-        'title'=> $this->texty->translate('admin_link_name'),
-        'ikonka'=> ($this->nastavenie['admin_link'] & 1) ? 'fas fa-pencil-alt' : '',
-        'nazov'=> ($this->nastavenie['admin_link'] & 2) ? $this->texty->translate('admin_link_name') : '',
-        'class'=> 'btn-outline-info btn-sm noajax',
-        'data'=> ['ajax'=>'false'],
+        'odkaz' => ':Admin:Homepage:',
+        'title' => $this->texty->translate('admin_link_name'),
+        'ikonka' => ($this->nastavenie['admin_link'] & 1) ? 'fas fa-pencil-alt' : '',
+        'nazov' => ($this->nastavenie['admin_link'] & 2) ? $this->texty->translate('admin_link_name') : '',
+        'class' => 'btn-outline-info btn-sm noajax',
+        'data' => ['ajax' => 'false'],
       ]);
     }
     if ($this->user->isInRole('admin')) {
       $hl_m_db_info = $this->user_main->getDBInfo();
       $menu_user[] = new MenuItem([
-        'abs_link'=>$baseUrl."/www/adminer/?server=".$hl_m_db_info['host']."&db=".$hl_m_db_info['dbname'], 
-        'title'=>'Adminer',
-        'target'=>'_blank',
+        'abs_link' => $baseUrl . "/www/adminer/?server=" . $hl_m_db_info['host'] . "&db=" . $hl_m_db_info['dbname'],
+        'title' => 'Adminer',
+        'target' => '_blank',
         'ikonka'  => 'fas fa-database',
-        'class'=>'btn-outline-secondary btn-sm noajax',
-        'data'=>['ajax' =>'false'],
-                          ]);
+        'class' => 'btn-outline-secondary btn-sm noajax',
+        'data' => ['ajax' => 'false'],
+      ]);
     }
     $menu_user[] = new MenuItem([
-        'odkaz'=> 'Homepage:signOut',
-        'ikonka'=>"fas fa-sign-out-alt",
-        'nazov'=> $this->texty->translate('log_out'),
-        'class'=>'btn-outline-warning btn-sm noajax',
-        'data'=>['ajax'=>'false'],
-                        ]);
+      'odkaz' => 'Homepage:signOut',
+      'ikonka' => "fas fa-sign-out-alt",
+      'nazov' => $this->texty->translate('log_out'),
+      'class' => 'btn-outline-warning btn-sm noajax',
+      'data' => ['ajax' => 'false'],
+    ]);
     return $menu_user;
   }
-  
+
   /**
    * @param string $sr */
-  public function setStoreRequest($sr) {
+  public function setStoreRequest($sr)
+  {
     $this->storeReq = $sr;
   }
 
   /** Vykreslenie komponenty */
-  public function render() {
-		//Inicializacia
-		$baseUrl = $this->template->baseUrl;
+  public function render()
+  {
+    //Inicializacia
+    $baseUrl = $this->template->baseUrl;
     $this->nastavenie['view_avatar'] = $this->nastavenie['view_avatar'] && $this->avatar_view;
-    
-		if ($this->user->isLoggedIn()) { //Panel prihlaseneho uzivatela
+
+    if ($this->user->isLoggedIn()) { //Panel prihlaseneho uzivatela
       $menu_user = $this->_panelPrihlaseny($baseUrl);
-		} elseif ($this->nastavenie['view_log_in_link_in_header'] >= 0) { 
+    } elseif ($this->nastavenie['view_log_in_link_in_header'] >= 0) {
       //Panel neprihlaseneho uzivatela
       $menu_user = $this->_panelNeprihlaseny($this->storeReq);
-		}
-		$this->template->menu_user = isset($menu_user) ? $menu_user : [];
+    }
+    $this->template->menu_user = isset($menu_user) ? $menu_user : [];
     $this->template->setTranslator($this->texty);
-		$this->template->setFile(__DIR__ . '/UserMenu.latte');
-		$this->template->render();
-	}
+    $this->template->setFile(__DIR__ . '/UserMenu.latte');
+    $this->template->render();
+  }
 
   /** 
-   * Formular pre prihlasenie uzivatela.
-   * @return Nette\Application\UI\Form */
-  protected function createComponentSignInForm() {
+   * Formular pre prihlasenie uzivatela. */
+  protected function createComponentSignInForm(): Form
+  {
     $form = $this->signInForm->create($this->texty->jazyk);
     $servise = $this;
     $form['login']->onClick[] = function ($form) use ($servise) {
@@ -197,10 +201,10 @@ class UserMenuControl extends Control {
     };
     return $this->presenter->_vzhladForm($form);
   }
-		
 }
 
-class MenuItem {
+class MenuItem
+{
   public $odkaz;
   public $abs_link;
   public $nazov = "";
@@ -209,15 +213,18 @@ class MenuItem {
   public $target = "";
   public $ikonka;
   public $image;
-  public $data = ['name'=>'', 'value'=>''];
-  
-  function __construct(array $params) {
-    foreach ($params as $k => $v) { $this->$k = $v;}
+  public $data = ['name' => '', 'value' => ''];
+
+  function __construct(array $params)
+  {
+    foreach ($params as $k => $v) {
+      $this->$k = $v;
+    }
     $this->title = $this->title == "" ? $this->nazov : $this->title;
   }
 }
 
-interface IUserMenuControl {
-  /** @return UserMenuControl */
-  function create();
+interface IUserMenuControl
+{
+  function create(): UserMenuControl;
 }

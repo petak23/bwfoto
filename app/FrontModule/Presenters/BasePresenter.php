@@ -6,6 +6,7 @@ use App\FrontModule\Forms\User;
 use App\FrontModule\Components;
 use DbTable;
 use Language_support;
+use Nette\Application\UI\Form;
 use Nette\Application\UI\Multiplier;
 use Nette\Application\UI\Presenter;
 use Nette\Forms;
@@ -18,15 +19,15 @@ use Texy;
 /**
  * Zakladny presenter pre vsetky presentery vo FRONT module
  * 
- * Posledna zmena(last change): 30.03.2022
+ * Posledna zmena(last change): 05.01.2023
  *
  *	Modul: FRONT
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link      http://petak23.echo-msz.eu
- * @version 1.7.0
+ * @version 1.7.1
  */
 abstract class BasePresenter extends Presenter
 {
@@ -182,9 +183,8 @@ abstract class BasePresenter extends Presenter
   }
 
   /** 
-   * Komponenta pre vykreslenie menu
-   * @return Components\Menu\Menu */
-  public function createComponentMenu()
+   * Komponenta pre vykreslenie menu */
+  public function createComponentMenu(): Components\Menu\Menu
   {
     $menu = new Components\Menu\Menu;
     $menu->setTextTitleImage($this->texty_presentera->translate("base_text_title_image"));
@@ -323,7 +323,7 @@ abstract class BasePresenter extends Presenter
     });
     $this->template->addFilter('vytvor_odkaz', function ($row) use ($servise) {
       return isset($row->absolutna) ? $row->absolutna : (isset($row->spec_nazov) ? $servise->link($row->druh->presenter . ':default', $row->spec_nazov)
-          : $servise->link($row->druh->presenter . ':default'));
+        : $servise->link($row->druh->presenter . ':default'));
     });
     $this->template->addFilter('menu_mutacia_nazov', function ($id) use ($servise) {
       $pom = $servise->hlavne_menu_lang->findOneBy(['id_hlavne_menu' => $id, 'id_lang' => $servise->language_id]);
@@ -375,18 +375,16 @@ abstract class BasePresenter extends Presenter
   }
 
   /**
-   * Vytvorenie komponenty pre menu uzivatela
-   * @return Components\User\UserMenu */
-  public function createComponentUserMenu()
+   * Vytvorenie komponenty pre menu uzivatela */
+  public function createComponentUserMenu(): Components\User\UserMenu\UserMenuControl
   {
     $ulm = $this->userMenuControlFactory->create();
     $ulm->setLanguage($this->language)->setStoreRequest($this->storeRequest());
     return $ulm;
   }
   /**
-   * Vytvorenie komponenty pre panel jazykov
-   * @return \App\FrontModule\Components\Lang\LangMenu */
-  public function createComponentLangMenu()
+   * Vytvorenie komponenty pre panel jazykov */
+  public function createComponentLangMenu(): Components\Lang\LangMenu\LangMenuControl
   {
     $ulm = $this->langMenuControlFactory->create();
     $ulm->setLanguage($this->language);
@@ -394,9 +392,8 @@ abstract class BasePresenter extends Presenter
   }
 
   /**
-   * Vytvorenie komponenty pre doplňovanie pri vyhľadávaní
-   * @return Components\Autocomplete\AutocompleteControl */
-  public function createComponentAutocomplete()
+   * Vytvorenie komponenty pre doplňovanie pri vyhľadávaní */
+  public function createComponentAutocomplete(): Components\Autocomplete\AutocompleteControl
   {
     $autocomplete = $this->autocompleteControlFactory->create();
     $autocomplete->setLanguage($this->language);
@@ -404,9 +401,8 @@ abstract class BasePresenter extends Presenter
   }
 
   /** 
-   * Vytvorenie komponenty pre potvrdzovaci dialog
-   * @return Nette\Application\UI\Form */
-  public function createComponentConfirmForm()
+   * Vytvorenie komponenty pre potvrdzovaci dialog */
+  public function createComponentConfirmForm(): PeterVojtech\Confirm\ConfirmationDialog
   {
     $form = new PeterVojtech\Confirm\ConfirmationDialog($this->getSession('news'));
     $form->addConfirmer(
@@ -418,11 +414,8 @@ abstract class BasePresenter extends Presenter
   }
 
   /**
-   * Zostavenie otázky pre ConfDialog s parametrom
-   * @param Nette\Utils\Html $dialog
-   * @param array $params
-   * @return string $question */
-  public function questionDelete($dialog, $params)
+   * Zostavenie otázky pre ConfDialog s parametrom */
+  public function questionDelete(Html $dialog, array $params): string
   {
     $dialog->getQuestionPrototype();
     return sprintf(
@@ -433,17 +426,15 @@ abstract class BasePresenter extends Presenter
   }
 
   /** 
-   * Vytvorenie komponenty slideru
-   * @return Components\Slider\Slider */
-  public function createComponentSlider()
+   * Vytvorenie komponenty slideru */
+  public function createComponentSlider(): Components\Slider\SliderControl
   {
     return $this->sliderControlFactory->create();
   }
 
   /** 
-   * Komponenta pre zobrazenie clanku
-   * @return Multiplier */
-  public function createComponentUkazClanok()
+   * Komponenta pre zobrazenie clanku */
+  public function createComponentUkazClanok(): Multiplier
   {
     $servise = $this;
     return new Multiplier(function ($id) use ($servise) {
@@ -469,16 +460,16 @@ abstract class BasePresenter extends Presenter
 
   /** 
    * Vytvorenie komponenty pre vypisanie aktualnych oznamov
-   * @return Components\Oznam\AktualneOznamyControl */
-  public function createComponentAktualne()
+   * @ return Components\Oznam\AktualneOznamyControl */
+  /*public function createComponentAktualne()
   {
     $aktualne = $this->aktualneOznamyControlFactory->create();
     $aktualne->setNastavenie($this->context->parameters['oznam']);
     return $aktualne;
-  }
-  /** Komponenta pre zobrazenie adresy
-   * @return Multiplier */
-  public function createComponentUkazAdresu()
+  }*/
+
+  /** Komponenta pre zobrazenie adresy */
+  public function createComponentUkazAdresu(): Multiplier
   {
     $servise = $this;
     return new Multiplier(function ($id) use ($servise) {
@@ -487,9 +478,8 @@ abstract class BasePresenter extends Presenter
   }
 
   /** 
-   * Komponenta pre zobrazenie aktualnych clankov 
-   * @return Components\Clanky\AktualneClankyControl */
-  public function createComponentAktualneClanky()
+   * Komponenta pre zobrazenie aktualnych clankov */
+  public function createComponentAktualneClanky(): Components\Clanky\AktualneClankyControl
   {
     $aktualne_clanky = $this->aktualneClankyControlFactory->create();
     $aktualne_clanky->setLanguage($this->language);
@@ -498,18 +488,16 @@ abstract class BasePresenter extends Presenter
   }
 
   /** 
-   * Komponenta pre zobrazenie noviniek
-   * @return Components\News\INewsControl */
-  public function createComponentNews()
+   * Komponenta pre zobrazenie noviniek */
+  public function createComponentNews(): Components\News\NewsControl
   {
     $news = $this->newsControlFactory->create();
     $news->setLanguage($this->language);
     return $news;
   }
 
-  /** Komponenta pre vypis kontaktneho formulara
-   * @return Components\User\KontaktControl */
-  public function createComponentKontakt()
+  /** Komponenta pre vypis kontaktneho formulara */
+  public function createComponentKontakt(): Components\User\KontaktControl
   {
     $spravca = $this->user_main->findOneBy(["user_roles.role" => "manager"]);
     $kontakt = $this->kontaktControlFactory->create();
@@ -520,11 +508,11 @@ abstract class BasePresenter extends Presenter
   }
 
 
-  /** Funkcia pre zjednodusenie vypisu flash spravy a presmerovania
+  /** 
+   * Funkcia pre zjednodusenie vypisu flash spravy a presmerovania
    * @param array|string $redirect Adresa presmerovania
    * @param string $text Text pre vypis hlasenia
    * @param string $druh - druh hlasenia */
-
   public function flashRedirect(array|string $redirect, string $text = "", string $druh = "info")
   {
     $this->flashMessage($text, $druh);
@@ -546,13 +534,13 @@ abstract class BasePresenter extends Presenter
       }
     }
   }
+
   /**
    * Funkcia pre zjednodusenie vypisu flash spravy a presmerovania aj pre chybovy stav
    * @param boolean $ok Podmienka
    * @param array|string $redirect Adresa presmerovania
    * @param string $textOk Text pre vypis hlasenia ak je podmienka splnena
    * @param string $textEr Text pre vypis hlasenia ak NIE je podmienka splnena  */
-
   public function flashOut($ok, $redirect, $textOk = "", $textEr = "")
   {
     if ($ok) {
@@ -565,9 +553,8 @@ abstract class BasePresenter extends Presenter
   /**
    * Uprava vzhladu formularov
    * @param \Nette\Application\UI\Form $form Formular
-   * @param string $form_class Doplnkovy class pre tag form
-   * @return \Nette\Application\UI\Form */
-  public function _vzhladForm($form, $form_class = "")
+   * @param string $form_class Doplnkovy class pre tag form */
+  public function _vzhladForm(Form $form, $form_class = ""): Form
   {
     $form->getElementPrototype()->class('form-horizontal' . (strlen($form_class) ? " " . $form_class : ""));
     $renderer = $form->getRenderer();

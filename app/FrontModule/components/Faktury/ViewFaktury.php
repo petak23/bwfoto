@@ -2,19 +2,20 @@
 
 namespace App\FrontModule\Components\Faktury;
 
-use Nette;
 use DbTable;
+use Nette;
+use Nette\Application\UI\Form;
 
 /**
  * Komponenta pre zobrazenie casti faktur pre FRONT modul
  * 
- * Posledna zmena(last change): 16.06.2022
+ * Posledna zmena(last change): 04.01.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @copyright Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.3
+ * @version 1.0.4
  */
 class ViewFakturyControl extends Nette\Application\UI\Control
 {
@@ -26,7 +27,7 @@ class ViewFakturyControl extends Nette\Application\UI\Control
   /** @var int */
   private $skupina;
   /** @var boolean */
-  //private $zmluvy = FALSE;
+  private $zmluvy = FALSE;
   /** @var Nette\Security\User */
   private $user;
   /** @var int Id dokumentu */
@@ -128,10 +129,8 @@ class ViewFakturyControl extends Nette\Application\UI\Control
     }
   }
 
-  /** 
-   * @param Nette\Application\UI\Form $form
-   * @return Nette\Application\UI\Form */
-  protected function _formMessage($form)
+
+  protected function _formMessage(Form $form): Form
   {
     $form['uloz']->onClick[] = function ($button) {
       if (!count($button->getForm()->errors)) {
@@ -143,15 +142,13 @@ class ViewFakturyControl extends Nette\Application\UI\Control
   }
 
   /** 
-   * Komponenta formulara pre pridanie a editaciu dokumentu.
-   * @return Nette\Application\UI\Form */
-  public function createComponentDokumentForm()
+   * Komponenta formulara pre pridanie a editaciu dokumentu. */
+  public function createComponentDokumentForm(): Form
   {
     return $this->_formMessage($this->dokumentFormFactory->create($this->skupina, $this->user->getId(), $this->presenter->upload_size, $this->presenter->context->parameters["wwwDir"]));
   }
 }
 interface IViewFakturyControl
 {
-  /** @return ViewFakturyControl */
-  function create();
+  function create(): ViewFakturyControl;
 }

@@ -9,15 +9,16 @@ use Nette\Security;
 
 /**
  * Formular pre vlozenie emailu v pripade zabudnuteho hesla
- * Posledna zmena 03.02.2022
+ * Posledna zmena 05.01.2023
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.7
+ * @version    1.0.8
  */
-class ForgottenPasswordFormFactory {
+class ForgottenPasswordFormFactory
+{
   /** @var Language_support\LanguageMain */
   private $texts;
   /** @var DbTable\User_main */
@@ -26,35 +27,36 @@ class ForgottenPasswordFormFactory {
   public $user;
 
   /** @param Security\User $user   */
-  public function __construct(Security\User $user, Language_support\LanguageMain $language_main, DbTable\User_main $user_main) {
+  public function __construct(Security\User $user, Language_support\LanguageMain $language_main, DbTable\User_main $user_main)
+  {
     $this->user = $user;
     $this->texts = $language_main;
     $this->user_main = $user_main;
-	}
+  }
 
-  /** @return Form */
-  public function create(string $language)  {
+  public function create(string $language): Form
+  {
     $this->texts->setLanguage($language);
     $form = new Form();
-		$form->addProtection();
+    $form->addProtection();
     $form->setTranslator($this->texts);
-    $form->addText('email', 'Form_email')
-         ->setType('email')
-         ->setHtmlAttribute('size', 0)->setHtmlAttribute('maxlength', 100)
-         ->setAttribute('placeholder', 'Form_email_ph')
-				 ->addRule(Form::EMAIL, 'Form_email_ar')
-				 ->setRequired('Form_email_sr');
-		$form->addSubmit('uloz', 'ForgottenPasswordForm_uloz')
-         ->setAttribute('class', 'btn btn-success');
+    $form->addEmail('email', 'Form_email')
+      ->setHtmlAttribute('size', 0)->setHtmlAttribute('maxlength', 100)
+      ->setHtmlAttribute('placeholder', 'Form_email_ph')
+      ->addRule(Form::EMAIL, 'Form_email_ar')
+      ->setRequired('Form_email_sr');
+    $form->addSubmit('uloz', 'ForgottenPasswordForm_uloz')
+      ->setHtmlAttribute('class', 'btn btn-success');
     $form->onValidate[] = [$this, 'validateForm'];
-		return $form;
-	}
-  
+    return $form;
+  }
+
   /** Vlastná validácia pre formular */
-  public function validateForm(Form $form, \stdClass $values): void {    
+  public function validateForm(Form $form, \stdClass $values): void
+  {
     // Over, ci dany email existuje.
     if (!$this->user_main->testEmail($values->email)) {
-      $form["email"]->addError(sprintf($this->texts->translate('forgot_pass_user_err'), $values->email));
+      $form->addError(sprintf($this->texts->translate('forgot_pass_user_err'), $values->email));
     }
   }
 }

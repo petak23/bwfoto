@@ -10,15 +10,15 @@ use Nette\Utils\Strings;
 
 /**
  * Prezenter pre pristup k api dokumentov.
- * Posledna zmena(last change): 23.11.2022
+ * Posledna zmena(last change): 04.01.2023
  *
  * Modul: API
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.7
+ * @version 1.0.8
  * 
  * @help 1.) https://forum.nette.org/cs/28370-data-z-post-request-body-reactjs-appka-se-po-ceste-do-php-ztrati
  */
@@ -193,10 +193,9 @@ class DokumentyPresenter extends BasePresenter
   }
 
   /**
-   * Upload nahladu
+   * Upload nahladu. Vracia kompletný názov uloženého súboru aj s reltívnou cestou.
    * @param int $id Id dokumentu. Akje 0 tak sa pridáva
-   * @param FileUpload $thumb Súbor náhľadu.
-   * @return String Kompletný názov uloženého súboru aj s reltívnou cestou */
+   * @param FileUpload $thumb Súbor náhľadu. */
   private function _uploadThumb(int $id, FileUpload $thumb): String
   {
     if ($id) { // Mazanie sa vykoná len ak je $id > 0
@@ -222,7 +221,7 @@ class DokumentyPresenter extends BasePresenter
 
   /** 
    * Vytvorenie bezpečného mena súboru 
-   * @return array ['name'=>'meno súboru', 'ename'=>'meno súboru s príponou', 'extension'=>'prípona'] */
+   * Vracia pole ['name'=>'meno súboru', 'ename'=>'meno súboru s príponou', 'extension'=>'prípona'] */
   private function _getFileName(FileUpload $file, String $dir, String $prefix = ""): array
   {
     $file_info = pathinfo($file->getSanitizedName());

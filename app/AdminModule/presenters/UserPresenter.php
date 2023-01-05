@@ -4,20 +4,21 @@ namespace App\AdminModule\Presenters;
 
 use App\AdminModule\Forms\User;
 use DbTable;
+use Nette\Application\UI\Form;
 use Nette\Database\DriverException;
 
 /**
  * Prezenter pre spravu uzivatela.
  * 
- * Posledna zmena(last change): 03.06.2022
+ * Posledna zmena(last change): 04.01.2023
  *
  *	Modul: ADMIN
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.9
+ * @version 1.2.0
  */
 class UserPresenter extends BasePresenter
 {
@@ -73,9 +74,8 @@ class UserPresenter extends BasePresenter
   }
 
   /**
-   * Formulár pre editáciu užívateľských dát
-   * @return \Nette\Application\UI\Form */
-  protected function createComponentEditUserMainForm()
+   * Formulár pre editáciu užívateľských dát */
+  protected function createComponentEditUserMainForm(): Form
   {
     $form = $this->editUserMainForm->create($this->nastavenie['user_view_fields']);
     $form['uloz']->onClick[] = function ($button) {
@@ -88,9 +88,8 @@ class UserPresenter extends BasePresenter
   }
 
   /**
-   * Formulár pre editáciu profilu užívateľa
-   * @return \Nette\Application\UI\Form */
-  protected function createComponentEditUserProfilesForm()
+   * Formulár pre editáciu profilu užívateľa */
+  protected function createComponentEditUserProfilesForm(): Form
   {
     $form = $this->editUserProfilesForm->create($this->nastavenie['user_view_fields']);
     $form['uloz']->onClick[] = function ($button) {
@@ -102,10 +101,8 @@ class UserPresenter extends BasePresenter
     return $this->_vzhladForm($form);
   }
 
-  /** Formular pre pridanie uzivatela.
-   * @return Nette\Application\UI\Form
-   */
-  protected function createComponentAddUserForm()
+  /** Formular pre pridanie uzivatela. */
+  protected function createComponentAddUserForm(): Form
   {
     $form = $this->addUserForm->create();
     $form['uloz']->onClick[] = function ($button) {
@@ -164,9 +161,8 @@ class UserPresenter extends BasePresenter
   }
 
   /**
-   * Edit categori form component factory. Tovarnicka na formular pre editaciu kategorie
-   * @return \Nette\Application\UI\Form */
-  protected function createComponentEditCategoriForm()
+   * Edit categori form component factory. Tovarnicka na formular pre editaciu kategorie */
+  protected function createComponentEditCategoriForm(): Form
   {
     $form = $this->editCategoriForm->create();
     $form['uloz']->onClick[] = function ($button) {

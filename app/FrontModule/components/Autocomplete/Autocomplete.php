@@ -9,40 +9,42 @@ use Nette\Utils\Json;
 /**
  * Komponenta pre našepkávanie pri vyhladavani pre FRONT modul
  * 
- * Posledna zmena(last change): 03.05.2021
+ * Posledna zmena(last change): 04.01.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @copyright Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.3
+ * @version 1.0.4
  */
 
-class AutocompleteControl extends Nette\Application\UI\Control {
-  
+class AutocompleteControl extends Nette\Application\UI\Control
+{
+
   /** @var Language_support\LanguageMain */
   private $texts;
 
   /**
    * @param Language_support\LanguageMain $texts */
-	public function __construct(Language_support\LanguageMain $texts) {
+  public function __construct(Language_support\LanguageMain $texts)
+  {
     $this->texts = $texts;
-	}
-  
+  }
+
   /** 
-   * Nastavenie jazyka 
-   * @param string $language jazyk 
-   * @return AutocompleteControl */
-  public function setLanguage(string $language) {
+   * Nastavenie jazyka */
+  public function setLanguage(string $language): AutocompleteControl
+  {
     $this->texts->setLanguage($language);
     return $this;
   }
 
-	public function render() {
+  public function render()
+  {
     $this->template->setFile(__DIR__ . '/Autocomplete.latte');
     $this->template->links = Json::encode([
-      1 => $this->presenter->link('Clanky:').'/',
-      2 => $this->presenter->link('Clanky:').'/',
+      1 => $this->presenter->link('Clanky:') . '/',
+      2 => $this->presenter->link('Clanky:') . '/',
     ]);
     $this->template->texts = Json::encode([
       'placeholder' => $this->texts->translate('autocomplete_placeholder'),
@@ -50,11 +52,11 @@ class AutocompleteControl extends Nette\Application\UI\Control {
       'min_char'    => $this->texts->translate('autocomplete_min_char'),
       'not_found'   => $this->texts->translate('autocomplete_not_found'),
     ]);
-		$this->template->render();
-	}
+    $this->template->render();
+  }
 }
 
-interface IAutocompleteControl {
-  /** @return AutocompleteControl */
-  function create();
+interface IAutocompleteControl
+{
+  function create(): AutocompleteControl;
 }

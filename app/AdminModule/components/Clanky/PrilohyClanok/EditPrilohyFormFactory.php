@@ -4,29 +4,23 @@ declare(strict_types=1);
 
 namespace App\AdminModule\Components\Clanky\PrilohyClanok;
 
-use DbTable;
 use Nette\Application\UI\Form;
-use Nette\Database;
-use Nette\Security\User;
-use Nette\Utils\Image;
-use Nette\Utils\Strings;
 
 /**
  * Formular a jeho spracovanie pre pridanie a editaciu prilohy polozky.
- * Posledna zmena 14.06.2022
+ * Posledna zmena 03.01.2023
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.1.8
+ * @version    1.1.9
  */
 class EditPrilohyFormFactory
 {
 
   /**
-   * Formular pre pridanie prilohy a editaciu polozky.
-   * @return Form  */
+   * Formular pre pridanie prilohy a editaciu polozky. */
   public function create(int $id_hlavne_menu, String $basePath): Form
   {
     //Vypocet max. velkosti suboru pre upload

@@ -10,13 +10,13 @@ use Nette\Utils\Html;
 
 /**
  * Komponenta pre zobrazenie konkretneho clanku
- * Posledna zmena(last change): 24.11.2022
+ * Posledna zmena(last change): 03.01.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @copyright Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.6
+ * @version 1.1.7
  */
 class ZobrazClanokAControl extends Control
 {
@@ -37,9 +37,7 @@ class ZobrazClanokAControl extends Control
   }
 
   /** 
-   * Nastavenie komponenty
-   * @param int $id_hlavne_menu 
-   * @return $this */
+   * Nastavenie komponenty */
   public function setZobraz(int $id_hlavne_menu): ZobrazClanokAControl
   {
     $this->id_hlavne_menu = $id_hlavne_menu;
@@ -86,6 +84,5 @@ class ZobrazClanokAControl extends Control
 
 interface IZobrazClanokAControl
 {
-  /** @return ZobrazClanokAControl */
-  function create();
+  function create(): ZobrazClanokAControl;
 }

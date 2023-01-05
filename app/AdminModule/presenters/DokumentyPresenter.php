@@ -2,21 +2,23 @@
 
 namespace App\AdminModule\Presenters;
 
+use App\AdminModule\Components;
 use DbTable;
 use Nette\Application\Responses\FileResponse;
+use Nette\Application\UI\Form;
 
 /**
  * Prezenter pre smerovanie na dokumenty a editaciu popisu dokumentu.
  * 
- * Posledna zmena(last change): 14.06.2022
+ * Posledna zmena(last change): 04.01.2023
  *
  * Modul: ADMIN
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.9
+ * @version 1.1.0
  */
 
 class DokumentyPresenter extends BasePresenter
@@ -30,7 +32,7 @@ class DokumentyPresenter extends BasePresenter
   private $dokument;
 
   // -- Forms
-  /** @var \App\AdminModule\Components\Clanky\PrilohyClanok\EditPrilohyFormFactory @inject */
+  /** @var Components\Clanky\PrilohyClanok\EditPrilohyFormFactory @inject */
   public $editPrilohyFormFactory;
 
   /** Vychodzia akcia
@@ -45,8 +47,6 @@ class DokumentyPresenter extends BasePresenter
     }
     $response = new FileResponse($this->dokument->main_file, $this->dokument->name . "." . $this->dokument->pripona, 'application/' . $this->dokument->pripona);
     $this->sendResponse($response);
-    //    $this->redirectUrl("http://".$this->nazov_stranky."/".$this->dokument->main_file);
-    //		exit;
   }
 
   /** Akcia pre editaciu informacii o dokumente
@@ -65,9 +65,8 @@ class DokumentyPresenter extends BasePresenter
     $this->template->h2 = 'Editácia údajov dokumentu:' . $this->dokument->name;
   }
 
-  /** Formular pre editaciu info. o dokumente.
-   * @return Nette\Application\UI\Form */
-  protected function createComponentDokumentEditForm()
+  /** Formular pre editaciu info. o dokumente. */
+  protected function createComponentDokumentEditForm(): Form
   {
     $form = $this->editPrilohyFormFactory->create($this->dokument->id_hlavne_menu, $this->template->basePath);
     $form->setDefaults($this->dokument);

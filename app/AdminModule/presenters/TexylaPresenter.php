@@ -1,4 +1,5 @@
 <?php
+
 namespace App\AdminModule\Presenters;
 
 use	Nette\Application\Responses\JsonResponse;
@@ -8,17 +9,18 @@ use Nette\Utils\Strings;
 
 /**
  * Prezenter pre texylu.
- * Posledna zmena(last change): 28.01.2019
+ * Posledna zmena(last change): 04.01.2023
  *
  *	Modul: ADMIN
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>, Jan Marek
- * @copyright  Copyright (c) 2012 - 2019 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license MIT
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.9
+ * @version 1.1.0
  */
-class TexylaPresenter extends BasePresenter {
+class TexylaPresenter extends BasePresenter
+{
 
 	/** @var string */
 	private $baseFolderPath;
@@ -33,7 +35,8 @@ class TexylaPresenter extends BasePresenter {
 	private $tempUri;
 
 	/** Startup */
-	public function startup() {
+	public function startup()
+	{
 		parent::startup();
 		$this->baseFolderPath = $this->texy->imageModule->fileRoot;
 		$this->baseFolderUri = $this->texy->imageModule->root;
@@ -42,13 +45,15 @@ class TexylaPresenter extends BasePresenter {
 	}
 
 	/** Texyla preview */
-	public function actionPreview()	{
+	public function actionPreview()
+	{
 		$html = $this->texy->process($this->httpRequest->getPost("texy"));
 		$this->sendResponse(new TextResponse($html));
 	}
-  
-  /** Texyla preview */
-	public function actionPreviewNew($s)	{
+
+	/** Texyla preview */
+	public function actionPreviewNew($s)
+	{
 		$html = $this->texy->process($s);
 		$this->sendResponse(new TextResponse($html));
 	}
@@ -58,14 +63,16 @@ class TexylaPresenter extends BasePresenter {
 	/**
 	 * Send error message
 	 * @param string $msg */
-	private function sendError($msg) {
+	private function sendError($msg)
+	{
 		$this->sendResponse(new JsonResponse(["error" => $msg], "text/plain"));
 	}
 
 	/**
 	 * Get and check path to folder
 	 * @param string $folder */
-	protected function getFolderPath($folder) {
+	protected function getFolderPath($folder)
+	{
 		$folderPath = realpath($this->baseFolderPath . ($folder ? "/" . $folder : ""));
 
 		if (!is_dir($folderPath) || !is_writable($folderPath) || !Strings::startsWith($folderPath, realpath($this->baseFolderPath))) {
@@ -76,10 +83,9 @@ class TexylaPresenter extends BasePresenter {
 	}
 
 	/**
-	 * File name with cached preview image in file browser
-	 * @param string $path
-	 * @return string */
-	protected function thumbnailFileName($path) {
+	 * File name with cached preview image in file browser */
+	protected function thumbnailFileName(string $path): string
+	{
 		$path = realpath($path);
 		return "texylapreview-" . md5($path . "|" . filemtime($path)) . ".jpg";
 	}
@@ -87,16 +93,16 @@ class TexylaPresenter extends BasePresenter {
 	/**
 	 * File browser - list files
 	 * @param string $folder */
-	public function actionListFiles($folder = "") {
+	public function actionListFiles($folder = "")
+	{
 		// check rights
-//		if (!Environment::getUser()->isAuthenticated()) {
-//			$this->sendError("Access denied.");
-//		}
-//$this->sendError("Pokusne - Folder does not exist or is not writeable.". $this->tempDir);
+		//		if (!Environment::getUser()->isAuthenticated()) {
+		//			$this->sendError("Access denied.");
+		//		}
+		//$this->sendError("Pokusne - Folder does not exist or is not writeable.". $this->tempDir);
 		try {
 			$folderPath = $this->getFolderPath($folder);
-		}
-		catch (InvalidArgumentException $e) {
+		} catch (InvalidArgumentException $e) {
 			$this->sendError("Folder does not exist or is not writeable.");
 		}
 
@@ -118,8 +124,8 @@ class TexylaPresenter extends BasePresenter {
 			// skip hidden files, . and ..
 			if (Strings::startsWith($fileName, ".")) {
 				continue;
-      }
-      
+			}
+
 			// filename with folder
 			$key = ($folder ? $folder . "/" : "") . $fileName;
 
@@ -134,12 +140,12 @@ class TexylaPresenter extends BasePresenter {
 				if (@getImageSize($fileInfo->getPathName())) {
 					$thumbFileName = $this->thumbnailFileName($fileInfo->getPathName());
 
-          $thumbnailKey = (file_exists($this->tempDir . "/" . $thumbFileName)) ? $this->tempUri . "/" . $thumbFileName : $this->link("thumbnail", $key);
-//					if (file_exists($this->tempDir . "/" . $thumbFileName)) {
-//						$thumbnailKey = $this->tempUri . "/" . $thumbFileName;
-//					} else {
-//						$thumbnailKey = $this->link("thumbnail", $key);
-//					}
+					$thumbnailKey = (file_exists($this->tempDir . "/" . $thumbFileName)) ? $this->tempUri . "/" . $thumbFileName : $this->link("thumbnail", $key);
+					//					if (file_exists($this->tempDir . "/" . $thumbFileName)) {
+					//						$thumbnailKey = $this->tempUri . "/" . $thumbFileName;
+					//					} else {
+					//						$thumbnailKey = $this->link("thumbnail", $key);
+					//					}
 
 					$files[] = [
 						"type" => "image",
@@ -162,22 +168,22 @@ class TexylaPresenter extends BasePresenter {
 		}
 
 		// send response
-		$this->sendResponse(new JsonResponse([ "list" => array_merge($folders, $files)]));
+		$this->sendResponse(new JsonResponse(["list" => array_merge($folders, $files)]));
 	}
 
 	/**
 	 * Genarate and show preview of the image in file browser
 	 * @param string $key */
-	public function actionThumbnail($key) {
+	public function actionThumbnail($key)
+	{
 		try {
 			$path = $this->baseFolderPath . "/" . $key;
-      $this->sendError($path);
+			$this->sendError($path);
 			$image = Image::fromFile($path)->resize(60, 40);
 			$image->save($this->tempDir . "/" . $this->thumbnailFileName($path));
 			@chmod($path, 0666);
 			$image->send();
-		}
-		catch (Exception $e) {
+		} catch (Exception $e) {
 			Image::fromString(Image::EMPTY_GIF)->send(Image::GIF);
 		}
 
@@ -186,18 +192,18 @@ class TexylaPresenter extends BasePresenter {
 
 	/**
 	 * File upload */
-	public function actionUpload() {
+	public function actionUpload()
+	{
 		// check user rights
-//		if (!Environment::getUser()->isAllowed("files", "upload")) {
-//			$this->sendError("Access denied.");
-//		}
+		//		if (!Environment::getUser()->isAllowed("files", "upload")) {
+		//			$this->sendError("Access denied.");
+		//		}
 		// path
 		$folder = $this->httpRequest->getPost("folder");
 
 		try {
 			$folderPath = $this->getFolderPath($folder);
-		}
-		catch (InvalidArgumentException $e) {
+		} catch (InvalidArgumentException $e) {
 			$this->sendError("Folder does not exist or is not writeable.");
 		}
 
@@ -234,7 +240,8 @@ class TexylaPresenter extends BasePresenter {
 	 * Make directory
 	 * @param string folder
 	 * @param string new folder name */
-	public function actionMkDir($folder, $name) {
+	public function actionMkDir($folder, $name)
+	{
 		$name = Strings::webalize($name);
 		$path = $this->getFolderPath($folder) . "/" . $name;
 
@@ -249,7 +256,8 @@ class TexylaPresenter extends BasePresenter {
 	 * Delete file or directory
 	 * @param string folder
 	 * @param string item name */
-	public function actionDelete($folder, $name) {
+	public function actionDelete($folder, $name)
+	{
 		$path = $this->getFolderPath($folder) . "/" . $name;
 
 		if (!file_exists($path)) {
@@ -278,7 +286,8 @@ class TexylaPresenter extends BasePresenter {
 	 * @param string folder
 	 * @param string old item name
 	 * @param string new item name */
-	public function actionRename($folder, $oldname, $newname) {
+	public function actionRename($folder, $oldname, $newname)
+	{
 		$oldpath = $this->getFolderPath($folder) . "/" . $oldname;
 		$newpath = $this->getFolderPath($folder) . "/" . Strings::webalize($newname, ".");
 

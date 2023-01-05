@@ -7,13 +7,13 @@ use Nette;
 /**
  * Model, ktory sa stara o tabulku slider
  * 
- * Posledna zmena 07.06.2022
+ * Posledna zmena 05.01.2023
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.5
+ * @version    1.0.6
  */
 class Slider extends Table
 {
@@ -37,9 +37,8 @@ class Slider extends Table
 
   /** 
    * Vrati vsetky polozky z tabulky slider usporiadane podla "usporiadaj"
-   * @param string $usporiadaj - názov stlpca, podla ktoreho sa usporiadava a sposob
-   * @return Nette\Database\Table\Selection */
-  public function getSlider(string $usporiadaj = 'poradie ASC')
+   * @param string $usporiadaj - názov stlpca, podla ktoreho sa usporiadava a sposob */
+  public function getSlider(string $usporiadaj = 'poradie ASC'): Nette\Database\Table\Selection
   {
     return $this->findAll()->order($usporiadaj);
   }
@@ -63,8 +62,7 @@ class Slider extends Table
   }
 
   /** 
-   * Vrati nasledujuce cislo poradia
-   * @return int */
+   * Vrati nasledujuce cislo poradia */
   public function getNextCounter(): int
   {
     $poradie = $this->findAll()->max('poradie');

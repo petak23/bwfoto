@@ -8,13 +8,13 @@ use Nette\Utils;
 /**
  * Model, ktory sa stara o tabulku products
  * 
- * Posledna zmena 06.05.2022
+ * Posledna zmena 05.01.2023
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.1.0
+ * @version    1.1.1
  */
 class Products extends Table
 {
@@ -34,28 +34,22 @@ class Products extends Table
 
   /** 
    * Vracia vsetky produkty polozky
-   * @param int $id id_hlavne_menu prislusnej polozky
-   * @return Nette\Database\Table\Selection|FALSE */
-  public function getProducts(int $id)
+   * @param int $id id_hlavne_menu prislusnej polozky */
+  public function getProducts(int $id): Nette\Database\Table\Selection
   {
     return $this->findBy(["id_hlavne_menu" => $id]);
   }
 
   /** 
-   * Uloženie jedneho produktu
-   * @param array $data
-   * @param mixed $id primary key
-   * @return Nette\Database\Table\ActiveRow|FALSE */
-  public function saveProduct($data, $id = 0)
+   * Uloženie jedneho produktu */
+  public function saveProduct(array $data, int $id = 0): ?Nette\Database\Table\ActiveRow
   {
     return $this->uloz($data, $id);
   }
 
   /**
    * Ulozenie nahravaneho suboru cez vue uploader.
-   * @param Nette\Http\FileUpload $file
-   * @param array $params Pole vlastnych hodnot.
-   * @return int Id ulozenej polozky ulozena v DB. */
+   * Vracia Id ulozenej polozky */
   public function saveUpload(Nette\Http\FileUpload $file, array $params = []): int
   {
     $fileName = $file->getSanitizedName();
@@ -103,8 +97,8 @@ class Products extends Table
 
   /**
    * Zpracovanie požiadavky na zmazanie.
-   * @param $id Id mazaného produktu. 
-   * @return bool Ak zmaže alebo neexistuje(nie je co mazat) tak true inak false */
+   * Ak zmaže alebo neexistuje(nie je co mazat) tak vráti true inak false.
+   * @param $id Id mazaného produktu. */
   public function removeFile(int $id): bool
   {
     $pr = $this->find($id);
@@ -119,8 +113,7 @@ class Products extends Table
 
   /**
    * Funkcia pre fotogalériu
-   * @param int id Id_hlavne_menu
-   * @return array */
+   * @param int id Id_hlavne_menu */
   public function getForFotogalery(int $id): array
   {
     $out = [];

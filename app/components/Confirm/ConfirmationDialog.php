@@ -1,4 +1,5 @@
 <?php
+
 namespace PeterVojtech\Confirm;
 
 /**
@@ -12,7 +13,7 @@ namespace PeterVojtech\Confirm;
  * @license    http://www.gnu.org/copyleft/lgpl.html  GNU Lesser General Public License
  * @link       http://nettephp.com/cs/extras/confirmation-dialog
  * @package    ConfirmationDialog
- * @last-change 2021-09-30 PV
+ * @last-change 2023-01-04 PV
  */
 
 use Nette\Application\UI\Form;
@@ -59,10 +60,11 @@ class ConfirmationDialog extends Nette\Application\UI\Control
 	 * @param Nette\ComponentModel\IContainer|null $parent
 	 * @param null $name
 	 */
-	public function __construct(\Nette\Http\SessionSection $session, $parent = NULL, $name = NULL) {
+	public function __construct(\Nette\Http\SessionSection $session, $parent = NULL, $name = NULL)
+	{
 
 		$this->session = $session;
-		$this->question = Html::el('p')->addAttributes(['class'=>"{$this->cssClass}--question"]);
+		$this->question = Html::el('p')->addAttributes(['class' => "{$this->cssClass}--question"]);
 
 		$this->form = new Form($this, 'form');
 		$this->form->getElementPrototype()->class = "{$this->cssClass}--form";
@@ -82,11 +84,9 @@ class ConfirmationDialog extends Nette\Application\UI\Control
 
 
 	/**
-	 * Overrides signal method formater. This provide "dynamicaly named signals"
-	 * @param string $signal
-	 * @return string
-	 */
-	public static function formatSignalMethod(string $signal): string {
+	 * Overrides signal method formater. This provide "dynamicaly named signals" */
+	public static function formatSignalMethod(string $signal): string
+	{
 		if (stripos($signal, 'confirm') === 0/* &&  isset($this->confirmationHandlers[lcfirst(substr($signal, 7))])*/) {
 			return '_handleShow';
 		}
@@ -99,9 +99,8 @@ class ConfirmationDialog extends Nette\Application\UI\Control
 	 * Access to Yes or No form button controls.
 	 * @param string $name Only 'yes' or 'no' is accepted
 	 * @throws Nette\MemberAccessException
-	 * @return Nette\Forms\Controls\SubmitButton
 	 */
-	public function getFormButton($name)
+	public function getFormButton(string $name): Nette\Forms\Controls\SubmitButton
 	{
 		$name = (string)$name;
 		if ($name !== 'yes' && $name !== 'no') {
@@ -113,20 +112,16 @@ class ConfirmationDialog extends Nette\Application\UI\Control
 
 
 	/**
-	 * Return element prototype of nested Form
-	 * @return Nette\Utils\Html
-	 */
-	public function getFormElementPrototype()
+	 * Return element prototype of nested Form */
+	public function getFormElementPrototype(): Nette\Utils\Html
 	{
 		return $this->form->getElementPrototype();
 	}
 
 
 	/**
-	 * Return question element protype
-	 * @return Nette\Utils\Html
-	 */
-	public function getQuestionPrototype()
+	 * Return question element protype */
+	public function getQuestionPrototype(): Nette\Utils\Html
 	{
 		return $this->question;
 	}
@@ -144,11 +139,8 @@ class ConfirmationDialog extends Nette\Application\UI\Control
 
 
 	/**
-	 * Generate unique token key
-	 * @param string $name
-	 * @return string
-	 */
-	protected function generateToken($name = '')
+	 * Generate unique token key */
+	protected function generateToken(string $name = ''): string
 	{
 		return base_convert(md5(uniqid('confirm' . $name, true)), 16, 36);
 	}
@@ -162,9 +154,8 @@ class ConfirmationDialog extends Nette\Application\UI\Control
 	 * @param callback|Nette\Callback $methodCallback Callback called when confirmation succeed
 	 * @param callback|string $question Callback ($confirmForm, $params) or string containing question text.
 	 * @throws Nette\InvalidArgumentException
-	 * @return ConfirmationDialog
 	 */
-	public function addConfirmer($name, $methodCallback, $question)
+	public function addConfirmer($name, $methodCallback, $question): ConfirmationDialog
 	{
 		if (!preg_match('/[A-Za-z_]+/', $name)) {
 			throw new Nette\InvalidArgumentException("Confirmation name contain is invalid.");
@@ -239,11 +230,11 @@ class ConfirmationDialog extends Nette\Application\UI\Control
 	 */
 	function _handleShow()
 	{
-		list(,$signal) = $this->presenter->getSignal();
+		list(, $signal) = $this->presenter->getSignal();
 		$confirmName = (substr($signal, 7));
 		$confirmName[0] = strtolower($confirmName[0]);
-//		$params = $this->getParameter();
-    $params = $this->getParameters();
+		//		$params = $this->getParameter();
+		$params = $this->getParameters();
 
 		$this->showConfirm($confirmName, $params);
 	}
@@ -306,15 +297,14 @@ class ConfirmationDialog extends Nette\Application\UI\Control
 
 	/************** rendering **************/
 
-	/**
-	 * @return bool
-	 */
-	public function isVisible() {
+	public function isVisible(): bool
+	{
 		return $this->visible;
 	}
 
 
-	public function render() {
+	public function render()
+	{
 		if ($this->visible) {
 			if ($this->form['token']->value === NULL) {
 				throw new Nette\InvalidStateException('Token is not set!');
@@ -327,5 +317,4 @@ class ConfirmationDialog extends Nette\Application\UI\Control
 
 		return $this->template->render();
 	}
-
 }

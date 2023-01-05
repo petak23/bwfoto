@@ -3,19 +3,18 @@
 namespace App;
 
 use DbTable;
-use Nette;
 use Nette\Application\Routers\Route;
 use Nette\Application\Routers\RouteList;
 
 /**
  * Router
- * Posledna zmena 03.06.2022
+ * Posledna zmena 05.01.2023
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.7
+ * @version    1.0.8
  */
 class RouterFactory
 {
@@ -29,9 +28,7 @@ class RouterFactory
     $this->hlavne_menu = $hlavne_menu;
   }
 
-  /**
-   * @return Nette\Application\IRouter */
-  public function createRouter()
+  public function createRouter(): RouteList
   {
     $servis = $this;
     $router = new RouteList;

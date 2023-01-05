@@ -12,13 +12,13 @@ use Nette\Security\User;
 /**
  * Komponenta pre spravu priloh clanku.
  * 
- * Posledna zmena(last change): 16.06.2022
+ * Posledna zmena(last change): 03.01.2023
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
- * @copyright Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.5
+ * @version 1.1.6
  */
 class PrilohyClanokAControl extends Nette\Application\UI\Control
 {
@@ -72,21 +72,17 @@ class PrilohyClanokAControl extends Nette\Application\UI\Control
     //$this->addMultiPrilohyForm = $addMultiPrilohyFormFactory;
     $this->user = $user;
     $this->hlavne_menu = $hlavne_menu;
-    $this->prilohy_images = $prilohy_images;
+    //$this->prilohy_images = $prilohy_images;
     $this->prilohy_adresar = $prilohy_adresar;
-    $this->wwwDir = $wwwDir;
+    //$this->wwwDir = $wwwDir;
   }
 
   /** 
-   * Nastavenie komponenty
-   * @param Nette\Database\Table\ActiveRow $clanok
-   * @param string $nazov_stranky
-   * @param string $name
-   * @return PrilohyClanokControl */
+   * Nastavenie komponenty */
   public function setTitle(Nette\Database\Table\ActiveRow $clanok, string $nazov_stranky, string $name): PrilohyClanokAControl
   {
     $this->clanok = $clanok;
-    $this->nazov_stranky = $nazov_stranky;
+    //$this->nazov_stranky = $nazov_stranky;
 
     $hlm = $this->clanok->hlavne_menu; // Pre skratenie zapisu
     $vlastnik = $this->user->isInRole('admin') ? TRUE : $this->user->getIdentity()->id == $hlm->id_user_main; //$this->vlastnik($hlm->id_user_main);
@@ -122,79 +118,8 @@ class PrilohyClanokAControl extends Nette\Application\UI\Control
     $this->template->render();
   }
 
-  /**
-   * Grid
-   * @param string $name */
-  /*public function createComponentPrilohyGrid(string $name) {
-		$grid = new DataGrid($this, $name);
-		$grid->setDataSource($this->dokumenty->findBy(['id_hlavne_menu'=>$this->clanok->id_hlavne_menu]));
-    $grid->addColumnText('znacka', 'Značka');
-    $grid->addColumnText('main_file', 'Súbor')
-         ->setRenderer(function($item){
-            return Html::el('button', ['class' => 'btn btn-link btn-for-big-image'])
-                           ->data('toogle', 'modal')
-                           ->data('target', '#imageModalCenterAttachments')
-                           ->data('imgsrc', $item->main_file)
-                           ->data('imgname', $item->name)
-                           ->setHtml(Html::el('img', ['class' => 'img-thumbnail'])->src($this->template->basePath.'/'.$item->thumb_file)->alt($item->name));      
-         });
-    $grid->addColumnText('name', 'Názov')
-         ->setEditableCallback(function($id, $value) {
-           $this->dokumenty->oprav($id, ['name'=>$value]);
-         });
-    $grid->addColumnText('description', 'Popis')
-         ->setEditableCallback(function($id, $value) {
-           $this->dokumenty->oprav($id, ['description'=>$value]);
-         });
-    if ($this->admin_links['elink']) {
-      $grid->addAction('edit', '')
-           ->setIcon('pencil-alt fa-2x')
-           ->setClass('btn btn-success btn-sm')
-           ->setTitle('Editácia položky');
-      $grid->addAction('delete', '', 'confirmedDelete!')
-           ->setIcon('trash-alt fa-2x')
-           ->setClass('btn btn-danger btn-sm ajax')
-           ->setTitle('Vymazanie položky')
-           ->setConfirmation(
-              new Confirmation\CallbackConfirmation(
-                function($item) {
-                  return sprintf('Naozaj chceš zmazať položku %s?', $item->name);
-                }
-              )
-            );
-      $grid->addAction('showInText', '')
-           ->setIcon('adjust fa-2x')
-           ->setClass(function($item) { 
-                        $pr = strtolower($item->pripona);
-                        return ($pr == 'jpg' OR $pr == 'png' OR $pr == 'gif' OR $pr == 'bmp') ? ("btn ".($item->zobraz_v_texte ? 'btn-success' : 'btn-warning')." btn-sm ajax") : 'display-none' ; 
-                      })
-           ->setTitle('Nezobraz obrázok v prílohách');
-    }
-    $grid->setTranslator($translator);
-    $grid->setRememberState(false);
-	}*/
-
-  /**
-   * Signal na editaciu
-   * @param int $id Id polozky na editaciu */
-  /*public function handleEdit(int $id): void {
-    $this->presenter->redirect('Dokumenty:edit', $id);
-  }*/
-
-  /**
-   * Signal pre zobrazenie velkeho nahladu obrazka
-   * @param int $id_big_image 
-   * @return void */
-  /*public function handleBigImg(int $id_big_image): void {
-    $this->big_img = $this->dokumenty->find($id_big_image);
-    if ($this->httpRequest->isAjax()) {
-      $this->redrawControl('lightbox-image-a');
-    }
-  }*/
-
   /** 
-   * Komponenta formulara pre pridanie a editaciu prílohy polozky.
-   * @return Nette\Application\UI\Form */
+   * Komponenta formulara pre pridanie a editaciu prílohy polozky. */
   public function createComponentEditPrilohyForm(): Nette\Application\UI\Form
   {
     $form = $this->editPrilohyForm->create(
@@ -209,25 +134,6 @@ class PrilohyClanokAControl extends Nette\Application\UI\Control
     return $this->presenter->_vzhladForm($form);
   }
 
-  /** 
-   * Komponenta formulara pre pridanie viacerich prílohy polozky.
-   * @return Nette\Application\UI\Form */
-  /*public function createComponentAddMultiPrilohyForm(): Nette\Application\UI\Form {
-    $form = $this->addMultiPrilohyForm->create();
-    $form->setDefaults(["id"=>0, "id_hlavne_menu"=>$this->clanok->id_hlavne_menu, "id_user_roles"=>$this->clanok->hlavne_menu->id_user_roles]);
-    $form['uloz']->onClick[] = function ($button) { 
-      $this->presenter->flashOut(!count($button->getForm()->errors), ['this',['tab'=>'prilohy-tab']], 'Prílohy boli úspešne uložené!', 'Došlo k chybe a zmena sa neuložila. Skúste neskôr znovu...');
-		};
-    return $this->presenter->_vzhladForm($form);
-  }*/
-
-
-  /*$grid->addAction('showInText', '')
-           ->setClass(function($item) { 
-                        $pr = strtolower($item->pripona);
-                        return ($pr == 'jpg' OR $pr == 'png' OR $pr == 'gif' OR $pr == 'bmp') ? ("btn ".($item->zobraz_v_texte ? 'btn-success' : 'btn-warning')." btn-sm ajax") : 'display-none' ; 
-                      })
-           ->setTitle('Nezobraz obrázok v prílohách');*/
   public function handleShowInText(int $id): void
   {
     $priloha = $this->dokumenty->find($id);
@@ -239,42 +145,9 @@ class PrilohyClanokAControl extends Nette\Application\UI\Control
       $this->redrawControl('prilohy-in');
     }
   }
-
-  /** 
-   * Signal vymazavania
-   * @param int $id Id polozky na zmazanie */
-  /*function handleConfirmedDelete(int $id): void {
-    $pr = $this->dokumenty->find($id);//najdenie prislusnej polozky menu, ku ktorej priloha patri
-    $pthis = $this->presenter;
-    if ($pr !== null) {
-      $vysledok = $this->_vymazSubor($pr->main_file) ? (in_array(strtolower($pr->pripona), ['png', 'gif', 'jpg']) ? $this->_vymazSubor($pr->thumb_file) : TRUE) : FALSE;
-      //$vysledok = FALSE;
-      if (($vysledok ? $pr->delete() : FALSE)) { 
-        $this->flashMessage('Príloha bola vymazaná!', 'success'); 
-      } else { 
-        $this->flashMessage('Došlo k chybe a príloha nebola vymazaná!', 'danger'); 
-      }
-    } else { $this->flashMessage('Došlo k chybe a príloha nebola vymazaná, lebo sa nenašla!', 'danger');}
-    if (!$pthis->isAjax()) {
-      $this->redirect('this');
-    } else {
-      $this->redrawControl('flashes');
-      $this->redrawControl('prilohy');
-      $this['prilohyGrid']->reload();
-    }
-  }*/
-
-  /** 
-   * Funkcia vymaze subor ak exzistuje
-   * @param string $subor Nazov suboru aj srelativnou cestou
-   * @return int Ak zmaze alebo neexistuje(nie je co mazat) tak 1 inak 0 */
-  /*private function _vymazSubor(string $subor): int {
-		return (is_file($subor)) ? (int)unlink($this->wwwDir."/".$subor) : -1;
-	}*/
 }
 
 interface IPrilohyClanokAControl
 {
-  /** @return PrilohyClanokAControl */
-  function create();
+  function create(): PrilohyClanokAControl;
 }

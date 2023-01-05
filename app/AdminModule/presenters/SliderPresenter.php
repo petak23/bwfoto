@@ -4,19 +4,20 @@ namespace App\AdminModule\Presenters;
 
 use App\AdminModule\Forms\Slider;
 use DbTable;
+use Nette\Application\UI\Form;
 
 /**
  * Prezenter pre administraciu slider-u.
  * 
- * Posledna zmena(last change): 04.06.2022
+ * Posledna zmena(last change): 04.01.2023
  *
  * Modul: ADMIN
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.7
+ * @version 1.1.8
  */
 
 class SliderPresenter extends BasePresenter
@@ -86,10 +87,8 @@ class SliderPresenter extends BasePresenter
     }
   }
 
-  /** Edit Slider form component factory for admin.
-   * @return Nette\Application\UI\Form
-   */
-  public function createComponentSliderEditForm()
+  /** Edit Slider form component factory for admin. */
+  public function createComponentSliderEditForm(): Form
   {
     $form = $this->editSliderForm->create($this->nastavenie, $this->getComponent('menu'));
     $form['uloz']->onClick[] = function ($button) {

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model;
@@ -8,33 +9,32 @@ use Nette;
 /**
  * Autorizator
  * 
- * Posledna zmena(last change): 06.01.2021
+ * Posledna zmena(last change): 05.01.2023
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2021 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.2
+ * @version    1.0.3
  */
-class AuthorizatorFactory {
+class AuthorizatorFactory
+{
   use Nette\SmartObject;
-  
+
   const
-    TABLE_NAME_ROLES = 'user_roles',
-    TABLE_NAME_RESOURCE = 'user_resource',
+    TABLE_NAME_ROLES      = 'user_roles',
+    TABLE_NAME_RESOURCE   = 'user_resource',
     TABLE_NAME_PERMISSION = 'user_permission',
     // Mandatory columns for table TABLE_NAME_ROLES
-    COLUMN_ROLE = 'role',      
-    COLUMN_INHERITED = 'inherited', //Dedi od... 
+    COLUMN_ROLE       = 'role',
+    COLUMN_INHERITED  = 'inherited', //Dedi od... 
     // Mandatory columns for table TABLE_NAME_RESOURCE
     COLUMN_RESOURCE_NAME = 'name',
     // Mandatory columns for table TABLE_NAME_PERMISSION
     COLUMN_RESOURCE_ACTIONS = 'actions';
-  
-  /**
-   * @param Nette\Database\Context $database
-   * @return Nette\Security\Permission */
-  public static function create(Nette\Database\Context $database) :Nette\Security\Permission {
+
+  public static function create(Nette\Database\Explorer $database): Nette\Security\Permission
+  {
     $acl = new Nette\Security\Permission;
     $roles = $database->table(self::TABLE_NAME_ROLES);
     foreach ($roles as $role) {

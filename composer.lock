@@ -85,16 +85,16 @@
         },
         {
             "name": "dg/adminer-custom",
-            "version": "v1.28.1",
+            "version": "v1.28.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dg/adminer-custom.git",
-                "reference": "65cb7d1fc0249375064aaeeafd265141428fe7e1"
+                "reference": "2ddd096ca2e62b506358c8112700942ce6dfa5f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dg/adminer-custom/zipball/65cb7d1fc0249375064aaeeafd265141428fe7e1",
-                "reference": "65cb7d1fc0249375064aaeeafd265141428fe7e1",
+                "url": "https://api.github.com/repos/dg/adminer-custom/zipball/2ddd096ca2e62b506358c8112700942ce6dfa5f4",
+                "reference": "2ddd096ca2e62b506358c8112700942ce6dfa5f4",
                 "shasum": ""
             },
             "type": "library",
@@ -111,9 +111,9 @@
                 "sqlite"
             ],
             "support": {
-                "source": "https://github.com/dg/adminer-custom/tree/v1.28.1"
+                "source": "https://github.com/dg/adminer-custom/tree/v1.28.2"
             },
-            "time": "2021-09-16T10:15:05+00:00"
+            "time": "2022-12-10T11:47:36+00:00"
         },
         {
             "name": "latte/latte",
@@ -201,16 +201,16 @@
         },
         {
             "name": "nette/application",
-            "version": "v3.1.7",
+            "version": "v3.1.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/application.git",
-                "reference": "a831a22c8291638624b39a673d40935c854371e3"
+                "reference": "84cca12ef6869ffd8cd783d2ada765b9d5460e8e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/application/zipball/a831a22c8291638624b39a673d40935c854371e3",
-                "reference": "a831a22c8291638624b39a673d40935c854371e3",
+                "url": "https://api.github.com/repos/nette/application/zipball/84cca12ef6869ffd8cd783d2ada765b9d5460e8e",
+                "reference": "84cca12ef6869ffd8cd783d2ada765b9d5460e8e",
                 "shasum": ""
             },
             "require": {
@@ -229,7 +229,7 @@
                 "tracy/tracy": "<2.5"
             },
             "require-dev": {
-                "latte/latte": "^2.10.2 || ^3.0.1",
+                "latte/latte": "^2.10.2 || ^3.0.3",
                 "mockery/mockery": "^1.0",
                 "nette/di": "^v3.0",
                 "nette/forms": "^3.0",
@@ -286,27 +286,27 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/application/issues",
-                "source": "https://github.com/nette/application/tree/v3.1.7"
+                "source": "https://github.com/nette/application/tree/v3.1.8"
             },
-            "time": "2022-06-01T12:25:37+00:00"
+            "time": "2022-11-28T00:04:47+00:00"
         },
         {
             "name": "nette/bootstrap",
-            "version": "v3.1.3",
+            "version": "v3.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/bootstrap.git",
-                "reference": "7d8647b742eeb4cb2e18c7c425ff3e1d99e4eea4"
+                "reference": "1a7965b4ee401ad0e3f673b9c016d2481afdc280"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/bootstrap/zipball/7d8647b742eeb4cb2e18c7c425ff3e1d99e4eea4",
-                "reference": "7d8647b742eeb4cb2e18c7c425ff3e1d99e4eea4",
+                "url": "https://api.github.com/repos/nette/bootstrap/zipball/1a7965b4ee401ad0e3f673b9c016d2481afdc280",
+                "reference": "1a7965b4ee401ad0e3f673b9c016d2481afdc280",
                 "shasum": ""
             },
             "require": {
                 "nette/di": "^3.0.5",
-                "nette/utils": "^3.2.1",
+                "nette/utils": "^3.2.1 || ^4.0",
                 "php": ">=7.2 <8.3"
             },
             "conflict": {
@@ -367,9 +367,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/bootstrap/issues",
-                "source": "https://github.com/nette/bootstrap/tree/v3.1.3"
+                "source": "https://github.com/nette/bootstrap/tree/v3.1.4"
             },
-            "time": "2022-10-13T01:43:31+00:00"
+            "time": "2022-12-14T15:23:02+00:00"
         },
         {
             "name": "nette/caching",
@@ -583,16 +583,16 @@
         },
         {
             "name": "nette/di",
-            "version": "v3.0.14",
+            "version": "v3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/di.git",
-                "reference": "9aba53b844f2f66ce4ebe37beffaa7119b3551d0"
+                "reference": "046f89cc334ec08b6b2e04803bce011bbe6522f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/di/zipball/9aba53b844f2f66ce4ebe37beffaa7119b3551d0",
-                "reference": "9aba53b844f2f66ce4ebe37beffaa7119b3551d0",
+                "url": "https://api.github.com/repos/nette/di/zipball/046f89cc334ec08b6b2e04803bce011bbe6522f1",
+                "reference": "046f89cc334ec08b6b2e04803bce011bbe6522f1",
                 "shasum": ""
             },
             "require": {
@@ -601,8 +601,8 @@
                 "nette/php-generator": "^3.5.4 || ^4.0",
                 "nette/robot-loader": "^3.2",
                 "nette/schema": "^1.1",
-                "nette/utils": "^3.1.6",
-                "php": ">=7.1 <8.3"
+                "nette/utils": "^3.2.5",
+                "php": ">=7.2 <8.3"
             },
             "conflict": {
                 "nette/bootstrap": "<3.0"
@@ -615,7 +615,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.0-dev"
+                    "dev-master": "3.1-dev"
                 }
             },
             "autoload": {
@@ -652,22 +652,22 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/di/issues",
-                "source": "https://github.com/nette/di/tree/v3.0.14"
+                "source": "https://github.com/nette/di/tree/v3.1.0"
             },
-            "time": "2022-11-02T16:27:55+00:00"
+            "time": "2022-12-14T11:19:09+00:00"
         },
         {
             "name": "nette/finder",
-            "version": "v2.5.4",
+            "version": "v2.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/finder.git",
-                "reference": "4a1236db9067d86a75c3dcc0d9c2aced17f9bde8"
+                "reference": "991aefb42860abeab8e003970c3809a9d83cb932"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/finder/zipball/4a1236db9067d86a75c3dcc0d9c2aced17f9bde8",
-                "reference": "4a1236db9067d86a75c3dcc0d9c2aced17f9bde8",
+                "url": "https://api.github.com/repos/nette/finder/zipball/991aefb42860abeab8e003970c3809a9d83cb932",
+                "reference": "991aefb42860abeab8e003970c3809a9d83cb932",
                 "shasum": ""
             },
             "require": {
@@ -685,7 +685,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.5-dev"
+                    "dev-master": "2.6-dev"
                 }
             },
             "autoload": {
@@ -719,9 +719,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/finder/issues",
-                "source": "https://github.com/nette/finder/tree/v2.5.4"
+                "source": "https://github.com/nette/finder/tree/v2.6.0"
             },
-            "time": "2022-10-13T01:30:47+00:00"
+            "time": "2022-10-13T01:31:15+00:00"
         },
         {
             "name": "nette/forms",
@@ -799,20 +799,20 @@
         },
         {
             "name": "nette/http",
-            "version": "v3.1.7",
+            "version": "v3.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/http.git",
-                "reference": "3d0f37872f2d699072b88f9c744b60b231d6402f"
+                "reference": "0e16cd4f911665679b96bf569318a0dc7f087eda"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/http/zipball/3d0f37872f2d699072b88f9c744b60b231d6402f",
-                "reference": "3d0f37872f2d699072b88f9c744b60b231d6402f",
+                "url": "https://api.github.com/repos/nette/http/zipball/0e16cd4f911665679b96bf569318a0dc7f087eda",
+                "reference": "0e16cd4f911665679b96bf569318a0dc7f087eda",
                 "shasum": ""
             },
             "require": {
-                "nette/utils": "^3.1",
+                "nette/utils": "^3.2.1 || ~4.0.0",
                 "php": ">=7.2 <8.3"
             },
             "conflict": {
@@ -822,9 +822,9 @@
             "require-dev": {
                 "nette/di": "^3.0",
                 "nette/security": "^3.0",
-                "nette/tester": "^2.0",
-                "phpstan/phpstan": "^0.12",
-                "tracy/tracy": "^2.4"
+                "nette/tester": "^2.4",
+                "phpstan/phpstan": "^1.0",
+                "tracy/tracy": "^2.8"
             },
             "suggest": {
                 "ext-fileinfo": "to detect type of uploaded files"
@@ -832,7 +832,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.1-dev"
+                    "dev-master": "3.2-dev"
                 }
             },
             "autoload": {
@@ -871,9 +871,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/http/issues",
-                "source": "https://github.com/nette/http/tree/v3.1.7"
+                "source": "https://github.com/nette/http/tree/v3.2.1"
             },
-            "time": "2022-10-13T01:29:13+00:00"
+            "time": "2022-12-05T00:03:40+00:00"
         },
         {
             "name": "nette/mail",
@@ -1087,16 +1087,16 @@
         },
         {
             "name": "nette/robot-loader",
-            "version": "v3.4.1",
+            "version": "v3.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/robot-loader.git",
-                "reference": "e2adc334cb958164c050f485d99c44c430f51fe2"
+                "reference": "970c8f82be98ec54180c88a468cd2b057855d993"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/robot-loader/zipball/e2adc334cb958164c050f485d99c44c430f51fe2",
-                "reference": "e2adc334cb958164c050f485d99c44c430f51fe2",
+                "url": "https://api.github.com/repos/nette/robot-loader/zipball/970c8f82be98ec54180c88a468cd2b057855d993",
+                "reference": "970c8f82be98ec54180c88a468cd2b057855d993",
                 "shasum": ""
             },
             "require": {
@@ -1148,9 +1148,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/robot-loader/issues",
-                "source": "https://github.com/nette/robot-loader/tree/v3.4.1"
+                "source": "https://github.com/nette/robot-loader/tree/v3.4.2"
             },
-            "time": "2021-08-25T15:53:54+00:00"
+            "time": "2022-12-14T15:41:06+00:00"
         },
         {
             "name": "nette/routing",

@@ -1,4 +1,5 @@
 <?php
+
 namespace TexylaExample;
 
 
@@ -8,19 +9,19 @@ use Texy;
 
 /**
  * Nastavenie Texy
- * Posledna zmena 20.03.2020
+ * Posledna zmena 04.01.2023
  * 
  * @author     Jan Marek, Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2020 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license    MIT
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.2
+ * @version    1.0.3
  */
-class MyTexy extends Texy {
-  
-  /**
-	 * @return Texy */
-	public static function createTexy() {
+class MyTexy extends Texy
+{
+
+	public static function createTexy(): Texy
+	{
 		$texy = new Texy();
 		$texy->encoding = 'utf-8';
 		// from https://github.com/nette/web-content/blob/convertor/src/Wiki/Convertor.php
@@ -44,7 +45,7 @@ class MyTexy extends Texy {
 		$texy->addHandler('block', ['TexyFactory', 'blockHandler']);
 		return $texy;
 	}
-  
+
 	/**
 	 * @param \Nette\Http\Request $httpRequest */
 	public function __construct(\Nette\Http\Request $httpRequest)
@@ -55,7 +56,7 @@ class MyTexy extends Texy {
 		$this->htmlOutputModule->removeOptional = false;
 
 		// headings
-    $this->headingModule->balancing = Texy\Modules\HeadingModule::FIXED;
+		$this->headingModule->balancing = Texy\Modules\HeadingModule::FIXED;
 
 		// phrases
 		$this->allowed['phrase/ins'] = true;   // ++inserted++
@@ -81,10 +82,10 @@ class MyTexy extends Texy {
 
 	/**
 	 * Template factory
-   * @param string $name
-   * @param array $params
-   * @return Template */
-	private function createTemplate($name, $params) {
+	 * @param string $name
+	 * @param array $params */
+	private function createTemplate($name, $params): string
+	{
 		$template = new Latte\Engine();
 		return $template->renderToString($name, $params);
 	}
@@ -94,11 +95,13 @@ class MyTexy extends Texy {
 	 * @param string
 	 * @param string
 	 * @param TexyModifier
-	 * @param TexyLink
-	 * @return TexyHtml|string|FALSE */
-	public function netteLink($invocation, $phrase, $content, $modifier, $link) {
+	 * @param TexyLink */
+	public function netteLink($invocation, $phrase, $content, $modifier, $link): TexyHtml|string|FALSE
+	{
 		// is there link?
-  if (!$link) { return $invocation->proceed(); }
+		if (!$link) {
+			return $invocation->proceed();
+		}
 
 		$url = $link->URL;
 
@@ -127,18 +130,22 @@ class MyTexy extends Texy {
 	 *
 	 * @param TexyHandlerInvocation  handler invocation
 	 * @param TexyImage
-	 * @param TexyLink
-	 * @return TexyHtml|string|FALSE */
-	public function youtubeHandler($invocation, $image, $link) {
+	 * @param TexyLink */
+	public function youtubeHandler($invocation, $image, $link): TexyHtml|string|FALSE
+	{
 		$parts = explode(':', $image->URL, 2);
 
 		if (count($parts) !== 2 || $parts[0] !== "youtube") {
 			return $invocation->proceed();
 		}
-    
+
 		$params["id"] = $parts[1];
-    if ($image->width) { $params["width"] = $image->width;}
-    if ($image->height) { $params["height"] = $image->height;}
+		if ($image->width) {
+			$params["width"] = $image->width;
+		}
+		if ($image->height) {
+			$params["height"] = $image->height;
+		}
 
 		return $this->protect($this->createTemplate(__DIR__ . "/inc/@youtube.latte", $params), Texy::CONTENT_BLOCK);
 	}
@@ -152,17 +159,21 @@ class MyTexy extends Texy {
 	 *
 	 * @param TexyHandlerInvocation  handler invocation
 	 * @param TexyImage
-	 * @param TexyLink
-	 * @return TexyHtml|string|FALSE */
-	public function flashHandler($invocation, $image, $link) {
+	 * @param TexyLink */
+	public function flashHandler($invocation, $image, $link): TexyHtml|string|FALSE
+	{
 		if (!Strings::endsWith($image->URL, ".swf")) {
 			return $invocation->proceed();
 		}
 
-		$params = ["url"    => \Texy::prependRoot($image->URL, $this->imageModule->root),
-               "width"  => $image->width,
-               "height" => $image->height];
-    if ($image->modifier->title) { $params["title"] = $image->modifier->title; }
+		$params = [
+			"url"    => \Texy::prependRoot($image->URL, $this->imageModule->root),
+			"width"  => $image->width,
+			"height" => $image->height
+		];
+		if ($image->modifier->title) {
+			$params["title"] = $image->modifier->title;
+		}
 
 		return $this->protect($this->createTemplate(__DIR__ . "/../templates/inc/@flash.latte", $params), Texy::CONTENT_BLOCK);
 	}
@@ -176,9 +187,9 @@ class MyTexy extends Texy {
 	 *
 	 * @param TexyHandlerInvocation  handler invocation
 	 * @param TexyImage
-	 * @param TexyLink
-	 * @return TexyHtml|string|FALSE */
-	public function streamHandler($invocation, $image, $link) {
+	 * @param TexyLink */
+	public function streamHandler($invocation, $image, $link): TexyHtml|string|FALSE
+	{
 		$parts = explode(':', $image->URL, 2);
 
 		if (count($parts) !== 2 || $parts[0] !== "stream") {
@@ -186,8 +197,12 @@ class MyTexy extends Texy {
 		}
 
 		$params["id"] = $parts[1];
-    if ($image->width) { $params["width"] = $image->width; }
-    if ($image->height) { $params["height"] = $image->height; }
+		if ($image->width) {
+			$params["width"] = $image->width;
+		}
+		if ($image->height) {
+			$params["height"] = $image->height;
+		}
 
 		return $this->protect($this->createTemplate(__DIR__ . "/../templates/inc/@stream.latte", $params), Texy::CONTENT_BLOCK);
 	}
@@ -201,9 +216,9 @@ class MyTexy extends Texy {
 	 *
 	 * @param TexyHandlerInvocation  handler invocation
 	 * @param TexyImage
-	 * @param TexyLink
-	 * @return TexyHtml|string|FALSE */
-	public function gravatarHandler($invocation, $image, $link) {
+	 * @param TexyLink */
+	public function gravatarHandler($invocation, $image, $link): TexyHtml|string|FALSE
+	{
 		$parts = explode(':', $image->URL, 2);
 
 		if (count($parts) !== 2 || $parts[0] !== "gravatar") {
@@ -211,10 +226,13 @@ class MyTexy extends Texy {
 		}
 
 		$params["email"] = $parts[1];
-    if ($image->width) { $params["width"] = $image->width; }
-    if ($image->height) { $params["height"] = $image->height; }
+		if ($image->width) {
+			$params["width"] = $image->width;
+		}
+		if ($image->height) {
+			$params["height"] = $image->height;
+		}
 
 		return $this->protect($this->createTemplate(__DIR__ . "/../templates/inc/@gravatar.latte", $params), Texy::CONTENT_BLOCK);
 	}
-
 }

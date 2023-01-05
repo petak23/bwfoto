@@ -7,13 +7,13 @@ use Nette;
 /**
  * Model starajuci sa o tabulku hlavne_menu_lang
  * 
- * Posledna zmena 12.12.2022
+ * Posledna zmena 05.01.2023
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.1.6
+ * @version    1.1.7
  */
 class Hlavne_menu_lang extends Table
 {
@@ -29,9 +29,8 @@ class Hlavne_menu_lang extends Table
    * @param string $spec_nazov - specificky nazov clanku v hl. menu
    * @param int $language_id - id jazykovej mutacie clanku. Ak nemam tak 1 - sk
    * @param int $id_user_roles - min. uroven registracie uzivatela. Ak nemam tak sa berie 5
-   * @return Nette\Database\Table\ActiveRow
    * @throws ArticleExteption */
-  public function getOneArticleSp(string $spec_nazov, int $language_id = 1, int $id_user_roles = 5)
+  public function getOneArticleSp(string $spec_nazov, int $language_id = 1, int $id_user_roles = 5): Nette\Database\Table\ActiveRow
   {
     $articles = clone $this;
     //Najdi v tabulke hlavne_menu polozku podla spec. nazvu a urovne registracie
@@ -54,9 +53,8 @@ class Hlavne_menu_lang extends Table
    * @param int $id_hlavne_menu Id polozky v tabulke "hlavne_menu"
    * @param int $id_lang Id jazykovej mutacie clanku v tabulke "lang". Ak nemam tak 1 - sk. 
    * @param int $id_user_roles Min. uroven registracie uzivatela. Ak nemam tak sa berie 0 - guest
-   * @return Nette\Database\Table\ActiveRow
    * @throws ArticleExteption */
-  public function getOneArticleId(int $id_hlavne_menu, int $id_lang = 1, int $id_user_roles = 0)
+  public function getOneArticleId(int $id_hlavne_menu, int $id_lang = 1, int $id_user_roles = 0): Nette\Database\Table\ActiveRow
   {
     $articles = clone $this;
     //Najdi v tabulke hlavne_menu polozku podla id
@@ -92,11 +90,7 @@ class Hlavne_menu_lang extends Table
   }
 
   /** 
-   * Ulozi texty pre tabulku hlavne_menu_lang
-   * @param Nette\Utils\ArrayHash $values
-   * @param Nette\Database\Table\Selection $jazyky
-   * @param int $id
-   * @return bool */
+   * Ulozi texty pre tabulku hlavne_menu_lang */
   public function ulozPolozku(Nette\Utils\ArrayHash $values, Nette\Database\Table\Selection $jazyky, int $id = 0): bool
   {
     $ulozenie = 0;
@@ -126,10 +120,8 @@ class Hlavne_menu_lang extends Table
 
   /**
    * Pre danu polozku vrati len platne podclanky
-   * @param int $id_lang Id jazyka
-   * @param int $id_nadradenej
-   * @return Nette\Database\Table\Selection */
-  public function subArticleToView(int $id_lang, int $id_nadradenej)
+   * @param int $id_lang Id jazyka */
+  public function subArticleToView(int $id_lang, int $id_nadradenej): Nette\Database\Table\Selection
   {
     return $this->findBy(["id_lang" => $id_lang, "hlavne_menu.id_nadradenej" => $id_nadradenej])
       ->where("datum_platnosti ? OR datum_platnosti >= ? ", NULL, date("Y-m-d", strtotime("0 day")));
@@ -146,7 +138,6 @@ class Hlavne_menu_lang extends Table
    * a min. urovne registracie uzivatela
    * @param int $id hlavne_menu_lang.id
    * @param int $id_user_roles Min. uroven registracie uzivatela. Ak nemam tak sa berie 0 - guest
-   * @return Nette\Database\Table\ActiveRow
    * @throws ArticleExteption */
   public function getOneArticleAPI(int $id, int $id_user_roles = 0): array
   {

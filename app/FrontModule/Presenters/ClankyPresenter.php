@@ -17,15 +17,15 @@ use PeterVojtech;
 /**
  * Prezenter pre vypisanie clankov.
  * 
- * Posledna zmena(last change): 07.12.2022
+ * Posledna zmena(last change): 05.01.2023
  *
  *	Modul: FRONT
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.4.5
+ * @version 1.4.6
  */
 
 class ClankyPresenter extends BasePresenter
@@ -62,8 +62,7 @@ class ClankyPresenter extends BasePresenter
   /** 
    * Zobrazenie konkretneho clanku
    * @param int $id Id hlavneho menu clanku
-   * @param string $kotva
-   * @return type */
+   * @param string $kotva */
   public function actionDefault(int $id = 0, string $kotva = "")
   {
     // Vsuvka pre presmerovanie ak nemam ziadnu aktualitu
@@ -85,7 +84,6 @@ class ClankyPresenter extends BasePresenter
       } else {                  //Article not found
         $this->setView("notFound");
       }
-      return;
     }
 
     if ($this->zobraz_clanok->hlavne_menu->redirect_id) { //Ak mám presmerovanie na podclanok
@@ -182,13 +180,12 @@ class ClankyPresenter extends BasePresenter
   /** Render v prípade nenájdenia článku */
   public function renderNotFound()
   {
-    $this->getHttpResponse()->setCode(\Nette\Http\IResponse::S404_NOT_FOUND);
+    $this->getHttpResponse()->setCode(\Nette\Http\IResponse::S404_NotFound);
   }
 
   /** 
-   * Komponenta pre komentare k clanku
-   * @return Multiplier */
-  public function createComponentKomentar()
+   * Komponenta pre komentare k clanku */
+  public function createComponentKomentar(): Multiplier
   {
     return new Multiplier(function ($id_hlavne_menu) {
       $komentar = $this->komentarControlFactory->create();
@@ -198,9 +195,8 @@ class ClankyPresenter extends BasePresenter
   }
 
   /**
-   * Komponenta pre zobrazenie clanku
-   * @return Components\Clanky\ZobrazClanok\ZobrazClanokControl */
-  public function createComponentUkazTentoClanok()
+   * Komponenta pre zobrazenie clanku */
+  public function createComponentUkazTentoClanok(): Components\Clanky\ZobrazClanok\ZobrazClanokControl
   {
     $ukaz_clanok = $this->zobrazClanokControlFactory->create();
     $ukaz_clanok->setArticle($this->zobraz_clanok)
@@ -210,9 +206,8 @@ class ClankyPresenter extends BasePresenter
   }
 
   /** 
-   * Komponenta pre zobrazenie priloh
-   * @return Components\Clanky\Attachments\AttachmentsControl */
-  public function createComponentAttachments()
+   * Komponenta pre zobrazenie priloh */
+  public function createComponentAttachments(): Components\Clanky\Attachments\AttachmentsControl
   {
     $attachments = $this->attachmentsClanokControlFactory->create();
     $attachments->setNastav($this->zobraz_clanok, $this->language);
@@ -220,9 +215,8 @@ class ClankyPresenter extends BasePresenter
   }
 
   /** 
-   * Komponenta pre zobrazenie produktov
-   * @return Components\Products\ProductsViewControl */
-  public function createComponentViewProducts()
+   * Komponenta pre zobrazenie produktov */
+  public function createComponentViewProducts(): Components\Products\ProductsViewControl
   {
     $products = $this->productsViewControlFactory->create();
     $products->setNastav($this->zobraz_clanok, $this->language_id, $this->nastavenie);
@@ -230,9 +224,8 @@ class ClankyPresenter extends BasePresenter
   }
 
   /** 
-   * Komponenta pre zobrazenie faktur
-   * @return Components\Faktury\ViewFakturyControl */
-  public function createComponentViewFaktury()
+   * Komponenta pre zobrazenie faktur */
+  public function createComponentViewFaktury(): Components\Faktury\ViewFakturyControl
   {
     $viewFaktury = $this->viewFakturyControlFactory->create();
     $viewFaktury->setSkupina($this->zobraz_clanok->id_hlavne_menu);
@@ -240,14 +233,13 @@ class ClankyPresenter extends BasePresenter
   }
 
   /** 
-   * Komponenta pre vykreslenie podclankov na kartach
-   * @return Components\Clanky\ZobrazKartyPodclankov\ZobrazKartyPodclankovControl */
-  public function createComponentZobrazKartyPodclankov()
+   * Komponenta pre vykreslenie podclankov na kartach */
+  /*public function createComponentZobrazKartyPodclankov(): Components\Clanky\ZobrazKartyPodclankov\ZobrazKartyPodclankovControl
   {
     $odkaz = $this->zobrazKartyPodclankovControlFactory->create();
     $odkaz->setArticle($this->zobraz_clanok->id_hlavne_menu, $this->language_id, $this->kotva);
     return $odkaz;
-  }
+  }*/
 
   public function createComponentEditArticleTitleForm(): Form
   {

@@ -4,19 +4,21 @@ namespace App\AdminModule\Presenters;
 
 use App\AdminModule\Forms\Udaje;
 use DbTable;
+use Nette\Application\UI\Form;
+use Nette\Utils\Html;
 
 /**
  * Prezenter pre administraciu hlavnych udajov webu.
  * 
- * Posledna zmena(last change): 31.05.2025
+ * Posledna zmena(last change): 04.01.2023
  *
  *	Modul: ADMIN
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.3
+ * @version 1.1.4
  */
 class UdajePresenter extends BasePresenter
 {
@@ -86,9 +88,8 @@ class UdajePresenter extends BasePresenter
     });
   }
   /**
-   * Formular pre urcenie typu udaju
-   * @return \Nette\Application\UI\Form */
-  protected function createComponentAddTypeUdajeForm()
+   * Formular pre urcenie typu udaju */
+  protected function createComponentAddTypeUdajeForm(): Form
   {
     $form = $this->addTypeUdajeForm->create($this->udaje_typ->findAll()->fetchPairs('id', 'nazov'));
     $form['uloz']->onClick[] = function ($button) {
@@ -101,9 +102,8 @@ class UdajePresenter extends BasePresenter
     return $this->_vzhladForm($form);
   }
   /** 
-   * Formular pre editaciu udaov
-   * @return Nette\Application\UI\Form */
-  protected function createComponentEditUdajeForm()
+   * Formular pre editaciu udaov */
+  protected function createComponentEditUdajeForm(): Form
   {
     $form = $this->editUdajeForm->create(
       $this->user->isInRole("admin"),
@@ -131,12 +131,8 @@ class UdajePresenter extends BasePresenter
   }
 
   /**
-   * Zostavenie otázky pre ConfDialog s parametrom
-   * @param Nette\Utils\Html $dialog
-   * @param array $params
-   * @return string $question
-   */
-  public function questionDelete($dialog, $params)
+   * Zostavenie otázky pre ConfDialog s parametrom */
+  public function questionDelete(Html $dialog, array $params): string
   {
     $dialog->getQuestionPrototype();
     return sprintf("Naozaj chceš zmazať údaj: %s?", isset($params['nazov']) ? "'" . $params['nazov'] . "'" : "");

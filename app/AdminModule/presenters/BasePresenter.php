@@ -14,15 +14,15 @@ use Texy;
 /**
  * Zakladny presenter pre vsetky presentery v module ADMIN
  * 
- * Posledna zmena(last change): 03.06.2022
+ * Posledna zmena(last change): 04.01.2023
  *
  * Modul: ADMIN
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.4.0
+ * @version 1.4.1
  */
 abstract class BasePresenter extends UI\Presenter
 {
@@ -240,16 +240,14 @@ abstract class BasePresenter extends UI\Presenter
   //  ---- Komponenty ---- 
 
   /** 
-   * Komponenta pre výpis css a js súborov
-   * @return \PeterVojtech\Base\CssJsFilesControl */
-  public function createComponentFiles()
+   * Komponenta pre výpis css a js súborov */
+  public function createComponentFiles(): PeterVojtech\Base\CssJsFilesControl
   {
     return new PeterVojtech\Base\CssJsFilesControl($this->nastavenie['web_files'], $this->name, $this->action);
   }
 
   /** 
-   * Vytvorenie komponenty pre hlavne menu
-   * @return Components\Menu\Menu */
+   * Vytvorenie komponenty pre hlavne menu */
   public function createComponentMenu(): Components\Menu\Menu
   {
     $menu = new Components\Menu\Menu;
@@ -269,9 +267,8 @@ abstract class BasePresenter extends UI\Presenter
   }
 
   /**
-   * Komponenta Confirmation Dialog pre delete News
-   * @return Nette\Application\UI\Form */
-  public function createComponentConfirmForm()
+   * Komponenta Confirmation Dialog pre delete News */
+  public function createComponentConfirmForm(): PeterVojtech\Confirm\ConfirmationDialog
   {
     $form = new PeterVojtech\Confirm\ConfirmationDialog($this->getSession('news'));
     $form->addConfirmer(
@@ -283,11 +280,8 @@ abstract class BasePresenter extends UI\Presenter
   }
 
   /**
-   * Zostavenie otázky pre ConfDialog s parametrom
-   * @param Nette\Utils\Html $dialog
-   * @param array $params
-   * @return string $question */
-  public function questionDelete($dialog, $params)
+   * Zostavenie otázky pre ConfDialog s parametrom */
+  public function questionDelete(Nette\Utils\Html $dialog, array $params): string
   {
     $dialog->getQuestionPrototype();
     return sprintf(
@@ -298,11 +292,8 @@ abstract class BasePresenter extends UI\Presenter
   }
 
   /** 
-   * Vypis spravy podla podmienky 
-   * @param boolean $if
-   * @param string $dobre
-   * @param string $zle */
-  public function _ifMessage($if, $dobre, $zle)
+   * Vypis spravy podla podmienky */
+  public function _ifMessage(bool $if, string $dobre, string $zle)
   {
     if ($if) {
       $this->flashMessage($dobre, 'success');
@@ -315,8 +306,7 @@ abstract class BasePresenter extends UI\Presenter
    * @param array|string $redirect Adresa presmerovania
    * @param string $text Text pre vypis hlasenia
    * @param string $druh - druh hlasenia */
-
-  public function flashRedirect($redirect, $text = "", $druh = "info")
+  public function flashRedirect(array|string $redirect, string $text = "", string $druh = "info")
   {
     $this->flashMessage($text, $druh);
     if (is_array($redirect)) {
@@ -329,6 +319,7 @@ abstract class BasePresenter extends UI\Presenter
       $this->redirect($redirect);
     }
   }
+
   /**
    * Funkcia pre zjednodusenie vypisu flash spravy a presmerovania aj pre chybovy stav
    * @param boolean $ok Podmienka
@@ -346,10 +337,8 @@ abstract class BasePresenter extends UI\Presenter
   }
 
   /**
-   * Nastavenie vzhľadu formulara
-   * @param \Nette\Application\UI\Form $form
-   * @return \Nette\Application\UI\Form */
-  public function _vzhladForm($form)
+   * Nastavenie vzhľadu formulara */
+  public function _vzhladForm(UI\Form $form): UI\Form
   {
     $renderer = $form->getRenderer();
     // Vzhlad pre bootstrap 4 link: https://github.com/nette/forms/blob/96b3e90/examples/bootstrap4-rendering.php  
