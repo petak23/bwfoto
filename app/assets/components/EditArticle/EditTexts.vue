@@ -1,13 +1,13 @@
 <script>
 /** 
  * Component EditTexts
- * Posledná zmena(last change): 07.12.2022
+ * Posledná zmena(last change): 08.01.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @copyright Copyright (c) 2021 - 2022 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.4
+ * @version 1.0.5
  * 
  */
 import Tiptap from "../Tiptap/tiptap-editor.vue"
@@ -24,7 +24,7 @@ export default {
   props: {
     basePath: String,
     link: String,
-    article_id: String, // hlavne_menu_lang.id
+    article_id: Number, // hlavne_menu_lang.id
   },
   data() {
     return {
@@ -42,7 +42,7 @@ export default {
       event.preventDefault()
       // Aby sa formulár odoslal, len ak je stačené tlačítko s class="main-submit"
       if (event.submitter.classList.contains("main-submit")) {
-        let odkaz = this.basePath + '/api/menu/textssave/' + this.id_hlavne_menu
+        let odkaz = this.basePath + '/api/menu/textssave/' + this.article_id
         let vm = this
         axios.post(odkaz, {
             texts: this.article.text_c,
@@ -75,7 +75,7 @@ export default {
       axios.get(odkaz)
             .then(response => {
               this.article = response.data
-              console.log(this.article)
+              //console.log(this.article)
             })
             .catch((error) => {
               console.log(odkaz);
@@ -84,7 +84,7 @@ export default {
     }
     this.$root.$on('tiptap_input', data => {
 			//console.log(data)
-      this.textin = data
+      this.article.text_c = data
 		})
   },
 }

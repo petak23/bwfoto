@@ -1,15 +1,16 @@
 <script>
 /** 
  * Component EditTitle
- * Posledná zmena(last change): 17.12.2022
+ * Posledná zmena(last change): 08.01.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @copyright Copyright (c) 2021 - 2022 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.1
+ * @version 1.0.2
  * 
  */
+import EditTexts from "./EditTexts.vue";
 import axios from 'axios'
 
 //for Tracy Debug Bar
@@ -29,6 +30,9 @@ export default {
     link: String,
     link_to_admin: String,
     article_hlavicka: String,
+  },
+  components: {
+    EditTexts,
   },
   data() {
     return {
@@ -175,7 +179,7 @@ export default {
 
     <b-modal 
       id="editArticleTextsModal" 
-      title="BootstrapVue"
+      title="Editácia textu článku"
       header-bg-variant="dark"
       header-text-variant="light"
       body-bg-variant="dark"
@@ -184,7 +188,14 @@ export default {
       footer-text-variant="light" 
       :hide-footer="true" 
     >
-      <p class="my-4">Hello from modal!</p>
+      <edit-texts
+          :id_hlavne_menu="article.id_hlavne_menu"
+          :base-path="basePath"
+          :link="link"
+          :article-text="article.text_c"
+          :article_id="article.id"
+        >
+      </edit-texts>
     </b-modal>
   </h1>
   <div>
