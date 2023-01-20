@@ -372,6 +372,7 @@ class MenuNode
 	var $avatar;
 	var $anotacia;
 	var $node_class;
+	var $poradie_podclankov = 0;
 	var $datum_platnosti;
 	var $link;	//Odkaz na polozku
 	var $nodes = [];
