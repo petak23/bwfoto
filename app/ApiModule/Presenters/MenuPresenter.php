@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace App\ApiModule\Presenters;
 
-use App\AdminModule\Components\Menu;
+use App\ApiModule\Components\Menu;
 use DbTable;
 
 /**
  * Prezenter pre pristup k api hlavneho menu a pridružených vecí ako je aj obsah článku.
- * Posledna zmena(last change): 12.12.2022
+ * Posledna zmena(last change): 19.01.2023
  *
  * Modul: API
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.7
+ * @version 1.0.8
  * 
  * @help 1.) https://forum.nette.org/cs/28370-data-z-post-request-body-reactjs-appka-se-po-ceste-do-php-ztrati
  */
@@ -31,21 +31,26 @@ class MenuPresenter extends BasePresenter
   public $hlavne_menu_lang;
 
   /**
-   * Vráti kompletné menu v json */
-  public function actionGetMenu(): void
+   * Vráti kompletné menu v json 
+   * @param String $lmodule Modul, pre ktorý sa vatvárajú odkazy v submenu */
+  public function actionGetMenu(String $lmodule = "Admin"): void
   {
     $menu = new Menu\Menu;
     $menu->setNastavenie($this->nastavenie);
     $hl_m = $this->hlavne_menu->getMenuAdmin(1);
     if (count($hl_m)) {
       $servise = $this;
-      $menu->fromTable($hl_m, function ($node, $row) use ($servise) {
+      $menu->fromTable($hl_m, function ($node, $row) use ($servise, $lmodule) {
         foreach (["name", "tooltip", "avatar", "anotacia", "node_class", "id", "datum_platnosti"] as $v) {
           $node->$v = $row['node']->$v;
         }
+
+        $presenter = is_array($row['node']->link) ? $row['node']->link[0] : $row['node']->link;
+        $p_for_link = ($lmodule == "Front" && $presenter == "Menu:") ? "Clanky:" : $presenter;
+
         $node->link = is_array($row['node']->link) ?
-          $servise->link(":Admin:" . $row['node']->link[0], ["id" => $row['node']->id]) :
-          $servise->link(":Admin:" . $row['node']->link);
+          $servise->link(":" . $lmodule . ":" . $p_for_link, ["id" => $row['node']->id]) :
+          $servise->link(":" . $lmodule . ":" . $p_for_link, []);
         return $row['nadradena'] ? $row['nadradena'] : null;
       });
     }

@@ -4,8 +4,8 @@
  *
  *	Modul: FRONT
  *
- * Posledna zmena(last change): 10.02.2022
- * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
+ * Posledna zmena(last change): 18.01.2023
+ * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
  *
@@ -43,7 +43,10 @@
       <span class="fas fa-bars" style="font-size: 2rem;"></span>
     </button>
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-      {control menu templateType=>'tree', templateFile=>'BWfoto_Tree_Main', cast=>2, article_avatar_view_in =>0, ukaz=>TRUE}
+      <bwfoto-tree-main 
+        base-path="{$basePath}"
+        part="-2" 
+      />
       {control autocomplete}
       {control langMenu}
 		</div>
@@ -55,30 +58,22 @@
     <section id="webContent">
       {control menu templateType=>'nav', templateFile=>'BWfoto_Nav_Breadcrumb', level=>1}
       {control confirmForm}
-      <div class="row top-panel" n:if="count($flashes)">
-        <div class="col-12" n:inner-foreach="$flashes as $flash" n:if="count($flashes)">
-          {var $nees = explode(',', $flash->type)}
-          {var $fa_code = (array_key_exists($nees[0], $fa) ? $fa[$nees[0]] : FALSE)}
-          <div class="alert alert-{$nees[0]} fade show" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-            <i n:if="$fa_code" class="{$fa_code}"></i>
-            {if isset($nees[1]) && $nees[1] == 'n'}
-              {_$flash->message|noescape}
-            {else}
-              {_$flash->message}
-            {/if}
-          </div>
-        </div>
-      </div>
+      <flash-message
+        flash-messages="{($flashes|to_json)}"
+      />
       {block content}{/block}
     </section>
     
     {* ----- Spodok stranky - FOOTER ----- *}
     <footer n:snippet=footer class="py-3">
       {* --- Mapa stranky --- *}
-      {control menu templateType=>'fixed', templateFile=>'BWfoto_footer_Sidemap', cast=>1, article_avatar_view_in =>0}
+      <nav class="w-100">
+        <bwfoto-tree-main 
+          base-path="{$basePath}"
+          part="-1" 
+          ul-class="nav text-center justify-content-center py-3"
+        />
+      </nav>
       {* --- Info o stranke --- *}
       <div class="row justify-content-center" id="footerContent">
         <div id="logoBWfoto" class="px-3 my-3 col-md">

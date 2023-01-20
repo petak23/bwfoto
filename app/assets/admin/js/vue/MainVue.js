@@ -1,12 +1,12 @@
 /* 
  * Main Vue.js app file
- * Posledná zmena(last change): 26.09.2022
+ * Posledná zmena(last change): 18.01.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @copyright Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.3
+ * @version 1.0.4
  */
 
 import Vue from 'vue';
@@ -18,7 +18,7 @@ import MultipleUpload from './components/Uploader/MultipleUpload'
 import lastlogin from './components/MainFrame/LastLogin'
 import colorBorderChange from './components/ColorBorderChange.vue'
 import Edittexts from '../../../components/EditArticle/EditTexts'
-import FlashMessage from "./components/FlashMessage"
+import FlashMessage from '../../../components/FlashMessages/FlashMessage';
 import SliderGrid from './components/Slider/SliderGrid'
 import MainDocumentsPart from "./components/MainFrame/MainDocumentsPart.vue"
 import VerzieEditForm from "./components/Verzie/VerzieEditForm.vue"

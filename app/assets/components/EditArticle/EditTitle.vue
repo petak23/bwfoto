@@ -1,13 +1,13 @@
 <script>
 /** 
  * Component EditTitle
- * Posledná zmena(last change): 08.01.2023
+ * Posledná zmena(last change): 19.01.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.2
+ * @version 1.0.3
  * 
  */
 import EditTexts from "./EditTexts.vue";
@@ -19,17 +19,17 @@ axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 export default {
   props: {
     basePath: String,
-    article_id: String, // hlavne_menu_lang.id
     title: String,
     title_text: String,
     title_admin: String,
     title_last_change: String,
     title_platnost_do: String,
     title_zadal: String,
-    edit_enabled: String,
+    edit_enabled: Number,
     link: String,
     link_to_admin: String,
     article_hlavicka: String,
+    article: Object,
   },
   components: {
     EditTexts,
@@ -37,26 +37,55 @@ export default {
   data() {
     return {
       show: true,
-      article: {},
+      art_title: {
+        menu_name: '',
+        h1part2: '',
+        view_name: ''
+      },
     }
   },
   methods: {
+    saveErr() {
+      this.$root.$emit('flash_message', [{
+        'message': 'Došlo k chybe a položka sa neuložila.',
+        'type': 'danger',
+        'heading': 'Oopps ...',
+        'timeout': 10000,
+      }])
+    },
     onSubmit(event) {
       event.preventDefault()
       // Aby sa formulár odoslal, len ak je stačené tlačítko s class="main-submit"
       if (event.submitter.classList.contains("main-submit")) {
-        let odkaz = this.basePath + '/api/menu/h1save/' + this.article_id
+        let odkaz = this.basePath + '/api/menu/h1save/' + this.article.id
         let vm = this
+        let data = {
+              menu_name: this.art_title.menu_name,
+              h1part2: this.art_title.h1part2,
+              view_name: this.art_title.view_name
+            }
         axios.post(odkaz, {
-            article: this.article,
+            article: data
           })
           .then(function (response) {
             //vm.textin = response.data
-            //console.log(response.data)
-            // https://stackoverflow.com/questions/35664550/vue-js-redirection-to-another-page
-            window.location.href = vm.link;
+            //console.log(response.data.result)
+            if (response.data.result == "OK") {
+              vm.$root.$emit('flash_message', [{'message':'Položka v nadpise bola uložená.', 
+                                                'type':'success',
+                                                'heading': 'Uložené ...',
+                                                'timeout': 5000,
+                                              }])
+            } else {
+              vm.saveErr()
+            }
+            setTimeout(() => {
+              vm.$bvModal.hide("modal-1")
+              vm.$root.$emit("title-save", data)
+            }, 500)
           })
           .catch(function (error) {
+            vm.saveErr()
             console.log(odkaz)
             console.log(error)
           });      
@@ -65,26 +94,21 @@ export default {
     onReset(event) {
       event.preventDefault()
       if (event.explicitOriginalTarget.classList.contains("main-reset")) {
-        window.location.href = this.link;
+        this.$bvModal.hide("modal-1")
+        this.art_title.menu_name = this.article.menu_name
+        this.art_title.h1part2 = this.article.h1part2
+        this.art_title.view_name = this.article.view_name
       }
     }
   },
-  mounted() {
-    if (this.article_id !== "0") { // Len pri editácii
-      // Načítanie údajov priamo z DB
-      let odkaz = this.basePath + '/api/menu/getonemenuarticle/' + this.article_id
-      axios.get(odkaz)
-            .then(response => {
-              this.article = response.data
-              //console.log(this.article)
-            })
-            .catch((error) => {
-              console.log(odkaz);
-              console.log(error);
-            });
+  watch: {
+    article: function (newArticle) {
+      this.art_title.menu_name = this.article.menu_name
+      this.art_title.h1part2 = this.article.h1part2
+      this.art_title.view_name = this.article.view_name
     }
   },
-
+  mounted() {},
 }
 </script>
 
@@ -143,7 +167,7 @@ export default {
         >
           <b-form-input
             id="view_name"
-            v-model="article.view_name"
+            v-model="art_title.view_name"
             type="text"
             required
           ></b-form-input>
@@ -155,7 +179,7 @@ export default {
         >
           <b-form-input
             id="menu_name"
-            v-model="article.menu_name"
+            v-model="art_title.menu_name"
             type="text"
             description="Ak necháte pole prázdne použije sa rovnaký ako pre nadpis."
           ></b-form-input>
@@ -167,7 +191,7 @@ export default {
         >
           <b-form-input
             id="h1part2"
-            v-model="article.h1part2"
+            v-model="art_title.h1part2"
             type="text"
           ></b-form-input>
         </b-form-group>
@@ -176,27 +200,12 @@ export default {
       </b-form>
     </b-modal>
     
-
-    <b-modal 
-      id="editArticleTextsModal" 
-      title="Editácia textu článku"
-      header-bg-variant="dark"
-      header-text-variant="light"
-      body-bg-variant="dark"
-      body-text-variant="light"
-      footer-bg-variant="dark"
-      footer-text-variant="light" 
-      :hide-footer="true" 
+    <edit-texts
+      :base-path="basePath"
+      :link="link"
+      :article="article"
     >
-      <edit-texts
-          :id_hlavne_menu="article.id_hlavne_menu"
-          :base-path="basePath"
-          :link="link"
-          :article-text="article.text_c"
-          :article_id="article.id"
-        >
-      </edit-texts>
-    </b-modal>
+    </edit-texts>
   </h1>
   <div>
     <small v-if="article_hlavicka & 1" class="title-info">

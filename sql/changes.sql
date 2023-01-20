@@ -1,0 +1,1 @@
+UPDATE `user_permission` SET `actions` = 'getsubmenu,getmenu' WHERE `id_user_resource` = '27' AND `id` = '36';

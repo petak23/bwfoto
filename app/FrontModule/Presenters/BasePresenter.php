@@ -11,6 +11,7 @@ use Nette\Application\UI\Multiplier;
 use Nette\Application\UI\Presenter;
 use Nette\Forms;
 use Nette\Http;
+use Nette\Utils\Json;
 use Nette\Utils\Html;
 use Nette\Utils\Strings;
 use PeterVojtech;
@@ -19,7 +20,7 @@ use Texy;
 /**
  * Zakladny presenter pre vsetky presentery vo FRONT module
  * 
- * Posledna zmena(last change): 05.01.2023
+ * Posledna zmena(last change): 18.01.2023
  *
  *	Modul: FRONT
  *
@@ -27,7 +28,7 @@ use Texy;
  * @copyright Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link      http://petak23.echo-msz.eu
- * @version 1.7.1
+ * @version 1.7.2
  */
 abstract class BasePresenter extends Presenter
 {
@@ -343,6 +344,9 @@ abstract class BasePresenter extends Presenter
         $out .= "<div>" . $v . " </div>";
       }
       return $out;
+    });
+    $this->template->addFilter('to_json', function ($value) {
+      return Json::encode($value);
     });
 
     $this->texy->allowedTags = TRUE;

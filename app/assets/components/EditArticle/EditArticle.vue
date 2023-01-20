@@ -1,0 +1,117 @@
+<script>
+/** 
+ * Component EditArticle
+ * Posledná zmena(last change): 11.01.2023
+ *
+ * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
+ * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
+ * @license
+ * @link http://petak23.echo-msz.eu
+ * @version 1.0.0
+ * 
+ */
+import EditTitle from "./EditTitle.vue";
+import axios from 'axios'
+
+//for Tracy Debug Bar
+axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+export default {
+  props: {
+    basePath: String,
+    article_id: String, // hlavne_menu_lang.id
+    title: String,
+    title_text: String,
+    title_admin: String,
+    title_last_change: String,
+    title_platnost_do: String,
+    title_zadal: String,
+    edit_enabled: String,
+    link: String,
+    link_to_admin: String,
+    article_hlavicka: String,
+  },
+  components: {
+    EditTitle,
+  },
+  data() {
+    return {
+      article: {
+        menu_name: '',
+        h1part2: '',
+        view_name: '',
+        text_c: '',
+      },
+    }
+  },
+  methods: {
+  },
+  mounted() {
+    if (this.article_id !== "0") { // Len pri editácii
+      // Načítanie údajov priamo z DB
+      let odkaz = this.basePath + '/api/menu/getonemenuarticle/' + this.article_id
+      axios.get(odkaz)
+            .then(response => {
+              this.article = response.data
+              //console.log(this.article)
+            })
+            .catch((error) => {
+              console.log(odkaz);
+              console.log(error);
+            });
+    }
+  },
+  created() {
+    // Reaguje na uloženie titulných informácií článku
+    this.$root.$on('title-save', data => {
+      this.article.menu_name = data.menu_name
+      this.article.h1part2 = data.h1part2
+      this.article.view_name = data.view_name
+		})
+    // Reaguje na uloženie textu článku
+    this.$root.$on('texts-save', data => { 
+      this.article.text_c = data.texts
+		})
+  }
+
+}
+</script>
+
+<template>
+  <span>
+    <div class="page-header">
+      <!--<div class="col-sm-12 col-md-3" v-if="($article_avatar_view_in & 2) && isset($article->hlavne_menu->avatar) && is_file('www/'.$avatar_path.$article->hlavne_menu->avatar)">
+        <div class="thumbnail">
+          <img src="{{ basePath }}/www/{$avatar_path}{$article->hlavne_menu->avatar}" alt="{_'base_text_title_image'}">
+        </div>
+      </div>-->
+      <edit-title
+        :base-path="basePath"
+        :title="title"
+        :title_text="title_text"
+        :title_admin="title_admin"
+        :title_last_change="title_last_change"
+        :title_platnost_do="title_platnost_do"
+        :title_zadal="title_zadal"
+        :edit_enabled="1"
+        :article="article"
+        :link="link"
+        :link_to_admin="link_to_admin"
+        :article_hlavicka="article_hlavicka"
+      ></edit-title>
+    </div>
+
+    <span class="popis" v-if="article.text_c" v-html="article.text_c"></span>
+  </span>
+</template>
+
+<style scoped>
+  .title-info {
+    border-right: 1px solid #ddd;
+    margin-right: .5ex;
+    padding-right: .25ex;
+  }
+  .title-info:last-child {
+    border-right: 0;
+  }
+</style>

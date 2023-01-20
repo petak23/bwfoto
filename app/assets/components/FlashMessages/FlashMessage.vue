@@ -1,25 +1,32 @@
 <script>
 /**
  * Komponenta pre vypísanie flash správ.
- * Posledna zmena 19.05.2022
+ * Posledna zmena 19.01.2023
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.1
+ * @version    1.0.2
  */
 export default {
-  props: [
-    'text',
-    'flashMessages'
-  ],
+  props: {
+    flashMessages: {
+			type: String,
+			default: "",
+		},
+		timeout: {
+			type: String,
+			default: "3000",
+		}
+	},
 
 	data() {
 		return {
 			visible: false,
 			message: '',
       mess: [],
+			t_out: 0,
 		}
 	},
 
@@ -39,14 +46,18 @@ export default {
 		})
 		this.$root.$on('flash_message', message => {
 			this.mess = message
+			if (typeof this.mess[0].timeout !== 'undefined') {
+				this.t_out = this.mess[0].timeout
+			}
 			this.show()
 		})
+		this.t_out = this.timeout
 	},
 
 	methods: {
 		show() {
 			this.visible = true
-			setTimeout(() => this.hide(), 3000)
+			setTimeout(() => this.hide(), this.t_out)
 		},
 		hide() {
 			this.visible = false

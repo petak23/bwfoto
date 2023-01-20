@@ -1419,7 +1419,7 @@ CREATE TABLE `user_main` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Hlavné údaje užívateľa';
 
 INSERT INTO `user_main` (`id`, `id_user_roles`, `id_user_profiles`, `password`, `meno`, `priezvisko`, `email`, `activated`, `banned`, `ban_reason`, `new_password_key`, `new_password_requested`, `new_email`, `new_email_key`, `last_ip`, `created`, `modified`) VALUES
-(1,	5,	1,	'$2y$10$qyQp0ZLifZDtSJVz0W62XuOZM4xIZiCBrVN2YM6auzLnqjaY5q4ri',	'Peter',	'Vojtech',	'petak23@echo-msz.eu',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'188.112.103.156',	'2017-05-15 09:11:19',	'2022-11-23 12:52:13'),
+(1,	5,	1,	'$2y$10$qyQp0ZLifZDtSJVz0W62XuOZM4xIZiCBrVN2YM6auzLnqjaY5q4ri',	'Peter',	'Vojtech',	'petak23@echo-msz.eu',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'188.112.123.214',	'2017-05-15 09:11:19',	'2023-01-20 09:37:28'),
 (2,	4,	2,	'$2y$10$0KPg/2sE8I5EjAsgolRttulqhQPsUoVrhIHAxX8Ej3NAOHGuZIbW.',	'Juraj',	'Zámečník',	'bwfoto@bwfoto.sk',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.143.103.217',	'2017-05-15 09:13:38',	'2022-03-14 22:12:07'),
 (3,	4,	3,	'$2y$10$rrhoDAbAniSaH5IxLhobiO4ym.Qt83LdCyDUyXkw/TQCiNebhwjkq',	'Jozef',	'Petrenčík',	'tatravisual@tatravisual.sk',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.253.139.152',	'2017-05-15 09:12:22',	'2017-07-11 07:10:29');
 
@@ -1472,7 +1472,7 @@ INSERT INTO `user_permission` (`id`, `id_user_roles`, `id_user_resource`, `actio
 (33,	4,	7,	'default,edit'),
 (34,	4,	25,	NULL),
 (35,	0,	26,	NULL),
-(36,	0,	27,	'getsubmenu'),
+(36,	0,	27,	'getsubmenu,getmenu'),
 (37,	4,	28,	NULL),
 (38,	0,	29,	NULL),
 (39,	4,	27,	NULL),
@@ -1545,7 +1545,8 @@ INSERT INTO `user_prihlasenie` (`id`, `id_user_main`, `log_in_datetime`) VALUES
 (221,	1,	'2022-06-28 12:50:55'),
 (222,	1,	'2022-11-09 15:11:06'),
 (223,	1,	'2022-11-19 14:20:56'),
-(224,	1,	'2022-11-23 13:52:13');
+(224,	1,	'2022-11-23 13:52:13'),
+(225,	1,	'2023-01-20 10:37:28');
 
 DROP TABLE IF EXISTS `user_profiles`;
 CREATE TABLE `user_profiles` (
@@ -1563,7 +1564,7 @@ CREATE TABLE `user_profiles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 INSERT INTO `user_profiles` (`id`, `rok`, `telefon`, `poznamka`, `pocet_pr`, `pohl`, `prihlas_teraz`, `avatar`, `news`, `news_key`) VALUES
-(1,	NULL,	NULL,	NULL,	119,	'M',	'2022-11-23 13:52:13',	NULL,	'A',	'$2y$10$cukOQnmZahKNwUmxXbVKyOYjx0MIfj9gDs6ovQPTHrcmqTQG/JzRi'),
+(1,	NULL,	NULL,	NULL,	120,	'M',	'2023-01-20 10:37:28',	NULL,	'A',	'$2y$10$cukOQnmZahKNwUmxXbVKyOYjx0MIfj9gDs6ovQPTHrcmqTQG/JzRi'),
 (2,	NULL,	NULL,	NULL,	105,	'M',	'2022-04-11 11:54:14',	NULL,	'A',	NULL),
 (3,	NULL,	NULL,	NULL,	0,	'M',	NULL,	NULL,	'A',	NULL);
 
@@ -1678,4 +1679,4 @@ INSERT INTO `verzie` (`id`, `id_user_main`, `cislo`, `subory`, `text`, `modified
 (34,	1,	'0.9.35',	'Príloha a produkty',	'<ul>\n	<li>Doplnenie tabuľky produktov a príloh o označovací stĺpec a možnosť\n	mazania viacerích položiek naraz.</li>\n</ul>\n',	'2022-06-28 10:53:46'),
 (35,	1,	'0.9.37',	'npm, composer',	'<ul>\n	<li>update npm</li>\n\n	<li>update composer</li>\n\n	<li>update Readme.md</li>\n</ul>\n',	'2022-11-09 14:12:14');
 
--- 2022-11-24 13:26:44
+-- 2023-01-20 09:38:45

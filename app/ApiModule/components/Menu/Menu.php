@@ -1,6 +1,6 @@
 <?php
 
-namespace App\AdminModule\Components\Menu;
+namespace App\ApiModule\Components\Menu;
 
 use Nette;
 
@@ -21,7 +21,7 @@ class Menu extends Nette\Application\UI\Control
 	protected $_selected;
 	var $allNodes = [];
 	protected $_path = null;
-	var $templatePath = [];
+	//var $templatePath = [];
 	public $idCounter = 0;
 	protected $nastav = [
 		"level" => 0,
@@ -38,7 +38,7 @@ class Menu extends Nette\Application\UI\Control
 
 	public function __construct(Nette\ComponentModel\IContainer $parent = NULL, $name = NULL)
 	{
-		$this->templatePath = [
+		/*$this->templatePath = [
 			'nav' => dirname(__FILE__) . '/Menu.latte', // sablona pro drobeckovou navigaci
 			'single' => dirname(__FILE__) . '/Menu.latte', // sablona pro jednourovnovou cast menu
 			'tree' => dirname(__FILE__) . '/Menu.latte', // sablona pro stromovou cast menu
@@ -46,7 +46,7 @@ class Menu extends Nette\Application\UI\Control
 			'fixed' => dirname(__FILE__) . '/Fixed.latte', // sablona pro fixne menu
 			'mapa' => dirname(__FILE__) . '/Mapa.latte', // sablona pro fixne menu
 			'main_fixed' => dirname(__FILE__) . '/MainFixed.latte', // sablona pro fixne menu
-		];
+		];*/
 		$this->rootNode = new MenuNode();
 		$this->rootNode->menu = $this;
 		$this->rootNode->isRootNode = true;
@@ -99,7 +99,7 @@ class Menu extends Nette\Application\UI\Control
 		return $path;
 	}
 
-	public function render($part, $templateType)
+	/*public function render($part, $templateType)
 	{
 		$template = $this->template;
 		$template->path = $this->getPath();
@@ -233,7 +233,7 @@ class Menu extends Nette\Application\UI\Control
 	{
 		$this->template->nastav = $this->nastav;
 		$this->render($level, 'mapa');
-	}
+	}*/
 
 	public function fromTable($data, $setupNode)
 	{

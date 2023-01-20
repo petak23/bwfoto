@@ -12,7 +12,7 @@ use PeterVojtech\Email;
 /**
  * Prezenter pre prihlasenie, registraciu a aktiváciu uzivatela, 
  * obnovenie zabudnutého hesla a zresetovanie hesla.
- * Posledna zmena(last change): 05.01.2023
+ * Posledna zmena(last change): 18.01.2023
  *
  *	Modul: FRONT
  *
@@ -20,7 +20,7 @@ use PeterVojtech\Email;
  * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.2.8
+ * @version 1.2.9
  */
 class UserPresenter extends BasePresenter
 {
@@ -74,7 +74,7 @@ class UserPresenter extends BasePresenter
     $form['login']->onClick[] = function () {
       $useri = $this->user->getIdentity();
       $this->myMailer->sendAdminMail("Prihlásenie", "Prihlásenie užívateľa:" . $useri->meno . " " . $useri->priezvisko);
-      $this->flashMessage('base_login_ok', 'success');
+      $this->flashMessage($this->texty_presentera->translate('base_login_ok'), 'success');
       $this->restoreRequest($this->backlink);
       $this->redirect('Homepage:');
     };
