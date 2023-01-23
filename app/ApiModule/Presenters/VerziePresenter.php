@@ -6,15 +6,15 @@ namespace App\ApiModule\Presenters;
 
 /**
  * Prezenter pre pristup k api verzií.
- * Posledna zmena(last change): 16.11.2022
+ * Posledna zmena(last change): 20.01.2023
  *
  * Modul: API
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.3
+ * @version 1.0.4
  */
 class VerziePresenter extends BasePresenter
 {
@@ -33,7 +33,11 @@ class VerziePresenter extends BasePresenter
   {
     $_post = json_decode(file_get_contents("php://input"), true);
     //dumpe($_post['to_save']);
-    $sk = $this->verzie->uloz(['cislo' => $_post['to_save'][0], 'text' => $_post['to_save'][1]], $id);
+    $sk = $this->verzie->uloz([
+      'cislo'     => $_post['to_save'][0],
+      'text'      => $_post['to_save'][1],
+      'modified'  => date("Y-m-d H:i:s"),
+    ], $id);
     if ($sk !== null) {
       $upload = [
         'status'  => 200,

@@ -7,13 +7,13 @@ use Nette;
 /**
  * Model starajuci sa o tabulku hlavne_menu_lang
  * 
- * Posledna zmena 05.01.2023
+ * Posledna zmena 23.01.2023
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.1.7
+ * @version    1.1.8
  */
 class Hlavne_menu_lang extends Table
 {
@@ -23,6 +23,21 @@ class Hlavne_menu_lang extends Table
 
   /** @var string */
   protected $tableName = 'hlavne_menu_lang';
+
+  /** @var string */
+  private $avatar_path;
+
+  private $www_dir;
+
+  public function __construct(
+    string $dir_to_slider,
+    string $www_dir,
+    Nette\Database\Explorer $db
+  ) {
+    parent::__construct($db);
+    $this->avatar_path = $dir_to_slider;
+    $this->www_dir = $www_dir;
+  }
 
   /** Funkcia pre ziskanie info o konkretnom clanku na zaklade spec_nazov, language_id 
    * a min. urovne registracie uzivatela
@@ -154,6 +169,7 @@ class Hlavne_menu_lang extends Table
         $out['datum_platnosti'] = $tmp_article->hlavne_menu->datum_platnosti !== null ? $tmp_article->hlavne_menu->datum_platnosti->format('j.n.Y') : null;
         $out['modified'] = $tmp_article->hlavne_menu->modified->format('j.n.Y');
         $out['owner'] = $tmp_article->hlavne_menu->user_main->priezvisko;
+        $out['avatar'] = isset($tmp_article->hlavne_menu->avatar) && is_file($this->avatar_path . $tmp_article->hlavne_menu->avatar) ? $this->avatar_path . $tmp_article->hlavne_menu->avatar : null;
         return $out;
       } else {
         throw new ArticleMainMenuException("Missing permissions", self::MISSING_PERMISSIONS);

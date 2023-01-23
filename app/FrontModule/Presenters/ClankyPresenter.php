@@ -17,7 +17,7 @@ use PeterVojtech;
 /**
  * Prezenter pre vypisanie clankov.
  * 
- * Posledna zmena(last change): 05.01.2023
+ * Posledna zmena(last change): 23.01.2023
  *
  *	Modul: FRONT
  *
@@ -25,7 +25,7 @@ use PeterVojtech;
  * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.4.6
+ * @version 1.4.7
  */
 
 class ClankyPresenter extends BasePresenter
@@ -151,6 +151,7 @@ class ClankyPresenter extends BasePresenter
       $this->getComponent('menu')->selectByUrl($this->link('Clanky:', ["id" => $this->zobraz_clanok->id_hlavne_menu]));
       $this->template->komentare_povolene =  $this->udaje_webu["komentare"] && ($this->user->isAllowed('Front:Clanky', 'komentar') && $this->zobraz_clanok->hlavne_menu->komentar) ? $this->zobraz_clanok->id_hlavne_menu : 0;
       $this->template->article = $this->zobraz_clanok;
+      $this->template->for_admin_link = ':Admin:' . $this->zobraz_clanok->hlavne_menu->druh->presenter . ':';
 
       //$this->template->article_text = new Runtime\Html($this->zobraz_clanok->text_c);
       $this->template->article_text = $this->_renderArticleText($this->zobraz_clanok->text_c);

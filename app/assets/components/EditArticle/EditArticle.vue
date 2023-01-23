@@ -1,13 +1,13 @@
 <script>
 /** 
  * Component EditArticle
- * Posledná zmena(last change): 11.01.2023
+ * Posledná zmena(last change): 23.01.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.0
+ * @version 1.0.1
  * 
  */
 import EditTitle from "./EditTitle.vue";
@@ -30,6 +30,7 @@ export default {
     link: String,
     link_to_admin: String,
     article_hlavicka: String,
+    article_avatar_view_in: String,
   },
   components: {
     EditTitle,
@@ -80,11 +81,12 @@ export default {
 <template>
   <span>
     <div class="page-header">
-      <!--<div class="col-sm-12 col-md-3" v-if="($article_avatar_view_in & 2) && isset($article->hlavne_menu->avatar) && is_file('www/'.$avatar_path.$article->hlavne_menu->avatar)">
-        <div class="thumbnail">
-          <img src="{{ basePath }}/www/{$avatar_path}{$article->hlavne_menu->avatar}" alt="{_'base_text_title_image'}">
-        </div>
-      </div>-->
+      <div  class="col-sm-12 col-md-3" v-if="(parseInt(article_avatar_view_in) & 2) && article.avatar != null">
+        <img  :src="basePath + '/www/' + article.avatar" 
+              alt="Title image"
+              class="img-fluid"
+        >
+      </div>
       <edit-title
         :base-path="basePath"
         :title="title"

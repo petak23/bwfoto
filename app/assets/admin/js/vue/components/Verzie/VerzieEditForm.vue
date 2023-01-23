@@ -61,7 +61,7 @@ export default {
             to_save,
           })
           .then(function (response) {
-            // console.log(response)
+            //console.log(response)
             // https://stackoverflow.com/questions/35664550/vue-js-redirection-to-another-page
             window.location.href = vm.basePath + vm.back_link;
           

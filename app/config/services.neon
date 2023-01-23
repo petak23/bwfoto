@@ -15,7 +15,7 @@ services:
   - DbTable\Faktury
   - DbTable\Hlavicka
   - DbTable\Hlavne_menu
-  - DbTable\Hlavne_menu_lang
+  - DbTable\Hlavne_menu_lang(%dir_to_menu%, %wwwDir%)
   - DbTable\Hlavne_menu_cast
   - DbTable\Hlavne_menu_opravnenie
   - DbTable\Hlavne_menu_template
