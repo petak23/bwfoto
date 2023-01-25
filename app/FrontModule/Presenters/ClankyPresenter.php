@@ -17,7 +17,7 @@ use PeterVojtech;
 /**
  * Prezenter pre vypisanie clankov.
  * 
- * Posledna zmena(last change): 23.01.2023
+ * Posledna zmena(last change): 25.01.2023
  *
  *	Modul: FRONT
  *
@@ -25,7 +25,7 @@ use PeterVojtech;
  * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.4.7
+ * @version 1.4.8
  */
 
 class ClankyPresenter extends BasePresenter
@@ -104,7 +104,7 @@ class ClankyPresenter extends BasePresenter
     }
   }
 
-  private function _renderArticleText(string $s): Runtime\Html|string
+  private function _renderArticleText(string|null $s): Runtime\Html|string|null
   {
     // obr_v_txt
     /*$rozloz = explode("#", $s); // Nutnosť zmeny značky na napr. {I-xxx}
@@ -127,17 +127,18 @@ class ClankyPresenter extends BasePresenter
       }
     } else */
     $vysledok = $s;
-
-    // koncova_znacka
-    $rozloz = explode("{end}", $vysledok);
-    if (count($rozloz) > 1) {    //Ak som nasiel znacku
-      $vysledok = $rozloz[0]   // Podľa: https://getbootstrap.com/docs/4.6/components/collapse/#example
-        . Utils\Html::el('a class="btn btn-link" data-toggle="collapse" aria-expanded="false" aria-controls="collapseArticle" id="colArt"')
-        ->href("#collapseArticle")
-        ->title($this->texty_presentera->translate("base_title"))
-        ->setHtml('&gt;&gt;&gt; ' . $this->texty_presentera->translate("base_viac"))
-        . Utils\Html::el('div class="collapse" id="collapseArticle"')
-        ->setHtml($rozloz[1]);
+    if ($s != null) {
+      // koncova_znacka
+      $rozloz = explode("{end}", $vysledok);
+      if (count($rozloz) > 1) {    //Ak som nasiel znacku
+        $vysledok = $rozloz[0]   // Podľa: https://getbootstrap.com/docs/4.6/components/collapse/#example
+          . Utils\Html::el('a class="btn btn-link" data-toggle="collapse" aria-expanded="false" aria-controls="collapseArticle" id="colArt"')
+          ->href("#collapseArticle")
+          ->title($this->texty_presentera->translate("base_title"))
+          ->setHtml('&gt;&gt;&gt; ' . $this->texty_presentera->translate("base_viac"))
+          . Utils\Html::el('div class="collapse" id="collapseArticle"')
+          ->setHtml($rozloz[1]);
+      }
     }
     // https://latte.nette.org/cs/develop#toc-vypnuti-auto-escapovani-promenne
     return new Runtime\Html($vysledok);
@@ -153,7 +154,7 @@ class ClankyPresenter extends BasePresenter
       $this->template->article = $this->zobraz_clanok;
       $this->template->for_admin_link = ':Admin:' . $this->zobraz_clanok->hlavne_menu->druh->presenter . ':';
 
-      //$this->template->article_text = new Runtime\Html($this->zobraz_clanok->text_c);
+      //Text článk pre neprihláseného užívateľa...
       $this->template->article_text = $this->_renderArticleText($this->zobraz_clanok->text_c);
 
       $this->template->uroven = $this->zobraz_clanok->hlavne_menu->uroven + 2;

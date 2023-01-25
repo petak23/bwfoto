@@ -2,8 +2,8 @@
  *
  * Modul: FRONT
  *
- * Posledna zmena(last change): 24.11.2022
- * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
+ * Posledna zmena(last change): 25.01.2023
+ * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
  *
@@ -14,15 +14,13 @@
 {block content}
 <article id="uvodnyText">
   {embed 'title_block.latte', 
-                article: $article, 
-                edit_enabled: $user->isLoggedIn() && $user->isAllowed('Front:Clanky', 'edit'),
-                user_admin: $user->isInRole('admin'),
-                basePath: $basePath,
-                this_link: $this_link
+              article: $article, 
+              article_hlavicka: $article_hlavicka,
+              article_avatar_view_in: $article_avatar_view_in,
+              basePath: $basePath,
+              avatar_path: $avatar_path,
+              article_text: $article_text,
   }{/embed}
-  <span class="popis" n:ifset="$article->text_c">
-    {$article->text_c|obr_v_txt|koncova_znacka|noescape}
-  </span>
 </article>
 <section id="webThumbnails" class="row">
   {control fotopanorama template=>'BWfoto', large=>true}

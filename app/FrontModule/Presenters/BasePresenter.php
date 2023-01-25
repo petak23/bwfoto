@@ -20,7 +20,7 @@ use Texy;
 /**
  * Zakladny presenter pre vsetky presentery vo FRONT module
  * 
- * Posledna zmena(last change): 18.01.2023
+ * Posledna zmena(last change): 25.01.2023
  *
  *	Modul: FRONT
  *
@@ -28,7 +28,7 @@ use Texy;
  * @copyright Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link      http://petak23.echo-msz.eu
- * @version 1.7.2
+ * @version 1.7.3
  */
 abstract class BasePresenter extends Presenter
 {
@@ -235,7 +235,7 @@ abstract class BasePresenter extends Presenter
     $this->template->nazov_stranky = $this->nazov_stranky;
     $this->template->nastavenie = $this->nastavenie;
     $this->template->text_title_image = $this->texty_presentera->translate("base_text_title_image");
-    $this->template->avatar_path = $this->nastavenie["dir_to_user"];
+    $this->template->avatar_path = $this->nastavenie["dir_to_menu"];
     $this->template->article_avatar_view_in = $this->nastavenie["article_avatar_view_in"];
     $this->template->view_log_in_link_in_header = $this->nastavenie['user_panel']["view_log_in_link_in_header"];
     $this->template->fa = [
