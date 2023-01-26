@@ -7,13 +7,13 @@ use Nette;
 /**
  * Model starajuci sa o tabulku hlavne_menu_lang
  * 
- * Posledna zmena 23.01.2023
+ * Posledna zmena 26.01.2023
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.1.8
+ * @version    1.1.9
  */
 class Hlavne_menu_lang extends Table
 {
@@ -160,6 +160,35 @@ class Hlavne_menu_lang extends Table
 
     //Najdi v tabulke hlavne_menu_lang polozku podla id
     $tmp_article = $articles->find($id);
+    if ($tmp_article == null) {
+      throw new ArticleMainMenuException("Article not exist", self::NOT_EXIST);
+    } else { // Article found
+      // Test úrovne oprávnenia úžívateľa
+      if ($tmp_article->hlavne_menu->id_user_roles <= $id_user_roles) {
+        $out = $tmp_article->toArray();
+        $out['datum_platnosti'] = $tmp_article->hlavne_menu->datum_platnosti !== null ? $tmp_article->hlavne_menu->datum_platnosti->format('j.n.Y') : null;
+        $out['modified'] = $tmp_article->hlavne_menu->modified->format('j.n.Y');
+        $out['owner'] = $tmp_article->hlavne_menu->user_main->priezvisko;
+        $out['avatar'] = isset($tmp_article->hlavne_menu->avatar) && is_file($this->avatar_path . $tmp_article->hlavne_menu->avatar) ? $this->avatar_path . $tmp_article->hlavne_menu->avatar : null;
+        return $out;
+      } else {
+        throw new ArticleMainMenuException("Missing permissions", self::MISSING_PERMISSIONS);
+      }
+    }
+  }
+
+  /** 
+   * Funkcia pre ziskanie info o konkretnom clanku na zaklade id
+   * a min. urovne registracie uzivatela
+   * @param String $web_name hlavne_menu.spec_nazov
+   * @param int $id_user_roles Min. uroven registracie uzivatela. Ak nemam tak sa berie 0 - guest
+   * @throws ArticleExteption */
+  public function getOneArticleSpAPI(String $web_name, int $id_user_roles = 0): array
+  {
+    $articles = clone $this;
+
+    //Najdi v tabulke hlavne_menu_lang polozku podla id
+    $tmp_article = $articles->findOneBy(['hlavne_menu.spec_nazov' => $web_name]);
     if ($tmp_article == null) {
       throw new ArticleMainMenuException("Article not exist", self::NOT_EXIST);
     } else { // Article found

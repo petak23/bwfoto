@@ -150,6 +150,17 @@ class MenuPresenter extends BasePresenter
     $this->sendJson($tmp);
   }
 
+  /** Vráti jednu položku hlavne_menu_lang */
+  public function actionGetOneMenuArticleSp(String $id): void
+  {
+    try {
+      $tmp = $this->hlavne_menu_lang->getOneArticleSpAPI($id, $this->id_reg);
+    } catch (DbTable\ArticleMainMenuException $e) {
+      $tmp = ['error' => $e->getCode()];
+    }
+    $this->sendJson($tmp);
+  }
+
   /** Akcia uloží okrajové rámčeky pre položku */
   public function actionSaveBorder(int $id): void
   {

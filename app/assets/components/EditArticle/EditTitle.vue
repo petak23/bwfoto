@@ -121,8 +121,7 @@ export default {
     </small>
     <div v-if="edit_enabled == '1'"
         class="btn-group btn-group-sm editable" 
-        role="group" 
-        aria-label="Button group with nested dropdown"
+        role="group"
     >
       <b-button
         variant="outline-warning"

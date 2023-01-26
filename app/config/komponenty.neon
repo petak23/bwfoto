@@ -54,11 +54,11 @@ parameters:
       jedinecna: TRUE
       parametre: NULL
 #---------------------------
-    fotocollage:
-      nazov: 'Foto koláž k článku'
-      jedinecna: FALSE  # Ci je mozne pridat len raz k clanku
-      fa_ikonka: 'images'
-      parametre: null
+#    fotocollage:
+#      nazov: 'Foto koláž k článku'
+#      jedinecna: FALSE  # Ci je mozne pridat len raz k clanku
+#      fa_ikonka: 'images'
+#      parametre: null
 #---------------------------
     fotopanorama:
       nazov: 'Fotopanorámi k článku'

@@ -23,5 +23,11 @@
   }{/embed}
 </article>
 <section id="webThumbnails" class="row">
-  {control fotocollage template=>'BWfoto'}
+  <div class="col-12 vue-fotogalery">
+    <fotocollage
+      article_id="{$article->id}"
+      base-path="{$baseUrl}"
+      maxrandompercwidth="25"
+    ></fotocollage>
+  </div>
 </section>

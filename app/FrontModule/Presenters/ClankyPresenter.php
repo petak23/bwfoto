@@ -17,7 +17,7 @@ use PeterVojtech;
 /**
  * Prezenter pre vypisanie clankov.
  * 
- * Posledna zmena(last change): 25.01.2023
+ * Posledna zmena(last change): 26.01.2023
  *
  *	Modul: FRONT
  *
@@ -25,7 +25,7 @@ use PeterVojtech;
  * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.4.8
+ * @version 1.4.9
  */
 
 class ClankyPresenter extends BasePresenter
@@ -34,7 +34,7 @@ class ClankyPresenter extends BasePresenter
   //  use PeterVojtech\Clanky\ZobrazKartyPodclankov\zobrazKartyPodclankovTrait;
   use PeterVojtech\Clanky\OdkazNaClanky\odkazNaClankyTrait;
   use PeterVojtech\Clanky\Fotogalery\fotogaleryTrait;
-  use PeterVojtech\Clanky\Fotocollage\fotocollageTrait;
+  //use PeterVojtech\Clanky\Fotocollage\fotocollageTrait;
   use PeterVojtech\Clanky\Fotopanorama\fotopanoramaTrait;
 
   /** @var DbTable\Clanok_komponenty @inject*/

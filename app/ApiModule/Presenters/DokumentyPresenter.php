@@ -10,7 +10,7 @@ use Nette\Utils\Strings;
 
 /**
  * Prezenter pre pristup k api dokumentov.
- * Posledna zmena(last change): 04.01.2023
+ * Posledna zmena(last change): 26.01.2023
  *
  * Modul: API
  *
@@ -18,7 +18,7 @@ use Nette\Utils\Strings;
  * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.8
+ * @version 1.0.9
  * 
  * @help 1.) https://forum.nette.org/cs/28370-data-z-post-request-body-reactjs-appka-se-po-ceste-do-php-ztrati
  */
@@ -305,5 +305,24 @@ class DokumentyPresenter extends BasePresenter
   public function actionGetPerPage(): void
   {
     $this->sendJson((int)$this->udaje->getValByName('documents_per_page', $this->user->id));
+  }
+
+  /**
+   * Vráti prílohy pre fotokoláž */
+  public function actionGetFotocollage(int $id): void
+  {
+    $this->sendJson($this->_ForCollage($this->documents->getForFotogalery($id)));
+  }
+
+  private function _ForCollage(array $att): array
+  {
+    $out = [];
+    foreach ($att as $k => $v) {
+      $out[] = [
+        'id_foto'  => $v['id'],
+        'source' => $this->template->basePath . "/" . $v['main_file'],
+      ];
+    }
+    return $out;
   }
 }
