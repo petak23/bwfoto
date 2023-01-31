@@ -1419,7 +1419,7 @@ CREATE TABLE `user_main` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Hlavné údaje užívateľa';
 
 INSERT INTO `user_main` (`id`, `id_user_roles`, `id_user_profiles`, `password`, `meno`, `priezvisko`, `email`, `activated`, `banned`, `ban_reason`, `new_password_key`, `new_password_requested`, `new_email`, `new_email_key`, `last_ip`, `created`, `modified`) VALUES
-(1,	5,	1,	'$2y$10$qyQp0ZLifZDtSJVz0W62XuOZM4xIZiCBrVN2YM6auzLnqjaY5q4ri',	'Peter',	'Vojtech',	'petak23@echo-msz.eu',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'188.112.123.214',	'2017-05-15 09:11:19',	'2023-01-20 09:37:28'),
+(1,	5,	1,	'$2y$10$qyQp0ZLifZDtSJVz0W62XuOZM4xIZiCBrVN2YM6auzLnqjaY5q4ri',	'Peter',	'Vojtech',	'petak23@echo-msz.eu',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'188.112.72.165',	'2017-05-15 09:11:19',	'2023-01-31 10:23:23'),
 (2,	4,	2,	'$2y$10$0KPg/2sE8I5EjAsgolRttulqhQPsUoVrhIHAxX8Ej3NAOHGuZIbW.',	'Juraj',	'Zámečník',	'bwfoto@bwfoto.sk',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.143.103.217',	'2017-05-15 09:13:38',	'2022-03-14 22:12:07'),
 (3,	4,	3,	'$2y$10$rrhoDAbAniSaH5IxLhobiO4ym.Qt83LdCyDUyXkw/TQCiNebhwjkq',	'Jozef',	'Petrenčík',	'tatravisual@tatravisual.sk',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL,	'178.253.139.152',	'2017-05-15 09:12:22',	'2017-07-11 07:10:29');
 
@@ -1546,7 +1546,9 @@ INSERT INTO `user_prihlasenie` (`id`, `id_user_main`, `log_in_datetime`) VALUES
 (222,	1,	'2022-11-09 15:11:06'),
 (223,	1,	'2022-11-19 14:20:56'),
 (224,	1,	'2022-11-23 13:52:13'),
-(225,	1,	'2023-01-20 10:37:28');
+(225,	1,	'2023-01-20 10:37:28'),
+(226,	1,	'2023-01-23 16:09:59'),
+(227,	1,	'2023-01-31 11:23:23');
 
 DROP TABLE IF EXISTS `user_profiles`;
 CREATE TABLE `user_profiles` (
@@ -1564,7 +1566,7 @@ CREATE TABLE `user_profiles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 INSERT INTO `user_profiles` (`id`, `rok`, `telefon`, `poznamka`, `pocet_pr`, `pohl`, `prihlas_teraz`, `avatar`, `news`, `news_key`) VALUES
-(1,	NULL,	NULL,	NULL,	120,	'M',	'2023-01-20 10:37:28',	NULL,	'A',	'$2y$10$cukOQnmZahKNwUmxXbVKyOYjx0MIfj9gDs6ovQPTHrcmqTQG/JzRi'),
+(1,	NULL,	NULL,	NULL,	122,	'M',	'2023-01-31 11:23:23',	NULL,	'A',	'$2y$10$cukOQnmZahKNwUmxXbVKyOYjx0MIfj9gDs6ovQPTHrcmqTQG/JzRi'),
 (2,	NULL,	NULL,	NULL,	105,	'M',	'2022-04-11 11:54:14',	NULL,	'A',	NULL),
 (3,	NULL,	NULL,	NULL,	0,	'M',	NULL,	NULL,	'A',	NULL);
 
@@ -1677,6 +1679,7 @@ INSERT INTO `verzie` (`id`, `id_user_main`, `cislo`, `subory`, `text`, `modified
 (32,	1,	'0.9.19',	'Uploadery, chyby',	'<p><span style=\"color:orange\">Aktualizované 03.05.2022:</span></p>\n\n<ul>\n	<li>Pridanie odkazu z článku na front-e priamo do administrácie.</li>\n</ul>\n\n<hr>\n\n<ul>\n	<li>Práce na vue single uploadery.</li>\n\n	<li>Práce na multi uploadery a upratovanie okolo.</li>\n\n	<li>Výmena funkcie strftime za date.</li>\n\n	<li>Oprava zadávania dátumu pri platnosti článku.</li>\n\n	<li>Presun komponenty pre zmenu okrajového rámčeka do vue.</li>\n\n	<li>Odstránenie chyby: User Deprecated Filter |noescape should be placed at the\n	very end.</li>\n\n	<li>Odstránenie chýb.</li>\n</ul>\n',	'2022-05-03 13:38:50'),
 (33,	1,	'0.9.30',	'mnoho',	'<ul>\n	<li>Vypustenie Ublaboo datagridu a nahradenie Vue komponentov.</li>\n\n	<li>Oprava vzhľadu na titulnej stránke.</li>\n\n	<li>Oprava drobných chýb.</li>\n</ul>\n',	'2022-06-16 12:46:38'),
 (34,	1,	'0.9.35',	'Príloha a produkty',	'<ul>\n	<li>Doplnenie tabuľky produktov a príloh o označovací stĺpec a možnosť\n	mazania viacerích položiek naraz.</li>\n</ul>\n',	'2022-06-28 10:53:46'),
-(35,	1,	'0.9.37',	'npm, composer',	'<ul>\n	<li>update npm</li>\n\n	<li>update composer</li>\n\n	<li>update Readme.md</li>\n</ul>\n',	'2022-11-09 14:12:14');
+(35,	1,	'0.9.37',	'npm, composer',	'<ul>\n	<li>update npm</li>\n\n	<li>update composer</li>\n\n	<li>update Readme.md</li>\n</ul>\n',	'2022-11-09 14:12:14'),
+(36,	1,	'0.9.43',	NULL,	'<p>Front modul:</p><ul><li><p>Spustenie testovacej prevádzky editácie textov a nadpisov článkov na frontend-e.</p></li><li><p>Pri textoch zmena spôsobu editácie z texy na editor TipTap čo je editor typu: <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://sk.wikipedia.org/wiki/WYSIWYG\">WYSIWYG.</a></p></li><li><p>Presun niektorých ponúk do vue.</p></li></ul><p>Admin modul:</p><ul><li><p>Výmena editora Texyla za TipTap vo verziách.</p></li></ul>',	'2023-01-20 10:10:51');
 
--- 2023-01-20 09:38:45
+-- 2023-01-31 10:23:44
