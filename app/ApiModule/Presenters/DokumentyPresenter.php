@@ -10,7 +10,7 @@ use Nette\Utils\Strings;
 
 /**
  * Prezenter pre pristup k api dokumentov.
- * Posledna zmena(last change): 26.01.2023
+ * Posledna zmena(last change): 31.01.2023
  *
  * Modul: API
  *
@@ -18,7 +18,7 @@ use Nette\Utils\Strings;
  * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.9
+ * @version 1.1.0
  * 
  * @help 1.) https://forum.nette.org/cs/28370-data-z-post-request-body-reactjs-appka-se-po-ceste-do-php-ztrati
  */
@@ -26,8 +26,12 @@ class DokumentyPresenter extends BasePresenter
 {
 
   // -- DB
-  /** @var DbTable\Dokumenty @inject */
+  /** @var DbTable\Hlavne_menu_lang @inject */
+  public $hlavne_menu_lang;
+  /** @var DbTable\dokumenty @inject */
   public $documents;
+  /** @var DbTable\products @inject */
+  public $products;
 
   /** @var String */
   public $wwwDir;
@@ -321,6 +325,43 @@ class DokumentyPresenter extends BasePresenter
       $out[] = [
         'id_foto'  => $v['id'],
         'source' => $this->template->basePath . "/" . $v['main_file'],
+      ];
+    }
+    return $out;
+  }
+
+  /**
+   * Načítanie príloh */
+  public function actionGetFotogalery(int $id): void
+  {
+    // Výber podčlánkov
+    $attachments = $this->_getForFotogalery($id);
+
+    // Prílohy
+    $attachments = array_merge($attachments, $this->documents->getForFotogalery($id));
+
+    // Produkty
+    $attachments = array_merge($attachments, $this->products->getForFotogalery($id));
+
+    $this->sendJson($attachments);
+  }
+
+  /**
+   * Funkcia pre fotogalériu
+   * @param int id Id_hlavne_menu */
+  private function _getForFotogalery(int $id): array
+  {
+    $out = [];
+    foreach ($this->hlavne_menu_lang->findBy(["hlavne_menu.id_nadradenej" => $id, "lang.skratka" => $this->language]) as $v) {
+      $av = 'files/menu/' . $v->hlavne_menu->avatar;
+      $out[] = [
+        'id' => $v->id,
+        'type' => 'menu',
+        'name' => $v->view_name,
+        'web_name' => $this->presenter->link(':Front:Clanky:', $v->id_hlavne_menu),
+        'description' => $v->anotacia,
+        'main_file' => ($av && is_file($av)) ? $av : 'ikonky/128/list_ceruza128.png',
+        'thumb_file' => ($av && is_file($av)) ? $av : 'ikonky/128/list_ceruza128.png',
       ];
     }
     return $out;

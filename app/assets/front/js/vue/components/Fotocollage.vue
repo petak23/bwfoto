@@ -1,13 +1,13 @@
 <script>
 /** 
  * Component Fotocollage
- * Posledná zmena(last change): 26.01.2023
+ * Posledná zmena(last change): 31.01.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.6
+ * @version 1.1.7
  * Z kniznica pouzite súbory a upravene: https://github.com/seanghay/vue-photo-collage
  */
 import PhotoCollageWrapper from "./vue-photo-collage/PhotoCollageWrapper.vue";
@@ -58,6 +58,7 @@ export default {
 				main_file: "",
 				description: null
 			},
+			id_sch: 0,
 			schstr: "",
 			schstr_old: "",
 			sch: [
@@ -151,6 +152,7 @@ export default {
 				.then(response => {
 					//this.article = response.data
 					this.sch = JSON.parse(response.data.text_c)
+					this.id_sch = JSON.parse(response.data.id)
 					this.schstr = JSON.stringify(this.sch, null, 2)
 					this.schstr_old = this.schstr
 					//console.log(this.sch)
@@ -181,7 +183,30 @@ export default {
 			try {
 				this.sch = JSON.parse(this.schstr)
 				this.computeLayout(this.$refs.imgDetail.clientWidth)
-				this.$bvModal.hide("edit-collage")
+				// Aby sa formulár odoslal, len ak je stačené tlačítko s class="sch-submit"
+				if (event.submitter.classList.contains("sch-submit")) {
+					let odkaz = this.basePath + '/api/menu/textssave/' + this.id_sch
+					let vm = this
+					let data = {
+						texts: this.schstr
+					}
+					axios.post(odkaz, data)
+						.then(function (response) {
+							//console.log(response.data)
+							vm.$root.$emit('flash_message', [{
+								'message': 'Schéma bola uložená.',
+								'type': 'success',
+								'heading': 'Podarilo sa...'
+							}])
+							setTimeout(() => {
+								vm.$bvModal.hide("edit-collage")
+							}, 500)
+						})
+						.catch(function (error) {
+							console.log(odkaz)
+							console.log(error)
+						});
+				}
 			}
 			catch (e) {
 				alert("Chybné zadanie schémy...");

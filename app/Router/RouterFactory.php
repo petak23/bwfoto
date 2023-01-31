@@ -8,13 +8,13 @@ use Nette\Application\Routers\RouteList;
 
 /**
  * Router
- * Posledna zmena 05.01.2023
+ * Posledna zmena 31.01.2023
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.8
+ * @version    1.0.9
  */
 class RouterFactory
 {
@@ -65,6 +65,7 @@ class RouterFactory
     $router->withModule('Api')
       ->addRoute('api/menu/<action>[/<id>[/<lmodule>]]', 'Menu:default')
       ->addRoute('api/user/<action>[/<id>]', 'User:default')
+      ->addRoute('api/lang/<action>[/<id>]', 'Lang:default')
       ->addRoute('api/documents/<action>[/<id>]', 'Dokumenty:default')
       ->addRoute('api/products/<action>[/<id>]', 'Products:default')
       ->addRoute('api/slider/<action>[/<id>]', 'Slider:default')

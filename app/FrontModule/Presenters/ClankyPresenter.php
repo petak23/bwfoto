@@ -17,7 +17,7 @@ use PeterVojtech;
 /**
  * Prezenter pre vypisanie clankov.
  * 
- * Posledna zmena(last change): 26.01.2023
+ * Posledna zmena(last change): 31.01.2023
  *
  *	Modul: FRONT
  *
@@ -25,7 +25,7 @@ use PeterVojtech;
  * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.4.9
+ * @version 1.5.0
  */
 
 class ClankyPresenter extends BasePresenter
@@ -33,8 +33,6 @@ class ClankyPresenter extends BasePresenter
 
   //  use PeterVojtech\Clanky\ZobrazKartyPodclankov\zobrazKartyPodclankovTrait;
   use PeterVojtech\Clanky\OdkazNaClanky\odkazNaClankyTrait;
-  use PeterVojtech\Clanky\Fotogalery\fotogaleryTrait;
-  //use PeterVojtech\Clanky\Fotocollage\fotocollageTrait;
   use PeterVojtech\Clanky\Fotopanorama\fotopanoramaTrait;
 
   /** @var DbTable\Clanok_komponenty @inject*/
@@ -156,6 +154,9 @@ class ClankyPresenter extends BasePresenter
 
       //Text článk pre neprihláseného užívateľa...
       $this->template->article_text = $this->_renderArticleText($this->zobraz_clanok->text_c);
+
+      //Ak je v odkaze parameter z vyhľadávania...
+      $this->template->first_id = isset($this->params['first_id']) ? $this->params['first_id'] : 0;
 
       $this->template->uroven = $this->zobraz_clanok->hlavne_menu->uroven + 2;
       $this->template->avatar = $this->zobraz_clanok->hlavne_menu->avatar;
