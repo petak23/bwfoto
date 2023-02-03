@@ -7,13 +7,13 @@ use Nette;
 /**
  * Model starajuci sa o tabulku hlavne_menu_lang
  * 
- * Posledna zmena 26.01.2023
+ * Posledna zmena 03.02.2023
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.1.9
+ * @version    1.2.0
  */
 class Hlavne_menu_lang extends Table
 {
@@ -29,6 +29,9 @@ class Hlavne_menu_lang extends Table
 
   private $www_dir;
 
+  /** @var Nette\Database\Table\Selection */
+  protected $hlavne_menu;
+
   public function __construct(
     string $dir_to_slider,
     string $www_dir,
@@ -37,6 +40,7 @@ class Hlavne_menu_lang extends Table
     parent::__construct($db);
     $this->avatar_path = $dir_to_slider;
     $this->www_dir = $www_dir;
+    $this->hlavne_menu = $this->connection->table("hlavne_menu");
   }
 
   /** Funkcia pre ziskanie info o konkretnom clanku na zaklade spec_nazov, language_id 
@@ -130,6 +134,11 @@ class Hlavne_menu_lang extends Table
    * Ulozi texty nadpisov pre daný jazyk */
   public function h1Save(int $id, array $values): bool
   {
+    if (isset($values['template'])) {
+      $_tmp = $this->find($id);
+      $this->hlavne_menu->get($_tmp->id_hlavne_menu)->update(['id_hlavne_menu_template' => $values['template']]);
+      unset($values['template']);
+    }
     return (bool)$this->uloz($values, $id);
   }
 
@@ -170,6 +179,7 @@ class Hlavne_menu_lang extends Table
         $out['modified'] = $tmp_article->hlavne_menu->modified->format('j.n.Y');
         $out['owner'] = $tmp_article->hlavne_menu->user_main->priezvisko;
         $out['avatar'] = isset($tmp_article->hlavne_menu->avatar) && is_file($this->avatar_path . $tmp_article->hlavne_menu->avatar) ? $this->avatar_path . $tmp_article->hlavne_menu->avatar : null;
+        $out['template'] = $tmp_article->hlavne_menu->id_hlavne_menu_template;
         return $out;
       } else {
         throw new ArticleMainMenuException("Missing permissions", self::MISSING_PERMISSIONS);

@@ -20,18 +20,18 @@
        class="btn btn-outline-success">
       <i class="fas fa-file"></i> {$admin_links['alink']['text']}
     </a>
-    <a n:if="$admin_links['elink']" 
+    {*<a n:if="$admin_links['elink']" 
        href="{plink $clanok->hlavne_menu->druh->presenter.':edit' $clanok->id_hlavne_menu}" 
        title="Zmeň nastavenie článku" 
        class="btn btn-outline-success">
       <i class="fas fa-pencil-alt"></i> Zmeň nastavenie
-    </a>
-    <a n:if="$admin_links['elink'] && $clanok->hlavne_menu->id_druh == 1" 
+    </a>*}
+    {*<a n:if="$admin_links['elink'] && $clanok->hlavne_menu->id_druh == 1" 
        href="{plink Clanky:edit2 $clanok->id_hlavne_menu}" 
        title="Zmeň text článku" 
        class="btn btn-outline-success">
       <i class="fas fa-file-alt"></i> Zmeň text
-    </a>
+    </a>*}
     <a n:if="$admin_links['dlink']" 
        href="{plink confirmForm:confirmDelete! id => $clanok->id_hlavne_menu, druh=>'', nazov=>$clanok->view_name, zdroj_na_zmazanie=>'článok'}" 
        title="Vymazanie článku" 

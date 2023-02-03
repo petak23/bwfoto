@@ -2,7 +2,7 @@
  *
  * Modul: FRONT
  *
- * Posledna zmena(last change): 25.01.2023
+ * Posledna zmena(last change): 03.02.2023
  * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
@@ -23,13 +23,9 @@
   }{/embed}
 </article>
 <section id="webThumbnails" class="row">
-  {control fotopanorama template=>'BWfoto', large=>true}
-  {*<div class="col-12 vue-fotogalery">
-    <fotogalery
-      first_id={$first_id}
-      large="large"
-      base-path={$basePath}
-      article_id={$article->id_hlavne_menu}
-    ></fotogalery>
-  </div>*}
+  <fotopanorama
+    article_id="{$article->id_hlavne_menu}"
+    base-path="{$basePath}"
+    first_id={$first_id}
+  ></fotopanorama>
 </section>

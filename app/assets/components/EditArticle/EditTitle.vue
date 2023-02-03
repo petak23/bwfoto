@@ -40,8 +40,10 @@ export default {
       art_title: {
         menu_name: '',
         h1part2: '',
-        view_name: ''
+        view_name: '',
+        template: 0
       },
+      templates: null,
     }
   },
   methods: {
@@ -62,7 +64,8 @@ export default {
         let data = {
               menu_name: this.art_title.menu_name,
               h1part2: this.art_title.h1part2,
-              view_name: this.art_title.view_name
+              view_name: this.art_title.view_name,
+              template: this.art_title.template,
             }
         axios.post(odkaz, {
             article: data
@@ -98,6 +101,7 @@ export default {
         this.art_title.menu_name = this.article.menu_name
         this.art_title.h1part2 = this.article.h1part2
         this.art_title.view_name = this.article.view_name
+        this.art_title.template = this.article.template
       }
     }
   },
@@ -106,9 +110,22 @@ export default {
       this.art_title.menu_name = this.article.menu_name
       this.art_title.h1part2 = this.article.h1part2
       this.art_title.view_name = this.article.view_name
+      this.art_title.template = this.article.template
     }
   },
-  mounted() {},
+  mounted() {
+    // Načítanie údajov priamo z DB
+    let odkaz = this.basePath + '/api/menu/getforformtemplate'
+    axios.get(odkaz)
+      .then(response => {
+        this.templates = response.data
+        //console.log(this.article)
+      })
+      .catch((error) => {
+        console.log(odkaz);
+        console.log(error);
+      });
+  },
 }
 </script>
 
@@ -193,6 +210,16 @@ export default {
             v-model="art_title.h1part2"
             type="text"
           ></b-form-input>
+        </b-form-group>
+        <b-form-group
+          id="input-group-3"
+          label="Použitá šablóna:"
+          label-for="template"
+        >
+          <b-form-select 
+            id="template"
+            v-model="art_title.template" :options="templates">
+          </b-form-select>
         </b-form-group>
         <b-button type="submit" variant="success" class="main-submit">Ulož</b-button>&nbsp;
         <b-button type="reset" variant="secondary" class="main-reset">Cancel</b-button>

@@ -23,6 +23,8 @@ import BwfotoTreeMain from './components/Menu/BWfoto_Tree_Main.vue'
 import VueDndZone from 'vue-dnd-zone'
 import 'vue-dnd-zone/vue-dnd-zone.css'
 import Vuetify from 'vuetify'
+import store from "./store/index.js"
+import MainMenu from './components/Menu/MainMenu.vue'
 
 // Make BootstrapVue available throughout your project
 Vue.use(BootstrapVue);
@@ -35,6 +37,7 @@ Vue.use(Vuetify);
 
 let vm = new Vue({
   el: '#vueapp',
+  store,
   components: { 
     Slider, 
     Autocomplete,
@@ -45,5 +48,6 @@ let vm = new Vue({
     Fotopanorama,
     Menucardorder,
     BwfotoTreeMain,
+    MainMenu,
   },
 });   

@@ -56,6 +56,12 @@
   <div class="frame">
     {* ----- ZACIATOK content - centralna cast, obsahova sekcia ----- *}
     <section id="webContent">
+      {var $main_menu_active = isset($article->id_hlavne_menu) ? $article->id_hlavne_menu : 0}
+      {*<main-menu
+        main_menu_active="{$main_menu_active}"
+        base-path="{$basePath}"
+      >
+      </main-menu>*}
       {control menu templateType=>'nav', templateFile=>'BWfoto_Nav_Breadcrumb', level=>1}
       {control confirmForm}
       <flash-message

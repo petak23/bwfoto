@@ -1,11 +1,8 @@
 /* 
  * @author: Mgr. Jozef Petrenčík
  * @last update: Ing. Peter Vojtech ml. <petak23@gmail.com>
- * @last update: 24.02.2021 
- */
-
-/* @charset "utf-8"; */ /* Vymazané PV 27.02.2021 */
-/* Bwfoto main CSS Document */
+ * @last update: 02.02.2023 
+ * Bwfoto main CSS Document */
 
 :root{
 	font-size: calc(.6rem + .5vw);
@@ -16,9 +13,16 @@ body{
 	background-image: url("./images/bg-site.jpg");
 	background-repeat: repeat-x;
 	background-color: black;
+	background-size: 175vh;
 	margin: 0;
 	color: #ddd;
 }
+@media (min-width: 576px) {
+	body {
+		background-size: auto;
+	}
+}
+
 
 p{
 	font-weight: 300;
@@ -31,9 +35,12 @@ a:hover{
 }
 .white-curtain{
 	background-color: rgba(250,250,250,0.60);
+	background: linear-gradient(to bottom, rgba(250, 250, 250, 0.60) 65%, transparent);
 }
 .black-curtain{
 	background-color: rgba(0,0,0,0.60);
+	background: linear-gradient(to top, rgba(250, 250, 250, 0.60) 65%, transparent);
+	color: #212529 !important;
 }
 
 /* navigácia */
@@ -142,6 +149,9 @@ nav .form-control {
 }
 #webParts-md .part-small {
 	background-color: #996600;
+	background:
+			linear-gradient(to top, transparent,
+				lightgreen 25%, rgb(0, 127, 0) 50%);
 	padding: 1rem;
 	margin-top: .5rem;
 }
@@ -173,13 +183,8 @@ nav .form-control {
 	outline-offset: -.8rem;
 }
 #squarePlace{
-	/*height: 80vh;*/ /* Vymazané PV 27.02.2021 */
-	
-	/* Doplnené PV 27.02.2021 */
 	max-width: 80vh;
 	max-height: 80vh;
-	/* Koniec doplneného PV 27.02.2021 */
-	
 	background-color: rgba(44,44,44,1.00);
 	position: relative;
 }
@@ -190,34 +195,6 @@ nav .form-control {
   	left: 50%;
   	transform: translate(-50%, -50%);
 }
-/* Presunuté do vue_fotogalery.css PV 11.03.2021
-.thumbgrid{
-	display: grid;
-	grid-template-columns: repeat(1, 1fr);
-	grid-gap: 0.5rem;
-	max-height: 90vh;
-	overflow: auto;
-  max-height: 80vh;
-  grid-auto-rows: 7rem;
-}
-.thumbgrid > div{
-  position: relative;
-  background-color: rgba(44,44,44,1.00);
-  padding: 1rem;
-}
-.thumbgrid > div::before{
-  content: "";
-  padding-top: 100%;
-  display: block;
-}
-.thumbgrid img{
-  position: absolute;
-  max-width: 90%; max-height: 90%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  border: solid 3px #ddd;
-} */
 
 /* footer */
 footer{
@@ -269,35 +246,6 @@ footer .pv-footer a{
 	#webParts-md figure{
 		height: 45vh;
 	}
-	
-	/* male nahlady mriezka */
-	/*#webThumbnails{
-		
-	}*/
-	
-	/* Presunuté do vue_fotogalery.css PV 11.03.2021
-	.thumbgrid{
-			grid-template-columns: repeat(2, 1fr);
-	}*/
-
-		/*.thumbgrid > div{    /* Vymazané PV 27.02.2021*/
-		/*	position: relative;
-			background-color: rgba(44,44,44,1.00);
-			padding: 1rem;
-		}
-		.thumbgrid > div::before{
-			content: "";
-			padding-top: 100%;
-			display: block;
-		}
-		.thumbgrid img{
-			position: absolute;
-  	max-width: 90%; max-height: 90%;
-  	top: 50%;
-  	left: 50%;
-  	transform: translate(-50%, -50%);
-			border: solid 3px #ddd;
-		}*/
 }
 
 @media (min-width: 768px) {
@@ -373,7 +321,8 @@ footer .pv-footer a{
 			object-position: top;
 	}
 	#webParts .part-small {
-		background-color: #996600;
+		/*background-color: #996600;*/
+		background: linear-gradient(to bottom, transparent, rgba(153, 102, 0, .7) 20%, rgb(153, 102, 0) 50%);
 		height: 55px !important;
 	}
 	.thumbgrid{

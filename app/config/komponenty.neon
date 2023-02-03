@@ -44,18 +44,8 @@ parameters:
       jedinecna: TRUE
       parametre: NULL
 #---------------------------
-    fotopanorama:
-      nazov: 'Fotopanorámi k článku'
-      jedinecna: FALSE  # Ci je mozne pridat len raz k clanku
-      fa_ikonka: 'images'
-      parametre:
-        template:
-          nazov: 'Názov vzhľadu'
-#---------------------------
+
 services:
 
 # Component Clanky\OdkazNaClanky
   - PeterVojtech\Clanky\OdkazNaClanky\IOdkazNaClankyControl
-
-# Component Clanky\Fotopanorama
-  - PeterVojtech\Clanky\Fotopanorama\IFotopanoramaControl
