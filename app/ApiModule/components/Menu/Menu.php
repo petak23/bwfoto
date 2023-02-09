@@ -333,6 +333,7 @@ class Menu extends Nette\Application\UI\Control
 				'name' => $node->name,
 				'children' => $this->_anode($node, $level + 1),
 				'link' => $node->link,
+				'class' => $node->node_class,
 			];
 		}
 		return $out;
@@ -354,6 +355,7 @@ class Menu extends Nette\Application\UI\Control
 					'name' => $no->name,
 					'children' => $subn,
 					'link' => $no->link,
+					'class' => $node->node_class,
 				];
 				unset($subn);
 			}

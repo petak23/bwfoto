@@ -32,6 +32,12 @@
 </head>
 <body>
 <div v-cloak id="vueapp">
+  {var $main_menu_active = isset($article->id_hlavne_menu) ? $article->id_hlavne_menu : 0}
+  <main-menu-load
+    main_menu_active="{$main_menu_active}"
+    base-path="{$basePath}"
+  >
+  </main-menu-load>
   <nav id="topNav" class="navbar navbar-expand-md fixed-top">
 		<a class="navbar-brand ml-sm-5 p-3 logo" n:href="Homepage:" title="home">
       <img src="{$basePath}/{$nastavenie['dir_to_images']}logo_bw-g.png" alt="logo bw foto" class="logo">
@@ -56,13 +62,12 @@
   <div class="frame">
     {* ----- ZACIATOK content - centralna cast, obsahova sekcia ----- *}
     <section id="webContent">
-      {var $main_menu_active = isset($article->id_hlavne_menu) ? $article->id_hlavne_menu : 0}
-      {*<main-menu
-        main_menu_active="{$main_menu_active}"
-        base-path="{$basePath}"
-      >
+      {*<main-menu>
       </main-menu>*}
-      {control menu templateType=>'nav', templateFile=>'BWfoto_Nav_Breadcrumb', level=>1}
+      {*control menu templateType=>'nav', templateFile=>'BWfoto_Nav_Breadcrumb', level=>1*}
+      <breadcrumb
+        homepage="{plink 'Homepage:'}"
+      ></breadcrumb>
       {control confirmForm}
       <flash-message
         flash-messages="{($flashes|to_json)}"

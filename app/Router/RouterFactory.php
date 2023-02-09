@@ -8,13 +8,13 @@ use Nette\Application\Routers\RouteList;
 
 /**
  * Router
- * Posledna zmena 31.01.2023
+ * Posledna zmena 07.02.2023
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.9
+ * @version    1.1.0
  */
 class RouterFactory
 {
@@ -95,6 +95,7 @@ class RouterFactory
           }
         ],
       ])
+      ->addRoute('homepage/section[/id]', 'Homepage:default')
       ->addRoute('forgottenPassword', 'User:forgottenPassword')
       ->addRoute('profile', 'UserLog:default')
       ->addRoute('registration', 'User:registracia')

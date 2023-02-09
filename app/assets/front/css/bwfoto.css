@@ -35,7 +35,7 @@ a:hover{
 }
 .white-curtain{
 	background-color: rgba(250,250,250,0.60);
-	background: linear-gradient(to bottom, rgba(250, 250, 250, 0.60) 65%, transparent);
+	background: linear-gradient(to top, rgba(250, 250, 250, 0.60) 65%, transparent);
 }
 .black-curtain{
 	background-color: rgba(0,0,0,0.60);
@@ -114,30 +114,30 @@ nav .form-control {
 	display: none;
 }
 #webParts-md{
-		display: flex;
-		margin: 0 auto 2rem auto;
-		flex: 1 1 auto;
-	}
-	#webParts-md figure{
-		position: relative;
-		height: 40vh;
-	}
-	#webParts-md figcaption{
-		position: absolute;
-		bottom: 0px;
-	}
-	#webParts-md h2{
-		font-size: 1.2rem;
-		transition: font-size 0.3s;
-		margin: 0;
-	}
-	#webParts-md figure:hover figcaption h2{
-		font-size: 1.3rem;
-		text-decoration: underline;
-	}
-	#webParts-md .flex-column figcaption{
-		bottom: 0px;
-	}
+	display: flex;
+	margin: 0 auto 2rem auto;
+	flex: 1 1 auto;
+}
+#webParts-md figure.w-img{
+	position: relative;
+	height: 30vh;
+}
+#webParts-md figcaption{
+	position: absolute;
+	bottom: 0px;
+}
+#webParts-md h2{
+	font-size: 1.2rem;
+	transition: font-size 0.3s;
+	margin: 0;
+}
+#webParts-md figure:hover figcaption h2{
+	font-size: 1.3rem;
+	text-decoration: underline;
+}
+#webParts-md .flex-column figcaption{
+	bottom: 0px;
+}
 #webParts .row, #webParts-md .row{
 		margin-left: 0;
 }
@@ -149,9 +149,7 @@ nav .form-control {
 }
 #webParts-md .part-small {
 	background-color: #996600;
-	background:
-			linear-gradient(to top, transparent,
-				lightgreen 25%, rgb(0, 127, 0) 50%);
+	background: linear-gradient(to bottom, transparent, rgba(153, 102, 0, .7) 20%, rgb(153, 102, 0) 50%);
 	padding: 1rem;
 	margin-top: .5rem;
 }
@@ -243,7 +241,7 @@ footer .pv-footer a{
 	#webAlbums h3{
 		font-size: 1.5rem;
 	}
-	#webParts-md figure{
+	#webParts-md figure, #webParts-md figure.w-img{
 		height: 45vh;
 	}
 }
@@ -259,8 +257,8 @@ footer .pv-footer a{
     padding-left: 0;
   }
 	nav .fa-binoculars{
-	color: black;
-}
+		color: black;
+	}
 		footer #logoBWfoto {
 		border-right: 1px solid #777;
 		text-align: right;
@@ -321,9 +319,15 @@ footer .pv-footer a{
 			object-position: top;
 	}
 	#webParts .part-small {
-		/*background-color: #996600;*/
+		background-color: #996600;
 		background: linear-gradient(to bottom, transparent, rgba(153, 102, 0, .7) 20%, rgb(153, 102, 0) 50%);
 		height: 55px !important;
+	}
+	#webParts .flex-column-reverse .part-small {
+		background: linear-gradient(to top, transparent, rgba(153, 102, 0, .7) 20%, rgb(153, 102, 0) 50%);
+	}
+	.white-curtain {
+		background: linear-gradient(to bottom, rgba(250, 250, 250, 0.60) 65%, transparent);
 	}
 	.thumbgrid{
 			grid-template-columns: repeat(3, 1fr);
@@ -334,4 +338,30 @@ footer .pv-footer a{
   #webAlbums{
 		justify-content: left;
 	}
+}
+
+.dropdown-menu {
+	background-color: #ccc;
+}
+.dropdown-menu a {
+	color: #333;
+}
+.dropdown-item {
+	color: #333 !important;
+}
+.dropdown > button {
+	padding: 0;
+	color: #ccc;
+}
+.dropdown .dropdown-toogle {
+	background-color: transparent !important;
+}
+.breadcrumb-item::before {
+	padding-top: .2rem;
+}
+.breadcrumb-item.active {
+	padding-top: .2rem;
+}
+.breadcrumb-item.active::before{
+	padding-top: 0;
 }

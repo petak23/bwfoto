@@ -24,7 +24,9 @@ import VueDndZone from 'vue-dnd-zone'
 import 'vue-dnd-zone/vue-dnd-zone.css'
 import Vuetify from 'vuetify'
 import store from "./store/index.js"
+import MainMenuLoad from "./components/Menu/MainMenuLoad.vue"
 import MainMenu from './components/Menu/MainMenu.vue'
+import Breadcrumb from './components/Menu/Breadcrumb.vue'
 
 // Make BootstrapVue available throughout your project
 Vue.use(BootstrapVue);
@@ -49,5 +51,7 @@ let vm = new Vue({
     Menucardorder,
     BwfotoTreeMain,
     MainMenu,
+    MainMenuLoad,
+    Breadcrumb,
   },
 });   

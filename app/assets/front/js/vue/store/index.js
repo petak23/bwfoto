@@ -8,6 +8,7 @@ export default new Vuex.Store({
   state: {
     main_menu: [],
     main_menu_open: [],
+    main_menu_active: 0,
     //admin_menu: [],
     //user: {},
   },
@@ -23,6 +24,9 @@ export default new Vuex.Store({
     },
     SET_REVERSE_MAIN_MENU_OPEN (state) {
       state.main_menu_open.reverse()
+    },
+    SET_MAIN_MENU_ACTIVE (state, main_menu_active) {
+      state.main_menu_active = main_menu_active
     },
     /*SET_INIT_USER (state, user) {
       state.user = user

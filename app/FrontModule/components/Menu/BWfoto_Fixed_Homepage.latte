@@ -9,7 +9,7 @@
 {/define}
 
 {define #figure}
-<figure n:class="isset($main_class) ? $main_class">
+<figure n:class="w-img, isset($main_class) ? $main_class">
   <a href="{$node->link}" title="{$node->name}">
     <img src="{$basePath}/{$avatar}" class="img-fluid" alt="{$node->name}">
     <figcaption class="text-center w-100">
@@ -49,9 +49,9 @@
       {if $k == 3}
       <div class="col-md d-flex flex-column justify-content-between">
         {include #figure node => $node, avatar => $avatar, if_part => true}
-        <figure class="d-flex flex-column justify-content-between">
+        <figure class="d-flex flex-column justify-content-start justify-content-md-between">
       {else}  
-        {include #part-small node => $node, main_class => 'h-25', is_bolder => $k == 5}
+        {include #part-small node => $node, main_class => 'h-md-25', is_bolder => $k == 5}
       {/if}
       {if $k == 6}
         </figure>
