@@ -1,13 +1,13 @@
 <script>
 /** 
  * Component Fotocollage
- * Posledná zmena(last change): 31.01.2023
+ * Posledná zmena(last change): 14.01.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.7
+ * @version 1.1.8
  * Z kniznica pouzite súbory a upravene: https://github.com/seanghay/vue-photo-collage
  */
 import PhotoCollageWrapper from "./vue-photo-collage/PhotoCollageWrapper.vue";
@@ -56,11 +56,14 @@ export default {
 			image: {
 				name: "",
 				main_file: "",
-				description: null
+				description: null,
+				id_collage: 0,
 			},
 			id_sch: 0,
 			schstr: "",
 			schstr_old: "",
+			text_before: 'Pred',
+			text_after: 'Po',
 			sch: [
 				/*{
 					// Max. šírka koláže pre ktorú platí
@@ -104,6 +107,7 @@ export default {
 			axios.get(odkaz)
 							.then(response => {
 								this.image = response.data
+								this.image.id_collage = data.id
 								this.$bvModal.show("modal-multi-1")
 							})
 							.catch((error) => {
@@ -146,7 +150,7 @@ export default {
 			this.collage.maxRandomPercWidth = parseInt(this.maxrandompercwidth)
 			this.collage.widerPhotoId = res.widerPhotoId
 		},
-		loadSchema: function () {
+		loadSchema() {
 			let odkaz = this.basePath + '/api/menu/getonemenuarticlesp/fotocollage-settings'
 			axios.get(odkaz)
 				.then(response => {
@@ -163,7 +167,7 @@ export default {
 					console.log(error);
 				});
 		},
-		loadPictures: function () {
+		loadPictures() {
 			// Načítanie údajov priamo z DB
 			let odkaz = this.basePath + '/api/documents/getfotocollage/' + this.article_id
 			axios.get(odkaz)
@@ -217,7 +221,36 @@ export default {
 			event.preventDefault()
 			this.schstr = this.schstr_old
 			this.$bvModal.hide("edit-collage")
-		}
+		},
+		keyPush(event) {
+			if (this.uroven <= 1) {
+				switch (event.key) {
+					case "ArrowLeft":
+						this.before();
+						break;
+					case "ArrowRight":
+						this.after();
+						break;
+				}
+			}
+		},
+		// Zmena id na predošlé
+		before() {
+			let id = this.image.id_collage <= 0 ? (this.attachments.length - 1) : this.image.id_collage - 1
+			this.itemClickHandler({
+				id: id,
+				id_foto: this.attachments[id].id_foto
+			}, 1)
+		},
+		// Zmena id na  nasledujúce
+		after() {
+			this.id = this.id >= (this.attachments.length - 1) ? 0 : this.id + 1;
+			let id = this.image.id_collage >= (this.attachments.length - 1) ? 0 : this.image.id_collage + 1
+			this.itemClickHandler({
+				id: id,
+				id_foto: this.attachments[id].id_foto
+			}, 1)
+		}, 
 	},
 	created() {
 		window.addEventListener("resize", this.matchHeight);
@@ -292,7 +325,7 @@ export default {
 							ref="modal1fo">
 			<div class="modal-content">
 				<div class="modal-body my-img-content">  
-					<img :src="basePath + image.main_file" 
+					<img :src="basePath + '/' + image.main_file" 
 								:alt="image.name" 
 								id="big-main-img"
 								class="" />
@@ -300,7 +333,23 @@ export default {
 						{{ image.description }}
 					</div>
 				</div>
-				
+				<div class="arrows-overlay">
+					<div class="arrows-l" @click="before">
+						<a href="#" class="text-light" :title="text_before">&#10094;
+						</a>
+					</div>
+					<div class="go-to-hight" v-touch="{
+											left: () => swipe('Left'),
+											right: () => swipe('Right'),
+											up: () => swipe('Up'),
+											down: () => swipe('Down')
+										}">
+					</div>
+					<div class="arrows-r flex-row-reverse" @click="after">
+						<a href="#" class="text-light" :title="text_after">&#10095;
+						</a>
+					</div>
+				</div>
 			</div>
 		</b-modal>
 	</span>
