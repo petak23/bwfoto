@@ -18,7 +18,7 @@ axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 export default {
 	props: {
-		basePath: {
+		apiPath: {
 			type: String,
 			required: true
 		},
@@ -55,7 +55,7 @@ export default {
 			})
 		},
 		getMenu() {
-			let odkaz = this.basePath + '/api/menu/getmenu/0/Front'
+			let odkaz = this.apiPath + 'menu/getmenu/0/Front'
 			axios.get(odkaz)
 				.then(response => {
 					this.$store.commit('SET_INIT_MAIN_MENU', this.convert(response.data))

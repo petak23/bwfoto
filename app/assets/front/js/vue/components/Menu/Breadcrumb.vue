@@ -1,31 +1,18 @@
 <script>
 /**
  * Komponenta pre navigáciu "odrobinky".
- * Posledna zmena 07.02.2023
+ * Posledna zmena 14.02.2023
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.0
+ * @version    1.0.1
  */
 
-import vuetify from '@/front/js/vue/plugins/vuetify'
-//import vuetify from 'vuetify'
-import axios from 'axios'
-
-
-//for Tracy Debug Bar
-axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-
 export default {
-	vuetify,
 	components: {},
 	props: {
-		//basePath: {
-		//	type: String,
-		//	required: true
-		//},
 		homepage: {
 			type: String,
 			required: true,
@@ -53,7 +40,6 @@ export default {
 					}
 				}
 			})
-			//return su
 		},
 		getBreadcrumb() {
 			this.getItem(this.$store.state.main_menu, this.$store.state.main_menu_open, 0)

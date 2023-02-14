@@ -1,13 +1,13 @@
 <script>
 /** 
  * Component EditArticle
- * Posledná zmena(last change): 23.01.2023
+ * Posledná zmena(last change): 14.02.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.1
+ * @version 1.0.2
  * 
  */
 import EditTitle from "./EditTitle.vue";
@@ -18,7 +18,14 @@ axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 export default {
 	props: {
-		basePath: String,
+		apiPath: { // Cesta k API
+			type: String,
+			required: true
+		},
+		filesPath: { // Adresár k súborom vrátanekoncového lomítka
+			type: String,
+			required: true
+		}, 
 		article_id: String, // hlavne_menu_lang.id
 		title: String,
 		title_text: String,
@@ -50,7 +57,7 @@ export default {
 	mounted() {
 		if (this.article_id !== "0") { // Len pri editácii
 			// Načítanie údajov priamo z DB
-			let odkaz = this.basePath + '/api/menu/getonemenuarticle/' + this.article_id
+			let odkaz = this.apiPath + 'menu/getonemenuarticle/' + this.article_id
 			axios.get(odkaz)
 						.then(response => {
 							this.article = response.data
@@ -82,20 +89,20 @@ export default {
 	<span>
 		<div class="page-header">
 			<div  class="col-sm-12 col-md-3" v-if="(parseInt(article_avatar_view_in) & 2) && article.avatar != null">
-				<img  :src="basePath + '/www/' + article.avatar" 
+				<img  :src="filesPath + 'www/' + article.avatar" 
 							alt="Title image"
 							class="img-fluid"
 				>
 			</div>
 			<edit-title
-				:base-path="basePath"
+				:api-path="apiPath"
 				:title="title"
 				:title_text="title_text"
 				:title_admin="title_admin"
 				:title_last_change="title_last_change"
 				:title_platnost_do="title_platnost_do"
 				:title_zadal="title_zadal"
-				:edit_enabled="1"
+				:edit_enabled="parseInt(edit_enabled)"
 				:article="article"
 				:link="link"
 				:link_to_admin="link_to_admin"

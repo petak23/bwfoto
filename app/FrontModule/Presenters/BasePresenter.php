@@ -218,6 +218,10 @@ abstract class BasePresenter extends Presenter
 	public function beforeRender()
 	{
 		$this->getComponent('menu')->selectByUrl($this->link('this'));
+
+		// Cesta k API pre vue aplikácie
+		$this->template->apiPath = $this->template->basePath . '/api/';
+
 		$this->template->title = $this->udaje_webu['titulka'];
 		$this->template->description = $this->udaje_webu['description'];
 		$this->template->keywords = $this->udaje_webu['keywords'];

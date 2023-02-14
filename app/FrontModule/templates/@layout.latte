@@ -35,7 +35,7 @@
 	{var $main_menu_active = isset($article->id_hlavne_menu) ? $article->id_hlavne_menu : 0}
 	<main-menu-load
 		main_menu_active="{$main_menu_active}"
-		base-path="{$basePath}"
+		api-path="{$apiPath}"
 	>
 	</main-menu-load>
 	<nav id="topNav" class="navbar navbar-expand-md fixed-top">
@@ -50,12 +50,12 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<bwfoto-tree-main 
-				base-path="{$basePath}"
+				api-path="{$apiPath}"
 				part="-2" 
 			/>
 			<autocomplete
 				link="{link Clanky:}/"
-				base-path={$basePath}
+				api-path={$apiPath}
 			></autocomplete>
 			{control langMenu}
 		</div>
@@ -82,7 +82,7 @@
 			{* --- Mapa stranky --- *}
 			<nav class="w-100">
 				<bwfoto-tree-main 
-					base-path="{$basePath}"
+					api-path="{$apiPath}"
 					part="-1" 
 					ul-class="nav text-center justify-content-center py-3"
 				/>

@@ -19,9 +19,13 @@ export default {
 			default: "0",
 		},
 		large: String,
-		basePath: {
+		apiPath: { // Cesta k API
 			type: String,
 			required: true,
+		},
+		filesPath: { // Adresár k súborom
+			type: String,
+			required: true
 		},
 		article_id: String,
 	},
@@ -105,11 +109,11 @@ export default {
 		},
 		// Generovanie url pre lazyloading obrázky
 		getImageUrl(text) {
-			return this.basePath + "/" + text
+			return this.filesPath + text
 		},
 		// Načítanie prekladov textov
 		getTexts() {
-			let odkaz = this.basePath + '/api/lang/gettexts'
+			let odkaz = this.apiPath + 'lang/gettexts'
 			let vm = this
 			let data = {
 				texts: ['galery_arrows_before', 'galery_arrows_after']
@@ -130,7 +134,7 @@ export default {
 			return "border: " + pom[1] + "px solid " + (pom[0].length > 2 ? (pom[0]) : "inherit")
 		},
 		getMainArticle() {
-			let odkaz = this.basePath + '/api/menu/getonehlavnemenuarticle/' + this.article_id
+			let odkaz = this.apiPath + 'menu/getonehlavnemenuarticle/' + this.article_id
 			axios.get(odkaz)
 				.then(response => {
 					this.article = response.data
@@ -142,7 +146,7 @@ export default {
 				});
 		},
 		getAttachments() {
-			let odkaz = this.basePath + '/api/documents/getfotogalery/' + this.article_id
+			let odkaz = this.apiPath + 'documents/getfotogalery/' + this.article_id
 			axios.get(odkaz)
 				.then(response => {
 					//console.log(response.data)
@@ -172,15 +176,8 @@ export default {
 		window.removeEventListener("resize", this.matchHeight);
 	},
 	computed: {
-		// Parsovanie JSON-u  na array
-		/*attachments() {
-			return JSON.parse(this.attachments)
-		},*/
 		large_thumbs() {
 			return this.large == "large"
-		},
-		base_a_path() {
-			return this.basePath + "/"
 		},
 		border_a() {
 			return this.border_compute(this.article.border_a)
@@ -219,9 +216,16 @@ export default {
 <template>
 <div class="main-win" v-if="attachments.length > 0">
 	<div class="row" v-if="wid > 0">
-		<h4 class="col-12 bigimg-name">
+		<h4 class="col-8 bigimg-name d-flex justify-content-between">
 			{{ attachments[id].name }}
+			<button 
+				v-if="attachments[id].type == 'product'"
+				type="button"
+				class="btn btn-outline-warning align-right">
+				P
+			</button>
 		</h4>
+		<div class="col-4">&nbsp;</div>
 	</div>
 	<div class="row">
 		<div class="d-none d-sm-flex justify-content-center col-sm-8 detail" ref="imgDetail" id="imgDetail"
@@ -231,30 +235,30 @@ export default {
 				<a  v-if="attachments[id].type == 'menu'"
 						:href="attachments[id].web_name" 
 						:title="attachments[id].name">
-					<img  :src="base_a_path + attachments[id].main_file" 
+					<img  :src="filesPath + attachments[id].main_file" 
 								:alt="attachments[id].name" class="img-fluid">
 					<h4>{{ attachments[id].name }}</h4>
 				</a>
 				<video v-if="attachments[id].type == 'attachments3'"
 							class="video-priloha" 
-							:src="base_a_path + attachments[id].main_file" 
-							:poster="base_a_path + attachments[id].thumb_file"
+							:src="filesPath + attachments[id].main_file" 
+							:poster="filesPath + attachments[id].thumb_file"
 							type="video/mp4" controls="controls" preload="none">
 				</video>
 				<a v-else-if="attachments[id].type == 'attachments1'"
 						:title="attachments[id].name"
-						:href="base_a_path + attachments[id].main_file"
+						:href="filesPath + attachments[id].main_file"
 						target="_blank"
 						class="for-pdf"
 								>
-					<img :src="base_a_path + attachments[id].thumb_file" 
+					<img :src="filesPath + attachments[id].thumb_file" 
 							:alt="attachments[id].name" class="img-fluid">
 					<br><h6>{{ attachments[id].name }}</h6>
 				</a>  
 				<button v-else-if="attachments[id].type == 'attachments2' || attachments[id].type == 'product'"
 								v-b-modal.modal-multi-1
 								type="button" class="btn btn-link">
-					<img :src="base_a_path + attachments[id].main_file" 
+					<img :src="filesPath + attachments[id].main_file" 
 							:alt="attachments[id].name" class="img-fluid">
 				</button>
 			</div>
@@ -282,8 +286,8 @@ export default {
 				</a>
 				<video v-if="wid == 0 && im.type == 'attachments3'"
 							class="video-priloha" 
-							:src="base_a_path + im.main_file" 
-							:poster="base_a_path + im.thumb_file"
+							:src="filesPath + im.main_file" 
+							:poster="filesPath + im.thumb_file"
 							type="video/mp4" controls="controls" preload="none">
 				</video>
 				<button v-else-if="wid == 0 && im.type == 'attachments1'" 
@@ -319,7 +323,7 @@ export default {
 			<div class="modal-body my-img-content">
 					<div class="border-a" :style="border_a">
 						<div class="border-b" :style="border_b">
-							<img :src="base_a_path + attachments[id].main_file" 
+							<img :src="filesPath + attachments[id].main_file" 
 										:alt="attachments[id].name" 
 										id="big-main-img"
 										class="border-c" 
@@ -357,7 +361,7 @@ export default {
 	</b-modal>
 
 	<b-modal id="modal-multi-2" centered size="xl" ok-only >
-		<img :src="base_a_path + attachments[id].main_file" :alt="attachments[id].name" @click="closeme">
+		<img :src="filesPath + attachments[id].main_file" :alt="attachments[id].name" @click="closeme">
 	</b-modal>
 </div>
 </template>

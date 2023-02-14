@@ -22,10 +22,14 @@ export default {
 			type: String,
 			required: true,
 		},
-		basePath: {
+		apiPath: { // Cesta k API
 			type: String,
 			required: true,
 		},
+		filesPath: { // Adresár k súborom
+			type: String,
+			required: true
+		}, 
 		maxrandompercwidth: { // Percento, o ktoré sa môže meniť naviac šírka fotky
 			type: String,
 			default: 20,
@@ -103,7 +107,7 @@ export default {
 	methods: {
 		itemClickHandler(data, i) {
 			// click event
-			let odkaz = this.basePath + '/api/documents/document/' + data.id_foto
+			let odkaz = this.apiPath + 'documents/document/' + data.id_foto
 			axios.get(odkaz)
 							.then(response => {
 								this.image = response.data
@@ -151,7 +155,7 @@ export default {
 			this.collage.widerPhotoId = res.widerPhotoId
 		},
 		loadSchema() {
-			let odkaz = this.basePath + '/api/menu/getonemenuarticlesp/fotocollage-settings'
+			let odkaz = this.apiPath + 'menu/getonemenuarticlesp/fotocollage-settings'
 			axios.get(odkaz)
 				.then(response => {
 					//this.article = response.data
@@ -169,7 +173,7 @@ export default {
 		},
 		loadPictures() {
 			// Načítanie údajov priamo z DB
-			let odkaz = this.basePath + '/api/documents/getfotocollage/' + this.article_id
+			let odkaz = this.apiPath + 'documents/getfotocollage/' + this.article_id
 			axios.get(odkaz)
 				.then(response => {
 					this.attachments = response.data
@@ -189,7 +193,7 @@ export default {
 				this.computeLayout(this.$refs.imgDetail.clientWidth)
 				// Aby sa formulár odoslal, len ak je stačené tlačítko s class="sch-submit"
 				if (event.submitter.classList.contains("sch-submit")) {
-					let odkaz = this.basePath + '/api/menu/textssave/' + this.id_sch
+					let odkaz = this.apiPath + 'menu/textssave/' + this.id_sch
 					let vm = this
 					let data = {
 						texts: this.schstr
@@ -261,7 +265,7 @@ export default {
 		},
 		// Načítanie prekladov textov
 		getTexts() {
-			let odkaz = this.basePath + '/api/lang/gettexts'
+			let odkaz = this.apiPath + 'lang/gettexts'
 			let vm = this
 			let data = {
 				texts: ['galery_arrows_before', 'galery_arrows_after']
@@ -358,7 +362,7 @@ export default {
 							ref="modal1fo">
 			<div class="modal-content">
 				<div class="modal-body my-img-content">  
-					<img :src="basePath + '/' + image.main_file" 
+					<img :src="filesPath + image.main_file" 
 								:alt="image.name" 
 								id="big-main-img"
 								class="" />
@@ -372,11 +376,11 @@ export default {
 						</a>
 					</div>
 					<div class="go-to-hight" v-touch="{
-											left: () => swipe('Left'),
-											right: () => swipe('Right'),
-											up: () => swipe('Up'),
-											down: () => swipe('Down')
-										}">
+						left: () => swipe('Left'),
+						right: () => swipe('Right'),
+						up: () => swipe('Up'),
+						down: () => swipe('Down')
+					}">
 					</div>
 					<div class="arrows-r flex-row-reverse" @click="after">
 						<a href="#" class="text-light" :title="text_after">&#10095;

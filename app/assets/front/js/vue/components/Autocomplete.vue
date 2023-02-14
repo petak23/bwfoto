@@ -6,7 +6,7 @@ axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 export default {
 	props: {
-		basePath: {
+		apiPath: { // Cesta k API
 			type: String,
 			required: true,
 		},
@@ -53,7 +53,7 @@ export default {
 				this.isSearching = true;
 			}
 			if (this.searchquery.length > 2) {
-				let odkaz = this.basePath + '/api/search'
+				let odkaz = this.apiPath + 'search'
 				axios.get(odkaz, {params: {[this.inputname]: this.searchquery}})
 							.then(response => {
 								//console.log(response);
@@ -102,7 +102,7 @@ export default {
 		},
 		// Načítanie prekladov textov
 		getTexts() {
-			let odkaz = this.basePath + '/api/lang/gettexts'
+			let odkaz = this.apiPath + 'lang/gettexts'
 			let vm = this
 			let data = {
 				texts: ['autocomplete_placeholder', 'autocomplete_searching', 'autocomplete_min_char', 'autocomplete_not_found']

@@ -12,54 +12,55 @@
 
 {block content}
 <article class="article-main">
-  <div class="row main-text">
-    <div class="col-12">
-      <edit-article
-        base-path="{$basePath}"
-        title="{_'base_edit_title'}"
-        title_text="{_'base_edit_texts'}"
-        title_admin="{_'base_to_admin'}"
-        title_last_change="{_'base_last_change'}"
-        title_platnost_do="{_'base_platnost_do'}"
-        title_zadal="{_'base_zadal'}"
-        edit_enabled="{$user->isLoggedIn() && $user->isAllowed('Front:Clanky', 'edit')}"
-        article_id="{$article->id}"
-        link="{$this_link}"
-        link_to_admin="{link $for_admin_link $article->id}"
-        article_hlavicka={$article_hlavicka}
-        article_avatar_view_in={$article_avatar_view_in} 
-      ></edit-article>
-    </div>
-    <div class="col-12">  
-        {control menu templateType  => 'single', 
-                      templateFile  => $article->hlavne_menu->nazov_ul_sub,
-                      cast          => $article->hlavne_menu->id_hlavne_menu_cast,
-                      level         => $uroven,
-                      avatar        => $nastavenie['dir_to_menu'],
-                      article_avatar_view_in => TRUE,
-                      anotacia      => TRUE,
-                      nadpis        => $viac_info
-        }
-      
-    </div>
-  </div>
-  {control attachments:images}
-  {control attachments:audios}
-  {*control attachments:videos*}
-  {control attachments:others}
-  <div class="row" n:if="(isset($komponenty) && count($komponenty)) || $komentare_povolene">
-    <div class="col-xs-12 col-md-12">
-      <section id="nahlady" n:if="isset($komponenty) && count($komponenty)">
-        {foreach $komponenty as $komp}
-          {ifset $komp["parametre"]}
-            {var $nazov_komp = $komp['nazov'].'-'.$iterator->counter}
-            {control $nazov_komp, $komp["parametre"]}
-          {else}
-            {control $komp["nazov"]}
-          {/ifset}
-        {/foreach}
-      </section>
-      {if $komentare_povolene}{control 'komentar-$komentare_povolene'}{/if}
-    </div>
-  </div>
+	<div class="row main-text">
+		<div class="col-12">
+			<edit-article
+				api-path="{$apiPath}"
+				files-path="{$basePath}/"
+				title="{_'base_edit_title'}"
+				title_text="{_'base_edit_texts'}"
+				title_admin="{_'base_to_admin'}"
+				title_last_change="{_'base_last_change'}"
+				title_platnost_do="{_'base_platnost_do'}"
+				title_zadal="{_'base_zadal'}"
+				edit_enabled="{$user->isLoggedIn() && $user->isAllowed('Front:Clanky', 'edit') ? 1 : 0}"
+				article_id="{$article->id}"
+				link="{$this_link}"
+				link_to_admin="{link $for_admin_link $article->id}"
+				article_hlavicka={$article_hlavicka}
+				article_avatar_view_in={$article_avatar_view_in} 
+			></edit-article>
+		</div>
+		<div class="col-12">  
+				{control menu templateType  => 'single', 
+											templateFile  => $article->hlavne_menu->nazov_ul_sub,
+											cast          => $article->hlavne_menu->id_hlavne_menu_cast,
+											level         => $uroven,
+											avatar        => $nastavenie['dir_to_menu'],
+											article_avatar_view_in => TRUE,
+											anotacia      => TRUE,
+											nadpis        => $viac_info
+				}
+			
+		</div>
+	</div>
+	{control attachments:images}
+	{control attachments:audios}
+	{*control attachments:videos*}
+	{control attachments:others}
+	<div class="row" n:if="(isset($komponenty) && count($komponenty)) || $komentare_povolene">
+		<div class="col-xs-12 col-md-12">
+			<section id="nahlady" n:if="isset($komponenty) && count($komponenty)">
+				{foreach $komponenty as $komp}
+					{ifset $komp["parametre"]}
+						{var $nazov_komp = $komp['nazov'].'-'.$iterator->counter}
+						{control $nazov_komp, $komp["parametre"]}
+					{else}
+						{control $komp["nazov"]}
+					{/ifset}
+				{/foreach}
+			</section>
+			{if $komentare_povolene}{control 'komentar-$komentare_povolene'}{/if}
+		</div>
+	</div>
 </article>

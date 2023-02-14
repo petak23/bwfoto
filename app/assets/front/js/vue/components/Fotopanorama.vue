@@ -19,9 +19,13 @@ export default {
 			default: "0",
 		},
 		article_id: String,
-		basePath: {
+		apiPath: { // Cesta k API
 			type: String,
 			required: true,
+		},
+		filesPath: { // Adresár k súborom
+			type: String,
+			required: true
 		},
 	},
 	data() {
@@ -73,11 +77,11 @@ export default {
 		},
 		// Generovanie url pre lazyloading obrázky
 		getImageUrl(text) {
-			return this.basePath + "/" + text
+			return this.filesPath + text
 		},
 		// Načítanie prekladov textov
 		getTexts() {
-			let odkaz = this.basePath + '/api/lang/gettexts'
+			let odkaz = this.apiPath + 'lang/gettexts'
 			let vm = this
 			let data = {
 				texts: ['galery_arrows_before', 'galery_arrows_after']
@@ -98,7 +102,7 @@ export default {
 			return "border: " + pom[1] + "px solid " + (pom[0].length > 2 ? (pom[0]) : "inherit")
 		},
 		getMainArticle() {
-			let odkaz = this.basePath + '/api/menu/getonehlavnemenuarticle/' + this.article_id
+			let odkaz = this.apiPath + 'menu/getonehlavnemenuarticle/' + this.article_id
 			axios.get(odkaz)
 				.then(response => {
 					this.article = response.data
@@ -110,7 +114,7 @@ export default {
 				});
 		},
 		getAttachments() {
-			let odkaz = this.basePath + '/api/documents/getfotogalery/' + this.article_id
+			let odkaz = this.apiPath + 'documents/getfotogalery/' + this.article_id
 			axios.get(odkaz)
 				.then(response => {
 					//console.log(response.data)
@@ -142,9 +146,6 @@ export default {
 		}
 	},
 	computed: {
-		base_a_path() {
-			return this.basePath + "/"
-		},
 		border_a() {
 			return this.border_compute(this.article.border_a)
 		},
@@ -192,8 +193,8 @@ export default {
 				</a>
 				<video v-else-if="im.type == 'attachments3'"
 							class="video-priloha" 
-							:src="base_a_path + im.main_file" 
-							:poster="base_a_path + im.thumb_file"
+							:src="filesPath + im.main_file" 
+							:poster="filesPath + im.thumb_file"
 							type="video/mp4" controls="controls" preload="none">
 				</video>
 				<button v-else-if="im.type == 'attachments1'" 
@@ -227,7 +228,7 @@ export default {
 			<div class="modal-body my-img-content">
 				<div class="border-a" :style="border_a">
 					<div class="border-b" :style="border_b">
-						<img :src="base_a_path + attachments[id].main_file" 
+						<img :src="filesPath + attachments[id].main_file" 
 									:alt="attachments[id].name" 
 									id="big-main-img"
 									class="border-c" 
