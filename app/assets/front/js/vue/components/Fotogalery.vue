@@ -60,17 +60,17 @@ export default {
 		swipe (direction) {
 			//console.log(direction)
 			if (direction == 'Left' || direction == 'Up') {
-				this.id = this.id <= 0 ? (this.attachments.length - 1) : this.id - 1;
+				this.before()
 			} else if (direction == 'Right' || direction == 'Down') {
-				this.id = this.id >= (this.attachments.length - 1) ? 0 : this.id + 1;
+				this.after()
 			}
 		},
 		// Zmena id na predošlé
-		before: function() {
+		before() {
 			this.id = this.id <= 0 ? (this.attachments.length - 1) : this.id - 1;
 		},  
 		// Zmena id na  nasledujúce
-		after: function() {
+		after() {
 			this.id = this.id >= (this.attachments.length - 1) ? 0 : this.id + 1;
 		}, 
 		closeme: function() {
@@ -316,11 +316,7 @@ export default {
 						modal-class="lightbox-img"
 						ref="modal1fo">
 		<div class="modal-content">
-			<div class="modal-body my-img-content"> <!-- @click.prevent="openmodal2"  -->
-				<!--b-button 
-						v-touch.prevent="openmodal2"
-						class="nepoznam"
-				-->
+			<div class="modal-body my-img-content">
 					<div class="border-a" :style="border_a">
 						<div class="border-b" :style="border_b">
 							<img :src="base_a_path + attachments[id].main_file" 
@@ -330,7 +326,6 @@ export default {
 										:style="border_c" />
 						</div>
 					</div>
-				<!-- /b-button -->
 				<div class="text-center description" v-if="attachments[id].description != null">
 					{{ attachments[id].description }}
 				</div>

@@ -16,118 +16,121 @@
 <!DOCTYPE html>
 <html>
 <head>	
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta charset="utf-8">
-  <meta name="robots" content="{ifset $robots}{$robots}{else}index, follow{/ifset}" />
-  <meta name="description" content="{$title}{$description}" />
-  <meta name="keywords" content="{$keywords}" />
-  <meta name="author" content="{$author}" />
-  <title n:snippet="title">{$title} {block title|stripHtml|upper}{/block}</title>
-  <link rel="stylesheet" type="text/css" href="{webpack front.css}">
-  {* ----- Favicon ------ *}
-  {control favicon}
-  {block head}{/block}
-  {control slider}
+	<meta charset="utf-8">
+	<meta name="robots" content="{ifset $robots}{$robots}{else}index, follow{/ifset}" />
+	<meta name="description" content="{$title}{$description}" />
+	<meta name="keywords" content="{$keywords}" />
+	<meta name="author" content="{$author}" />
+	<title n:snippet="title">{$title} {block title|stripHtml|upper}{/block}</title>
+	<link rel="stylesheet" type="text/css" href="{webpack front.css}">
+	{* ----- Favicon ------ *}
+	{control favicon}
+	{block head}{/block}
+	{control slider}
 </head>
 <body>
 <div v-cloak id="vueapp">
-  {var $main_menu_active = isset($article->id_hlavne_menu) ? $article->id_hlavne_menu : 0}
-  <main-menu-load
-    main_menu_active="{$main_menu_active}"
-    base-path="{$basePath}"
-  >
-  </main-menu-load>
-  <nav id="topNav" class="navbar navbar-expand-md fixed-top">
+	{var $main_menu_active = isset($article->id_hlavne_menu) ? $article->id_hlavne_menu : 0}
+	<main-menu-load
+		main_menu_active="{$main_menu_active}"
+		base-path="{$basePath}"
+	>
+	</main-menu-load>
+	<nav id="topNav" class="navbar navbar-expand-md fixed-top">
 		<a class="navbar-brand ml-sm-5 p-3 logo" n:href="Homepage:" title="home">
-      <img src="{$basePath}/{$nastavenie['dir_to_images']}logo_bw-g.png" alt="logo bw foto" class="logo">
-    </a>
+			<img src="{$basePath}/{$nastavenie['dir_to_images']}logo_bw-g.png" alt="logo bw foto" class="logo">
+		</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" 
-            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" 
-            aria-expanded="false" aria-label="Toggle navigation"
-            id="topMenuButton">
-      <span class="fas fa-bars" style="font-size: 2rem;"></span>
-    </button>
+						data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" 
+						aria-expanded="false" aria-label="Toggle navigation"
+						id="topMenuButton">
+			<span class="fas fa-bars" style="font-size: 2rem;"></span>
+		</button>
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <bwfoto-tree-main 
-        base-path="{$basePath}"
-        part="-2" 
-      />
-      {control autocomplete}
-      {control langMenu}
+			<bwfoto-tree-main 
+				base-path="{$basePath}"
+				part="-2" 
+			/>
+			<autocomplete
+				link="{link Clanky:}/"
+				base-path={$basePath}
+			></autocomplete>
+			{control langMenu}
 		</div>
 	</nav>
 
-  
-  <div class="frame">
-    {* ----- ZACIATOK content - centralna cast, obsahova sekcia ----- *}
-    <section id="webContent">
-      {*<main-menu>
-      </main-menu>*}
-      <breadcrumb
-        homepage="{plink 'Homepage:'}"
-      ></breadcrumb>
-      {control confirmForm}
-      <flash-message
-        flash-messages="{($flashes|to_json)}"
-      />
-      {block content}{/block}
-    </section>
-    
-    {* ----- Spodok stranky - FOOTER ----- *}
-    <footer n:snippet=footer class="py-3">
-      {* --- Mapa stranky --- *}
-      <nav class="w-100">
-        <bwfoto-tree-main 
-          base-path="{$basePath}"
-          part="-1" 
-          ul-class="nav text-center justify-content-center py-3"
-        />
-      </nav>
-      {* --- Info o stranke --- *}
-      <div class="row justify-content-center" id="footerContent">
-        <div id="logoBWfoto" class="px-3 my-3 col-md">
-          <img src="{$basePath}/{$nastavenie['dir_to_images']}logo_bw-w.png" title="Logo BWfoto" alt="Logo Bwfoto" class="img-responsive">
-        </div>
-        <div id="contact" class="px-3 my-3 col-md">
-          <h4>Ateliér Zámečník</h4>
-          <ul class="list-group">
-            <li class="list-unstyled"><span class="fa fa-home"></span> Spišské Bystré</li>
-            {*<li class="list-unstyled"><span class="fa fa-mobile fa-1_5x"></span> 0905 150 400</li>*}
-            <li class="list-unstyled"><span class="fa fa-envelope"></span> bwfoto@bwfoto.sk</li>
-          </ul>
-        </div>
-      </div>
-      <div class="pv-footer info-layer my-3">
-        <ul class="nav justify-content-center">
-          <li class="p-2" n:if="FALSE && $user_spravca !== FALSE && $user_admin->id != $user_spravca->id">{* *}
-            {_'base_spravca'}: {$user_spravca->meno} {$user_spravca->priezvisko|upper}
-            ({$user_spravca->email|uprav_email})
-          </li>
-          <li class="p-2">&copy; {$copy} 2017{if date('Y') != '2017'} - {date('Y')}{/if}</li>
-          <li class="p-2">
-            <a href="https://nette.org/cs/" class="logo-nette" title="{_'base_nette_title'}">
-              <img src="{$basePath}/{$nastavenie['dir_to_images']}nette-powered1.gif" alt="{_'base_nette_powered'}">
-            </a>
-            &nbsp;
-            <a href="https://vuejs.org/" class="logo-nette" title="Vue js" target="_blank">
-              <img src="{$basePath}/www/images/logo_vue.png" alt="vue powered" class="vue-logo">
-            </a>
-          </li>
-          <li class="p-2">{_'base_last_update'} {$verzia->modified|date:'j.n.Y'}</li>
-          <li class="p-2">created by <a href="http://tatravisual.sk/" title="tatravisual.sk" target="_blank">tatravisual.sk</a></li>
-        </ul>
-      </div> 
-      <div class="my-3 text-center">      
-        <a n:href="User:default#prihlas" n:if="$view_log_in_link_in_header < 0 && !$user->isLoggedIn()" title="{_'base_link_to_admin_log_in'}">{_'base_link_to_admin_log_in'}</a>
-        {control userMenu}
-      </div>
-    </footer>
-  </div>
-  {block lightbox}{/block}
+	
+	<div class="frame">
+		{* ----- ZACIATOK content - centralna cast, obsahova sekcia ----- *}
+		<section id="webContent">
+			{*<main-menu>
+			</main-menu>*}
+			<breadcrumb
+				homepage="{plink 'Homepage:'}"
+			></breadcrumb>
+			{control confirmForm}
+			<flash-message
+				flash-messages="{($flashes|to_json)}"
+			/>
+			{block content}{/block}
+		</section>
+		
+		{* ----- Spodok stranky - FOOTER ----- *}
+		<footer n:snippet=footer class="py-3">
+			{* --- Mapa stranky --- *}
+			<nav class="w-100">
+				<bwfoto-tree-main 
+					base-path="{$basePath}"
+					part="-1" 
+					ul-class="nav text-center justify-content-center py-3"
+				/>
+			</nav>
+			{* --- Info o stranke --- *}
+			<div class="row justify-content-center" id="footerContent">
+				<div id="logoBWfoto" class="px-3 my-3 col-md">
+					<img src="{$basePath}/{$nastavenie['dir_to_images']}logo_bw-w.png" title="Logo BWfoto" alt="Logo Bwfoto" class="img-responsive">
+				</div>
+				<div id="contact" class="px-3 my-3 col-md">
+					<h4>Ateliér Zámečník</h4>
+					<ul class="list-group">
+						<li class="list-unstyled"><span class="fa fa-home"></span> Spišské Bystré</li>
+						{*<li class="list-unstyled"><span class="fa fa-mobile fa-1_5x"></span> 0905 150 400</li>*}
+						<li class="list-unstyled"><span class="fa fa-envelope"></span> bwfoto@bwfoto.sk</li>
+					</ul>
+				</div>
+			</div>
+			<div class="pv-footer info-layer my-3">
+				<ul class="nav justify-content-center">
+					<li class="p-2" n:if="FALSE && $user_spravca !== FALSE && $user_admin->id != $user_spravca->id">{* *}
+						{_'base_spravca'}: {$user_spravca->meno} {$user_spravca->priezvisko|upper}
+						({$user_spravca->email|uprav_email})
+					</li>
+					<li class="p-2">&copy; {$copy} 2017{if date('Y') != '2017'} - {date('Y')}{/if}</li>
+					<li class="p-2">
+						<a href="https://nette.org/cs/" class="logo-nette" title="{_'base_nette_title'}">
+							<img src="{$basePath}/{$nastavenie['dir_to_images']}nette-powered1.gif" alt="{_'base_nette_powered'}">
+						</a>
+						&nbsp;
+						<a href="https://vuejs.org/" class="logo-nette" title="Vue js" target="_blank">
+							<img src="{$basePath}/www/images/logo_vue.png" alt="vue powered" class="vue-logo">
+						</a>
+					</li>
+					<li class="p-2">{_'base_last_update'} {$verzia->modified|date:'j.n.Y'}</li>
+					<li class="p-2">created by <a href="http://tatravisual.sk/" title="tatravisual.sk" target="_blank">tatravisual.sk</a></li>
+				</ul>
+			</div> 
+			<div class="my-3 text-center">      
+				<a n:href="User:default#prihlas" n:if="$view_log_in_link_in_header < 0 && !$user->isLoggedIn()" title="{_'base_link_to_admin_log_in'}">{_'base_link_to_admin_log_in'}</a>
+				{control userMenu}
+			</div>
+		</footer>
+	</div>
+	{block lightbox}{/block}
 </div>
-  <script src="{webpack front.js}"></script>
-  {block spec_js}{/block}
-  {control googleAnalytics}
+	<script src="{webpack front.js}"></script>
+	{block spec_js}{/block}
+	{control googleAnalytics}
 </body>
 </html>

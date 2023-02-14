@@ -8,7 +8,6 @@ services:
   - App\FrontModule\Presenters\ClankyPresenter(%parameters%)
   - App\FrontModule\Presenters\ErrorPresenter(%parameters%)
   - App\FrontModule\Presenters\HomepagePresenter(%parameters%)
-  - App\FrontModule\Presenters\SearchPresenter(%parameters%)
   - App\FrontModule\Presenters\UserLogPresenter(%parameters%)
   - App\FrontModule\Presenters\UserPresenter(%parameters%)
 
@@ -20,8 +19,6 @@ services:
   - App\FrontModule\Forms\User\ResetPasswordFormFactory
   - App\FrontModule\Components\Faktury\DokumentFormFactory
   - App\FrontModule\Forms\UserLog\UserEditFormFactory(%wwwDir%, %dir_to_user%, %user_view_fields%, %dir_to_icons%, %send_e_mail_news%)
-
-  - App\FrontModule\Components\Autocomplete\IAutocompleteControl
 
 # component services 
   AktualneClankyControl:

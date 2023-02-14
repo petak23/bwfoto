@@ -2,7 +2,7 @@ SET NAMES utf8;
 SET time_zone = '+00:00';
 SET foreign_key_checks = 0;
 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
-
+/*
 ALTER TABLE `user_permission`
 CHANGE `actions` `actions` varchar(255) COLLATE 'utf8mb3_bin' NULL COMMENT 'Povolenie na akciu. (Ak viac oddelené čiarkou, ak null tak všetko)' AFTER `id_user_resource`;
 
@@ -18,4 +18,15 @@ INSERT INTO `user_resource` (`name`)
 VALUES ('Api:Lang');
 
 INSERT INTO `user_permission` (`id_user_roles`, `id_user_resource`, `actions`)
-VALUES ('0', '35', NULL);
+VALUES ('0', '35', NULL);*/
+
+INSERT INTO `user_resource` (`name`)
+SELECT 'Api:Search'
+FROM `user_resource`
+WHERE ((`id` = '26'));
+
+
+INSERT INTO `user_permission` (`id_user_roles`, `id_user_resource`, `actions`)
+SELECT '0', '36', NULL
+FROM `user_permission`
+WHERE `id_user_resource` = '26' AND ((`id` = '35'));

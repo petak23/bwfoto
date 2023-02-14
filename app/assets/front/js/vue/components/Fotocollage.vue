@@ -234,6 +234,14 @@ export default {
 				}
 			}
 		},
+		swipe(direction) {
+			//console.log(direction)
+			if (direction == 'Left' || direction == 'Up') {
+				this.before()
+			} else if (direction == 'Right' || direction == 'Down') {
+				this.after()
+			}
+		},
 		// Zmena id na predošlé
 		before() {
 			let id = this.image.id_collage <= 0 ? (this.attachments.length - 1) : this.image.id_collage - 1
@@ -250,6 +258,24 @@ export default {
 				id: id,
 				id_foto: this.attachments[id].id_foto
 			}, 1)
+		},
+		// Načítanie prekladov textov
+		getTexts() {
+			let odkaz = this.basePath + '/api/lang/gettexts'
+			let vm = this
+			let data = {
+				texts: ['galery_arrows_before', 'galery_arrows_after']
+			}
+			axios.post(odkaz, data)
+				.then(function (response) {
+					//console.log(response.data)
+					vm.text_before = response.data.galery_arrows_before
+					vm.text_after = response.data.galery_arrows_after
+				})
+				.catch(function (error) {
+					console.log(odkaz)
+					console.log(error)
+				});
 		}, 
 	},
 	created() {
@@ -260,10 +286,17 @@ export default {
 	},
 	computed: {},
 	mounted () {
+		/* Načítanie prekladov textov */
+		this.getTexts()
+
+		/* Nčítanie schémy fotokoláže */
 		this.loadSchema();
 
 		/* Naviazanie na sledovanie zmeny veľkosti stránky */
 		this.matchHeight();
+
+		/* Naviazanie na sledovanie stláčania klávesnice */
+		document.addEventListener("keydown", this.keyPush);
 	},
 
 };
