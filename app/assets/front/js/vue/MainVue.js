@@ -1,12 +1,12 @@
 /* 
  * Main Vue.js app file
- * Posledná zmena(last change): 18.01.2023
+ * Posledná zmena(last change): 17.02.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.4
+ * @version 1.1.5
  */
 
 import Vue from 'vue';
@@ -27,6 +27,10 @@ import store from "./store/index.js"
 import MainMenuLoad from "./components/Menu/MainMenuLoad.vue"
 import MainMenu from './components/Menu/MainMenu.vue'
 import Breadcrumb from './components/Menu/Breadcrumb.vue'
+import ProductsLike from './components/ProductsLike.vue'
+
+import VueSession from 'vue-session'
+Vue.use(VueSession)
 
 // Make BootstrapVue available throughout your project
 Vue.use(BootstrapVue);
@@ -53,5 +57,6 @@ let vm = new Vue({
     MainMenu,
     MainMenuLoad,
     Breadcrumb,
+    ProductsLike,
   },
 });   

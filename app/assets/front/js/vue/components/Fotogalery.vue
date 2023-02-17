@@ -1,13 +1,13 @@
 <script>
 /** 
  * Component Fotogalery
- * Posledná zmena(last change): 31.01.2023
+ * Posledná zmena(last change): 17.02.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.9
+ * @version 1.1.0
  */
 
 import axios from 'axios' 
@@ -45,14 +45,17 @@ export default {
 				name: "",
 				thumb_file: "",
 				type: "",
-				web_name: ""
+				web_name: "",
+				liked: false
 			}],
+			liked: false,
 		}
 	},
 	methods: {
 		// Zmena id
-		changebig: function(id) {
+		changebig(id) {
 			this.id = id
+			this.my_liked()
 		},
 		modalchangebig (id) {
 			this.id = id;
@@ -153,6 +156,7 @@ export default {
 					this.attachments = response.data
 					if (parseInt(this.first_id) > 0) { // Ak mám first_id tak k nemu nájdem položku v attachments
 						this.getFirstId(parseInt(this.first_id))
+						this.my_liked()
 					}
 				})
 				.catch((error) => {
@@ -166,6 +170,23 @@ export default {
 					this.id = ma
 				}
 			});
+		},
+		saveLiked() {
+			let item = this.attachments[this.id]
+			console.log(item)
+			this.$root.$emit("product-like", [{
+				id_product: item.id,
+				id_article: this.article_id,
+				source: item.main_file,
+				name: item.name,
+			}])
+			this.attachments[this.id].liked = this.attachments[this.id].liked ? false : true
+			this.liked = this.attachments[this.id].liked
+		},
+		my_liked() {
+			this.attachments[this.id].liked = this.$session.has('like-' + this.attachments[this.id].id)
+			this.liked = this.attachments[this.id].liked
+			//console.log(this.liked)
 		}
 
 	},
@@ -187,7 +208,7 @@ export default {
 		},
 		border_c() {
 			return this.border_compute(this.article.border_c)
-		}
+		},
 	},
 	mounted () {
 		/* Načítanie prekladov textov */
@@ -208,6 +229,8 @@ export default {
 		 * najdené na: https://stackoverflow.com/questions/50181858/this-root-emit-not-working-in-vue */
 		this.$root.$on("bv::modal::shown", this.urovenUp);
 		this.$root.$on("bv::modal::hidden", this.urovenDwn);
+		
+		this.$root.$on("product-like-del-all", this.my_liked);
 	},
 
 };
@@ -221,8 +244,14 @@ export default {
 			<button 
 				v-if="attachments[id].type == 'product'"
 				type="button"
-				class="btn btn-outline-warning align-right">
-				P
+				class="btn align-right"
+				:class="liked ? 'btn-success' : 'btn-outline-warning'"				
+				@click="saveLiked()"
+				>
+				<i 
+					class="fa-solid"
+					:class="liked ? 'fa-heart' : 'fa-thumbs-up'"
+				></i>
 			</button>
 		</h4>
 		<div class="col-4">&nbsp;</div>

@@ -1,11 +1,9 @@
 {define #part-small}
-  <div n:class="part-small, isset($main_class) ? $main_class">
+  <a href="{$node->link}" title="{$node->name}" n:class="part-small, isset($main_class) ? $main_class">
     <h2 class="h3 text-center">
-      <a href="{$node->link}" title="{$node->name}">
-        <i n:class="'fas fa-'.$node->node_class, $is_bolder ? bolder"></i> {$node->name}
-      </a>
+      <i n:class="'fas fa-'.$node->node_class, $is_bolder ? bolder"></i> {$node->name}
     </h2>
-  </div>
+  </a>
 {/define}
 
 {define #figure}
