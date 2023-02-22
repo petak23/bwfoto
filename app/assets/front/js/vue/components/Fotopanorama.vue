@@ -1,13 +1,13 @@
 <script>
 /** 
  * Component Fotopanorama
- * Posledná zmena(last change): 03.02.2023
+ * Posledná zmena(last change): 21.02.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.0
+ * @version 1.1.1
  */
 
 import axios from 'axios'
@@ -31,8 +31,6 @@ export default {
 	data() {
 		return {
 			id: 0,
-			text_before: 'Pred',
-			text_after: 'Po',
 			article: {},
 			attachments: [{ // Musí byť nejaký nultý objekt inak je chyba...
 				description: null,
@@ -78,24 +76,6 @@ export default {
 		// Generovanie url pre lazyloading obrázky
 		getImageUrl(text) {
 			return this.filesPath + text
-		},
-		// Načítanie prekladov textov
-		getTexts() {
-			let odkaz = this.apiPath + 'lang/gettexts'
-			let vm = this
-			let data = {
-				texts: ['galery_arrows_before', 'galery_arrows_after']
-			}
-			axios.post(odkaz, data)
-				.then(function (response) {
-					//console.log(response.data)
-					vm.text_before = response.data.galery_arrows_before
-					vm.text_after = response.data.galery_arrows_after
-				})
-				.catch(function (error) {
-					console.log(odkaz)
-					console.log(error)
-				});
 		},
 		border_compute(border) {
 			let pom = border != null && border.length > 2 ? border.split("|") : ['', '0'];
@@ -157,9 +137,6 @@ export default {
 		}
 	},
 	mounted () {
-		/* Načítanie prekladov textov */
-		this.getTexts()
-
 		/* Načítanie údajov hl. menu z DB */
 		this.getMainArticle()
 
@@ -243,13 +220,13 @@ export default {
 				<div class="arrows-l"
 						@click="before">
 					<a href="#" class="text-light"   
-							:title="text_before">&#10094;
+							:title="$store.state.texts.galery_arrows_before">&#10094;
 					</a>
 				</div>
 				<div class="arrows-r flex-row-reverse"
 						@click="after">
 					<a href="#" class="text-light"
-							:title="text_after">&#10095;
+							:title="$store.state.texts.galery_arrows_after">&#10095;
 					</a>
 				</div>
 			</div>

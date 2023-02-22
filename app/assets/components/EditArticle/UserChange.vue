@@ -1,0 +1,116 @@
+<script>
+/** 
+ * Component UserChange
+ * Posledná zmena(last change): 22.02.2023
+ *
+ * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
+ * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
+ * @license
+ * @link http://petak23.echo-msz.eu
+ * @version 1.0.0
+ * 
+ */
+
+import axios from 'axios'
+
+//for Tracy Debug Bar
+axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+export default {
+	props: {
+		apiPath: { // Cesta k API
+			type: String,
+			required: true,
+		},
+		id_user_main: { // id aktuálneho vlastníka článku
+			type: Number,
+			required: true,
+		}
+	},
+	data() {
+		return {
+			users: null,
+			selected: 1,
+		}
+	},
+	methods: {
+		onSubmit() {
+			
+		},
+		onReset() {
+
+		}
+	},
+	mounted () {
+		let odkaz = this.apiPath + 'user/userchangeformusers'
+		axios.get(odkaz)
+			.then(response => {
+				this.users = response.data
+				//console.log(this.users)
+			})
+			.catch((error) => {
+				console.log(odkaz);
+				console.log(error);
+			});
+	},
+}
+</script>
+
+<template>
+	<span>
+		<b-button 
+			variant="link"
+			size="sm"
+			title="Zmeň vlastníka položky"
+			v-b-modal.editUserChangeModal
+		>
+			<i class="fas fa-pencil-alt"></i>
+		</b-button>
+		<b-modal id="editUserChangeModal" centered
+			title="Zmeň vlastníka položky"
+			header-bg-variant="dark"
+			header-text-variant="light"
+			body-bg-variant="dark"
+			body-text-variant="light"
+			footer-bg-variant="dark"
+			footer-text-variant="light" 
+			:hide-footer="true" 
+		>
+			<div class="alert alert-info form-info-box">
+				<div class="row">
+					<div class="col-2 text-center ">
+						<i class="fas fa-question-circle fa-2x align-middle"></i>
+					</div>
+					<div class="col-10">
+						<p>Tu môžete zmeniť vlastníctvo tohoto článku na iného užívateľa. Po zmene už ale nebudete mať práva vlastníka článku 
+								(napr. editácia článku, nastavení, ...)! </p>
+						<p><strong>&nbsp;&nbsp;Preto si tento krok dobre rozmyslite!!!</strong></p>
+					</div>
+				</div>
+			</div>
+			<b-form @submit="onSubmit" @reset="onReset">
+				<b-form-group
+					id="input-group-1"
+					label="Nový vlastník:"
+					label-for="view_name"
+				>
+					<!--b-form-radio v-model="selected" :aria-describedby="ariaDescribedby" name="some-radios" value="A">Option A</b-form-radio>
+					<b-form-radio v-model="selected" :aria-describedby="ariaDescribedby" name="some-radios" value="B">Option B</b-form-radio-->
+					<b-form-radio-group
+						v-model="id_user_main"
+						:options="users"
+						class="mb-3"
+						value-field="item"
+						text-field="name"
+					></b-form-radio-group>
+				</b-form-group>
+				<b-button type="submit" variant="success" class="main-submit">Ulož</b-button>&nbsp;
+				<b-button type="reset" variant="secondary" class="main-reset">Cancel</b-button>
+			</b-form>
+		</b-modal>
+	</span>
+</template>
+
+<style lang="scss" scoped>
+
+</style>

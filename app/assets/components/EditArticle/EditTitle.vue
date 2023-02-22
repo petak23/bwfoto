@@ -1,7 +1,7 @@
 <script>
 /** 
  * Component EditTitle
- * Posledná zmena(last change): 14.02.2023
+ * Posledná zmena(last change): 21.02.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
@@ -10,7 +10,9 @@
  * @version 1.0.4
  * 
  */
-import EditTexts from "./EditTexts.vue";
+import EditTexts from "./EditTexts.vue"
+import EditMenu from "./EditMenu.vue"
+import UserChange from "./UserChange.vue"
 import axios from 'axios'
 
 //for Tracy Debug Bar
@@ -22,12 +24,6 @@ export default {
 			type: String,
 			required: true,
 		},
-		title: String,
-		title_text: String,
-		title_admin: String,
-		title_last_change: String,
-		title_platnost_do: String,
-		title_zadal: String,
 		edit_enabled: Number,
 		link: String,
 		link_to_admin: String,
@@ -36,6 +32,8 @@ export default {
 	},
 	components: {
 		EditTexts,
+		EditMenu,
+		UserChange,
 	},
 	data() {
 		return {
@@ -86,7 +84,7 @@ export default {
 							vm.saveErr()
 						}
 						setTimeout(() => {
-							vm.$bvModal.hide("modal-1")
+							vm.$bvModal.hide("modal-edit-title-form")
 							vm.$root.$emit("title-save", data)
 						}, 500)
 					})
@@ -100,7 +98,7 @@ export default {
 		onReset(event) {
 			event.preventDefault()
 			if (event.explicitOriginalTarget.classList.contains("main-reset")) {
-				this.$bvModal.hide("modal-1")
+				this.$bvModal.hide("modal-edit-title-form")
 				this.art_title.menu_name = this.article.menu_name
 				this.art_title.h1part2 = this.article.h1part2
 				this.art_title.view_name = this.article.view_name
@@ -141,38 +139,15 @@ export default {
 		<small v-if="article.h1part2 != null">
 			{{ article.h1part2 }}
 		</small>
-		<div v-if="edit_enabled == 1"
-				class="btn-group btn-group-sm editable" 
-				role="group"
+		<edit-menu
+			:edit_enabled="edit_enabled"
+			:link_to_admin="link_to_admin"
 		>
-			<b-button
-				variant="outline-warning"
-				size="sm"
-				v-b-modal.modal-1
-				:title="title"
-			>
-				<i class="fas fa-pen"></i>
-			</b-button>
-			<b-button 
-				variant="outline-warning"
-				size="sm"
-				:title="title_text"
-				v-b-modal.editArticleTextsModal
-			>
-				<i class="fa-solid fa-file-lines"></i>
-			</b-button>
-			<a 
-				class="btn btn-sm btn-outline-warning"
-				:href="link_to_admin"
-				:title="title_admin"
-			>
-				<i class="fa-solid fa-person-walking-dashed-line-arrow-right"></i>
-			</a>
-		</div>
+		</edit-menu>
 
-		<b-modal id="modal-1" centered
+		<b-modal id="modal-edit-title-form" centered
 			v-if="edit_enabled == 1" 
-			:title="title" 
+			:title="$store.state.texts.base_edit_title" 
 			header-bg-variant="dark"
 			header-text-variant="light"
 			body-bg-variant="dark"
@@ -241,14 +216,18 @@ export default {
 		</edit-texts>
 	</h1>
 	<div>
-		<small v-if="article_hlavicka & 1" class="title-info">
-			{{ title_last_change }}{{ article.modified }}
+		<small v-if="article_hlavicka & 1 || edit_enabled" class="title-info">
+			{{ $store.state.texts.base_last_change }}{{ article.modified }}
 		</small>
 		<small v-if="article.datum_platnosti != null" class="title-info">
-			{{ title_platnost_do }}{{ article.datum_platnosti }}
+			{{ $store.state.texts.base_platnost_do }}{{ article.datum_platnosti }}
 		</small>
-		<small v-if="article_hlavicka & 2" class="title-info">
-			{{ title_zadal }}{{ article.owner }}
+		<small v-if="article_hlavicka & 2 || edit_enabled" class="title-info">
+			{{ $store.state.texts.base_zadal }}{{ article.owner }}
+			<user-change
+				:api-path = "apiPath"
+				:id_user_main = "article.id_user_main"
+			></user-change>
 		</small>
 	</div>
 	</span>

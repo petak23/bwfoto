@@ -10,13 +10,13 @@ use Nette\Application\UI\Form;
 /**
  * Komponenta pre vytvorenie hlavičky polozky.
  * 
- * Posledna zmena(last change): 03.01.2023
+ * Posledna zmena(last change): 22.02.2023
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
  * @copyright Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.2.3
+ * @version 1.2.4
  */
 
 class TitleArticleControl extends Nette\Application\UI\Control
@@ -52,8 +52,6 @@ class TitleArticleControl extends Nette\Application\UI\Control
   public $zmenOpravnenieNevlastnikov;
   /** @var ZmenOpravnenieKategoriaFormFactory */
   public $zmenOpravnenieKategoria;
-  /** @var ZmenSablonuFormFactory */
-  public $zmenSablonu;
   /** @var Komponenty\IKomponentyControl */
   public $komponentyControlFactory;
 
@@ -72,7 +70,6 @@ class TitleArticleControl extends Nette\Application\UI\Control
     ZmenDlzkuNovinkyFormFactory $zmenDlzkuNovinkyFormFactory,
     ZmenOpravnenieKategoriaFormFactory $zmenOpravnenieKategoriaFormFactory,
     ZmenOpravnenieNevlastnikovFormFactory $zmenOpravnenieNevlastnikovFormFactory,
-    ZmenSablonuFormFactory $zmenSablonuFormFactory,
     Komponenty\IKomponentyControl $komponenty
   ) {
     $this->hlavne_menu_lang = $hlavne_menu_lang;
@@ -82,7 +79,6 @@ class TitleArticleControl extends Nette\Application\UI\Control
     $this->zmenDlzkuNovinky = $zmenDlzkuNovinkyFormFactory;
     $this->zmenOpravnenieKategoria = $zmenOpravnenieKategoriaFormFactory;
     $this->zmenOpravnenieNevlastnikov = $zmenOpravnenieNevlastnikovFormFactory;
-    $this->zmenSablonu = $zmenSablonuFormFactory;
     $this->aktualny_projekt_enabled = $aktualny_projekt_enabled;
     $this->zobraz_anotaciu = $zobraz_anotaciu;
     $this->categori = $categori;
@@ -245,13 +241,6 @@ class TitleArticleControl extends Nette\Application\UI\Control
   public function createComponentZmenDlzkuNovinkyForm(): Form
   {
     return $this->_formMessage($this->zmenDlzkuNovinky->create($this->clanok->id_hlavne_menu, $this->clanok->hlavne_menu->id_dlzka_novinky));
-  }
-
-  /** 
-   * Komponenta formulara pre zmenu sablony. */
-  public function createComponentZmenSablonuForm(): Form
-  {
-    return $this->_formMessage($this->zmenSablonu->create($this->clanok->id_hlavne_menu, $this->clanok->hlavne_menu->id_hlavne_menu_template));
   }
 
   /**

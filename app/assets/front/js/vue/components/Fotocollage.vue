@@ -1,13 +1,13 @@
 <script>
 /** 
  * Component Fotocollage
- * Posledná zmena(last change): 14.01.2023
+ * Posledná zmena(last change): 21.01.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.8
+ * @version 1.1.9
  * Z kniznica pouzite súbory a upravene: https://github.com/seanghay/vue-photo-collage
  */
 import PhotoCollageWrapper from "./vue-photo-collage/PhotoCollageWrapper.vue";
@@ -66,8 +66,6 @@ export default {
 			id_sch: 0,
 			schstr: "",
 			schstr_old: "",
-			text_before: 'Pred',
-			text_after: 'Po',
 			sch: [
 				/*{
 					// Max. šírka koláže pre ktorú platí
@@ -263,24 +261,6 @@ export default {
 				id_foto: this.attachments[id].id_foto
 			}, 1)
 		},
-		// Načítanie prekladov textov
-		getTexts() {
-			let odkaz = this.apiPath + 'lang/gettexts'
-			let vm = this
-			let data = {
-				texts: ['galery_arrows_before', 'galery_arrows_after']
-			}
-			axios.post(odkaz, data)
-				.then(function (response) {
-					//console.log(response.data)
-					vm.text_before = response.data.galery_arrows_before
-					vm.text_after = response.data.galery_arrows_after
-				})
-				.catch(function (error) {
-					console.log(odkaz)
-					console.log(error)
-				});
-		}, 
 	},
 	created() {
 		window.addEventListener("resize", this.matchHeight);
@@ -290,9 +270,6 @@ export default {
 	},
 	computed: {},
 	mounted () {
-		/* Načítanie prekladov textov */
-		this.getTexts()
-
 		/* Nčítanie schémy fotokoláže */
 		this.loadSchema();
 
@@ -372,7 +349,7 @@ export default {
 				</div>
 				<div class="arrows-overlay">
 					<div class="arrows-l" @click="before">
-						<a href="#" class="text-light" :title="text_before">&#10094;
+						<a href="#" class="text-light" :title="$store.state.texts.galery_arrows_before">&#10094;
 						</a>
 					</div>
 					<div class="go-to-hight" v-touch="{
@@ -383,7 +360,7 @@ export default {
 					}">
 					</div>
 					<div class="arrows-r flex-row-reverse" @click="after">
-						<a href="#" class="text-light" :title="text_after">&#10095;
+						<a href="#" class="text-light" :title="$store.state.texts.galery_arrows_after">&#10095;
 						</a>
 					</div>
 				</div>

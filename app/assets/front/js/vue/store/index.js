@@ -11,6 +11,11 @@ export default new Vuex.Store({
     main_menu_active: 0,
     //admin_menu: [],
     //user: {},
+    texts_to_load: ['base_edit_title', 'base_edit_texts', 'base_to_admin', 
+                    'base_last_change', 'base_platnost_do', 'base_zadal',
+                    'galery_arrows_before', 'galery_arrows_after'
+                   ],
+    texts: {},
   },
   mutations: {
     SET_INIT_MAIN_MENU (state, main_menu) {
@@ -34,6 +39,9 @@ export default new Vuex.Store({
     SET_INIT_ADMIN_MENU (state, admin_menu) {
       state.admin_menu = admin_menu
     }*/
+    SET_INIT_TEXTS (state, texts) {
+      state.texts = texts
+    }
   },
   actions: {
     loadMenu ({ commit }) {

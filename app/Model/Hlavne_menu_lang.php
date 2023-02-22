@@ -7,13 +7,13 @@ use Nette;
 /**
  * Model starajuci sa o tabulku hlavne_menu_lang
  * 
- * Posledna zmena 03.02.2023
+ * Posledna zmena 22.02.2023
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.2.0
+ * @version    1.2.1
  */
 class Hlavne_menu_lang extends Table
 {
@@ -178,6 +178,7 @@ class Hlavne_menu_lang extends Table
         $out['datum_platnosti'] = $tmp_article->hlavne_menu->datum_platnosti !== null ? $tmp_article->hlavne_menu->datum_platnosti->format('j.n.Y') : null;
         $out['modified'] = $tmp_article->hlavne_menu->modified->format('j.n.Y');
         $out['owner'] = $tmp_article->hlavne_menu->user_main->priezvisko;
+        $out['id_user_main'] = $tmp_article->hlavne_menu->id_user_main;
         $out['avatar'] = isset($tmp_article->hlavne_menu->avatar) && is_file($this->avatar_path . $tmp_article->hlavne_menu->avatar) ? $this->avatar_path . $tmp_article->hlavne_menu->avatar : null;
         $out['template'] = $tmp_article->hlavne_menu->id_hlavne_menu_template;
         return $out;

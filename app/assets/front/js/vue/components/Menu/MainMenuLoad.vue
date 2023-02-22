@@ -1,13 +1,13 @@
 <script>
 /**
- * Komponenta pre načítanie hl. menu.
- * Posledna zmena 07.02.2023
+ * Komponenta pre načítanie hl. menu a textov prekladov.
+ * Posledna zmena 21.02.2023
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.0
+ * @version    1.0.1
  */
 
 import axios from 'axios'
@@ -70,6 +70,22 @@ export default {
 					console.log(error);
 				});
 		},
+
+		// Načítanie prekladov textov
+		getTexts() {
+			let odkaz = this.apiPath + 'lang/gettexts' 
+			let vm = this
+			let data = { texts: this.$store.state.texts_to_load }
+			axios.post(odkaz, data)
+				.then(function (response) {
+					//console.log(response.data)
+					vm.$store.commit('SET_INIT_TEXTS', response.data)
+				})
+				.catch(function (error) {
+					console.log(odkaz)
+					console.log(error)
+				});
+		},
 	},
 	watch: {
 		// Zapísanie aktívnej položky menu
@@ -80,8 +96,12 @@ export default {
 	mounted() {
 		// Zapísanie aktívnej položky menu
 		this.$store.commit('SET_MAIN_MENU_ACTIVE', parseInt(this.main_menu_active))
+		
 		// Načítanie údajov priamo z DB
 		this.getMenu()
+
+		// Načítanie prekladov textov
+		this.getTexts()
 	},
 }
 </script>

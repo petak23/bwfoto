@@ -1,13 +1,13 @@
 <script>
 /** 
  * Component EditArticle
- * Posledná zmena(last change): 14.02.2023
+ * Posledná zmena(last change): 22.02.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.2
+ * @version 1.0.3
  * 
  */
 import EditTitle from "./EditTitle.vue";
@@ -27,12 +27,6 @@ export default {
 			required: true
 		}, 
 		article_id: String, // hlavne_menu_lang.id
-		title: String,
-		title_text: String,
-		title_admin: String,
-		title_last_change: String,
-		title_platnost_do: String,
-		title_zadal: String,
 		edit_enabled: String,
 		link: String,
 		link_to_admin: String,
@@ -49,6 +43,7 @@ export default {
 				h1part2: '',
 				view_name: '',
 				text_c: '',
+				id_user_main: 0,
 			},
 		}
 	},
@@ -96,12 +91,6 @@ export default {
 			</div>
 			<edit-title
 				:api-path="apiPath"
-				:title="title"
-				:title_text="title_text"
-				:title_admin="title_admin"
-				:title_last_change="title_last_change"
-				:title_platnost_do="title_platnost_do"
-				:title_zadal="title_zadal"
 				:edit_enabled="parseInt(edit_enabled)"
 				:article="article"
 				:link="link"

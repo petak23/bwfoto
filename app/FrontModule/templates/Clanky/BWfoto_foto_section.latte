@@ -2,7 +2,7 @@
  *
  * Modul: FRONT
  *
- * Posledna zmena(last change): 14.02.2023
+ * Posledna zmena(last change): 21.02.2023
  * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
@@ -16,12 +16,6 @@
 	<edit-article
 				api-path="{$apiPath}"
 				files-path="{$basePath}/"
-				title="{_'base_edit_title'}"
-				title_text="{_'base_edit_texts'}"
-				title_admin="{_'base_to_admin'}"
-				title_last_change="{_'base_last_change'}"
-				title_platnost_do="{_'base_platnost_do'}"
-				title_zadal="{_'base_zadal'}"
 				edit_enabled="{$user->isLoggedIn() && $user->isAllowed('Front:Clanky', 'edit') ? 1 : 0}"
 				article_id="{$article->id}"
 				link="{$this_link}"
