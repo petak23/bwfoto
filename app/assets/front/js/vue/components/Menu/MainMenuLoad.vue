@@ -1,13 +1,13 @@
 <script>
 /**
  * Komponenta pre načítanie hl. menu a textov prekladov.
- * Posledna zmena 21.02.2023
+ * Posledna zmena 23.02.2023
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.1
+ * @version    1.0.2
  */
 
 import axios from 'axios'
@@ -23,6 +23,10 @@ export default {
 			required: true
 		},
 		main_menu_active: { //Aktuálna aktívna polozka
+			type: String,
+			default: 0,
+		},
+		id_hlavne_menu_lang: {
 			type: String,
 			default: 0,
 		},
@@ -86,6 +90,19 @@ export default {
 					console.log(error)
 				});
 		},
+		// Načítanie aktuálneho článku
+		getArticle() {
+			let odkaz = this.apiPath + 'menu/getonemenuarticle/' + this.id_hlavne_menu_lang
+			axios.get(odkaz)
+				.then(response => {
+					this.$store.commit('SET_INIT_ARTICLE', response.data)
+					//console.log(response.data)
+				})
+				.catch((error) => {
+					console.log(odkaz);
+					console.log(error);
+				});
+		},
 	},
 	watch: {
 		// Zapísanie aktívnej položky menu
@@ -94,6 +111,9 @@ export default {
 		}
 	},
 	mounted() {
+		// Zapísanie apiPath
+		this.$store.commit('SET_INIT_API_PATH', this.apiPath)
+
 		// Zapísanie aktívnej položky menu
 		this.$store.commit('SET_MAIN_MENU_ACTIVE', parseInt(this.main_menu_active))
 		
@@ -102,6 +122,9 @@ export default {
 
 		// Načítanie prekladov textov
 		this.getTexts()
+
+		// Načítanie aktuálneho článku
+		this.getArticle()
 	},
 }
 </script>

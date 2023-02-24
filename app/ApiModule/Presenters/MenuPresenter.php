@@ -9,7 +9,7 @@ use DbTable;
 
 /**
  * Prezenter pre pristup k api hlavneho menu a pridružených vecí ako je aj obsah článku.
- * Posledna zmena(last change): 03.02.2023
+ * Posledna zmena(last change): 24.02.2023
  *
  * Modul: API
  *
@@ -17,7 +17,7 @@ use DbTable;
  * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.9
+ * @version 1.1.0
  * 
  * @help 1.) https://forum.nette.org/cs/28370-data-z-post-request-body-reactjs-appka-se-po-ceste-do-php-ztrati
  */
@@ -182,5 +182,16 @@ class MenuPresenter extends BasePresenter
 			$tmp = ['error' => $e->getCode()];
 		}
 		$this->sendJson($tmp);
+	}
+
+	/**
+	 * Robí zmeny v tabuľke hlavne_menu	 */
+	public function actionSaveMainMenuField(int $id): void
+	{
+		$_post = json_decode(file_get_contents("php://input"), true); // @help 1.)
+
+		$this->hlavne_menu->uloz($_post['data'], $id);
+
+		$this->actionGetOneMenuArticle($_post['id_hlavne_menu_lang']);
 	}
 }

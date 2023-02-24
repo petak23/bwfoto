@@ -1,13 +1,13 @@
 <script>
 /** 
  * Component EditTitle
- * Posledná zmena(last change): 21.02.2023
+ * Posledná zmena(last change): 24.02.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.4
+ * @version 1.0.5
  * 
  */
 import EditTexts from "./EditTexts.vue"
@@ -20,10 +20,6 @@ axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 export default {
 	props: {
-		apiPath: { // Cesta k API
-			type: String,
-			required: true,
-		},
 		edit_enabled: Number,
 		link: String,
 		link_to_admin: String,
@@ -60,7 +56,7 @@ export default {
 			event.preventDefault()
 			// Aby sa formulár odoslal, len ak je stačené tlačítko s class="main-submit"
 			if (event.submitter.classList.contains("main-submit")) {
-				let odkaz = this.apiPath + 'menu/h1save/' + this.article.id
+				let odkaz = this.$store.state.apiPath + 'menu/h1save/' + this.article.id
 				let vm = this
 				let data = {
 							menu_name: this.art_title.menu_name,
@@ -112,12 +108,15 @@ export default {
 			this.art_title.h1part2 = this.article.h1part2
 			this.art_title.view_name = this.article.view_name
 			this.art_title.template = this.article.template
+		},
+		'$store.state.article': function () {
+			this.art_title = this.$store.state.article
 		}
 	},
 	mounted() {
 		if (this.edit_enabled == 1) {
 			// Načítanie údajov priamo z DB
-			let odkaz = this.apiPath + 'menu/getforformtemplate'
+			let odkaz = this.$store.state.apiPath + 'menu/getforformtemplate'
 			axios.get(odkaz)
 				.then(response => {
 					this.templates = response.data
@@ -202,14 +201,14 @@ export default {
 						v-model="art_title.template" :options="templates">
 					</b-form-select>
 				</b-form-group>
-				<b-button type="submit" variant="success" class="main-submit">Ulož</b-button>&nbsp;
+				<b-button type="submit" variant="success" class="main-submit mr-2">Ulož</b-button>
 				<b-button type="reset" variant="secondary" class="main-reset">Cancel</b-button>
 			</b-form>
 		</b-modal>
 		
 		<edit-texts
 			v-if="edit_enabled == 1"
-			:api-path="apiPath"
+			:api-path="$store.state.apiPath"
 			:link="link"
 			:article="article"
 		>
@@ -217,17 +216,14 @@ export default {
 	</h1>
 	<div>
 		<small v-if="article_hlavicka & 1 || edit_enabled" class="title-info">
-			{{ $store.state.texts.base_last_change }}{{ article.modified }}
+			{{ $store.state.texts.base_last_change }}{{ art_title.modified }}
 		</small>
 		<small v-if="article.datum_platnosti != null" class="title-info">
-			{{ $store.state.texts.base_platnost_do }}{{ article.datum_platnosti }}
+			{{ $store.state.texts.base_platnost_do }}{{ art_title.datum_platnosti }}
 		</small>
 		<small v-if="article_hlavicka & 2 || edit_enabled" class="title-info">
-			{{ $store.state.texts.base_zadal }}{{ article.owner }}
-			<user-change
-				:api-path = "apiPath"
-				:id_user_main = "article.id_user_main"
-			></user-change>
+			{{ $store.state.texts.base_zadal }}{{ art_title.owner }}
+			<user-change></user-change>
 		</small>
 	</div>
 	</span>

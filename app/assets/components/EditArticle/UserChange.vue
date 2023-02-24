@@ -1,13 +1,13 @@
 <script>
 /** 
  * Component UserChange
- * Posledná zmena(last change): 22.02.2023
+ * Posledná zmena(last change): 24.02.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.0
+ * @version 1.0.1
  * 
  */
 
@@ -17,36 +17,39 @@ import axios from 'axios'
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 export default {
-	props: {
-		apiPath: { // Cesta k API
-			type: String,
-			required: true,
-		},
-		id_user_main: { // id aktuálneho vlastníka článku
-			type: Number,
-			required: true,
-		}
-	},
 	data() {
 		return {
 			users: null,
-			selected: 1,
+			id_user_main: 0, // id aktuálneho vlastníka článku
 		}
 	},
 	methods: {
-		onSubmit() {
-			
+		onSubmit(event) {
+			event.preventDefault()
+			if (event.submitter.classList.contains("user-change-submit")) {
+				this.$bvModal.hide("editUserChangeModal")
+				this.$store.dispatch('changeUserMainId', this.id_user_main)
+			}
 		},
-		onReset() {
-
+		onReset(event) {
+			event.preventDefault()
+			if (event.explicitOriginalTarget.classList.contains("user-change-reset")) {
+				this.$bvModal.hide("editUserChangeModal")
+				this.id_user_main = this.$store.state.article.id_user_main
+			}
+		}
+	},
+	watch: {
+		'$store.state.article.id_user_main': function () {
+			this.id_user_main = this.$store.state.article.id_user_main
 		}
 	},
 	mounted () {
-		let odkaz = this.apiPath + 'user/userchangeformusers'
+		let odkaz = this.$store.state.apiPath + 'user/userchangeformusers'
 		axios.get(odkaz)
 			.then(response => {
 				this.users = response.data
-				//console.log(this.users)
+				console.log(this.users)
 			})
 			.catch((error) => {
 				console.log(odkaz);
@@ -94,18 +97,14 @@ export default {
 					label="Nový vlastník:"
 					label-for="view_name"
 				>
-					<!--b-form-radio v-model="selected" :aria-describedby="ariaDescribedby" name="some-radios" value="A">Option A</b-form-radio>
-					<b-form-radio v-model="selected" :aria-describedby="ariaDescribedby" name="some-radios" value="B">Option B</b-form-radio-->
 					<b-form-radio-group
 						v-model="id_user_main"
 						:options="users"
 						class="mb-3"
-						value-field="item"
-						text-field="name"
 					></b-form-radio-group>
 				</b-form-group>
-				<b-button type="submit" variant="success" class="main-submit">Ulož</b-button>&nbsp;
-				<b-button type="reset" variant="secondary" class="main-reset">Cancel</b-button>
+				<b-button type="submit" variant="success"  class="user-change-submit mr-2">Ulož</b-button>
+				<b-button type="reset" variant="secondary" class="user-change-reset">Cancel</b-button>
 			</b-form>
 		</b-modal>
 	</span>

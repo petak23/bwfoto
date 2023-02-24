@@ -8,13 +8,13 @@ use Nette;
 /**
  * Model, ktory sa stara o tabulku user_main
  * 
- * Posledna zmena 05.01.2023
+ * Posledna zmena 24.02.2023
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.6
+ * @version    1.0.7
  */
 class User_main extends Table
 {
@@ -110,12 +110,19 @@ class User_main extends Table
   /**
    * Funkcia pre formulár na zostavenie zoznamu všetkých užívateľov
    * Vráti pole uzivatelov vo formate: id => "meno priezvisko" */
-  public function uzivateliaForm(): array
+  public function uzivateliaForm(int $verzia = 0): array
   {
     $u = $this->findAll();
     $out = [];
     foreach ($u as $v) {
-      $out[$v->{self::COLUMN_ID}] = $v->{self::COLUMN_MENO} . " " . $v->{self::COLUMN_PRIEZVISKO};
+      if ($verzia == 1) {
+        $out[] = [
+          'text' => $v->{self::COLUMN_MENO} . " " . $v->{self::COLUMN_PRIEZVISKO},
+          'value' => $v->{self::COLUMN_ID},
+        ];
+      } else {
+        $out[$v->{self::COLUMN_ID}] = $v->{self::COLUMN_MENO} . " " . $v->{self::COLUMN_PRIEZVISKO};
+      }
     }
     return $out;
   }

@@ -6,7 +6,7 @@ use DbTable;
 
 /**
  * Prezenter pre pristup k api užívateľa.
- * Posledna zmena(last change): 22.02.2023
+ * Posledna zmena(last change): 24.02.2023
  *
  * Modul: API
  *
@@ -14,7 +14,7 @@ use DbTable;
  * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.1
+ * @version 1.0.2
  */
 class UserPresenter extends BasePresenter
 {
@@ -49,6 +49,6 @@ class UserPresenter extends BasePresenter
 	 * Vráti pole uzivatelov vo formate: id => "meno priezvisko" */
 	public function actionUserChangeFormUsers(): void
 	{
-		$this->sendJson($this->user_main->uzivateliaForm());
+		$this->sendJson($this->user_main->uzivateliaForm(1));
 	}
 }

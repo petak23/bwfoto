@@ -32,9 +32,11 @@
 </head>
 <body>
 <div v-cloak id="vueapp">
-	{var $main_menu_active = isset($article->id_hlavne_menu) ? $article->id_hlavne_menu : 0}
+	{var $main_menu_active = $article->id_hlavne_menu ?? 0}
+	{var $id_hlavne_menu_lang = $article->id ?? 0}
 	<main-menu-load
 		main_menu_active="{$main_menu_active}"
+		id_hlavne_menu_lang="{$id_hlavne_menu_lang}"
 		api-path="{$apiPath}"
 	>
 	</main-menu-load>
