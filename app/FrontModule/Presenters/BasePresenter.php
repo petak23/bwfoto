@@ -20,7 +20,7 @@ use Texy;
 /**
  * Zakladny presenter pre vsetky presentery vo FRONT module
  * 
- * Posledna zmena(last change): 14.02.2023
+ * Posledna zmena(last change): 27.02.2023
  *
  *	Modul: FRONT
  *
@@ -219,7 +219,7 @@ abstract class BasePresenter extends Presenter
 	{
 		$this->getComponent('menu')->selectByUrl($this->link('this'));
 
-		// Cesta k API pre vue aplikácie
+		// Cesta k API pre vue aplikácie - nastavuje sa cez vue komponentu main-menu-load
 		$this->template->apiPath = $this->template->basePath . '/api/';
 
 		$this->template->title = $this->udaje_webu['titulka'];

@@ -1,13 +1,13 @@
 <script>
 /**
  * Komponenta pre navigáciu "odrobinky".
- * Posledna zmena 14.02.2023
+ * Posledna zmena 27.02.2023
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.1
+ * @version    1.0.2
  */
 
 export default {
@@ -21,7 +21,6 @@ export default {
 	data: () => ({
 		submenu: [],
 	}),
-	computed: {},
 	methods: {
 		/**
 		 * @param {array} items main_menu items
@@ -42,11 +41,11 @@ export default {
 			})
 		},
 		getBreadcrumb() {
+			this.submenu = []
 			this.getItem(this.$store.state.main_menu, this.$store.state.main_menu_open, 0)
 			//console.log(this.submenu)
 		},
 	},
-	mounted() { },
 	created() {
 		// Reaguje na načítanie hl. menu
 		this.$root.$on('main-menu-loadet', data => {

@@ -1,13 +1,13 @@
 <script>
 /** 
  * Component Fotocollage
- * Posledná zmena(last change): 21.01.2023
+ * Posledná zmena(last change): 27.02.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.9
+ * @version 1.2.0
  * Z kniznica pouzite súbory a upravene: https://github.com/seanghay/vue-photo-collage
  */
 import PhotoCollageWrapper from "./vue-photo-collage/PhotoCollageWrapper.vue";
@@ -18,14 +18,6 @@ export default {
 		PhotoCollageWrapper,
 	},
 	props: {
-		article_id: {
-			type: String,
-			required: true,
-		},
-		apiPath: { // Cesta k API
-			type: String,
-			required: true,
-		},
 		filesPath: { // Adresár k súborom
 			type: String,
 			required: true
@@ -105,7 +97,7 @@ export default {
 	methods: {
 		itemClickHandler(data, i) {
 			// click event
-			let odkaz = this.apiPath + 'documents/document/' + data.id_foto
+			let odkaz = this.$store.state.apiPath + 'documents/document/' + data.id_foto
 			axios.get(odkaz)
 							.then(response => {
 								this.image = response.data
@@ -153,7 +145,7 @@ export default {
 			this.collage.widerPhotoId = res.widerPhotoId
 		},
 		loadSchema() {
-			let odkaz = this.apiPath + 'menu/getonemenuarticlesp/fotocollage-settings'
+			let odkaz = this.$store.state.apiPath + 'menu/getonemenuarticlesp/fotocollage-settings'
 			axios.get(odkaz)
 				.then(response => {
 					//this.article = response.data
@@ -171,7 +163,7 @@ export default {
 		},
 		loadPictures() {
 			// Načítanie údajov priamo z DB
-			let odkaz = this.apiPath + 'documents/getfotocollage/' + this.article_id
+			let odkaz = this.$store.state.apiPath + 'documents/getfotocollage/' + this.$store.state.article.id
 			axios.get(odkaz)
 				.then(response => {
 					this.attachments = response.data
@@ -191,7 +183,7 @@ export default {
 				this.computeLayout(this.$refs.imgDetail.clientWidth)
 				// Aby sa formulár odoslal, len ak je stačené tlačítko s class="sch-submit"
 				if (event.submitter.classList.contains("sch-submit")) {
-					let odkaz = this.apiPath + 'menu/textssave/' + this.id_sch
+					let odkaz = this.$store.state.apiPath + 'menu/textssave/' + this.id_sch
 					let vm = this
 					let data = {
 						texts: this.schstr

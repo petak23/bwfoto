@@ -1,13 +1,13 @@
 <script>
 /** 
  * Component Fotopanorama
- * Posledná zmena(last change): 21.02.2023
+ * Posledná zmena(last change): 27.02.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.1
+ * @version 1.1.2
  */
 
 import axios from 'axios'
@@ -17,11 +17,6 @@ export default {
 		first_id: { // Ak je nastavené tak sa zobrazí obrázok ako prvý
 			type: String,
 			default: "0",
-		},
-		article_id: String,
-		apiPath: { // Cesta k API
-			type: String,
-			required: true,
 		},
 		filesPath: { // Adresár k súborom
 			type: String,
@@ -82,7 +77,7 @@ export default {
 			return "border: " + pom[1] + "px solid " + (pom[0].length > 2 ? (pom[0]) : "inherit")
 		},
 		getMainArticle() {
-			let odkaz = this.apiPath + 'menu/getonehlavnemenuarticle/' + this.article_id
+			let odkaz = this.$store.state.apiPath + 'menu/getonehlavnemenuarticle/' + this.$store.state.article.id_hlavne_menu
 			axios.get(odkaz)
 				.then(response => {
 					this.article = response.data
@@ -94,7 +89,7 @@ export default {
 				});
 		},
 		getAttachments() {
-			let odkaz = this.apiPath + 'documents/getfotogalery/' + this.article_id
+			let odkaz = this.$store.state.apiPath + 'documents/getfotogalery/' + this.$store.state.article.id_hlavne_menu
 			axios.get(odkaz)
 				.then(response => {
 					//console.log(response.data)
@@ -136,12 +131,15 @@ export default {
 			return this.border_compute(this.article.border_c)
 		}
 	},
+	watch: {
+		'$store.state.article.id_hlavne_menu': function () {
+			/* Načítanie údajov hl. menu z DB */
+			this.getMainArticle()
+
+			this.getAttachments()
+		}
+	},
 	mounted () {
-		/* Načítanie údajov hl. menu z DB */
-		this.getMainArticle()
-
-		this.getAttachments()
-
 		// Naviazanie na sledovanie stláčania klávesnice
 		document.addEventListener("keydown", this.keyPush);
 	},

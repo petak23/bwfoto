@@ -1,13 +1,13 @@
 <script>
 /** 
  * Component EditTitle
- * Posledná zmena(last change): 24.02.2023
+ * Posledná zmena(last change): 27.02.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.5
+ * @version 1.0.6
  * 
  */
 import EditTexts from "./EditTexts.vue"
@@ -24,7 +24,6 @@ export default {
 		link: String,
 		link_to_admin: String,
 		article_hlavicka: String,
-		article: Object,
 	},
 	components: {
 		EditTexts,
@@ -56,7 +55,7 @@ export default {
 			event.preventDefault()
 			// Aby sa formulár odoslal, len ak je stačené tlačítko s class="main-submit"
 			if (event.submitter.classList.contains("main-submit")) {
-				let odkaz = this.$store.state.apiPath + 'menu/h1save/' + this.article.id
+				let odkaz = this.$store.state.apiPath + 'menu/h1save/' + this.$store.state.article.id
 				let vm = this
 				let data = {
 							menu_name: this.art_title.menu_name,
@@ -68,7 +67,6 @@ export default {
 						article: data
 					})
 					.then(function (response) {
-						//vm.textin = response.data
 						//console.log(response.data.result)
 						if (response.data.result == "OK") {
 							vm.$root.$emit('flash_message', [{'message':'Položka v nadpise bola uložená.', 
@@ -76,41 +74,41 @@ export default {
 																								'heading': 'Uložené ...',
 																								'timeout': 5000,
 																							}])
+							let	td = response.data
+							delete td.result
+							vm.$store.commit('SET_INIT_ARTICLE', td)
+							vm.$root.$emit("reload-main-menu", [])
 						} else {
 							vm.saveErr()
 						}
 						setTimeout(() => {
 							vm.$bvModal.hide("modal-edit-title-form")
-							vm.$root.$emit("title-save", data)
 						}, 500)
 					})
 					.catch(function (error) {
 						vm.saveErr()
 						console.log(odkaz)
 						console.log(error)
-					});      
+					});
 			}
 		},
 		onReset(event) {
 			event.preventDefault()
 			if (event.explicitOriginalTarget.classList.contains("main-reset")) {
 				this.$bvModal.hide("modal-edit-title-form")
-				this.art_title.menu_name = this.article.menu_name
-				this.art_title.h1part2 = this.article.h1part2
-				this.art_title.view_name = this.article.view_name
-				this.art_title.template = this.article.template
+				this.getArtTitle()
 			}
+		},
+		getArtTitle() {
+			this.art_title.menu_name = this.$store.state.article.menu_name
+			this.art_title.h1part2 = this.$store.state.article.h1part2
+			this.art_title.view_name = this.$store.state.article.view_name
+			this.art_title.template = this.$store.state.article.template
 		}
 	},
 	watch: {
-		article: function (newArticle) {
-			this.art_title.menu_name = this.article.menu_name
-			this.art_title.h1part2 = this.article.h1part2
-			this.art_title.view_name = this.article.view_name
-			this.art_title.template = this.article.template
-		},
-		'$store.state.article': function () {
-			this.art_title = this.$store.state.article
+		'$store.state.article.view_name': function () {
+			this.getArtTitle()
 		}
 	},
 	mounted() {
@@ -120,7 +118,6 @@ export default {
 			axios.get(odkaz)
 				.then(response => {
 					this.templates = response.data
-					//console.log(this.article)
 				})
 				.catch((error) => {
 					console.log(odkaz);
@@ -133,10 +130,10 @@ export default {
 
 <template>
 	<span>
-	<h1 class="title-article">
-		{{ article.view_name }}
-		<small v-if="article.h1part2 != null">
-			{{ article.h1part2 }}
+	<h1 class="title-article" v-if="$store.state.article.view_name">
+		{{ $store.state.article.view_name }}
+		<small v-if="$store.state.article.h1part2 != null">
+			{{ $store.state.article.h1part2 }}
 		</small>
 		<edit-menu
 			:edit_enabled="edit_enabled"
@@ -208,9 +205,7 @@ export default {
 		
 		<edit-texts
 			v-if="edit_enabled == 1"
-			:api-path="$store.state.apiPath"
 			:link="link"
-			:article="article"
 		>
 		</edit-texts>
 	</h1>
@@ -218,11 +213,11 @@ export default {
 		<small v-if="article_hlavicka & 1 || edit_enabled" class="title-info">
 			{{ $store.state.texts.base_last_change }}{{ art_title.modified }}
 		</small>
-		<small v-if="article.datum_platnosti != null" class="title-info">
+		<small v-if="$store.state.article.datum_platnosti != null" class="title-info">
 			{{ $store.state.texts.base_platnost_do }}{{ art_title.datum_platnosti }}
 		</small>
 		<small v-if="article_hlavicka & 2 || edit_enabled" class="title-info">
-			{{ $store.state.texts.base_zadal }}{{ art_title.owner }}
+			{{ $store.state.texts.base_zadal }}{{ $store.state.article.owner }}
 			<user-change></user-change>
 		</small>
 	</div>

@@ -4,7 +4,7 @@
  *
  *	Modul: FRONT
  *
- * Posledna zmena(last change): 18.01.2023
+ * Posledna zmena(last change): 27.02.2023
  * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
@@ -52,12 +52,10 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<bwfoto-tree-main 
-				api-path="{$apiPath}"
 				part="-2" 
 			/>
 			<autocomplete
 				link="{link Clanky:}/"
-				api-path={$apiPath}
 			></autocomplete>
 			{control langMenu}
 		</div>
@@ -87,7 +85,6 @@
 			{* --- Mapa stranky --- *}
 			<nav class="w-100">
 				<bwfoto-tree-main 
-					api-path="{$apiPath}"
 					part="-1" 
 					ul-class="nav text-center justify-content-center py-3"
 				/>

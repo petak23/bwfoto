@@ -1,13 +1,13 @@
 <script>
 /** 
  * Component Menucardorder
- * Posledná zmena(last change): 30.03.2022
+ * Posledná zmena(last change): 27.02.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @copyright Copyright (c) 2021 - 2022 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.2
+ * @version 1.0.3
  */
 
 import axios from 'axios'
@@ -17,10 +17,6 @@ axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 export default {
 	props: {
-		apiPath: { // Cesta k API
-			type: String,
-			required: true
-		},
 		filesPath: { // Adresár k súborom
 			type: String,
 			required: true
@@ -49,7 +45,7 @@ export default {
 		moveArticle: function(ai) {
 			let from = ai.from.index
 			let to = ai.to.index
-			this.odkaz = this.apiPath + 'menu/saveordersubmenu/' + this.id_hlavne_menu
+			this.odkaz = this.$store.state.apiPath + 'menu/saveordersubmenu/' + this.id_hlavne_menu
 			let out = []
 			for (let i = 0; i < this.items.length; i++) {
 				out.push(this.items[i].id)
@@ -74,7 +70,7 @@ export default {
 		}
 	},
 	mounted () {
-		let odkaz = this.apiPath + 'menu/getsubmenu/' + this.id_hlavne_menu + '/front'
+		let odkaz = this.$store.state.apiPath + 'menu/getsubmenu/' + this.id_hlavne_menu + '/front'
 		this.items = []
 		axios.get(odkaz)
 							.then(response => {

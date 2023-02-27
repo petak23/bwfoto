@@ -62,7 +62,8 @@ export default {
 			let odkaz = this.apiPath + 'menu/getmenu/0/Front'
 			axios.get(odkaz)
 				.then(response => {
-					this.$store.commit('SET_INIT_MAIN_MENU', this.convert(response.data))
+					this.$store.dispatch('changeMainMenu', this.convert(response.data))
+					//this.$store.commit('SET_INIT_MAIN_MENU', this.convert(response.data))
 					this.$store.commit('SET_INIT_MAIN_MENU_OPEN', [])
 					this.getpath(this.$store.state.main_menu)
 					this.in_path = false
@@ -125,6 +126,10 @@ export default {
 
 		// Načítanie aktuálneho článku
 		this.getArticle()
+
+		this.$root.$on('reload-main-menu', data => {
+			this.getMenu()
+		})
 	},
 }
 </script>

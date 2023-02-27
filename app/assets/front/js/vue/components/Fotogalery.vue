@@ -1,13 +1,13 @@
 <script>
 /** 
  * Component Fotogalery
- * Posledná zmena(last change): 21.02.2023
+ * Posledná zmena(last change): 27.02.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.1
+ * @version 1.1.2
  */
 
 import axios from 'axios' 
@@ -19,15 +19,10 @@ export default {
 			default: "0",
 		},
 		large: String,
-		apiPath: { // Cesta k API
-			type: String,
-			required: true,
-		},
 		filesPath: { // Adresár k súborom
 			type: String,
 			required: true
 		},
-		article_id: String,
 	},
 	data() {
 		return {
@@ -117,7 +112,7 @@ export default {
 			return "border: " + pom[1] + "px solid " + (pom[0].length > 2 ? (pom[0]) : "inherit")
 		},
 		getMainArticle() {
-			let odkaz = this.apiPath + 'menu/getonehlavnemenuarticle/' + this.article_id
+			let odkaz = this.$store.state.apiPath + 'menu/getonehlavnemenuarticle/' + this.$store.state.article.id_hlavne_menu
 			axios.get(odkaz)
 				.then(response => {
 					this.article = response.data
@@ -129,7 +124,7 @@ export default {
 				});
 		},
 		getAttachments() {
-			let odkaz = this.apiPath + 'documents/getfotogalery/' + this.article_id
+			let odkaz = this.$store.state.apiPath + 'documents/getfotogalery/' + this.$store.state.article.id_hlavne_menu
 			axios.get(odkaz)
 				.then(response => {
 					//console.log(response.data)
@@ -156,7 +151,7 @@ export default {
 			//console.log(item)
 			this.$root.$emit("product-like", [{
 				id_product: item.id,
-				id_article: this.article_id,
+				id_article: this.$store.state.article.id_hlavne_menu,
 				source: item.main_file,
 				name: item.name,
 			}])
@@ -190,12 +185,15 @@ export default {
 			return this.border_compute(this.article.border_c)
 		},
 	},
+	watch: {
+		'$store.state.article.id_hlavne_menu': function () {
+			/* Načítanie údajov hl. menu z DB */
+			this.getMainArticle()
+
+			this.getAttachments()
+		}
+	},
 	mounted () {
-		/* Načítanie údajov hl. menu z DB */
-		this.getMainArticle()
-
-		this.getAttachments()
-
 		/* Naviazanie na sledovanie zmeny veľkosti stránky */
 		this.matchHeight();
 
@@ -214,160 +212,162 @@ export default {
 </script>
 
 <template>
-<div class="main-win" v-if="attachments.length > 0">
-	<div class="row" v-if="wid > 0">
-		<h4 class="col-8 bigimg-name d-flex justify-content-between">
-			{{ attachments[id].name }}
-			<button 
-				v-if="attachments[id].type == 'product'"
-				type="button"
-				class="btn align-right"
-				:class="liked ? 'btn-success' : 'btn-outline-warning'"				
-				@click="saveLiked()"
-				>
-				<i 
-					class="fa-solid"
-					:class="liked ? 'fa-heart' : 'fa-thumbs-up'"
-				></i>
-			</button>
-		</h4>
-		<div class="col-4">&nbsp;</div>
-	</div>
-	<div class="row">
-		<div class="d-none d-sm-flex justify-content-center col-sm-8 detail" ref="imgDetail" id="imgDetail"
-				 v-if="large_thumbs == false">
-			<div id="squarePlace" 
-					 v-bind:style="{height: square + 'px', width: square + 'px'}">
-				<a  v-if="attachments[id].type == 'menu'"
-						:href="attachments[id].web_name" 
-						:title="attachments[id].name">
-					<img  :src="filesPath + attachments[id].main_file" 
+<!--div class="col-12 vue-fotogalery"-->
+	<div class="col-12 vue-fotogalery main-win" v-if="attachments.length > 0">
+		<div class="row" v-if="wid > 0">
+			<h4 class="col-8 bigimg-name d-flex justify-content-between">
+				{{ attachments[id].name }}
+				<button 
+					v-if="attachments[id].type == 'product'"
+					type="button"
+					class="btn align-right"
+					:class="liked ? 'btn-success' : 'btn-outline-warning'"				
+					@click="saveLiked()"
+					>
+					<i 
+						class="fa-solid"
+						:class="liked ? 'fa-heart' : 'fa-thumbs-up'"
+					></i>
+				</button>
+			</h4>
+			<div class="col-4">&nbsp;</div>
+		</div>
+		<div class="row">
+			<div class="d-none d-sm-flex justify-content-center col-sm-8 detail" ref="imgDetail" id="imgDetail"
+					v-if="large_thumbs == false">
+				<div id="squarePlace" 
+						v-bind:style="{height: square + 'px', width: square + 'px'}">
+					<a  v-if="attachments[id].type == 'menu'"
+							:href="attachments[id].web_name" 
+							:title="attachments[id].name">
+						<img  :src="filesPath + attachments[id].main_file" 
+									:alt="attachments[id].name" class="img-fluid">
+						<h4>{{ attachments[id].name }}</h4>
+					</a>
+					<video v-if="attachments[id].type == 'attachments3'"
+								class="video-priloha" 
+								:src="filesPath + attachments[id].main_file" 
+								:poster="filesPath + attachments[id].thumb_file"
+								type="video/mp4" controls="controls" preload="none">
+					</video>
+					<a v-else-if="attachments[id].type == 'attachments1'"
+							:title="attachments[id].name"
+							:href="filesPath + attachments[id].main_file"
+							target="_blank"
+							class="for-pdf"
+									>
+						<img :src="filesPath + attachments[id].thumb_file" 
 								:alt="attachments[id].name" class="img-fluid">
-					<h4>{{ attachments[id].name }}</h4>
-				</a>
-				<video v-if="attachments[id].type == 'attachments3'"
-							class="video-priloha" 
-							:src="filesPath + attachments[id].main_file" 
-							:poster="filesPath + attachments[id].thumb_file"
-							type="video/mp4" controls="controls" preload="none">
-				</video>
-				<a v-else-if="attachments[id].type == 'attachments1'"
-						:title="attachments[id].name"
-						:href="filesPath + attachments[id].main_file"
-						target="_blank"
-						class="for-pdf"
-								>
-					<img :src="filesPath + attachments[id].thumb_file" 
-							:alt="attachments[id].name" class="img-fluid">
-					<br><h6>{{ attachments[id].name }}</h6>
-				</a>  
-				<button v-else-if="attachments[id].type == 'attachments2' || attachments[id].type == 'product'"
-								v-b-modal.modal-multi-1
-								type="button" class="btn btn-link">
-					<img :src="filesPath + attachments[id].main_file" 
-							:alt="attachments[id].name" class="img-fluid">
-				</button>
+						<br><h6>{{ attachments[id].name }}</h6>
+					</a>  
+					<button v-else-if="attachments[id].type == 'attachments2' || attachments[id].type == 'product'"
+									v-b-modal.modal-multi-1
+									type="button" class="btn btn-link">
+						<img :src="filesPath + attachments[id].main_file" 
+								:alt="attachments[id].name" class="img-fluid">
+					</button>
+				</div>
 			</div>
-		</div>
-		<div class="col-12  thumbgrid" 
-				 :class="{'thumbs-large': large_thumbs, 'col-sm-4': !large_thumbs}">
-			<div v-for="(im, index) in attachments" :key="im.id">
-				<a  v-if="wid > 0" 
-						@click.prevent="changebig(index)" href=""
-						:title="'Odkaz' + (im.type == 'menu' ? im.view_name : im.name)" 
-						:class="'pok thumb-a, ajax' + (index == id ? ', selected' : '')">
-					<b-img-lazy
-						:src="getImageUrl(im.thumb_file)"
-						:alt="im.name" class="img-fluid">
-					></b-img-lazy>
-				</a>
-				<a  v-else-if="wid == 0 && im.type == 'menu'" 
-						:href="im.web_name" 
-						:title="im.name">
-					<b-img-lazy
-						:src="getImageUrl(im.main_file)"
-						:alt="im.name" class="img-fluid podclanok">
-					></b-img-lazy>
-					<h4 class="h4-podclanok">{{ im.name }}</h4>
-				</a>
-				<video v-if="wid == 0 && im.type == 'attachments3'"
-							class="video-priloha" 
-							:src="filesPath + im.main_file" 
-							:poster="filesPath + im.thumb_file"
-							type="video/mp4" controls="controls" preload="none">
-				</video>
-				<button v-else-if="wid == 0 && im.type == 'attachments1'" 
-								:title="im.name">
-					<b-img-lazy
-						:src="getImageUrl(im.thumb_file)" 
-						:alt="im.name" 
-						class="img-fluid a3">
-					></b-img-lazy>
-					<br><h6>{{ im.name }}</h6>
-				</button>
-				<button v-else-if="wid == 0 && (im.type == 'attachments2' || im.type == 'product')"
-								@click.prevent="modalchangebig(index)" 
-								type="button" class="btn btn-link">
-					<b-img-lazy
-						:src="getImageUrl(im.thumb_file)" 
-						:alt="im.name" 
-						class="img-fluid a12">
-					></b-img-lazy>
-				</button>
+			<div class="col-12  thumbgrid" 
+					:class="{'thumbs-large': large_thumbs, 'col-sm-4': !large_thumbs}">
+				<div v-for="(im, index) in attachments" :key="im.id">
+					<a  v-if="wid > 0" 
+							@click.prevent="changebig(index)" href=""
+							:title="'Odkaz' + (im.type == 'menu' ? im.view_name : im.name)" 
+							:class="'pok thumb-a, ajax' + (index == id ? ', selected' : '')">
+						<b-img-lazy
+							:src="getImageUrl(im.thumb_file)"
+							:alt="im.name" class="img-fluid">
+						></b-img-lazy>
+					</a>
+					<a  v-else-if="wid == 0 && im.type == 'menu'" 
+							:href="im.web_name" 
+							:title="im.name">
+						<b-img-lazy
+							:src="getImageUrl(im.main_file)"
+							:alt="im.name" class="img-fluid podclanok">
+						></b-img-lazy>
+						<h4 class="h4-podclanok">{{ im.name }}</h4>
+					</a>
+					<video v-if="wid == 0 && im.type == 'attachments3'"
+								class="video-priloha" 
+								:src="filesPath + im.main_file" 
+								:poster="filesPath + im.thumb_file"
+								type="video/mp4" controls="controls" preload="none">
+					</video>
+					<button v-else-if="wid == 0 && im.type == 'attachments1'" 
+									:title="im.name">
+						<b-img-lazy
+							:src="getImageUrl(im.thumb_file)" 
+							:alt="im.name" 
+							class="img-fluid a3">
+						></b-img-lazy>
+						<br><h6>{{ im.name }}</h6>
+					</button>
+					<button v-else-if="wid == 0 && (im.type == 'attachments2' || im.type == 'product')"
+									@click.prevent="modalchangebig(index)" 
+									type="button" class="btn btn-link">
+						<b-img-lazy
+							:src="getImageUrl(im.thumb_file)" 
+							:alt="im.name" 
+							class="img-fluid a12">
+						></b-img-lazy>
+					</button>
+				</div>
 			</div>
+		</div> 
+		<div class="row d-none d-sm-inline-block" v-if="wid > 0">
+			<div class="col-12 bigimg-description popis">{{ attachments[id].description }}</div>
 		</div>
-	</div> 
-	<div class="row d-none d-sm-inline-block" v-if="wid > 0">
-		<div class="col-12 bigimg-description popis">{{ attachments[id].description }}</div>
-	</div>
 
-	<b-modal  id="modal-multi-1" centered size="xl" 
-						:title="attachments[id].name" ok-only
-						modal-class="lightbox-img"
-						ref="modal1fo">
-		<div class="modal-content">
-			<div class="modal-body my-img-content">
-					<div class="border-a" :style="border_a">
-						<div class="border-b" :style="border_b">
-							<img :src="filesPath + attachments[id].main_file" 
-										:alt="attachments[id].name" 
-										id="big-main-img"
-										class="border-c" 
-										:style="border_c" />
+		<b-modal  id="modal-multi-1" centered size="xl" 
+							:title="attachments[id].name" ok-only
+							modal-class="lightbox-img"
+							ref="modal1fo">
+			<div class="modal-content">
+				<div class="modal-body my-img-content">
+						<div class="border-a" :style="border_a">
+							<div class="border-b" :style="border_b">
+								<img :src="filesPath + attachments[id].main_file" 
+											:alt="attachments[id].name" 
+											id="big-main-img"
+											class="border-c" 
+											:style="border_c" />
+							</div>
 						</div>
+					<div class="text-center description" v-if="attachments[id].description != null">
+						{{ attachments[id].description }}
 					</div>
-				<div class="text-center description" v-if="attachments[id].description != null">
-					{{ attachments[id].description }}
+				</div>
+				<div class="arrows-overlay">
+					<div class="arrows-l"
+							@click="before">
+						<a href="#" class="text-light"   
+								:title="$store.state.texts.galery_arrows_before">&#10094;
+						</a>
+					</div>
+					<div class="go-to-hight"
+							v-touch="{
+								left: () => swipe('Left'),
+								right: () => swipe('Right'),
+								up: () => swipe('Up'),
+								down: () => swipe('Down')
+							}"
+							@click="openmodal2">
+					</div>
+					<div class="arrows-r flex-row-reverse"
+							@click="after">
+						<a href="#" class="text-light"
+								:title="$store.state.texts.galery_arrows_after">&#10095;
+						</a>
+					</div>
 				</div>
 			</div>
-			<div class="arrows-overlay">
-				<div class="arrows-l"
-						@click="before">
-					<a href="#" class="text-light"   
-							:title="$store.state.texts.galery_arrows_before">&#10094;
-					</a>
-				</div>
-				<div class="go-to-hight"
-						v-touch="{
-							left: () => swipe('Left'),
-							right: () => swipe('Right'),
-							up: () => swipe('Up'),
-							down: () => swipe('Down')
-						}"
-						@click="openmodal2">
-				</div>
-				<div class="arrows-r flex-row-reverse"
-						@click="after">
-					<a href="#" class="text-light"
-							:title="$store.state.texts.galery_arrows_after">&#10095;
-					</a>
-				</div>
-			</div>
-		</div>
-	</b-modal>
+		</b-modal>
 
-	<b-modal id="modal-multi-2" centered size="xl" ok-only >
-		<img :src="filesPath + attachments[id].main_file" :alt="attachments[id].name" @click="closeme">
-	</b-modal>
-</div>
+		<b-modal id="modal-multi-2" centered size="xl" ok-only >
+			<img :src="filesPath + attachments[id].main_file" :alt="attachments[id].name" @click="closeme">
+		</b-modal>
+	</div>
+<!--/div-->
 </template>

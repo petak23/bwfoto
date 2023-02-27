@@ -19,7 +19,9 @@ export default new Vuex.Store({
 		//user: {},
 		texts_to_load: ['base_edit_title', 'base_edit_texts', 'base_to_admin', 
 										'base_last_change', 'base_platnost_do', 'base_zadal',
-										'galery_arrows_before', 'galery_arrows_after'
+										'galery_arrows_before', 'galery_arrows_after',
+										'autocomplete_placeholder', 'autocomplete_searching',
+										'autocomplete_min_char', 'autocomplete_not_found'
 									 ],
 		texts: {},
 	},
@@ -73,7 +75,11 @@ export default new Vuex.Store({
 					//console.log(response.data.result)
 					commit('SET_INIT_ARTICLE', response.data)
 				})
-		}
+		},
+		changeMainMenu ({ commit, state }, main_menu) {
+			state.main_menu = []
+			commit('SET_INIT_MAIN_MENU', main_menu)
+		},
 	},
 	getters: {
 		id_user_main: state => {

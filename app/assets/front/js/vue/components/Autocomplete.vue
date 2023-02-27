@@ -1,4 +1,17 @@
 <script>
+/** 
+ * Component Autocomplete
+ * Posledná zmena(last change): 27.02.2023
+ *
+ * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
+ * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
+ * @license
+ * @link http://petak23.echo-msz.eu
+ * @version 1.0.0
+ * 
+ * Inšpirácia z: https://blog.nette.org/cs/vue-js-v-nette
+ */
+
 import axios from 'axios';
 
 //for Tracy Debug Bar
@@ -6,14 +19,6 @@ axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 export default {
 	props: {
-		apiPath: { // Cesta k API
-			type: String,
-			required: true,
-		},
-		/*links: {
-			type: String,
-			required: true,
-		},*/
 		link: {
 			type: String,
 			required: true,
@@ -30,19 +35,7 @@ export default {
 			isOpen: false,
 			isSearching: true,
 			arrowCounter: -1,
-			texts: {
-				autocomplete_placeholder: "",
-				autocomplete_searching: "Searching...",
-				autocomplete_min_char: "Minimum chars 3",
-				autocomplete_not_found: "Not found!"
-			}
 		}
-	},
-	computed: {
-		// Parsovanie JSON-u  na array
-		/*mylinks() {
-			return JSON.parse(this.links)
-		},*/
 	},
 	methods: {
 		autoComplete() {
@@ -53,7 +46,7 @@ export default {
 				this.isSearching = true;
 			}
 			if (this.searchquery.length > 2) {
-				let odkaz = this.apiPath + 'search'
+				let odkaz = this.$store.state.apiPath + 'search'
 				axios.get(odkaz, {params: {[this.inputname]: this.searchquery}})
 							.then(response => {
 								//console.log(response);
@@ -100,28 +93,8 @@ export default {
 				this.searchquery = '';
 			}
 		},
-		// Načítanie prekladov textov
-		getTexts() {
-			let odkaz = this.apiPath + 'lang/gettexts'
-			let vm = this
-			let data = {
-				texts: ['autocomplete_placeholder', 'autocomplete_searching', 'autocomplete_min_char', 'autocomplete_not_found']
-			}
-			axios.post(odkaz, data)
-				.then(function (response) {
-					//console.log(response.data)
-					vm.texts = response.data
-				})
-				.catch(function (error) {
-					console.log(odkaz)
-					console.log(error)
-				});
-		},
 	},
 	mounted() {
-		/* Načítanie prekladov textov */
-		this.getTexts()
-
 		document.addEventListener('click', this.handleClickOutside)
 	},
 	destroyed() {
@@ -134,7 +107,7 @@ export default {
 	<div id="autocomplete" class="autocomplete">
 		<form autocomplete="off" class="my-2 my-lg-0" @submit.prevent><!--required for disable google chrome auto fill-->
 			<input  type="search" 
-							:placeholder="texts.autocomplete_placeholder"
+							:placeholder="$store.state.texts.autocomplete_placeholder"
 							:name="inputname"
 							class="form-control mr-sm-2"
 							aria-label="Search"
@@ -149,9 +122,9 @@ export default {
 					<li class="list-group-item text-secondary" v-show="isSearching">
 						<span v-show="searchquery.length > 2">
 							<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-							{{ texts.autocomplete_searching }}
+							{{ $store.state.texts.autocomplete_searching }}
 						</span>
-						<span v-show="searchquery.length < 3">{{ texts.autocomplete_min_char }}</span>
+						<span v-show="searchquery.length < 3">{{ $store.state.texts.autocomplete_min_char }}</span>
 					</li>
 					<li class="list-group-item"
 							v-for="(result, i) in results"
@@ -164,7 +137,7 @@ export default {
 						</a>
 					</li>
 					<li class="list-group-item text-warning" v-show="!isSearching && searchquery.length > 2 && results.length == 0">
-						<span>{{ texts.autocomplete_not_found }}</span>
+						<span>{{ $store.state.texts.autocomplete_not_found }}</span>
 					</li>
 				</ul>
 			</div>

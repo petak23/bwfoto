@@ -1,13 +1,13 @@
 <script>
 /** 
  * Component UserChange
- * Posledná zmena(last change): 24.02.2023
+ * Posledná zmena(last change): 27.02.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.1
+ * @version 1.0.2
  * 
  */
 
@@ -49,7 +49,7 @@ export default {
 		axios.get(odkaz)
 			.then(response => {
 				this.users = response.data
-				console.log(this.users)
+				//console.log(this.users)
 			})
 			.catch((error) => {
 				console.log(odkaz);

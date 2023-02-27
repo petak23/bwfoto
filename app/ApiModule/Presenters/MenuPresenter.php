@@ -9,7 +9,7 @@ use DbTable;
 
 /**
  * Prezenter pre pristup k api hlavneho menu a pridružených vecí ako je aj obsah článku.
- * Posledna zmena(last change): 24.02.2023
+ * Posledna zmena(last change): 27.02.2023
  *
  * Modul: API
  *
@@ -17,7 +17,7 @@ use DbTable;
  * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.0
+ * @version 1.1.1
  * 
  * @help 1.) https://forum.nette.org/cs/28370-data-z-post-request-body-reactjs-appka-se-po-ceste-do-php-ztrati
  */
@@ -117,9 +117,8 @@ class MenuPresenter extends BasePresenter
 	{
 		$_post = json_decode(file_get_contents("php://input"), true); // @help 1.)
 
-		$this->sendJson([
-			'result' => $this->hlavne_menu_lang->saveText($id, $this->lang->getLngId($this->language), $_post['texts']) ? 'OK' : 'ERR'
-		]);
+		$_tp = $this->hlavne_menu_lang->saveText($id, $this->lang->getLngId($this->language), $_post['texts']) ? 'OK' : 'ERR';
+		$this->actionGetOneMenuArticle($id, $_tp);
 	}
 
 	/** 
@@ -128,9 +127,9 @@ class MenuPresenter extends BasePresenter
 	public function actionH1Save(int $id): void
 	{
 		$_post = json_decode(file_get_contents("php://input"), true); // @help 1.)
-		$this->sendJson([
-			'result' => $this->hlavne_menu_lang->h1Save($id, $_post['article']) ? 'OK' : 'ERR'
-		]);
+
+		$_tp = $this->hlavne_menu_lang->h1Save($id, $_post['article'])  ? 'OK' : 'ERR';
+		$this->actionGetOneMenuArticle($id, $_tp);
 	}
 
 	/** Vráti jednu položku hlavne_menu */
@@ -142,12 +141,15 @@ class MenuPresenter extends BasePresenter
 	}
 
 	/** Vráti jednu položku hlavne_menu_lang */
-	public function actionGetOneMenuArticle(int $id): void
+	public function actionGetOneMenuArticle(int $id, string|null $result = null): void
 	{
 		try {
 			$tmp = $this->hlavne_menu_lang->getOneArticleAPI($id, $this->id_reg);
 		} catch (DbTable\ArticleMainMenuException $e) {
 			$tmp = ['error' => $e->getCode()];
+		}
+		if ($result != null) {
+			$tmp = array_merge($tmp, ['result' => $result]);
 		}
 		$this->sendJson($tmp);
 	}

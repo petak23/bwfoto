@@ -1,13 +1,13 @@
 <script>
 /** 
  * Component EditTexts
- * Posledná zmena(last change): 11.01.2023
+ * Posledná zmena(last change): 27.01.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.6
+ * @version 1.0.7
  * 
  */
 import Tiptap from "../Tiptap/tiptap-editor.vue"
@@ -21,12 +21,7 @@ export default {
 		Tiptap,
 	},
 	props: {
-		apiPath: { // Cesta k API
-			type: String,
-			required: true,
-		},
 		link: String,
-		article: Object,
 	},
 	data() {
 		return {
@@ -43,7 +38,7 @@ export default {
 			event.preventDefault()
 			// Aby sa formulár odoslal, len ak je stačené tlačítko s class="main-submit"
 			if (event.submitter.classList.contains("main-submit")) {
-				let odkaz = this.apiPath + 'menu/textssave/' + this.article.id
+				let odkaz = this.$store.state.apiPath + 'menu/textssave/' + this.$store.state.article.id
 				let vm = this
 				let data = {
 							texts: this.textin
@@ -55,10 +50,13 @@ export default {
 																							'type':'success',
 																							'heading': 'Podarilo sa...'
 																						}])
+						let td = response.data
+						delete td.result
+						vm.$store.commit('SET_INIT_ARTICLE', td)
+						vm.$root.$emit("reload-main-menu", [])
 						setTimeout(() => {
 							vm.$bvModal.hide("editArticleTextsModal")
-							vm.$root.$emit("texts-save", data)
-						}, 500)
+						}, 300)
 					})
 					.catch(function (error) {
 						console.log(odkaz)
@@ -70,19 +68,25 @@ export default {
 			event.preventDefault()
 			if (event.explicitOriginalTarget.classList.contains("main-reset")) {
 				this.$bvModal.hide("editArticleTextsModal")
-				this.textin = this.article.text_c
+				this.textin = this.$store.state.article.text_c
 			}
 		},
 	},
 	watch: {
 		article: function (newArticle) {
-			this.textin = this.article.text_c
+			this.textin = this.$store.state.article.text_c
+		},
+		'$store.state.article.text_c': function () {
+			this.textin = this.$store.state.article.text_c
 		}
 	},
 	created: function () {
 		this.$root.$on('tiptap_input', data => {
 			this.textin = data
 		})
+	},
+	mounted () {
+		this.textin = this.$store.state.article.text_c
 	},
 }
 </script>
