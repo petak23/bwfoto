@@ -1,19 +1,20 @@
 <script>
 /** 
- * @lastchange 17.03.2022
+ * @lastchange 02.03.2023
  *
  * @editedby Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @version 1.0.1
+ * @version 1.0.2
  */
 export default {
   props: {
     rowHeight: Number,
+    rowPadding: Number,
   },
 };
 </script>
 
 <template>
-  <div class="vue-photo-row" :style="{ height: rowHeight+'px' }">
+  <div class="vue-photo-row" :style="{ height: rowHeight+'px', 'padding-bottom': rowPadding+'px' }">
     <slot></slot>
   </div>
 </template>

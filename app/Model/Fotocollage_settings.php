@@ -29,6 +29,8 @@ class Fotocollage_settings extends Table
 			'schema' 				=> [2, 1, 3, 4, 4, 3, 4, 4],
 			// Výška jednotlivých riadkov v px
 			'height' 				=> [85, 60, 85, 60, 70, 95, 70, 60],
+			// Veľkosť medzery pod daným riadkom
+			'padding'				=> [2, 5, 0, 0, 0, 5, 0, 0],
 			// Poradie fotky v riadku, ktorá má byť širšia ako ostatné v riadku:
 			// Ak je zadané číslo väčšie ako 0 (1,2,...) tak tá konkrétna bude širšia, 
 			// ak je zadané 0 generuje sa náhodne,
@@ -39,18 +41,21 @@ class Fotocollage_settings extends Table
 			'max_width'			=> 700,
 			'schema'				=> [4, 3, 5, 4, 3, 4, 5, 4],
 			'height'				=> [130, 175, 105, 120, 175, 130, 105, 120],
+			'padding'				=> [2, 5, 0, 0, 0, 5, 0, 0],
 			'widerPhotoId'	=> [-1, 0, 2, 0, -1, 2, 3, 1],
 		],
 		[
 			'max_width'			=> 1300,
-			'schema'				=> [6, 7, 8, 7, 6, 8, 7, 6],
-			'height'				=> [225, 170, 135, 170, 225, 135, 170, 225],
-			'widerPhotoId'	=> [2, -1, 0, 2, -1, 1, 2, 1],
+			'schema'				=> [6, 7, 8, 7, 6, 8, 7, 6, 5, 4],
+			'height'				=> [225, 170, 135, 170, 225, 135, 170, 225, 200, 200],
+			'padding'				=> [2, 5, 0, 0, 0, 5, 0, 0, 0, 10],
+			'widerPhotoId'	=> [2, -1, 0, 2, -1, 1, 2, 1, 0, -1],
 		],
 		[
 			'max_width'			=> 10000,
 			'schema'				=> [6, 7, 8, 7, 6, 8, 7, 6],
 			'height'				=> [318, 240, 190, 240, 318, 190, 240, 318],
+			'padding'				=> [2, 5, 0, 0, 0, 5, 0, 0],
 			'widerPhotoId'	=> [3, 0, -1, 2, 2, -1, 3, 4],
 		],
 	];
@@ -76,6 +81,11 @@ class Fotocollage_settings extends Table
 	{
 		$tmp = $this->findOneBy(['id_hlavne_menu' => $id_hlavne_menu]);
 
-		return ($tmp != null) ? $this->repair($tmp->id, $data) : $this->pridaj($data);
+		$dat = [
+			'id_hlavne_menu' => $id_hlavne_menu,
+			'settings' => Json::encode($data)
+		];
+
+		return ($tmp != null) ? $this->repair($tmp->id, $dat) : $this->pridaj($dat);
 	}
 }

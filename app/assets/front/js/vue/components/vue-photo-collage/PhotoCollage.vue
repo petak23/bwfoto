@@ -8,6 +8,7 @@
       v-for="(data, i) in layout"
       :key="i"
       :height="height[i]"
+      :padding="padding[i]"
       :photos="layoutPhotoMaps[i]"
       :layoutNum="layoutNum"
       :remainingNum="remainingNum"
@@ -32,6 +33,7 @@ export default {
     },
     width: String,
     height: Array,
+    padding: Array,
     layout: Array,
     layoutPhotoMaps: Object,
     layoutNum: Number,

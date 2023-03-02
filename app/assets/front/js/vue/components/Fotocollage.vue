@@ -48,6 +48,8 @@ export default {
 				widerPhotoId: [], // poradie fotky v riadku, ktorá má byť širšia 1,2,... 
 													// ak je zadané 0 generuje sa náhodne
 													// ak je zadané -1 všetky fotky budú rovnaké
+				maxPhotosToShow: 0, // Max. počet fotiek na zobrazenie pre dan schému
+				uniqeRows: 0,			// Počet jedinečných riadkov (pred opakovaním)
 			},
 			image: {
 				name: "",
@@ -55,11 +57,10 @@ export default {
 				description: null,
 				id_collage: 0,
 			},
-			id_sch: 0,
-			schstr: "",
-			schstr_old: "",
-			sch: [],
-			_temp_sch: [
+			schstr: "",			// Schéma v textovej podobe
+			schstr_old: "",	// Záloha textovej podoby schémy
+			/* Formát schémy: 
+			[
 				{
 					// Max. šírka koláže pre ktorú platí
 					max_width: 320,  
@@ -67,32 +68,17 @@ export default {
 					schema: [2, 1, 3, 4, 4, 3, 4, 4], 
 					// Výška jednotlivých riadkov v px
 					height: [85, 60, 85, 60, 70, 95, 70, 60],
+					// Veľkosť medzery pod daným riadkom
+					padding: [2, 5, 0, 0, 0, 5, 0, 0],
 					// Poradie fotky v riadku, ktorá má byť širšia ako ostatné v riadku:
 					// Ak je zadané číslo väčšie ako 0 (1,2,...) tak tá konkrétna bude širšia, 
 					// ak je zadané 0 generuje sa náhodne,
 					// ak je zadané -1 všetky fotky v riadku budú rovnaké.
 					widerPhotoId: [-1, 2, 0, 1, -1, 0, 2, 1], 
 				},
-				{
-					max_width: 700,
-					schema: [4, 3, 5, 4, 3, 4, 5, 4],
-					height: [130, 175, 105, 120, 175, 130, 105, 120],
-					widerPhotoId: [-1, 0, 2, 0, -1, 2, 3, 1],
-				},
-				{
-					max_width: 1300,
-					schema: [6, 7, 8, 7, 6, 8, 7, 6],
-					height: [225, 170, 135, 170, 225, 135, 170, 225],
-					widerPhotoId: [2, -1, 0, 2, -1, 1, 2, 1],
-				},
-				{
-					max_width: 10000,
-					schema: [6, 7, 8, 7, 6, 8, 7, 6],
-					height: [318, 240, 190, 240, 318, 190, 240, 318],
-					widerPhotoId: [3, 0, -1, 2, 2, -1, 3, 4],
-				},
-			],
-			// Koniec sch -----
+				...
+			],*/
+			sch: [],				// Aktuálna schéma
 		}
 	},
 	methods: {
@@ -117,7 +103,8 @@ export default {
 			let res = { 
 				max_width: 0,  
 				schema: [],  
-				height: [],  
+				height: [],
+				padding: [],  
 				layout: [],
 				widerPhotoId: []
 			};
@@ -141,16 +128,19 @@ export default {
 			while (i > 0);
 			this.collage.width = client_width + 'px';
 			this.collage.height = res.height
+			this.collage.padding = res.padding
 			this.collage.layout = res.layout
 			this.collage.maxRandomPercWidth = parseInt(this.maxrandompercwidth)
 			this.collage.widerPhotoId = res.widerPhotoId
+			// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce
+			this.collage.maxPhotosToShow = res.schema.reduce((a, b) => a + b, 0)
+			this.collage.uniqeRows = res.schema.length
 		},
 		loadSchema() {
 			let odkaz = this.$store.state.apiPath + 'menu/getfotocollagesettings/' + this.$store.state.article.id_hlavne_menu
 			axios.get(odkaz)
 				.then(response => {
 					this.sch = response.data
-					this.id_sch = this.$store.state.article.id_hlavne_menu
 					this.schstr = JSON.stringify(this.sch, null, 2)
 					this.schstr_old = this.schstr
 					this.loadPictures()
@@ -178,14 +168,12 @@ export default {
 		onSubmitSch(event) {
 			event.preventDefault()
 			try {
-				this.sch = JSON.parse(this.schstr)
-				this.computeLayout(this.$refs.imgDetail.clientWidth)
 				// Aby sa formulár odoslal, len ak je stačené tlačítko s class="sch-submit"
 				if (event.submitter.classList.contains("sch-submit")) {
-					let odkaz = this.$store.state.apiPath + 'menu/textssave/' + this.id_sch
+					let odkaz = this.$store.state.apiPath + 'menu/savefotocollagesettings/' + this.$store.state.article.id_hlavne_menu
 					let vm = this
 					let data = {
-						texts: this.schstr
+						data: JSON.parse(this.schstr)
 					}
 					axios.post(odkaz, data)
 						.then(function (response) {
@@ -197,6 +185,8 @@ export default {
 							}])
 							setTimeout(() => {
 								vm.$bvModal.hide("edit-collage")
+								vm.sch = response.data
+								vm.computeLayout(vm.$refs.imgDetail.clientWidth)
 							}, 500)
 						})
 						.catch(function (error) {
@@ -278,7 +268,13 @@ export default {
 
 <template>
 	<span>
-		<ul class="nav justify-content-end" v-if="edit_enabled == '1'">
+		<ul class="nav justify-content-end mb-1" v-if="edit_enabled == '1'">
+			<li class="nav-item">
+				<a type="button" class="btn btn-sm btn-dark disabled" disabled>
+					Fotiek: {{ attachments.length }}, max. v schéme: {{ collage.maxPhotosToShow }},
+					riadkov: {{ collage.uniqeRows }}
+				</a>
+			</li>
 			<li class="nav-item">
 				<b-button 
 					variant="outline-warning"

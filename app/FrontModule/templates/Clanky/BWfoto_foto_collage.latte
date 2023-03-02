@@ -2,7 +2,7 @@
  *
  * Modul: FRONT
  *
- * Posledna zmena(last change): 27.02.2023
+ * Posledna zmena(last change): 02.03.2023
  * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
@@ -27,6 +27,7 @@
 		<fotocollage
 			files-path = "{$basePath}/"
 			maxrandompercwidth="25"
+			edit_enabled="{$user->isLoggedIn() && $user->isAllowed('Front:Clanky', 'edit') ? 1 : 0}"
 		></fotocollage>
 	</div>
 </section>

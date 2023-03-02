@@ -1,9 +1,9 @@
 <script>
 /** 
- * @lastchange 17.03.2022
+ * @lastchange 02.03.2023
  *
  * @editedby Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @version 1.0.1
+ * @version 1.0.2
  */
 import PhotoGrid from "./PhotoGrid.vue"
 import PhotoRow from "./PhotoRow.vue"
@@ -22,7 +22,8 @@ export default {
     PhotoThumb,
   },
   props: {
-    height: Number, // Výška riadku v px
+    height: Number,   // Výška riadku v px
+    padding: Number,  // Veľkosť padding-bottom
     photos: Array,
     layoutNum: Number,
     remainingNum: Number,
@@ -54,7 +55,7 @@ export default {
 </script>
 
 <template>
-  <photo-row :rowHeight="height">
+  <photo-row :rowHeight="height" :rowPadding="padding">
     <photo-grid 
       v-for="(data, i) in photos"
       @click="$emit('itemClick', data, i)"  

@@ -206,7 +206,18 @@ class MenuPresenter extends BasePresenter
 	public function actionGetFotocollageSettings(int $id): void
 	{
 		$_t = $this->fotocollage_settings->getSettings($id);
-		$_da = Json::decode($_t->settings);
-		$this->sendJson($_da);
+
+		$this->sendJson(Json::decode($_t->settings));
+	}
+
+	/**
+	 * Robí zmeny v tabuľke hlavne_menu	 */
+	public function actionSaveFotocollageSettings(int $id): void
+	{
+		$_post = json_decode(file_get_contents("php://input"), true); // @help 1.)
+
+		$_t = $this->fotocollage_settings->save($id, $_post['data']);
+
+		$this->sendJson(Json::decode($_t->settings));
 	}
 }

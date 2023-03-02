@@ -44,6 +44,9 @@ export default {
     height: {
       type: Array,
     },
+    padding: {
+      type: Array,
+    },
     layout: {
       type: Array,
       default: [],
@@ -72,6 +75,7 @@ export default {
 
     return {
       internalHeight: [],
+      internalPadding: [],
       allowRender: false,
       layoutPhotoMaps: {},
       viewerIsOpen: false,
@@ -115,6 +119,18 @@ export default {
         if (r > 0) {
           for (let i = 0; i < r; i++) { // Doplnenie výšok riadkov ak chýbajú
             this.internalHeight.push(this.height[i % this.height.length])
+          }
+        }
+      },
+      deep: true,
+    },
+    padding: {
+      handler() {
+        this.internalPadding = this.padding
+        let r = this.layout.length - this.internalPadding.length // Počet riadkov, pre ktoré nemám padding
+        if (r > 0) {
+          for (let i = 0; i < r; i++) { // Doplnenie výšok riadkov ak chýbajú
+            this.internalPadding.push(this.padding[i % this.padding.length])
           }
         }
       },
@@ -169,6 +185,7 @@ export default {
       :disabled="disabled"
       :width="width"
       :height="internalHeight"
+      :padding="internalPadding"
       :layout="layout"
       :layoutPhotoMaps="layoutPhotoMaps"
       :layoutNum="layoutNum"

@@ -20,7 +20,7 @@ VALUES ('Api:Lang');
 INSERT INTO `user_permission` (`id_user_roles`, `id_user_resource`, `actions`)
 VALUES ('0', '35', NULL);*/
 
-INSERT INTO `user_resource` (`name`)
+/* INSERT INTO `user_resource` (`name`)
 SELECT 'Api:Search'
 FROM `user_resource`
 WHERE ((`id` = '26'));
@@ -39,3 +39,5 @@ CREATE TABLE `fotocollage_settings` (
 ) COMMENT='Nastavenia fotokoláže' ENGINE='InnoDB' COLLATE 'utf32_bin';
 
 UPDATE `user_permission` SET `actions` = 'getsubmenu,getmenu,getonemenuarticle,getonemenuarticlesp,getonehlavnemenuarticle,getfotocollagesettings' WHERE `id_user_resource` = '27' AND `id` = '36';
+*/
+ -- updated in v 0.9.58
