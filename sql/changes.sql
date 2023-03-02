@@ -30,3 +30,12 @@ INSERT INTO `user_permission` (`id_user_roles`, `id_user_resource`, `actions`)
 SELECT '0', '36', NULL
 FROM `user_permission`
 WHERE `id_user_resource` = '26' AND ((`id` = '35'));
+
+CREATE TABLE `fotocollage_settings` (
+  `id` int NOT NULL COMMENT '[A]Index' AUTO_INCREMENT PRIMARY KEY,
+  `id_hlavne_menu` int NOT NULL COMMENT 'Id prvku, ku ktorému je koláž',
+  `settings` json NOT NULL COMMENT 'Nastavenia vo formáte json',
+  FOREIGN KEY (`id_hlavne_menu`) REFERENCES `hlavne_menu` (`id`)
+) COMMENT='Nastavenia fotokoláže' ENGINE='InnoDB' COLLATE 'utf32_bin';
+
+UPDATE `user_permission` SET `actions` = 'getsubmenu,getmenu,getonemenuarticle,getonemenuarticlesp,getonehlavnemenuarticle,getfotocollagesettings' WHERE `id_user_resource` = '27' AND `id` = '36';

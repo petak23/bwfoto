@@ -6,10 +6,11 @@ namespace App\ApiModule\Presenters;
 
 use App\ApiModule\Components\Menu;
 use DbTable;
+use Nette\Utils\Json;
 
 /**
  * Prezenter pre pristup k api hlavneho menu a pridružených vecí ako je aj obsah článku.
- * Posledna zmena(last change): 27.02.2023
+ * Posledna zmena(last change): 02.03.2023
  *
  * Modul: API
  *
@@ -17,7 +18,7 @@ use DbTable;
  * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.1
+ * @version 1.1.2
  * 
  * @help 1.) https://forum.nette.org/cs/28370-data-z-post-request-body-reactjs-appka-se-po-ceste-do-php-ztrati
  */
@@ -27,6 +28,8 @@ class MenuPresenter extends BasePresenter
 	// -- DB
 	/** @var DbTable\Admin_menu @inject */
 	public $admin_menu;
+	/** @var DbTable\Fotocollage_settings @inject */
+	public $fotocollage_settings;
 	/** @var DbTable\Hlavne_menu_lang @inject */
 	public $hlavne_menu_lang;
 	/** @var DbTable\Hlavne_menu_template $hlavne_menu_template @inject */
@@ -195,5 +198,15 @@ class MenuPresenter extends BasePresenter
 		$this->hlavne_menu->uloz($_post['data'], $id);
 
 		$this->actionGetOneMenuArticle($_post['id_hlavne_menu_lang']);
+	}
+
+	/**
+	 * Vráti nastavenie fotokoláže pre daný článok. Ak neexzistuje tak vytvorý a vráti prednastavenú schému.
+	 * @param int $id id_hlavne_menu */
+	public function actionGetFotocollageSettings(int $id): void
+	{
+		$_t = $this->fotocollage_settings->getSettings($id);
+		$_da = Json::decode($_t->settings);
+		$this->sendJson($_da);
 	}
 }

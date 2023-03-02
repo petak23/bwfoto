@@ -1,13 +1,13 @@
 <script>
 /** 
  * Component Fotocollage
- * Posledná zmena(last change): 27.02.2023
+ * Posledná zmena(last change): 02.03.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.2.0
+ * @version 1.2.1
  * Z kniznica pouzite súbory a upravene: https://github.com/seanghay/vue-photo-collage
  */
 import PhotoCollageWrapper from "./vue-photo-collage/PhotoCollageWrapper.vue";
@@ -58,8 +58,9 @@ export default {
 			id_sch: 0,
 			schstr: "",
 			schstr_old: "",
-			sch: [
-				/*{
+			sch: [],
+			_temp_sch: [
+				{
 					// Max. šírka koláže pre ktorú platí
 					max_width: 320,  
 					// Počet fotiek v jednotlivých riadkoch
@@ -89,7 +90,7 @@ export default {
 					schema: [6, 7, 8, 7, 6, 8, 7, 6],
 					height: [318, 240, 190, 240, 318, 190, 240, 318],
 					widerPhotoId: [3, 0, -1, 2, 2, -1, 3, 4],
-				},*/
+				},
 			],
 			// Koniec sch -----
 		}
@@ -145,15 +146,13 @@ export default {
 			this.collage.widerPhotoId = res.widerPhotoId
 		},
 		loadSchema() {
-			let odkaz = this.$store.state.apiPath + 'menu/getonemenuarticlesp/fotocollage-settings'
+			let odkaz = this.$store.state.apiPath + 'menu/getfotocollagesettings/' + this.$store.state.article.id_hlavne_menu
 			axios.get(odkaz)
 				.then(response => {
-					//this.article = response.data
-					this.sch = JSON.parse(response.data.text_c)
-					this.id_sch = JSON.parse(response.data.id)
+					this.sch = response.data
+					this.id_sch = this.$store.state.article.id_hlavne_menu
 					this.schstr = JSON.stringify(this.sch, null, 2)
 					this.schstr_old = this.schstr
-					//console.log(this.sch)
 					this.loadPictures()
 				})
 				.catch((error) => {
@@ -260,11 +259,13 @@ export default {
 	destroyed() {
 		window.removeEventListener("resize", this.matchHeight);
 	},
-	computed: {},
+	watch: {
+		'$store.state.article.id_hlavne_menu': function () {
+			/* Nčítanie schémy fotokoláže */
+			this.loadSchema();
+		}
+	},
 	mounted () {
-		/* Nčítanie schémy fotokoláže */
-		this.loadSchema();
-
 		/* Naviazanie na sledovanie zmeny veľkosti stránky */
 		this.matchHeight();
 
