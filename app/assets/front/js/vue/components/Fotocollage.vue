@@ -11,11 +11,13 @@
  * Z kniznica pouzite súbory a upravene: https://github.com/seanghay/vue-photo-collage
  */
 import PhotoCollageWrapper from "./vue-photo-collage/PhotoCollageWrapper.vue";
+import EditSchemaRow from "./vue-photo-collage/EditSchemaRow.vue"
 import axios from 'axios'
 
 export default {
 	components: {
 		PhotoCollageWrapper,
+		EditSchemaRow,
 	},
 	props: {
 		filesPath: { // Adresár k súborom
@@ -302,13 +304,38 @@ export default {
 			:hide-footer="true"
 		>
 			<b-form @submit="onSubmitSch" @reset="onResetSch">
-				<b-form-group id="input-group-1" label="Schéma:" label-for="schema">
+				<!--b-form-group id="input-group-1" label="Schéma:" label-for="schema">
 					<b-form-textarea 
 						id="schema" 
 						v-model="schstr"
-						rows="15"> <!-- cols="45" -->
+						rows="15">
 					</b-form-textarea>
-				</b-form-group>
+				</b-form-group-->
+
+				<!--b-form-group 
+					v-for="(s, index) in sch"
+					:key="index"
+					:id="'schema-group-'+index"
+					:label="'Schéma pre max. šírku:' + s.max_width" 
+					:label-for="'schema-'+index">
+					<b-form-textarea 
+						:id="'schema'+index" 
+						v-model="s"
+						rows="5">
+					</b-form-textarea>
+				</b-form-group-->
+				<div
+					class="accordion"
+					role="tablist"
+					v-for="(s, index) in sch"
+					:key="index"
+				>
+					<edit-schema-row
+						:row="s"
+					>
+					</edit-schema-row>
+				</div>
+
 				<b-button type="submit" variant="success" class="sch-submit">Ulož</b-button>&nbsp;
 				<b-button type="reset" variant="secondary" class="sch-reset">Cancel</b-button>
 			</b-form>

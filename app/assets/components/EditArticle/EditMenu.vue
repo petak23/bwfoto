@@ -53,6 +53,15 @@ export default {
 		>
 			<i class="fa-solid fa-person-walking-dashed-line-arrow-right"></i>
 		</a>
+		<b-dropdown right variant="outline-warning" no-caret >
+			<template #button-content>
+	      &nbsp;<i class="fa-solid fa-ellipsis text-warning"></i>&nbsp;
+	    </template>
+			<b-dropdown-item>Item 1</b-dropdown-item>
+			<b-dropdown-item>Item 2</b-dropdown-item>
+			<b-dropdown-divider></b-dropdown-divider>
+			<b-dropdown-item>Item 3</b-dropdown-item>
+		</b-dropdown>
 	</div>
 </template>
 
