@@ -332,6 +332,7 @@ export default {
 				>
 					<edit-schema-row
 						:row="s"
+						:id_part="index"
 					>
 					</edit-schema-row>
 				</div>
