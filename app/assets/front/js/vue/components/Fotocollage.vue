@@ -263,6 +263,11 @@ export default {
 
 		/* Naviazanie na sledovanie stláčania klávesnice */
 		document.addEventListener("keydown", this.keyPush);
+
+		this.$root.$on('schema-changed', data => {
+			console.log(data[0])
+			console.log(this.sch[data[0].id_part])
+		})
 	},
 
 };

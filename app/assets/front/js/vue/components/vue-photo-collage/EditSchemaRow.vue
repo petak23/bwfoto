@@ -42,6 +42,7 @@ export default {
 				padding: null,
 				widerPhotoId: null,
 			},
+			row_state_n: null,
 			row_len_mid: 0, // Hodnota, ktorú by mali mať všetky časti row_len
 			showSave: false,
 			changed: false,
@@ -63,15 +64,24 @@ export default {
 			}
 			this.changed = false
 		},
-		onSaveRow($event) {
-			$event.preventDefault()
-			if ($event.submitter.classList.contains('schema-row-save-' + this.id_part)) {
-
+		onSaveRow(event) {
+			event.preventDefault()
+			if (event.srcElement.classList.contains('schema-row-save-' + this.id_part)) {
+				let tmp = {
+					schema: this.row_str.schema.split(","),
+					height: this.row_str.height.split(","),
+					padding: this.row_str.padding.split(","),
+					widerPhotoId: this.row_str.widerPhotoId.split(","),
+					max_width: this.row.max_width,
+				}
+				this.$root.$emit("schema-changed", [{ 'id_part': this.id_part, 'data': tmp}])
 			}
 		},
 		onCancelRow($event) {
 			$event.preventDefault()
+			if ($event.srcElement.classList.contains('schema-row-cancel-'+id_part)) {
 
+			}
 		},
 		row_items_count() {
 			this.row_len_mid = (this.row_len.schema + this.row_len.height + this.row_len.padding + this.row_len.widerPhotoId) / 4
@@ -85,19 +95,23 @@ export default {
 		'row_str.schema': function () {
 			this.changed = true
 			this.row_len.schema = this.row_str.schema.split(",").length - 1
-			this.row_state.schema = this.row_len.schema == this.row_len_mid 
+			//this.row_state.schema = this.row_len.schema == this.row_len_mid
+			this.row_state_n = this.row_len.schema == this.row_len_mid 
 		},
 		'row_str.height': function () {
 			if (this.row_str.height !== null) this.changed = true
 			this.row_len.height = this.row_str.height.split(",").length - 1
+			this.row_state_n = this.row_len.height == this.row_len_mid
 		},
 		'row_str.padding': function () {
 			if (this.row_str.padding !== null) this.changed = true
 			this.row_len.padding = this.row_str.padding.split(",").length - 1
+			this.row_state_n = this.row_len.height == this.row_len_mid
 		},
 		'row_str.widerPhotoId': function () {
 			if (this.row_str.widerPhotoId !== null) this.changed = true
 			this.row_len.widerPhotoId = this.row_str.widerPhotoId.split(",").length - 1
+			this.row_state_n = this.row_len.height == this.row_len_mid
 		}
 	},
 	mounted () {
@@ -111,6 +125,7 @@ export default {
 				padding: null,
 				widerPhotoId: null,
 			}
+			this.row_state_n = null
 		}, 100);
 	},
 }
@@ -139,49 +154,83 @@ export default {
 					Počet fotiek v jednotlivých riadkoch: <br />
 					<b-form-input v-model="row_str.schema" 
 						size="sm" type="text"
-						:state="row_state.schema"
+						:state="row_state_n"
 					></b-form-input>
 				</b-card-text>
 				<b-card-text class="text-dark">
 					Výška jednotlivých riadkov v px: <br />
-					<b-form-input v-model="row_str.height" size="sm" type="text"></b-form-input>
+					<b-form-input v-model="row_str.height" 
+						size="sm" type="text"
+						:state="row_state_n"
+					></b-form-input>
 				</b-card-text>
 				<b-card-text class="text-dark">
 					Veľkosť medzery pod daným riadkom: <br />
-					<b-form-input v-model="row_str.padding" size="sm" type="text"></b-form-input>
+					<b-form-input v-model="row_str.padding" 
+						size="sm" type="text"
+						:state="row_state_n"
+					></b-form-input>
 				</b-card-text>
 				<b-card-text class="text-dark">
 					Poradie fotky v riadku, ktorá má byť širšia ako ostatné v riadku: <br />
-					<b-form-input v-model="row_str.widerPhotoId" size="sm" type="text"></b-form-input>
+					<b-form-input v-model="row_str.widerPhotoId" 
+						size="sm" type="text"
+						:state="row_state_n"
+					></b-form-input>
 				</b-card-text>
 				<b-card-text>
-					<b-button
-						type="reset" 
+					<!--b-button 
 						variant="secondary"
 						size="sm"
 						class="mr-1"
 						:class="'schema-row-cancel-'+id_part"
-						@click="onCancelRow()"
-						:disabled="!changed"
+						@click="onCancelRow"
+						:disabled="!changed && !row_state_n"
 					>
 						Cancel
-					</b-button>
-	  			<b-button
+					</b-button-->
+					<button 
+						type="button"
+						class="btn btn-secondary btn-sm mr-1"
+						:class="'schema-row-cancel-' + id_part"
+						@click="onCancelRow"
+						:disabled="!changed || !row_state_n"
+					>
+						Cancel
+					</button>
+					<button 
+						type="button"
+						class="btn btn-success btn-sm"
+						:class="'schema-row-save-' + id_part"
+						@click="onSaveRow"
+						:disabled="!changed || !row_state_n"
+					>
+						Ulož
+					</button>
+	  			<!--b-button
 						variant="success"
 						size="sm"
 						:class="'schema-row-save-' + id_part"
-						@click="onSaveRow()"
-						:disabled="!changed"
+						@click="onSaveRow"
+						:disabled="!changed && !row_state_n"
 					>
 						Ulož
-					</b-button>
-					<b-button disabled 
+					</b-button-->
+					<!--b-button disabled 
 						variant="outline-success" size="sm" 
 						class="ml-3 disabled"
 						:class="{ 'd-none': !showSave }"
 					>
 						Uložené
-					</b-button>
+					</b-button-->
+					<button 
+						type="button"
+						class="btn btn-outline-success btn-sm ml-3 disabled"
+						disabled
+						:class="{ 'd-none': !showSave }"
+					>
+						Uložené
+					</button>
 				</b-card-text>
 			</b-card-body>
 		</b-collapse>
