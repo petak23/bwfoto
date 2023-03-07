@@ -1,13 +1,13 @@
 <script>
 /** 
  * Component Fotocollage
- * Posledná zmena(last change): 02.03.2023
+ * Posledná zmena(last change): 06.03.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.2.1
+ * @version 1.2.2
  * Z kniznica pouzite súbory a upravene: https://github.com/seanghay/vue-photo-collage
  */
 import PhotoCollageWrapper from "./vue-photo-collage/PhotoCollageWrapper.vue";
@@ -94,8 +94,8 @@ export default {
 								this.$bvModal.show("modal-multi-1")
 							})
 							.catch((error) => {
-								console.log(odkaz)
-								console.log(error)
+								console.error(odkaz)
+								console.error(error)
 							})
 		},
 		matchHeight () {
@@ -108,7 +108,8 @@ export default {
 				height: [],
 				padding: [],  
 				layout: [],
-				widerPhotoId: []
+				widerPhotoId: [],
+				maxPhotosToShow: 0
 			};
 			this.sch.forEach(x => {
 				if (client_width < x.max_width && res.max_width == 0) {
@@ -129,13 +130,13 @@ export default {
 			}
 			while (i > 0);
 			this.collage.width = client_width + 'px';
-			this.collage.height = res.height
-			this.collage.padding = res.padding
-			this.collage.layout = res.layout
+			this.collage.height = res.height.map(x => parseInt(x)) // Aby som z textových položiek urobil čísla
+			this.collage.padding = res.padding.map(x => parseInt(x))
+			this.collage.layout = res.layout.map(x => parseInt(x))
 			this.collage.maxRandomPercWidth = parseInt(this.maxrandompercwidth)
-			this.collage.widerPhotoId = res.widerPhotoId
+			this.collage.widerPhotoId = res.widerPhotoId.map(x => parseInt(x))
 			// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce
-			this.collage.maxPhotosToShow = res.schema.reduce((a, b) => a + b, 0)
+			this.collage.maxPhotosToShow = res.schema.map(x => parseInt(x)).reduce((a, b) => a + b, 0)
 			this.collage.uniqeRows = res.schema.length
 		},
 		loadSchema() {
@@ -148,8 +149,8 @@ export default {
 					this.loadPictures()
 				})
 				.catch((error) => {
-					console.log(odkaz);
-					console.log(error);
+					console.error(odkaz);
+					console.error(error);
 				});
 		},
 		loadPictures() {
@@ -158,54 +159,36 @@ export default {
 			axios.get(odkaz)
 				.then(response => {
 					this.attachments = response.data
-					//console.log(this.attachments)
 					this.computeLayout(this.$refs.imgDetail.clientWidth)
 
 				})
 				.catch((error) => {
-					console.log(odkaz);
-					console.log(error);
+					console.error(odkaz);
+					console.error(error);
 				});
 		},
-		onSubmitSch(event) {
-			event.preventDefault()
-			try {
-				// Aby sa formulár odoslal, len ak je stačené tlačítko s class="sch-submit"
-				if (event.submitter.classList.contains("sch-submit")) {
-					let odkaz = this.$store.state.apiPath + 'menu/savefotocollagesettings/' + this.$store.state.article.id_hlavne_menu
-					let vm = this
-					let data = {
-						data: JSON.parse(this.schstr)
-					}
-					axios.post(odkaz, data)
-						.then(function (response) {
-							//console.log(response.data)
-							vm.$root.$emit('flash_message', [{
-								'message': 'Schéma bola uložená.',
-								'type': 'success',
-								'heading': 'Podarilo sa...'
-							}])
-							setTimeout(() => {
-								vm.$bvModal.hide("edit-collage")
-								vm.sch = response.data
-								vm.computeLayout(vm.$refs.imgDetail.clientWidth)
-							}, 500)
-						})
-						.catch(function (error) {
-							console.log(odkaz)
-							console.log(error)
-						});
-				}
+		SchemaChanged(id_part) {
+			let odkaz = this.$store.state.apiPath + 'menu/savefotocollagesettings/' + this.$store.state.article.id_hlavne_menu
+			let vm = this
+			let data = {
+				data: this.sch
 			}
-			catch (e) {
-				alert("Chybné zadanie schémy...");
-			}
-			
-		},
-		onResetSch(event) {
-			event.preventDefault()
-			this.schstr = this.schstr_old
-			this.$bvModal.hide("edit-collage")
+			axios.post(odkaz, data)
+				.then(function (response) {
+					vm.$root.$emit('flash_message', [{
+						'message': 'Schéma bola uložená.',
+						'type': 'success',
+						'heading': 'Podarilo sa...'
+					}])
+					//setTimeout(() => {
+						vm.sch = response.data
+						vm.computeLayout(vm.$refs.imgDetail.clientWidth)
+					//}, 500)
+				})
+				.catch(function (error) {
+					console.error(odkaz)
+					console.error(error)
+				});
 		},
 		keyPush(event) {
 			if (this.uroven <= 1) {
@@ -220,7 +203,6 @@ export default {
 			}
 		},
 		swipe(direction) {
-			//console.log(direction)
 			if (direction == 'Left' || direction == 'Up') {
 				this.before()
 			} else if (direction == 'Right' || direction == 'Down') {
@@ -265,8 +247,8 @@ export default {
 		document.addEventListener("keydown", this.keyPush);
 
 		this.$root.$on('schema-changed', data => {
-			console.log(data[0])
-			console.log(this.sch[data[0].id_part])
+			this.sch[data[0].id_part] = data[0].data
+			this.SchemaChanged(data[0].id_part)
 		})
 	},
 
@@ -308,43 +290,18 @@ export default {
 			ref="modal1fo"
 			:hide-footer="true"
 		>
-			<b-form @submit="onSubmitSch" @reset="onResetSch">
-				<!--b-form-group id="input-group-1" label="Schéma:" label-for="schema">
-					<b-form-textarea 
-						id="schema" 
-						v-model="schstr"
-						rows="15">
-					</b-form-textarea>
-				</b-form-group-->
-
-				<!--b-form-group 
-					v-for="(s, index) in sch"
-					:key="index"
-					:id="'schema-group-'+index"
-					:label="'Schéma pre max. šírku:' + s.max_width" 
-					:label-for="'schema-'+index">
-					<b-form-textarea 
-						:id="'schema'+index" 
-						v-model="s"
-						rows="5">
-					</b-form-textarea>
-				</b-form-group-->
-				<div
-					class="accordion"
-					role="tablist"
-					v-for="(s, index) in sch"
-					:key="index"
+			<div
+				class="accordion"
+				role="tablist"
+				v-for="(s, index) in sch"
+				:key="index"
+			>
+				<edit-schema-row
+					:row="s"
+					:id_part="index"
 				>
-					<edit-schema-row
-						:row="s"
-						:id_part="index"
-					>
-					</edit-schema-row>
-				</div>
-
-				<b-button type="submit" variant="success" class="sch-submit">Ulož</b-button>&nbsp;
-				<b-button type="reset" variant="secondary" class="sch-reset">Cancel</b-button>
-			</b-form>
+				</edit-schema-row>
+			</div>
 		</b-modal>
 
 		<div ref="imgDetail" id="imgDetail"> 

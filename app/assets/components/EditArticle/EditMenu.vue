@@ -1,13 +1,13 @@
 <script>
 /** 
  * Component EditMenu
- * Posledná zmena(last change): 21.02.2023
+ * Posledná zmena(last change): 07.03.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.0
+ * @version 1.0.1
  * 
  */
 export default {
@@ -57,10 +57,10 @@ export default {
 			<template #button-content>
 	      &nbsp;<i class="fa-solid fa-ellipsis text-warning"></i>&nbsp;
 	    </template>
-			<b-dropdown-item>Item 1</b-dropdown-item>
-			<b-dropdown-item>Item 2</b-dropdown-item>
+			<b-dropdown-item disabled>Pridaj podčlánok</b-dropdown-item>
+			<b-dropdown-item disabled>Pridaj podmenu</b-dropdown-item>
 			<b-dropdown-divider></b-dropdown-divider>
-			<b-dropdown-item>Item 3</b-dropdown-item>
+			<b-dropdown-item disabled variant="outline-danger">Vymaž</b-dropdown-item>
 		</b-dropdown>
 	</div>
 </template>

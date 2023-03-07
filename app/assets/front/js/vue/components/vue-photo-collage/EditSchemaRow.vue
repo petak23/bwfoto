@@ -1,13 +1,13 @@
 <script>
 /** 
  * Component EditSchemaRow
- * Posledná zmena(last change): 04.03.2023
+ * Posledná zmena(last change): 07.03.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.0
+ * @version 1.0.1
  */
 
 export default {
@@ -44,7 +44,6 @@ export default {
 			},
 			row_state_n: null,
 			row_len_mid: 0, // Hodnota, ktorú by mali mať všetky časti row_len
-			showSave: false,
 			changed: false,
 		}
 	},
@@ -68,23 +67,40 @@ export default {
 			event.preventDefault()
 			if (event.srcElement.classList.contains('schema-row-save-' + this.id_part)) {
 				let tmp = {
-					schema: this.row_str.schema.split(","),
-					height: this.row_str.height.split(","),
-					padding: this.row_str.padding.split(","),
-					widerPhotoId: this.row_str.widerPhotoId.split(","),
-					max_width: this.row.max_width,
+					schema: this.row_str.schema.split(",").map(x => parseInt(x)), // Aby som z textových položiek urobil čísla
+					height: this.row_str.height.split(",").map(x => parseInt(x)),
+					padding: this.row_str.padding.split(",").map(x => parseInt(x)),
+					widerPhotoId: this.row_str.widerPhotoId.split(",").map(x => parseInt(x)),
+					max_width: parseInt(this.row.max_width),
 				}
 				this.$root.$emit("schema-changed", [{ 'id_part': this.id_part, 'data': tmp}])
 			}
 		},
-		onCancelRow($event) {
-			$event.preventDefault()
-			if ($event.srcElement.classList.contains('schema-row-cancel-'+id_part)) {
-
+		onCancelRow(event) {
+			event.preventDefault()
+			if (event.srcElement.classList.contains('schema-row-cancel-'+this.id_part)) {
+				this.setRow_str()
+				setTimeout(() => {
+					this.changed = false
+					this.row_state_n = null
+				}, 250)
 			}
 		},
 		row_items_count() {
 			this.row_len_mid = (this.row_len.schema + this.row_len.height + this.row_len.padding + this.row_len.widerPhotoId) / 4
+		},
+		/* str Testovaný reťazec
+		 * with_sign Rozlíšenie či môžu byť čísla aj záporné */
+		testArray(str, with_sign = false) {
+			let a = str.trim().split(",")	// Odstráň medzery zo zač. a konca a rozlož do poľa
+			let result = true
+			// Regulárny výraz pre testovanie reťazca:
+			const reg = with_sign ? /^[-]?(\d){1,4}$/ : // test: na zač. môže byť "-" a potom už len 1 až 4 čísla
+															/^(\d){1,4}$/				// test: len 1 až 4 čísla
+			a.map((i) => {	//Otestuj všetky položky poľa
+				if (!reg.test(i)) result = false
+			})
+			return result ? a.length - 1 : 0	// Ak v poriadku vráť dĺžku poľa inak 0
 		}
 	},
 	watch: {
@@ -94,29 +110,30 @@ export default {
 		},
 		'row_str.schema': function () {
 			this.changed = true
-			this.row_len.schema = this.row_str.schema.split(",").length - 1
-			//this.row_state.schema = this.row_len.schema == this.row_len_mid
-			this.row_state_n = this.row_len.schema == this.row_len_mid 
+			this.row_len.schema = this.testArray(this.row_str.schema)
+			this.row_state_n = this.row_len.schema == this.row_len_mid
 		},
 		'row_str.height': function () {
 			if (this.row_str.height !== null) this.changed = true
-			this.row_len.height = this.row_str.height.split(",").length - 1
+			this.row_len.height = this.testArray(this.row_str.height)
 			this.row_state_n = this.row_len.height == this.row_len_mid
 		},
 		'row_str.padding': function () {
 			if (this.row_str.padding !== null) this.changed = true
-			this.row_len.padding = this.row_str.padding.split(",").length - 1
-			this.row_state_n = this.row_len.height == this.row_len_mid
+			this.row_len.padding = this.testArray(this.row_str.padding)
+			this.row_state_n = this.row_len.padding == this.row_len_mid
 		},
 		'row_str.widerPhotoId': function () {
 			if (this.row_str.widerPhotoId !== null) this.changed = true
-			this.row_len.widerPhotoId = this.row_str.widerPhotoId.split(",").length - 1
-			this.row_state_n = this.row_len.height == this.row_len_mid
+			this.row_len.widerPhotoId = this.testArray(this.row_str.widerPhotoId, true)
+			this.row_state_n = this.row_len.widerPhotoId == this.row_len_mid
 		}
 	},
 	mounted () {
 		this.setRow_str()
-		this.row_items_count();
+		
+		this.row_items_count()
+
 		setTimeout(() => {
 			this.changed = false
 			this.row_state = {
@@ -126,7 +143,7 @@ export default {
 				widerPhotoId: null,
 			}
 			this.row_state_n = null
-		}, 100);
+		}, 100)
 	},
 }
 </script>
@@ -179,16 +196,6 @@ export default {
 					></b-form-input>
 				</b-card-text>
 				<b-card-text>
-					<!--b-button 
-						variant="secondary"
-						size="sm"
-						class="mr-1"
-						:class="'schema-row-cancel-'+id_part"
-						@click="onCancelRow"
-						:disabled="!changed && !row_state_n"
-					>
-						Cancel
-					</b-button-->
 					<button 
 						type="button"
 						class="btn btn-secondary btn-sm mr-1"
@@ -206,30 +213,6 @@ export default {
 						:disabled="!changed || !row_state_n"
 					>
 						Ulož
-					</button>
-	  			<!--b-button
-						variant="success"
-						size="sm"
-						:class="'schema-row-save-' + id_part"
-						@click="onSaveRow"
-						:disabled="!changed && !row_state_n"
-					>
-						Ulož
-					</b-button-->
-					<!--b-button disabled 
-						variant="outline-success" size="sm" 
-						class="ml-3 disabled"
-						:class="{ 'd-none': !showSave }"
-					>
-						Uložené
-					</b-button-->
-					<button 
-						type="button"
-						class="btn btn-outline-success btn-sm ml-3 disabled"
-						disabled
-						:class="{ 'd-none': !showSave }"
-					>
-						Uložené
 					</button>
 				</b-card-text>
 			</b-card-body>
