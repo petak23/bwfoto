@@ -4,7 +4,7 @@
  *
  *	Modul: FRONT
  *
- * Posledna zmena(last change): 27.02.2023
+ * Posledna zmena(last change): 10.03.2023
  * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
@@ -28,10 +28,9 @@
 	{* ----- Favicon ------ *}
 	{control favicon}
 	{block head}{/block}
-	{control slider}
 </head>
 <body>
-<div v-cloak id="vueapp">
+<div v-cloak id="vueapp"><div id="slider" ref="myslider">
 	{var $main_menu_active = $article->id_hlavne_menu ?? 0}
 	{var $id_hlavne_menu_lang = $article->id ?? 0}
 	<main-menu-load
@@ -40,6 +39,10 @@
 		api-path="{$apiPath}"
 	>
 	</main-menu-load>
+	<my-slider
+		files-path="{$basePath}/www/{$nastavenie['slider']['dir']}"
+	></my-slider>
+
 	<nav id="topNav" class="navbar navbar-expand-md fixed-top">
 		<a class="navbar-brand ml-sm-5 p-3 logo" n:href="Homepage:" title="home">
 			<img src="{$basePath}/{$nastavenie['dir_to_images']}logo_bw-g.png" alt="logo bw foto" class="logo">
@@ -130,7 +133,7 @@
 		</footer>
 	</div>
 	{block lightbox}{/block}
-</div>
+</div></div>
 	<script src="{webpack front.js}"></script>
 	{block spec_js}{/block}
 	{control googleAnalytics}

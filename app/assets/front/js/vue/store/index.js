@@ -8,9 +8,9 @@ export default new Vuex.Store({
 	state: {
 		apiPath: "", // Cesta k API
 
-		main_menu: [],
+		main_menu: null,
 		main_menu_open: [],
-		main_menu_active: 0,
+		main_menu_active: null,
 
 		article: {
 			id_user_main: 0,

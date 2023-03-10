@@ -48,6 +48,7 @@ class SliderControl extends Control
       }
       unset($path[0]);
       $out = $this->_findIn($id_pre_zobrazenie, $path)->limit(1)->fetch();
+      dumpe($out);
       $this->template->slider = $out != null && isset($out->subor) ? "files/slider/" . $out->subor : "images/cierny_bod.png";
     } elseif ($this->nastavenie["varianta"] == 4) {
       $this->template->slider = $this->slider->getSlider();
@@ -74,9 +75,11 @@ class SliderControl extends Control
     $p_name = explode(":", $this->presenter->name);
     $slider = $this->slider->getSlider('poradie DESC');
     $slider_zobrazenie = $slider->fetchPairs("id", "zobrazenie");
+    dump($slider_zobrazenie);
     $vysa = [];
     // Nájdi priamo daný klúč
     $vysa[0] = array_search($id_pre_zobrazenie, $slider_zobrazenie);
+    dump($vysa);
     if ($vysa[0] == false) { // Ak nieje ...
       $vysa = [];
       foreach ($slider_zobrazenie as $k => $v) {
@@ -104,7 +107,9 @@ class SliderControl extends Control
    * @param array   $path  cesta pre zobrazenie */
   private function _zisti(?int $z, string $p, array $path): bool
   {
-    return $z == NULL ? TRUE : ($z == 0 && $p == 'Homepage' ? TRUE : ($z > 0 && array_search($z, $path) != false ? TRUE : FALSE));
+    return $z == NULL ? TRUE
+      : ($z == 0 && $p == 'Homepage' ? TRUE
+        : ($z > 0 && (array_search($z, $path) != false)));
   }
 }
 

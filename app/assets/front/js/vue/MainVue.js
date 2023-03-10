@@ -1,17 +1,17 @@
 /* 
  * Main Vue.js app file
- * Posledná zmena(last change): 07.03.2023
+ * Posledná zmena(last change): 10.03.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.6
+ * @version 1.1.7
  */
 
 import Vue from 'vue';
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
-import Slider from './components/Slider.vue';
+import MySlider from './components/MySlider.vue';
 import Autocomplete from './components/Autocomplete.vue';
 import Fotogalery from './components/Fotogalery.vue';
 import Fotocollage from './components/Fotocollage.vue';
@@ -46,7 +46,7 @@ let vm = new Vue({
   el: '#vueapp',
   store,
   components: { 
-    Slider, 
+    MySlider, 
     Autocomplete,
     EditArticle,
     FlashMessage,

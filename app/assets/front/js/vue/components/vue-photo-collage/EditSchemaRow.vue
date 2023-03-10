@@ -1,13 +1,13 @@
 <script>
 /** 
  * Component EditSchemaRow
- * Posledná zmena(last change): 07.03.2023
+ * Posledná zmena(last change): 09.03.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.1
+ * @version 1.0.2
  */
 
 export default {
@@ -25,6 +25,7 @@ export default {
 	data() {
 		return {
 			row_str: {
+				max_width: null,
 				schema: null,
 				height: null,
 				padding: null,
@@ -37,6 +38,7 @@ export default {
 				widerPhotoId: 0,
 			},
 			row_state: {
+				max_width: null,
 				schema: null,
 				height: null,
 				padding: null,
@@ -50,6 +52,7 @@ export default {
 	methods: {
 		setRow_str() {
 			this.row_str = {
+				max_width: this.row.max_width,
 				schema: this.row.schema.toString(),
 				height: this.row.height.toString(),
 				padding: this.row.padding.toString(),
@@ -71,7 +74,7 @@ export default {
 					height: this.row_str.height.split(",").map(x => parseInt(x)),
 					padding: this.row_str.padding.split(",").map(x => parseInt(x)),
 					widerPhotoId: this.row_str.widerPhotoId.split(",").map(x => parseInt(x)),
-					max_width: parseInt(this.row.max_width),
+					max_width: parseInt(this.row_str.max_width),
 				}
 				this.$root.$emit("schema-changed", [{ 'id_part': this.id_part, 'data': tmp}])
 			}
@@ -108,6 +111,9 @@ export default {
 			this.setRow_str()
 			this.row_items_count();
 		},
+		'row_str.max_width': function () {
+			this.changed = true
+		},
 		'row_str.schema': function () {
 			this.changed = true
 			this.row_len.schema = this.testArray(this.row_str.schema)
@@ -141,6 +147,7 @@ export default {
 				height: null,
 				padding: null,
 				widerPhotoId: null,
+				max_width: null,
 			}
 			this.row_state_n = null
 		}, 100)
@@ -167,6 +174,12 @@ export default {
 			role="tabpanel"
 		>
 			<b-card-body>
+				<b-card-text class="text-dark">
+					Schéma pre max. rozlíšenie [px]: <br />
+					<b-form-input v-model="row_str.max_width" 
+						size="sm" type="number"
+					></b-form-input>
+				</b-card-text>
 				<b-card-text class="text-dark">
 					Počet fotiek v jednotlivých riadkoch: <br />
 					<b-form-input v-model="row_str.schema" 
@@ -201,7 +214,7 @@ export default {
 						class="btn btn-secondary btn-sm mr-1"
 						:class="'schema-row-cancel-' + id_part"
 						@click="onCancelRow"
-						:disabled="!changed || !row_state_n"
+						:disabled="!(changed && row_state_n != false)"
 					>
 						Cancel
 					</button>
@@ -210,7 +223,7 @@ export default {
 						class="btn btn-success btn-sm"
 						:class="'schema-row-save-' + id_part"
 						@click="onSaveRow"
-						:disabled="!changed || !row_state_n"
+						:disabled="!(changed && row_state_n != false)	"
 					>
 						Ulož
 					</button>

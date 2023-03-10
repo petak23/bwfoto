@@ -41,3 +41,8 @@ CREATE TABLE `fotocollage_settings` (
 UPDATE `user_permission` SET `actions` = 'getsubmenu,getmenu,getonemenuarticle,getonemenuarticlesp,getonehlavnemenuarticle,getfotocollagesettings' WHERE `id_user_resource` = '27' AND `id` = '36';
 */
  -- updated in v 0.9.58
+
+INSERT INTO `user_permission` (`id_user_roles`, `id_user_resource`, `actions`)
+SELECT '0', '32', 'getall'
+FROM `user_permission`
+WHERE `id_user_resource` = '32' AND ((`id` = '42'));

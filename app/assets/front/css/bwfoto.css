@@ -1,8 +1,9 @@
 /* 
  * @author: Mgr. Jozef Petrenčík
  * @last update: Ing. Peter Vojtech ml. <petak23@gmail.com>
- * @last update: 02.02.2023 
- * Bwfoto main CSS Document */
+ * @last update: 10.03.2023 
+ * Bwfoto main CSS Document 
+ */
 
 :root{
 	font-size: calc(.6rem + .5vw);
@@ -10,12 +11,16 @@
 
 body{
 	font-family: 'Montserrat', sans-serif;
-	background-image: url("./images/bg-site.jpg");
+	background-color: black;
+	margin: 0;
+	color: #ddd;
+}
+#slider {
 	background-repeat: repeat-x;
 	background-color: black;
 	background-size: 175vh;
 	margin: 0;
-	color: #ddd;
+	padding: 0;
 }
 @media (min-width: 576px) {
 	body {

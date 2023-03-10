@@ -6,15 +6,15 @@ use DbTable;
 
 /**
  * Prezenter pre pristup k api slider-a.
- * Posledna zmena(last change): 07.06.2022
+ * Posledna zmena(last change): 10.03.2023
  *
  * Modul: API
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.1
+ * @version 1.0.2
  */
 class SliderPresenter extends BasePresenter
 {
@@ -34,10 +34,11 @@ class SliderPresenter extends BasePresenter
   }
 
   /**
-   * Vráti všetky položky slidera */
-  public function actionGetAll(): void
+   * Vráti všetky položky slidera 
+   * @param int $id Spôsob usporiadania položiek 0 = ASC; 1 = DESC*/
+  public function actionGetAll(int $id = 0): void
   {
-    $this->sendJson($this->slider->getSliderArray());
+    $this->sendJson($this->slider->getSliderArray("poradie " . ($id == 0 ? "ASC" : "DESC")));
   }
 
 

@@ -43,9 +43,12 @@ class Slider extends Table
     return $this->findAll()->order($usporiadaj);
   }
 
-  public function getSliderArray(): array
+  /** 
+   * Vrati vsetky polozky z tabulky slider usporiadane podla "usporiadaj" a ako pole
+   * @param string $usporiadaj - názov stlpca, podla ktoreho sa usporiadava a sposob */
+  public function getSliderArray(string $usporiadaj = 'poradie ASC'): array
   {
-    $t = $this->getSlider();
+    $t = $this->getSlider($usporiadaj);
     $o = [];
     foreach ($t as $p) {
       $o[] = [
