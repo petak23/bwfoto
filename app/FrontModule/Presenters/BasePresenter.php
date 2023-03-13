@@ -2,7 +2,6 @@
 
 namespace App\FrontModule\Presenters;
 
-use App\FrontModule\Forms\User;
 use App\FrontModule\Components;
 use DbTable;
 use Language_support;
@@ -20,7 +19,7 @@ use Texy;
 /**
  * Zakladny presenter pre vsetky presentery vo FRONT module
  * 
- * Posledna zmena(last change): 27.02.2023
+ * Posledna zmena(last change): 13.03.2023
  *
  *	Modul: FRONT
  *
@@ -28,7 +27,7 @@ use Texy;
  * @copyright Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link      http://petak23.echo-msz.eu
- * @version 1.7.4
+ * @version 1.7.5
  */
 abstract class BasePresenter extends Presenter
 {
@@ -181,44 +180,9 @@ abstract class BasePresenter extends Presenter
 	}
 
 	/** 
-	 * Komponenta pre vykreslenie menu */
-	public function createComponentMenu(): Components\Menu\Menu
-	{
-		$menu = new Components\Menu\Menu;
-		$menu->setTextTitleImage($this->texty_presentera->translate("base_text_title_image"));
-		$hl_m = $this->hlavne_menu->getMenuFront($this->language);
-		if (count($hl_m)) {
-			$servise = $this;
-			$menu->fromTable($hl_m, function ($node, $row) use ($servise) {
-				$poll = ["id", "name", "tooltip", "view_name", "avatar", "anotacia", "novinka", "node_class"];
-				foreach ($poll as $v) {
-					$node->$v = $row['node']->$v;
-				}
-				// Nasledujuca cast priradi do $node->link odkaz podla kriteria:
-				// Ak $rna == NULL - vytvori link ako odkaz do aplikacie
-				// Ak $rna zacina "http" - pouzije sa absolutna adresa
-				// Ak $rna obsahuje text "Clanky:default 2" - vytvorí sa odkaz do aplikácie na clanok s id 2 - moze byt aj bez casti ":2" odkazu ale musí byť aj default
-				$rna = $row['node']->absolutna;
-				if ($rna !== NULL) {
-					$node->link = strpos($rna, 'http') !== FALSE ? $rna
-						: (count($p = explode(" ", $rna)) == 2 ? $servise->link($p[0], ["id" => $p[1]])
-							: $servise->link($p[0]));
-				} else {
-					$node->link = is_array($row['node']->link) ? $servise->link($row['node']->link[0], ["id" => $row['node']->id])
-						: $servise->link($row['node']->link);
-				}
-				return $row['nadradena'] ? $row['nadradena'] : null;
-			});
-		}
-		return $menu;
-	}
-
-	/** 
 	 * Naplnenie spolocnych udajov pre sablony */
 	public function beforeRender()
 	{
-		$this->getComponent('menu')->selectByUrl($this->link('this'));
-
 		// Cesta k API pre vue aplikácie - nastavuje sa cez vue komponentu main-menu-load
 		$this->template->apiPath = $this->template->basePath . '/api/';
 

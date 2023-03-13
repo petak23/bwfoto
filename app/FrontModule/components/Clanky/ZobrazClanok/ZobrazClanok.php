@@ -12,13 +12,13 @@ use Nette\Utils\Html;
 /**
  * Komponenta pre zobrazenie konkretneho clanku pre FRONT modul
  * 
- * Posledna zmena(last change): 04.01.2023
+ * Posledna zmena(last change): 13.03.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.8
+ * @version 1.1.9
  */
 class ZobrazClanokControl extends Control
 {
@@ -112,7 +112,6 @@ class ZobrazClanokControl extends Control
       $this->template->avatar_path = $this->avatar_path;
       $this->template->article_avatar_view_in = $pthis->nastavenie["article_avatar_view_in"];
       $this->template->nastav = $parameters;
-      $this->template->menu = $pthis->getComponent('menu');
     }
     $servise = $this;
     $this->template->addFilter('obr_v_txt', function ($text) use ($servise) {

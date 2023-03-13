@@ -6,13 +6,13 @@ use Nette;
 
 /**
  * Komponenta na vytvorenie menu
- * Posledna zmena 18.01.2023
+ * Posledna zmena 13.03.2023
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.9
+ * @version    1.1.0
  */
 class Menu extends Nette\Application\UI\Control
 {
@@ -21,7 +21,6 @@ class Menu extends Nette\Application\UI\Control
 	protected $_selected;
 	var $allNodes = [];
 	protected $_path = null;
-	//var $templatePath = [];
 	public $idCounter = 0;
 	protected $nastav = [
 		"level" => 0,
@@ -38,15 +37,6 @@ class Menu extends Nette\Application\UI\Control
 
 	public function __construct(Nette\ComponentModel\IContainer $parent = NULL, $name = NULL)
 	{
-		/*$this->templatePath = [
-			'nav' => dirname(__FILE__) . '/Menu.latte', // sablona pro drobeckovou navigaci
-			'single' => dirname(__FILE__) . '/Menu.latte', // sablona pro jednourovnovou cast menu
-			'tree' => dirname(__FILE__) . '/Menu.latte', // sablona pro stromovou cast menu
-			'podclanky' => dirname(__FILE__) . '/Podclanky.latte', // sablona pro stromovou cast menu
-			'fixed' => dirname(__FILE__) . '/Fixed.latte', // sablona pro fixne menu
-			'mapa' => dirname(__FILE__) . '/Mapa.latte', // sablona pro fixne menu
-			'main_fixed' => dirname(__FILE__) . '/MainFixed.latte', // sablona pro fixne menu
-		];*/
 		$this->rootNode = new MenuNode();
 		$this->rootNode->menu = $this;
 		$this->rootNode->isRootNode = true;
@@ -98,142 +88,6 @@ class Menu extends Nette\Application\UI\Control
 		$path = array_reverse($path);
 		return $path;
 	}
-
-	/*public function render($part, $templateType)
-	{
-		$template = $this->template;
-		$template->path = $this->getPath();
-		$template->selected = $this->getSelected();
-		$level = (int)$part;
-		$template->startNode = ($level == 0) ? $this->rootNode : (isset($this->getPath()[$level - 1]) ? $this->getPath()[$level - 1] : null);
-		if ($templateType == 'tree') {
-			$template->showAll = false;
-		} elseif ($templateType == 'podclanky') {
-			$template->showAll = false;
-		} elseif ($templateType == 'map') {
-			$templateType = 'tree';
-			$template->showAll = true;
-		} elseif ($templateType == 'fixed' || $templateType == 'main_fixed') {
-			$template->showAll = true;
-			if (isset($this->template->nastav["cast"])) {
-				$p = [];
-				foreach ($this->rootNode->nodes as $v) {
-					$p[] = $v->id;
-				}
-				$o = array_search(-1 * $this->template->nastav["cast"], $p);
-				$template->startNode = $this->rootNode->nodes[$o];
-			} else {
-				$template->startNode = $this->rootNode->nodes[0];
-			}
-		} elseif ($templateType == 'mapa') {
-			$template->startNode = $this->allNodes;
-		}
-		$template->startLevel = $level;
-		$template->templateType = $templateType;
-		$template->spRootNode = $this->rootNode;
-		$template->nastavenie = $this->nastavenie;
-		$template->setFile($this->templatePath[$templateType]);
-		$template->render();
-	}
-
-	public function renderNav($opt = 0)
-	{
-		$nastav = $this->nastav;
-		$separator = ' > ';
-		if (is_array($opt)) {
-			if (isset($opt['separator'])) {
-				$separator = $opt['separator'];
-			}
-			$level = $opt[0];
-		} else {
-			$level = $opt;
-		};
-		$this->template->navSeparator = $separator;
-		$this->template->nastav = $nastav;
-		$this->render($level, 'nav');
-	}
-
-	public function renderFixed($opt = 0)
-	{
-		if (is_array($opt)) {
-			$level = isset($opt[0]) ? $opt[0] : 0;
-			$nastav = array_merge($this->nastav, $opt);
-		} else {
-			$level = $opt;
-			$nastav = $this->nastav;
-		}
-		$this->template->nastav = $nastav;
-		$this->render($level, "fixed");
-	}
-
-	public function renderMainFixed($opt = 0)
-	{
-		if (is_array($opt)) {
-			$level = isset($opt[0]) ? $opt[0] : 0;
-			$nastav = array_merge($this->nastav, $opt);
-		} else {
-			$level = $opt;
-			$nastav = $this->nastav;
-		}
-		$this->template->nastav = $nastav;
-		$this->render($level, "main_fixed");
-	}
-
-	public function renderSingle($opt = 0)
-	{
-		$separator = ' | ';
-		if (is_array($opt)) {
-			$level = isset($opt[0]) ? $opt[0] : 0;
-			if (isset($opt['separator'])) {
-				$separator = $opt['separator'];
-				unset($opt['separator']);
-			}
-			$nastav = array_merge($this->nastav, $opt);
-		} else {
-			$level = $opt;
-			$nastav = $this->nastav;
-		}
-		$this->template->singleSeparator = $separator;
-		$this->template->nastav = $nastav;
-		$this->render($level, 'single');
-	}
-
-	public function renderTree($opt = 0)
-	{
-		if (is_array($opt)) {
-			$level = isset($opt[0]) ? $opt[0] : 0;
-			$nastav = array_merge($this->nastav, $opt);
-		} else {
-			$level = $opt;
-			$nastav = $this->nastav;
-		}
-		$this->template->nastav = $nastav;
-		$this->render($level, 'tree');
-	}
-
-	public function renderPodclanky($opt = 0)
-	{
-		if (is_array($opt)) {
-			$level = $opt[0];
-			$nastav = array_merge($this->nastav, $opt);
-		} else {
-			$level = $opt;
-			$nastav = $this->nastav;
-		}
-		$this->template->nastav = $nastav;
-		$this->render($level, 'podclanky');
-	}
-
-	public function renderMap($level = 0)
-	{
-		$this->template->nastav = $this->nastav;
-		$this->render($level, 'map');
-	}
-	public function renderMapa($level = 0)
-	{
-		$this->template->nastav = $this->nastav;
-		$this->render($level, 'mapa');
-	}*/
 
 	public function fromTable($data, $setupNode)
 	{
@@ -329,11 +183,12 @@ class Menu extends Nette\Application\UI\Control
 		$level = 0;
 		foreach ($this->rootNode->nodes as $node) {
 			$out[$node->id] = [
-				'id'	 => $node->id,
-				'name' => $node->name,
+				'id'	 		=> $node->id,
+				'name' 		=> $node->name,
 				'children' => $this->_anode($node, $level + 1),
-				'link' => $node->link,
-				'class' => $node->node_class,
+				'link' 		=> $node->link,
+				'class' 	=> $node->node_class,
+				'avatar'	=> $node->avatar,
 			];
 		}
 		return $out;
@@ -351,11 +206,12 @@ class Menu extends Nette\Application\UI\Control
 					$level--;
 				}
 				$out[$no->id] = [
-					'id'	 => $no->id,
-					'name' => $no->name,
+					'id'	 		=> $no->id,
+					'name' 		=> $no->name,
 					'children' => $subn,
-					'link' => $no->link,
-					'class' => $node->node_class,
+					'link' 		=> $no->link,
+					'class' 	=> $no->node_class,
+					'avatar'	=> $no->avatar,
 				];
 				unset($subn);
 			}
