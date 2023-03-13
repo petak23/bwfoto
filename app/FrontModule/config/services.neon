@@ -36,10 +36,6 @@ services:
     arguments:
       dir_to_menu: %dir_to_menu%
 
-  SliderControl:
-    implement: App\FrontModule\Components\Slider\ISliderControl
-    arguments:
-      nastavenie: %slider%
 #  - App\FrontModule\Components\Clanky\OdkazNaClanky\IOdkazNaClankyControl
 #  - App\FrontModule\Components\Clanky\ZobrazKartyPodclankov\IZobrazKartyPodclankovControl
   - App\FrontModule\Components\Products\IProductsViewControl

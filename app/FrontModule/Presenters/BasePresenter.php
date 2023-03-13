@@ -27,7 +27,7 @@ use Texy;
  * @copyright Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link      http://petak23.echo-msz.eu
- * @version 1.7.5
+ * @version 1.7.6
  */
 abstract class BasePresenter extends Presenter
 {
@@ -61,8 +61,6 @@ abstract class BasePresenter extends Presenter
 	public $texty_presentera;
 
 	// -- Komponenty
-	/** @var Components\Slider\ISliderControl @inject */
-	public $sliderControlFactory;
 	/** @var Components\User\IKontaktControl @inject */
 	public $kontaktControlFactory;
 	/** @var Components\User\UserMenu\IUserMenuControl @inject */
@@ -386,13 +384,6 @@ abstract class BasePresenter extends Presenter
 	}
 
 	/** 
-	 * Vytvorenie komponenty slideru */
-	public function createComponentSlider(): Components\Slider\SliderControl
-	{
-		return $this->sliderControlFactory->create();
-	}
-
-	/** 
 	 * Komponenta pre zobrazenie clanku */
 	public function createComponentUkazClanok(): Multiplier
 	{
@@ -417,16 +408,6 @@ abstract class BasePresenter extends Presenter
 			return $ukaz_clanok;
 		});
 	}
-
-	/** 
-	 * Vytvorenie komponenty pre vypisanie aktualnych oznamov
-	 * @ return Components\Oznam\AktualneOznamyControl */
-	/*public function createComponentAktualne()
-	{
-		$aktualne = $this->aktualneOznamyControlFactory->create();
-		$aktualne->setNastavenie($this->context->parameters['oznam']);
-		return $aktualne;
-	}*/
 
 	/** Komponenta pre zobrazenie adresy */
 	public function createComponentUkazAdresu(): Multiplier
