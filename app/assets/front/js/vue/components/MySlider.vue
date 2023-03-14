@@ -1,13 +1,13 @@
 <script>
 /** 
  * Component Slider
- * Posledná zmena(last change): 10.03.2023
+ * Posledná zmena(last change): 14.03.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.0
+ * @version 1.0.1
  */
 
 import axios from 'axios'
@@ -22,7 +22,6 @@ export default {
 	data() {
 		return {
 			items: null,
-			show: null
 		}
 	},
 	methods: {
@@ -32,8 +31,12 @@ export default {
 				.then(response => {
 					//console.log(response.data)
 					this.items = response.data
-					if (this.items !== null) this.findIn()
-					this.$root.$refs.myslider.style.backgroundImage = 'url(' + this.filesPath + this.show.subor + ')'
+					if (this.items !== null) { 
+						let show = this.findIn()
+						if (show != null) {
+							this.$root.$refs.myslider.style.backgroundImage = 'url(' + this.filesPath + show.subor + ')'
+						}
+					}
 				})
 				.catch((error) => {
 					console.log(odkaz);
@@ -43,15 +46,12 @@ export default {
 		/*
 	 	 * Najdenie poloziek slidera */
 		findIn() {
-			
-			//$slider_zobrazenie = $slider -> fetchPairs("id", "zobrazenie");
-			let vysa = []
 			let vysledok = false
 			let _v = null
 			// Nájdi priamo daný klúč
-			vysa[0] =  this.items.find(el => parseInt(el.zobrazenie) == this.$store.state.main_menu_active)
-			if (vysa[0] == undefined) { // Ak nieje ...
-				vysa = [];
+			let sl_item = this.items.find(el => parseInt(el.zobrazenie) == this.$store.state.main_menu_active)
+			if (sl_item == undefined) { // Ak nieje ...
+				let vysa = [];
 				this.items.forEach((item, index) => {
 					let s = item.zobrazenie
 					if (s === null) {
@@ -71,8 +71,9 @@ export default {
 						vysa.push(index);
 					}
 				})
+				sl_item = vysa.length ? this.items[vysa[0]] : null
 			}
-			this.show = this.items[vysa[0]]
+			return sl_item
 		},
 		/* Pre vyhodnotenie zobrazenia položky z*/
 		zisti(z)
@@ -85,12 +86,8 @@ export default {
 	watch: {
 		'$store.state.main_menu_active': function() {
 			if (this.$store.state.main_menu_active !== undefined) {
-				//console.log(this.zisti(this.$store.state.main_menu_active))
 				this.getSlider()
 			}
-			//this.$refs.myslider.style.backgroundImage = this.$store.state.basePath + '/www/' + this.source
-			
-			//document.getElementById("slider").style.backgroundImage = this.$store.state.basePath + '/www/' + this.source
 		}
 	},
 };
