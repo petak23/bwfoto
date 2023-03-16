@@ -30,6 +30,7 @@ import Breadcrumb from './components/Menu/Breadcrumb.vue'
 import ProductsLike from './components/ProductsLike.vue'
 import SingleMenu from './components/Menu/SingleMenu.vue'
 import BwfotoFixedHomepage from "./components/Menu/BWfoto_Fixed_Homepage.vue";
+import ShowArticle from './components/ShowArticle.vue'
 
 import VueSession from 'vue-session'
 Vue.use(VueSession)
@@ -62,5 +63,6 @@ let vm = new Vue({
     ProductsLike,
     SingleMenu,
     BwfotoFixedHomepage,
+    ShowArticle,
   },
 });   

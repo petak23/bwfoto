@@ -11,6 +11,7 @@ import StarterKit from '@tiptap/starter-kit'
 import Link from '@tiptap/extension-link'
 import { Color } from '@tiptap/extension-color'
 import TextStyle from '@tiptap/extension-text-style'
+import TextAlign from '@tiptap/extension-text-align'
 import { Editor, EditorContent } from '@tiptap/vue-2'
 
 import MenuBar from './MenuBar.vue'
@@ -26,6 +27,10 @@ export default {
       type: String,
       default: '<p>... tu niečo zapíšte ...</p>',
     },
+    rootEmitName: {
+      type: String,
+      default: 'tiptap_input'
+    }
   },
 
   data() {
@@ -62,10 +67,14 @@ export default {
           //openOnClick: false,
           validate: href => /^https?:\/\//.test(href),
         }),
+        TextAlign.configure({
+          types: ['heading', 'paragraph'],
+          alignments: ['left', 'center', 'right', 'justify'],
+        })
       ],
       onUpdate: () => {
         // HTML
-        this.$root.$emit('tiptap_input', this.editor.getHTML())
+        this.$root.$emit( this.rootEmitName, this.editor.getHTML())
 
         // JSON
         //this.$root.$emit('tiptap_input_json', this.editor.getJSON())

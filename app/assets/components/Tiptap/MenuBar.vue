@@ -68,6 +68,33 @@ export default {
           isActive: () => this.editor.isActive('strike'),
         },
         {
+          type: 'divider',
+        },
+        {
+          icon: 'align-left',
+          title: 'Zarovnanie vľavo',
+          action: () => this.editor.chain().focus().setTextAlign('left').run(),
+          isActive: () => this.editor.isActive({ textAlign: 'left' }),
+        },
+        {
+          icon: 'align-center',
+          title: 'Zarovnanie na stred',
+          action: () => this.editor.chain().focus().setTextAlign('center').run(),
+          isActive: () => this.editor.isActive({ textAlign: 'center' }),
+        },
+        {
+          icon: 'align-right',
+          title: 'Zarovnanie vpravo',
+          action: () => this.editor.chain().focus().setTextAlign('right').run(),
+          isActive: () => this.editor.isActive({ textAlign: 'right' }),
+        },
+        {
+          icon: 'align-justify',
+          title: 'Zarovnanie do bloku',
+          action: () => this.editor.chain().focus().setTextAlign('justify').run(),
+          isActive: () => this.editor.isActive({ textAlign: 'justify' }),
+        },
+        {
           type: 'color',
         },
         {
