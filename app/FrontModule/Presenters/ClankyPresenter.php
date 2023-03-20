@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace App\FrontModule\Presenters;
 
 use App\FrontModule\Components;
-use App\FrontModule\Forms;
 use DbTable;
 use Latte\Runtime;
 use Nette;
-use Nette\Application\UI\Form;
 use Nette\Application\UI\Multiplier;
 use Nette\Utils;
 use PeterVojtech;
@@ -17,7 +15,7 @@ use PeterVojtech;
 /**
  * Prezenter pre vypisanie clankov.
  * 
- * Posledna zmena(last change): 13.03.2023
+ * Posledna zmena(last change): 20.03.2023
  *
  *	Modul: FRONT
  *
@@ -25,7 +23,7 @@ use PeterVojtech;
  * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.5.3
+ * @version 1.5.4	
  */
 
 class ClankyPresenter extends BasePresenter
@@ -38,18 +36,6 @@ class ClankyPresenter extends BasePresenter
 	public $clanok_komponenty;
 	/** @var DbTable\Products @inject */
 	public $products;
-
-	// -- Komponenty
-	/** @var Components\Clanky\Attachments\IAttachmentsControl @inject */
-	public $attachmentsClanokControlFactory;
-	/** @var Components\Products\IProductsViewControl @inject */
-	public $productsViewControlFactory;
-	/** @var Components\Faktury\IViewFakturyControl @inject */
-	public $viewFakturyControlFactory;
-
-	// -- Forms
-	/** @var Forms\Article\EditArticleTitleFormFactory @inject */
-	public $editArticleTitleFormControlFactory;
 
 	/** @var Nette\Database\Table\ActiveRow */
 	public $zobraz_clanok;
@@ -207,48 +193,11 @@ class ClankyPresenter extends BasePresenter
 	}
 
 	/** 
-	 * Komponenta pre zobrazenie priloh */
-	public function createComponentAttachments(): Components\Clanky\Attachments\AttachmentsControl
-	{
-		$attachments = $this->attachmentsClanokControlFactory->create();
-		$attachments->setNastav($this->zobraz_clanok, $this->language);
-		return $attachments;
-	}
-
-	/** 
 	 * Komponenta pre zobrazenie produktov */
 	public function createComponentViewProducts(): Components\Products\ProductsViewControl
 	{
 		$products = $this->productsViewControlFactory->create();
 		$products->setNastav($this->zobraz_clanok, $this->language_id, $this->nastavenie);
 		return $products;
-	}
-
-	/** 
-	 * Komponenta pre zobrazenie faktur */
-	public function createComponentViewFaktury(): Components\Faktury\ViewFakturyControl
-	{
-		$viewFaktury = $this->viewFakturyControlFactory->create();
-		$viewFaktury->setSkupina($this->zobraz_clanok->id_hlavne_menu);
-		return $viewFaktury;
-	}
-
-	/** 
-	 * Komponenta pre vykreslenie podclankov na kartach */
-	/*public function createComponentZobrazKartyPodclankov(): Components\Clanky\ZobrazKartyPodclankov\ZobrazKartyPodclankovControl
-	{
-		$odkaz = $this->zobrazKartyPodclankovControlFactory->create();
-		$odkaz->setArticle($this->zobraz_clanok->id_hlavne_menu, $this->language_id, $this->kotva);
-		return $odkaz;
-	}*/
-
-	public function createComponentEditArticleTitleForm(): Form
-	{
-		$form = $this->editArticleTitleFormControlFactory->create($this->zobraz_clanok->id_hlavne_menu);
-		$form['uloz']->onClick[] = function () {
-			$this->flashMessage('Položka menu bola uložená!', 'success');
-			$this->redirect('this');
-		};
-		return $form;
 	}
 }

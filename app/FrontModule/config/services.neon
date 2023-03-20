@@ -12,7 +12,6 @@ services:
   - App\FrontModule\Presenters\UserPresenter(%parameters%)
 
 # forms
-  - App\FrontModule\Forms\Article\EditArticleTitleFormFactory
   - App\FrontModule\Forms\User\ForgottenPasswordFormFactory
   - App\FrontModule\Forms\User\SignInFormFactory
   - App\FrontModule\Forms\User\RegisterFormFactory
@@ -26,23 +25,12 @@ services:
     arguments:
       dir_to_menu: %dir_to_menu%
   - App\FrontModule\Components\Clanky\IAktualnyProjektControl
-  AttachmentsControl:
-    implement: App\FrontModule\Components\Clanky\Attachments\IAttachmentsControl
-    arguments:
-      dir_to_menu: %dir_to_menu%
-
   ZobrazClanokControl:
     implement: App\FrontModule\Components\Clanky\ZobrazClanok\IZobrazClanokControl
     arguments:
       dir_to_menu: %dir_to_menu%
 
-#  - App\FrontModule\Components\Clanky\OdkazNaClanky\IOdkazNaClankyControl
-#  - App\FrontModule\Components\Clanky\ZobrazKartyPodclankov\IZobrazKartyPodclankovControl
-  - App\FrontModule\Components\Products\IProductsViewControl
-  - App\FrontModule\Components\User\IKontaktControl
-
   - App\FrontModule\Components\News\INewsControl
-  - App\FrontModule\Components\Faktury\IViewFakturyControl
   UserMenuControl:
     implement: App\FrontModule\Components\User\UserMenu\IUserMenuControl
     arguments:

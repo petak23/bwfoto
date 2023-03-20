@@ -61,8 +61,6 @@ abstract class BasePresenter extends Presenter
 	public $texty_presentera;
 
 	// -- Komponenty
-	/** @var Components\User\IKontaktControl @inject */
-	public $kontaktControlFactory;
 	/** @var Components\User\UserMenu\IUserMenuControl @inject */
 	public $userMenuControlFactory;
 	/** @var Components\Lang\LangMenu\ILangMenuControl @inject */
@@ -438,7 +436,7 @@ abstract class BasePresenter extends Presenter
 	}
 
 	/** Komponenta pre vypis kontaktneho formulara */
-	public function createComponentKontakt(): Components\User\KontaktControl
+	/*public function createComponentKontakt(): Components\User\KontaktControl
 	{
 		$spravca = $this->user_main->findOneBy(["user_roles.role" => "manager"]);
 		$kontakt = $this->kontaktControlFactory->create();
@@ -446,7 +444,7 @@ abstract class BasePresenter extends Presenter
 			->setEmailsToSend($spravca->email)
 			->setNazovStranky($this->nazov_stranky);
 		return $kontakt;
-	}
+	}*/
 
 
 	/** 
