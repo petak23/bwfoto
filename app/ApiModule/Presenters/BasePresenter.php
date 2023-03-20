@@ -7,11 +7,12 @@ namespace App\ApiModule\Presenters;
 use DbTable;
 use Language_support;
 use Nette\Application\UI\Presenter;
+use Nette\Http;
 
 /**
  * Zakladny presenter pre vsetky presentery v module API
  * 
- * Posledna zmena(last change): 14.02.2023
+ * Posledna zmena(last change): 20.03.2023
  *
  * Modul: API
  *
@@ -19,7 +20,7 @@ use Nette\Application\UI\Presenter;
  * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.5
+ * @version 1.0.6
  */
 abstract class BasePresenter extends Presenter
 {
@@ -61,6 +62,9 @@ abstract class BasePresenter extends Presenter
 		5 => "Upload error 5.",
 		6 => "Chýbajúci dočasný priečinok!",
 	];
+
+	/** @var Http\Request @inject*/
+	public $httpRequest;
 
 	public function __construct(array $parameters)
 	{

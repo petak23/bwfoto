@@ -21,7 +21,10 @@ export default new Vuex.Store({
 										'base_last_change', 'base_platnost_do', 'base_zadal',
 										'galery_arrows_before', 'galery_arrows_after',
 										'autocomplete_placeholder', 'autocomplete_searching',
-										'autocomplete_min_char', 'autocomplete_not_found'
+										'autocomplete_min_char', 'autocomplete_not_found',
+										'clanky_h3_prilohy_images', 'clanky_h3_prilohy_audios',
+										'clanky_h3_prilohy_others',
+										'clanky_dokument_download', 'clanky_dokument_view'
 									 ],
 		texts: {},
 	},
