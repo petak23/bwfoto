@@ -1,12 +1,22 @@
 /* 
  * @author: Mgr. Jozef Petrenčík
  * @last update: Ing. Peter Vojtech ml. <petak23@gmail.com>
- * @last update: 10.03.2023 
+ * @last update: 21.03.2023 
  * Bwfoto main CSS Document 
  */
 
 :root{
 	font-size: calc(.6rem + .5vw);
+}
+
+/** ---- Univerzálne štýly ----*/
+a[href^="#error:"] {
+	background: red;
+	color: white;
+}
+
+.fa-1_5x {
+	font-size: 1.5em;
 }
 
 body{
@@ -100,9 +110,7 @@ nav .form-control {
 	margin-top: .5rem;
 }
 
-/* úvodny text */
-#uvodnyText{
-	margin-top: 300px;
+.article-main{
 	text-align: center;
 }
 

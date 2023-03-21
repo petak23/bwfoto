@@ -1,13 +1,13 @@
 <script>
 /** 
  * Component Fotocollage
- * Posledná zmena(last change): 06.03.2023
+ * Posledná zmena(last change): 21.03.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.2.2
+ * @version 1.2.3
  * Z kniznica pouzite súbory a upravene: https://github.com/seanghay/vue-photo-collage
  */
 import PhotoCollageWrapper from "./vue-photo-collage/PhotoCollageWrapper.vue";
@@ -256,96 +256,98 @@ export default {
 </script>
 
 <template>
-	<span>
-		<ul class="nav justify-content-end mb-1" v-if="edit_enabled == '1'">
-			<li class="nav-item">
-				<a type="button" class="btn btn-sm btn-dark disabled" disabled>
-					Fotiek: {{ attachments.length }}, max. v schéme: {{ collage.maxPhotosToShow }},
-					riadkov: {{ collage.uniqeRows }}
-				</a>
-			</li>
-			<li class="nav-item">
-				<b-button 
-					variant="outline-warning"
-					size="sm"
-					v-b-modal.edit-collage
-					title="Editácia schémy">
-					<i class="fas fa-pen"></i>
-				</b-button>
-			</li>
-		</ul>
-		<b-modal 
-			id="edit-collage"
-			v-if="edit_enabled == '1'"
-			centered 
-			size="xl" 
-			title="Editácia schémy fotokoláže" 
-			ok-only 
-			header-bg-variant="dark"
-			header-text-variant="light"
-			body-bg-variant="dark"
-			body-text-variant="light"
-			footer-bg-variant="dark"
-			footer-text-variant="light" 
-			ref="modal1fo"
-			:hide-footer="true"
-		>
-			<div
-				class="accordion"
-				role="tablist"
-				v-for="(s, index) in sch"
-				:key="index"
+	<section id="webThumbnails" class="row">
+		<div class="col-12 vue-fotogalery">
+			<ul class="nav justify-content-end mb-1" v-if="edit_enabled == '1'">
+				<li class="nav-item">
+					<a type="button" class="btn btn-sm btn-dark disabled" disabled>
+						Fotiek: {{ attachments.length }}, max. v schéme: {{ collage.maxPhotosToShow }},
+						riadkov: {{ collage.uniqeRows }}
+					</a>
+				</li>
+				<li class="nav-item">
+					<b-button 
+						variant="outline-warning"
+						size="sm"
+						v-b-modal.edit-collage
+						title="Editácia schémy">
+						<i class="fas fa-pen"></i>
+					</b-button>
+				</li>
+			</ul>
+			<b-modal 
+				id="edit-collage"
+				v-if="edit_enabled == '1'"
+				centered 
+				size="xl" 
+				title="Editácia schémy fotokoláže" 
+				ok-only 
+				header-bg-variant="dark"
+				header-text-variant="light"
+				body-bg-variant="dark"
+				body-text-variant="light"
+				footer-bg-variant="dark"
+				footer-text-variant="light" 
+				ref="modal1fo"
+				:hide-footer="true"
 			>
-				<edit-schema-row
-					:row="s"
-					:id_part="index"
+				<div
+					class="accordion"
+					role="tablist"
+					v-for="(s, index) in sch"
+					:key="index"
 				>
-				</edit-schema-row>
-			</div>
-		</b-modal>
+					<edit-schema-row
+						:row="s"
+						:id_part="index"
+					>
+					</edit-schema-row>
+				</div>
+			</b-modal>
 
-		<div ref="imgDetail" id="imgDetail"> 
-			<photo-collage-wrapper 
-				gapSize="6px"
-				@itemClick="itemClickHandler"
-				v-bind="collage">
-			</photo-collage-wrapper>
-		</div>
-		
-		<b-modal  id="modal-multi-1" centered size="xl" 
-							:title="image.name" ok-only
-							modal-class="lightbox-img"
-							ref="modal1fo">
-			<div class="modal-content">
-				<div class="modal-body my-img-content">  
-					<img :src="filesPath + image.main_file" 
-								:alt="image.name" 
-								id="big-main-img"
-								class="" />
-					<div class="text-center description" v-if="image.description != null">
-						{{ image.description }}
-					</div>
-				</div>
-				<div class="arrows-overlay">
-					<div class="arrows-l" @click="before">
-						<a href="#" class="text-light" :title="$store.state.texts.galery_arrows_before">&#10094;
-						</a>
-					</div>
-					<div class="go-to-hight" v-touch="{
-						left: () => swipe('Left'),
-						right: () => swipe('Right'),
-						up: () => swipe('Up'),
-						down: () => swipe('Down')
-					}">
-					</div>
-					<div class="arrows-r flex-row-reverse" @click="after">
-						<a href="#" class="text-light" :title="$store.state.texts.galery_arrows_after">&#10095;
-						</a>
-					</div>
-				</div>
+			<div ref="imgDetail" id="imgDetail"> 
+				<photo-collage-wrapper 
+					gapSize="6px"
+					@itemClick="itemClickHandler"
+					v-bind="collage">
+				</photo-collage-wrapper>
 			</div>
-		</b-modal>
-	</span>
+			
+			<b-modal  id="modal-multi-1" centered size="xl" 
+								:title="image.name" ok-only
+								modal-class="lightbox-img"
+								ref="modal1fo">
+				<div class="modal-content">
+					<div class="modal-body my-img-content">  
+						<img :src="filesPath + image.main_file" 
+									:alt="image.name" 
+									id="big-main-img"
+									class="" />
+						<div class="text-center description" v-if="image.description != null">
+							{{ image.description }}
+						</div>
+					</div>
+					<div class="arrows-overlay">
+						<div class="arrows-l" @click="before">
+							<a href="#" class="text-light" :title="$store.state.texts.galery_arrows_before">&#10094;
+							</a>
+						</div>
+						<div class="go-to-hight" v-touch="{
+							left: () => swipe('Left'),
+							right: () => swipe('Right'),
+							up: () => swipe('Up'),
+							down: () => swipe('Down')
+						}">
+						</div>
+						<div class="arrows-r flex-row-reverse" @click="after">
+							<a href="#" class="text-light" :title="$store.state.texts.galery_arrows_after">&#10095;
+							</a>
+						</div>
+					</div>
+				</div>
+			</b-modal>
+		</div>
+	</section>
 </template>
 
 <style lang="scss" scoped>

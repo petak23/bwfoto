@@ -16,7 +16,7 @@ export default new Vuex.Store({
 			id_user_main: 0,
 		},
 		//admin_menu: [],
-		//user: {},
+		user: {},
 		texts_to_load: ['base_edit_title', 'base_edit_texts', 'base_to_admin', 
 										'base_last_change', 'base_platnost_do', 'base_zadal',
 										'galery_arrows_before', 'galery_arrows_after',
@@ -50,10 +50,10 @@ export default new Vuex.Store({
 		SET_INIT_ARTICLE(state, article) {
 			state.article = article
 		},
-		/*SET_INIT_USER (state, user) {
+		SET_INIT_USER (state, user) {
 			state.user = user
 		},
-		SET_INIT_ADMIN_MENU (state, admin_menu) {
+		/*SET_INIT_ADMIN_MENU (state, admin_menu) {
 			state.admin_menu = admin_menu
 		}*/
 		SET_INIT_TEXTS (state, texts) {

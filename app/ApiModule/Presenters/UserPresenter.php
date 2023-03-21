@@ -51,4 +51,10 @@ class UserPresenter extends BasePresenter
 	{
 		$this->sendJson($this->user_main->uzivateliaForm(1));
 	}
+
+	public function actionGetActualUserInfo()
+	{
+		//dumpe($this->user->getIdentity()->data);
+		$this->sendJson([$this->user->isLoggedIn() ? $this->user->getIdentity()->data : []]);
+	}
 }

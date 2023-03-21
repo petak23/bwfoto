@@ -46,3 +46,10 @@ INSERT INTO `user_permission` (`id_user_roles`, `id_user_resource`, `actions`)
 SELECT '0', '32', 'getall'
 FROM `user_permission`
 WHERE `id_user_resource` = '32' AND ((`id` = '42'));
+
+UPDATE `user_permission` SET
+`id` = '36',
+`id_user_roles` = '0',
+`id_user_resource` = '27',
+`actions` = 'getsubmenu,getmenu,getonemenuarticle,getonemenuarticlesp,getonehlavnemenuarticle,getfotocollagesettings,getactualuserinfo'
+WHERE `id` = '36';

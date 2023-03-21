@@ -119,7 +119,7 @@
 						</a>
 						&nbsp;
 						<a href="https://vuejs.org/" class="logo-nette" title="Vue js" target="_blank">
-							<img src="{$basePath}/www/images/logo_vue.png" alt="vue powered" class="vue-logo">
+							<img src="{$basePath}/{$nastavenie['dir_to_images']}logo_vue.png" alt="vue powered" class="vue-logo">
 						</a>
 					</li>
 					<li class="p-2">{_'base_last_update'} {$verzia->modified|date:'j.n.Y'}</li>
@@ -132,10 +132,8 @@
 			</div>
 		</footer>
 	</div>
-	{block lightbox}{/block}
 </div></div>
 	<script src="{webpack front.js}"></script>
-	{block spec_js}{/block}
 	{control googleAnalytics}
 </body>
 </html>

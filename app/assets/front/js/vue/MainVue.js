@@ -1,12 +1,12 @@
 /* 
  * Main Vue.js app file
- * Posledná zmena(last change): 20.03.2023
+ * Posledná zmena(last change): 21.03.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.9
+ * @version 1.2.0
  */
 
 import Vue from 'vue';
@@ -31,9 +31,7 @@ import ProductsLike from './components/ProductsLike.vue'
 import SingleMenu from './components/Menu/SingleMenu.vue'
 import BwfotoFixedHomepage from "./components/Menu/BWfoto_Fixed_Homepage.vue";
 import ShowArticle from './components/ShowArticle.vue'
-import AttImages from './components/Attachments/Images.vue'
-import AttAudios from './components/Attachments/Audios.vue'
-import AttOthers from './components/Attachments/Others.vue'
+import Attachments from './components/Attachments/Attachments.vue'
 
 import VueSession from 'vue-session'
 Vue.use(VueSession)
@@ -67,8 +65,6 @@ let vm = new Vue({
     SingleMenu,
     BwfotoFixedHomepage,
     ShowArticle,
-    AttImages,
-    AttAudios,
-    AttOthers,
+    Attachments,
   },
 });   

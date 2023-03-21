@@ -1,13 +1,13 @@
 <script>
 /**
  * Component Images.
- * Posledna zmena 20.03.2023
+ * Posledna zmena 21.03.2023
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.0
+ * @version    1.0.1
  * 
  */
 
@@ -32,7 +32,7 @@ export default {
 			axios.get(odkaz)
 				.then(response => {
 					//console.log(response.data)
-					this.images = response.data
+					this.images = response.data.length > 0 ? response.data : null
 				})
 				.catch((error) => {
 					console.log(odkaz);

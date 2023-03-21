@@ -4,18 +4,15 @@ declare(strict_types=1);
 
 namespace App\FrontModule\Presenters;
 
-use App\FrontModule\Components;
 use DbTable;
-use Latte\Runtime;
 use Nette;
 use Nette\Application\UI\Multiplier;
-use Nette\Utils;
 use PeterVojtech;
 
 /**
  * Prezenter pre vypisanie clankov.
  * 
- * Posledna zmena(last change): 20.03.2023
+ * Posledna zmena(last change): 21.03.2023
  *
  *	Modul: FRONT
  *
@@ -23,13 +20,12 @@ use PeterVojtech;
  * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.5.4	
+ * @version 1.5.5
  */
 
 class ClankyPresenter extends BasePresenter
 {
 
-	//  use PeterVojtech\Clanky\ZobrazKartyPodclankov\zobrazKartyPodclankovTrait;
 	use PeterVojtech\Clanky\OdkazNaClanky\odkazNaClankyTrait;
 
 	/** @var DbTable\Clanok_komponenty @inject*/
@@ -37,8 +33,8 @@ class ClankyPresenter extends BasePresenter
 	/** @var DbTable\Products @inject */
 	public $products;
 
-	/** @var Nette\Database\Table\ActiveRow */
-	public $zobraz_clanok;
+	/** @var Nette\Database\Table\ActiveRow|null */
+	public $zobraz_clanok = null;
 	/** @var string */
 	private $kotva = "";
 
@@ -61,107 +57,46 @@ class ClankyPresenter extends BasePresenter
 
 		try { //Find article
 			$this->zobraz_clanok = $this->hlavne_menu_lang->getOneArticleId($id, $this->language_id, $this->id_reg); // Najdi clanok
+			if ($this->zobraz_clanok->hlavne_menu->redirect_id) { //Ak mám presmerovanie na podclanok
+				$this->redirect("Clanky:", $this->zobraz_clanok->hlavne_menu->redirect_id);
+			} elseif ($this->zobraz_clanok->hlavne_menu->id_nadradenej !== NULL) { //Ak mam v nadradenej polozke zobrazovanie podclankov na kartach
+				$nadr = $this->clanok_komponenty->findBy(['id_hlavne_menu' => $this->zobraz_clanok->hlavne_menu->id_nadradenej, 'spec_nazov' => 'zobrazKartyPodclankov']);
+				if (count($nadr)) {
+					$this->redirect("Clanky:", [$this->zobraz_clanok->hlavne_menu->id_nadradenej, $this->zobraz_clanok->hlavne_menu->spec_nazov]);
+				}
+			}
 		} catch (DbTable\ArticleMainMenuException $e) {
 			if ($e->getCode() == 2) { //Article missing permissions
-				$this->flashRedirect(["User:", ['backlink' => $this->storeRequest()]], 'clanky_najdeny_neprihlaseny', "warning");
+				$this->flashRedirect(
+					["User:", ['backlink' => $this->storeRequest()]],
+					$this->texty_presentera->translate('clanky_najdeny_neprihlaseny'),
+					"warning"
+				);
 			} else {                  //Article not found
 				$this->setView("notFound");
 			}
 		}
-
-		if ($this->zobraz_clanok->hlavne_menu->redirect_id) { //Ak mám presmerovanie na podclanok
-			$this->redirect("Clanky:", $this->zobraz_clanok->hlavne_menu->redirect_id);
-		} elseif ($this->zobraz_clanok->hlavne_menu->id_nadradenej !== NULL) { //Ak mam v nadradenej polozke zobrazovanie podclankov na kartach
-			$nadr = $this->clanok_komponenty->findBy(['id_hlavne_menu' => $this->zobraz_clanok->hlavne_menu->id_nadradenej, 'spec_nazov' => 'zobrazKartyPodclankov']);
-			if (count($nadr)) {
-				$this->redirect("Clanky:", [$this->zobraz_clanok->hlavne_menu->id_nadradenej, $this->zobraz_clanok->hlavne_menu->spec_nazov]);
-			} else {
-				$_tt = $this->zobraz_clanok->hlavne_menu->hlavne_menu_template->name;
-				$edit = $this->user->isLoggedIn() && $this->user->isAllowed('Front:Clanky', 'edit');
-				$this->setView(($edit && is_file(__DIR__ . $_tt . '_log' . ".latte")) ? ($_tt . '_log') : $_tt);
-			}
-		} else {
-			$_tt = $this->zobraz_clanok->hlavne_menu->hlavne_menu_template->name;
-			$edit = $this->user->isLoggedIn() && $this->user->isAllowed('Front:Clanky', 'edit');
-			$this->setView(($edit && is_file(__DIR__ . $_tt . '_log' . ".latte")) ? ($_tt . '_log') : $_tt);
-		}
-	}
-
-	private function _renderArticleText(string|null $s): Runtime\Html|string|null
-	{
-		// obr_v_txt
-		/*$rozloz = explode("#", $s); // Nutnosť zmeny značky na napr. {I-xxx}
-		$vysledok = '';
-		$cesta = 'http://' . $this->nazov_stranky . "/";
-		if (count($rozloz) > 1) {    //Ak som nasiel znacku
-			dump($rozloz);
-			foreach ($rozloz as $k => $cast) {
-				if (substr($cast, 0, 2) == "I-") {
-					$obr = $this->dokumenty->find((int)substr($cast, 2));
-					if ($obr !== FALSE) {
-						$cast = Utils\Html::el('a class="fotky" rel="fotky"')->href($cesta . $obr->subor)
-							->title($obr->nazov)
-							->setHtml(Utils\Html::el('img')
-								->src($cesta . $obr->thumb)
-								->alt($obr->nazov));
-					}
-				}
-				$vysledok .= $cast;
-			}
-		} else */
-		$vysledok = $s;
-		if ($s != null) {
-			// koncova_znacka
-			$rozloz = explode("{end}", $vysledok);
-			if (count($rozloz) > 1) {    //Ak som nasiel znacku
-				$vysledok = $rozloz[0]   // Podľa: https://getbootstrap.com/docs/4.6/components/collapse/#example
-					. Utils\Html::el('a class="btn btn-link" data-toggle="collapse" aria-expanded="false" aria-controls="collapseArticle" id="colArt"')
-					->href("#collapseArticle")
-					->title($this->texty_presentera->translate("base_title"))
-					->setHtml('&gt;&gt;&gt; ' . $this->texty_presentera->translate("base_viac"))
-					. Utils\Html::el('div class="collapse" id="collapseArticle"')
-					->setHtml($rozloz[1]);
-			}
-		}
-		// https://latte.nette.org/cs/develop#toc-vypnuti-auto-escapovani-promenne
-		return new Runtime\Html($vysledok);
 	}
 
 	/** Render pre zobrazenie clanku */
-	public function beforeRender()
+	public function renderDefault()
 	{
-		parent::beforeRender();
-		if ($this->zobraz_clanok !== FALSE) {
-			$this->template->komentare_povolene =  $this->udaje_webu["komentare"] && ($this->user->isAllowed('Front:Clanky', 'komentar') && $this->zobraz_clanok->hlavne_menu->komentar) ? $this->zobraz_clanok->id_hlavne_menu : 0;
-			$this->template->article = $this->zobraz_clanok;
-			$this->template->for_admin_link = ':Admin:' . $this->zobraz_clanok->hlavne_menu->druh->presenter . ':';
+		$this->template->komentare_povolene =  $this->udaje_webu["komentare"] && ($this->user->isAllowed('Front:Clanky', 'komentar') && $this->zobraz_clanok->hlavne_menu->komentar) ? $this->zobraz_clanok->id_hlavne_menu : 0;
+		$this->template->article = $this->zobraz_clanok;
+		$this->template->for_admin_link = ':Admin:' . $this->zobraz_clanok->hlavne_menu->druh->presenter . ':';
 
-			//Text článk pre neprihláseného užívateľa...
-			$this->template->article_text = $this->_renderArticleText($this->zobraz_clanok->text_c);
+		//Ak je v odkaze parameter z vyhľadávania...
+		$this->template->first_id = isset($this->params['first_id']) ? $this->params['first_id'] : 0;
 
-			//Ak je v odkaze parameter z vyhľadávania...
-			$this->template->first_id = isset($this->params['first_id']) ? $this->params['first_id'] : 0;
+		//Id zobrazenej template
+		$this->template->template_id = $this->zobraz_clanok->hlavne_menu->id_hlavne_menu_template;
 
-			$this->template->uroven = $this->zobraz_clanok->hlavne_menu->uroven + 2;
-			$this->template->avatar = $this->zobraz_clanok->hlavne_menu->avatar;
-			$this->template->podclanky = $this->hlavne_menu->maPodradenu($this->zobraz_clanok->id);
-			$this->template->view_submenu = $this->zobraz_clanok->hlavne_menu->id_hlavicka < 3;
-			$this->template->viac_info = $this->texty_presentera->translate('clanky_viac_info');
-			//Zisti, ci su k clanku priradene komponenty
-			$this->template->komponenty = $this->clanok_komponenty->getKomponenty($this->zobraz_clanok->id_hlavne_menu, $this->nastavenie["komponenty"]);
-			$this->template->id_hlavne_menu_lang = $this->zobraz_clanok->id;
-			$this->template->article_hlavicka = $this->udaje->getValByName("clanok_hlavicka");
-			$this->template->this_link = $this->link('this');
+		//Zisti, ci su k clanku priradene komponenty
+		$this->template->komponenty = $this->clanok_komponenty->getKomponenty($this->zobraz_clanok->id_hlavne_menu, $this->nastavenie["komponenty"]);
 
-			$servise = $this;
-			$this->template->addFilter('odkazdo', function ($id) use ($servise) {
-				$serv = $servise->link("Dokumenty:default", ["id" => $id]);
-				return $serv;
-			});
-			$this->template->addFilter('tojson', function ($data) {
-				return Nette\Utils\Json::encode($data);
-			});
-		}
+		// Pre edit-article
+		$this->template->article_hlavicka = $this->udaje->getValByName("clanok_hlavicka");
+		$this->template->this_link = $this->link('this');
 	}
 
 	/** Render v prípade nenájdenia článku */
@@ -179,25 +114,5 @@ class ClankyPresenter extends BasePresenter
 			$komentar->setParametre($id_hlavne_menu);
 			return $komentar;
 		});
-	}
-
-	/**
-	 * Komponenta pre zobrazenie clanku */
-	public function createComponentUkazTentoClanok(): Components\Clanky\ZobrazClanok\ZobrazClanokControl
-	{
-		$ukaz_clanok = $this->zobrazClanokControlFactory->create();
-		$ukaz_clanok->setArticle($this->zobraz_clanok)
-			->setLanguage($this->language_id)
-			->setClanokHlavicka($this->udaje_webu['clanok_hlavicka']);
-		return $ukaz_clanok;
-	}
-
-	/** 
-	 * Komponenta pre zobrazenie produktov */
-	public function createComponentViewProducts(): Components\Products\ProductsViewControl
-	{
-		$products = $this->productsViewControlFactory->create();
-		$products->setNastav($this->zobraz_clanok, $this->language_id, $this->nastavenie);
-		return $products;
 	}
 }

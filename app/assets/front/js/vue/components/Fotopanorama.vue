@@ -1,13 +1,13 @@
 <script>
 /** 
  * Component Fotopanorama
- * Posledná zmena(last change): 27.02.2023
+ * Posledná zmena(last change): 21.03.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.2
+ * @version 1.1.3
  */
 
 import axios from 'axios'
@@ -148,89 +148,91 @@ export default {
 </script>
 
 <template>
-<div class="col-12 main-win">
-	<div class="row">
-		<h4 class="col-12 bigimg-name">
-			{{ attachments[id].name }}
-		</h4>
-	</div>
-	<div class="row">
-		<div class="col-12 thumbpanorama" id="imgDetail" ref="imgDetail">
-			<div v-for="(im, index) in attachments" :key="im.id">
-				<a  v-if="im.type == 'menu'" 
-						:href="im.web_name" 
-						:title="im.name">
-					<b-img-lazy
-						:src="getImageUrl(im.main_file)"
-						:alt="im.name" class="img-fluid podclanok">
-					></b-img-lazy>
-					<h4 class="h4-podclanok">{{ im.name }}</h4>
-				</a>
-				<video v-else-if="im.type == 'attachments3'"
-							class="video-priloha" 
-							:src="filesPath + im.main_file" 
-							:poster="filesPath + im.thumb_file"
-							type="video/mp4" controls="controls" preload="none">
-				</video>
-				<button v-else-if="im.type == 'attachments1'" 
-								:title="im.name">
-					<b-img-lazy
-						:src="getImageUrl(im.thumb_file)" 
-						:alt="im.name" 
-						class="img-fluid a3">
-					></b-img-lazy>
-					<br><h6>{{ im.name }}</h6>
-				</button>
-				<button v-else-if="(im.type == 'attachments2' || im.type == 'product')"
-								@click.prevent="modalchangebig(index)" 
-								type="button" 
-								class="btn btn-link">
-					<b-img-lazy
-						:src="getImageUrl(im.thumb_file)" 
-						:alt="im.name" 
-						class="img-fluid a12">
-					></b-img-lazy>
-				</button>
+	<section id="webThumbnails" class="row">
+		<div class="col-12 main-win">
+			<div class="row">
+				<h4 class="col-12 bigimg-name">
+					{{ attachments[id].name }}
+				</h4>
 			</div>
-		</div>
-	</div>
-
-	<b-modal  id="modal-multi-1" centered size="xl" 
-						:title="attachments[id].name" ok-only
-						modal-class="lightbox-img"
-						ref="modal1fo">
-		<div class="modal-content">
-			<div class="modal-body my-img-content">
-				<div class="border-a" :style="border_a">
-					<div class="border-b" :style="border_b">
-						<img :src="filesPath + attachments[id].main_file" 
-									:alt="attachments[id].name" 
-									id="big-main-img"
-									class="border-c" 
-									:style="border_c" />
+			<div class="row">
+				<div class="col-12 thumbpanorama" id="imgDetail" ref="imgDetail">
+					<div v-for="(im, index) in attachments" :key="im.id">
+						<a  v-if="im.type == 'menu'" 
+								:href="im.web_name" 
+								:title="im.name">
+							<b-img-lazy
+								:src="getImageUrl(im.main_file)"
+								:alt="im.name" class="img-fluid podclanok">
+							></b-img-lazy>
+							<h4 class="h4-podclanok">{{ im.name }}</h4>
+						</a>
+						<video v-else-if="im.type == 'attachments3'"
+									class="video-priloha" 
+									:src="filesPath + im.main_file" 
+									:poster="filesPath + im.thumb_file"
+									type="video/mp4" controls="controls" preload="none">
+						</video>
+						<button v-else-if="im.type == 'attachments1'" 
+										:title="im.name">
+							<b-img-lazy
+								:src="getImageUrl(im.thumb_file)" 
+								:alt="im.name" 
+								class="img-fluid a3">
+							></b-img-lazy>
+							<br><h6>{{ im.name }}</h6>
+						</button>
+						<button v-else-if="(im.type == 'attachments2' || im.type == 'product')"
+										@click.prevent="modalchangebig(index)" 
+										type="button" 
+										class="btn btn-link">
+							<b-img-lazy
+								:src="getImageUrl(im.thumb_file)" 
+								:alt="im.name" 
+								class="img-fluid a12">
+							></b-img-lazy>
+						</button>
 					</div>
 				</div>
-				<div class="text-center description" v-if="attachments[id].description != null">
-					{{ attachments[id].description }}
-				</div>
 			</div>
-			<div class="arrows-overlay">
-				<div class="arrows-l"
-						@click="before">
-					<a href="#" class="text-light"   
-							:title="$store.state.texts.galery_arrows_before">&#10094;
-					</a>
+
+			<b-modal  id="modal-multi-1" centered size="xl" 
+								:title="attachments[id].name" ok-only
+								modal-class="lightbox-img"
+								ref="modal1fo">
+				<div class="modal-content">
+					<div class="modal-body my-img-content">
+						<div class="border-a" :style="border_a">
+							<div class="border-b" :style="border_b">
+								<img :src="filesPath + attachments[id].main_file" 
+											:alt="attachments[id].name" 
+											id="big-main-img"
+											class="border-c" 
+											:style="border_c" />
+							</div>
+						</div>
+						<div class="text-center description" v-if="attachments[id].description != null">
+							{{ attachments[id].description }}
+						</div>
+					</div>
+					<div class="arrows-overlay">
+						<div class="arrows-l"
+								@click="before">
+							<a href="#" class="text-light"   
+									:title="$store.state.texts.galery_arrows_before">&#10094;
+							</a>
+						</div>
+						<div class="arrows-r flex-row-reverse"
+								@click="after">
+							<a href="#" class="text-light"
+									:title="$store.state.texts.galery_arrows_after">&#10095;
+							</a>
+						</div>
+					</div>
 				</div>
-				<div class="arrows-r flex-row-reverse"
-						@click="after">
-					<a href="#" class="text-light"
-							:title="$store.state.texts.galery_arrows_after">&#10095;
-					</a>
-				</div>
-			</div>
+			</b-modal>
 		</div>
-	</b-modal>
-</div>
+	</section>
 </template>
 
 <style lang="scss" scoped>
