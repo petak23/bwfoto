@@ -1,13 +1,13 @@
 <script>
 /** 
  * Component Fotogalery
- * Posledná zmena(last change): 21.03.2023
+ * Posledná zmena(last change): 30.03.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.3
+ * @version 1.1.4
  */
 
 import axios from 'axios' 
@@ -68,10 +68,12 @@ export default {
 		// Zmena id na predošlé
 		before() {
 			this.id = this.id <= 0 ? (this.attachments.length - 1) : this.id - 1;
+			this.my_liked();
 		},  
 		// Zmena id na  nasledujúce
 		after() {
 			this.id = this.id >= (this.attachments.length - 1) ? 0 : this.id + 1;
+			this.my_liked();
 		}, 
 		closeme: function(no) {
 			this.$bvModal.hide("modal-multi-" + no);
@@ -132,6 +134,9 @@ export default {
 					if (parseInt(this.first_id) > 0) { // Ak mám first_id tak k nemu nájdem položku v attachments
 						this.getFirstId(parseInt(this.first_id))
 						this.my_liked()
+						if (this.wid == 0) {
+							this.modalchangebig(this.id)
+						}
 					}
 				})
 				.catch((error) => {
@@ -268,13 +273,14 @@ export default {
 						</button>
 					</div>
 				</div>
-				<div class="col-12  thumbgrid" 
+				<div class="col-12 thumbgrid" 
 						:class="{'thumbs-large': large_thumbs, 'col-sm-4': !large_thumbs}">
 					<div v-for="(im, index) in attachments" :key="im.id">
 						<a  v-if="wid > 0" 
 								@click.prevent="changebig(index)" href=""
-								:title="'Odkaz' + (im.type == 'menu' ? im.view_name : im.name)" 
-								:class="'pok thumb-a, ajax' + (index == id ? ', selected' : '')">
+								:title="'Odkaz' + (im.type == 'menu' ? im.view_name : im.name)"
+								class="pok thumb-a ajax" 
+								:class="index == id ? 'selected' : ''">
 							<b-img-lazy
 								:src="getImageUrl(im.thumb_file)"
 								:alt="im.name" class="img-fluid">
@@ -306,7 +312,10 @@ export default {
 						</button>
 						<button v-else-if="wid == 0 && (im.type == 'attachments2' || im.type == 'product')"
 										@click.prevent="modalchangebig(index)" 
-										type="button" class="btn btn-link">
+										type="button" 
+										class="btn btn-link"
+										:class="index == id ? 'selected' : ''"
+						>
 							<b-img-lazy
 								:src="getImageUrl(im.thumb_file)" 
 								:alt="im.name" 

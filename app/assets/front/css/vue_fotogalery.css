@@ -1,7 +1,7 @@
 /* 
  * Fotogaléria s Vue.js
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * Last update: 15.03.2022 
+ * Last update: 30.03.2022 
  */
 
 [v-cloak] #webThumbnails .vue-fotogalery > div, 
@@ -83,7 +83,7 @@
   max-height: 80vh;
   grid-auto-rows: 9rem;
 }
-.thumbgrid a.selected img {
+.thumbgrid .selected img {
 	border-color: #ffeb3b;
 }
 .thumbgrid > div{
