@@ -1,8 +1,16 @@
 {var $robots = noindex}
 {block #content}
 <div class="row justify-content-center">
-  <div class="col-12 col-md-10 col-lg-6 text-center">
-    <h2 n:inner-block="title"><i class="fas fa-sign-in-alt"></i> {_'SignInForm_h2'}</h2>
-    {control signInForm}
-  </div>
+	<div class="col-12 col-md-10 col-lg-6 text-center">
+		<h2 n:inner-block="title"><i class="fas fa-sign-in-alt"></i> {_'SignInForm_h2'}</h2>
+		{control signInForm}
+		<a 
+			n:href="User:registracia"
+			n:if="$reg_enabled"
+			title="{_'RegistraciaForm_h2'}"
+			class="btn btn-outline-sucess"
+		>
+			{_'RegistraciaForm_h2'}
+		</a>
+	</div>
 </div>

@@ -10,13 +10,13 @@ use Nette\Security;
 
 /**
  * Sign in form
- * Last change 05.01.2023
+ * Last change 04.07.2023
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.1.4
+ * @version    1.1.5
  */
 class SignInFormFactory
 {
@@ -67,8 +67,8 @@ class SignInFormFactory
     $renderer->wrappers['controls']['container'] = 'div class=sign-in-form';
     $renderer->wrappers['pair']['container'] = 'div class="form-group row justify-content-center"';
     $renderer->wrappers['pair']['.error'] = 'has-danger';
-    $renderer->wrappers['control']['container'] = 'div class="col-12 col-sm-6"';
-    $renderer->wrappers['label']['container'] = 'div class="d-none"'; //'div class="col-sm-3 col-form-label"';
+    $renderer->wrappers['control']['container'] = 'div class="col-12 "';
+    $renderer->wrappers['label']['container'] = 'div class="d-none"';
     $renderer->wrappers['control']['description'] = 'span class=form-text';
     $renderer->wrappers['control']['errorcontainer'] = 'span class=form-control-feedback';
     $renderer->wrappers['control']['.error'] = 'is-invalid';

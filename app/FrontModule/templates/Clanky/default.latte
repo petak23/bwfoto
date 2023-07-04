@@ -54,7 +54,7 @@
 	<attachments
 		file-path="{$basePath}"
 	></attachments>
-	<div class="row" n:if="(isset($komponenty) && count($komponenty)) || $komentare_povolene">
+	<div class="row" n:if="(isset($komponenty) && count($komponenty))">
 		<div class="col-xs-12 col-md-12">
 			<section id="nahlady" n:if="isset($komponenty) && count($komponenty)">
 				{foreach $komponenty as $komp}
@@ -66,7 +66,6 @@
 					{/ifset}
 				{/foreach}
 			</section>
-			{if $komentare_povolene}{control 'komentar-$komentare_povolene'}{/if}
 		</div>
 	</div>
 </section>

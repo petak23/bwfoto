@@ -81,7 +81,7 @@ class ClankyPresenter extends BasePresenter
 	/** Render pre zobrazenie clanku */
 	public function renderDefault()
 	{
-		$this->template->komentare_povolene =  $this->udaje_webu["komentare"] && ($this->user->isAllowed('Front:Clanky', 'komentar') && $this->zobraz_clanok->hlavne_menu->komentar) ? $this->zobraz_clanok->id_hlavne_menu : 0;
+		//$this->template->komentare_povolene = $this->udaje_webu["komentare"] && ($this->user->isAllowed('Front:Clanky', 'komentar') && $this->zobraz_clanok->hlavne_menu->komentar) ? $this->zobraz_clanok->id_hlavne_menu : 0;
 		$this->template->article = $this->zobraz_clanok;
 		$this->template->for_admin_link = ':Admin:' . $this->zobraz_clanok->hlavne_menu->druh->presenter . ':';
 
