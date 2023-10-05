@@ -50,7 +50,7 @@
     "jsonlylightbox": "^0.5.5",
     "mini-css-extract-plugin": "^1.6.2",
     "node-sass": "^7.0.3",
-    "postcss": "^8.4.5",
+    "postcss": "^8.4.31",
     "postcss-loader": "^6.2.1",
     "raw-loader": "^4.0.2",
     "resolve-url-loader": "^4.0.0",
