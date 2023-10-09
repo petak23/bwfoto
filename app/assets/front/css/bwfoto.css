@@ -50,11 +50,11 @@ a:hover{
 }
 .white-curtain{
 	background-color: rgba(250,250,250,0.60);
-	background: linear-gradient(to top, rgba(250, 250, 250, 0.60) 65%, transparent);
+	background: linear-gradient(to top, rgba(250, 250, 250, 0.70) 65%, transparent);
 }
 .black-curtain{
 	background-color: rgba(0,0,0,0.60);
-	background: linear-gradient(to top, rgba(250, 250, 250, 0.60) 65%, transparent);
+	background: linear-gradient(to top, rgba(250, 250, 250, 0.70) 65%, transparent);
 	color: #212529 !important;
 }
 
@@ -312,6 +312,12 @@ footer .pv-footer a{
 		font-size: 1.2rem;
 		transition: font-size 0.3s;
 	}
+	#webParts a > h2 {
+		margin-bottom: -.5rem;
+	}
+	#webParts a.reverse > h2 {
+		margin-bottom: .5rem;
+	}
 	#webParts figure:hover figcaption h2{
 		font-size: 1.3rem;
 		text-decoration: underline;
@@ -340,7 +346,7 @@ footer .pv-footer a{
 		background: linear-gradient(to top, transparent, rgba(153, 102, 0, .7) 20%, rgb(153, 102, 0) 50%);
 	}
 	.white-curtain {
-		background: linear-gradient(to bottom, rgba(250, 250, 250, 0.60) 65%, transparent);
+		background: linear-gradient(to bottom, rgba(250, 250, 250, 0.70) 65%, transparent);
 	}
 	.thumbgrid{
 			grid-template-columns: repeat(3, 1fr);

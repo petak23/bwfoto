@@ -77,6 +77,8 @@ abstract class BasePresenter extends Presenter
 	public $language = 'sk';
 	/** @persistent */
 	public $backlink = '';
+	/** @persistent */
+	public $page_font = 'm'; // m - základ; c - cinzel 
 
 	/** @var Http\Request @inject*/
 	public $httpRequest;
@@ -205,6 +207,7 @@ abstract class BasePresenter extends Presenter
 			'info'    => 'fas fa-info-circle',
 			'danger'  => 'fas fa-exclamation-circle',
 		];
+		$this->template->page_font = $this->page_font;
 		$this->template->setTranslator($this->texty_presentera);
 		$servise = $this;
 		$this->template->addFilter('obr_v_txt', function ($text) use ($servise) {
@@ -336,6 +339,12 @@ abstract class BasePresenter extends Presenter
 				$this->language = $language;
 			}
 		}
+		$this->redirect('this');
+	}
+
+	public function handlePagefont(): void
+	{
+		$this->page_font = ($this->page_font != "c") ? "c" : "m";
 		$this->redirect('this');
 	}
 

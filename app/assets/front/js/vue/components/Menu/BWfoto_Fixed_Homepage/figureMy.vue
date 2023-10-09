@@ -55,7 +55,7 @@ export default {
 			<figcaption class="text-center w-100">
 				<h2 
 					class="py-2"
-					:class="if_part ? 'black-curtain m-0 h3' : 'white-curtain text-body'"
+					:class="if_part ? 'black-curtain m-0 h3 pt-3 pb-1' : 'white-curtain text-body pt-1 pb-3'"
 				>
 					{{ item.name }}
 				</h2>

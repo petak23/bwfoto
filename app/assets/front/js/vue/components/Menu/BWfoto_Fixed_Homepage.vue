@@ -93,7 +93,7 @@ export default {
 				</figure-my>
 				<part_small
 					:item="node.s"
-					main_class="d-flex flex-column justify-content-center"
+					:main_class="'d-flex flex-column justify-content-center' + (index == 1 ? ' reverse': '')"
 					:bolder="node.s.id == 5"
 				>
 				</part_small>

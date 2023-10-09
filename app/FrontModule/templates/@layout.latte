@@ -29,7 +29,7 @@
 	{control favicon}
 	{block head}{/block}
 </head>
-<body>
+<body n:class="$page_font == 'c' ? cinzel">
 <div v-cloak id="vueapp"><div id="slider" ref="myslider">
 	{var $main_menu_active = $article->id_hlavne_menu ?? 0}
 	{var $id_hlavne_menu_lang = $article->id ?? 0}
@@ -68,6 +68,9 @@
 	<div class="frame">
 		{* ----- ZACIATOK content - centralna cast, obsahova sekcia ----- *}
 		<section id="webContent">
+			<a n:href="pagefont!" n:if="$user->isLoggedIn()">
+				Prepni na: {if $page_font == 'c'}Monserat{else}Cinzel{/if}
+			</a>
 			{*<main-menu>
 			</main-menu>*}
 			<breadcrumb
