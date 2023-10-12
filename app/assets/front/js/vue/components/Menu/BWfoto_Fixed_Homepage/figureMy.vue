@@ -1,13 +1,13 @@
 <script>
 /** 
  * Component BWfoto_Fixed_Homepage -> figure
- * Posledná zmena(last change): 13.03.2023
+ * Posledná zmena(last change): 09.10.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.0
+ * @version 1.0.1
  * 
  */
 
@@ -53,13 +53,32 @@ export default {
 				:alt="item.name"
 			>
 			<figcaption class="text-center w-100">
-				<h2 
-					class="py-2"
-					:class="if_part ? 'black-curtain m-0 h3 pt-3 pb-1' : 'white-curtain text-body pt-1 pb-3'"
-				>
+				<h2 :class="if_part ? 'black-curtain' : 'white-curtain text-body'">
 					{{ item.name }}
 				</h2>
 			</figcaption>
 		</a>
 	</figure>
 </template>
+
+<style scoped>
+	.black-curtain {
+		background-color: rgba(0,0,0,0.60);
+		background: linear-gradient(to top, rgba(250, 250, 250, 0.70) 65%, transparent);
+		color: #212529 !important;
+		margin: 0;
+		padding-top: 1rem;
+		padding-bottom: .25rem;
+	}
+	.white-curtain{
+		background-color: rgba(250,250,250,0.60);
+		background: linear-gradient(to top, rgba(250, 250, 250, 0.70) 65%, transparent);
+		padding-top: .25rem;
+		padding-bottom: 1rem;
+	}
+	@media (min-width: 960px) {
+		.white-curtain {
+			background: linear-gradient(to bottom, rgba(250, 250, 250, 0.70) 65%, transparent);
+		}
+	}
+</style>

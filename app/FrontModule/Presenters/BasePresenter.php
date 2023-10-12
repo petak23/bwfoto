@@ -19,7 +19,7 @@ use Texy;
 /**
  * Zakladny presenter pre vsetky presentery vo FRONT module
  * 
- * Posledna zmena(last change): 13.03.2023
+ * Posledna zmena(last change): 12.10.2023
  *
  *	Modul: FRONT
  *
@@ -27,7 +27,7 @@ use Texy;
  * @copyright Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link      http://petak23.echo-msz.eu
- * @version 1.7.6
+ * @version 1.7.7
  */
 abstract class BasePresenter extends Presenter
 {
@@ -61,8 +61,6 @@ abstract class BasePresenter extends Presenter
 	public $texty_presentera;
 
 	// -- Komponenty
-	/** @var Components\User\UserMenu\IUserMenuControl @inject */
-	public $userMenuControlFactory;
 	/** @var Components\Lang\LangMenu\ILangMenuControl @inject */
 	public $langMenuControlFactory;
 	/** @var Components\News\INewsControl @inject */
@@ -201,6 +199,15 @@ abstract class BasePresenter extends Presenter
 		$this->template->avatar_path = $this->nastavenie["dir_to_menu"];
 		$this->template->article_avatar_view_in = $this->nastavenie["article_avatar_view_in"];
 		$this->template->view_log_in_link_in_header = $this->nastavenie['user_panel']["view_log_in_link_in_header"];
+
+		// Pre vue komponentu UserMenu
+		$this->template->registracia_enabled = (bool)$this->udaje->getValByName('registracia_enabled') ? $this->link("User:registracia") : "0";
+		$this->template->adminLink = $this->user->isAllowed('Admin:Homepage', 'default') ? $this->link(':Admin:Homepage:') : null;
+		$hl_m_db_info = $this->user_main->getDBInfo();
+		$this->template->adminerLink = $this->user->isLoggedIn() && $this->user->isInRole('admin') ?
+			$this->template->baseUrl . "/www/adminer/?server=" . $hl_m_db_info['host'] . "&db=" . $hl_m_db_info['dbname'] : null;
+		// Pre vue komponentu UserMenu - koniec
+
 		$this->template->fa = [
 			'success' => 'fas fa-check-circle',
 			'warning' => 'fas fa-exclamation-triangle',
@@ -348,14 +355,6 @@ abstract class BasePresenter extends Presenter
 		$this->redirect('this');
 	}
 
-	/**
-	 * Vytvorenie komponenty pre menu uzivatela */
-	public function createComponentUserMenu(): Components\User\UserMenu\UserMenuControl
-	{
-		$ulm = $this->userMenuControlFactory->create();
-		$ulm->setLanguage($this->language)->setStoreRequest($this->storeRequest());
-		return $ulm;
-	}
 	/**
 	 * Vytvorenie komponenty pre panel jazykov */
 	public function createComponentLangMenu(): Components\Lang\LangMenu\LangMenuControl

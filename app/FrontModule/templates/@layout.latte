@@ -37,6 +37,7 @@
 		main_menu_active="{$main_menu_active}"
 		id_hlavne_menu_lang="{$id_hlavne_menu_lang}"
 		api-path="{$apiPath}"
+		id_user_main="{$user->getId() != null ? $user->getId() : 0}"
 	>
 	</main-menu-load>
 	<my-slider
@@ -87,7 +88,7 @@
 		></products-like>
 		
 		{* ----- Spodok stranky - FOOTER ----- *}
-		<footer n:snippet=footer class="py-3">
+		<footer class="py-3">
 			{* --- Mapa stranky --- *}
 			<nav class="w-100">
 				<bwfoto-tree-main 
@@ -104,7 +105,6 @@
 					<h4>Ateliér Zámečník</h4>
 					<ul class="list-group">
 						<li class="list-unstyled"><span class="fa fa-home"></span> Spišské Bystré</li>
-						{*<li class="list-unstyled"><span class="fa fa-mobile fa-1_5x"></span> 0905 150 400</li>*}
 						<li class="list-unstyled"><span class="fa fa-envelope"></span> bwfoto@bwfoto.sk</li>
 					</ul>
 				</div>
@@ -130,8 +130,16 @@
 				</ul>
 			</div> 
 			<div class="my-3 text-center">      
-				<a n:href="User:default#prihlas" n:if="$view_log_in_link_in_header < 0 && !$user->isLoggedIn()" title="{_'base_link_to_admin_log_in'}">{_'base_link_to_admin_log_in'}</a>
-				{control userMenu}
+				{*<a n:href="User:default#prihlas" n:if="$view_log_in_link_in_header < 0 && !$user->isLoggedIn()" title="{_'base_link_to_admin_log_in'}">{_'base_link_to_admin_log_in'}</a>*}
+				{*control userMenu*}
+				<user-menu
+					reg-link="{$registracia_enabled}"
+					log-in-link="{link User:}"
+					user-log-link="{link UserLog:}"
+					admin-link="{$adminLink}"
+					adminer-link="{$adminerLink}"
+					log-out-link="{link Homepage:signOut}"
+				></user-menu>
 			</div>
 		</footer>
 	</div>

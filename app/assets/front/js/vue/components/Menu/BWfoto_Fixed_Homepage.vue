@@ -114,6 +114,7 @@ export default {
 				<figure-my
 					:item="menu_part.children[1]"
 					:avatarDir="avatarDir"
+					:if_part="true"
 				>
 				</figure-my>
 			</div>

@@ -16,7 +16,7 @@ export default new Vuex.Store({
 			id_user_main: 0,
 		},
 		//admin_menu: [],
-		user: {},
+		user: null,
 		texts_to_load: ['base_edit_title', 'base_edit_texts', 'base_to_admin', 
 										'base_last_change', 'base_platnost_do', 'base_zadal',
 										'galery_arrows_before', 'galery_arrows_after',
@@ -24,7 +24,9 @@ export default new Vuex.Store({
 										'autocomplete_min_char', 'autocomplete_not_found',
 										'clanky_h3_prilohy_images', 'clanky_h3_prilohy_audios',
 										'clanky_h3_prilohy_others',
-										'clanky_dokument_download', 'clanky_dokument_view'
+										'clanky_dokument_download', 'clanky_dokument_view',
+										'base_link_to_admin_log_in', 'base_AdminLink_name',
+										'log_in', 'log_out', 'register'
 									 ],
 		texts: {},
 	},

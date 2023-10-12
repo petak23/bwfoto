@@ -12,7 +12,6 @@
 
 import axios from 'axios'
 
-
 //for Tracy Debug Bar
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
@@ -30,6 +29,10 @@ export default {
 			type: String,
 			default: 0,
 		},
+		id_user_main: {
+			type: String,
+			default: 0,
+		}
 	},
 	data: () => ({
 		in_path: false,
@@ -85,6 +88,7 @@ export default {
 				.then(function (response) {
 					//console.log(response.data)
 					vm.$store.commit('SET_INIT_TEXTS', response.data)
+					vm.$root.$emit("main-texts-loadet", [])
 				})
 				.catch(function (error) {
 					console.log(odkaz)
@@ -98,6 +102,20 @@ export default {
 				.then(response => {
 					this.$store.commit('SET_INIT_ARTICLE', response.data)
 					//console.log(response.data)
+				})
+				.catch((error) => {
+					console.log(odkaz);
+					console.log(error);
+				});
+		},
+		// Načítanie aktuálneho článku
+		getUser() {
+			let odkaz = this.apiPath + 'user/getactualuserinfo/' + this.id_user_main
+			axios.get(odkaz)
+				.then(response => {
+					this.$store.commit('SET_INIT_USER', response.data[0])
+					//console.log(response.data)
+					this.$root.$emit("user-loadet", [])
 				})
 				.catch((error) => {
 					console.log(odkaz);
@@ -126,6 +144,9 @@ export default {
 
 		// Načítanie aktuálneho článku
 		this.getArticle()
+
+		// Načítanie užívateľa
+		if (parseInt(this.id_user_main) > 0) this.getUser()
 
 		this.$root.$on('reload-main-menu', data => {
 			this.getMenu()

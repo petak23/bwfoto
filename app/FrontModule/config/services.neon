@@ -5,43 +5,37 @@
 # http://nette.org/security-warning
 #
 services:
-  - App\FrontModule\Presenters\ClankyPresenter(%parameters%)
-  - App\FrontModule\Presenters\ErrorPresenter(%parameters%)
-  - App\FrontModule\Presenters\HomepagePresenter(%parameters%)
-  - App\FrontModule\Presenters\UserLogPresenter(%parameters%)
-  - App\FrontModule\Presenters\UserPresenter(%parameters%)
+	- App\FrontModule\Presenters\ClankyPresenter(%parameters%)
+	- App\FrontModule\Presenters\ErrorPresenter(%parameters%)
+	- App\FrontModule\Presenters\HomepagePresenter(%parameters%)
+	- App\FrontModule\Presenters\UserLogPresenter(%parameters%)
+	- App\FrontModule\Presenters\UserPresenter(%parameters%)
 
 # forms
-  - App\FrontModule\Forms\User\ForgottenPasswordFormFactory
-  - App\FrontModule\Forms\User\SignInFormFactory
-  - App\FrontModule\Forms\User\RegisterFormFactory
-  - App\FrontModule\Forms\User\ResetPasswordFormFactory
-  - App\FrontModule\Components\Faktury\DokumentFormFactory
-  - App\FrontModule\Forms\UserLog\UserEditFormFactory(%wwwDir%, %dir_to_user%, %user_view_fields%, %dir_to_icons%, %send_e_mail_news%)
+	- App\FrontModule\Forms\User\ForgottenPasswordFormFactory
+	- App\FrontModule\Forms\User\SignInFormFactory
+	- App\FrontModule\Forms\User\RegisterFormFactory
+	- App\FrontModule\Forms\User\ResetPasswordFormFactory
+	- App\FrontModule\Components\Faktury\DokumentFormFactory
+	- App\FrontModule\Forms\UserLog\UserEditFormFactory(%wwwDir%, %dir_to_user%, %user_view_fields%, %dir_to_icons%, %send_e_mail_news%)
 
 # component services 
-  AktualneClankyControl:
-    implement: App\FrontModule\Components\Clanky\IAktualneClankyControl
-    arguments:
-      dir_to_menu: %dir_to_menu%
-  - App\FrontModule\Components\Clanky\IAktualnyProjektControl
-  ZobrazClanokControl:
-    implement: App\FrontModule\Components\Clanky\ZobrazClanok\IZobrazClanokControl
-    arguments:
-      dir_to_menu: %dir_to_menu%
+	AktualneClankyControl:
+		implement: App\FrontModule\Components\Clanky\IAktualneClankyControl
+		arguments:
+			dir_to_menu: %dir_to_menu%
+	- App\FrontModule\Components\Clanky\IAktualnyProjektControl
+	ZobrazClanokControl:
+		implement: App\FrontModule\Components\Clanky\ZobrazClanok\IZobrazClanokControl
+		arguments:
+			dir_to_menu: %dir_to_menu%
 
-  - App\FrontModule\Components\News\INewsControl
-  UserMenuControl:
-    implement: App\FrontModule\Components\User\UserMenu\IUserMenuControl
-    arguments:
-      nastavenie: %user_panel%
-      dir_to_user: %dir_to_user%
-      avatar_view: %user_view_fields.avatar%
+	- App\FrontModule\Components\News\INewsControl
 
-  LangMenuControl:
-    implement: App\FrontModule\Components\Lang\LangMenu\ILangMenuControl
-    arguments:
-      nastavenie: %user_panel%
+	LangMenuControl:
+		implement: App\FrontModule\Components\Lang\LangMenu\ILangMenuControl
+		arguments:
+			nastavenie: %user_panel%
 
-  - PeterVojtech\MainLayout\GoogleAnalytics\IGoogleAnalyticsControl
-  - PeterVojtech\News_key\NewsKeyControl
+	- PeterVojtech\MainLayout\GoogleAnalytics\IGoogleAnalyticsControl
+	- PeterVojtech\News_key\NewsKeyControl

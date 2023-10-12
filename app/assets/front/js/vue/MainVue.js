@@ -32,6 +32,7 @@ import SingleMenu from './components/Menu/SingleMenu.vue'
 import BwfotoFixedHomepage from "./components/Menu/BWfoto_Fixed_Homepage.vue";
 import ShowArticle from './components/ShowArticle.vue'
 import Attachments from './components/Attachments/Attachments.vue'
+import UserMenu from './components/User/UserMenu.vue'
 
 import VueSession from 'vue-session'
 Vue.use(VueSession)
@@ -66,5 +67,6 @@ let vm = new Vue({
     BwfotoFixedHomepage,
     ShowArticle,
     Attachments,
+    UserMenu,
   },
 });   

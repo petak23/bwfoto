@@ -4,11 +4,14 @@
 # If you don't protect this directory from direct web access, anybody will be able to see your passwords.
 # http://nette.org/security-warning
 #
-# Last change 21.04.2020
+# Last change 11.10.2023
 #
 base_lang_not_def: 'Language you require is not defined for this site!'
 base_nie_je_opravnenie1: 'You do not have enough privileges for this operation!'
 base_prihlaste_sa: 'Please log in!'
+log_in: 'Log in'
+log_out: 'Log out'
+register: 'Register'
 base_nette_title: 'Nette Framework - popular framework for creating a web aplications in PHP.'
 base_nette_powered: 'nette powered'
 base_link_to_admin_log_in: 'Log in for administration of web'

@@ -5,153 +5,158 @@
 
 /** ---- Horné menu - rozbaľovacia čast ---- */
 #topNav .dropdown .nav-link {
-  float: left;
+	float: left;
 }
 #topNav .dropdown-toggle:after {
-  margin: .8em .25em 0 0; 
-  font-size: 150%;
+	margin: .8em .25em 0 0; 
+	font-size: 150%;
 }
 #topNav .dropdown-menu {
-  background-color: transparent;
-  border: 0;
-  right: 0;
-  padding: 0;
-  margin: 0;
+	background-color: transparent;
+	border: 0;
+	right: 0;
+	padding: 0;
+	margin: 0;
 }
 #topNav.shrink .dropdown-menu {
-  background-color: rgba(250,250,250,0.90) !important;
+	background-color: rgba(250,250,250,0.90) !important;
 }
 #topNav .dropdown-menu .navbar-nav {
-  flex-direction: column;
+	flex-direction: column;
 }
 
 /** ---- Hlavná ponuka na titulke ---- */
 #webContent {
-  margin-top: 12rem;
+	margin-top: 6rem;
+}
+@media (min-width: 576px) {
+	#webContent {
+		margin-top: 12rem;
+	}
 }
 #webParts .part-small i, #webParts-md .part-small i {
-  font-size: 2rem;
+	font-size: 2rem;
 }
 #webParts .part-small i.bolder, #webParts-md .part-small i.bolder {
-  font-weight: 300;
+	font-weight: 300;
 }
 #webParts a, #webParts-md a {
-  color: #ddd;
+	color: #ddd;
 }  
 #webParts .part-small a:hover, #webParts-md .part-small a:hover {
-  color: #333;
+	color: #333;
 }  
 
 /** ---- Informácie o užívateľovi ---- */
 .user-info {
-  padding-bottom: 1ex;
+	padding-bottom: 1ex;
 
-  dl {
-    margin: 0;
-  }
-  dt {
-    color: #ccc;
-    font-weight: normal;
-  }
-  dd {
-    font-weight: bold;
-    color: #999;
-    margin: 0 0 1ex 1ex;
-    padding: .75ex;
-  }
-  a.btn {
-    margin: .5ex 0;
-    width: 100%;
-  }
-  input[type="text"] {
-    width: 100%;
-    color: #ddd;
-    background-color: #333;
-    border: 1px solid #ccc;
-    border-radius: .5ex;
-    margin: 0 0 1ex 0;
-    padding: .75ex;
-  }
-  input[disabled="disabled"] {
-    border: 0;
-    background-color: transparent;
-    font-weight: bold;
-    color: #999;
-  }
-  input[type="submit"] {
-    width: 100%;
-  }
+	dl {
+		margin: 0;
+	}
+	dt {
+		color: #ccc;
+		font-weight: normal;
+	}
+	dd {
+		font-weight: bold;
+		color: #999;
+		margin: 0 0 1ex 1ex;
+		padding: .75ex;
+	}
+	a.btn {
+		margin: .5ex 0;
+		width: 100%;
+	}
+	input[type="text"] {
+		width: 100%;
+		color: #ddd;
+		background-color: #333;
+		border: 1px solid #ccc;
+		border-radius: .5ex;
+		margin: 0 0 1ex 0;
+		padding: .75ex;
+	}
+	input[disabled="disabled"] {
+		border: 0;
+		background-color: transparent;
+		font-weight: bold;
+		color: #999;
+	}
+	input[type="submit"] {
+		width: 100%;
+	}
 }
 /** ---- Drobečková navigácia ---- */
 .breadcrumb-main {
-  font-size: 0.75rem;
-  background-color: transparent;
+	font-size: 0.75rem;
+	background-color: transparent;
 
-  a {
-    font-size: 0.75rem;
-    color: #ddd;
-  }
-  .breadcrumb {
-    padding: .5rem 1rem;
-    background-color: transparent !important;
-  }
+	a {
+		font-size: 0.75rem;
+		color: #ddd;
+	}
+	.breadcrumb {
+		padding: .5rem 1rem;
+		background-color: transparent !important;
+	}
 }
 
 
 /** ---- Pre vue komponentu autocomplete ---- */
 .autocomplete form {
-  position: relative;
+	position: relative;
 }
 .autocomplete-result {
-  position: absolute;
-  top: 2.5rem;
-  max-width: 100%;
-  right: 0rem;
-  margin-right: 8rem;
+	position: absolute;
+	top: 2.5rem;
+	max-width: 100%;
+	right: 0rem;
+	margin-right: 8rem;
 
-  a {
-    color: #222;
-  }
-  .list-group {
-    width: 20rem;
-    max-height: 50vh;
-    overflow-y: auto;
-  }
-  .small {
-    font-size: 75%;
-    color: #777;
-  }
+	a {
+		color: #222;
+	}
+	.list-group {
+		width: 20rem;
+		max-height: 50vh;
+		overflow-y: auto;
+	}
+	.small {
+		font-size: 75%;
+		color: #777;
+	}
 } 
 .autocomplete-result .is-active, .autocomplete-result li:hover {
-  background-color: #343a40;
+	background-color: #343a40;
 }
 .autocomplete-result .is-active a, .autocomplete-result li:hover a {
-  color: #ccc;
+	color: #ccc;
 }
 /** Koniec - Pre vue komponentu autocomplete */
 
 .vue-logo {
-  width: 16px;
-  height: 16px;
+	width: 16px;
+	height: 16px;
 }
 
 /** Pre ditačnú časť titulky článku */
 .title-article {
-  position: relative !important;
+	position: relative !important;
  
-  small {
-    font-size: 45%;
-    display: block;
-  }
-  .editable {
-    position: absolute;
-    top: 0;
-    right: -20px;
-    opacity: .75;
-  }
-  .editable:hover {
-    opacity: 1;
-  }
+	small {
+		font-size: 45%;
+		display: block;
+	}
+	.editable {
+		position: absolute;
+		top: 0;
+		right: -20px;
+		opacity: .75;
+	}
+	.editable:hover {
+		opacity: 1;
+	}
 }
 
 /** Pre formuláre */ 

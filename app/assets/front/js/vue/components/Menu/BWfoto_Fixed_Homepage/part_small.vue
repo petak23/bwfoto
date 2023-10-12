@@ -40,7 +40,7 @@ export default {
 		:title="item.name" 
 		class="part-small"
 		:class="main_class">
-		<h2 class="h3 text-center">
+		<h2 class="h3 text-center mt-1">
 			<i
 				class="fas mr-1"  
 				:class="iclass">
