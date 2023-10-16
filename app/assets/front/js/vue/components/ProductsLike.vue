@@ -104,8 +104,8 @@ export default {
 .liked {
   font-size: 0.9rem;
 	position: fixed;
-	left: 2em;
-	bottom: 2em;
+	left: 4rem;
+	bottom: 1rem;
   max-width: 50vw;
   z-index: 2000;
 	border-width: .25rem;

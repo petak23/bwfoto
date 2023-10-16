@@ -8,6 +8,9 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.4.2",
+    "@fortawesome/fontawesome-svg-core": "^6.4.2",
+    "@fortawesome/free-solid-svg-icons": "^6.4.2",
+    "@fortawesome/vue-fontawesome": "^2.0.10",
     "@mdi/font": "^7.2.96",
     "axios": "^1.5.1",
     "bootstrap": "^4.6.2",
@@ -20,6 +23,7 @@
     "remixicon": "^2.5.0",
     "vue": "^2.7.14",
     "vue-dnd-zone": "^0.4.0",
+    "vue-fontawesome": "^0.0.2",
     "vue-session": "^1.0.0",
     "vuedraggable": "^2.24.3",
     "vuetify": "^2.7.1",

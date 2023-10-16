@@ -33,6 +33,7 @@ import BwfotoFixedHomepage from "./components/Menu/BWfoto_Fixed_Homepage.vue";
 import ShowArticle from './components/ShowArticle.vue'
 import Attachments from './components/Attachments/Attachments.vue'
 import UserMenu from './components/User/UserMenu.vue'
+import ToogleMode from './components/ToggleMode.vue'
 
 import VueSession from 'vue-session'
 Vue.use(VueSession)
@@ -47,26 +48,68 @@ Vue.use(VueDndZone);
 Vue.use(Vuetify);
 
 let vm = new Vue({
-  el: '#vueapp',
-  store,
-  components: { 
-    MySlider, 
-    Autocomplete,
-    EditArticle,
-    FlashMessage,
-    Fotogalery,
-    Fotocollage,
-    Fotopanorama,
-    Menucardorder,
-    BwfotoTreeMain,
-    MainMenu,
-    MainMenuLoad,
-    Breadcrumb,
-    ProductsLike,
-    SingleMenu,
-    BwfotoFixedHomepage,
-    ShowArticle,
-    Attachments,
-    UserMenu,
-  },
+	el: '#vueapp',
+	store,
+	components: { 
+		MySlider, 
+		Autocomplete,
+		EditArticle,
+		FlashMessage,
+		Fotogalery,
+		Fotocollage,
+		Fotopanorama,
+		Menucardorder,
+		BwfotoTreeMain,
+		MainMenu,
+		MainMenuLoad,
+		Breadcrumb,
+		ProductsLike,
+		SingleMenu,
+		BwfotoFixedHomepage,
+		ShowArticle,
+		Attachments,
+		UserMenu,
+		ToogleMode,
+	},
+	data() {
+		return {
+			isDarkMode: false,
+		};
+	},
+	methods: {
+		handleDarkModeChange(isDarkMode, isAutomatic = false) {
+			// Zmeňte CSS triedy na body elemente podľa hodnoty isDarkMode
+			if (isDarkMode) {
+				document.body.classList.add("dark-mode");
+				document.body.classList.remove("light-mode");
+				this.isDarkMode = true;
+			} else {
+				document.body.classList.add("light-mode");
+				document.body.classList.remove("dark-mode");
+				this.isDarkMode = false;
+			}
+			
+			// Umožnite automatickú zmenu podľa času
+			if (isAutomatic) {
+				const currentTime = new Date().getHours();
+				const isNightTime = currentTime < 6 || currentTime >= 18; // Predpokladáme, že noc je od 18:00 do 6:00
+				if (isNightTime) {
+					this.isDarkMode = true;
+				} else {
+					this.isDarkMode = false;
+				}
+			}
+		},
+	},
+	mounted() {
+		// Načítanie aktuálneho režimu podľa času pri načítaní stránky
+		this.handleDarkModeChange(null, true);
+	},
+	created() {
+		// Reaguje na načítanie hl. menu
+		this.$root.$on('darkModeChanged', data => {
+			console.log(data)
+			this.handleDarkModeChange(data);
+		})
+	}
 });   

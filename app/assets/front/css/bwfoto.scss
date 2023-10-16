@@ -21,9 +21,9 @@ a[href^="#error:"] {
 
 body{
 	font-family: 'Montserrat', sans-serif;
-	background-color: black;
 	margin: 0;
 	color: #ddd;
+	background-color: black;
 }
 #slider {
 	background-repeat: repeat-x;
@@ -32,6 +32,35 @@ body{
 	margin: 0;
 	padding: 0;
 }
+
+/* šedý gradient podklad */
+.frame {
+	//background-image: linear-gradient(to top, rgba(33, 33, 33, 1)50%, rgba(33, 33, 33, 0)90%);
+	width: 95vw;
+	padding: 2rem;
+	margin: 0 auto;
+}
+
+/* Štýly pre tmavý režim */
+.dark-mode {
+	background-color: black;
+	color: #aaa;
+
+	.frame {
+		background-image: linear-gradient(to top, rgba(33, 33, 33, 1)50%, rgba(33, 33, 33, 0)90%);
+	}
+}
+
+/* Štýly pre svetlý režim */
+.light-mode {
+	color: #fff;
+
+	.frame {
+		background-image: linear-gradient(to top, rgba(80, 80, 80, 1)50%, rgba(33, 33, 33, 0)90%);
+	}
+}
+
+
 @media (min-width: 576px) {
 	#slider 	{
 		background-size: auto;
@@ -105,7 +134,7 @@ nav.shrink {
 		padding-top: 0;
 		padding-bottom: 0;
 		height: auto;
-		border-radius: 0;
+		/*border-radius: 0;*/
 	}
 	.navbar-brand img {
 		background-color: transparent;
@@ -129,14 +158,6 @@ nav.shrink {
 
 .article-main{
 	text-align: center;
-}
-
-/* šedý gradient podklad */
-.frame{
-	background-image: linear-gradient(to top, rgba(33,33,33,1)50%, rgba(33,33,33,0)90%);
-	width: 95vw;
-	padding: 2rem;
-	margin: 0 auto;
 }
 
 /* casti webu nahlady */
@@ -405,4 +426,13 @@ footer .pv-footer a{
 }
 .breadcrumb-item.active::before{
 	padding-top: 0;
+}
+
+
+@media (prefers-color-scheme: dark) {
+	/* styly pro tmavý režim */
+}
+
+@media (prefers-color-scheme: light) {
+	/* styly pro světlý režim */
 }
