@@ -105,6 +105,7 @@ class RouterFactory
 			->addRoute('userlog[/<action>]/<id>', 'UserLog:default')
 			->addRoute('oznam[/<action>]', 'Oznam:default')
 			->addRoute('error[/<action>]', 'Error:default')
+			->addRoute('setlang[/<language>]', 'Homepage:setLang')
 			->addRoute('<presenter>/<action>[/cokolvek]', 'Homepage:default')
 			->addRoute('[<presenter>][/<action>][/<spec_nazov><? \.html?|\.php|>]', 'Homepage:default', Route::ONE_WAY);
 

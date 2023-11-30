@@ -130,6 +130,8 @@ export default {
 		}
 	},
 	mounted() {
+		const basePath = document.getElementById('vueapp').dataset.baseUrl
+
 		// Zapísanie apiPath
 		this.$store.commit('SET_INIT_API_PATH', this.apiPath)
 
@@ -147,6 +149,8 @@ export default {
 
 		// Načítanie užívateľa
 		if (parseInt(this.id_user_main) > 0) this.getUser()
+
+		this.$store.commit('SET_INIT_BASE_PATH', basePath)
 
 		this.$root.$on('reload-main-menu', data => {
 			this.getMenu()

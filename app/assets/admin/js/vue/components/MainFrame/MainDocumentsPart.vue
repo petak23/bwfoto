@@ -1,13 +1,13 @@
 <script>
 /**
  * Komponenta pre vypísanie kariet dokumentov a produktov
- * Posledna zmena 24.06.2022
+ * Posledna zmena 18.10.2023
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.1
+ * @version    1.0.2
  */
 
 import DocumentsMain from "../Documents/DocumentsMain.vue";
@@ -34,6 +34,10 @@ export default {
     activeTab: {
       type: String,
       default: 'prilohy-tab',
+    },
+    productsAllowed: {
+      type: String,
+      default: '0',
     }
   },
   data() {
@@ -70,7 +74,9 @@ export default {
       />
     </b-tab>
     <b-tab
-      :active="activeTab == 'products-tab'">
+      v-if="productsAllowed == '1'"
+      :active="activeTab == 'products-tab'"
+    >
       <template #title>
         Produkty<span v-if="products_count > 0"> ({{ products_count }})</span>
       </template>

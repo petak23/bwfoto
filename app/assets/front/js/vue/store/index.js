@@ -6,9 +6,9 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
 	state: {
-		apiPath: "", // Cesta k API
-
-		main_menu: null,
+		apiPath: "", 		// Cesta k API
+		basePath: "", 	// Základná cesta
+ 		main_menu: null,
 		main_menu_open: [],
 		main_menu_active: null,
 
@@ -33,6 +33,9 @@ export default new Vuex.Store({
 	mutations: {
 		SET_INIT_API_PATH (state, apiPath) {
 			state.apiPath = apiPath
+		},
+		SET_INIT_BASE_PATH (state, basePath) {
+			state.basePath = basePath
 		},
 		SET_INIT_MAIN_MENU (state, main_menu) {
 			state.main_menu = main_menu

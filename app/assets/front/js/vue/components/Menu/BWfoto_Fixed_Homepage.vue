@@ -77,29 +77,29 @@ export default {
 
 	<!-- kategorie webu lg+ -->
 	<section id="webParts" class="container pb-3" v-if="menu_part != null">
-	  <div class="row w-100">
-	    <div
-				v-for="(node, index) in menu"
-				:key="index"
-				class="col d-flex" 
-				:class="index != 1 ? 'flex-column justify-content-between' : 'flex-column-reverse justify-content-around'"
-				
-			>
-				<figure-my
-					:item="node.f"
-					:avatarDir="avatarDir"
-					:if_part="index != 1"
+		<div class="row w-100">
+				<div
+					v-for="(node, index) in menu"
+					:key="index"
+					class="col d-flex" 
+					:class="index != 1 ? 'flex-column justify-content-between' : 'flex-column-reverse justify-content-around'"
+					
 				>
-				</figure-my>
-				<part_small
-					:item="node.s"
-					:main_class="'d-flex flex-column justify-content-center' + (index == 1 ? ' reverse': '')"
-					:bolder="node.s.id == 5"
-				>
-				</part_small>
-	    </div>
-	  </div>
-	</section>
+					<figure-my
+						:item="node.f"
+						:avatarDir="avatarDir"
+						:if_part="index != 1"
+					>
+					</figure-my>
+					<part_small
+						:item="node.s"
+						:main_class="'d-flex flex-column justify-content-center' + (index == 1 ? ' reverse': '')"
+						:bolder="node.s.id == 5"
+					>
+					</part_small>
+				</div>
+			</div>
+			</section>
 
 	<!-- kategorie webu md- -->
 	<section id="webParts-md" class="container pb-3" v-if="menu_part != null">

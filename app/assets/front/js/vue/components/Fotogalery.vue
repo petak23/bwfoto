@@ -12,7 +12,21 @@
 
 import axios from 'axios' 
 
+// https://swiperjs.com/vue
+// import Swiper core and required modules
+import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
+
+// Import Swiper Vue.js components
+import { Swiper, SwiperSlide } from 'swiper/vue';
+
+// Import Swiper styles
+import 'swiper/css';
+
 export default {
+	components: {
+		Swiper,
+		SwiperSlide,
+	},
 	props: {
 		first_id: { // Ak je nastavené tak sa zobrazí obrázok ako prvý
 			type: String,

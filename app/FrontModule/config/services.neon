@@ -32,10 +32,5 @@ services:
 
 	- App\FrontModule\Components\News\INewsControl
 
-	LangMenuControl:
-		implement: App\FrontModule\Components\Lang\LangMenu\ILangMenuControl
-		arguments:
-			nastavenie: %user_panel%
-
 	- PeterVojtech\MainLayout\GoogleAnalytics\IGoogleAnalyticsControl
 	- PeterVojtech\News_key\NewsKeyControl

@@ -34,6 +34,8 @@ import ShowArticle from './components/ShowArticle.vue'
 import Attachments from './components/Attachments/Attachments.vue'
 import UserMenu from './components/User/UserMenu.vue'
 import ToogleMode from './components/ToggleMode.vue'
+import BfFooter from './components/BfFooter.vue'
+import LangMenu from './components/LangMenu.vue'
 
 import VueSession from 'vue-session'
 Vue.use(VueSession)
@@ -70,6 +72,8 @@ let vm = new Vue({
 		Attachments,
 		UserMenu,
 		ToogleMode,
+		BfFooter,
+		LangMenu,
 	},
 	data() {
 		return {

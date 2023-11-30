@@ -19,7 +19,7 @@ use Texy;
 /**
  * Zakladny presenter pre vsetky presentery vo FRONT module
  * 
- * Posledna zmena(last change): 12.10.2023
+ * Posledna zmena(last change): 30.11.2023
  *
  *	Modul: FRONT
  *
@@ -27,7 +27,7 @@ use Texy;
  * @copyright Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link      http://petak23.echo-msz.eu
- * @version 1.7.7
+ * @version 1.7.8
  */
 abstract class BasePresenter extends Presenter
 {
@@ -61,8 +61,6 @@ abstract class BasePresenter extends Presenter
 	public $texty_presentera;
 
 	// -- Komponenty
-	/** @var Components\Lang\LangMenu\ILangMenuControl @inject */
-	public $langMenuControlFactory;
 	/** @var Components\News\INewsControl @inject */
 	public $newsControlFactory;
 	/** @var Components\Clanky\ZobrazClanok\IZobrazClanokControl @inject */
@@ -82,7 +80,7 @@ abstract class BasePresenter extends Presenter
 	public $httpRequest;
 
 	/** @var Texy\Texy @inject */
-	public $texy;
+	//public $texy;
 
 	/** @var string kmenovy nazov stranky pre rozne ucely typu www.neco.sk*/
 	public $nazov_stranky;
@@ -187,18 +185,27 @@ abstract class BasePresenter extends Presenter
 		$this->template->keywords = $this->udaje_webu['keywords'];
 		$this->template->author = $this->udaje_webu['autor'];
 		$this->template->copy = $this->udaje_webu['copy'];
-		$this->template->verzia = $this->verzie->posledna();
+		//$this->template->verzia = $this->verzie->posledna();
 		$this->template->urovregistr = $this->id_reg;
 		$this->template->maxurovregistr = $this->max_id_reg;
 		$this->template->language = $this->language;
 		$this->template->user_admin = $this->user_main->findOneBy(['user_roles.role' => 'admin']);
-		$this->template->user_spravca = $this->user_main->findOneBy(['user_roles.role' => 'manager']);
+		//$user_spravca = $this->user_main->findOneBy(['user_roles.role' => 'manager']);
+		//$this->template->user_spravca = $user_spravca;
 		$this->template->nazov_stranky = $this->nazov_stranky;
 		$this->template->nastavenie = $this->nastavenie;
 		$this->template->text_title_image = $this->texty_presentera->translate("base_text_title_image");
 		$this->template->avatar_path = $this->nastavenie["dir_to_menu"];
 		$this->template->article_avatar_view_in = $this->nastavenie["article_avatar_view_in"];
 		$this->template->view_log_in_link_in_header = $this->nastavenie['user_panel']["view_log_in_link_in_header"];
+
+		$this->template->dir_to_images = $this->nastavenie['dir_to_images'];
+
+		// Pre vue komponentu MainMenuLoad
+		// $this->article je definované v ClankyPresenter-y ale potrebujem to už tu... zatiaľ...
+		$this->template->main_menu_active = isset($this->article->id_hlavne_menu) ? $this->article->id_hlavne_menu : 0;
+		$this->template->id_hlavne_menu_lang = isset($this->article->id) ? $this->article->id : 0;
+		// Pre vue komponentu MainMenuLoad - koniec
 
 		// Pre vue komponentu UserMenu
 		$this->template->registracia_enabled = (bool)$this->udaje->getValByName('registracia_enabled') ? $this->link("User:registracia") : "0";
@@ -207,6 +214,11 @@ abstract class BasePresenter extends Presenter
 		$this->template->adminerLink = $this->user->isLoggedIn() && $this->user->isInRole('admin') ?
 			$this->template->baseUrl . "/www/adminer/?server=" . $hl_m_db_info['host'] . "&db=" . $hl_m_db_info['dbname'] : null;
 		// Pre vue komponentu UserMenu - koniec
+
+		// Pre vue komponentu BfFooter
+		$this->template->last_update = $this->texty_presentera->translate('base_last_update')
+			. " " . $this->verzie->posledna()->modified->format('j.n.Y');
+		// Pre vue komponentu BfFooter - koniec
 
 		$this->template->fa = [
 			'success' => 'fas fa-check-circle',
@@ -233,22 +245,6 @@ abstract class BasePresenter extends Presenter
 				$vysledok .= $cast;
 			}*/
 			return $text; //$vysledok;
-		});
-		$this->template->addFilter('sponzor', function ($text) use ($servise) {
-			$rozloz = explode("#", $text);
-			$serv = $servise->presenter;
-			$vysledok = '';
-			$cesta = 'http://' . $serv->nazov_stranky . "/";
-			foreach ($rozloz as $k => $cast) {
-				if (substr($cast, 0, 2) == "I-") {
-					$obr = $serv->dokumenty->find((int)substr($cast, 2));
-					if ($obr !== FALSE) {
-						$cast = Html::el('img', ['class' => 'img-center img-responsive'])->src($cesta . $obr->thumb)->alt($obr->nazov);
-					}
-				}
-				$vysledok .= $cast;
-			}
-			return $vysledok;
 		});
 		$this->template->addFilter('koncova_znacka', function ($text) use ($servise) {
 			$rozloz = explode("{end}", $text);
@@ -336,7 +332,7 @@ abstract class BasePresenter extends Presenter
 	/** 
 	 * Signal prepinania jazykov
 	 * @param string $language skratka noveho jazyka */
-	public function handleSetLang(string $language)
+	public function actionSetLang(string $language)
 	{
 		if ($this->language != $language) { //Cokolvek rob len ak sa meni
 			//Najdi v DB pozadovany jazyk
@@ -346,22 +342,13 @@ abstract class BasePresenter extends Presenter
 				$this->language = $language;
 			}
 		}
-		$this->redirect('this');
+		$this->redirect('Homepage:');
 	}
 
 	public function handlePagefont(): void
 	{
 		$this->page_font = ($this->page_font != "c") ? "c" : "m";
 		$this->redirect('this');
-	}
-
-	/**
-	 * Vytvorenie komponenty pre panel jazykov */
-	public function createComponentLangMenu(): Components\Lang\LangMenu\LangMenuControl
-	{
-		$ulm = $this->langMenuControlFactory->create();
-		$ulm->setLanguage($this->language);
-		return $ulm;
 	}
 
 	/** 

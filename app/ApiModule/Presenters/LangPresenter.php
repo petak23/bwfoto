@@ -4,18 +4,19 @@ namespace App\ApiModule\Presenters;
 
 use DbTable;
 use Language_support;
+use Nette\Utils\Html;
 
 /**
  * Prezenter pre pristup k api jazykov.
- * Posledna zmena(last change): 31.01.2023
+ * Posledna zmena(last change): 30.11.2023
  *
  * Modul: API
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.0
+ * @version 1.0.1
  */
 class LangPresenter extends BasePresenter
 {
@@ -97,6 +98,30 @@ class LangPresenter extends BasePresenter
     //dumpe($_post['items']);
     $this->sendJson([
       'result' => $this->slider->saveOrder($_post['items']) ? 'OK' : 'ERR'
+    ]);
+  }
+
+  public function actionGetAkcLangs(): void
+  {
+    $lang_temp = $this->lang->findBy(['prijaty' => 1]);
+    $langs = null;
+    if ($lang_temp !== null && count($lang_temp) > 1) {
+      foreach ($lang_temp as $lm) {
+        $langs[] = [
+          'link'  => $this->link(':Front:Homepage:setLang', $lm->skratka),
+          'title' => $lm->nazov . ", " . $lm->nazov_en,
+          'class' => ($lm->skratka == $this->texts->jazyk) ? "lang actual" : "lang",
+          'name'  => $lm->nazov,
+          'image' => [
+            'src' => $this->template->baseUrl . '/www/ikonky/flags/' . $lm->skratka . '.png',
+            'alt' => 'Flag of ' . $lm->skratka
+          ],
+        ];
+      }
+    }
+    $this->sendJson([
+      'count' => count($lang_temp),
+      'langs' => $langs,
     ]);
   }
 }
