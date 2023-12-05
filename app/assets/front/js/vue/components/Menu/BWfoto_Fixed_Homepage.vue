@@ -1,14 +1,13 @@
 <script>
-import part_smallVue from './BWfoto_Fixed_Homepage/part_small.vue'
 /** 
  * Component BWfoto_Fixed_Homepage
- * Posledná zmena(last change): 13.03.2023
+ * Posledná zmena(last change): 04.12.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.0
+ * @version 1.0.1
  * 
  */
 import part_small from "./BWfoto_Fixed_Homepage/part_small.vue"
@@ -28,7 +27,7 @@ export default {
 			type: String,
 			default: "navbar-nav mr-md-2 flex-grow-1 justify-content-end"
 		},
-		avatarDir: {	// Kompletná cesta vrátane basePath
+		avatarDir: {	// Kompletná cesta
 			type: String,
 			required: true,
 		}
@@ -59,7 +58,10 @@ export default {
 				})
 			}
 			return out
-		}
+		},
+		avatar_path() {
+			return document.getElementById('vueapp').dataset.baseUrl + '/' + this.avatarDir
+		},
 	},
 	created() {
 		// Reaguje na načítanie hl. menu
@@ -87,7 +89,7 @@ export default {
 				>
 					<figure-my
 						:item="node.f"
-						:avatarDir="avatarDir"
+						:avatarDir="avatar_path"
 						:if_part="index != 1"
 					>
 					</figure-my>
@@ -107,13 +109,13 @@ export default {
 			<div class="col-md d-flex flex-column justify-content-between">
 				<figure-my
 					:item="menu_part.children[0]"
-					:avatarDir="avatarDir"
+					:avatarDir="avatar_path"
 					:if_part="true"
 				>
 				</figure-my>
 				<figure-my
 					:item="menu_part.children[1]"
-					:avatarDir="avatarDir"
+					:avatarDir="avatar_path"
 					:if_part="true"
 				>
 				</figure-my>
@@ -121,7 +123,7 @@ export default {
 			<div class="col-md d-flex flex-column justify-content-between">
 				<figure-my
 					:item="menu_part.children[2]"
-					:avatarDir="avatarDir"
+					:avatarDir="avatar_path"
 					:if_part="true"
 				>
 				</figure-my>

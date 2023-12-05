@@ -1,16 +1,16 @@
 <script>
 /** 
  * Component Fotogalery
- * Posledná zmena(last change): 30.03.2023
+ * Posledná zmena(last change): 04.12.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.4
+ * @version 1.1.5
  */
 
-import axios from 'axios' 
+import MainService from '../services/MainService.js'
 
 // https://swiperjs.com/vue
 // import Swiper core and required modules
@@ -32,10 +32,13 @@ export default {
 			type: String,
 			default: "0",
 		},
-		large: String,
-		filesPath: { // Adresár k súborom
+		large: {
 			type: String,
-			required: true
+			default: "",
+		},
+		filesPath: { // Adresár k súborom bez basePath
+			type: String,
+			default: "",
 		},
 	},
 	data() {
@@ -121,29 +124,24 @@ export default {
 		},
 		// Generovanie url pre lazyloading obrázky
 		getImageUrl(text) {
-			return this.filesPath + text
+			return this.filesDir + text
 		},
 		border_compute(border) {
 			let pom = border != null && border.length > 2 ? border.split("|") : ['', '0'];
 			return "border: " + pom[1] + "px solid " + (pom[0].length > 2 ? (pom[0]) : "inherit")
 		},
 		getMainArticle() {
-			let odkaz = this.$store.state.apiPath + 'menu/getonehlavnemenuarticle/' + this.$store.state.article.id_hlavne_menu
-			axios.get(odkaz)
+			MainService.getOneMainMenuArticle(this.$store.state.article.id_hlavne_menu)
 				.then(response => {
 					this.article = response.data
-					//console.log(this.article)
 				})
 				.catch((error) => {
-					console.log(odkaz);
 					console.log(error);
 				});
 		},
-		getAttachments() {
-			let odkaz = this.$store.state.apiPath + 'documents/getfotogalery/' + this.$store.state.article.id_hlavne_menu
-			axios.get(odkaz)
+		getAttachments() { 
+			MainService.getFotogalery(this.$store.state.article.id_hlavne_menu)
 				.then(response => {
-					//console.log(response.data)
 					this.attachments = response.data
 					if (parseInt(this.first_id) > 0) { // Ak mám first_id tak k nemu nájdem položku v attachments
 						this.getFirstId(parseInt(this.first_id))
@@ -154,7 +152,6 @@ export default {
 					}
 				})
 				.catch((error) => {
-					console.log(odkaz);
 					console.log(error);
 				});
 		},
@@ -203,6 +200,9 @@ export default {
 		border_c() {
 			return this.border_compute(this.article.border_c)
 		},
+		filesDir() {
+			return document.getElementById('vueapp').dataset.baseUrl + '/' + this.filesPath
+		},
 	},
 	watch: {
 		'$store.state.article.id_hlavne_menu': function () {
@@ -232,7 +232,7 @@ export default {
 
 <template>
 	<section id="webThumbnails" class="row">
-		<div class="col-12 vue-fotogalery main-win" v-if="attachments.length > 0">
+		<div class="col-12 vue-fotogalery main-win" v-if="attachments.length > 0 && filesDir != null">
 			<div class="row" v-if="wid > 0">
 				<h4 class="col-8 bigimg-name d-flex justify-content-between">
 					{{ attachments[id].name }}
@@ -259,30 +259,30 @@ export default {
 						<a  v-if="attachments[id].type == 'menu'"
 								:href="attachments[id].web_name" 
 								:title="attachments[id].name">
-							<img  :src="filesPath + attachments[id].main_file" 
+							<img  :src="filesDir + attachments[id].main_file" 
 										:alt="attachments[id].name" class="img-fluid">
 							<h4>{{ attachments[id].name }}</h4>
 						</a>
 						<video v-if="attachments[id].type == 'attachments3'"
 									class="video-priloha" 
-									:src="filesPath + attachments[id].main_file" 
-									:poster="filesPath + attachments[id].thumb_file"
+									:src="filesDir + attachments[id].main_file" 
+									:poster="filesDir + attachments[id].thumb_file"
 									type="video/mp4" controls="controls" preload="none">
 						</video>
 						<a v-else-if="attachments[id].type == 'attachments1'"
 								:title="attachments[id].name"
-								:href="filesPath + attachments[id].main_file"
+								:href="filesDir + attachments[id].main_file"
 								target="_blank"
 								class="for-pdf"
 										>
-							<img :src="filesPath + attachments[id].thumb_file" 
+							<img :src="filesDir + attachments[id].thumb_file" 
 									:alt="attachments[id].name" class="img-fluid">
 							<br><h6>{{ attachments[id].name }}</h6>
 						</a>  
 						<button v-else-if="attachments[id].type == 'attachments2' || attachments[id].type == 'product'"
 										v-b-modal.modal-multi-1
 										type="button" class="btn btn-link">
-							<img :src="filesPath + attachments[id].main_file" 
+							<img :src="filesDir + attachments[id].main_file" 
 									:alt="attachments[id].name" class="img-fluid">
 						</button>
 					</div>
@@ -311,8 +311,8 @@ export default {
 						</a>
 						<video v-if="wid == 0 && im.type == 'attachments3'"
 									class="video-priloha" 
-									:src="filesPath + im.main_file" 
-									:poster="filesPath + im.thumb_file"
+									:src="filesDir + im.main_file" 
+									:poster="filesDir + im.thumb_file"
 									type="video/mp4" controls="controls" preload="none">
 						</video>
 						<button v-else-if="wid == 0 && im.type == 'attachments1'" 
@@ -373,7 +373,7 @@ export default {
 					<div class="modal-body my-img-content">
 							<div class="border-a" :style="border_a">
 								<div class="border-b" :style="border_b">
-									<img :src="filesPath + attachments[id].main_file" 
+									<img :src="filesDir + attachments[id].main_file" 
 												:alt="attachments[id].name" 
 												id="big-main-img"
 												class="border-c" 
@@ -411,7 +411,7 @@ export default {
 			</b-modal>
 
 			<b-modal id="modal-multi-2" centered size="xl" ok-only >
-				<img :src="filesPath + attachments[id].main_file" :alt="attachments[id].name" @click="closeme(2)">
+				<img :src="filesDir + attachments[id].main_file" :alt="attachments[id].name" @click="closeme(2)">
 			</b-modal>
 		</div>
 	</section>

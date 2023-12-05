@@ -10,10 +10,7 @@
  * @version 1.0.6
  * 
  */
-import axios from 'axios'
-
-//for Tracy Debug Bar
-axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+import MainService from '../../services/MainService.js'
 
 export default {
 	props: {
@@ -53,16 +50,13 @@ export default {
 			event.preventDefault()
 			// Aby sa formulár odoslal, len ak je stačené tlačítko s class="main-submit"
 			if (event.submitter.classList.contains(this.button_prefix + "-submit")) {
-				let odkaz = this.$store.state.apiPath + 'menu/h1save/' + this.article.id
 				let vm = this
 				let data = {
 							menu_name: this.art_title.menu_name,
 							h1part2: this.art_title.h1part2,
 							view_name: this.art_title.view_name,
 						}
-				axios.post(odkaz, {
-						article: data
-					})
+				MainService.postH1Save(this.article.id, { article: data	})
 					.then(function (response) {
 						//console.log(response.data.result)
 						if (response.data.result == "OK") {
@@ -83,7 +77,6 @@ export default {
 					})
 					.catch(function (error) {
 						vm.saveErr()
-						console.log(odkaz)
 						console.log(error)
 					});
 			}

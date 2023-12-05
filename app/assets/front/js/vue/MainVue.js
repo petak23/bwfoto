@@ -12,7 +12,6 @@
 import Vue from 'vue';
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
 import MySlider from './components/MySlider.vue';
-import Autocomplete from './components/Autocomplete.vue';
 import Fotogalery from './components/Fotogalery.vue';
 import Fotocollage from './components/Fotocollage.vue';
 import Fotopanorama from './components/Fotopanorama.vue';
@@ -35,7 +34,7 @@ import Attachments from './components/Attachments/Attachments.vue'
 import UserMenu from './components/User/UserMenu.vue'
 import ToogleMode from './components/ToggleMode.vue'
 import BfFooter from './components/BfFooter.vue'
-import LangMenu from './components/LangMenu.vue'
+import BfNav from './components/BfNav.vue'
 
 import VueSession from 'vue-session'
 Vue.use(VueSession)
@@ -49,12 +48,15 @@ Vue.use(VueDndZone);
 
 Vue.use(Vuetify);
 
+import VueRouter from 'vue-router'
+
+Vue.use(VueRouter)
+
 let vm = new Vue({
 	el: '#vueapp',
 	store,
 	components: { 
 		MySlider, 
-		Autocomplete,
 		EditArticle,
 		FlashMessage,
 		Fotogalery,
@@ -73,7 +75,7 @@ let vm = new Vue({
 		UserMenu,
 		ToogleMode,
 		BfFooter,
-		LangMenu,
+		BfNav,
 	},
 	data() {
 		return {

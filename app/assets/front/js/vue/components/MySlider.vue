@@ -1,16 +1,16 @@
 <script>
 /** 
  * Component Slider
- * Posledná zmena(last change): 14.03.2023
+ * Posledná zmena(last change): 07.12.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.1
+ * @version 1.0.2
  */
 
-import axios from 'axios'
+import MainService from '../services/MainService';
 
 export default {
 	props: {
@@ -26,8 +26,7 @@ export default {
 	},
 	methods: {
 		getSlider() {
-			let odkaz = this.$store.state.apiPath + 'slider/getall/1'
-			axios.get(odkaz)
+			MainService.getSlider()
 				.then(response => {
 					//console.log(response.data)
 					this.items = response.data
@@ -39,7 +38,6 @@ export default {
 					}
 				})
 				.catch((error) => {
-					console.log(odkaz);
 					console.log(error);
 				});
 		},

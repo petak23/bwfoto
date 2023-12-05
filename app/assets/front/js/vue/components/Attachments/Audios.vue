@@ -11,7 +11,7 @@
  * 
  */
 
-import axios from 'axios'
+import MainService from '../../services/MainService.js'
 
 export default {
 	props: {
@@ -28,14 +28,11 @@ export default {
 	},
 	methods: {
 		getAttachments() {
-			let odkaz = this.$store.state.apiPath + 'documents/getvisibleattachments/' + parseInt(this.$store.state.article.id_hlavne_menu) + "?group=audios"
-			axios.get(odkaz)
+			MainService.getVisibleAttachments(this.$store.state.article.id_hlavne_menu, 'audios')
 				.then(response => {
-					//console.log(response.data.length)
 					this.audios = response.data.length > 0 ? response.data : null
 				})
 				.catch((error) => {
-					console.log(odkaz);
 					console.log(error);
 				});
 		},
@@ -59,16 +56,16 @@ export default {
 			<h4>{{ $store.state.texts.clanky_h3_prilohy_audios }}:</h4>
 		</div>
 		<div class="col-12 col-md-6" v-for="im in audios" :key="im.id">
-	    <div class="thumbnail">
-	      <audio controls>
-	        <source :src="getFileUrl(im.main_file)" type="audio/mp3">
-	      </audio>
-	      <div>
-	        <strong>{{im.name}}</strong>
-	        <div v-if="im.description != null" class="popis">{{ im.description }}</div>
-	      </div>
-	    </div>
-	  </div>
+			<div class="thumbnail">
+				<audio controls>
+					<source :src="getFileUrl(im.main_file)" type="audio/mp3">
+				</audio>
+				<div>
+					<strong>{{im.name}}</strong>
+					<div v-if="im.description != null" class="popis">{{ im.description }}</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </template>
 

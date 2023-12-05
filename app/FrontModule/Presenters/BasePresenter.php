@@ -79,9 +79,6 @@ abstract class BasePresenter extends Presenter
 	/** @var Http\Request @inject*/
 	public $httpRequest;
 
-	/** @var Texy\Texy @inject */
-	//public $texy;
-
 	/** @var string kmenovy nazov stranky pre rozne ucely typu www.neco.sk*/
 	public $nazov_stranky;
 	/** @var int Uroven registracie uzivatela  */
@@ -200,11 +197,12 @@ abstract class BasePresenter extends Presenter
 		$this->template->view_log_in_link_in_header = $this->nastavenie['user_panel']["view_log_in_link_in_header"];
 
 		$this->template->dir_to_images = $this->nastavenie['dir_to_images'];
+		$this->template->link_page_font = $this->link('pagefont!');
 
 		// Pre vue komponentu MainMenuLoad
-		// $this->article je definované v ClankyPresenter-y ale potrebujem to už tu... zatiaľ...
-		$this->template->main_menu_active = isset($this->article->id_hlavne_menu) ? $this->article->id_hlavne_menu : 0;
-		$this->template->id_hlavne_menu_lang = isset($this->article->id) ? $this->article->id : 0;
+		// $this->zobraz_clanok je definované v ClankyPresenter-y ale potrebujem to už tu... zatiaľ...
+		$this->template->main_menu_active = isset($this->zobraz_clanok->id_hlavne_menu) ? $this->zobraz_clanok->id_hlavne_menu : 0;
+		$this->template->id_hlavne_menu_lang = isset($this->zobraz_clanok->id) ? $this->zobraz_clanok->id : 0;
 		// Pre vue komponentu MainMenuLoad - koniec
 
 		// Pre vue komponentu UserMenu
@@ -315,10 +313,6 @@ abstract class BasePresenter extends Presenter
 		$this->template->addFilter('to_json', function ($value) {
 			return Json::encode($value);
 		});
-
-		$this->texy->allowedTags = TRUE;
-		$this->texy->headingModule->balancing = "FIXED";
-		$this->template->addFilter('texy', [$this->texy, 'process']);
 	}
 
 	/** 

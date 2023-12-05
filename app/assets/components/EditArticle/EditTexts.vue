@@ -1,20 +1,18 @@
 <script>
+
 /** 
  * Component EditTexts
- * Posledná zmena(last change): 27.01.2023
+ * Posledná zmena(last change): 07.12.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.7
+ * @version 1.0.8
  * 
  */
 import Tiptap from "../Tiptap/tiptap-editor.vue"
-import axios from 'axios'
-
-//for Tracy Debug Bar
-axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+import MainService from '../../front/js/vue/services/MainService'
 
 export default {
 	components: {
@@ -38,12 +36,8 @@ export default {
 			event.preventDefault()
 			// Aby sa formulár odoslal, len ak je stačené tlačítko s class="main-submit"
 			if (event.submitter.classList.contains("main-submit")) {
-				let odkaz = this.$store.state.apiPath + 'menu/textssave/' + this.$store.state.article.id
 				let vm = this
-				let data = {
-							texts: this.textin
-						}
-				axios.post(odkaz, data)
+				MainService.postTextSave(this.$store.state.article.id, { texts: this.textin })
 					.then(function (response) {
 						//console.log(response.data)
 						vm.$root.$emit('flash_message', [{'message':'Text bol uložený.', 

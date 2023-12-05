@@ -1,26 +1,26 @@
 <script>
 /** 
  * Component EditTitle
- * Posledná zmena(last change): 27.02.2023
+ * Posledná zmena(last change): 07.12.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.6
+ * @version 1.0.7
  * 
  */
 import EditTexts from "./EditTexts.vue"
 import EditMenu from "./EditMenu.vue"
 import UserChange from "./UserChange.vue"
-import axios from 'axios'
-
-//for Tracy Debug Bar
-axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+import MainService from '../../front/js/vue/services/MainService'
 
 export default {
 	props: {
-		edit_enabled: Number,
+		edit_enabled: {
+			type: Boolean,
+			default: false
+		},
 		link: String,
 		link_to_admin: String,
 		article_hlavicka: String,
@@ -63,9 +63,7 @@ export default {
 							view_name: this.art_title.view_name,
 							template: this.art_title.template,
 						}
-				axios.post(odkaz, {
-						article: data
-					})
+				MainService.postH1Save(this.$store.state.article.id, { article: data })
 					.then(function (response) {
 						//console.log(response.data.result)
 						if (response.data.result == "OK") {
@@ -112,10 +110,9 @@ export default {
 		}
 	},
 	mounted() {
-		if (this.edit_enabled == 1) {
+		if (this.edit_enabled) {
 			// Načítanie údajov priamo z DB
-			let odkaz = this.$store.state.apiPath + 'menu/getforformtemplate'
-			axios.get(odkaz)
+			MainService.getForFormTemplate()
 				.then(response => {
 					this.templates = response.data
 				})
@@ -142,7 +139,7 @@ export default {
 		</edit-menu>
 
 		<b-modal id="modal-edit-title-form" centered
-			v-if="edit_enabled == 1" 
+			v-if="edit_enabled" 
 			:title="$store.state.texts.base_edit_title" 
 			header-bg-variant="dark"
 			header-text-variant="light"
@@ -204,7 +201,7 @@ export default {
 		</b-modal>
 		
 		<edit-texts
-			v-if="edit_enabled == 1"
+			v-if="edit_enabled"
 			:link="link"
 		>
 		</edit-texts>

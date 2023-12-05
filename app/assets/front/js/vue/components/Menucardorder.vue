@@ -1,34 +1,22 @@
 <script>
 /** 
  * Component Menucardorder
- * Posledná zmena(last change): 21.03.2023
+ * Posledná zmena(last change): 04.12.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.4
+ * @version 1.0.5
  */
-
-import axios from 'axios'
-
-//for Tracy Debug Bar
-axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+import MainService from '../services/MainService.js'
 
 export default {
 	props: {
-		filesPath: { // Adresár k súborom
+		filesPath: { // Adresár k súborom bez basePath
 			type: String,
 			required: true
-		}, 
-		id_hlavne_menu: { 
-			type: String,
-			required: true,
 		},
-		edit_enabled: {
-			type: String,
-			default: "0"
-		}
 	},
 	data() {
 		return {
@@ -38,14 +26,14 @@ export default {
 				fluidGrow: true,
 				blank: true,
 				blankColor: '#bbb',
-			}
+			},
+			edit_enabled: false,
 		}
 	},
 	methods: {
 		moveArticle: function(ai) {
 			let from = ai.from.index
 			let to = ai.to.index
-			this.odkaz = this.$store.state.apiPath + 'menu/saveordersubmenu/' + this.id_hlavne_menu
 			let out = []
 			for (let i = 0; i < this.items.length; i++) {
 				out.push(this.items[i].id)
@@ -54,9 +42,7 @@ export default {
 			let element = out[from];
 			out.splice(from, 1);
 			out.splice(to, 0, element);
-			axios.post(this.odkaz, {
-					items: out,
-				})
+			MainService.postSaveOrderSubmenu(this.$store.state.article.id_hlavne_menu, { items: out })
 				.then(function (response) {
 					//console.log(response.data);
 					if (response.data.result == 'OK') {
@@ -67,21 +53,45 @@ export default {
 				.catch(function (error) {
 					console.log(error);
 				});
-		}
+		},
+		getSubmenu: function() {
+			this.items = []
+			MainService.getSubmenuFront(this.$store.state.main_menu_active)
+				.then(response => {
+					this.items = Object.values(response.data)
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		},
 	},
 	mounted () {
-		let odkaz = this.$store.state.apiPath + 'menu/getsubmenu/' + this.id_hlavne_menu + '/front'
-		this.items = []
-		axios.get(odkaz)
-							.then(response => {
-								this.items = Object.values(response.data)
-							})
-							.catch((error) => {
-								console.log(odkaz);
-								console.log(error);
-							});
+		if (this.$store.state.main_menu_active > 0) this.getSubmenu()
 	},
-
+	computed: {
+		filesDir() {
+			return document.getElementById('vueapp').dataset.baseUrl + '/' + this.filesPath
+		},
+	},
+	watch: {
+		'$store.state.main_menu_active': function () {
+			this.getSubmenu()
+		},
+		'$store.state.user': function () {
+			let vm = this
+			let data = {
+				resource: 'Api:Menu',
+				action: 'saveordersubmenu	',
+			}
+			MainService.postIsAllowed(this.$store.state.user.id, data)
+				.then(function (response) {
+					vm.edit_enabled = response.data.result == 1
+				})
+				.catch(function (error) {
+					console.log(error);
+				});
+		}
+	},
 };
 </script>
 
@@ -107,7 +117,7 @@ export default {
 					>
 						<div class="col-12 col-sm-6 col-md-4 col-xxl-3 album position-relative">
 							<i 
-								v-if="edit_enabled == '1'"
+								v-if="edit_enabled"
 								class="fas fa-grip-vertical handle position-absolute"
 								style="top: 0; left: 0"
 							></i>
@@ -115,7 +125,7 @@ export default {
 								<b-img-lazy 
 									v-if="image.avatar != null"
 									v-bind="mainProps" 
-									:src="filesPath + image.avatar" 
+									:src="filesDir + image.avatar" 
 									class="img-responsive img-square"
 									:alt="image.name">
 								</b-img-lazy>

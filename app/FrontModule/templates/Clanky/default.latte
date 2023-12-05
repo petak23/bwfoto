@@ -2,7 +2,7 @@
  *
  * Modul: FRONT
  *
- * Posledna zmena(last change): 21.03.2023
+ * Posledna zmena(last change): 04.12.2023
  * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
@@ -14,8 +14,6 @@
 
 <article class="article-main">
 	<edit-article
-				files-path="{$basePath}/"
-				edit_enabled="{$user->isLoggedIn() && $user->isAllowed('Front:Clanky', 'edit') ? 1 : 0}"
 				link="{$this_link}"
 				link_to_admin="{link $for_admin_link $article->id}"
 				article_hlavicka={$article_hlavicka}
@@ -24,28 +22,17 @@
 </article>
 
 {if $template_id == 2} {* ----- BWfoto_foto_album ------ *}
-<fotogalery
-	first_id={$first_id}
-	large=""
-	files-path = "{$basePath}/"
-></fotogalery>
-{elseif $template_id == 3} {* ----- BWfoto_foto_section ----- *}
-<menucardorder
-	files-path = "{$basePath}/files/menu/"
-	id_hlavne_menu = "{$article->id_hlavne_menu}"
-	edit_enabled = "{$user->isAllowed('Api:Menu', 'saveordersubmenu')}">
-</menucardorder>
+	<fotogalery first_id={$first_id} />
+
+{elseif $template_id == 3} {* ----- BWfoto_foto_section -----  *}
+	<menucardorder files-path = "files/menu/" />
+
 {elseif $template_id == 6} {* ----- BWfoto_foto_album_lg ----- *}
-<fotopanorama
-	files-path="{$basePath}/"
-	first_id={$first_id}
-></fotopanorama>
+	<fotopanorama first_id={$first_id} />
+
 {elseif $template_id == 7} {* ----- BWfoto_foto_collage ----- *}
-<fotocollage
-	files-path = "{$basePath}/"
-	maxrandompercwidth="25"
-	edit_enabled="{$user->isLoggedIn() && $user->isAllowed('Front:Clanky', 'edit') ? 1 : 0}"
-></fotocollage>
+	<fotocollage maxrandompercwidth="25" />
+	
 {else} {* ----- default ------ *}
 <section class="row">
 	<div class="col-12">

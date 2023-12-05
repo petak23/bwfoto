@@ -1,18 +1,18 @@
 <script>
 /** 
  * Component Fotocollage
- * Posledná zmena(last change): 21.03.2023
+ * Posledná zmena(last change): 05.12.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.2.3
+ * @version 1.2.4
  * Z kniznica pouzite súbory a upravene: https://github.com/seanghay/vue-photo-collage
  */
 import PhotoCollageWrapper from "./vue-photo-collage/PhotoCollageWrapper.vue";
 import EditSchemaRow from "./vue-photo-collage/EditSchemaRow.vue"
-import axios from 'axios'
+import MainService from '../services/MainService.js'
 
 export default {
 	components: {
@@ -20,19 +20,14 @@ export default {
 		EditSchemaRow,
 	},
 	props: {
-		filesPath: { // Adresár k súborom
+		filesPath: { // Adresár k súborom bez basePath
 			type: String,
-			required: true
+			default: "",
 		}, 
 		maxrandompercwidth: { // Percento, o ktoré sa môže meniť naviac šírka fotky
 			type: String,
 			default: 20,
 		},
-		myschema: String,
-		edit_enabled: {
-			type: String,
-			default: '0'
-		}
 	},
 	data() {
 		return {
@@ -81,25 +76,27 @@ export default {
 				...
 			],*/
 			sch: [],				// Aktuálna schéma
+			edit_enabled: false,
 		}
 	},
 	methods: {
 		itemClickHandler(data, i) {
 			// click event
-			let odkaz = this.$store.state.apiPath + 'documents/document/' + data.id_foto
-			axios.get(odkaz)
+			MainService.getDocument(data.id_foto)
 							.then(response => {
 								this.image = response.data
 								this.image.id_collage = data.id
 								this.$bvModal.show("modal-multi-1")
 							})
 							.catch((error) => {
-								console.error(odkaz)
 								console.error(error)
 							})
 		},
 		matchHeight () {
-			this.computeLayout(this.$refs.imgDetail.clientWidth)
+			if (typeof this.$refs.imgDetail !== "undefined") // Musí byť inak vyhadzuje chybu pri načítaní...
+			{ 
+				this.computeLayout(this.$refs.imgDetail.clientWidth)
+			}
 		},
 		computeLayout(client_width) {
 			let res = { 
@@ -140,8 +137,7 @@ export default {
 			this.collage.uniqeRows = res.schema.length
 		},
 		loadSchema() {
-			let odkaz = this.$store.state.apiPath + 'menu/getfotocollagesettings/' + this.$store.state.article.id_hlavne_menu
-			axios.get(odkaz)
+			MainService.getFotoCollageSettings(this.$store.state.article.id_hlavne_menu)
 				.then(response => {
 					this.sch = response.data
 					this.schstr = JSON.stringify(this.sch, null, 2)
@@ -149,31 +145,23 @@ export default {
 					this.loadPictures()
 				})
 				.catch((error) => {
-					console.error(odkaz);
 					console.error(error);
 				});
 		},
 		loadPictures() {
-			// Načítanie údajov priamo z DB
-			let odkaz = this.$store.state.apiPath + 'documents/getfotocollage/' + this.$store.state.article.id
-			axios.get(odkaz)
+			MainService.getFotoCollage(this.$store.state.article.id)
 				.then(response => {
 					this.attachments = response.data
 					this.computeLayout(this.$refs.imgDetail.clientWidth)
 
 				})
 				.catch((error) => {
-					console.error(odkaz);
 					console.error(error);
 				});
 		},
 		SchemaChanged(id_part) {
-			let odkaz = this.$store.state.apiPath + 'menu/savefotocollagesettings/' + this.$store.state.article.id_hlavne_menu
 			let vm = this
-			let data = {
-				data: this.sch
-			}
-			axios.post(odkaz, data)
+			MainService.postSaveFotoCollageSettings(this.$store.state.article.id_hlavne_menu, { data: this.sch })
 				.then(function (response) {
 					vm.$root.$emit('flash_message', [{
 						'message': 'Schéma bola uložená.',
@@ -233,10 +221,29 @@ export default {
 	destroyed() {
 		window.removeEventListener("resize", this.matchHeight);
 	},
+	computed: {
+		filesDir() {
+			return document.getElementById('vueapp').dataset.baseUrl + '/' + this.filesPath
+		},
+	},
 	watch: {
 		'$store.state.article.id_hlavne_menu': function () {
 			/* Nčítanie schémy fotokoláže */
 			this.loadSchema();
+		},
+		'$store.state.user': function () {
+			let vm = this
+			let data = {
+				resource: 'Front:Clanky',
+				action: 'edit	',
+			}
+			MainService.postIsAllowed(this.$store.state.user.id, data)
+				.then(function (response) {
+					vm.edit_enabled = response.data.result == 1
+				})
+				.catch(function (error) {
+					console.log(error);
+				});
 		}
 	},
 	mounted () {
@@ -256,9 +263,9 @@ export default {
 </script>
 
 <template>
-	<section id="webThumbnails" class="row">
+	<section id="webThumbnails" class="row" v-if="filesDir.length > 0">
 		<div class="col-12 vue-fotogalery">
-			<ul class="nav justify-content-end mb-1" v-if="edit_enabled == '1'">
+			<ul class="nav justify-content-end mb-1" v-if="edit_enabled">
 				<li class="nav-item">
 					<a type="button" class="btn btn-sm btn-dark disabled" disabled>
 						Fotiek: {{ attachments.length }}, max. v schéme: {{ collage.maxPhotosToShow }},
@@ -277,7 +284,7 @@ export default {
 			</ul>
 			<b-modal 
 				id="edit-collage"
-				v-if="edit_enabled == '1'"
+				v-if="edit_enabled"
 				centered 
 				size="xl" 
 				title="Editácia schémy fotokoláže" 
@@ -319,7 +326,7 @@ export default {
 								ref="modal1fo">
 				<div class="modal-content">
 					<div class="modal-body my-img-content">  
-						<img :src="filesPath + image.main_file" 
+						<img :src="filesDir + image.main_file" 
 									:alt="image.name" 
 									id="big-main-img"
 									class="" />

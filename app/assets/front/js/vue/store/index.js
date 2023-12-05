@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import axios from 'axios';
+import MainService from "../services/MainService";
 
 Vue.use(Vuex);
 
@@ -27,7 +27,7 @@ export default new Vuex.Store({
 										'clanky_dokument_download', 'clanky_dokument_view',
 										'base_link_to_admin_log_in', 'base_AdminLink_name',
 										'log_in', 'log_out', 'register'
-									 ],
+									],
 		texts: {},
 	},
 	mutations: {
@@ -70,17 +70,15 @@ export default new Vuex.Store({
 	},
 	actions: {
 		changeUserMainId ({ commit, state }, id_user_main) {
-			let odkaz = state.apiPath + 'menu/savemainmenufield/' + state.article.id_hlavne_menu
 			let vm = this
 			let data = {
 							id_user_main: id_user_main
 						}
-			axios.post(odkaz, {
+			MainService.postSaveMainMenuField(state.article.id_hlavne_menu, {
 						data: data,
 						id_hlavne_menu_lang: state.article.id
 					})
 				.then(function (response) {
-					//console.log(response.data.result)
 					commit('SET_INIT_ARTICLE', response.data)
 				})
 		},

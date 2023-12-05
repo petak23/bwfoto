@@ -47,41 +47,23 @@
 		files-path="{$basePath}/www/{$nastavenie['slider']['dir']}"
 	></my-slider>
 
-	<nav id="topNav" class="navbar navbar-expand-md fixed-top">
-		<a class="navbar-brand ml-sm-5 p-3 logo" n:href="Homepage:" title="home">
-			<img src="{$basePath}/{$dir_to_images}logo_bw-g.png" alt="logo bw foto" class="logo">
-		</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse" 
-						data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" 
-						aria-expanded="false" aria-label="Toggle navigation"
-						id="topMenuButton">
-			<span class="fas fa-bars" style="font-size: 2rem;"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<bwfoto-tree-main 
-				part="-2" 
-			/>
-			<autocomplete
-				link="{link Clanky:}/"
-			></autocomplete>
-
-			<lang-menu />
-		</div>
-	</nav>
+	<bf-nav 
+		dir-to-images="{$dir_to_images}"
+		link-home="{link Homepage:}"
+		link-clanky="{link Clanky:}/"
+	/>
 
 	
 	<div class="frame">
 		{* ----- ZACIATOK content - centralna cast, obsahova sekcia ----- *}
 		<section id="webContent">
-			<a n:href="pagefont!" n:if="$user->isLoggedIn()">
+			<a href="{$link_page_font}" n:if="$user->isLoggedIn()">
 				Prepni na: {if $page_font == 'c'}Monserat{else}Cinzel{/if}
 			</a>
-			{*<main-menu>
-			</main-menu>*}
 			<breadcrumb
 				homepage="{plink 'Homepage:'}"
 			></breadcrumb>
-			{control confirmForm}
+			{*control confirmForm*}
 			<flash-message
 				flash-messages="{($flashes|to_json)}"
 			/>

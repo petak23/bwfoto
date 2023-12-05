@@ -52,9 +52,22 @@ class UserPresenter extends BasePresenter
 		$this->sendJson($this->user_main->uzivateliaForm(1));
 	}
 
-	public function actionGetActualUserInfo()
+	public function actionGetActualUserInfo(): void
 	{
-		//dumpe($this->user->getIdentity()->data);
 		$this->sendJson([$this->user->isLoggedIn() ? $this->user->getIdentity()->data : []]);
+	}
+
+	/**
+	 * Otestuje či je užívateľ prihlásený a či má oprávnenie na požadovanú operáciu
+	 * $_post = ['resource', 'action'] */
+	public function actionIsAllowed(int $id): void
+	{
+		$_post = json_decode(file_get_contents("php://input"), true);
+
+		$allowed = $this->user->isLoggedIn()	// Kontrola prihlásenia
+			&& $this->user->getId() == $id			// Kontrola užívateľovho id
+			&& $this->user->isAllowed($_post['resource'], $_post['action']) ? 1 : 0; // Kontrola oprávnenia
+
+		$this->sendJson(['result' => $allowed]);
 	}
 }

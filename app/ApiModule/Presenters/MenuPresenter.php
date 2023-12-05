@@ -10,7 +10,7 @@ use Nette\Utils\Json;
 
 /**
  * Prezenter pre pristup k api hlavneho menu a pridružených vecí ako je aj obsah článku.
- * Posledna zmena(last change): 02.03.2023
+ * Posledna zmena(last change): 07.12.2023
  *
  * Modul: API
  *
@@ -18,7 +18,7 @@ use Nette\Utils\Json;
  * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.2
+ * @version 1.1.3
  * 
  * @help 1.) https://forum.nette.org/cs/28370-data-z-post-request-body-reactjs-appka-se-po-ceste-do-php-ztrati
  */
@@ -51,11 +51,11 @@ class MenuPresenter extends BasePresenter
 				}
 
 				$presenter = is_array($row['node']->link) ? $row['node']->link[0] : $row['node']->link;
-				$p_for_link = ($lmodule == "Front" && $presenter == "Menu:") ? "Clanky:" : $presenter;
+				$p_for_link = (ucfirst($lmodule) == "Front" && $presenter == "Menu:") ? "Clanky:" : $presenter;
 
 				$node->link = is_array($row['node']->link) ?
-					$servise->link(":" . $lmodule . ":" . $p_for_link, ["id" => $row['node']->id]) :
-					$servise->link(":" . $lmodule . ":" . $p_for_link, []);
+					$servise->link(":" . ucfirst($lmodule) . ":" . $p_for_link, ["id" => $row['node']->id]) :
+					$servise->link(":" . ucfirst($lmodule) . ":" . $p_for_link, []);
 				return $row['nadradena'] ? $row['nadradena'] : null;
 			});
 		}

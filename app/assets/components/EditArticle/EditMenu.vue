@@ -1,20 +1,20 @@
 <script>
 /** 
  * Component EditMenu
- * Posledná zmena(last change): 07.03.2023
+ * Posledná zmena(last change): 04.12.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.1
+ * @version 1.0.2
  * 
  */
 export default {
 	props: {
 		edit_enabled: {
-			type: Number,
-			default: 0,
+			type: Boolean,
+			default: false,
 		},
 		link_to_admin: {
 			type: String,
@@ -25,7 +25,7 @@ export default {
 </script>
 
 <template>
-	<div v-if="edit_enabled == 1"
+	<div v-if="edit_enabled"
 			class="btn-group btn-group-sm editable" 
 			role="group"
 	>

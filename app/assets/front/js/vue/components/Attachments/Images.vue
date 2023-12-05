@@ -1,17 +1,17 @@
 <script>
 /**
  * Component Images.
- * Posledna zmena 21.03.2023
+ * Posledna zmena 07.12.2023
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.1
+ * @version    1.0.3
  * 
  */
 
-import axios from 'axios'
+import MainService from '../../services/MainService.js'
 
 export default {
 	props: {
@@ -27,15 +27,12 @@ export default {
 		}
 	},
 	methods: {
-		getAttachments() {
-			let odkaz = this.$store.state.apiPath + 'documents/getvisibleattachments/' + parseInt(this.$store.state.article.id_hlavne_menu)
-			axios.get(odkaz)
+		getAttachments() {			
+			MainService.getVisibleAttachments(this.$store.state.article.id_hlavne_menu)
 				.then(response => {
-					//console.log(response.data)
 					this.images = response.data.length > 0 ? response.data : null
 				})
 				.catch((error) => {
-					console.log(odkaz);
 					console.log(error);
 				});
 		},

@@ -1,16 +1,15 @@
 <script>
 /** 
  * Component Fotopanorama
- * Posledná zmena(last change): 21.03.2023
+ * Posledná zmena(last change): 04.12.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.3
+ * @version 1.1.4
  */
-
-import axios from 'axios'
+import MainService from '../services/MainService.js'
 
 export default {
 	props: {
@@ -18,9 +17,9 @@ export default {
 			type: String,
 			default: "0",
 		},
-		filesPath: { // Adresár k súborom
+		filesPath: { // Adresár k súborom bez basePath
 			type: String,
-			required: true
+			default: "",
 		},
 	},
 	data() {
@@ -70,36 +69,30 @@ export default {
 		},
 		// Generovanie url pre lazyloading obrázky
 		getImageUrl(text) {
-			return this.filesPath + text
+			return this.filesDir + text
 		},
 		border_compute(border) {
 			let pom = border != null && border.length > 2 ? border.split("|") : ['', '0'];
 			return "border: " + pom[1] + "px solid " + (pom[0].length > 2 ? (pom[0]) : "inherit")
 		},
 		getMainArticle() {
-			let odkaz = this.$store.state.apiPath + 'menu/getonehlavnemenuarticle/' + this.$store.state.article.id_hlavne_menu
-			axios.get(odkaz)
+			MainService.getOneMainMenuArticle(this.$store.state.article.id_hlavne_menu)
 				.then(response => {
 					this.article = response.data
-					//console.log(this.article)
 				})
 				.catch((error) => {
-					console.log(odkaz);
 					console.log(error);
 				});
 		},
 		getAttachments() {
-			let odkaz = this.$store.state.apiPath + 'documents/getfotogalery/' + this.$store.state.article.id_hlavne_menu
-			axios.get(odkaz)
+			MainService.getFotogalery(this.$store.state.article.id_hlavne_menu)
 				.then(response => {
-					//console.log(response.data)
 					this.attachments = response.data
 					if (parseInt(this.first_id) > 0) { // Ak mám first_id tak k nemu nájdem položku v attachments
 						this.getFirstId(parseInt(this.first_id))
 					}
 				})
 				.catch((error) => {
-					console.log(odkaz);
 					console.log(error);
 				});
 		},
@@ -129,7 +122,10 @@ export default {
 		},
 		border_c() {
 			return this.border_compute(this.article.border_c)
-		}
+		},
+		filesDir() {
+			return document.getElementById('vueapp').dataset.baseUrl + '/' + this.filesPath
+		},
 	},
 	watch: {
 		'$store.state.article.id_hlavne_menu': function () {
@@ -137,7 +133,7 @@ export default {
 			this.getMainArticle()
 
 			this.getAttachments()
-		}
+		},
 	},
 	mounted () {
 		// Naviazanie na sledovanie stláčania klávesnice
@@ -169,8 +165,8 @@ export default {
 						</a>
 						<video v-else-if="im.type == 'attachments3'"
 									class="video-priloha" 
-									:src="filesPath + im.main_file" 
-									:poster="filesPath + im.thumb_file"
+									:src="filesDir + im.main_file" 
+									:poster="filesDir + im.thumb_file"
 									type="video/mp4" controls="controls" preload="none">
 						</video>
 						<button v-else-if="im.type == 'attachments1'" 
@@ -204,7 +200,7 @@ export default {
 					<div class="modal-body my-img-content">
 						<div class="border-a" :style="border_a">
 							<div class="border-b" :style="border_b">
-								<img :src="filesPath + attachments[id].main_file" 
+								<img :src="filesDir + attachments[id].main_file" 
 											:alt="attachments[id].name" 
 											id="big-main-img"
 											class="border-c" 

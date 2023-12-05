@@ -12,10 +12,7 @@
  * Inšpirácia z: https://blog.nette.org/cs/vue-js-v-nette
  */
 
-import axios from 'axios';
-
-//for Tracy Debug Bar
-axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+import MainService from '../services/MainService'
 
 export default {
 	props: {
@@ -46,8 +43,7 @@ export default {
 				this.isSearching = true;
 			}
 			if (this.searchquery.length > 2) {
-				let odkaz = this.$store.state.apiPath + 'search'
-				axios.get(odkaz, {params: {[this.inputname]: this.searchquery}})
+				MainService.getSearch(this.inputname, this.searchquery)
 							.then(response => {
 								//console.log(response);
 								this.results = [];

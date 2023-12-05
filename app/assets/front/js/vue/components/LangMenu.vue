@@ -1,5 +1,5 @@
 <script>
-import axios from 'axios'
+import MainService from '../services/MainService'
 
 export default {
 	data() {
@@ -9,14 +9,11 @@ export default {
 	},
 	methods: {
 		getLangs() {
-			let odkaz = this.$store.state.apiPath + 'lang/getakclangs'
-			axios.get(odkaz)
+			MainService.getActLangs()
 				.then(response => {
-					//console.log(response.data)
 					this.langs = response.data
 				})
 				.catch((error) => {
-					console.log(odkaz);
 					console.log(error);
 				});
 		},

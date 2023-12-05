@@ -1,21 +1,16 @@
 <script>
 /**
  * Komponenta pre základné rozloženie.
- * Posledna zmena 14.02.2023
+ * Posledna zmena 07.12.2023
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.3
+ * @version    1.0.4
  */
 
 import vuetify from '@/front/js/vue/plugins/vuetify'
-import axios from 'axios'
-
-
-//for Tracy Debug Bar
-axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 export default {
 	vuetify,
@@ -45,7 +40,6 @@ export default {
 			this.submenu = this.getItem(this.$store.state.main_menu, this.$store.state.main_menu_open, 0)
 		}
 	},
-	mounted() {},
 	created() {
 		// Reaguje na načítanie hl. menu
 		this.$root.$on('main-menu-loadet', data => {

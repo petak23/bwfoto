@@ -1,18 +1,18 @@
 <script>
 /** 
  * Component ShowArticle
- * Posledná zmena(last change): 16.03.2023
+ * Posledná zmena(last change): 06.12.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.0
+ * @version 1.0.1
  * 
  */
 import EditTexts from "./Article/EditTexts.vue"
 import EditTitle from "./Article/EditTitle.vue"
-import axios from 'axios'
+import MainService from '../services/MainService.js'
 
 export default {
 	components: {
@@ -53,14 +53,12 @@ export default {
 	methods: {
 				// Načítanie aktuálneho článku
 		getArticle() {
-			let odkaz = this.$store.state.apiPath + 'menu/getonemenuarticle/' + this.id_hlavne_menu_lang
-			axios.get(odkaz)
+			MainService.getOneMenuArticle(this.id_hlavne_menu_lang)
 				.then(response => {
 					this.article = response.data
 					//console.log(response.data)
 				})
 				.catch((error) => {
-					console.log(odkaz);
 					console.log(error);
 				});
 		},

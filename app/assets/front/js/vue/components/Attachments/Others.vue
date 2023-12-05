@@ -1,17 +1,16 @@
 <script>
 /**
  * Component others
- * Posledna zmena 20.03.2023
+ * Posledna zmena 07.12.2023
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.0
+ * @version    1.0.1
  * 
  */
-
-import axios from 'axios'
+import MainService from '../../services/MainService.js'
 
 export default {
 	props: {
@@ -28,14 +27,11 @@ export default {
 	},
 	methods: {
 		getAttachments() {
-			let odkaz = this.$store.state.apiPath + 'documents/getvisibleattachments/' + parseInt(this.$store.state.article.id_hlavne_menu) + "?group=others"
-			axios.get(odkaz)
+			MainService.getVisibleAttachments(this.$store.state.article.id_hlavne_menu, 'others')
 				.then(response => {
-					//console.log(response.data.length)
 					this.files = response.data.length > 0 ? response.data : null
 				})
 				.catch((error) => {
-					console.log(odkaz);
 					console.log(error);
 				});
 		},
@@ -59,22 +55,22 @@ export default {
 			<h4>{{ $store.state.texts.clanky_h3_prilohy_others }}:</h4>
 		</div>
 		<div class="col-12 col-md-3 mb-2" v-for="im in files" :key="im.id">
-	    <div class="card text-white bg-dark">
-	      <div class="card-header">
-	        <h5 class="card-title">{{im.name}}</h5>
-	      </div>
-	      <div class="card-body" v-if="im.description != null">
-	        <p class="card-text">{{im.description}}</p>
-	      </div>
-	      <div class="card-footer">
-	        <a 
+			<div class="card text-white bg-dark">
+				<div class="card-header">
+					<h5 class="card-title">{{im.name}}</h5>
+				</div>
+				<div class="card-body" v-if="im.description != null">
+					<p class="card-text">{{im.description}}</p>
+				</div>
+				<div class="card-footer">
+					<a 
 						:href="im.fileDownload" 
 						class="btn btn-outline-success" 
 						:title="im.name + ' - ' + $store.state.texts.clanky_dokument_download"
 					>
 						<i class="fas fa-download"></i>
 					</a>
-	        <a 
+					<a 
 						:href="im.fileView" 
 						class="btn btn-outline-success" 
 						:title="im.name + ' - ' + $store.state.texts.clanky_dokument_view" 
@@ -82,9 +78,9 @@ export default {
 					>
 						<i class="fas fa-file-image"></i>
 					</a>
-	      </div>
-	    </div>
-	  </div>
+				</div>
+			</div>
+		</div>
 	</div>
 </template>
 

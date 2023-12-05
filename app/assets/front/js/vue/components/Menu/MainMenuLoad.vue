@@ -1,23 +1,20 @@
 <script>
 /**
  * Komponenta pre načítanie hl. menu a textov prekladov.
- * Posledna zmena 23.02.2023
+ * Posledna zmena 07.12.2023
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.2
+ * @version    1.0.3
  */
 
-import axios from 'axios'
-
-//for Tracy Debug Bar
-axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+import MainService from '../../services/MainService.js'
 
 export default {
 	props: {
-		apiPath: {
+		apiPath: { 	// ????
 			type: String,
 			required: true
 		},
@@ -62,8 +59,7 @@ export default {
 			})
 		},
 		getMenu() {
-			let odkaz = this.apiPath + 'menu/getmenu/0/Front'
-			axios.get(odkaz)
+			MainService.getMenuFront()
 				.then(response => {
 					this.$store.dispatch('changeMainMenu', this.convert(response.data))
 					//this.$store.commit('SET_INIT_MAIN_MENU', this.convert(response.data))
@@ -74,44 +70,37 @@ export default {
 					this.$root.$emit("main-menu-loadet", [])
 				})
 				.catch((error) => {
-					console.log(odkaz);
 					console.log(error);
 				});
 		},
 
 		// Načítanie prekladov textov
 		getTexts() {
-			let odkaz = this.apiPath + 'lang/gettexts' 
 			let vm = this
 			let data = { texts: this.$store.state.texts_to_load }
-			axios.post(odkaz, data)
+			MainService.postGetTexts(data)
 				.then(function (response) {
 					//console.log(response.data)
 					vm.$store.commit('SET_INIT_TEXTS', response.data)
 					vm.$root.$emit("main-texts-loadet", [])
 				})
 				.catch(function (error) {
-					console.log(odkaz)
 					console.log(error)
 				});
 		},
 		// Načítanie aktuálneho článku
 		getArticle() {
-			let odkaz = this.apiPath + 'menu/getonemenuarticle/' + this.id_hlavne_menu_lang
-			axios.get(odkaz)
+			MainService.getOneMenuArticle(this.id_hlavne_menu_lang)
 				.then(response => {
 					this.$store.commit('SET_INIT_ARTICLE', response.data)
-					//console.log(response.data)
 				})
 				.catch((error) => {
-					console.log(odkaz);
 					console.log(error);
 				});
 		},
 		// Načítanie aktuálneho článku
 		getUser() {
-			let odkaz = this.apiPath + 'user/getactualuserinfo/' + this.id_user_main
-			axios.get(odkaz)
+			MainService.getActualUserInfo(this.id_user_main)
 				.then(response => {
 					this.$store.commit('SET_INIT_USER', response.data[0])
 					//console.log(response.data)
