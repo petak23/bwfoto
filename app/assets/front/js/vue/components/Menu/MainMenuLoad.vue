@@ -14,10 +14,6 @@ import MainService from '../../services/MainService.js'
 
 export default {
 	props: {
-		apiPath: { 	// ????
-			type: String,
-			required: true
-		},
 		main_menu_active: { //Aktuálna aktívna polozka
 			type: String,
 			default: 0,
@@ -102,12 +98,12 @@ export default {
 		getUser() {
 			MainService.getActualUserInfo(this.id_user_main)
 				.then(response => {
-					this.$store.commit('SET_INIT_USER', response.data[0])
-					//console.log(response.data)
-					this.$root.$emit("user-loadet", [])
+					this.$store.commit('SET_INIT_USER', response.data.result)
+					if (typeof(this.$store.state.user.id) != 'undefined') {
+						this.$root.$emit("user-loadet", [])
+					}
 				})
 				.catch((error) => {
-					console.log(odkaz);
 					console.log(error);
 				});
 		},
@@ -121,11 +117,16 @@ export default {
 	mounted() {
 		const basePath = document.getElementById('vueapp').dataset.baseUrl
 
-		// Zapísanie apiPath
-		this.$store.commit('SET_INIT_API_PATH', this.apiPath)
-
 		// Zapísanie aktívnej položky menu
 		this.$store.commit('SET_MAIN_MENU_ACTIVE', parseInt(this.main_menu_active))
+
+		MainService.getFromSettings()
+			.then(response => {
+				this.$store.commit('SET_INIT_APP_SETTINGS', response.data.data)
+			})
+			.catch((error) => {
+				console.log(error);
+			});
 		
 		// Načítanie údajov priamo z DB
 		this.getMenu()

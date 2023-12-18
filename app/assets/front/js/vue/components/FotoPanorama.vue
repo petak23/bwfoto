@@ -1,13 +1,13 @@
 <script>
 /** 
- * Component Fotopanorama
- * Posledná zmena(last change): 04.12.2023
+ * Component FotoPanorama
+ * Posledná zmena(last change): 11.12.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.4
+ * @version 1.1.5
  */
 import MainService from '../services/MainService.js'
 
@@ -25,7 +25,6 @@ export default {
 	data() {
 		return {
 			id: 0,
-			article: {},
 			attachments: [{ // Musí byť nejaký nultý objekt inak je chyba...
 				description: null,
 				id: 0,
@@ -75,17 +74,8 @@ export default {
 			let pom = border != null && border.length > 2 ? border.split("|") : ['', '0'];
 			return "border: " + pom[1] + "px solid " + (pom[0].length > 2 ? (pom[0]) : "inherit")
 		},
-		getMainArticle() {
-			MainService.getOneMainMenuArticle(this.$store.state.article.id_hlavne_menu)
-				.then(response => {
-					this.article = response.data
-				})
-				.catch((error) => {
-					console.log(error);
-				});
-		},
 		getAttachments() {
-			MainService.getFotogalery(this.$store.state.article.id_hlavne_menu)
+			MainService.getFotogalery(this.$store.state.main_menu_active)
 				.then(response => {
 					this.attachments = response.data
 					if (parseInt(this.first_id) > 0) { // Ak mám first_id tak k nemu nájdem položku v attachments
@@ -115,29 +105,27 @@ export default {
 	},
 	computed: {
 		border_a() {
-			return this.border_compute(this.article.border_a)
+			return this.border_compute(this.$store.state.article.border_a)
 		},
 		border_b() {
-			return this.border_compute(this.article.border_b)
+			return this.border_compute(this.$store.state.article.border_b)
 		},
 		border_c() {
-			return this.border_compute(this.article.border_c)
+			return this.border_compute(this.$store.state.article.border_c)
 		},
 		filesDir() {
 			return document.getElementById('vueapp').dataset.baseUrl + '/' + this.filesPath
 		},
 	},
 	watch: {
-		'$store.state.article.id_hlavne_menu': function () {
-			/* Načítanie údajov hl. menu z DB */
-			this.getMainArticle()
-
+		'$store.state.main_menu_active': function () {
 			this.getAttachments()
-		},
+		}
 	},
 	mounted () {
 		// Naviazanie na sledovanie stláčania klávesnice
 		document.addEventListener("keydown", this.keyPush);
+		this.getAttachments()
 	},
 
 };

@@ -53,3 +53,10 @@ UPDATE `user_permission` SET
 `id_user_resource` = '27',
 `actions` = 'getsubmenu,getmenu,getonemenuarticle,getonemenuarticlesp,getonehlavnemenuarticle,getfotocollagesettings,getactualuserinfo'
 WHERE `id` = '36';
+
+-- updated in v 0.9.79
+
+INSERT INTO `user_resource` (`name`);
+
+INSERT INTO `user_permission` (`id_user_roles`, `id_user_resource`, `actions`)
+VALUES ('0', '37', NULL);

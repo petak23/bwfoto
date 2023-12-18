@@ -15,7 +15,7 @@ export default {
 	props: {
 		filesPath: { // Adresár k súborom bez basePath
 			type: String,
-			required: true
+			default: "files/menu/"
 		},
 	},
 	data() {
@@ -28,6 +28,10 @@ export default {
 				blankColor: '#bbb',
 			},
 			edit_enabled: false,
+			to_check_permission: {
+				resource: 'Api:Menu',
+				action: 'saveordersubmenu',
+			}
 		}
 	},
 	methods: {
@@ -64,9 +68,27 @@ export default {
 					console.log(error);
 				});
 		},
+		checkPermission: function (check_perm) {
+			this.edit_enabled = false
+			if (this.$store.state.user != null && typeof (this.$store.state.user.id) != 'undefined') {
+				this.$store.state.user.permission.forEach(function check(item) {
+					if (item.resource == check_perm.resource) {
+						let p = false
+						if (item.action == null) {
+							p = true
+						} else if (item.action.isArray && item.action.includes(check_perm.action)) {
+							p = true
+						}
+						this.edit_enabled = p
+					}
+				}, this)
+			}
+		}
 	},
 	mounted () {
 		if (this.$store.state.main_menu_active > 0) this.getSubmenu()
+		
+		this.checkPermission(this.to_check_permission)
 	},
 	computed: {
 		filesDir() {
@@ -78,18 +100,7 @@ export default {
 			this.getSubmenu()
 		},
 		'$store.state.user': function () {
-			let vm = this
-			let data = {
-				resource: 'Api:Menu',
-				action: 'saveordersubmenu	',
-			}
-			MainService.postIsAllowed(this.$store.state.user.id, data)
-				.then(function (response) {
-					vm.edit_enabled = response.data.result == 1
-				})
-				.catch(function (error) {
-					console.log(error);
-				});
+			this.checkPermission(this.to_check_permission)
 		}
 	},
 };

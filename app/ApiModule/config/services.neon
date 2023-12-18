@@ -5,14 +5,16 @@
 # http://nette.org/security-warning
 #
 services:
-  - App\ApiModule\Presenters\DokumentyPresenter(%parameters%, %wwwDir%)
-  - App\ApiModule\Presenters\LangPresenter(%parameters%)
-  - App\ApiModule\Presenters\MenuPresenter(%parameters%)
-  - App\ApiModule\Presenters\ProductsPresenter(%parameters%, %wwwDir%)
-  - App\ApiModule\Presenters\SearchPresenter(%parameters%)
-  - App\ApiModule\Presenters\SliderPresenter(%parameters%, %wwwDir%)
-  - App\ApiModule\Presenters\TexylaPresenter(%parameters%)
-  - App\ApiModule\Presenters\UserPresenter(%parameters%)
-  - App\ApiModule\Presenters\VerziePresenter(%parameters%)
+	- App\ApiModule\Presenters\DokumentyPresenter(%parameters%, %wwwDir%)
+	- App\ApiModule\Presenters\LangPresenter(%parameters%)
+	- App\ApiModule\Presenters\MenuPresenter(%parameters%)
+	- App\ApiModule\Presenters\ProductsPresenter(%parameters%, %wwwDir%)
+	- App\ApiModule\Presenters\SearchPresenter(%parameters%)
+	- App\ApiModule\Presenters\SliderPresenter(%parameters%, %wwwDir%)
+	- App\ApiModule\Presenters\TexylaPresenter(%parameters%)
+	- App\ApiModule\Presenters\UdajePresenter(%parameters%)
+	- App\ApiModule\Presenters\UserPresenter(%parameters%)
+	- App\ApiModule\Presenters\VerziePresenter(%parameters%)
 
-  - DbTable\Fotocollage_settings
+	- DbTable\Fotocollage_settings
+	- DbTable\User_permission

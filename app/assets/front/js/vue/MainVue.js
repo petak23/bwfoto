@@ -1,23 +1,21 @@
 /* 
  * Main Vue.js app file
- * Posledná zmena(last change): 21.03.2023
+ * Posledná zmena(last change): 11.12.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.2.0
+ * @version 1.2.2
  */
 
 import Vue from 'vue';
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
 import MySlider from './components/MySlider.vue';
-import Fotogalery from './components/Fotogalery.vue';
-import Fotocollage from './components/Fotocollage.vue';
-import Fotopanorama from './components/Fotopanorama.vue';
+import MainArticleView from './views/MainArticleView.vue'
+import HomepageView from './views/HomepageView.vue'
 import EditArticle from '../../../components/EditArticle/EditArticle';
 import FlashMessage from '../../../components/FlashMessages/FlashMessage';
-import Menucardorder from './components/Menucardorder.vue';
 import BwfotoTreeMain from './components/Menu/BWfoto_Tree_Main.vue'
 import VueDndZone from 'vue-dnd-zone'
 import 'vue-dnd-zone/vue-dnd-zone.css'
@@ -27,10 +25,7 @@ import MainMenuLoad from "./components/Menu/MainMenuLoad.vue"
 import MainMenu from './components/Menu/MainMenu.vue'
 import Breadcrumb from './components/Menu/Breadcrumb.vue'
 import ProductsLike from './components/ProductsLike.vue'
-import SingleMenu from './components/Menu/SingleMenu.vue'
-import BwfotoFixedHomepage from "./components/Menu/BWfoto_Fixed_Homepage.vue";
 import ShowArticle from './components/ShowArticle.vue'
-import Attachments from './components/Attachments/Attachments.vue'
 import UserMenu from './components/User/UserMenu.vue'
 import ToogleMode from './components/ToggleMode.vue'
 import BfFooter from './components/BfFooter.vue'
@@ -59,19 +54,14 @@ let vm = new Vue({
 		MySlider, 
 		EditArticle,
 		FlashMessage,
-		Fotogalery,
-		Fotocollage,
-		Fotopanorama,
-		Menucardorder,
+		MainArticleView,
+		HomepageView,
 		BwfotoTreeMain,
 		MainMenu,
 		MainMenuLoad,
 		Breadcrumb,
 		ProductsLike,
-		SingleMenu,
-		BwfotoFixedHomepage,
 		ShowArticle,
-		Attachments,
 		UserMenu,
 		ToogleMode,
 		BfFooter,

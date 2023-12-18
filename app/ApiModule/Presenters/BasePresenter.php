@@ -83,7 +83,7 @@ abstract class BasePresenter extends Presenter
 
 		// Kontrola ACL
 		if (!($user->isAllowed($this->name, $this->action))) {
-			$this->error("Not allowed");
+			$this->sendJson(['status' => 401, 'message' => "Not allowed"]);
 		}
 
 		$this->texty_presentera->setLanguage($this->language);

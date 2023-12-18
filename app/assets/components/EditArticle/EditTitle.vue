@@ -1,7 +1,7 @@
 <script>
 /** 
  * Component EditTitle
- * Posledná zmena(last change): 07.12.2023
+ * Posledná zmena(last change): 15.12.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
@@ -13,7 +13,7 @@
 import EditTexts from "./EditTexts.vue"
 import EditMenu from "./EditMenu.vue"
 import UserChange from "./UserChange.vue"
-import MainService from '../../front/js/vue/services/MainService'
+import MainService from "../../front/js/vue/services/MainService.js"
 
 export default {
 	props: {
@@ -23,7 +23,6 @@ export default {
 		},
 		link: String,
 		link_to_admin: String,
-		article_hlavicka: String,
 	},
 	components: {
 		EditTexts,
@@ -40,6 +39,7 @@ export default {
 				template: 0
 			},
 			templates: null,
+			article_hlavicka: 0,
 		}
 	},
 	methods: {
@@ -55,7 +55,6 @@ export default {
 			event.preventDefault()
 			// Aby sa formulár odoslal, len ak je stačené tlačítko s class="main-submit"
 			if (event.submitter.classList.contains("main-submit")) {
-				let odkaz = this.$store.state.apiPath + 'menu/h1save/' + this.$store.state.article.id
 				let vm = this
 				let data = {
 							menu_name: this.art_title.menu_name,
@@ -85,7 +84,6 @@ export default {
 					})
 					.catch(function (error) {
 						vm.saveErr()
-						console.log(odkaz)
 						console.log(error)
 					});
 			}
@@ -117,10 +115,17 @@ export default {
 					this.templates = response.data
 				})
 				.catch((error) => {
-					console.log(odkaz);
 					console.log(error);
 				});
 		}
+	
+		MainService.getFromUdaj("clanok_hlavicka")
+			.then(response => {
+				this.article_hlavicka = response.data.result
+			})
+			.catch((error) => {
+				console.error(error);
+			});
 	},
 }
 </script>

@@ -25,6 +25,9 @@ class UserPresenter extends BasePresenter
 
 	/** @var DbTable\User_main @inject */
 	public $user_main;
+	/** @var DbTable\User_permission @inject */
+	public $user_permission;
+
 
 	/**   ----  USER_PRIHLASENIE  ----   */
 
@@ -54,7 +57,18 @@ class UserPresenter extends BasePresenter
 
 	public function actionGetActualUserInfo(): void
 	{
-		$this->sendJson([$this->user->isLoggedIn() ? $this->user->getIdentity()->data : []]);
+		$out = [];
+		if ($this->user->isLoggedIn()) {
+			$exported_fields = ['id', 'id_user_roles', 'meno', 'priezvisko', 'email', 'pocet_pr', 'avatar', 'user_role'];
+			foreach ($exported_fields as $k) {
+				$out[$k] = $this->user->getIdentity()->data[$k];
+			}
+			$out['prihlas_teraz'] = $this->user->getIdentity()->data['prihlas_teraz']->format('d.m.Y H:i:s');
+		}
+
+		$out['permission'] = $this->user_permission->getAllowedPermission($this->user->getIdentity()->data['id_user_roles'], true);
+
+		$this->sendJson(['result' => $out]);
 	}
 
 	/**

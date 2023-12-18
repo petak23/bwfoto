@@ -6,12 +6,12 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
 	state: {
-		apiPath: "", 		// Cesta k API
 		basePath: "", 	// Základná cesta
  		main_menu: null,
 		main_menu_open: [],
 		main_menu_active: null,
 
+		app_settings: null,
 		article: {
 			id_user_main: 0,
 		},
@@ -31,8 +31,8 @@ export default new Vuex.Store({
 		texts: {},
 	},
 	mutations: {
-		SET_INIT_API_PATH (state, apiPath) {
-			state.apiPath = apiPath
+		SET_INIT_APP_SETTINGS (state, app_settings) {
+			state.app_settings = app_settings
 		},
 		SET_INIT_BASE_PATH (state, basePath) {
 			state.basePath = basePath
@@ -86,6 +86,19 @@ export default new Vuex.Store({
 			state.main_menu = []
 			commit('SET_INIT_MAIN_MENU', main_menu)
 		},
+
+		// check_perm = { 'resource': 'some:resource', 'action': 'some_action_or_null' }
+		/* checkPermission({ state }, check_perm) { 
+			let ok = false
+			state.user.permission.forEach(function check(item) { 
+				if (item.resource == check_perm.resource) {
+					ok = (item.action == null || (item.action.isArray && item.action.includes(check_perm.action)))
+				}
+			})
+			return new Promise((resolve, reject) => { 
+				if (ok) resolve() 
+			}) 
+		}*/
 	},
 	getters: {
 		id_user_main: state => {

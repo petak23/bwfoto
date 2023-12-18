@@ -47,7 +47,7 @@ export default {
 			square: 0,
 			wid: 0,
 			uroven: 0, // Premenná sleduje uroveň zobrazenia
-			article: {},
+			//article: {},
 			attachments: [{ // Musí byť nejaký nultý objekt inak je chyba...
 				description: null,
 				id: 0,
@@ -130,17 +130,8 @@ export default {
 			let pom = border != null && border.length > 2 ? border.split("|") : ['', '0'];
 			return "border: " + pom[1] + "px solid " + (pom[0].length > 2 ? (pom[0]) : "inherit")
 		},
-		getMainArticle() {
-			MainService.getOneMainMenuArticle(this.$store.state.article.id_hlavne_menu)
-				.then(response => {
-					this.article = response.data
-				})
-				.catch((error) => {
-					console.log(error);
-				});
-		},
 		getAttachments() { 
-			MainService.getFotogalery(this.$store.state.article.id_hlavne_menu)
+			MainService.getFotogalery(this.$store.state.main_menu_active)
 				.then(response => {
 					this.attachments = response.data
 					if (parseInt(this.first_id) > 0) { // Ak mám first_id tak k nemu nájdem položku v attachments
@@ -192,23 +183,20 @@ export default {
 			return this.large == "large"
 		},
 		border_a() {
-			return this.border_compute(this.article.border_a)
+			return this.border_compute(this.$store.state.article.border_a)
 		},
 		border_b() {
-			return this.border_compute(this.article.border_b)
+			return this.border_compute(this.$store.state.article.border_b)
 		},
 		border_c() {
-			return this.border_compute(this.article.border_c)
+			return this.border_compute(this.$store.state.article.border_c)
 		},
 		filesDir() {
 			return document.getElementById('vueapp').dataset.baseUrl + '/' + this.filesPath
 		},
 	},
 	watch: {
-		'$store.state.article.id_hlavne_menu': function () {
-			/* Načítanie údajov hl. menu z DB */
-			this.getMainArticle()
-
+		'$store.state.main_menu_active': function () {
 			this.getAttachments()
 		}
 	},
@@ -225,6 +213,8 @@ export default {
 		this.$root.$on("bv::modal::hidden", this.urovenDwn);
 		
 		this.$root.$on("product-like-del-all", this.my_liked);
+
+		this.getAttachments()
 	},
 
 };

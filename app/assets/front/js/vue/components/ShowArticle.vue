@@ -1,13 +1,13 @@
 <script>
 /** 
  * Component ShowArticle
- * Posledná zmena(last change): 06.12.2023
+ * Posledná zmena(last change): 11.12.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.1
+ * @version 1.0.2
  * 
  */
 import EditTexts from "./Article/EditTexts.vue"
@@ -23,14 +23,13 @@ export default {
 		filesPath: { // Adresár k súborom vrátanekoncového lomítka
 			type: String,
 			//required: true
-		}, 
-		edit_enabled: String,
+		},
 		link: String,
 		//link_to_admin: String,
 		article_hlavicka: String,
 		article_avatar_view_in: String,
 		id_hlavne_menu_lang: {
-			type: String,
+			type: Number,
 			required: true,
 		},
 		view_h1: {	// Povolenie zobrazenia nadpisu H1
@@ -48,6 +47,7 @@ export default {
 	data() {
 		return {
 			article: null,
+			edit_enabled: false,
 		}
 	},
 	methods: {
@@ -75,6 +75,24 @@ export default {
 		this.$root.$on("reload-article-" + this.id_hlavne_menu_lang, data => {
 			this.article = data[0]
 		})
+	},
+	watch: {
+		'$store.state.user': function () {
+			if (typeof (this.$store.state.user.id) != 'undefined') {
+				let vm = this
+				let data = {
+					resource: 'Front:Clanky',
+					action: 'edit',
+				}
+				MainService.postIsAllowed(this.$store.state.user.id, data)
+					.then(function (response) {
+						vm.edit_enabled = response.data.result == 1
+					})
+					.catch(function (error) {
+						console.log(error);
+					});
+			}
+		}
 	},
 	mounted () {
 		this.getArticle()
@@ -111,7 +129,7 @@ export default {
 				{{ article.h1part2 }}
 			</small>
 		</h1>
-		<div v-if="edit_enabled == 1"
+		<div v-if="edit_enabled"
 				class="btn-group btn-group-sm editable" 
 				role="group"
 		>

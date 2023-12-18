@@ -1,13 +1,13 @@
 <script>
 /**
  * Component attachments
- * Posledna zmena 21.03.2023
+ * Posledna zmena 08.12.2023
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.0
+ * @version    1.0.1
  * 
  */
 
@@ -23,9 +23,14 @@ export default {
 		AttOthers,
 	},
 	props: {
-		filePath: {
+		filesPath: { // Adresár k súborom bez basePath
 			type: String,
-			required: true,
+			default: "",
+		},
+	},
+	computed: {
+		filesDir() {
+			return document.getElementById('vueapp').dataset.baseUrl + '/' + this.filesPath
 		},
 	},
 }
@@ -34,13 +39,13 @@ export default {
 <template>
 	<div class="col-12">
 		<att-images
-			:file-path="filePath"
+			:file-path="filesDir"
 		></att-images>
 		<att-audios
-			:file-path="filePath"
+			:file-path="filesDir"
 		></att-audios>
 		<att-others
-			:file-path="filePath"
+			:file-path="filesDir"
 		></att-others>
 	</div>
 </template>

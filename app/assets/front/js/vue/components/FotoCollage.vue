@@ -1,13 +1,13 @@
 <script>
 /** 
  * Component Fotocollage
- * Posledná zmena(last change): 05.12.2023
+ * Posledná zmena(last change): 11.12.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.2.4
+ * @version 1.2.5
  * Z kniznica pouzite súbory a upravene: https://github.com/seanghay/vue-photo-collage
  */
 import PhotoCollageWrapper from "./vue-photo-collage/PhotoCollageWrapper.vue";
@@ -26,7 +26,7 @@ export default {
 		}, 
 		maxrandompercwidth: { // Percento, o ktoré sa môže meniť naviac šírka fotky
 			type: String,
-			default: 20,
+			default: "25",
 		},
 	},
 	data() {
@@ -227,7 +227,7 @@ export default {
 		},
 	},
 	watch: {
-		'$store.state.article.id_hlavne_menu': function () {
+		'$store.state.main_menu_active': function () {
 			/* Nčítanie schémy fotokoláže */
 			this.loadSchema();
 		},
@@ -235,7 +235,7 @@ export default {
 			let vm = this
 			let data = {
 				resource: 'Front:Clanky',
-				action: 'edit	',
+				action: 'edit',
 			}
 			MainService.postIsAllowed(this.$store.state.user.id, data)
 				.then(function (response) {
@@ -252,6 +252,9 @@ export default {
 
 		/* Naviazanie na sledovanie stláčania klávesnice */
 		document.addEventListener("keydown", this.keyPush);
+
+		/* Nčítanie schémy fotokoláže */
+		this.loadSchema();
 
 		this.$root.$on('schema-changed', data => {
 			this.sch[data[0].id_part] = data[0].data

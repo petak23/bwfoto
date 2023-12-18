@@ -96,6 +96,16 @@ export default {
 	getSearch(inputname, searchquery) {
 		return apiClient.get('search', {params: {[inputname]: searchquery}})
 	},
+
+	// ---- udaje ----
+	getFromUdaj(name) {
+		return apiClient.get('udaje/getfromudaj/' + name)
+	},
+	getFromSettings(name = "") {
+		return apiClient.get('udaje/getfromsettings' + (name.length ? '/'+name : ''))
+	},
+
+
 	
 	// --- from vuemeteo...
 	getMySettings() {

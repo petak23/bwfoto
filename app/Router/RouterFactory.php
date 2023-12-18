@@ -8,13 +8,13 @@ use Nette\Application\Routers\RouteList;
 
 /**
  * Router
- * Posledna zmena 14.02.2023
+ * Posledna zmena 12.12.2023
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.1.1
+ * @version    1.1.2
  */
 class RouterFactory
 {
@@ -71,7 +71,8 @@ class RouterFactory
 			->addRoute('api/search[/<action>]', 'Search:default')
 			->addRoute('api/slider/<action>[/<id>]', 'Slider:default')
 			->addRoute('api/texyla[/<action>[/<id>]]', 'Texyla:default')
-			->addRoute('api/verzie[/<action>[/<id>]]', 'Verzie:default');
+			->addRoute('api/verzie[/<action>[/<id>]]', 'Verzie:default')
+			->addRoute('api/udaje/<action>[/<s>]', 'Udaje:default');
 
 		$router->withModule('Front')
 			->addRoute('clanky[/<id>]', [

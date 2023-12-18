@@ -12,7 +12,7 @@ use PeterVojtech;
 /**
  * Prezenter pre vypisanie clankov.
  * 
- * Posledna zmena(last change): 21.03.2023
+ * Posledna zmena(last change): 12.12.2023
  *
  *	Modul: FRONT
  *
@@ -20,7 +20,7 @@ use PeterVojtech;
  * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.5.5
+ * @version 1.5.6
  */
 
 class ClankyPresenter extends BasePresenter
@@ -95,7 +95,6 @@ class ClankyPresenter extends BasePresenter
 		$this->template->komponenty = $this->clanok_komponenty->getKomponenty($this->zobraz_clanok->id_hlavne_menu, $this->nastavenie["komponenty"]);
 
 		// Pre edit-article
-		$this->template->article_hlavicka = $this->udaje->getValByName("clanok_hlavicka");
 		$this->template->this_link = $this->link('this');
 	}
 
