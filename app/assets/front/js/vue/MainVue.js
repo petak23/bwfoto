@@ -1,19 +1,22 @@
 /* 
  * Main Vue.js app file
- * Posledná zmena(last change): 11.12.2023
+ * Posledná zmena(last change): 19.12.2023
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.2.2
+ * @version 1.2.3
  */
 
 import Vue from 'vue';
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
 import MySlider from './components/MySlider.vue';
+
 import MainArticleView from './views/MainArticleView.vue'
 import HomepageView from './views/HomepageView.vue'
+import LogInView from './views/LogInView.vue'
+
 import EditArticle from '../../../components/EditArticle/EditArticle';
 import FlashMessage from '../../../components/FlashMessages/FlashMessage';
 import BwfotoTreeMain from './components/Menu/BWfoto_Tree_Main.vue'
@@ -54,8 +57,11 @@ let vm = new Vue({
 		MySlider, 
 		EditArticle,
 		FlashMessage,
+
 		MainArticleView,
 		HomepageView,
+		LogInView,
+
 		BwfotoTreeMain,
 		MainMenu,
 		MainMenuLoad,

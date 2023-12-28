@@ -29,6 +29,11 @@ export default {
 		return apiClient.post('user/isallowed/' + id_user, data)
 	},
 
+	// ---- sign ----
+	postSignIn(data) {
+		return apiClient.post('sign/in', data)
+	},
+
 	// ---- menu ----
 	getMenuFront() {
 		return apiClient.get('menu/getmenu/0/front')

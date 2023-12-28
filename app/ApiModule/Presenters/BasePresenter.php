@@ -30,12 +30,15 @@ abstract class BasePresenter extends Presenter
 	public $hlavne_menu;
 	/** @var DbTable\Lang @inject*/
 	public $lang;
+	/** @var DbTable\User_permission @inject */
+	public $user_permission;
 	/** @var DbTable\User_roles @inject */
 	public $user_roles;
 	/** @var DbTable\Udaje @inject */
 	public $udaje;
 	/** @var DbTable\Verzie @inject */
 	public $verzie;
+
 
 	/** @var string Skratka aktualneho jazyka 
 	 * @persistent */
@@ -87,5 +90,29 @@ abstract class BasePresenter extends Presenter
 		}
 
 		$this->texty_presentera->setLanguage($this->language);
+	}
+
+	/** Odošle údaje o aktuálne prihlásenom užívateľovy */
+	public function getActualUserInfo(): void
+	{
+		$out = [];
+		if ($this->user->isLoggedIn()) {
+			$exported_fields = ['id', 'id_user_roles', 'meno', 'priezvisko', 'email', 'pocet_pr', 'avatar', 'user_role'];
+			foreach ($exported_fields as $k) {
+				$out[$k] = $this->user->getIdentity()->data[$k];
+			}
+			$out['prihlas_teraz'] = $this->user->getIdentity()->data['prihlas_teraz']->format('d.m.Y H:i:s');
+		} else {
+			$out = [
+				'status' => '401',
+				'error' => "Neprihlásený užívateľ"
+			];
+		}
+
+		$idur = $this->user->isLoggedIn() ? $this->user->getIdentity()->data['id_user_roles'] : 0;
+
+		$out['permission'] = $this->user_permission->getAllowedPermission($idur, true);
+
+		$this->sendJson(['result' => $out]);
 	}
 }

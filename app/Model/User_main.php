@@ -4,6 +4,8 @@
 namespace DbTable;
 
 use Nette;
+use Nette\Database;
+use Nette\Security\User;
 
 /**
  * Model, ktory sa stara o tabulku user_main
@@ -39,7 +41,7 @@ class User_main extends Table
 
   private $passwords;
 
-  public function __construct(Nette\Security\Passwords $passwords, Nette\Database\Explorer $db)
+  public function __construct(Nette\Security\Passwords $passwords, Database\Explorer $db)
   {
     $this->passwords = $passwords;
     $this->connection = $db;
@@ -66,7 +68,7 @@ class User_main extends Table
     string $password,
     int $activated = 0,
     int $role = 0
-  ): Nette\Database\Table\ActiveRow|int|bool {
+  ): Database\Table\ActiveRow|int|bool {
     try {
       $user_profiles = $this->connection->table('user_profiles')->insert([]);
       return $this->pridaj([
@@ -79,14 +81,14 @@ class User_main extends Table
         self::COLUMN_ID_USER_ROLES    => $role,
         self::COLUMN_CREATED          => date("Y-m-d H:i:s", Time()),
       ]);
-    } catch (Nette\Database\UniqueConstraintViolationException $e) {
+    } catch (Database\UniqueConstraintViolationException $e) {
       throw new DuplicateEmailException($e->getMessage());
     }
   }
 
   /**
-   * @throws Nette\Database\DriverException */
-  public function saveUser(Nette\Utils\ArrayHash $values): Nette\Database\Table\ActiveRow|int|bool
+   * @throws Database\DriverException */
+  public function saveUser(Nette\Utils\ArrayHash $values): Database\Table\ActiveRow|int|bool
   {
     try {
       $id = $values->{self::COLUMN_ID};
@@ -103,7 +105,7 @@ class User_main extends Table
       unset($values->id);
       return $this->uloz($values, $id);
     } catch (\Exception $e) {
-      throw new Nette\Database\DriverException('Chyba ulozenia: ' . $e->getMessage());
+      throw new Database\DriverException('Chyba ulozenia: ' . $e->getMessage());
     }
   }
 
@@ -168,9 +170,50 @@ class User_main extends Table
     return ($tmp = $this->findOneBy($param)) !== FALSE ? $tmp->{self::COLUMN_ID} : 0;
   }
 
-  public function getUser(int $id): ?Nette\Database\Table\ActiveRow
+  public function getUser(int $id): ?Database\Table\ActiveRow
   {
     return $this->find($id);
+  }
+
+  /**
+   * Nájdenie info o jednom užívateľovy
+   * @param int $id primary key
+   * @return Database\Table\ActiveRow|array */
+  public function getUserForApi(int $id, User $user = null, String $baseUrl = "", bool $return_as_array = false): Database\Table\ActiveRow|array
+  {
+    $out = $this->find($id);
+    if ($out == null) return ['error' => "User not found", 'error_n' => 1, 'user_id' => $id];
+    if ($return_as_array) {
+      $_cols = $this->getTableColsInfo();
+      $_user = [];
+      foreach ($_cols as $k => $v) {
+        if ($out->{$v['field']} !== null && $v['type'] == "datetime") {
+          $_user[$v['field']] = $out->{$v['field']}->format('d.m.Y H:i:s');
+        } else {
+          $_user[$v['field']] = $out->{$v['field']};
+        }
+      }
+      /*if ($_user['prev_login_ip'] != NULL) {
+        $_user['prev_login_name'] = gethostbyaddr($_user['prev_login_ip']);
+        if ($_user['prev_login_name'] === $_user['prev_login_ip']) {
+          $_user['prev_login_name'] = NULL;
+        }
+      }
+      if ($_user['last_error_ip'] != NULL) {
+        $_user['last_error_name'] = gethostbyaddr($_user['last_error_ip']);
+        if ($_user['last_error_name'] === $_user['last_error_ip']) {
+          $_user['last_error_name'] = NULL;
+        }
+      }
+      if ($user != null) {
+        $_user['monitoringUrl'] = $baseUrl . "monitor/show/" . $_user['monitoring_token'] . "}/" . $user->getId() . "/";
+      } else {
+        $_user['monitoringUrl'] = null;
+      }*/
+
+      $out = $_user;
+    }
+    return $out;
   }
 }
 

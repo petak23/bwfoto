@@ -57,18 +57,7 @@ class UserPresenter extends BasePresenter
 
 	public function actionGetActualUserInfo(): void
 	{
-		$out = [];
-		if ($this->user->isLoggedIn()) {
-			$exported_fields = ['id', 'id_user_roles', 'meno', 'priezvisko', 'email', 'pocet_pr', 'avatar', 'user_role'];
-			foreach ($exported_fields as $k) {
-				$out[$k] = $this->user->getIdentity()->data[$k];
-			}
-			$out['prihlas_teraz'] = $this->user->getIdentity()->data['prihlas_teraz']->format('d.m.Y H:i:s');
-		}
-
-		$out['permission'] = $this->user_permission->getAllowedPermission($this->user->getIdentity()->data['id_user_roles'], true);
-
-		$this->sendJson(['result' => $out]);
+		$this->getActualUserInfo();
 	}
 
 	/**
