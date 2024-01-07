@@ -8,13 +8,13 @@ use Nette\Utils;
 /**
  * Model, ktory sa stara o tabulku products
  * 
- * Posledna zmena 05.01.2023
+ * Posledna zmena 28.12.2023
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.1.1
+ * @version    1.1.2
  */
 class Products extends Table
 {
@@ -24,12 +24,17 @@ class Products extends Table
   /** @var string relativny adresar k produktom */
   private $dir_to_products;
 
+  /** @var Products_property */
+  public $products_property;
+
   public function __construct(
     string $dir_to_products,
-    Nette\Database\Explorer $db
+    Products_property $products_property,
+    Nette\Database\Explorer $db,
   ) {
     parent::__construct($db);
     $this->dir_to_products = $dir_to_products;
+    $this->products_property = $products_property;
   }
 
   /** 
@@ -118,6 +123,7 @@ class Products extends Table
   {
     $out = [];
     foreach ($this->findBy(['id_hlavne_menu' => $id]) as $v) {
+      $_pp = $this->products_property->getProperties($v->id, $v->price);
       $out[] = [
         'id' => $v->id,
         'type' => 'product',
@@ -125,7 +131,9 @@ class Products extends Table
         'web_name' => $v->web_name,
         'description' => $v->description,
         'main_file' => ($v->main_file && is_file($v->main_file)) ? $v->main_file : 'images/otaznik.png',
-        'thumb_file' => $v->thumb_file
+        'thumb_file' => $v->thumb_file,
+        'price' => $v->price,
+        'properties' => $_pp,
       ];
     }
     return $out;

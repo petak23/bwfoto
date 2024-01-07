@@ -1,16 +1,17 @@
 <script>
 /** 
  * Component Fotogalery
- * Posledná zmena(last change): 04.12.2023
+ * Posledná zmena(last change): 04.01.2024
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2021 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.5
+ * @version 1.1.6
  */
 
 import MainService from '../services/MainService.js'
+import ProductsProperties from './ProductsProperties/ProductsProperties'
 
 // https://swiperjs.com/vue
 // import Swiper core and required modules
@@ -26,6 +27,7 @@ export default {
 	components: {
 		Swiper,
 		SwiperSlide,
+		ProductsProperties,
 	},
 	props: {
 		first_id: { // Ak je nastavené tak sa zobrazí obrázok ako prvý
@@ -194,6 +196,9 @@ export default {
 		filesDir() {
 			return document.getElementById('vueapp').dataset.baseUrl + '/' + this.filesPath
 		},
+		aa() {
+			return typeof this.attachments[this.id] !== 'undefined' ? this.attachments[this.id] : null
+		}
 	},
 	watch: {
 		'$store.state.main_menu_active': function () {
@@ -329,8 +334,13 @@ export default {
 					</div>
 				</div>
 			</div> 
-			<div class="row d-none d-sm-inline-block" v-if="wid > 0">
-				<div class="col-12 bigimg-description popis">{{ attachments[id].description }}</div>
+			<div class="row d-none d-sm-flex justify-content-left" v-if="wid > 0 && aa != null">
+				<div class="col-sm-8">
+					{{ aa.description }}
+					<products-properties
+						:article="aa"
+					/>
+				</div>
 			</div>
 
 			<b-modal  id="modal-multi-1" centered size="xl" 

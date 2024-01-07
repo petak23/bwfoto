@@ -32,10 +32,10 @@ FROM `user_permission`
 WHERE `id_user_resource` = '26' AND ((`id` = '35'));
 
 CREATE TABLE `fotocollage_settings` (
-  `id` int NOT NULL COMMENT '[A]Index' AUTO_INCREMENT PRIMARY KEY,
-  `id_hlavne_menu` int NOT NULL COMMENT 'Id prvku, ku ktorému je koláž',
-  `settings` json NOT NULL COMMENT 'Nastavenia vo formáte json',
-  FOREIGN KEY (`id_hlavne_menu`) REFERENCES `hlavne_menu` (`id`)
+	`id` int NOT NULL COMMENT '[A]Index' AUTO_INCREMENT PRIMARY KEY,
+	`id_hlavne_menu` int NOT NULL COMMENT 'Id prvku, ku ktorému je koláž',
+	`settings` json NOT NULL COMMENT 'Nastavenia vo formáte json',
+	FOREIGN KEY (`id_hlavne_menu`) REFERENCES `hlavne_menu` (`id`)
 ) COMMENT='Nastavenia fotokoláže' ENGINE='InnoDB' COLLATE 'utf32_bin';
 
 UPDATE `user_permission` SET `actions` = 'getsubmenu,getmenu,getonemenuarticle,getonemenuarticlesp,getonehlavnemenuarticle,getfotocollagesettings' WHERE `id_user_resource` = '27' AND `id` = '36';
@@ -63,9 +63,9 @@ SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
 DROP TABLE IF EXISTS `user_resource`;
 CREATE TABLE `user_resource` (
-  `id` int NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
-  `name` varchar(30) COLLATE utf8mb3_bin NOT NULL COMMENT 'Názov zdroja',
-  PRIMARY KEY (`id`)
+	`id` int NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
+	`name` varchar(30) COLLATE utf8mb3_bin NOT NULL COMMENT 'Názov zdroja',
+	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin COMMENT='Zdroje oprávnení';
 
 INSERT INTO `user_resource` (`id`, `name`) VALUES
@@ -109,15 +109,15 @@ INSERT INTO `user_resource` (`id`, `name`) VALUES
 
 DROP TABLE IF EXISTS `user_permission`;
 CREATE TABLE `user_permission` (
-  `id` int NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
-  `id_user_roles` int NOT NULL DEFAULT '0' COMMENT 'Užívateľská rola',
-  `id_user_resource` int NOT NULL COMMENT 'Zdroj',
-  `actions` varchar(255) COLLATE utf8mb3_bin DEFAULT NULL COMMENT 'Povolenie na akciu. (Ak viac oddelené čiarkou, ak null tak všetko)',
-  PRIMARY KEY (`id`),
-  KEY `id_user_roles` (`id_user_roles`),
-  KEY `id_user_resource` (`id_user_resource`),
-  CONSTRAINT `user_permission_ibfk_1` FOREIGN KEY (`id_user_roles`) REFERENCES `user_roles` (`id`),
-  CONSTRAINT `user_permission_ibfk_2` FOREIGN KEY (`id_user_resource`) REFERENCES `user_resource` (`id`)
+	`id` int NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
+	`id_user_roles` int NOT NULL DEFAULT '0' COMMENT 'Užívateľská rola',
+	`id_user_resource` int NOT NULL COMMENT 'Zdroj',
+	`actions` varchar(255) COLLATE utf8mb3_bin DEFAULT NULL COMMENT 'Povolenie na akciu. (Ak viac oddelené čiarkou, ak null tak všetko)',
+	PRIMARY KEY (`id`),
+	KEY `id_user_roles` (`id_user_roles`),
+	KEY `id_user_resource` (`id_user_resource`),
+	CONSTRAINT `user_permission_ibfk_1` FOREIGN KEY (`id_user_roles`) REFERENCES `user_roles` (`id`),
+	CONSTRAINT `user_permission_ibfk_2` FOREIGN KEY (`id_user_resource`) REFERENCES `user_resource` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin COMMENT='Užívateľské oprávnenia';
 
 INSERT INTO `user_permission` (`id`, `id_user_roles`, `id_user_resource`, `actions`) VALUES
@@ -169,3 +169,46 @@ INSERT INTO `user_permission` (`id`, `id_user_roles`, `id_user_resource`, `actio
 (48,	0,	32,	'getall'),
 (49,	0,	37,	NULL),
 (50,	0,	38,	NULL);
+
+-- updated in v 0.9.81
+
+ALTER TABLE `products`
+ADD `price` float NOT NULL DEFAULT '0' COMMENT 'Cena produktu v €';
+
+SET NAMES utf8;
+SET time_zone = '+00:00';
+SET foreign_key_checks = 0;
+SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
+
+DROP TABLE IF EXISTS `products_property`;
+CREATE TABLE `products_property` (
+	`id` int NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
+	`id_products` int NOT NULL COMMENT 'Id produktu',
+	`id_property` int NOT NULL COMMENT 'Id vlastnosti',
+	PRIMARY KEY (`id`),
+	KEY `id_products` (`id_products`),
+	KEY `id_property` (`id_property`),
+	CONSTRAINT `products_property_ibfk_1` FOREIGN KEY (`id_products`) REFERENCES `products` (`id`),
+	CONSTRAINT `products_property_ibfk_2` FOREIGN KEY (`id_property`) REFERENCES `property` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf32 COLLATE=utf32_bin;
+
+
+DROP TABLE IF EXISTS `property`;
+CREATE TABLE `property` (
+	`id` int NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
+	`name` varchar(100) CHARACTER SET utf32 COLLATE utf32_slovak_ci NOT NULL COMMENT 'Názov vlastnosti',
+	`id_property_categories` int NOT NULL COMMENT 'Kategória vlastnosti',
+	`price_increase_percentage` float DEFAULT NULL COMMENT 'Navýšenie ceny o percento',
+	`price_increase_price` float DEFAULT NULL COMMENT 'Navýšenie ceny o sumu',
+	PRIMARY KEY (`id`),
+	KEY `id_property_categories` (`id_property_categories`),
+	CONSTRAINT `property_ibfk_1` FOREIGN KEY (`id_property_categories`) REFERENCES `property_categories` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf32 COLLATE=utf32_bin COMMENT='Vlastnosti produktu';
+
+
+DROP TABLE IF EXISTS `property_categories`;
+CREATE TABLE `property_categories` (
+	`id` int NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
+	`name` varchar(50) CHARACTER SET utf32 COLLATE utf32_bin NOT NULL COMMENT 'Názov kategórie vlastností',
+	PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf32 COLLATE=utf32_bin COMMENT='Kategórie vlastností';

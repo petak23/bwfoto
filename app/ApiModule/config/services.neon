@@ -18,4 +18,5 @@ services:
 	- App\ApiModule\Presenters\VerziePresenter(%parameters%)
 
 	- DbTable\Fotocollage_settings
+	- DbTable\Products_property
 	- DbTable\User_permission
