@@ -44,10 +44,11 @@ export default {
 		delAll(e) {
 			this.$session.clear()
 			this.liked = []
-			this.$root.$emit("product-like-del-all", [])
+			this.$root.$emit("product-like-update", [])
 		},
 		delOne(id) {
 			this.$session.remove('like-' + id)
+			this.$root.$emit("product-like-update", [])
 			this.getFromSession()
 		}
 	},
@@ -63,6 +64,7 @@ export default {
 				this.$session.remove('like-' + liked[0].id_product)
 			this.getFromSession()
 		});
+		this.$root.$on("product-like-update", this.getFromSession);
 	}
 }
 </script>
@@ -95,6 +97,7 @@ export default {
 						<i class="fa-regular fa-trash-can text-danger"></i>
 					</b-button>
 				</span>
+				<a class="dropdown-item" :href="filePath + 'homepage/productlike'">Zobraz detaily</a>
 			</div>
 		</div>
 	</div>

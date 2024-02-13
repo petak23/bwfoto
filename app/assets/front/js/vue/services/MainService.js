@@ -110,6 +110,17 @@ export default {
 		return apiClient.get('udaje/getfromsettings' + (name.length ? '/'+name : ''))
 	},
 
+	// ---- products ----
+	getProductPropsCategories() {
+		return apiClient.get('products/productpropscategories')
+	},
+	getProduct(id) {
+		return apiClient.get('products/product/' + id)
+	},
+	postSaveProductProps(data) {
+		return apiClient.post('products/saveproductprops', data)
+	},
+
 
 	
 	// --- from vuemeteo...

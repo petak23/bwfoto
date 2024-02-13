@@ -12,15 +12,15 @@ use Nette\Http;
 /**
  * Zakladny presenter pre vsetky presentery v module API
  * 
- * Posledna zmena(last change): 20.03.2023
+ * Posledna zmena(last change): 11.01.2024
  *
  * Modul: API
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.6
+ * @version 1.0.7
  */
 abstract class BasePresenter extends Presenter
 {
@@ -99,9 +99,10 @@ abstract class BasePresenter extends Presenter
 		if ($this->user->isLoggedIn()) {
 			$exported_fields = ['id', 'id_user_roles', 'meno', 'priezvisko', 'email', 'pocet_pr', 'avatar', 'user_role'];
 			foreach ($exported_fields as $k) {
-				$out[$k] = $this->user->getIdentity()->data[$k];
+				$out['user'][$k] = $this->user->getIdentity()->data[$k];
 			}
-			$out['prihlas_teraz'] = $this->user->getIdentity()->data['prihlas_teraz']->format('d.m.Y H:i:s');
+			$out['user']['prihlas_teraz'] = $this->user->getIdentity()->data['prihlas_teraz']->format('d.m.Y H:i:s');
+			$out['status'] = '200';
 		} else {
 			$out = [
 				'status' => '401',
@@ -111,8 +112,8 @@ abstract class BasePresenter extends Presenter
 
 		$idur = $this->user->isLoggedIn() ? $this->user->getIdentity()->data['id_user_roles'] : 0;
 
-		$out['permission'] = $this->user_permission->getAllowedPermission($idur, true);
+		$out['user']['permission'] = $this->user_permission->getAllowedPermission($idur, true);
 
-		$this->sendJson(['result' => $out]);
+		$this->sendJson($out);
 	}
 }

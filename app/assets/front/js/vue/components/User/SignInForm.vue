@@ -1,13 +1,13 @@
 <script>
 /**
  * Komponenta pre prihlasovací formulár.
- * Posledna zmena 21.12.2023
+ * Posledna zmena 17.01.2024
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.0
+ * @version    1.0.1
  */
 
 import MainService from '../../services/MainService.js'
@@ -30,7 +30,7 @@ export default {
 			await MainService.postSignIn(this.form)
 			.then(response => {
 				if (response.data.status == 200) {
-					vm.$store.commit('SET_INIT_USER', response.data.result)
+					vm.$store.commit('SET_INIT_USER', response.data.user)
 					if (typeof (this.$store.state.user.id) != 'undefined') {
 						vm.$root.$emit("user-loadet", [])
 						vm.$root.$emit('flash_message', [{
@@ -44,7 +44,7 @@ export default {
 					// Tvrdé presmerovanie po prihlásení.
 					window.location.href = this.$store.state.basePath;
 				} else {
-					alert(response.data.error)
+					console.error(response.data)
 				}
 			})
 			.catch(error => {

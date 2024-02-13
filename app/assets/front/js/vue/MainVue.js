@@ -1,12 +1,12 @@
 /* 
  * Main Vue.js app file
- * Posledná zmena(last change): 19.12.2023
+ * Posledná zmena(last change): 13.02.2024
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @copyright Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.2.3
+ * @version 1.2.4
  */
 
 import Vue from 'vue';
@@ -16,6 +16,7 @@ import MySlider from './components/MySlider.vue';
 import MainArticleView from './views/MainArticleView.vue'
 import HomepageView from './views/HomepageView.vue'
 import LogInView from './views/LogInView.vue'
+import ProductsLikeView from './views/ProductsLikeView.vue'
 
 import EditArticle from '../../../components/EditArticle/EditArticle';
 import FlashMessage from '../../../components/FlashMessages/FlashMessage';
@@ -27,7 +28,7 @@ import store from "./store/index.js"
 import MainMenuLoad from "./components/Menu/MainMenuLoad.vue"
 import MainMenu from './components/Menu/MainMenu.vue'
 import Breadcrumb from './components/Menu/Breadcrumb.vue'
-import ProductsLike from './components/ProductsLike.vue'
+import ProductsLike from './components/ProductsLike/ProductsLike.vue'
 import ShowArticle from './components/ShowArticle.vue'
 import UserMenu from './components/User/UserMenu.vue'
 import ToogleMode from './components/ToggleMode.vue'
@@ -61,6 +62,7 @@ let vm = new Vue({
 		MainArticleView,
 		HomepageView,
 		LogInView,
+		ProductsLikeView,
 
 		BwfotoTreeMain,
 		MainMenu,
@@ -110,7 +112,7 @@ let vm = new Vue({
 	created() {
 		// Reaguje na načítanie hl. menu
 		this.$root.$on('darkModeChanged', data => {
-			console.log(data)
+			//console.log(data)
 			this.handleDarkModeChange(data);
 		})
 	}

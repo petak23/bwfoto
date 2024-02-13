@@ -1,13 +1,13 @@
 <script>
 /**
  * Komponenta pre načítanie hl. menu a textov prekladov.
- * Posledna zmena 07.12.2023
+ * Posledna zmena 17.01.2024
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.3
+ * @version    1.0.4
  */
 
 import MainService from '../../services/MainService.js'
@@ -94,17 +94,17 @@ export default {
 					console.log(error);
 				});
 		},
-		// Načítanie aktuálneho článku
+		// Načítanie aktuálneho užívateľa
 		getUser() {
 			MainService.getActualUserInfo(this.id_user_main)
 				.then(response => {
-					this.$store.commit('SET_INIT_USER', response.data.result)
+					this.$store.commit('SET_INIT_USER', response.data.user)
 					if (typeof(this.$store.state.user.id) != 'undefined') {
 						this.$root.$emit("user-loadet", [])
 					}
 				})
 				.catch((error) => {
-					console.log(error);
+					console.error(error);
 				});
 		},
 	},

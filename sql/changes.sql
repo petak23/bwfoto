@@ -40,9 +40,10 @@ CREATE TABLE `fotocollage_settings` (
 
 UPDATE `user_permission` SET `actions` = 'getsubmenu,getmenu,getonemenuarticle,getonemenuarticlesp,getonehlavnemenuarticle,getfotocollagesettings' WHERE `id_user_resource` = '27' AND `id` = '36';
 */
- -- updated in v 0.9.58
 
-INSERT INTO `user_permission` (`id_user_roles`, `id_user_resource`, `actions`)
+-- updated in v 0.9.58
+
+/*INSERT INTO `user_permission` (`id_user_roles`, `id_user_resource`, `actions`)
 SELECT '0', '32', 'getall'
 FROM `user_permission`
 WHERE `id_user_resource` = '32' AND ((`id` = '42'));
@@ -52,11 +53,11 @@ UPDATE `user_permission` SET
 `id_user_roles` = '0',
 `id_user_resource` = '27',
 `actions` = 'getsubmenu,getmenu,getonemenuarticle,getonemenuarticlesp,getonehlavnemenuarticle,getfotocollagesettings,getactualuserinfo'
-WHERE `id` = '36';
+WHERE `id` = '36';*/
 
 -- updated in v 0.9.80
 
-SET NAMES utf8;
+/*SET NAMES utf8;
 SET time_zone = '+00:00';
 SET foreign_key_checks = 0;
 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
@@ -168,17 +169,12 @@ INSERT INTO `user_permission` (`id`, `id_user_roles`, `id_user_resource`, `actio
 (47,	0,	36,	NULL),
 (48,	0,	32,	'getall'),
 (49,	0,	37,	NULL),
-(50,	0,	38,	NULL);
+(50,	0,	38,	NULL);*/
 
 -- updated in v 0.9.81
 
-ALTER TABLE `products`
+/*ALTER TABLE `products`
 ADD `price` float NOT NULL DEFAULT '0' COMMENT 'Cena produktu v €';
-
-SET NAMES utf8;
-SET time_zone = '+00:00';
-SET foreign_key_checks = 0;
-SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
 DROP TABLE IF EXISTS `products_property`;
 CREATE TABLE `products_property` (
@@ -211,4 +207,16 @@ CREATE TABLE `property_categories` (
 	`id` int NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
 	`name` varchar(50) CHARACTER SET utf32 COLLATE utf32_bin NOT NULL COMMENT 'Názov kategórie vlastností',
 	PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf32 COLLATE=utf32_bin COMMENT='Kategórie vlastností';
+) ENGINE=InnoDB DEFAULT CHARSET=utf32 COLLATE=utf32_bin COMMENT='Kategórie vlastností';*/
+
+-- updated in 0.9.82
+
+/*INSERT INTO `user_resource` (`name`)
+VALUES ('Front:Products');
+
+INSERT INTO `user_permission` (`id`, `id_user_roles`, `id_user_resource`, `actions`) VALUES
+(51,	3,	39,	NULL),
+(52,	0,	30,	'product');*/
+
+
+

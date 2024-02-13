@@ -1,13 +1,13 @@
 <script>
 /** 
  * Component Fotogalery
- * Posledná zmena(last change): 04.01.2024
+ * Posledná zmena(last change): 15.02.2024
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.6
+ * @version 1.1.8
  */
 
 import MainService from '../services/MainService.js'
@@ -217,9 +217,13 @@ export default {
 		this.$root.$on("bv::modal::shown", this.urovenUp);
 		this.$root.$on("bv::modal::hidden", this.urovenDwn);
 		
-		this.$root.$on("product-like-del-all", this.my_liked);
+		this.$root.$on("product-like-update", this.my_liked)
+
+		this.$root.$on("product_update_props", this.getAttachments)
 
 		this.getAttachments()
+
+
 	},
 
 };
@@ -334,7 +338,7 @@ export default {
 					</div>
 				</div>
 			</div> 
-			<div class="row d-none d-sm-flex justify-content-left" v-if="wid > 0 && aa != null">
+			<div class="row d-none d-sm-flex justify-content-left" v-if="wid > 0 ">
 				<div class="col-sm-8">
 					{{ aa.description }}
 					<products-properties

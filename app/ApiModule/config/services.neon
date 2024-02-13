@@ -19,4 +19,5 @@ services:
 
 	- DbTable\Fotocollage_settings
 	- DbTable\Products_property
+	- DbTable\Property
 	- DbTable\User_permission

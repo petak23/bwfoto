@@ -1,0 +1,51 @@
+{var $robots = noindex}
+
+{block #content}						{dump $property_data}
+<div class="col-12">
+	<h2>{$h2}</h2>
+	<div class="row">
+    <div class="col-12 col-md-6">
+			<a n:href="Products:EditPropsCat" class="ml-3 btn btn-sm btn-outline-success">Pridaj kategóriu</a>
+			<ul>
+				<li n:foreach="$property_data as $pc">
+					{$pc[0]['category']}
+					<a 	n:href="Products:EditPropsCat, $pc[0]['id_property_categories']" class="ml-3 btn btn-sm btn-outline-secondary" 
+							title="Edituj kategóriu: {$pc[0]['category']}"
+					><i class="fa-solid fa-pen"></i></a>
+					<a 	n:href="Products:EditProps, cat:$pc[0]['id_property_categories']" class="ml-0 btn btn-sm btn-outline-success" 
+							title="Pridaj vlastnosť do kategórie: {$pc[0]['category']}"
+					><i class="fa-solid fa-plus"></i></a>
+					<table class="table table-sm table-striped">
+						<tr n:foreach="$pc as $pn">
+							<td>{$pn['name']}</td>
+							<td>
+								{if $pn['price_increase_percentage'] != null}
+									+ {$pn['price_increase_percentage']} %
+								{else}
+									---
+								{/if}
+							</td>
+							<td>
+								{if $pn['price_increase_price'] != null}
+									+ {$pn['price_increase_price']} €
+								{else}
+									---
+								{/if}
+							</td>
+							<td>
+								<a n:href="Products:EditProps $pn['id']"><i class="fa-solid fa-pen"></i></a>
+								{if $pn['count'] }
+									({$pn['count']})
+								{elseif count($pc) != 1}
+									<a n:href="confirmForm:confirmDelete!, id: $pn['id'], nazov: $pn['name']" class="text-danger">
+										<i class="fa-solid fa-trash"></i>
+									</a>
+								{/if}
+							</td>
+						</tr>
+					</table>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
