@@ -61,6 +61,7 @@ export default {
 				liked: false
 			}],
 			liked: false,
+			in_basket: false,
 		}
 	},
 	methods: {
@@ -68,6 +69,7 @@ export default {
 		changebig(id) {
 			this.id = id
 			this.my_liked()
+			this.my_in_basket()
 		},
 		modalchangebig (id) {
 			this.id = id;
@@ -88,11 +90,13 @@ export default {
 		before() {
 			this.id = this.id <= 0 ? (this.attachments.length - 1) : this.id - 1;
 			this.my_liked();
+			this.my_in_basket()
 		},  
 		// Zmena id na  nasledujúce
 		after() {
 			this.id = this.id >= (this.attachments.length - 1) ? 0 : this.id + 1;
 			this.my_liked();
+			this.my_in_basket()
 		}, 
 		closeme: function(no) {
 			this.$bvModal.hide("modal-multi-" + no);
@@ -139,6 +143,7 @@ export default {
 					if (parseInt(this.first_id) > 0) { // Ak mám first_id tak k nemu nájdem položku v attachments
 						this.getFirstId(parseInt(this.first_id))
 						this.my_liked()
+						this.my_in_basket()
 						if (this.wid == 0) {
 							this.modalchangebig(this.id)
 						}
@@ -170,9 +175,19 @@ export default {
 		my_liked() {
 			this.attachments[this.id].liked = this.$session.has('like-' + this.attachments[this.id].id)
 			this.liked = this.attachments[this.id].liked
-			//console.log(this.liked)
-		}
-
+		},
+		basketInsert() {
+			let item = this.attachments[this.id]
+			this.$root.$emit("basket-insert", [{
+				id_product: item.id,
+				product: item,
+				id_article: this.$store.state.article.id_hlavne_menu,
+			}])
+		},
+		my_in_basket() {
+			this.attachments[this.id].in_basket = this.$session.has('basket-' + this.attachments[this.id].id)
+			this.in_basket = this.attachments[this.id].in_basket
+		},
 	},
 	created() {
 		window.addEventListener("resize", this.matchHeight);
@@ -218,6 +233,7 @@ export default {
 		this.$root.$on("bv::modal::hidden", this.urovenDwn);
 		
 		this.$root.$on("product-like-update", this.my_liked)
+		this.$root.$on("basket-update", this.my_in_basket)
 
 		this.$root.$on("product_update_props", this.getAttachments)
 
@@ -235,18 +251,32 @@ export default {
 			<div class="row" v-if="wid > 0">
 				<h4 class="col-8 bigimg-name d-flex justify-content-between">
 					{{ attachments[id].name }}
-					<button 
+					<div 
+						class="btn-group" role="group" aria-label="Tlačítka akcie"
 						v-if="attachments[id].type == 'product'"
-						type="button"
-						class="btn align-right"
-						:class="liked ? 'btn-success' : 'btn-outline-warning'"				
-						@click="saveLiked()"
+					>
+						<button
+							:title="liked ? 'Produkt je označený ako obľúbený.': 'Označ obľúbený produkt.'"	
+							type="button"
+							class="btn align-right"
+							:class="liked ? 'btn-success' : 'btn-outline-warning'"
+							@click="saveLiked()"
+							>
+							<i 
+								class="fa-solid"
+								:class="liked ? 'fa-heart' : 'fa-thumbs-up'"
+							></i>
+						</button>
+						<button 
+							:title="in_basket ? 'Produkt už je v košíku.' : 'Vlož do košíka.'"
+							type="button"
+							class="btn"
+							:class="in_basket ? 'btn-outline-secondary' : 'btn-success'"
+							@click="basketInsert()"
 						>
-						<i 
-							class="fa-solid"
-							:class="liked ? 'fa-heart' : 'fa-thumbs-up'"
-						></i>
-					</button>
+							<i class="fa-solid fa-basket-shopping"></i>
+						</button>
+					</div>
 				</h4>
 				<div class="col-4">&nbsp;</div>
 			</div>

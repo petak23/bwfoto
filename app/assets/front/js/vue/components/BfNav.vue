@@ -2,12 +2,14 @@
 import Autocomplete from './Autocomplete.vue';
 import BwfotoTreeMain from './Menu/BWfoto_Tree_Main.vue'
 import LangMenu from './LangMenu.vue'
+import BasketNav from './Basket/BasketNav'
 
 export default {
 	components: {
 		Autocomplete,
 		BwfotoTreeMain,
 		LangMenu,
+		BasketNav,
 	},
 	props: {
 		dirToImages: {
@@ -35,12 +37,12 @@ export default {
 	<nav id="topNav" class="navbar navbar-expand-md fixed-top">
 		<a class="navbar-brand ml-sm-5 p-3 logo" :href="linkHome" title="home">
 			<img v-if="base_img != null" :src="base_img + 'logo_bw-g.png'" alt="logo bw foto" class="logo">
-		</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse" 
+		</a>	
+		<button class="navbar-toggler bf-nt" type="button" data-toggle="collapse" 
 						data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" 
 						aria-expanded="false" aria-label="Toggle navigation"
 						id="topMenuButton">
-			<span class="fas fa-bars" style="font-size: 2rem;"></span>
+			<i class="fa-solid fa-bars" style="font-size: 2rem;"></i>
 		</button>
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<bwfoto-tree-main 
@@ -51,12 +53,17 @@ export default {
 			></autocomplete>
 
 			<lang-menu />
+
+			<basket-nav />
 		</div>
+		
 	</nav>
 </template>
 
 
 
-<style lang="sass" scoped>
-
+<style scoped>
+	.bf-nt{
+		background-color: rgba(128, 128, 128, .3)
+	}
 </style>

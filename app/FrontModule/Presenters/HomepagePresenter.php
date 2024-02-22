@@ -2,12 +2,10 @@
 
 namespace App\FrontModule\Presenters;
 
-//use Language_support;
-
 /**
  * Prezenter pre homepage.
  * 
- * Posledna zmena(last change): 13.02.2024
+ * Posledna zmena(last change): 22.02.2024
  *
  *	Modul: FRONT
  *
@@ -15,7 +13,7 @@ namespace App\FrontModule\Presenters;
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.6
+ * @version 1.1.7
  */
 class HomepagePresenter extends BasePresenter
 {
@@ -54,6 +52,11 @@ class HomepagePresenter extends BasePresenter
 
 	/** Zobrazí stránku vybraných obľúbených produktov */
 	public function actionProductLikeView(): void
+	{
+	}
+
+	/** Zobrazí stránku košíka produktov */
+	public function actionBasketView(): void
 	{
 	}
 }

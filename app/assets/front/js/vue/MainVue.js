@@ -17,6 +17,7 @@ import MainArticleView from './views/MainArticleView.vue'
 import HomepageView from './views/HomepageView.vue'
 import LogInView from './views/LogInView.vue'
 import ProductsLikeView from './views/ProductsLikeView.vue'
+import BasketView from './views/BasketView.vue'
 
 import EditArticle from '../../../components/EditArticle/EditArticle';
 import FlashMessage from '../../../components/FlashMessages/FlashMessage';
@@ -63,6 +64,7 @@ let vm = new Vue({
 		HomepageView,
 		LogInView,
 		ProductsLikeView,
+		BasketView,
 
 		BwfotoTreeMain,
 		MainMenu,
