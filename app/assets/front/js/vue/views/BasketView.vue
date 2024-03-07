@@ -1,68 +1,89 @@
 <script>
-	import BasketItem from "../components/Basket/BasketItem.vue";
+/**
+ * Hlavná časť pre prácu s nákupom.
+ * Posledna zmena 04.03.2024
+ *
+ * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
+ * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
+ * @license
+ * @link       http://petak23.echo-msz.eu
+ * @version    1.0.0
+ */
+
+	import BasketNavigation from "../components/Basket/BasketNavigation.vue"
+	import BasketList from "../components/Basket/BasketList.vue"
+	import BasketAdress from "../components/Basket/BasketAdress.vue"
+	import BasketShipping from "../components/Basket/BasketShipping.vue"
+	import BasketSumar from "../components/Basket/BasketSumar.vue"
 
 	export default {
 		components: {
-			BasketItem,
+			BasketNavigation, // Hlavá navigácie priebehu nákupu
+			BasketList, 			// Prvý krok: prehľad košíka
+			BasketAdress, 		// Druhý krok: zadanie adresy
+			BasketShipping,		// Tretí krok: doprava a platba
+			BasketSumar,			// Štvrtý krok: sumarizácia nákupu
+		},
+		props: {
+			view_part: {
+				type: String,
+				default: "1",
+			},
 		},
 		data() {
 			return {
-				product: [], // Array of Object {id_article: xx, id_product: xx, product: Object }
-				sum_price: 0, // Sumárna cena za produkty 
+				part: 1,
 			}
 		},
 		methods: {
-			getFromSession() {
-				this.product = []
-				this.sum_price = 0
-				for (const [key, value] of Object.entries(this.$session.getAll())) {
-					if (key.startsWith("basket")) {
-						let data = JSON.parse(value)
-						this.product.push(data)
-						this.sum_price += data.product.properties.final_price
-					}
-				}
-			},
-			my_basket() {
-				this.product = []
-				this.getFromSession()
+			test_part(p) {
+				let x = parseInt(p)
+				return x > 0 && x < 5 ? x : 1
 			}
 		},
-		mounted() {
-			this.$session.start()
+		watch: {
+			view_part(newValue) {
+				this.part = this.test_part(newValue)
+			}
+		},
+		mounted () {
+			this.part = this.test_part(this.view_part)
 
-			this.getFromSession()
-
-			this.$root.$on("basket-update", this.my_basket);
-		}
+			this.$root.$on('basket-view-part', item => {
+				this.part = this.test_part(item[0].view_part)
+			});
+			//this.$session.remove('adress-basket')
+		},
 	}
 </script>
 
 <template>
 	<div>
-		<div 
-			class="card mb-3 bg-dark" 
-			v-if="product.length"
-			v-for="i in product"
-			:key="i.id_product"
+		<basket-navigation 
+			:view_part="part"
+		/>
+		<!-- Prvý krok: prehľad košíka -->
+		<basket-list 
+			v-if="part == 1"
 		>
-			<basket-item
-				:basket-item="i"
-				:file-path="$store.state.basePath + '/'"
-			/>
-		</div>
-		<div class="text-right">
-			Výsledná cena: <b>{{ sum_price }} €</b>
-		</div>
-		
-		<div v-if="!product.length" class="alert alert-warning" role="alert">
-			<h4 class="alert-heading">Ups...</h4>
-			<p>Je nám to ľúto, ale Váš košík je prázdny...</p>
-			<hr>
-			<p class="mb-0">
-				Prosím, prejdite do časti 
-				<a :href="$store.state.basePath + '/clanky/produkty'" class="alert-link">produktov</a> a nejaké zvolte. 
-			</p>
+		</basket-list>
+		<!-- Druhý krok: zadanie adresy -->
+		<basket-adress 
+			v-else-if="part == 2"
+		>
+		</basket-adress>
+		<!-- Tretí krok: doprava a platba -->
+		<basket-shipping
+				v-else-if="part == 3"
+		>
+		</basket-shipping>
+		<!-- Štvrtý krok: sumarizácia nákupu -->
+		<basket-sumar 
+			v-else-if="part == 4"
+		>
+		</basket-sumar>
+		<div v-else>
+			{{ part }}
 		</div>
 	</div>
 </template>

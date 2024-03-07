@@ -1,15 +1,13 @@
 <script>
 /**
  * Komponenta pre vypísanie nákupného košíka v hlavnej ponuke.
- * Posledna zmena 21.02.2024
+ * Posledna zmena 04.03.2024
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.0
- * 
- * @description https://www.npmjs.com/package/vue-session
+ * @version    1.0.1
  */
 export default {
 	data() {
@@ -22,7 +20,7 @@ export default {
 			let spom = this.$session.getAll()
 			this.items = []
 			for (const [key, value] of Object.entries(spom)) {
-				if (key.startsWith("basket")) {
+				if (key.startsWith("basket-item")) {
 					this.items.push(JSON.parse(value))
 				}
 			}
@@ -33,7 +31,7 @@ export default {
 			this.$root.$emit("basket-update", [])
 		},*/
 		delOne(id) {
-			this.$session.remove('basket-' + id)
+			this.$session.remove('basket-item-' + id)
 			this.$root.$emit("basket-update", [])
 			this.getFromSession()
 		}
@@ -44,7 +42,7 @@ export default {
 		this.getFromSession()
 
 		this.$root.$on("basket-insert", item => {
-			this.$session.set('basket-' + item[0].id_product, JSON.stringify(item[0]))
+			this.$session.set('basket-item-' + item[0].id_product, JSON.stringify(item[0]))
 			this.$root.$emit("basket-update", [])
 		});
 		this.$root.$on("basket-update", this.getFromSession);
@@ -59,6 +57,7 @@ export default {
 			type="button"
 			data-toggle="dropdown"
 			aria-expanded="false"
+			:disabled="items.length == 0"
 		>
 	    <i class="fa-solid fa-basket-shopping"></i>
 			<span 

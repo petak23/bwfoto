@@ -8,13 +8,13 @@ use Nette\Application\Routers\RouteList;
 
 /**
  * Router
- * Posledna zmena 22.02.2024
+ * Posledna zmena 23.02.2024
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.1.4
+ * @version    1.1.5
  */
 class RouterFactory
 {
@@ -99,7 +99,7 @@ class RouterFactory
 				],
 			])
 			->addRoute('homepage/productlike', 'Homepage:productLikeView')
-			->addRoute('homepage/basket', 'Homepage:basketView')
+			->addRoute('homepage/basket/<id=1>', 'Homepage:basketView')
 			->addRoute('homepage/section[/id]', 'Homepage:default')
 			->addRoute('forgottenPassword', 'User:forgottenPassword')
 			->addRoute('profile', 'UserLog:default')

@@ -1,4 +1,14 @@
 <script>
+/**
+ * Komponenta pre vypísanie jednej položky nákupného košíka.
+ * Posledna zmena 07.03.2024
+ *
+ * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
+ * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
+ * @license
+ * @link       http://petak23.echo-msz.eu
+ * @version    1.0.0
+ */
 export default {
 	props: {
 		basketItem: {
@@ -12,7 +22,7 @@ export default {
 	},
 	methods: {
 		delMe() {
-			this.$session.remove('basket-' + this.basketItem.id_product)
+			this.$session.remove('basket-item-' + this.basketItem.id_product)
 			this.$root.$emit("basket-update", [])
 		}
 	},

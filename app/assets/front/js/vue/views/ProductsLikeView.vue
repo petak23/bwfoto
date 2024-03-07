@@ -60,7 +60,7 @@
 			  <p>Je nám to ľúto, ale žiaden obľúbený produkt sa nenašiel...</p>
 				<hr>
 				<p class="mb-0">
-					Prosím, prejdite do časti <a :href="filePath + 'clanky/produkty'" class="alert-link">produktov</a> a nejaké zvolte. 
+					Prosím, prejdite do časti <a :href="filePath + 'clanky/produkty'" class="alert-link">produktov</a> a nejaké zvoľte. 
 				</p>
 	  	
 		</div>

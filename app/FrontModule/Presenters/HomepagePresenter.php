@@ -5,7 +5,7 @@ namespace App\FrontModule\Presenters;
 /**
  * Prezenter pre homepage.
  * 
- * Posledna zmena(last change): 22.02.2024
+ * Posledna zmena(last change): 23.02.2024
  *
  *	Modul: FRONT
  *
@@ -13,7 +13,7 @@ namespace App\FrontModule\Presenters;
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.7
+ * @version 1.1.8
  */
 class HomepagePresenter extends BasePresenter
 {
@@ -56,7 +56,8 @@ class HomepagePresenter extends BasePresenter
 	}
 
 	/** Zobrazí stránku košíka produktov */
-	public function actionBasketView(): void
+	public function renderBasketView(int $id = 1): void
 	{
+		$this->template->view_part = $id;
 	}
 }

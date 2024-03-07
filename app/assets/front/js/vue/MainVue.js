@@ -39,6 +39,20 @@ import BfNav from './components/BfNav.vue'
 import VueSession from 'vue-session'
 Vue.use(VueSession)
 
+import sk from "./locale/vee-validator/sk.js"
+import VeeValidate, { Validator } from 'vee-validate'
+
+Vue.use(VeeValidate, {
+  classes: true,
+  classNames: {
+    valid: 'is-valid',
+    invalid: 'is-invalid'
+  }
+});
+
+// Localize takes the locale object as the second argument (optional) and merges it.
+Validator.localize('sk', sk);
+
 // Make BootstrapVue available throughout your project
 Vue.use(BootstrapVue);
 // Optionally install the BootstrapVue icon components plugin
