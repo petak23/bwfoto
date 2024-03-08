@@ -1,13 +1,13 @@
 <script>
 /**
  * Komponenta pre zadanie a editáciu kontaktných údajov.
- * Posledna zmena 07.03.2024
+ * Posledna zmena 08.03.2024
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.0
+ * @version    1.0.1
  */
 	import countryCodes from "../../plugins/country.js"
 
@@ -51,33 +51,18 @@
 				
 			},
 			getFromSession() {
-
-				this.f_data = JSON.parse(this.$session.get("basket-adress"))
-				//validator.validate()				
-				/*let spom = this.$session.getAll()
-				this.f_data = {}
-				for (const [key, value] of Object.entries(spom)) {
-					if (key.startsWith("basket-adress")) {
-						this.f_data = JSON.parse(value)
-					}
-				}*/
+				if (this.$session.has('basket-adress')) {
+					this.f_data = JSON.parse(this.$session.get("basket-adress"))
+				}
 			},
 		},
 		computed: {
-			/*isFormDirty() {
-				let oo = Object.keys(this.fields).some(key => this.fields[key].dirty);
-				console.log("oo:" + oo);
-				return oo
-			},
-			isFormTouched() {
-				return Object.keys(this.fields).some(key => this.fields[key].touched);
-			},*/
 			isFormValid() {
 				return Object.keys(this.fields).every(key => this.fields[key].valid);
 			}
 		},
 		created () {
-			if (this.$session.has('basket-adress')) this.getFromSession()
+			this.getFromSession()
 		},
 	}
 </script>
@@ -146,7 +131,7 @@
 					<input type="text" class="form-control" 
 						name="inputPsc"
 						id="inputPsc" required
-						v-validate="'required|min:5'"
+						v-validate="'required|numeric|length:5'"
 						data-vv-as="PSČ"
 						v-model="f_data.psc"
 					>
@@ -187,36 +172,62 @@
 			<div class="collapse" id="collapseFirm">
 				<div class="form-group">
 					<label for="inputFirmName">Firma:</label>
-					<input type="text" class="form-control" id="inputFirmName">
+					<input type="text" 
+						class="form-control" id="inputFirmName"
+						v-model="f_data.firm.name"
+					>
 				</div>
 				<div class="form-group">
 					<label for="inputFirmIco">IČO:</label>
-					<input type="text" class="form-control" id="inputFirmIco">
+					<input type="text" 
+						class="form-control" id="inputFirmIco"
+						v-model="f_data.firm.ico"
+					>
 				</div>
 				<div class="form-group">
 					<label for="inputFirmDic">DIČ:</label>
-					<input type="text" class="form-control" id="inputFirmDic">
+					<input type="text" 
+						class="form-control" id="inputFirmDic"
+						v-model="f_data.firm.dic"
+					>
 				</div>
 				<div class="form-group">
 					<label for="inputFirmIcdph">IČ DPH:</label>
-					<input type="text" class="form-control" id="inputFirmIcdph">
+					<input type="text" 
+						class="form-control" id="inputFirmIcdph"
+						v-model="f_data.firm.icdph"
+					>
 				</div>
 				<div class="form-group">
 					<label for="inputFirmAdress">Ulica a číslo domu:</label>
-					<input type="text" class="form-control" id="inputFirmAdress">
+					<input type="text"
+						class="form-control" id="inputFirmAdress"
+						v-model="f_data.firm.street"
+					>
 				</div>
 				<div class="form-row">
 					<div class="form-group col-md-4">
 						<label for="inputFirmCity">Mesto:</label>
-						<input type="text" class="form-control" id="inputFirmCity">
+						<input type="text" 
+							class="form-control" id="inputFirmCity"
+							v-model="f_data.firm.town"
+						>
 					</div>
 					<div class="form-group col-md-4">
 						<label for="inputFirmPsc">PSČ(bez medzery):</label>
-						<input type="text" class="form-control" id="inputFirmPsc">
+						<input type="text" 
+							class="form-control" id="inputFirmPsc" 
+							v-validate="'numeric|length:5'"
+							data-vv-as="PSČ firmy"
+							v-model="f_data.firm.psc"
+						>
 					</div>
 					<div class="form-group col-md-4">
 						<label for="inputFirmState">Štát:</label>
-						<select id="inputFirmState" class="form-control" >
+						<select id="inputFirmState" 
+							class="form-control" 
+							v-model="f_data.firm.country"
+						>
 							<option selected disabled>Vyber...</option>
 							<option v-for="c in country" :key="c.code" value="c.code">{{ c.name }}</option>
 						</select>
@@ -232,20 +243,34 @@
 			<div class="collapse" id="collapseAdress2">
 				<div class="form-group">
 					<label for="inputAdress2">Ulica a číslo domu:</label>
-					<input type="text" class="form-control" id="inputAdress2">
+					<input type="text" 
+						class="form-control" id="inputAdress2"
+						v-model="f_data.adress2.street"
+					>
 				</div>
 				<div class="form-row">
 					<div class="form-group col-md-4">
 						<label for="inputCity2">Mesto:</label>
-						<input type="text" class="form-control" id="inputCity2">
+						<input type="text" 
+							class="form-control" id="inputCity2"
+							v-model="f_data.adress2.town"
+						>
 					</div>
 					<div class="form-group col-md-4">
 						<label for="inputPsc2">PSČ(bez medzery):</label>
-						<input type="text" class="form-control" id="inputPsc2">
+						<input type="text" 
+							class="form-control" id="inputPsc2"
+							v-validate="'numeric|length:5'"
+							data-vv-as="PSČ inej dodacej adresy"
+							v-model="f_data.adress2.psc"
+						>
 					</div>
 					<div class="form-group col-md-4">
 						<label for="inputState2">Štát:</label>
-						<select id="inputState2" class="form-control" >
+						<select id="inputState2" 
+							class="form-control"
+							v-model="f_data.adress2.country"
+						>
 							<option selected disabled>Vyber...</option>
 							<option v-for="c in country" :key="c.code" value="c.code">{{ c.name }}</option>
 						</select>

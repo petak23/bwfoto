@@ -1,13 +1,13 @@
 <script>
 /** 
  * Component Fotogalery
- * Posledná zmena(last change): 15.02.2024
+ * Posledná zmena(last change): 08.03.2024
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.8
+ * @version 1.1.9
  */
 
 import MainService from '../services/MainService.js'
@@ -185,7 +185,7 @@ export default {
 			}])
 		},
 		my_in_basket() {
-			this.attachments[this.id].in_basket = this.$session.has('basket-' + this.attachments[this.id].id)
+			this.attachments[this.id].in_basket = this.$session.has('basket-item-' + this.attachments[this.id].id)
 			this.in_basket = this.attachments[this.id].in_basket
 		},
 	},
