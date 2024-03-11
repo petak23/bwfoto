@@ -218,5 +218,28 @@ INSERT INTO `user_permission` (`id`, `id_user_roles`, `id_user_resource`, `actio
 (51,	3,	39,	NULL),
 (52,	0,	30,	'product');*/
 
+-- updated in 0.9.86
 
+ALTER TABLE `user_main`
+CHANGE `meno` `name` varchar(80) COLLATE 'utf8mb3_bin' NOT NULL COMMENT 'Meno' AFTER `password`,
+CHANGE `created` `created` datetime NOT NULL COMMENT 'Vytvorenie užívateľa' AFTER `last_ip`;
 
+ALTER TABLE `user_main`
+CHANGE `password` `password` varchar(255) COLLATE 'utf32_bin' NOT NULL COMMENT 'Heslo' AFTER `id_user_profiles`,
+CHANGE `name` `name` varchar(80) COLLATE 'utf32_bin' NOT NULL COMMENT 'Meno' AFTER `password`,
+CHANGE `priezvisko` `priezvisko` varchar(50) COLLATE 'utf32_bin' NOT NULL COMMENT 'Priezvisko' AFTER `name`,
+CHANGE `email` `email` varchar(100) COLLATE 'utf32_bin' NOT NULL COMMENT 'Email' AFTER `priezvisko`,
+CHANGE `ban_reason` `ban_reason` varchar(255) COLLATE 'utf32_bin' NULL COMMENT 'Dôvod zákazu' AFTER `banned`,
+CHANGE `new_password_key` `new_password_key` varchar(100) COLLATE 'utf32_bin' NULL COMMENT 'Kľúč nového hesla' AFTER `ban_reason`,
+CHANGE `new_email` `new_email` varchar(100) COLLATE 'utf32_bin' NULL COMMENT 'Nový email' AFTER `new_password_requested`,
+CHANGE `new_email_key` `new_email_key` varchar(100) COLLATE 'utf32_bin' NULL COMMENT 'Kľúč nového emailu' AFTER `new_email`,
+CHANGE `last_ip` `last_ip` varchar(40) COLLATE 'utf32_bin' NULL COMMENT 'Posledná IP' AFTER `new_email_key`,
+CHANGE `created` `created` datetime NULL COMMENT 'Vytvorenie užívateľa' AFTER `last_ip`,
+COLLATE 'utf32_bin';
+
+UPDATE `user_main` SET `name` = 'Peter Vojtech' WHERE `id` = '1';
+UPDATE `user_main` SET `name` = 'Juraj Zámečník' WHERE `id` = '2';
+UPDATE `user_main` SET `name` = 'Jozef Petrenčík' WHERE `id` = '3';
+
+ALTER TABLE `user_main`
+DROP `priezvisko`;

@@ -10,13 +10,13 @@ use Nette\Security\User;
 /**
  * Model, ktory sa stara o tabulku user_main
  * 
- * Posledna zmena 24.02.2023
+ * Posledna zmena 11.03.2024
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.7
+ * @version    1.0.8
  */
 class User_main extends Table
 {
@@ -26,8 +26,7 @@ class User_main extends Table
     COLUMN_ID_USER_PROFILES = 'id_user_profiles',
     COLUMN_PASSWORD_HASH = 'password',
     COLUMN_TITUL_PRED = 'titul_pred',
-    COLUMN_MENO = 'meno',
-    COLUMN_PRIEZVISKO = 'priezvisko',
+    COLUMN_NAME = 'name',
     COLUMN_TITUL_ZA = 'titul_za',
     COLUMN_EMAIL = 'email',
     COLUMN_ACTIVATED = 'activated',
@@ -62,8 +61,7 @@ class User_main extends Table
   /** Adds new user.
    * @throws DuplicateEmailException */
   public function add(
-    string $meno,
-    string $priezvisko,
+    string $name,
     string $email,
     string $password,
     int $activated = 0,
@@ -72,8 +70,7 @@ class User_main extends Table
     try {
       $user_profiles = $this->connection->table('user_profiles')->insert([]);
       return $this->pridaj([
-        self::COLUMN_MENO             => $meno,
-        self::COLUMN_PRIEZVISKO       => $priezvisko,
+        self::COLUMN_NAME             => $name,
         self::COLUMN_PASSWORD_HASH    => $this->passwords->needsRehash($password),
         self::COLUMN_EMAIL            => $email,
         self::COLUMN_ID_USER_PROFILES => $user_profiles->id,
@@ -119,11 +116,11 @@ class User_main extends Table
     foreach ($u as $v) {
       if ($verzia == 1) {
         $out[] = [
-          'text' => $v->{self::COLUMN_MENO} . " " . $v->{self::COLUMN_PRIEZVISKO},
+          'text' => $v->{self::COLUMN_NAME},
           'value' => $v->{self::COLUMN_ID},
         ];
       } else {
-        $out[$v->{self::COLUMN_ID}] = $v->{self::COLUMN_MENO} . " " . $v->{self::COLUMN_PRIEZVISKO};
+        $out[$v->{self::COLUMN_ID}] = $v->{self::COLUMN_NAME};
       }
     }
     return $out;

@@ -1,13 +1,13 @@
 <script>
 /**
  * Komponenta pre užívateľkú ponuku - prihlásený užívateľ.
- * Posledna zmena 11.10.2023
+ * Posledna zmena 11.03.2024
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.0
+ * @version    1.0.1
  */
 export default {
 	props: {
@@ -30,13 +30,13 @@ export default {
 	},
 	data() {
 		return {
-			meno: "",
+			name: "",
 			texts: {},
 		}
 	},
 	methods: {
 		load_data() {
-			this.meno = this.$store.state.user.meno + ' ' + this.$store.state.user.priezvisko
+			this.name = this.$store.state.user.name
 			this.texts.admin_text = this.$store.state.texts.base_AdminLink_name
 			this.texts.log_out = this.$store.state.texts.log_out
 		}
@@ -59,11 +59,11 @@ export default {
 	<div class="btn-group user-lang-menu" role="group" aria-label="User-lang-menu">
 		<a 
 			:href="userLogLink" 
-			:title="meno" 
+			:title="name" 
 			role="button" 
 			class="btn btn-outline-info btn-sm" 
 		>
-			{{ meno }}
+			{{ name }}
 		</a>
 		<a 
 			v-if="adminLink != null"

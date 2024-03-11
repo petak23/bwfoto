@@ -17,7 +17,7 @@
               <button class="btn {if $iterator->first}btn-success{else}btn-light{/if}" type="button" data-toggle="collapse" data-target="#collapse{$ve->id}" aria-expanded="true" aria-controls="collapse{$ve->id}">
                 <strong>{$ve->cislo}</strong>
                 <small>&nbsp;|&nbsp;<span class="ver-datum">{$ve->modified|date:'j.n.Y'}</span>&nbsp;|&nbsp;
-                <span>(Zadal {$ve->user_main->meno} {$ve->user_main->priezvisko})</span></small>
+                <span>(Zadal {$ve->user_main->name})</span></small>
               </button>
             </h5>
           </div>

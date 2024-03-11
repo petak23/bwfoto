@@ -14,15 +14,15 @@ use Nette\Utils\Random;
 /**
  * Prezenter pre spravu uzivatela po prihlásení.
  * (c) Ing. Peter VOJTECH ml.
- * Posledna zmena(last change): 05.01.2023
+ * Posledna zmena(last change): 11.03.2024
  *
  *	Modul: FRONT
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.2.2
+ * @version 1.2.3
  */
 class UserLogPresenter extends BasePresenter
 {
@@ -102,7 +102,7 @@ class UserLogPresenter extends BasePresenter
 
   public function actionMailChange()
   {
-    $this->template->h2 = sprintf($this->texty_presentera->translate('mail_change_h2'), $this->uzivatel->meno, $this->uzivatel->priezvisko);
+    $this->template->h2 = sprintf($this->texty_presentera->translate('mail_change_h2'), $this->uzivatel->name);
     $this->template->email = sprintf($this->texty_presentera->translate('mail_change_txt'), $this->uzivatel->email);
   }
 
@@ -193,7 +193,7 @@ class UserLogPresenter extends BasePresenter
 
   public function actionPasswordChange()
   {
-    $this->template->h2 = sprintf($this->texty_presentera->translate('pass_change_h2'), $this->uzivatel->meno, $this->uzivatel->priezvisko);
+    $this->template->h2 = sprintf($this->texty_presentera->translate('pass_change_h2'), $this->uzivatel->name);
   }
 
   /**

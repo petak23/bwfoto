@@ -4,7 +4,7 @@
 # If you don't protect this directory from direct web access, anybody will be able to see your passwords.
 # http://nette.org/security-warning
 #
-# Last change 11.10.2023
+# Last change 11.03.2024
 #
 base_lang_not_def: 'Language you require is not defined for this site!'
 base_nie_je_opravnenie1: 'You do not have enough privileges for this operation!'
@@ -109,6 +109,11 @@ clanky_h3_suvisiace_podcl: 'Related Subfolders'
 
 galery_arrows_before: 'before'
 galery_arrows_after: 'after'
+
+UserEditForm_name: 'Name & SURNAME:'
+UserEditForm_name_ar: 'Name & last name must have at least %d characters!'
+UserEditForm_name_sr: 'Name & last name is required!'
+UserEditForm_name_de: 'Enter the first and last name in the form: John CARTER.'
 
 #Error
 err_403_h2: 'Access Denied'

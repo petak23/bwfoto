@@ -8,13 +8,13 @@ use Nette\Database;
 /**
  * Model, ktory sa stara o tabulku user_in_categories
  * 
- * Posledna zmena 05.01.2023
+ * Posledna zmena 11.03.2024
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.2
+ * @version    1.0.3
  */
 class User_in_categories extends Table
 {
@@ -57,10 +57,10 @@ class User_in_categories extends Table
    * Pre formular pre pridanie dietata */
   public function parentForForm(): array
   {
-    $p = $this->findBy(['user_categories.main_category' => 'B'])->order('user_main.priezvisko ASC, user_main.meno ASC');
+    $p = $this->findBy(['user_categories.main_category' => 'B'])->order('user_main.name ASC');
     $out = [];
     foreach ($p as $r) {
-      $out[$r->id_user_main] = $r->user_main->meno . " " . $r->user_main->priezvisko;
+      $out[$r->id_user_main] = $r->user_main->name;
     }
     return $out;
   }

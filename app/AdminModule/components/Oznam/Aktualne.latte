@@ -8,7 +8,7 @@
         </span>
       </h3>
       <p>{$o->text|koncova_znacka|noescape}</p>
-      <div class="meno">{$o->user_profiles->meno} {$o->user_profiles->priezvisko}</div>
+      <div class="meno">{$o->user_profiles->name}</div>
     </article>
   {else}
     <span class="stav st_info">Nie je žiadna aktuálna aktualita(oznam)</span>

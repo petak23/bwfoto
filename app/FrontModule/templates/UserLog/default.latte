@@ -11,7 +11,7 @@
     <a n:href="UserLog:passwordChange" title="{_'default_pass_change'}" class="btn btn-warning" role="button">
       <i class="fa fa-key"></i> {_'default_pass_change'}
     </a>
-    <a n:if="$uzivatel->id > 1 && $user_view_fields['delete']" href="{link confirmForm:confirmDelete! id => $uzivatel->id, nazov => $uzivatel->priezvisko, zdroj_na_zmazanie => $zdroj_na_zmazanie}" title="{_'default_delete'} {$uzivatel->priezvisko}" class="btn btn-danger" role="button">
+    <a n:if="$uzivatel->id > 1 && $user_view_fields['delete']" href="{link confirmForm:confirmDelete! id => $uzivatel->id, nazov => $uzivatel->name, zdroj_na_zmazanie => $zdroj_na_zmazanie}" title="{_'default_delete'} {$uzivatel->name}" class="btn btn-danger" role="button">
       <i class="fa fa-remove"></i> {_'default_delete'}
     </a>
   </div>

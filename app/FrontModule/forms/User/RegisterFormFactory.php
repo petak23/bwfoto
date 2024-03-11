@@ -10,13 +10,13 @@ use Nette\Security;
 
 /**
  * Registracny formular
- * Posledna zmena 04.07.2023
+ * Posledna zmena 11.03.2024
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.1.2
+ * @version    1.1.3
  */
 class RegisterFormFactory
 {
@@ -54,15 +54,11 @@ class RegisterFormFactory
 		$form = new Form();
 		$form->addProtection();
 		$form->setTranslator($this->texts);
-		$form->addText('meno', 'RegistraciaForm_meno')
-			->setHtmlAttribute('maxlength', 50)
+		$form->addText('name', 'RegistraciaForm_meno')
+			->setHtmlAttribute('maxlength', 80)
 			->addRule(Form::MIN_LENGTH, 'RegistraciaForm_meno_ar', 2)
 			->setHtmlAttribute('autofocus', 'autofocus')
 			->setRequired('RegistraciaForm_meno_sr');
-		$form->addText('priezvisko', 'RegistraciaForm_priezvisko')
-			->setHtmlAttribute('maxlength', 50)
-			->addRule(Form::MIN_LENGTH, 'RegistraciaForm_priezvisko_ar', 3)
-			->setRequired('RegistraciaForm_priezvisko_sr');
 		$form->addEmail('email', 'Form_email')
 			->addRule(Form::EMAIL, 'Form_email_ar')
 			->setRequired('Form_email_sr');
@@ -104,8 +100,7 @@ class RegisterFormFactory
 		if (($uloz_user_profiles = $this->user_profiles->uloz(['pohl' => isset($values->pohl) ? $values->pohl : 'Z'])) !== FALSE) { //Ulozenie v poriadku
 			$this->user_main->uloz([
 				'id_user_profiles' => $uloz_user_profiles['id'],
-				'meno'      => $values->meno,
-				'priezvisko' => $values->priezvisko,
+				'meno'      => $values->name,
 				'password'  => $this->passwords->hash($values->heslo),
 				'email'     => $values->email,
 				'activated' => 0,

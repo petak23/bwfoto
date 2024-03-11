@@ -29,8 +29,8 @@
 	</div>
 
 	<div n:snippet="zmenVlastnika" class="btn-group btn-group-sm edit-link-bar" role="group" aria-label="zmen-vlastnika-link">
-		<div class="btn btn-outline-info disabled" title="Zadal: {$clanok->hlavne_menu->user_main->meno} {$clanok->hlavne_menu->user_main->priezvisko}" type="button">
-			<i class="fas fa-user"></i> {$clanok->hlavne_menu->user_main->meno} {$clanok->hlavne_menu->user_main->priezvisko}
+		<div class="btn btn-outline-info disabled" title="Zadal: {$clanok->hlavne_menu->user_main->name}" type="button">
+			<i class="fas fa-user"></i> {$clanok->hlavne_menu->user_main->name}
 		</div>
 		<button n:if="$admin_links['vlastnik']" type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#myModalUserChange" title="Zmeň vlastníka položky"><i class="fas fa-pencil-alt"></i></button>
 	</div>

@@ -12,15 +12,15 @@ use PeterVojtech\Email;
 /**
  * Prezenter pre prihlasenie, registraciu a aktiváciu uzivatela, 
  * obnovenie zabudnutého hesla a zresetovanie hesla.
- * Posledna zmena(last change): 04.07.2023
+ * Posledna zmena(last change): 11.03.2024
  *
  *	Modul: FRONT
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.3.0
+ * @version 1.3.1
  */
 class UserPresenter extends BasePresenter
 {
@@ -78,7 +78,7 @@ class UserPresenter extends BasePresenter
 		$form = $this->signInForm->create($this->language);
 		$form['login']->onClick[] = function () {
 			$useri = $this->user->getIdentity();
-			$this->myMailer->sendAdminMail("Prihlásenie", "Prihlásenie užívateľa:" . $useri->meno . " " . $useri->priezvisko);
+			$this->myMailer->sendAdminMail("Prihlásenie", "Prihlásenie užívateľa:" . $useri->name);
 			$this->flashMessage($this->texty_presentera->translate('base_login_ok'), 'success');
 			$this->restoreRequest($this->backlink);
 			$this->redirect('Homepage:');
@@ -106,7 +106,7 @@ class UserPresenter extends BasePresenter
 		$user_main_data = $this->user_main->find($id); // Najdi uzivatela
 		if ($new_password_key == $user_main_data->new_password_key) { //Aktivacne data su v poriadku
 			$user_main_data->update(['id_user_roles' => 1, 'activated' => 1, 'new_password_key' => NULL]); // Aktivacia uzivatela
-			$this->myMailer->sendAdminMail("Aktivácia", "Aktivácia užívateľa:" . $user_main_data->meno . " " . $user_main_data->priezvisko);
+			$this->myMailer->sendAdminMail("Aktivácia", "Aktivácia užívateľa:" . $user_main_data->name);
 			$this->user_profiles->uloz(['news' => 'A', 'news_key' => $this->passwords->hash($user_main_data->email . "news=>A")], $user_main_data->id_user_profiles);  // Zapnutie posielania noviniek pri aktivacii
 			$this->flashRedirect('User:', $this->texty_presentera->translate('activate_ok'), 'success');
 		} else { //Neuspesna aktivacia
@@ -153,8 +153,7 @@ class UserPresenter extends BasePresenter
 		if (($uloz_user_profiles = $this->user_profiles->uloz(['pohl' => isset($values->pohl) ? $values->pohl : 'Z'])) !== FALSE) { //Ulozenie v poriadku
 			$uloz_user_main = $this->user_main->uloz([
 				'id_user_profiles' => $uloz_user_profiles['id'],
-				'meno'      => $values->meno,
-				'priezvisko' => $values->priezvisko,
+				'meno'      => $values->name,
 				'password'  => $this->passwords->hash($values->heslo),
 				'email'     => $values->email,
 				'activated' => 0,
@@ -177,7 +176,7 @@ class UserPresenter extends BasePresenter
 
 				$this->user_main->find($uloz_user_main['id'])->update(['new_password_key' => $new_password_key]);
 				$this->flashMessage($this->texty_presentera->translate('register_email_ok'), 'success');
-				$this->myMailer->sendAdminMail("Registrácia", "Registrácia užívateľa:" . $uloz_user_main->meno . " " . $uloz_user_main->priezvisko);
+				$this->myMailer->sendAdminMail("Registrácia", "Registrácia užívateľa:" . $uloz_user_main->name);
 			} catch (Email\SendException $e) {
 				$this->flashMessage($this->texty_presentera->translate('send_email_err') . $e->getMessage(), 'danger,n');
 			}
@@ -227,7 +226,7 @@ class UserPresenter extends BasePresenter
 					'new_password_requested' => date("Y-m-d H:i:s", Time())
 				]);
 				$this->flashMessage($this->texty_presentera->translate('forgot_pass_email_ok'), 'success');
-				$this->myMailer->sendAdminMail("Zabudnuté heslo", "Požiadavka na zabudnuté heslo užívateľa:" . $user_forg->meno . " " . $user_forg->priezvisko);
+				$this->myMailer->sendAdminMail("Zabudnuté heslo", "Požiadavka na zabudnuté heslo užívateľa:" . $user_forg->name);
 			} catch (Email\SendException $e) {
 				$this->flashMessage($this->texty_presentera->translate('send_email_err') . $e->getMessage(), 'danger,n');
 			}
@@ -258,7 +257,7 @@ class UserPresenter extends BasePresenter
 		if ($user_for_unsubscribe !== FALSE && $user_for_unsubscribe->user_profiles->news_key == $news_key) {
 			$user_for_unsubscribe->user_profiles->update(['news' => "N", 'news_key' => NULL]);
 			$this->flashMessage(sprintf($this->texty_presentera->translate('unsubscribe_news_ok'), $user_for_unsubscribe->email), 'success');
-			$this->myMailer->sendAdminMail("Zrušenie noviniek", "Odhlásenie z noviniek užívateľa:" . $user_for_unsubscribe->meno . " " . $user_for_unsubscribe->priezvisko);
+			$this->myMailer->sendAdminMail("Zrušenie noviniek", "Odhlásenie z noviniek užívateľa:" . $user_for_unsubscribe->name);
 		} else {
 			$this->flashMessage($this->texty_presentera->translate('unsubscribe_news_err'), 'danger');
 		}

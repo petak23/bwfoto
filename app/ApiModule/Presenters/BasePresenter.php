@@ -12,7 +12,7 @@ use Nette\Http;
 /**
  * Zakladny presenter pre vsetky presentery v module API
  * 
- * Posledna zmena(last change): 11.01.2024
+ * Posledna zmena(last change): 11.03.2024
  *
  * Modul: API
  *
@@ -20,7 +20,7 @@ use Nette\Http;
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.7
+ * @version 1.0.8
  */
 abstract class BasePresenter extends Presenter
 {
@@ -97,7 +97,7 @@ abstract class BasePresenter extends Presenter
 	{
 		$out = [];
 		if ($this->user->isLoggedIn()) {
-			$exported_fields = ['id', 'id_user_roles', 'meno', 'priezvisko', 'email', 'pocet_pr', 'avatar', 'user_role'];
+			$exported_fields = ['id', 'id_user_roles', 'name', 'email', 'pocet_pr', 'avatar', 'user_role'];
 			foreach ($exported_fields as $k) {
 				$out['user'][$k] = $this->user->getIdentity()->data[$k];
 			}

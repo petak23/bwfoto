@@ -12,7 +12,7 @@
     <span n:ifset="$clanok->hlavne_menu->datum_platnosti">
      {$texts->trText('base_platnost_do')}{$clanok->hlavne_menu->datum_platnosti|date:'j.n.Y'}
     </span>
-    <span n:if="$clanok_hlavicka & 2">{$texts->trText('base_zadal')}{$clanok->hlavne_menu->user_profiles->priezvisko}</span>
+    <span n:if="$clanok_hlavicka & 2">{$texts->trText('base_zadal')}{$clanok->hlavne_menu->user_profiles->name}</span>
   </div>
 </div>
 

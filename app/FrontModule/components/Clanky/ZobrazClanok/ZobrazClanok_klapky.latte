@@ -9,7 +9,7 @@
     <span n:ifset="$clanok->hlavne_menu->datum_platnosti">
      {$texty["platnost_do"]}{$clanok->hlavne_menu->datum_platnosti|date:'j.n.Y'}
     </span>
-    <span n:if="$clanok_hlavicka & 2">{$texty["zadal"]}{$clanok->hlavne_menu->user_profiles->priezvisko}</span>
+    <span n:if="$clanok_hlavicka & 2">{$texty["zadal"]}{$clanok->hlavne_menu->user_profiles->name}</span>
   </div>
   <div n:if="$clanok->text" class="text-clanku">
     {$clanok->text_c|obr_v_txt|koncova_znacka|noescape}
