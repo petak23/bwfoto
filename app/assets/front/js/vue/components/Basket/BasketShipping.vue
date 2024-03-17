@@ -106,7 +106,7 @@ export default {
 					<textarea 
 						v-model="f_data.notice"
 						
-						data-vv-as="Telefon"
+						data-vv-as="Telefón"
 					>
 					</textarea>
 				</div>

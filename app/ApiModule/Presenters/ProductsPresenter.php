@@ -4,6 +4,7 @@ namespace App\ApiModule\Presenters;
 
 use DbTable;
 use Nette\Http\FileUpload;
+use Nette\Utils\Json;
 
 /**
  * Prezenter pre pristup k api produktov.
@@ -235,5 +236,55 @@ class ProductsPresenter extends BasePresenter
 		$_price = $this->products->repair($values['id_products'], ['price' => $values['price']]);
 
 		$this->sendJson(array_merge($out, ['price' => $_price->price]));
+	}
+
+	/* ----------------------------- Nákupy ------------------------------- */
+
+	/** @var DbTable\User_main @inject */
+	public $user_main;
+	/** @var DbTable\Nakup @inject */
+	public $nakup;
+	/** @var DbTable\User_profiles @inject */
+	public $user_profiles;
+
+	public function actionNakup(): void
+	{
+		/* from POST: */
+		$values = json_decode(file_get_contents("php://input"), true); // @help 1.)
+		dumpe($values);
+
+		$profile = [
+			'phone' => $values['adress']['phone'],
+			'street' => $values['adress']['street'],
+			'town' =>	$values['adress']['town'],
+			'psc' =>	$values['adress']['psc'],
+			'country' => $values['adress']['country'],
+			'adress2'	=> strlen($values['adress']['adress2']['town']) ? Json::encode($values['adress']['adress2']) : null,
+			'firm'	=> strlen($values['adress']['firm']['name']) ? Json::encode($values['adress']['firm']) : null,
+		];
+
+		if ($this->user->isLoggedIn() && $values['adress']['email'] == $this->user->getIdentity()->email) {
+			$u = $this->user_main->find($this->user->getId());
+			if ($this->user->getIdentity()->name != $values['adress']['name']) $u->update(['name' => $values['adress']['name']]);
+			$this->user_profiles->repair($u->id_user_profiles, $profile);
+		} else {
+			$u = $this->add($values['adress']['name'], $values['adress']['email'], null, 0, 0, $profile);
+		}
+
+		$data_nakup = $this->nakup->add($u->id, $values);
+
+		foreach ($values['product'] as $p) {
+			$this->products->repair($p['id_product'], ['id_products_status' => 2]); // Zarezervuj produkt
+		}
+
+		if ($this->user->isLoggedIn() && $values['adress']['email'] == $this->user->getIdentity()->email) {
+			// Pošli email o nákupe nakupujúcemu aj predávajúcemu.
+			// Pošli info nazad o potvrdení a prechode na ukončenie.
+		} else {
+			// Pošli email o potvrdení emailovej adresy
+			// Pošli info nazad o zaslaní infa o potvrdzovacom emaile
+		}
+
+		$this->$this->sendJson(['ok']);
 	}
 }

@@ -1,13 +1,13 @@
 <script>
 /**
  * Komponenta pre vypísanie navigácie nákupu.
- * Posledna zmena 05.03.2024
+ * Posledna zmena 13.03.2024
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.0
+ * @version    1.0.1
  */
 export default {
 	props: {
@@ -23,6 +23,7 @@ export default {
 				{ id: 2, key: "Adresa", enabled: false },
 				{ id: 3, key: "Doprava a platba", enabled: false },
 				{ id: 4, key: "Sumár", enabled: false },
+				{ id: 5, key: "Ukončenie", enabled: false},
 			],
 		}
 	},
@@ -48,9 +49,9 @@ export default {
 </script>
 
 <template>
-	<div class="row mb-2">
+	<div class="d-flex justify-content-between">
 		<div 
-			class="col-3"
+			class="flex-fill mx-1"
 			v-for="i in items"
 			:key="i.id"
 		>

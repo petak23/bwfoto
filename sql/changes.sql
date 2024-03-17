@@ -243,3 +243,70 @@ UPDATE `user_main` SET `name` = 'Jozef Petrenčík' WHERE `id` = '3';
 
 ALTER TABLE `user_main`
 DROP `priezvisko`;
+
+-- updated in 0.9.87
+
+ALTER TABLE `user_main`
+CHANGE `password` `password` varchar(255) COLLATE 'utf32_bin' NULL COMMENT 'Heslo' AFTER `id_user_profiles`;
+
+ALTER TABLE `products`
+ADD `ks` int NOT NULL DEFAULT '1' COMMENT 'Počet kusov produktu';
+
+DROP TABLE IF EXISTS `products_status`;
+CREATE TABLE `products_status` (
+	`id` int NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
+	`name` varchar(50) CHARACTER SET utf32 COLLATE utf32_bin NOT NULL COMMENT 'Názov statusu',
+	PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf32 COLLATE=utf32_bin;
+
+INSERT INTO `products_status` (`id`, `name`) VALUES
+(1,	'Na predaj'),
+(2,	'Rezervovaný'),
+(3,	'Predaný');
+
+ALTER TABLE `products`
+CHANGE `name` `name` varchar(50) COLLATE 'utf32_bin' NOT NULL COMMENT 'Názov pre daný produkt' AFTER `id_user_roles`,
+CHANGE `web_name` `web_name` varchar(50) COLLATE 'utf32_bin' NOT NULL COMMENT 'Špecifický názov produktu pre URL' AFTER `name`,
+CHANGE `description` `description` varchar(255) COLLATE 'utf32_bin' NULL COMMENT 'Popis produktu' AFTER `web_name`,
+CHANGE `main_file` `main_file` varchar(255) COLLATE 'utf32_bin' NOT NULL COMMENT 'Názov súboru produktu s relatívnou cestou' AFTER `description`,
+CHANGE `thumb_file` `thumb_file` varchar(255) COLLATE 'utf32_bin' NULL COMMENT 'Názov súboru náhľadu pre obrázky a iné' AFTER `main_file`,
+COLLATE 'utf32_bin';
+
+ALTER TABLE `products`
+ADD `id_products_status` int NOT NULL DEFAULT '1' COMMENT 'Status produktu',
+ADD FOREIGN KEY (`id_products_status`) REFERENCES `products_status` (`id`);
+
+DROP TABLE IF EXISTS `nakup`;
+CREATE TABLE `nakup` (
+	`id` int NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
+	`id_user_main` int NOT NULL COMMENT 'Id nákupujúceho',
+	`products` json NOT NULL COMMENT 'Nakúpené produkty',
+	`shipping` json NOT NULL COMMENT 'Údaje o doprave a platbe',
+	`created` datetime NOT NULL COMMENT 'Dátum vytvorenia nákupu',
+	`price` float NOT NULL DEFAULT '0' COMMENT 'Konečná cena nákupu',
+	PRIMARY KEY (`id`),
+	KEY `id_user_main` (`id_user_main`),
+	CONSTRAINT `nakup_ibfk_1` FOREIGN KEY (`id_user_main`) REFERENCES `user_main` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf32 COLLATE=utf32_bin;
+
+UPDATE `user_permission` SET `actions` = 'product,nakup' WHERE `id_user_resource` = '30' AND `id` = '52';
+
+ALTER TABLE `user_profiles`
+CHANGE `telefon` `telefon` varchar(30) COLLATE 'utf32_bin' NULL COMMENT 'Telefón' AFTER `rok`,
+CHANGE `poznamka` `poznamka` varchar(255) COLLATE 'utf32_bin' NULL COMMENT 'Poznámka' AFTER `telefon`,
+CHANGE `pohl` `pohl` enum('Z','M') COLLATE 'utf32_bin' NOT NULL DEFAULT 'M' COMMENT 'Pohlavie' AFTER `pocet_pr`,
+CHANGE `avatar` `avatar` varchar(200) COLLATE 'utf32_bin' NULL COMMENT 'Cesta k avatarovi veľkosti 75x75' AFTER `prihlas_teraz`,
+CHANGE `news` `news` enum('A','N') COLLATE 'utf32_bin' NOT NULL DEFAULT 'A' COMMENT 'Posielanie info emailou' AFTER `avatar`,
+CHANGE `news_key` `news_key` varchar(100) COLLATE 'utf32_bin' NULL COMMENT 'Kľúč pre odhlásenie noviniek' AFTER `news`,
+ADD `street` varchar(100) COLLATE 'utf32_bin' NULL COMMENT 'Ulica a číslo domu',
+ADD `town` varchar(40) COLLATE 'utf32_bin' NULL COMMENT 'Mesto' AFTER `street`,
+ADD `psc` varchar(5) COLLATE 'utf32_bin' NULL COMMENT 'PSČ' AFTER `town`,
+ADD `country` varchar(5) COLLATE 'utf32_bin' NULL COMMENT 'Krajina' AFTER `psc`,
+COLLATE 'utf32_bin';
+
+ALTER TABLE `user_profiles`
+CHANGE `telefon` `phone` varchar(20) COLLATE 'utf32_bin' NULL COMMENT 'Telefón' AFTER `rok`;
+
+ALTER TABLE `user_profiles`
+ADD `adress2` json NULL COMMENT 'Odlišná adresa dodania',
+ADD `firm` json NULL COMMENT 'Údaje o firme' AFTER `adress2`;

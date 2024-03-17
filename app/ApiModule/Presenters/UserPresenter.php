@@ -6,15 +6,15 @@ use DbTable;
 
 /**
  * Prezenter pre pristup k api užívateľa.
- * Posledna zmena(last change): 24.02.2023
+ * Posledna zmena(last change): 14.03.2024
  *
  * Modul: API
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.2
+ * @version 1.0.3
  */
 class UserPresenter extends BasePresenter
 {
@@ -25,8 +25,8 @@ class UserPresenter extends BasePresenter
 
 	/** @var DbTable\User_main @inject */
 	public $user_main;
-	/** @var DbTable\User_permission @inject */
-	public $user_permission;
+	/** @var DbTable\User_profiles @inject */
+	public $user_profiles;
 
 
 	/**   ----  USER_PRIHLASENIE  ----   */
@@ -58,6 +58,11 @@ class UserPresenter extends BasePresenter
 	public function actionGetActualUserInfo(): void
 	{
 		$this->getActualUserInfo();
+	}
+
+	public function actionGetActualUserProfile(): void
+	{
+		$this->sendJson($this->user_profiles->getProfile($this->user->getIdentity()->id_user_profiles));
 	}
 
 	/**

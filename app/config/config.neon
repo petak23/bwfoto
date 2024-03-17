@@ -48,7 +48,7 @@ parameters:
   prilohy_dir: files/prilohy/ #Adresar pre prilohy
   user_view_fields: #Nastavuje viditelne(volitelne) polozky uzivatela
     rok: FALSE       #Zobrazenie roku narodenia
-    telefon: FALSE   #Zobrazenie telefonu
+    phone: TRUE      #Zobrazenie telefónu
     pohl: FALSE      #Zobrazenie pohlavia
     avatar: FALSE    #Zobrazenie avataru
     poznamka: FALSE  #Zobrazenie poznamky

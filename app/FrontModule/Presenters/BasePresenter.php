@@ -19,15 +19,15 @@ use Texy;
 /**
  * Zakladny presenter pre vsetky presentery vo FRONT module
  * 
- * Posledna zmena(last change): 30.11.2023
+ * Posledna zmena(last change): 13.03.2024
  *
  *	Modul: FRONT
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link      http://petak23.echo-msz.eu
- * @version 1.7.8
+ * @version 1.7.9
  */
 abstract class BasePresenter extends Presenter
 {
@@ -393,15 +393,6 @@ abstract class BasePresenter extends Presenter
 				$ukaz_clanok->setClanokTemplate($clanok->hlavne_menu->nazov_ul_sub);
 			}
 			return $ukaz_clanok;
-		});
-	}
-
-	/** Komponenta pre zobrazenie adresy */
-	public function createComponentUkazAdresu(): Multiplier
-	{
-		$servise = $this;
-		return new Multiplier(function ($id) use ($servise) {
-			return new \App\FrontModule\Components\Adresar\ZobrazAdresuControl($servise->adresar->find($id));
 		});
 	}
 

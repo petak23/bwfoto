@@ -10,14 +10,17 @@
  * @version    1.0.1
  */
 	import countryCodes from "../../plugins/country.js"
+	import MainService from '../../services/MainService.js'
 
 	export default {
 		data() {
 			return {
 				country: countryCodes,
+				confirmation: "",
 				f_data: {
 					name: "",
 					email: "",
+					password: "",
 					street: "",
 					town: "",
 					country: "",
@@ -63,13 +66,30 @@
 		},
 		created () {
 			this.getFromSession()
+			if (this.$store.state.user != null) { // Mám prihláseného užívateľa
+				this.f_data.name = this.$store.state.user.name
+				this.f_data.email = this.$store.state.user.email
+				MainService.getActualUserProfile(this.$store.state.id)
+					.then(response => {
+						this.f_data.phone = response.data.phone
+						this.f_data.street = response.data.street
+						this.f_data.town = response.data.town
+						this.f_data.psc = response.data.psc
+						this.f_data.country = response.data.country
+						if (response.data.adress2 != null) this.f_data.adress2 = JSON.parse(response.data.adress2)
+						if (response.data.firm != null) this.f_data.firm = JSON.parse(response.data.firm)
+					})
+					.catch((error) => {
+						console.error(error);
+					});
+			}
 		},
 	}
 </script>
 
 <template>
 	<div>
-		<h1>Fakturačné údaje <small>V: {{ isFormValid }}</small></h1>
+		<h1>Fakturačné údaje</h1>
 		<form
 			@submit="onSubmit()"
 		>
@@ -101,6 +121,43 @@
 					<small id="emailHelp" class="form-text text-muted">
 						E-mailovú adresu nezdieľame s nikým iným!
 					</small>
+				</div>
+			</div>
+			<div v-if="$store.state.user == null">
+				<button class="btn btn-primary my-2" type="button" data-toggle="collapse" data-target="#collapseReg" aria-expanded="false" aria-controls="collapseReg">
+					Registrácia
+				</button>
+				<small id="emailHelp" class="form-text text-muted">Ak sa zaregistrujete, tak pri najbližšom nákupe už nemusíte zadávať údaje nanovo.</small>
+			</div>
+			<div class="collapse form-row" id="collapseReg" v-if="$store.state.user == null">
+			  <div class="form-group col-md-6">
+					<label for="password1">Heslo</label>
+					<input 
+						type="password" 
+						class="form-control"
+						id="password1"
+						name="password1"
+						v-validate="'min:5'"
+						v-model="f_data.password"
+						data-vv-as="heslo"
+					>
+					<small class="form-text bg-danger text-white px-2">{{ errors.first('password1') }}</small>
+					<small id="emailHelp" class="form-text text-muted">
+						Zadajte dvakrát rovnaké heslo!
+					</small>
+				</div>
+				<div class="form-group col-md-6">
+					<label for="password2">Over heslo</label>
+					<input 
+						v-model="confirmation"
+						type="password" 
+						name="password_confirmation" 
+						class="form-control"
+						id="password2"
+						v-validate="{ min:5, confirmed: f_data.password }"
+						data-vv-as="overené heslo"
+					>
+					<small class="form-text bg-danger text-white px-2">{{ errors.first('password_confirmation') }}</small>
 				</div>
 			</div>
 			<div class="form-group">
@@ -158,7 +215,7 @@
 					id="basketInputTel"
 					value="+421" required
 					v-validate="'required|min:13'"
-					data-vv-as="Telefon"
+					data-vv-as="Telefón"
 					v-model="f_data.phone"
 				>
 				<small class="form-text bg-danger text-white px-2">{{ errors.first('basketInputTel') }}</small>
@@ -272,7 +329,7 @@
 							v-model="f_data.adress2.country"
 						>
 							<option selected disabled>Vyber...</option>
-							<option v-for="c in country" :key="c.code" value="c.code">{{ c.name }}</option>
+							<option v-for="c in country" :key="c.code" :value="c.code">{{ c.name }}</option>
 						</select>
 					</div>
 				</div>

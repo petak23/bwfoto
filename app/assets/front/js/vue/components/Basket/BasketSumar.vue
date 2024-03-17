@@ -1,14 +1,16 @@
 <script>
 /**
  * Komponenta pre vypísanie sumárnych údajov o nákupe.
- * Posledna zmena 08.03.2024
+ * Posledna zmena 15.03.2024
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.2
+ * @version    1.0.3
  */
+import MainService from '../../services/MainService.js'
+
 export default {
 	data() {
 		return {
@@ -16,7 +18,8 @@ export default {
 			adress: null,
 			shipping: null,
 			final_price: 0,
-			op: false, 
+			op: false,  // Súhlas s obchodnými podmienkami
+			su: false,	// Súhlas na spracovanie údajov
 		}
 	},
 	methods: {
@@ -27,7 +30,7 @@ export default {
 				if (key.startsWith("basket-item")) {
 					let data = JSON.parse(value)
 					this.product.push(data)
-					this.final_price += data.product.properties.final_price
+					this.final_price += parseFloat(data.product.properties.final_price)
 				}
 			}
 
@@ -35,12 +38,43 @@ export default {
 			{
 				this.adress = JSON.parse(this.$session.get("basket-adress"))
 				this.shipping = JSON.parse(this.$session.get("basket-shipping"))
-				this.final_price += this.shipping.shipping.price + this.shipping.payment.price
+				this.final_price += parseFloat(this.shipping.shipping.price) + parseFloat(this.shipping.payment.price)
 			}
 		},
-		onSubmit() {
-			alert("Odosielam na spracovanie...")
-		}
+		async onSubmit(e) {
+			e.preventDefault()
+			let vm = this
+			let data = {
+				product: this.product,
+				adress: this.adress,
+				shipping: this.shipping,
+				final_price: this.final_price,
+			}
+			await MainService.postSaveNakup(data)
+			.then(response => {
+				console.log(response.data)
+				/*if (response.data.status == 200) {
+					vm.$store.commit('SET_INIT_USER', response.data.user)
+					if (typeof (this.$store.state.user.id) != 'undefined') {
+						vm.$root.$emit("user-loadet", [])
+						vm.$root.$emit('flash_message', [{
+							'message': 'Ǔspešne ste sa prihlásili.',
+							'type': 'success',
+							'heading': 'Prihlásenie',
+							'timeout': 5000,
+						}])
+					}
+					// https://stackoverflow.com/questions/35664550/vue-js-redirection-to-another-page
+					// Tvrdé presmerovanie po prihlásení.
+					window.location.href = this.$store.state.basePath;
+				} else {
+					console.error(response.data)
+				}*/
+			})
+			.catch(error => {
+				console.error(error)
+			})
+		},
 	},
 	computed: {
 		isFormValid() {
@@ -90,9 +124,9 @@ export default {
 					{{ adress.name }}<br />
 					{{ adress.email }}<br />
 					{{ adress.street }}<br />
-					{{ adress.town }}<br />
-					{{ adress.psc }}<br />
-					{{ adress.country }}
+					{{ adress.town }}	{{ adress.psc }}<br />
+					{{ adress.country }}<br />
+					{{ adress.phone }}
 				</p>
 				<h5 v-if="adress.firm.name.length" class="border-top pt-2">Firma:</h5>
 				<p v-if="adress.firm.name.length">
@@ -115,7 +149,7 @@ export default {
 			</div>
 			<div class="col-12">
 				<form
-					@submit="onSubmit()"
+					@submit="onSubmit"
 				>
 					<div class="form-check">
 						<input class="form-check-input" 
@@ -130,6 +164,17 @@ export default {
 								obchodnými podmienkami
 							</a>
 							.
+						</label>
+					</div>
+					<div class="form-check">
+						<input class="form-check-input" 
+							type="checkbox" value="" id="suCheck"
+							v-validate="'required'"
+							data-vv-as="spracovanie osobných údajov"
+							v-model="su"
+						>
+						<label class="form-check-label" for="suCheck">
+							Súhlasím so spracovaním osobných údajov pre potreby nákupu. 
 						</label>
 					</div>
 					<button 

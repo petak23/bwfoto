@@ -28,6 +28,9 @@ export default {
 	postIsAllowed(id_user, data) {
 		return apiClient.post('user/isallowed/' + id_user, data)
 	},
+	getActualUserProfile() {
+		return apiClient.get('user/getactualuserprofile')
+	},
 
 	// ---- sign ----
 	postSignIn(data) {
@@ -119,6 +122,9 @@ export default {
 	},
 	postSaveProductProps(data) {
 		return apiClient.post('products/saveproductprops', data)
+	},
+	postSaveNakup(data) {
+		return apiClient.post('products/nakup', data)
 	},
 
 

@@ -38,7 +38,7 @@
 		methods: {
 			test_part(p) {
 				let x = parseInt(p)
-				return x > 0 && x < 5 ? x : 1
+				return x > 0 && x < 6 ? x : 1
 			}
 		},
 		watch: {
