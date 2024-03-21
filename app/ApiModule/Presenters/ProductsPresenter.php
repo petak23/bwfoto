@@ -3,12 +3,14 @@
 namespace App\ApiModule\Presenters;
 
 use DbTable;
+use Nette\Database;
 use Nette\Http\FileUpload;
 use Nette\Utils\Json;
+use PeterVojtech\Email;
 
 /**
  * Prezenter pre pristup k api produktov.
- * Posledna zmena(last change): 13.02.2024
+ * Posledna zmena(last change): 20.03.2024
  *
  * Modul: API
  *
@@ -16,7 +18,7 @@ use Nette\Utils\Json;
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.8
+ * @version 1.0.9
  * 
  * @help 1.) https://forum.nette.org/cs/28370-data-z-post-request-body-reactjs-appka-se-po-ceste-do-php-ztrati
  */
@@ -240,6 +242,7 @@ class ProductsPresenter extends BasePresenter
 
 	/* ----------------------------- Nákupy ------------------------------- */
 
+	// -- DB
 	/** @var DbTable\User_main @inject */
 	public $user_main;
 	/** @var DbTable\Nakup @inject */
@@ -247,11 +250,15 @@ class ProductsPresenter extends BasePresenter
 	/** @var DbTable\User_profiles @inject */
 	public $user_profiles;
 
+	// -- Components
+	/** @var Email\EmailControl @inject */
+	public $emailControl;
+
 	public function actionNakup(): void
 	{
 		/* from POST: */
 		$values = json_decode(file_get_contents("php://input"), true); // @help 1.)
-		dumpe($values);
+		//dumpe($values);
 
 		$profile = [
 			'phone' => $values['adress']['phone'],
@@ -280,11 +287,40 @@ class ProductsPresenter extends BasePresenter
 		if ($this->user->isLoggedIn() && $values['adress']['email'] == $this->user->getIdentity()->email) {
 			// Pošli email o nákupe nakupujúcemu aj predávajúcemu.
 			// Pošli info nazad o potvrdení a prechode na ukončenie.
+			$out = $this->sendEmailAboutShopping($values, $data_nakup);
 		} else {
 			// Pošli email o potvrdení emailovej adresy
 			// Pošli info nazad o zaslaní infa o potvrdzovacom emaile
+			$out = "Zatiaľ nič...";
 		}
+		//dumpe($out);
+		$this->sendJson(['out_message' => $out]);
+	}
 
-		$this->$this->sendJson(['ok']);
+	/** Funkcia pre odoslanie informacneho emailu */
+	public function sendEmailAboutShopping(
+		array $values,
+		Database\Table\ActiveRow $data_nakup,
+		bool $to_admin = false
+	): string {
+		$params = [
+			'product' => $values['product'],
+			'shipping' => $values['shipping'],
+			'final_price' => $values['final_price'],
+			'dph' => $values['dph'],
+			'adress' => $values['adress'],
+			'data_nakup' => $data_nakup,
+			'basePath' => $this->template->basePath,
+		];
+		$template = __DIR__ . '/../templates/emails/' . ($to_admin ? 'shopping_admin' : 'shopping_sumar') . '.latte';
+		$header = $to_admin ? "Nový nákup" : "Zhrnutie nákupu";
+		$to = $to_admin ? "petak23@echo-msz.eu" : $values['adress']['email'];
+		try {
+			$this->emailControl->sendMail(2, $to,	$header, null, $params,	$template);
+			return "OK";
+		} catch (Email\SendException $e) {
+			return $e->getMessage();
+		}
+		$this->redirect('this');
 	}
 }

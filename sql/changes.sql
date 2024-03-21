@@ -216,7 +216,7 @@ VALUES ('Front:Products');
 
 INSERT INTO `user_permission` (`id`, `id_user_roles`, `id_user_resource`, `actions`) VALUES
 (51,	3,	39,	NULL),
-(52,	0,	30,	'product');*/
+(52,	0,	30,	'product');
 
 -- updated in 0.9.86
 
@@ -310,3 +310,8 @@ CHANGE `telefon` `phone` varchar(20) COLLATE 'utf32_bin' NULL COMMENT 'Telefón'
 ALTER TABLE `user_profiles`
 ADD `adress2` json NULL COMMENT 'Odlišná adresa dodania',
 ADD `firm` json NULL COMMENT 'Údaje o firme' AFTER `adress2`;
+
+-- updated in 0.9.88
+
+ALTER TABLE `nakup`
+ADD `code` varchar(10) COLLATE 'utf32_bin' NOT NULL COMMENT 'Kód objednávky a variabilný symbol';*/

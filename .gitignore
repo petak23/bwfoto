@@ -16,3 +16,4 @@
 /.history/
 deployment.ini
 deployment.log
+sql/bwfoto_new_data.sql

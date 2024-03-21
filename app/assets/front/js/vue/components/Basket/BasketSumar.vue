@@ -1,13 +1,13 @@
 <script>
 /**
  * Komponenta pre vypísanie sumárnych údajov o nákupe.
- * Posledna zmena 15.03.2024
+ * Posledna zmena 20.03.2024
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.3
+ * @version    1.0.4
  */
 import MainService from '../../services/MainService.js'
 
@@ -18,6 +18,7 @@ export default {
 			adress: null,
 			shipping: null,
 			final_price: 0,
+			dph: 0,
 			op: false,  // Súhlas s obchodnými podmienkami
 			su: false,	// Súhlas na spracovanie údajov
 		}
@@ -39,6 +40,8 @@ export default {
 				this.adress = JSON.parse(this.$session.get("basket-adress"))
 				this.shipping = JSON.parse(this.$session.get("basket-shipping"))
 				this.final_price += parseFloat(this.shipping.shipping.price) + parseFloat(this.shipping.payment.price)
+				this.final_price = this.final_price.toFixed(2)
+				this.dph = parseFloat(this.final_price * 0.2).toFixed(2)
 			}
 		},
 		async onSubmit(e) {
@@ -49,6 +52,7 @@ export default {
 				adress: this.adress,
 				shipping: this.shipping,
 				final_price: this.final_price,
+				dph: this.dph,
 			}
 			await MainService.postSaveNakup(data)
 			.then(response => {
@@ -115,7 +119,8 @@ export default {
 				</div>
 				<div class="d-flex justify-content-between border-top pt-2">
 					<h6>Konečná cena:</h6>
-					<b>{{ final_price }} €</b>
+					<b>{{ final_price }} €</b><br />
+					<small>DPH: {{ dph }} €</small>
 				</div>
 			</div>
 			<div class="col-md-6">

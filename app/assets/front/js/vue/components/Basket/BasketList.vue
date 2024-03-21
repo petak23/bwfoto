@@ -1,13 +1,13 @@
 <script>
 /**
  * Komponenta pre vypísanie položiek nákupného košíka.
- * Posledna zmena 07.03.2024
+ * Posledna zmena 20.03.2024
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.0
+ * @version    1.0.1
  */
 	import BasketItem from "./BasketItem.vue";
 
@@ -29,7 +29,7 @@
 					if (key.startsWith("basket-item")) {
 						let data = JSON.parse(value)
 						this.product.push(data)
-						this.sum_price += data.product.properties.final_price
+						this.sum_price += parseFloat(data.product.properties.final_price)
 					}
 				}
 			},
