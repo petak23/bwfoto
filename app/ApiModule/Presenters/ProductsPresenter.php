@@ -288,13 +288,17 @@ class ProductsPresenter extends BasePresenter
 			// Pošli email o nákupe nakupujúcemu aj predávajúcemu.
 			// Pošli info nazad o potvrdení a prechode na ukončenie.
 			$out = $this->sendEmailAboutShopping($values, $data_nakup);
+			$out_s = $this->sendEmailAboutShopping($values, $data_nakup, true); //pošli info správcovi e-shopu
+			if ($out['status'] == 200 && $out_s['status'] == 200) { // email bol odoslaný
+
+			}
 		} else {
 			// Pošli email o potvrdení emailovej adresy
 			// Pošli info nazad o zaslaní infa o potvrdzovacom emaile
-			$out = "Zatiaľ nič...";
+			$out = ['status' => 200, 'message' => "Zatiaľ nič..."];
 		}
 		//dumpe($out);
-		$this->sendJson(['out_message' => $out]);
+		$this->sendJson($out);
 	}
 
 	/** Funkcia pre odoslanie informacneho emailu */
@@ -302,7 +306,7 @@ class ProductsPresenter extends BasePresenter
 		array $values,
 		Database\Table\ActiveRow $data_nakup,
 		bool $to_admin = false
-	): string {
+	): string|array {
 		$params = [
 			'product' => $values['product'],
 			'shipping' => $values['shipping'],
@@ -310,17 +314,16 @@ class ProductsPresenter extends BasePresenter
 			'dph' => $values['dph'],
 			'adress' => $values['adress'],
 			'data_nakup' => $data_nakup,
-			'basePath' => $this->template->basePath,
+			'basePath' => $this->template->baseUrl,
 		];
-		$template = __DIR__ . '/../templates/emails/' . ($to_admin ? 'shopping_admin' : 'shopping_sumar') . '.latte';
+		$template = __DIR__ . '/../templates/emails/' . /*($to_admin ? 'shopping_admin' : */ 'shopping_sumar'/*)*/ . '.latte';
 		$header = $to_admin ? "Nový nákup" : "Zhrnutie nákupu";
 		$to = $to_admin ? "petak23@echo-msz.eu" : $values['adress']['email'];
 		try {
 			$this->emailControl->sendMail(2, $to,	$header, null, $params,	$template);
-			return "OK";
+			return ['status' => 200, 'message' => "OK"]; //$params; //"OK";
 		} catch (Email\SendException $e) {
-			return $e->getMessage();
+			return ['status' => 500, 'message' => $e->getMessage()];
 		}
-		$this->redirect('this');
 	}
 }

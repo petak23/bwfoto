@@ -8,13 +8,13 @@ use Nette\Utils;
 /**
  * Model, ktory sa stara o tabulku products
  * 
- * Posledna zmena 14.02.2024
+ * Posledna zmena 26.03.2024
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.1.3
+ * @version    1.1.4
  */
 class Products extends Table
 {
@@ -134,6 +134,9 @@ class Products extends Table
 				'thumb_file' => $v->thumb_file,
 				'price' => $v->price,
 				'properties' => $_pp,
+				'ks' => $v->ks,
+				'id_products_status' => $v->id_products_status,
+				'products_status' => $v->products_status->name,
 			];
 		}
 		return $out;

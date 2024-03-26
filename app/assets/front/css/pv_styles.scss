@@ -140,3 +140,8 @@
 /** Pre formuláre */ 
 .required label { color: #f33;}
 .sign-in-form .form-group > div { max-width: 25rem;}
+
+/** Ostatné */
+button:disabled {
+	cursor: not-allowed;
+}

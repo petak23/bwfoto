@@ -57,23 +57,31 @@ export default {
 			await MainService.postSaveNakup(data)
 			.then(response => {
 				console.log(response.data)
-				/*if (response.data.status == 200) {
-					vm.$store.commit('SET_INIT_USER', response.data.user)
-					if (typeof (this.$store.state.user.id) != 'undefined') {
-						vm.$root.$emit("user-loadet", [])
-						vm.$root.$emit('flash_message', [{
+				if (parseInt(response.data.status) == 200) {
+					console.log(response.data.status)
+					this.$session.remove('basket-adress')
+					this.$session.remove('basket-shipping')
+					for (const [key, value] of Object.entries(this.$session.getAll())) {
+						if (key.startsWith("basket-item")) {
+							let v = JSON.parse(value)
+							this.$session.remove('basket-item-' + v.id_product)
+						}
+					}
+					this.$root.$emit('basket-nav-update', { id: 5, enabled: true, view_part: 5, disable_another: true })
+
+					/*	vm.$root.$emit('flash_message', [{
 							'message': 'Ǔspešne ste sa prihlásili.',
 							'type': 'success',
 							'heading': 'Prihlásenie',
 							'timeout': 5000,
 						}])
-					}
+					*/
 					// https://stackoverflow.com/questions/35664550/vue-js-redirection-to-another-page
 					// Tvrdé presmerovanie po prihlásení.
-					window.location.href = this.$store.state.basePath;
+					//window.location.href = this.$store.state.basePath;
 				} else {
 					console.error(response.data)
-				}*/
+				}
 			})
 			.catch(error => {
 				console.error(error)

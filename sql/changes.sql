@@ -315,3 +315,14 @@ ADD `firm` json NULL COMMENT 'Údaje o firme' AFTER `adress2`;
 
 ALTER TABLE `nakup`
 ADD `code` varchar(10) COLLATE 'utf32_bin' NOT NULL COMMENT 'Kód objednávky a variabilný symbol';*/
+
+-- updated in 0.9.89
+
+INSERT INTO `admin_menu` (`odkaz`, `nazov`, `id_user_roles`, `avatar`, `view`)
+VALUES ('Nakup:', 'Nákupy', '4', NULL, '1');
+
+INSERT INTO `user_resource` (`name`)
+VALUES ('Admin:Nakup');
+
+INSERT INTO `user_permission` (`id_user_roles`, `id_user_resource`, `actions`)
+VALUES ('4', '40', NULL);

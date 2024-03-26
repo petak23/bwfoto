@@ -33,7 +33,16 @@ export default {
 		}
 	},
 	created () {
-		this.$root.$on("basket-nav-update", data => {  /* formát prichádzajúcich dát: { id: x, enabled: true|false } */
+		this.$root.$on("basket-nav-update", data => {  
+			/* 
+				formát prichádzajúcich dát: 
+				{ id: x, enabled: true|false, view_part: y, disable_another: true|false } 
+			*/
+			if (data.disable_another != undefined && data.disable_another) {
+				for (let i = 0; i < this.items.length; i++) {
+					this.items[i].enabled = false;
+				}
+			}
 			if (parseInt(data.id) > 0 && parseInt(data.id) <= this.items.length) { // ošetrenie hraníc
 				this.items[data.id - 1].enabled = data.enabled == true // ošetrenie, že to bude bool
 			}
@@ -43,7 +52,7 @@ export default {
 		})
 
 		if (this.$session.has('basket-nav')) this.items = JSON.parse(this.$session.get('basket-nav'))
-
+		this.$root.$emit('basket-update', [])
 	},
 }
 </script>

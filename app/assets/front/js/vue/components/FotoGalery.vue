@@ -213,6 +213,17 @@ export default {
 		},
 		aa() {
 			return typeof this.attachments[this.id] !== 'undefined' ? this.attachments[this.id] : null
+		},
+		button_basket_title() {
+			let t = this.in_basket ? 'Produkt už je v košíku.' : 'Vlož do košíka.'
+			return this.aa != null && this.aa.id_products_status > 1 ? this.aa.products_status : t
+		},
+		button_basket_class() {
+			let t = this.in_basket ? 'btn-outline-secondary disabled' : 'btn-success'
+			return this.aa != null && this.aa.id_products_status > 1 ? 'btn-outline-secondary disabled' : t
+		},
+		button_basket_disabled() {
+			return this.aa != null && this.aa.id_products_status > 1 ? true : this.in_basket
 		}
 	},
 	watch: {
@@ -268,13 +279,15 @@ export default {
 							></i>
 						</button>
 						<button 
-							:title="in_basket ? 'Produkt už je v košíku.' : 'Vlož do košíka.'"
+							:title="button_basket_title" 
 							type="button"
 							class="btn"
-							:class="in_basket ? 'btn-outline-secondary' : 'btn-success'"
+							:class="button_basket_class"
 							@click="basketInsert()"
+							:disabled="button_basket_disabled"
 						>
-							<i class="fa-solid fa-basket-shopping"></i>
+							<i class="fa-solid fa-basket-shopping" v-if="aa.id_products_status == 1"></i>
+							<span v-else>{{ aa.products_status }}</span>
 						</button>
 					</div>
 				</h4>
@@ -371,9 +384,7 @@ export default {
 			<div class="row d-none d-sm-flex justify-content-left" v-if="wid > 0 ">
 				<div class="col-sm-8">
 					{{ aa.description }}
-					<products-properties
-						:article="aa"
-					/>
+					<products-properties :article="aa" />
 				</div>
 			</div>
 
@@ -405,8 +416,8 @@ export default {
 				</template>
 				<div class="modal-content">
 					<div class="modal-body my-img-content">
-							<div class="border-a" :style="border_a">
-								<div class="border-b" :style="border_b">
+						<div class="border-a" :style="border_a">
+							<div class="border-b" :style="border_b">
 									<img :src="filesDir + attachments[id].main_file" 
 												:alt="attachments[id].name" 
 												id="big-main-img"

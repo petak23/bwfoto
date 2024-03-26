@@ -4,11 +4,105 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Zhrnutie nákupu</title>
-	<link rel="stylesheet" type="text/css" href="style.css">
+	<style>
+		body {
+			max-width: 50rem;
+			width: 95%;
+			background-color: black;
+			color: white;
+			font-family: Verdana, Geneva, Tahoma, sans-serif;
+			font-size: 16px;
+			margin-top: 0;
+			margin-left: auto;
+			margin-right: auto;
+			margin-bottom: 1rem;
+			padding: .25rem;
+		}
+
+		header {
+			background-color: rgba(250, 250, 250, 0.4);
+			margin: 0;
+			padding-left: 1em;
+			padding-top: .25em;
+			padding-bottom: .25em;
+			min-height: 3rem;
+		}
+		header h1 {
+			margin: 0;
+		}
+		header img{
+			height: 3rem;
+			float: left;
+			padding-right: 2em;
+		}
+
+		main {
+			background-color: rgba(250, 250, 250, 0.4);
+			margin-left: 0;
+			margin-right: 0;
+			margin-top: .25em;
+			margin-bottom: .25em;
+			padding: .5em;
+		}
+		figure {
+			background-color: rgba(125, 125, 125, 0.4);
+			margin: 0;
+			margin-bottom: .25em;
+			padding: .5em;
+		}
+		footer {
+			background-color: rgba(125, 125, 125, 0.4);
+			margin: 0;
+			padding: .5em;
+			text-align: center;
+			font-size: 80%;
+		}
+
+		article {
+			border-bottom: 1px solid #333;
+			padding-bottom: .5em;
+			margin-bottom: .5em;
+		}
+		article:last-child {
+			border-bottom: 0;
+		}
+
+		article h3 {
+			margin-top: 0;
+			margin-bottom: 0;
+		}
+		article img {
+			margin-top: .5em;
+			max-width: 30%;
+			float: left;
+		}
+		.product-content {
+			margin-top: 0em;
+		}
+		.product-content p {
+			margin-top: .5em;
+			margin-bottom: .5em;
+		}
+		.props b{
+			float: left;
+			margin-right: 1em;
+		}
+		table {
+			margin-top: -.2em;
+			padding-top: 0;
+		}
+		table tr th {
+			text-align: left;
+			color: #aaa;
+		}
+	</style>
 </head>
 <body>
 	<header>
-		<h1>Zhrnutie nákupu:</h1>
+		<img src="{$basePath}/www/images/logo_bw-g.png" alt="logo" />
+		<h1>
+			Zhrnutie nákupu:
+		</h1>
 	</header>
 	<main>
 		<p>
@@ -85,7 +179,7 @@
 
 	<footer>
 		Email poslaný zo stránky 
-		<a href="http://test.bwfoto.sk" title="bwfoto">
+		<a href="{$basePath}" title="bwfoto">
 			BwFoto
 		</a>
 		.

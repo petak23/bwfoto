@@ -1,13 +1,13 @@
 <script>
 /**
  * Komponenta pre vypísanie položiek nákupného košíka.
- * Posledna zmena 20.03.2024
+ * Posledna zmena 26.03.2024
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.1
+ * @version    1.0.2
  */
 	import BasketItem from "./BasketItem.vue";
 
@@ -36,6 +36,9 @@
 			my_basket() {
 				this.product = []
 				this.getFromSession()
+				if (this.product.length == 0) { // Pre prípad, že košík bude prázdny
+					this.$root.$emit('basket-nav-update', { id: 0, enabled: false, disable_another: true })	
+				}
 			},
 			getToPage(id) {
 				this.$root.$emit('basket-view-part', [{ view_part: id }])

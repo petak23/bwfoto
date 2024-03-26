@@ -1,0 +1,22 @@
+{var $robots = noindex}
+
+{block #content}
+<div class="col-12">
+	<h2 n:block=title>Zoznam nákupov</h2>
+</div>
+<div class="col-12">
+	<table class="table table-sm table-stripped">
+		<tr>
+			<th>Kupujúci</th>
+			<th>Dátum</th>
+			<th>Cena</th>
+			<th>Kód objednávky</th>
+		</tr>
+		<tr n:inner-foreach="$nakup as $n">
+			<td>{$n->user_main->name}</td>
+			<td>{$n->created|date: 'd.m.Y H:I:s'}</td>
+			<td>{$n->price}</td>
+			<td>{$n->code}</td>
+		</tr>
+	</table>
+</div>
