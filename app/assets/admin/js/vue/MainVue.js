@@ -22,6 +22,7 @@ import FlashMessage from '../../../components/FlashMessages/FlashMessage';
 import SliderGrid from './components/Slider/SliderGrid'
 import MainDocumentsPart from "./components/MainFrame/MainDocumentsPart.vue"
 import VerzieEditForm from "./components/Verzie/VerzieEditForm.vue"
+import NakupList from "./components/Nakup/nakupList.vue"
 
 
 // Make BootstrapVue available throughout your project
@@ -43,5 +44,6 @@ let vm = new Vue({
     FlashMessage,
     SliderGrid,
     VerzieEditForm,
+    NakupList,
   },
 });   

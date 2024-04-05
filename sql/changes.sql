@@ -318,11 +318,30 @@ ADD `code` varchar(10) COLLATE 'utf32_bin' NOT NULL COMMENT 'Kód objednávky a 
 
 -- updated in 0.9.89
 
-INSERT INTO `admin_menu` (`odkaz`, `nazov`, `id_user_roles`, `avatar`, `view`)
+/*INSERT INTO `admin_menu` (`odkaz`, `nazov`, `id_user_roles`, `avatar`, `view`)
 VALUES ('Nakup:', 'Nákupy', '4', NULL, '1');
 
 INSERT INTO `user_resource` (`name`)
 VALUES ('Admin:Nakup');
 
 INSERT INTO `user_permission` (`id_user_roles`, `id_user_resource`, `actions`)
-VALUES ('4', '40', NULL);
+VALUES ('4', '40', NULL);*/
+
+-- update in 0.9.90
+
+/*CREATE TABLE `nakup_status` (
+  `id` int NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
+  `name` varchar(30) CHARACTER SET utf32 COLLATE utf32_bin NOT NULL COMMENT 'Status nákupu',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf32 COLLATE=utf32_bin COMMENT='Zoznam statusov nákupu';
+
+INSERT INTO `nakup_status` (`id`, `name`) VALUES
+(1,	'Vytvorený'),
+(2,	'Akceptovaný'),
+(3,	'Zaplatený'),
+(4,	'Odoslaný'),
+(5,	'Ukončený');
+
+ALTER TABLE `nakup`
+ADD `id_nakup_status` int NOT NULL DEFAULT '1' COMMENT 'Aktuálny stav nákupu',
+ADD FOREIGN KEY (`id_nakup_status`) REFERENCES `nakup_status` (`id`);*/

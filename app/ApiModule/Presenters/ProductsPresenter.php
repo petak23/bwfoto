@@ -326,4 +326,8 @@ class ProductsPresenter extends BasePresenter
 			return ['status' => 500, 'message' => $e->getMessage()];
 		}
 	}
+
+	public function actionGetNakupy(): void
+	{
+	}
 }

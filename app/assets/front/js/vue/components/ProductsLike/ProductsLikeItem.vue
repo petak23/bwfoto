@@ -14,7 +14,8 @@ export default {
 	},
 	data() {
 		return {
-			product: null
+			product: null,
+			in_basket: false,
 		}
 	},
 	methods: {
@@ -22,6 +23,7 @@ export default {
 			MainService.getProduct(this.likeItem.id_product)
 				.then(response => {
 					this.product = response.data
+					this.my_in_basket()
 					console.log(this.product)
 					console.log(this.likeItem)
 				})
@@ -32,6 +34,31 @@ export default {
 		delMe() {
 			this.$session.remove('like-' + this.likeItem.id_product)
 			this.$root.$emit("product-like-update", [])
+		},
+		basketInsert() {
+			console.log(this.product)
+			this.$root.$emit("basket-insert", [{
+				id_product: this.product.id,
+				product: this.product,
+				id_article: this.product.id_hlavne_menu,
+			}])
+		},
+		my_in_basket() {
+			this.product.in_basket = this.$session.has('basket-item-' + this.product.id)
+			this.in_basket = this.product.in_basket
+		},
+	},
+	computed: {
+		button_basket_title() {
+			let t = this.in_basket ? 'Produkt už je v košíku.' : 'Vlož do košíka.'
+			return this.product != null && this.product.id_products_status > 1 ? this.product.products_status : t
+		},
+		button_basket_class() {
+			let t = this.in_basket ? 'btn-outline-secondary disabled' : 'btn-success'
+			return this.product != null && this.product.id_products_status > 1 ? 'btn-outline-secondary disabled' : t
+		},
+		button_basket_disabled() {
+			return this.product != null && this.product.id_products_status > 1 ? true : this.in_basket
 		}
 	},
 	watch: {
@@ -40,8 +67,9 @@ export default {
 		},
 	},
 	mounted () {
-		//console.log(this.likeItem);
+		//console.log("LI", this.likeItem);
 		this.getProductsInfo()
+		this.$root.$on("basket-update", this.my_in_basket)
 	},
 }
 </script>
@@ -73,6 +101,18 @@ export default {
 					<button type="button" class="btn btn-outline-danger btn-sm" @click.prevent="delMe()">
 						<i class="fa-regular fa-trash-can"></i>
 					</button>
+					<button 
+							v-if="product != null"
+							:title="button_basket_title" 
+							type="button"
+							class="btn btn-sm"
+							:class="button_basket_class"
+							@click.prevent="basketInsert()"
+							:disabled="button_basket_disabled"
+						>
+							<i class="fa-solid fa-basket-shopping" v-if="product.id_products_status == 1"></i>
+							<span v-else>{{ product.products_status }}</span>
+						</button>
 				</div>
 				<div class="col-12">
 					<h6 v-if="product != null && product.description != null">Popis:</h6>

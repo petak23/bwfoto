@@ -123,21 +123,7 @@ class Products extends Table
 	{
 		$out = [];
 		foreach ($this->findBy(['id_hlavne_menu' => $id]) as $v) {
-			$_pp = $this->products_property->getProperties($v->id, $v->price);
-			$out[] = [
-				'id' => $v->id,
-				'type' => 'product',
-				'name' => $v->name,
-				'web_name' => $v->web_name,
-				'description' => $v->description,
-				'main_file' => ($v->main_file && is_file($v->main_file)) ? $v->main_file : 'images/otaznik.png',
-				'thumb_file' => $v->thumb_file,
-				'price' => $v->price,
-				'properties' => $_pp,
-				'ks' => $v->ks,
-				'id_products_status' => $v->id_products_status,
-				'products_status' => $v->products_status->name,
-			];
+			$out[] = $this->_productToArray($v);
 		}
 		return $out;
 	}
@@ -146,7 +132,26 @@ class Products extends Table
 	public function getProduct(int $id): ?array
 	{
 		$p = $this->find($id);
-		return $p != null ? $p->toArray() : null;
+		return $p != null ? $this->_productToArray($p) : null;
+	}
+
+	private function _productToArray(Nette\Database\Table\ActiveRow $v): array
+	{
+		$_pp = $this->products_property->getProperties($v->id, $v->price);
+		return [
+			'id' => $v->id,
+			'type' => 'product',
+			'name' => $v->name,
+			'web_name' => $v->web_name,
+			'description' => $v->description,
+			'main_file' => ($v->main_file && is_file($v->main_file)) ? $v->main_file : 'images/otaznik.png',
+			'thumb_file' => $v->thumb_file,
+			'price' => $v->price,
+			'properties' => $_pp,
+			'ks' => $v->ks,
+			'id_products_status' => $v->id_products_status,
+			'products_status' => $v->products_status->name,
+		];
 	}
 
 	/** Vráti všetky produkty ako pole */

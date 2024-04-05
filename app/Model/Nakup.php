@@ -37,4 +37,36 @@ class Nakup extends Table
 			]
 		);
 	}
+
+	public function getLast(int $pocet = 10): array
+	{
+		$o = $this->findAll()->order("created DESC")->limit(10);
+		$out = [];
+		foreach ($o as $v) {
+			$out[] = [
+				'id'	=> $v->id,
+				'user_name' => $v->user_main->name,
+				'email'	=> $v->user_main->email,
+				'user_profile'	=> [
+					'phone'	=> $v->user_main->user_profile->phone,
+					'street' => $v->user_main->user_profile->street,
+					'town' => $v->user_main->user_profile->town,
+					'psc' => $v->user_main->user_profile->psc,
+					'country' => $v->user_main->user_profile->country,
+					'adress2' => $v->user_main->user_profile->adress2 != null ? JSON::decode($v->user_main->user_profile->adress2) : null,
+					'firm'	=> $v->user_main->user_profile->firm != null ? JSON::decode($v->user_main->user_profile->firm) : null,
+				],
+				'created'	=> $v->created->format("d.m.Y H:i:s"),
+				'price'		=> $v->price,
+				'code'		=> $v->code,
+				'status'	=> $v->nakup_status->name,
+				'shipping' => JSON::decode($v->shipping),
+				'products' => JSON::decode($v->products),
+				'status'	 => $v->nakup_status->name,
+				'id_nakup_status' => $v->id_nakup_status,
+
+			];
+		}
+		return $out;
+	}
 }

@@ -2,11 +2,8 @@
 
 namespace App\AdminModule\Presenters;
 
-use App\AdminModule\Forms\Products;
 use DbTable;
-use Nette\Application\UI\Form;
-use Nette\Forms\Controls;
-use PeterVojtech\Confirm\ConfirmationDialog;
+use Nette\Utils\Json;
 
 /**
  * Prezenter pre správu nákupov.
@@ -42,6 +39,6 @@ class NakupPresenter extends BasePresenter
 	/** Vychodzia akcia */
 	public function renderDefault()
 	{
-		$this->template->nakup = $this->nakup->findAll()->order("created DESC")->limit(10);
+		$this->template->nakup = Json::encode($this->nakup->getLast());
 	}
 }
