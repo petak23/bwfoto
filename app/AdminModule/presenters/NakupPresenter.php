@@ -40,5 +40,6 @@ class NakupPresenter extends BasePresenter
 	public function renderDefault()
 	{
 		$this->template->nakup = Json::encode($this->nakup->getLast());
+		$this->template->spravca = $this->udaje->getValByName("nakup_spravca");
 	}
 }

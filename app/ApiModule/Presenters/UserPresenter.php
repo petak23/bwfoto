@@ -49,10 +49,11 @@ class UserPresenter extends BasePresenter
 
 	/**
 	 * Funkcia pre formulár na zostavenie zoznamu všetkých užívateľov
-	 * Vráti pole uzivatelov vo formate: id => "meno priezvisko" */
-	public function actionUserChangeFormUsers(): void
+	 * Vráti pole uzivatelov vo formate: id => "meno priezvisko" 
+	 * @param int id Minimálna úroveň registrácie */
+	public function actionUserChangeFormUsers(int $id): void
 	{
-		$this->sendJson($this->user_main->uzivateliaForm(1));
+		$this->sendJson($this->user_main->uzivateliaForm(1, $id));
 	}
 
 	public function actionGetActualUserInfo(): void

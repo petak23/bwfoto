@@ -21,6 +21,16 @@ class Nakup extends Table
 	/** @var string */
 	protected $tableName = 'nakup';
 
+	/** @var Nette\Database\Table\Selection */
+	protected $nakup_status;
+
+	public function __construct(
+		Database\Explorer $db
+	) {
+		parent::__construct($db);
+		$this->nakup_status = $this->connection->table("nakup_status");
+	}
+
 	public function add(int $id_user_main, array $data): Database\Table\ActiveRow
 	{
 		$firstOfThisMonth = strtotime(date('Y-m') . '-01 00:00:00');
@@ -68,5 +78,16 @@ class Nakup extends Table
 			];
 		}
 		return $out;
+	}
+
+	public function getNakupStatus(): array
+	{
+		return $this->nakup_status->fetchPairs("id", "name");
+	}
+
+	public function changeNakupStatus(int $id_nakup, int $change_to): array
+	{
+		$out = $this->repair($id_nakup, ["id_nakup_status" => $change_to]);
+		return $out->toArray();
 	}
 }

@@ -3,18 +3,19 @@
 namespace App\ApiModule\Presenters;
 
 use DbTable;
+use DbTable\Udaje;
 
 /**
  * Prezenter pre pristup k api udajov.
- * Posledna zmena(last change): 12.12.2023
+ * Posledna zmena(last change): 15.04.2024
  *
  * Modul: API
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.0
+ * @version 1.0.1
  */
 class UdajePresenter extends BasePresenter
 {
@@ -64,16 +65,18 @@ class UdajePresenter extends BasePresenter
 	}
 
 	/**
-	 * Otestuje či je užívateľ prihlásený a či má oprávnenie na požadovanú operáciu
-	 * $_post = ['resource', 'action'] */
-	/*public function actionIsAllowed(int $id): void
+	 * Uloží zmenu v údaji
+	 * $_post = ['key', 'val'] nazov, text*/
+	public function actionSaveUdaj(): void
 	{
 		$_post = json_decode(file_get_contents("php://input"), true);
 
-		$allowed = $this->user->isLoggedIn()	// Kontrola prihlásenia
-			&& $this->user->getId() == $id			// Kontrola užívateľovho id
-			&& $this->user->isAllowed($_post['resource'], $_post['action']) ? 1 : 0; // Kontrola oprávnenia
+		$saved = $this->udaje->editKey($_post['key'], $_post['val']);
 
-		$this->sendJson(['result' => $allowed]);
-	}*/
+
+		$this->sendJson([
+			'result' => $saved != null ? '200' : '404',
+			'new_val' => $this->udaje->getValByName($_post['key']),
+		]);
+	}
 }

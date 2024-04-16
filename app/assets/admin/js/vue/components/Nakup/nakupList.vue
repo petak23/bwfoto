@@ -1,4 +1,6 @@
 <script>
+	import MainService from "../../services/MainService.js"
+
 	export default {
 		props: {
 			nakup: {
@@ -13,33 +15,72 @@
 		data() {
 			return {
 				my_nakup: [],
+				actual_id: 0,	// id aktualneho nakupu v my_nakup
 				actual: null,
+				new_status: 0,
+				nakup_status: [],
 			}
 		},
 		methods: {
 			viewDetails(id) {
+				let ii = 0
 				this.my_nakup.forEach((item) => {
-					if (item.id == id) this.actual = item
+					if (item.id == id) {
+						this.actual = item
+						this.actual_id = ii
+					}
+					ii++
 				})
-				this.$bvModal.show("modal-nakup")
 			},
 			getMyNakup() {
 				if (this.nakup.length) this.my_nakup = JSON.parse(this.nakup)
-				//console.log(this.my_nakup)
+			},
+			getAllNakupStatus() {
+				MainService.getAllNakupStatus()
+					.then(response => {
+						this.nakup_status = response.data
+					})
+					.catch((error) => {
+						console.error(error)
+					})
+			},
+			changeNakupStatus(event) { // https://masteringjs.io/tutorials/vue/select-onchange
+				this.new_status = event.target.value
+			},	
+			async handleOk() {
+				if (this.actual.id_nakup_status != this.old_status) {
+					await MainService.changeNakupStatus(this.actual.id, this.new_status)
+						.then(response => {
+							console.log(response.data)
+							this.my_nakup[this.actual_id].id_nakup_status = response.data.new_status
+							this.my_nakup[this.actual_id].status = this.nakup_status[response.data.new_status]
+							this.actual = null							
+							let message = 'Zmena objednávky č. ' + this.my_nakup[this.actual_id].code + ' na: "' 
+							message += this.my_nakup[this.actual_id].status 
+							message += '" bola vykonaná. ' + response.data.message 
+							this.$root.$emit('flash_message', [{
+								'message': message,
+								'type': response.data.status == 200 ? 'success' : 'danger',
+								'heading': 'Zmena stavu objednávky',
+								'timeout': response.data.status == 200 ? 20000 : 60*60*100 /* hodina */,
+							}])
+						})
+						.catch((error) => {
+							console.error(error)
+						})
+				} else {
+					console.log("Nič nerob...");
+				}
 			}
 		},
-		/*computed: {
-			address2() {
-				return this.actual != null ? JSON.parse(this.actual.user_profile.address2) : null 
-			}
-		},*/
 		watch: {
-			nakup(newValue, oldValue) {
+			nakup() {
 				this.getMyNakup()
 			}
 		},
 		mounted () {
 			this.getMyNakup()
+			this.getAllNakupStatus()
 		},
 	}
 </script>
@@ -49,7 +90,7 @@
 		<table class="table table-sm table-stripped" v-if="my_nakup.length">
 			<tr>
 				<th>Kupujúci</th>
-				<th>Dátum</th>
+				<th>Dátum vytvorenia</th>
 				<th>Cena</th>
 				<th>Kód</th>
 				<th>Stav</th>
@@ -60,17 +101,28 @@
 				<td>{{ n.created }}</td>
 				<td>{{ n.price }}</td>
 				<td>{{ n.code }}</td>
-				<td>{{ n.status }}</td>
+				<td :class="n.id_nakup_status == Object.keys(nakup_status).length ? 'text-muted' : ''">
+					{{ n.status }}
+				</td>
 				<td>
 					<button class="btn btn-sm btn-outline-success" :id="'nakup'+n.id" title="Zobraz detail nákupu"
-						@click.prevent="viewDetails(n.id)">
+						@click="viewDetails(n.id)" v-b-modal.modal-nakup>
 						<i class="fa-solid fa-eye"></i>
 					</button>
 				</td>
 			</tr>
 		</table>
-		<b-modal v-if="actual != null" id="modal-nakup" centered size="xl" :title="'Objednávka č.: ' + actual.code" ok-only
-			modal-class="lightbox-img" ref="modal1fo">
+		<b-modal 
+			v-if="actual != null" 
+			id="modal-nakup" centered size="xl" 
+			:title="'Objednávka č.: ' + actual.code" 
+			ok-only
+			no-close-on-backdrop
+			no-close-on-esc
+			hide-header-close
+			modal-class="lightbox-img" ref="modal1fo"
+			@ok="handleOk"
+		>
 			<div class="row">
 				<div class="col-6">Kupujúci:</div>
 				<div class="col-6">{{ actual.user_name }} </div>
@@ -87,7 +139,19 @@
 				<div class="col-6">{{ actual.price }} €</div>
 
 				<div class="col-6">Status:</div>
-				<div class="col-6">{{ actual.status }}</div>
+				<div class="col-6 d-flex justify-content-between">
+					<span v-if="actual.id_nakup_status == Object.keys(nakup_status).length" class="text-muted">
+						{{ actual.status }}
+					</span>
+
+					<select v-else name="nakup_actual_status" @change="changeNakupStatus($event)">
+						<option v-for="(item, index) in nakup_status" :value="index" :selected="index == actual.id_nakup_status"
+							:disabled="index < actual.id_nakup_status"
+						>
+							{{ item }}
+						</option>
+					</select>
+				</div>
 
 				<div class="col-12">
 					<hr />

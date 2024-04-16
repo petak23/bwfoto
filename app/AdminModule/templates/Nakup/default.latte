@@ -1,12 +1,9 @@
 {var $robots = noindex}
 
 {block #content}
-<div class="col-12">
-	<h2 n:block=title>Zoznam objednávok:</h2>
-</div>
-
-<nakup-list 
+<nakup-view
 	nakup="{$nakup}" 
 	base-path="{$baseUrl}"
+	spravca="{$spravca}"
 />
 

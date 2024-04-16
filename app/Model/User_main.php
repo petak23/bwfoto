@@ -129,9 +129,9 @@ class User_main extends Table
 	/**
 	 * Funkcia pre formulár na zostavenie zoznamu všetkých užívateľov
 	 * Vráti pole uzivatelov vo formate: id => "meno priezvisko" */
-	public function uzivateliaForm(int $verzia = 0): array
+	public function uzivateliaForm(int $verzia = 0, int $min_reg = 0): array
 	{
-		$u = $this->findAll();
+		$u = $this->findBy(['id_user_roles >= ?' => $min_reg])->order('id ASC');
 		$out = [];
 		foreach ($u as $v) {
 			if ($verzia == 1) {

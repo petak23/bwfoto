@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Zhrnutie nákupu</title>
+	<style>
+		body {
+			max-width: 50rem;
+			width: 95%;
+			background-color: black;
+			color: white;
+			font-family: Verdana, Geneva, Tahoma, sans-serif;
+			font-size: 16px;
+			margin-top: 0;
+			margin-left: auto;
+			margin-right: auto;
+			margin-bottom: 1rem;
+			padding: .25rem;
+		}
+
+		header {
+			background-color: rgba(250, 250, 250, 0.4);
+			margin: 0;
+			padding-left: 1em;
+			padding-top: .25em;
+			padding-bottom: .25em;
+			min-height: 3rem;
+		}
+		header h1 {
+			margin: 0;
+		}
+		header img{
+			height: 3rem;
+			float: left;
+			padding-right: 2em;
+		}
+
+		main {
+			background-color: rgba(250, 250, 250, 0.4);
+			margin-left: 0;
+			margin-right: 0;
+			margin-top: .25em;
+			margin-bottom: .25em;
+			padding: .5em;
+		}
+		figure {
+			background-color: rgba(125, 125, 125, 0.4);
+			margin: 0;
+			margin-bottom: .25em;
+			padding: .5em;
+		}
+		footer {
+			background-color: rgba(125, 125, 125, 0.4);
+			margin: 0;
+			padding: .5em;
+			text-align: center;
+			font-size: 80%;
+		}
+
+		article {
+			border-bottom: 1px solid #333;
+			padding-bottom: .5em;
+			margin-bottom: .5em;
+		}
+		article:last-child {
+			border-bottom: 0;
+		}
+
+		article h3 {
+			margin-top: 0;
+			margin-bottom: 0;
+		}
+		article img {
+			margin-top: .5em;
+			max-width: 30%;
+			float: left;
+		}
+		.product-content {
+			margin-top: 0em;
+		}
+		.product-content p {
+			margin-top: .5em;
+			margin-bottom: .5em;
+		}
+		.props b{
+			float: left;
+			margin-right: 1em;
+		}
+		table {
+			margin-top: -.2em;
+			padding-top: 0;
+		}
+		table tr th {
+			text-align: left;
+			color: #aaa;
+		}
+	</style>
+</head>
+<body>
+	<header>
+		<img src="{$basePath}/www/images/logo_bw-g.png" alt="logo" />
+		<h1>
+			Zhrnutie nákupu (<small>objednávateľ: {$adress['name']}</small>):
+		</h1>
+	</header>
+	<main>
+		<p>
+			Zákazník {$adress['name']} ({$adress['email']}), vykonal objednávku.
+		</p>
+		<p>	
+			Kód objednávky: <b>{$data_nakup->code}</b><br />
+			Dátum vytvorenia: {$data_nakup->created|date:"d.m.Y"}
+		</p>
+		<hr />
+		<article n:foreach="$product as $p">
+			<h3>{$p['product']['name']}</h3>
+			<img src="{$basePath}/www/{$p['product']['thumb_file']}" alt="{$p['product']['name']}" />
+			<div class="product-content">
+				<p><b>Cena: {$p['product']['properties']['final_price']} €</b></p>
+				<p><b>Popis: </b>{$p['product']['description']}</p>
+				<p class="props">
+					<b>Vlastnosti:</b>
+				</p>	
+				<table>
+					<tr n:foreach="$p['product']['properties']['props'] as $i">
+						<th>{$i['category']}</th>
+						<td>
+							{$i['name']}
+						</td>
+						<td>
+							(
+								{if $i['price_increase_percentage'] != null} + {$i['price_increase_percentage']}%{/if}
+								{if $i['price_increase_price'] != null} + {$i['price_increase_price']}€{/if}
+							)
+						</td>
+					</tr>
+				</table>
+			</div>
+		</article>
+	</main>
+	<figure>
+		<div>Doprava: <span>{$shipping['shipping']['name']}</span> <b>+{$shipping['shipping']['price']}€</b></div>
+		<div>Platba: <span>{$shipping['payment']['name']}</span> <b>+{$shipping['payment']['price']}€</b></div>
+		<div>Spolu: <b>{$final_price}€</b> (DPH: {$dph})</div>
+	</figure>
+
+	<figure>
+		<h2>Fakturačné údaje:</h2>
+		<p>
+			{$adress['name']}<br />
+			{$adress['email']}<br />
+			{$adress['street']}<br />
+			{$adress['town']}	{$adress['psc']}<br />
+			{$adress['country']}<br />
+			{$adress['phone']}
+		</p>
+		<h5 n:if="strlen($adress['firm']['name'])" class="border-top pt-2">Firma:</h5>
+		<p n:if="strlen($adress['firm']['name'])">
+			{$adress['firm']['name']}<br />
+			{$adress['firm']['ico']}<br />
+			{$adress['firm']['dic']}<br />
+			{$adress['firm']['icdph']}<br />
+			{$adress['firm']['street']}<br />
+			{$adress['firm']['town']}<br />
+			{$adress['firm']['psc']}<br />
+			{$adress['firm']['country']}<br />
+		</p>
+		<h5 n:if="strlen($adress['adress2']['street'])" class="border-top pt-2">Iná dodacia adresa:</h5>
+		<p n:if="strlen($adress['adress2']['street'])">
+			{$adress['adress2']['street']}<br />
+			{$adress['adress2']['town']}<br />
+			{$adress['adress2']['psc']}<br />
+			{$adress['adress2']['country']}<br />
+		</p>
+	</figure>
+
+	<footer>
+		Email poslaný zo stránky 
+		<a href="{$basePath}" title="bwfoto">
+			BwFoto
+		</a>
+		.
+	</footer>
+</body>
+</html>

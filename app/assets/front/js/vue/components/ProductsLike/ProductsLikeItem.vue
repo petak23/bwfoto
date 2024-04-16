@@ -24,8 +24,8 @@ export default {
 				.then(response => {
 					this.product = response.data
 					this.my_in_basket()
-					console.log(this.product)
-					console.log(this.likeItem)
+					//console.log(this.product)
+					//console.log(this.likeItem)
 				})
 				.catch((error) => {
 					console.error(error)

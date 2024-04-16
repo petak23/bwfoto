@@ -10,7 +10,7 @@ use PeterVojtech\Email;
 
 /**
  * Prezenter pre pristup k api produktov.
- * Posledna zmena(last change): 20.03.2024
+ * Posledna zmena(last change): 16.04.2024
  *
  * Modul: API
  *
@@ -18,7 +18,7 @@ use PeterVojtech\Email;
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.9
+ * @version 1.1.0
  * 
  * @help 1.) https://forum.nette.org/cs/28370-data-z-post-request-body-reactjs-appka-se-po-ceste-do-php-ztrati
  */
@@ -316,9 +316,11 @@ class ProductsPresenter extends BasePresenter
 			'data_nakup' => $data_nakup,
 			'basePath' => $this->template->baseUrl,
 		];
-		$template = __DIR__ . '/../templates/emails/' . /*($to_admin ? 'shopping_admin' : */ 'shopping_sumar'/*)*/ . '.latte';
+		$template = __DIR__ . '/../templates/emails/shopping_sumar' . ($to_admin ? '_admin' : '') . '.latte';
 		$header = $to_admin ? "Nový nákup" : "Zhrnutie nákupu";
-		$to = $to_admin ? "petak23@echo-msz.eu" : $values['adress']['email'];
+		$sp_id = $this->udaje->getValByName('nakup_spravca');
+		$spravca = $this->user_main->find($sp_id)->email;
+		$to = $to_admin ? $spravca : $values['adress']['email'];
 		try {
 			$this->emailControl->sendMail(2, $to,	$header, null, $params,	$template);
 			return ['status' => 200, 'message' => "OK"]; //$params; //"OK";
@@ -329,5 +331,30 @@ class ProductsPresenter extends BasePresenter
 
 	public function actionGetNakupy(): void
 	{
+	}
+
+	public function actionGetNakupStatus(): void
+	{
+		$out = $this->nakup->getNakupStatus();
+		$this->sendJson($out);
+	}
+
+	public function actionChangeNakupStatus(): void
+	{
+		/* from POST: */
+		$values = json_decode(file_get_contents("php://input"), true); // @help 1.)
+
+		$ch_status = $this->nakup->changeNakupStatus((int)$values["id_nakup"], (int)$values["change_to"]);
+
+		// Todo send email ...
+
+		$out = [
+			'new_status' => $ch_status["id_nakup_status"],
+			'message'	=> "Objednávateľovi bol zaslaný informačný e-mail.",
+			'status' => 200,
+			'ch_status' => $ch_status,
+		];
+
+		$this->sendJson($out);
 	}
 }
