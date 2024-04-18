@@ -29,6 +29,10 @@ export default new Vuex.Store({
 										'log_in', 'log_out', 'register'
 									],
 		texts: {},
+
+		basket: {
+			view_part: 1,
+		}
 	},
 	mutations: {
 		SET_INIT_APP_SETTINGS (state, app_settings) {
@@ -66,6 +70,9 @@ export default new Vuex.Store({
 		},
 		UPDATE_ARTICLE_FIELD (state, field, data) {
 			state.article[field] = data
+		},
+		UPDATE_BASKET_VIEW_PART (state, view_part) {
+			state.basket.view_part = view_part
 		}
 	},
 	actions: {

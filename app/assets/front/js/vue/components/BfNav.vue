@@ -24,6 +24,14 @@ export default {
 			type: String,
 			required: true
 		},
+		logInLink: {
+			type: String,
+			required: true,
+		},
+		logOutLink: {
+			type: String,
+			required: true,
+		},
 	},
 	computed: {
 		base_img() {
@@ -55,8 +63,29 @@ export default {
 			<lang-menu />
 
 			<basket-nav />
+			<a
+				v-if="$store.state.user == null"
+				class="btn btn-light ml-2"
+				:href="logInLink" 
+				title="Prihlásenie (Log in)"
+			>
+				<i class="fa-solid fa-arrow-right-to-bracket"></i>
+			</a>
+			<div class="btn-group ml-2" v-if="$store.state.user != null">
+				<button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+					<i class="fa-regular fa-user"></i>
+				</button>
+				<div class="dropdown-menu dropdown-menu-right">
+					<a class="dropdown-item" href="#"><i class="fa-regular fa-address-card"></i> Profil</a>
+					<a class="dropdown-item" href="#"><i class="fa-solid fa-database"></i> Adminer</a>
+					<a class="dropdown-item" href="#"><i class="fa-solid fa-screwdriver-wrench"></i> Administrácia</a>
+					<div class="dropdown-divider"></div>
+					<a class="dropdown-item" :href="logOutLink">
+						<i class="fa-solid fa-arrow-right-from-bracket"></i> Odhlás sa
+					</a>
+				</div>
+			</div>
 		</div>
-		
 	</nav>
 </template>
 

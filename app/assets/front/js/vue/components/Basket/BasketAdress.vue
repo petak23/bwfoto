@@ -1,13 +1,13 @@
 <script>
 /**
  * Komponenta pre zadanie a editáciu kontaktných údajov.
- * Posledna zmena 08.03.2024
+ * Posledna zmena 17.04.2024
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.1
+ * @version    1.0.2
  */
 	import countryCodes from "../../plugins/country.js"
 	import MainService from '../../services/MainService.js'
@@ -42,7 +42,8 @@
 						country: "",
 						psc: ""
 					},
-				}
+				},
+				test_email: 0,
 			}
 		},
 		methods: {
@@ -58,6 +59,22 @@
 					this.f_data = JSON.parse(this.$session.get("basket-adress"))
 				}
 			},
+			async testEmail() {
+				console.log(this.f_data.email)
+				let test = false
+				await MainService.testUserEmail(this.f_data.email)
+					.then(response => {
+						test = response.data.status == 200
+						console.log(response.data);
+						console.log(test ? "Našiel som mail..." : "Žiadny mail...")
+						this.test_email = test ? 1 : 0
+					})
+					.catch((error) => {
+						console.error(error);
+					})
+
+				return test
+			}
 		},
 		computed: {
 			isFormValid() {
@@ -81,7 +98,7 @@
 					})
 					.catch((error) => {
 						console.error(error);
-					});
+					})
 			}
 		},
 	}
@@ -95,19 +112,6 @@
 		>
 			<div class="form-row">
 				<div class="form-group col-md-6">
-					<label for="basketInputName">Meno a priezvisko:</label>
-					<input 
-						type="text" class="form-control" 
-						name="basketInputName"
-						id="basketInputName" aria-describedby="nameHelp" required
-						v-validate="'required|alpha_spaces'" 
-						data-vv-as="Meno a priezvisko"
-						v-model="f_data.name"
-					/>
-					<small class="form-text bg-danger text-white px-2">{{ errors.first('basketInputName') }}</small>
-					<small id="nameHelp" class="form-text text-muted">Zadajte, prosím, meno v tvare: Janko Mrkvička.</small>
-				</div>
-				<div class="form-group col-md-6">
 					<label for="basketInputEmail">E-mail:</label>
 					<input 
 						type="email" class="form-control" 
@@ -116,11 +120,33 @@
 						v-validate="'required|email'" 
 						data-vv-as="e-mail"
 						v-model="f_data.email"
+						:disabled="$store.state.user != null"
+						:class="$store.state.user != null ? 'disabled' : ''"
+						@blur="testEmail"
 					>
 					<small class="form-text bg-danger text-white px-2">{{ errors.first('basketInputEmail') }}</small>
 					<small id="emailHelp" class="form-text text-muted">
 						E-mailovú adresu nezdieľame s nikým iným!
 					</small>
+					<small v-if="test_email" class="form-text bg-warning px-2">
+						Vašu e-mailovú adresu sme našli v databáze. 
+						Prosím, najprv sa prihláste a potom pokračujte v nákupe.
+					</small>
+				</div>
+				<div class="form-group col-md-6">
+					<label for="basketInputName">Meno a priezvisko:</label>
+					<input 
+						type="text" class="form-control" 
+						name="basketInputName"
+						id="basketInputName" aria-describedby="nameHelp" required
+						v-validate="'required|alpha_spaces'" 
+						data-vv-as="Meno a priezvisko"
+						v-model="f_data.name"
+						:disabled="$store.state.user != null"
+						:class="$store.state.user != null ? 'disabled' : ''"
+					/>
+					<small class="form-text bg-danger text-white px-2">{{ errors.first('basketInputName') }}</small>
+					<small id="nameHelp" class="form-text text-muted">Zadajte, prosím, meno v tvare: Janko Mrkvička.</small>
 				</div>
 			</div>
 			<div v-if="$store.state.user == null">
@@ -352,6 +378,11 @@
 <style scoped>
 .send-button:disabled {
   cursor: not-allowed;
+	opacity: .5;
+}
+
+.form-control:disabled {
+	cursor: not-allowed;
 	opacity: .5;
 }
 </style>

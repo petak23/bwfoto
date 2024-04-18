@@ -56,9 +56,7 @@ export default {
 			}
 			await MainService.postSaveNakup(data)
 			.then(response => {
-				console.log(response.data)
 				if (parseInt(response.data.status) == 200) {
-					console.log(response.data.status)
 					this.$session.remove('basket-adress')
 					this.$session.remove('basket-shipping')
 					for (const [key, value] of Object.entries(this.$session.getAll())) {
@@ -81,6 +79,12 @@ export default {
 					//window.location.href = this.$store.state.basePath;
 				} else {
 					console.error(response.data)
+					vm.$root.$emit('flash_message', [{
+						'message': response.data.message,
+						'type': 'danger',
+						'heading': 'Chyba posielania',
+						'timeout': 10000,
+					}])
 				}
 			})
 			.catch(error => {
@@ -159,6 +163,9 @@ export default {
 					{{ adress.adress2.psc }}<br />
 					{{ adress.adress2.country }}<br />
 				</p>
+			</div>
+			<div class="col-12 mb-1" v-if="shipping.notice != null">
+				Poznámka: {{ shipping.notice }}
 			</div>
 			<div class="col-12">
 				<form

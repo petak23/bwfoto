@@ -1,13 +1,13 @@
 <script>
 /**
  * Komponenta pre užívateľkú ponuku - prihlásený užívateľ.
- * Posledna zmena 11.03.2024
+ * Posledna zmena 18.04.2024
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.1
+ * @version    1.0.5
  */
 export default {
 	props: {
@@ -25,7 +25,7 @@ export default {
 		},
 		logOutLink: {
 			type: String,
-			required: true,
+			default: ""
 		}
 	},
 	data() {
@@ -84,6 +84,7 @@ export default {
 			<i class="fas fa-database"></i>
 		</a>
 		<a 
+			v-if="logOutLink.length"
 			:href="logOutLink" 
 			:title="texts.log_out" 
 			role="button" 

@@ -1,13 +1,13 @@
 <script>
 /**
  * Komponenta pre užívateľkú ponuku.
- * Posledna zmena 11.10.2023
+ * Posledna zmena 18.04.2024
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.0
+ * @version    1.0.1
  */
 
 import UserMenu_not_logged from "./UserMenu_not_logged";
@@ -23,7 +23,7 @@ export default {
 			type: String,
 			default: "0",
 		},
-		logInLink: {
+		logInLink: { // Odkaz na stránku prihlásenia sa (Log in)
 			type: String,
 			required: true,
 		},
@@ -39,9 +39,9 @@ export default {
 			type: String,
 			default: null,
 		},
-		logOutLink: {
+		logOutLink: { // Odkaz na stránku odhlásenia sa (Log out)
 			type: String,
-			required: true,
+			default: ""
 		}
 	},
 	data() {

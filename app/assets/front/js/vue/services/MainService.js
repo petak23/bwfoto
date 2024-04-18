@@ -31,6 +31,12 @@ export default {
 	getActualUserProfile() {
 		return apiClient.get('user/getactualuserprofile')
 	},
+	getUserInfo(id_user_main) {
+		return apiClient.get('user/getuserinfo/' + id_user_main)
+	},
+	testUserEmail(email) {
+		return apiClient.post('user/testuseremail', {email: email})
+	},
 
 	// ---- sign ----
 	postSignIn(data) {

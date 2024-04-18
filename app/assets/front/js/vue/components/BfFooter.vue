@@ -41,9 +41,9 @@ export default {
 			type: String,
 			default: null,
 		},
-		logOutLink: {
+		logOutLink: { // Odkaz na stránku odhlásenia sa (Log out)
 			type: String,
-			required: true,
+			default: "",
 		},
 		// Props for UserMenu - end
 	},

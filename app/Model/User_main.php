@@ -196,40 +196,20 @@ class User_main extends Table
 	 * Nájdenie info o jednom užívateľovy
 	 * @param int $id primary key
 	 * @return Database\Table\ActiveRow|array */
-	public function getUserForApi(int $id, User $user = null, String $baseUrl = "", bool $return_as_array = false): Database\Table\ActiveRow|array
+	public function getUserForApi(int $id, bool $with_password = false): array
 	{
-		$out = $this->find($id);
-		if ($out == null) return ['error' => "User not found", 'error_n' => 1, 'user_id' => $id];
-		if ($return_as_array) {
-			$_cols = $this->getTableColsInfo();
-			$_user = [];
-			foreach ($_cols as $k => $v) {
-				if ($out->{$v['field']} !== null && $v['type'] == "datetime") {
-					$_user[$v['field']] = $out->{$v['field']}->format('d.m.Y H:i:s');
-				} else {
-					$_user[$v['field']] = $out->{$v['field']};
-				}
-			}
-			/*if ($_user['prev_login_ip'] != NULL) {
-				$_user['prev_login_name'] = gethostbyaddr($_user['prev_login_ip']);
-				if ($_user['prev_login_name'] === $_user['prev_login_ip']) {
-					$_user['prev_login_name'] = NULL;
-				}
-			}
-			if ($_user['last_error_ip'] != NULL) {
-				$_user['last_error_name'] = gethostbyaddr($_user['last_error_ip']);
-				if ($_user['last_error_name'] === $_user['last_error_ip']) {
-					$_user['last_error_name'] = NULL;
-				}
-			}
-			if ($user != null) {
-				$_user['monitoringUrl'] = $baseUrl . "monitor/show/" . $_user['monitoring_token'] . "}/" . $user->getId() . "/";
+		$usr = $this->find($id);
+		if ($usr == null) return ['error' => "User not found", 'error_n' => 1, 'user_id' => $id];
+		$_cols = $this->getTableColsInfo();
+		$out = [];
+		foreach ($_cols as $k => $v) {
+			if ($usr->{$v['field']} !== null && $v['type'] == "datetime") {
+				$out[$v['field']] = $usr->{$v['field']}->format('d.m.Y H:i:s');
 			} else {
-				$_user['monitoringUrl'] = null;
-			}*/
-
-			$out = $_user;
+				$out[$v['field']] = $usr->{$v['field']};
+			}
 		}
+		if (!$with_password) unset($out[self::COLUMN_PASSWORD_HASH]);
 		return $out;
 	}
 }

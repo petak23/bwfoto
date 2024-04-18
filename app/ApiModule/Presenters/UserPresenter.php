@@ -3,6 +3,7 @@
 namespace App\ApiModule\Presenters;
 
 use DbTable;
+use Nette\Utils\Strings;
 
 /**
  * Prezenter pre pristup k api užívateľa.
@@ -78,5 +79,18 @@ class UserPresenter extends BasePresenter
 			&& $this->user->isAllowed($_post['resource'], $_post['action']) ? 1 : 0; // Kontrola oprávnenia
 
 		$this->sendJson(['result' => $allowed]);
+	}
+
+	/** Vráti údaje o užívateľovi bez hesla */
+	public function actionGetUserInfo(int $id): void
+	{
+		$this->sendJson($this->user_main->getUserForApi($id));
+	}
+
+	public function actionTestUserEmail(): void
+	{
+		$_post = json_decode(file_get_contents("php://input"), true);
+
+		$this->sendJson(['status' => $this->user_main->testEmail($_post['email']) ? 200 : 404]);
 	}
 }

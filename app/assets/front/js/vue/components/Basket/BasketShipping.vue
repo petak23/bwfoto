@@ -123,3 +123,11 @@ export default {
 		</form>
 	</div>
 </template>
+
+<style scoped>
+	textarea {
+		border: #999;
+		background-color: #ccc;
+		width: 100%;
+	}
+</style>

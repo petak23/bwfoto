@@ -17,6 +17,7 @@
 				my_nakup: [],
 				actual_id: 0,	// id aktualneho nakupu v my_nakup
 				actual: null,
+				actual_status_old: 0,
 				new_status: 0,
 				nakup_status: [],
 			}
@@ -28,6 +29,7 @@
 					if (item.id == id) {
 						this.actual = item
 						this.actual_id = ii
+						this.actual_status_old = this.actual.status
 					}
 					ii++
 				})
@@ -45,16 +47,23 @@
 					})
 			},
 			changeNakupStatus(event) { // https://masteringjs.io/tutorials/vue/select-onchange
-				this.new_status = event.target.value
+				console.log(event.target.value);
+				this.new_status = parseInt(event.target.value)
+				console.log(this.new_status);
 			},	
+			reset() {
+				this.actual = null,
+				this.actual_status_old = 0
+				this.new_status = 0
+			},
 			async handleOk() {
-				if (this.actual.id_nakup_status != this.old_status) {
+				if (this.new_status > 0 && this.actual.id_nakup_status != this.new_status) {
 					await MainService.changeNakupStatus(this.actual.id, this.new_status)
 						.then(response => {
 							console.log(response.data)
 							this.my_nakup[this.actual_id].id_nakup_status = response.data.new_status
 							this.my_nakup[this.actual_id].status = this.nakup_status[response.data.new_status]
-							this.actual = null							
+							this.reset()
 							let message = 'Zmena objednávky č. ' + this.my_nakup[this.actual_id].code + ' na: "' 
 							message += this.my_nakup[this.actual_id].status 
 							message += '" bola vykonaná. ' + response.data.message 

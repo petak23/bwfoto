@@ -269,31 +269,44 @@ class ProductsPresenter extends BasePresenter
 			'adress2'	=> strlen($values['adress']['adress2']['town']) ? Json::encode($values['adress']['adress2']) : null,
 			'firm'	=> strlen($values['adress']['firm']['name']) ? Json::encode($values['adress']['firm']) : null,
 		];
-
+		// Ak je užívateľ prihlásený, tak uprav údaje v jeho profile
 		if ($this->user->isLoggedIn() && $values['adress']['email'] == $this->user->getIdentity()->email) {
 			$u = $this->user_main->find($this->user->getId());
 			if ($this->user->getIdentity()->name != $values['adress']['name']) $u->update(['name' => $values['adress']['name']]);
 			$this->user_profiles->repair($u->id_user_profiles, $profile);
-		} else {
-			$u = $this->add($values['adress']['name'], $values['adress']['email'], null, 0, 0, $profile);
+		} else { // Ak nie je prihlásený, tak vytvor nového "bez hesla" 
+			$u = $this->user_main->add($values['adress']['name'], $values['adress']['email'], null, 0, 0, $profile);
 		}
 
+		// Ulož nákup
 		$data_nakup = $this->nakup->add($u->id, $values);
 
+		// Zarezervuj produkty z košíka
 		foreach ($values['product'] as $p) {
-			$this->products->repair($p['id_product'], ['id_products_status' => 2]); // Zarezervuj produkt
+			$this->products->repair($p['id_product'], ['id_products_status' => 2]);
 		}
 
+		// Pre prihláseného užívateľa
 		if ($this->user->isLoggedIn() && $values['adress']['email'] == $this->user->getIdentity()->email) {
 			// Pošli email o nákupe nakupujúcemu aj predávajúcemu.
-			// Pošli info nazad o potvrdení a prechode na ukončenie.
-			$out = $this->sendEmailAboutShopping($values, $data_nakup);
-			$out_s = $this->sendEmailAboutShopping($values, $data_nakup, true); //pošli info správcovi e-shopu
-			if ($out['status'] == 200 && $out_s['status'] == 200) { // email bol odoslaný
+			$out_u = $this->sendEmailAboutShopping($values, $data_nakup);
+			$out_s = $this->sendEmailAboutShopping($values, $data_nakup, true); //správcovi
 
+			$out_u['status'] = 500;
+			// Pošli info nazad o potvrdení a prechode na ukončenie.
+			if ($out_u['status'] == 200 && $out_s['status'] == 200) { // email bol odoslaný
+				$out = ['status' => 200, 'message' => "Informačný e-mail bol odoslaný"];
+			} else {
+				$out = [
+					'status' => 500,
+					'message' => "Pri posielaní informačného e-mailu"
+						. ($out_u['status'] != 200 ? " užívateľovi " : "")
+						. ($out_s['status'] != 200 ? ", správcovi " : "")
+						. "došlo k chybe!"
+				];
 			}
 		} else {
-			// Pošli email o potvrdení emailovej adresy
+			// Pošli email o potvrdení emailovej adresy	
 			// Pošli info nazad o zaslaní infa o potvrdzovacom emaile
 			$out = ['status' => 200, 'message' => "Zatiaľ nič..."];
 		}

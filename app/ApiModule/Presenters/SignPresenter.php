@@ -9,15 +9,15 @@ use Nette\Utils\Validators;
 
 /**
  * Prezenter pre pristup k api prihlasovania a odhlasovania užívateľov.
- * Posledna zmena(last change): 21.12.2023
+ * Posledna zmena(last change): 16.04.2024
  *
  * Modul: API
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.0
+ * @version 1.0.1
  * @help 1.) https://forum.nette.org/cs/28370-data-z-post-request-body-reactjs-appka-se-po-ceste-do-php-ztrati
  * @help 2.) https://www.php.net/manual/en/function.checkdnsrr.php#48157
  */
@@ -96,14 +96,6 @@ class SignPresenter extends BasePresenter
 
 			$this->user->login($_post['email'], $_post['password']);
 			$this->getActualUserInfo();
-			/*$this->sendJson(
-				$this->user_main->getUserForApi(
-					$this->user->getId(),
-					$this->user,
-					$this->template->baseUrl,
-					true
-				)
-			);*/
 		} catch (Nette\Security\AuthenticationException $e) {
 			$this->sendJson(['status' => 500, 'error' => 'Uživateľské meno alebo heslo je nesprávne!!!']);
 		} catch (Nette\Utils\AssertionException $e) {

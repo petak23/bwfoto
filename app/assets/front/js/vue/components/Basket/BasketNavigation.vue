@@ -1,21 +1,15 @@
 <script>
 /**
  * Komponenta pre vypísanie navigácie nákupu.
- * Posledna zmena 13.03.2024
+ * Posledna zmena 17.04.2024
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.1
+ * @version    1.0.2
  */
 export default {
-	props: {
-		view_part: {
-			type: Number,
-			default: 1
-		},
-	},
 	data() {
 		return {
 			items: [
@@ -34,10 +28,8 @@ export default {
 	},
 	created () {
 		this.$root.$on("basket-nav-update", data => {  
-			/* 
-				formát prichádzajúcich dát: 
-				{ id: x, enabled: true|false, view_part: y, disable_another: true|false } 
-			*/
+			/* formát prichádzajúcich dát: 
+				 { id: x, enabled: true|false, view_part: y, disable_another: true|false } */
 			if (data.disable_another != undefined && data.disable_another) {
 				for (let i = 0; i < this.items.length; i++) {
 					this.items[i].enabled = false;
@@ -68,7 +60,7 @@ export default {
 				@click="getToPage(i.id)"	
 				class="w-100 btn btn-sm nav-button"
 				:class="[
-					i.id == view_part ? 'btn-success disabled' : (i.enabled ? 'btn-secondary' : 'btn-outline-secondary disabled'),
+					i.id == $store.state.basket.view_part ? 'btn-success disabled' : (i.enabled ? 'btn-secondary' : 'btn-outline-secondary disabled'),
 				]"
 				:disabled="i.enabled ? false : true"
 			>

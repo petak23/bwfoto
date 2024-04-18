@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{$nadpis}</title>
+	<style>
+		body {
+			max-width: 50rem;
+			width: 95%;
+			background-color: black;
+			color: white;
+			font-family: Verdana, Geneva, Tahoma, sans-serif;
+			font-size: 16px;
+			margin-top: 0;
+			margin-left: auto;
+			margin-right: auto;
+			margin-bottom: 1rem;
+			padding: .25rem;
+		}
+
+		header {
+			background-color: rgba(250, 250, 250, 0.4);
+			margin: 0;
+			padding-left: 1em;
+			padding-top: .25em;
+			padding-bottom: .25em;
+			min-height: 3rem;
+		}
+		header h1 {
+			margin: 0;
+		}
+		header img{
+			height: 3rem;
+			float: left;
+			padding-right: 2em;
+		}
+
+		main {
+			background-color: rgba(250, 250, 250, 0.4);
+			margin-left: 0;
+			margin-right: 0;
+			margin-top: .25em;
+			margin-bottom: .25em;
+			padding: .5em;
+		}
+		a {
+			color: #3366cc;
+		}
+		.big {
+			font-size: x-large;
+		}
+		footer {
+			background-color: rgba(125, 125, 125, 0.4);
+			margin: 0;
+			padding: .5em;
+			text-align: center;
+			font-size: 80%;
+		}
+	</style>
+</head>
+<body>
+	<header>
+		<img src="{$basePath}/www/images/logo_bw-g.png" alt="logo" />
+		<h1>
+			Potvrdenie e-mailu:
+		</h1>
+	</header>
+	<main>
+		<p>{$email_activate_txt}</p>
+		<div class="big">
+			<b><a href="{$odkaz}" title="{$nazov}">{$nazov}</a></b>
+		</div>
+		<p>
+			{$email_nefunkcny_odkaz}
+		</p>
+		<nobr>
+			<a href="{$odkaz}" title="{$nazov}">{$odkaz}</a>
+		</nobr>
+	</main>
+	<footer>
+		Email poslaný zo stránky
+		<a href="{$basePath}" title="bwfoto">
+			BwFoto
+		</a>
+		.
+	</footer>
+</body>
+</html>

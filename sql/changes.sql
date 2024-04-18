@@ -345,3 +345,15 @@ INSERT INTO `nakup_status` (`id`, `name`) VALUES
 ALTER TABLE `nakup`
 ADD `id_nakup_status` int NOT NULL DEFAULT '1' COMMENT 'Aktuálny stav nákupu',
 ADD FOREIGN KEY (`id_nakup_status`) REFERENCES `nakup_status` (`id`);*/
+
+-- update in 0.9.92
+
+INSERT INTO `user_permission` (`id_user_roles`, `id_user_resource`, `actions`)
+VALUES ('4', '28', NULL);
+
+UPDATE `user_permission` SET
+`id` = '37',
+`id_user_roles` = '0',
+`id_user_resource` = '28',
+`actions` = 'testuseremail'
+WHERE `id` = '37';

@@ -24,6 +24,11 @@ export default {
 					this.items.push(JSON.parse(value))
 				}
 			}
+			if (this.items.length == 0) {
+				this.$session.remove('basket-adress')
+				this.$session.remove('basket-shipping')
+				this.$session.remove('basket-nav')	
+			}
 		},
 		/*delAll(e) {
 			this.$session.clear()
@@ -80,7 +85,11 @@ export default {
 					{{ i.product.name }}
 					<br />{{ i.product.properties.final_price }} €
 				</a>
-				<b-button variant="light" @click.prevent="delOne(i.id_product)">
+				<b-button 
+					v-if="$store.state.basket.view_part == 1"
+					variant="light" 
+					@click.prevent="delOne(i.id_product)"
+				>
 					<i class="fa-regular fa-trash-can text-danger"></i>
 				</b-button>
 			</div>
