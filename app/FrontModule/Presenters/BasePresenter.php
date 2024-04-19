@@ -19,7 +19,7 @@ use Texy;
 /**
  * Zakladny presenter pre vsetky presentery vo FRONT module
  * 
- * Posledna zmena(last change): 13.03.2024
+ * Posledna zmena(last change): 19.04.2024
  *
  *	Modul: FRONT
  *
@@ -27,7 +27,7 @@ use Texy;
  * @copyright Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link      http://petak23.echo-msz.eu
- * @version 1.7.9
+ * @version 1.8.0
  */
 abstract class BasePresenter extends Presenter
 {
@@ -174,9 +174,6 @@ abstract class BasePresenter extends Presenter
 	 * Naplnenie spolocnych udajov pre sablony */
 	public function beforeRender()
 	{
-		// Cesta k API pre vue aplikácie - nastavuje sa cez vue komponentu main-menu-load
-		$this->template->apiPath = $this->template->basePath . '/api/';
-
 		$this->template->title = $this->udaje_webu['titulka'];
 		$this->template->description = $this->udaje_webu['description'];
 		$this->template->keywords = $this->udaje_webu['keywords'];
@@ -206,7 +203,7 @@ abstract class BasePresenter extends Presenter
 		// Pre vue komponentu MainMenuLoad - koniec
 
 		// Pre vue komponentu UserMenu
-		$this->template->registracia_enabled = (bool)$this->udaje->getValByName('registracia_enabled') ? $this->link("User:registracia") : "0";
+		$this->template->registracia_enabled = (bool)$this->udaje->getValByName('registracia_enabled') ? $this->link("User:registracia") : "";
 		$this->template->adminLink = $this->user->isAllowed('Admin:Homepage', 'default') ? $this->link(':Admin:Homepage:') : null;
 		$hl_m_db_info = $this->user_main->getDBInfo();
 		$this->template->adminerLink = $this->user->isLoggedIn() && $this->user->isInRole('admin') ?

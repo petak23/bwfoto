@@ -1,13 +1,13 @@
 <script>
 /**
  * Komponenta pre načítanie hl. menu a textov prekladov.
- * Posledna zmena 17.01.2024
+ * Posledna zmena 19.04.2024
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.4
+ * @version    1.0.5
  */
 
 import MainService from '../../services/MainService.js'
@@ -25,6 +25,30 @@ export default {
 		id_user_main: {
 			type: String,
 			default: 0,
+		},
+		adminLink: {
+			type: String,
+			default: null,
+		},
+		adminerLink: {
+			type: String,
+			default: null,
+		},
+		logInLink: {
+			type: String,
+			default: null,
+		},
+		logOutLink: { // Odkaz na stránku odhlásenia sa (Log out)
+			type: String,
+			default: null,
+		},
+		regLink: { // Odkaz na registráciu
+			type: String,
+			default: null,
+		},
+		userLogLink: {
+			type: String,
+			default: null,
 		}
 	},
 	data: () => ({
@@ -119,6 +143,8 @@ export default {
 
 		// Zapísanie aktívnej položky menu
 		this.$store.commit('SET_MAIN_MENU_ACTIVE', parseInt(this.main_menu_active))
+
+		this.$store.commit('UPDATE_MAIN_PAGE_LINKS', this.logInLink, this.logOutLink, this.adminLink, this.adminerLink, this.regLink != null && this.regLink.length ? this.regLink : null, this.userLogLink)
 
 		MainService.getFromSettings()
 			.then(response => {

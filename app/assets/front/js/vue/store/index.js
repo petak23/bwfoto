@@ -32,7 +32,13 @@ export default new Vuex.Store({
 
 		basket: {
 			view_part: 1,
-		}
+		},
+		logInLink: null,		// Odkaz na stránku prihlásenia sa (Log in)
+		logOutLink: null,		// Odkaz na stránku odhlásenia sa (Log out)
+		adminLink: null,		// Odkaz na administráciu
+		adminerLink: null,	// Odkaz na adminer
+		regLink: null,			// Odkaz na registráciu
+		userLogLink: null,	// Odkaz na stránku editácie profilu užívateľa
 	},
 	mutations: {
 		SET_INIT_APP_SETTINGS (state, app_settings) {
@@ -73,6 +79,14 @@ export default new Vuex.Store({
 		},
 		UPDATE_BASKET_VIEW_PART (state, view_part) {
 			state.basket.view_part = view_part
+		},
+		UPDATE_MAIN_PAGE_LINKS (state, logInLink, logOutLink, adminLink, adminerLink, regLink, userLogLink) {
+			state.logInLink = logInLink
+			state.logOutLink = logOutLink
+			state.adminLink = adminLink
+			state.adminerLink = adminerLink
+			state.regLink = regLink
+			state.userLogLink = userLogLink
 		}
 	},
 	actions: {
@@ -110,6 +124,9 @@ export default new Vuex.Store({
 	getters: {
 		id_user_main: state => {
 			return state.article.id_user_main;
+		},
+		apiPath: state => {
+			return state.basePath + '/api/'
 		}
 	}
 });

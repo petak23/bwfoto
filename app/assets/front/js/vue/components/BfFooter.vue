@@ -20,32 +20,6 @@ export default {
 			type: String,
 			default: "",
 		},
-		// Props for UserMenu
-		regLink: {
-			type: String,
-			default: "0",
-		},
-		logInLink: {
-			type: String,
-			required: true,
-		},
-		userLogLink: {
-			type: String,
-			required: true,
-		},
-		adminLink: {
-			type: String,
-			default: null,
-		},
-		adminerLink: {
-			type: String,
-			default: null,
-		},
-		logOutLink: { // Odkaz na stránku odhlásenia sa (Log out)
-			type: String,
-			default: "",
-		},
-		// Props for UserMenu - end
 	},
 	data() {
 		return {
@@ -90,36 +64,19 @@ export default {
 				<li class="p-2" v-if="copy.length > 0">{{ copy }}</li>
 				<li class="p-2">
 					<a href="https://nette.org/cs/" class="logo-nette" title="nette powered">
-						<img 
-							v-if="base_img != null"
-							:src="base_img + 'nette-powered1.gif'" alt="nette powered">
+						<img v-if="base_img != null" :src="base_img + 'nette-powered1.gif'" alt="nette powered"	/>
 					</a>
 					&nbsp;
 					<a href="https://vuejs.org/" class="logo-nette" title="Vue js" target="_blank">
-						<img 
-							v-if="base_img != null"
-							:src="base_img + 'logo_vue.png'" alt="vue powered" class="vue-logo">
+						<img v-if="base_img != null" :src="base_img + 'logo_vue.png'" alt="vue powered" class="vue-logo" />
 					</a>
 				</li>
 				<li class="p-2">{{ lastUpdate }}</li>
-				<li class="p-2">created by <a href="http://petak23.echo-msz.eu/" title="tatravisual.sk" target="_blank">petak23</a></li>
+				<li class="p-2">created by <a href="http://petak23.echo-msz.eu/" title="petak23.echo-msz.eu" target="_blank">petak23</a></li>
 			</ul>
 		</div> 
 		<div class="my-3 text-center">
-			<user-menu
-				:reg-link="regLink"
-				:log-in-link="logInLink"
-				:user-log-link="userLogLink"
-				:admin-link="adminLink"
-				:adminer-link="adminerLink"
-				:log-out-link="logOutLink"
-			></user-menu>
+			<user-menu />
 		</div>
 	</footer>
 </template>
-
-
-
-<style lang="less" scoped>
-
-</style>

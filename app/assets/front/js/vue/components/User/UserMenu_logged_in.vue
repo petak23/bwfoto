@@ -1,34 +1,16 @@
 <script>
 /**
  * Komponenta pre užívateľkú ponuku - prihlásený užívateľ.
- * Posledna zmena 18.04.2024
+ * Posledna zmena 19.04.2024
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.5
+ * @version    1.0.6
  */
 export default {
-	props: {
-		userLogLink: {
-			type: String,
-			required: true,
-		},
-		adminLink: {
-			type: String,
-			default: null,
-		},
-		adminerLink: {
-			type: String,
-			default: null,
-		},
-		logOutLink: {
-			type: String,
-			default: ""
-		}
-	},
-	data() {
+	/*data() {
 		return {
 			name: "",
 			texts: {},
@@ -36,9 +18,7 @@ export default {
 	},
 	methods: {
 		load_data() {
-			this.name = this.$store.state.user.name
-			this.texts.admin_text = this.$store.state.texts.base_AdminLink_name
-			this.texts.log_out = this.$store.state.texts.log_out
+			this.name = this.$store.state.user.name			
 		}
 	},
 	created() {
@@ -50,33 +30,32 @@ export default {
 		this.$root.$on('main-texts-loadet', data => {
 			this.load_data();
 		})
-		
-	}
+	}*/
 }
 </script>
 
 <template>
 	<div class="btn-group user-lang-menu" role="group" aria-label="User-lang-menu">
 		<a 
-			:href="userLogLink" 
-			:title="name" 
+			:href="$store.state.userLogLink" 
+			:title="$store.state.user.name" 
 			role="button" 
 			class="btn btn-outline-info btn-sm" 
 		>
-			{{ name }}
+			{{ $store.state.user.name }}
 		</a>
 		<a 
-			v-if="adminLink != null"
-			:href="adminLink" 
-			:title="texts.admin_text" 
+			v-if="$store.state.adminLink != null"
+			:href="$store.state.adminLink" 
+			:title="$store.state.texts.base_AdminLink_name" 
 			role="button" 
 			class="btn btn-outline-info btn-sm" 
 		>
-			{{ texts.admin_text }}
+			{{ $store.state.texts.base_AdminLink_name }}
 		</a>
 		<a 
-			v-if="adminerLink != null"
-			:href="adminerLink" 
+			v-if="$store.state.adminerLink != null"
+			:href="$store.state.adminerLink" 
 			role="button" 
 			target="_blank"
 			class="btn btn-outline-secondary btn-sm" 
@@ -84,18 +63,14 @@ export default {
 			<i class="fas fa-database"></i>
 		</a>
 		<a 
-			v-if="logOutLink.length"
-			:href="logOutLink" 
-			:title="texts.log_out" 
+			v-if="$store.state.logOutLink != null"
+			:href="$store.state.logOutLink" 
+			:title="$store.state.texts.log_out" 
 			role="button" 
 			class="btn btn-outline-warning btn-sm" 
 		>
 			<i class="fas fa-sign-out-alt pr-1"></i>
-			{{ texts.log_out }}
+			{{ $store.state.texts.log_out }}
 		</a>
 	</div>
 </template>
-
-<style lang="sass" scoped>
-
-</style>
