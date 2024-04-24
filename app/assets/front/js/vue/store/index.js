@@ -80,13 +80,13 @@ export default new Vuex.Store({
 		UPDATE_BASKET_VIEW_PART (state, view_part) {
 			state.basket.view_part = view_part
 		},
-		UPDATE_MAIN_PAGE_LINKS (state, logInLink, logOutLink, adminLink, adminerLink, regLink, userLogLink) {
-			state.logInLink = logInLink
-			state.logOutLink = logOutLink
-			state.adminLink = adminLink
-			state.adminerLink = adminerLink
-			state.regLink = regLink
-			state.userLogLink = userLogLink
+		UPDATE_MAIN_PAGE_LINKS (state, data) {
+			state.logInLink = data.logInLink
+			state.logOutLink = data.logOutLink
+			state.adminLink = data.adminLink
+			state.adminerLink = data.adminerLink
+			state.regLink = data.regLink
+			state.userLogLink = data.userLogLink
 		}
 	},
 	actions: {

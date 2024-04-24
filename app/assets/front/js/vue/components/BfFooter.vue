@@ -1,11 +1,11 @@
 <script>
 import BwfotoTreeMain from './Menu/BWfoto_Tree_Main'
-import UserMenu from './User/UserMenu'
+//import UserMenu from './User/UserMenu'
 
 export default {
 	components: {
 		BwfotoTreeMain,
-		UserMenu
+		//UserMenu
 	},
 	props: {
 		dirToImages: {
@@ -75,8 +75,8 @@ export default {
 				<li class="p-2">created by <a href="http://petak23.echo-msz.eu/" title="petak23.echo-msz.eu" target="_blank">petak23</a></li>
 			</ul>
 		</div> 
-		<div class="my-3 text-center">
+		<!--div class="my-3 text-center">
 			<user-menu />
-		</div>
+		</div-->
 	</footer>
 </template>

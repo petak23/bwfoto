@@ -22,8 +22,8 @@ export default {
 	getActualUserInfo(id_user_main) {
 		return apiClient.get('user/getactualuserinfo/' + id_user_main)
 	},
-	getUserChangeFormUsers() {
-		return apiClient.get('user/userchangeformusers')
+	getUserChangeFormUsers(min_ur_reg = 5) {
+		return apiClient.get('user/userchangeformusers/' + min_ur_reg)
 	},
 	postIsAllowed(id_user, data) {
 		return apiClient.post('user/isallowed/' + id_user, data)

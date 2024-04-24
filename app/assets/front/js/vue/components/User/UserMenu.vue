@@ -17,19 +17,7 @@ export default {
 	components: {
 		UserMenu_logged_in,
 		UserMenu_not_logged,
-	},
-	/*data() {
-		return {
-			logged_in: false,
-		}
-	},
-	created() {
-		this.logged_in = this.$store.state.user != null
-		// Reaguje na načítanie hl. menu
-		this.$root.$on('user-loadet', data => {
-			this.logged_in = this.$store.state.user != null
-		})
-	}*/
+	}
 }
 </script>
 

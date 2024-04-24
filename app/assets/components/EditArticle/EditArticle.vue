@@ -1,17 +1,15 @@
 <script>
 /** 
  * Component EditArticle
- * Posledná zmena(last change): 18.12.2023
+ * Posledná zmena(last change): 24.04.2024
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2021 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.6
+ * @version 1.0.7
  * 
  */
-
-import MainService from "../../front/js/vue/services/MainService.js"
 import EditTitle from "./EditTitle.vue";
 
 export default {
@@ -39,17 +37,14 @@ export default {
 		checkPermission: function (check_perm) {
 			this.edit_enabled = false
 			if (this.$store.state.user != null && typeof (this.$store.state.user.id) != 'undefined') {
-				console.log(check_perm)
 				this.$store.state.user.permission.forEach(function check(item) {
 					if (item.resource == check_perm.resource) {
-						console.log(item)
 						let p = false
 						if (item.action == null) {
 							p = true
-						} else if (item.action.isArray && item.action.includes(check_perm.action)) {
+						} else if (Array.isArray(item.action) && item.action.includes(check_perm.action)) {
 							p = true
 						}
-						console.log(p)
 						this.edit_enabled = p
 					}
 				}, this)
@@ -98,14 +93,3 @@ export default {
 		<span class="popis" v-if="$store.state.article.text_c" v-html="$store.state.article.text_c"></span>
 	</span>
 </template>
-
-<style scoped>
-	/*.title-info {
-		border-right: 1px solid #ddd;
-		margin-right: .5ex;
-		padding-right: .25ex;
-	}
-	.title-info:last-child {
-		border-right: 0;
-	}*/
-</style>

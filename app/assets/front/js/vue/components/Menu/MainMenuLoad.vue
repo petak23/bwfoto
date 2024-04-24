@@ -144,7 +144,14 @@ export default {
 		// Zapísanie aktívnej položky menu
 		this.$store.commit('SET_MAIN_MENU_ACTIVE', parseInt(this.main_menu_active))
 
-		this.$store.commit('UPDATE_MAIN_PAGE_LINKS', this.logInLink, this.logOutLink, this.adminLink, this.adminerLink, this.regLink != null && this.regLink.length ? this.regLink : null, this.userLogLink)
+		this.$store.commit('UPDATE_MAIN_PAGE_LINKS', {
+			logInLink: this.logInLink, 
+			logOutLink: this.logOutLink, 
+			adminLink: this.adminLink, 
+			adminerLink: this.adminerLink, 
+			regLink: this.regLink != null && this.regLink.length ? this.regLink : null, 
+			userLogLink: this.userLogLink
+		})
 
 		MainService.getFromSettings()
 			.then(response => {

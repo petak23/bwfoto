@@ -2,13 +2,13 @@
 
 /** 
  * Component UserChange
- * Posledná zmena(last change): 07.12.2023
+ * Posledná zmena(last change): 24.04.2024
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2021 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.3
+ * @version 1.0.4
  * 
  */
 
@@ -43,7 +43,7 @@ export default {
 		}
 	},
 	mounted () {
-		MainService.getUserChangeFormUsers()
+		MainService.getUserChangeFormUsers(4)
 			.then(response => {
 				this.users = response.data
 			})
@@ -95,6 +95,7 @@ export default {
 					<b-form-radio-group
 						v-model="id_user_main"
 						:options="users"
+						stacked
 						class="mb-3"
 					></b-form-radio-group>
 				</b-form-group>

@@ -1,8 +1,9 @@
 <script>
-import Autocomplete from './Autocomplete.vue';
+import Autocomplete from './Autocomplete.vue'
 import BwfotoTreeMain from './Menu/BWfoto_Tree_Main.vue'
 import LangMenu from './LangMenu.vue'
 import BasketNav from './Basket/BasketNav'
+import UserMenu_not_logged from "./User/UserMenu_not_logged.vue"
 
 export default {
 	components: {
@@ -10,6 +11,7 @@ export default {
 		BwfotoTreeMain,
 		LangMenu,
 		BasketNav,
+		UserMenu_not_logged
 	},
 	props: {
 		dirToImages: {
@@ -60,14 +62,19 @@ export default {
 			<lang-menu />
 
 			<basket-nav />
-			<a
+
+			<user-menu_not_logged 
+				v-if="$store.state.user == null" 
+				button-class="btn btn-light ml-2"
+			/>
+			<!--a
 				v-if="$store.state.user == null"
 				class="btn btn-light ml-2"
 				:href="$store.state.logInLink" 
 				title="Prihlásenie (Log in)"
 			>
 				<i class="fa-solid fa-arrow-right-to-bracket"></i>
-			</a>
+			</a!-->
 			<div class="btn-group ml-2" v-if="$store.state.user != null">
 				<button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 					<i class="fa-regular fa-user"></i>

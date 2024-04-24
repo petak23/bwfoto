@@ -4,7 +4,7 @@
 # If you don't protect this directory from direct web access, anybody will be able to see your passwords.
 # http:#nette.org/security-warning
 #
-# Last change 11.03.2024
+# Last change 22.04.2024
 #
 base_lang_not_def: 'Jazyk, ktorý požadujete, nie je pre tento web definovaný!<br />Language you require is not defined for this site!'
 base_nie_je_opravnenie: 'Na požadovanú akciu %s nemáte dostatočné oprávnenie!'
@@ -12,9 +12,9 @@ base_nie_je_opravnenie1: 'Nemáte dostatočné oprávnenie na danú operáciu!'
 base_loged_in_bad: 'Daná akcia je určená pre neprihláseného užívateľa!'
 base_internal_error: 'Je nám ľúto, ale došlo k vnútornej chybe! Prosím skúste úpredošlú operáciu neskôr znovu...'
 base_log_out_mess: 'Boli ste odhlásený...'
-log_in: 'Prihlás sa'
-log_out: 'Odhlás sa'
-register: 'Registrácia'
+log_in: 'Prihláste sa (Log in)'
+log_out: 'Odhláste sa (Log out)'
+register: 'Registrácia (Sign up)'
 base_nette_title: 'Nette Framework - populárny nástroj pre vytváranie webových aplikácií v PHP.'
 base_nette_powered: 'vytvorené v nette'
 base_link_to_admin_log_in: 'Prihlásenie pre administráciu webu'

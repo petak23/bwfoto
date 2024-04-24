@@ -7,31 +7,9 @@
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.6
+ * @version    1.0.7
  */
-export default {
-	/*data() {
-		return {
-			name: "",
-			texts: {},
-		}
-	},
-	methods: {
-		load_data() {
-			this.name = this.$store.state.user.name			
-		}
-	},
-	created() {
-		this.load_data();
-		// Reaguje na načítanie hl. menu
-		this.$root.$on('user-loadet', data => {
-			this.load_data();
-		})
-		this.$root.$on('main-texts-loadet', data => {
-			this.load_data();
-		})
-	}*/
-}
+//export default {}
 </script>
 
 <template>

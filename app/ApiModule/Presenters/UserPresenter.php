@@ -3,11 +3,10 @@
 namespace App\ApiModule\Presenters;
 
 use DbTable;
-use Nette\Utils\Strings;
 
 /**
  * Prezenter pre pristup k api užívateľa.
- * Posledna zmena(last change): 14.03.2024
+ * Posledna zmena(last change): 24.04.2024
  *
  * Modul: API
  *
@@ -15,7 +14,7 @@ use Nette\Utils\Strings;
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.3
+ * @version 1.0.4
  */
 class UserPresenter extends BasePresenter
 {
@@ -52,7 +51,7 @@ class UserPresenter extends BasePresenter
 	 * Funkcia pre formulár na zostavenie zoznamu všetkých užívateľov
 	 * Vráti pole uzivatelov vo formate: id => "meno priezvisko" 
 	 * @param int id Minimálna úroveň registrácie */
-	public function actionUserChangeFormUsers(int $id): void
+	public function actionUserChangeFormUsers(int $id = 5): void
 	{
 		$this->sendJson($this->user_main->uzivateliaForm(1, $id));
 	}

@@ -136,7 +136,6 @@ export default {
 				.then(response => {
 					this.props = response.data
 					this.form_categories = [{ value: null, text: 'Vyberte kategóriu' }]
-					console.log(this.props)
 					for (const [key, value] of Object.entries(this.props)) {
 						this.form_categories.push({
 							'value': value[0].id_property_categories,
@@ -150,20 +149,17 @@ export default {
 					console.error(error)
 				})
 		},
-		checkPermission: function (check_perm) {
+		checkPermission(check_perm) {
 			this.edit_enabled = false
 			if (this.$store.state.user != null && typeof (this.$store.state.user.id) != 'undefined') {
-				console.log(check_perm)
 				this.$store.state.user.permission.forEach(function check(item) {
 					if (item.resource == check_perm.resource) {
-						console.log(item)
 						let p = false
 						if (item.action == null) {
 							p = true
-						} else if (item.action.isArray && item.action.includes(check_perm.action)) {
+						} else if (Array.isArray(item.action) && item.action.includes(check_perm.action)) {
 							p = true
 						}
-						console.log(p)
 						this.edit_enabled = p
 					}
 				}, this)

@@ -65,37 +65,49 @@ export default {
 			})
 		},
 		forgottenPassword() {
-
+			console.log("FPass");
 		},
 	}
 }
 </script>
 
 <template>
-	<b-form @submit="onSubmit" @reset="onReset" class="sign-in-form">
-		<b-form-group
-			id="input-group-1"
-			label=""
-			label-for="input-1"
-		>
-			<b-form-input
-				id="input-1"
-				v-model="form.email"
-				type="email"
-				placeholder="Zadaj email"
-				required
-			></b-form-input>
-		</b-form-group>
+	<form @submit="onSubmit" @reset="onReset" class="sign-in-form">
+		<div class="form-row">
+			<div class="form-group">
+				<input 
+					type="email" class="form-control" 
+					name="signInEmail"
+					placeholder="Zadaj email"
+					id="signInEmail" aria-describedby="emailHelp" 
+					required
+					v-validate="'required|email'" 
+					data-vv-as="e-mail"
+					v-model="form.email"
+				>
+				<small class="form-text bg-danger text-white px-2">
+					{{ errors.first('signInEmail') }}
+				</small>
+			</div>
+		</div>
 
-		<b-form-group id="input-group-2" label="" label-for="input-2">
-			<b-form-input
-				id="input-2"
-				v-model="form.password"
-				type="password"
-				placeholder="Zadaj heslo"
-				required
-			></b-form-input>
-		</b-form-group>
+		<div class="form-row">
+			<div class="form-group">
+				<input 
+					type="password" 
+					class="form-control"
+					id="signInPassdord"
+					placeholder="Zadaj heslo"
+					name="signInPassdord"
+					v-validate="'min:5'"
+					v-model="form.password"
+					data-vv-as="heslo"
+				>
+				<small class="form-text bg-danger text-white px-2">
+					{{ errors.first('signInPassdord') }}
+				</small>
+			</div>
+		</div>
 
 		<!-- b-form-group id="input-group-4" v-slot="{ ariaDescribedby }">
 			<b-form-checkbox-group
@@ -107,53 +119,27 @@ export default {
 			</b-form-checkbox-group>
 		</ -->
 
-		<b-button 
-			type="submit" 
-			variant="success"
-			:disabled="!submit_enabled"
-		>Prihlásiť</b-button>
+		<div class="form-row">
+			<div class="form-group">
+				<button 
+					type="submit"
+					class="btn btn-success mt-2"
+					:class="submit_enabled ? '' : 'disabled'"
+					:disabled="!submit_enabled"
+				>
+					Prihlásiť
+				</button>
+				<button 
+					v-on:click.prevent="forgottenPassword" 
+					class="btn btn-link mt-2"
+				>
+					Zabudnuté heslo
+				</button>
 
-		<b-button @onClick="forgottenPassword" variant="link">Zabudnuté heslo</b-button>
-	</b-form>
-
-	<!--form action="/~petak23/bwfoto/login" method="post">
-		<div class="sign-in-form">
-			<div class="form-group row justify-content-center required">
-				<div class="d-none"><label for="frm-signInForm-email" class="required">Email:</label></div>
-				<div class="col-12">
-					<input type="email" name="email" placeholder="Email:" id="frm-signInForm-email" required="required" data-nette-rules="[{&quot;op&quot;:&quot;:filled&quot;,&quot;msg&quot;:&quot;Uveďte, prosím, užívateľský email.&quot;},{&quot;op&quot;:&quot;:email&quot;,&quot;msg&quot;:&quot;Please enter a valid email address.&quot;},{&quot;op&quot;:&quot;:email&quot;,&quot;msg&quot;:&quot;Musíte zadať platnú e-mailovú adresu!&quot;}]" class="form-control text">
-				</div>
-			</div>
-			<div class="form-group row justify-content-center required">
-				<div class="d-none"><label for="frm-signInForm-password" class="required">Heslo:</label></div>
-				<div class="col-12">
-					<input type="password" name="password" placeholder="Heslo:" id="frm-signInForm-password" required="required" data-nette-rules="[{&quot;op&quot;:&quot;:filled&quot;,&quot;msg&quot;:&quot;Uveďte, prosím, heslo.&quot;},{&quot;op&quot;:&quot;:minLength&quot;,&quot;msg&quot;:&quot;Heslo musí mať aspoň 3 znaky&quot;,&quot;arg&quot;:3}]" class="form-control text">
-				</div>
-			</div>
-			<div class="form-group row justify-content-center">
-				<div class="d-none"></div>
-				<div class="col-12">
-					<div class="form-check">
-						<label for="frm-signInForm-remember" class="form-check-label">
-							<input type="checkbox" name="remember" id="frm-signInForm-remember" class="form-check-input"> Pamätať si ma
-						</label>
-					</div>
-				</div>
-			</div>
-			<div class="form-group row justify-content-center">
-				<div class="d-none"></div>
-				<div class="col-12">
-					<input type="submit" name="login" value="Prihlásiť sa..." class="btn btn-success button">
-					<input type="submit" name="forgottenPassword" value="Zabudnuté heslo?" formnovalidate="formnovalidate" class="btn btn-link button">
-				</div>
 			</div>
 		</div>
-		<input type="hidden" name="_token_" value="tnqykqi6a7eibylziyx/v+PmjgDD2f6yJHINY=">
-		<input type="hidden" name="_do" value="signInForm-submit">
-	</form -->
+	</form>
 </template>
-
-
 
 <style scoped>
 .sign-in-form {
