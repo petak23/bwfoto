@@ -11,8 +11,12 @@
  */
 
 import MainService from '../../services/MainService.js'
+import ForgotPasswdForm from './ForgotPasswdForm.vue'
 
 export default {
+	components: {
+		ForgotPasswdForm,
+	},
 	data() {
 		return {
 			form: {
@@ -66,6 +70,7 @@ export default {
 		},
 		forgottenPassword() {
 			console.log("FPass");
+			this.$bvModal.show("modal-forgot-passwd")
 		},
 	}
 }
@@ -135,7 +140,9 @@ export default {
 				>
 					Zabudnuté heslo
 				</button>
-
+				<b-modal id="modal-forgot-passwd" centered size="xl" ok-only >
+					<forgot-passwd-form></forgot-passwd-form>
+				</b-modal>
 			</div>
 		</div>
 	</form>

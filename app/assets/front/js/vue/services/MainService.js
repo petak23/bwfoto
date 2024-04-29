@@ -37,6 +37,9 @@ export default {
 	testUserEmail(email) {
 		return apiClient.post('user/testuseremail', {email: email})
 	},
+	postForgottenPassword(email) {
+		return apiClient.post('user/forgottenpassword', {email: email})
+	},
 
 	// ---- sign ----
 	postSignIn(data) {
