@@ -24,14 +24,13 @@ class UserPresenter extends BasePresenter
 	// -- DB
 	/** @var DbTable\User_prihlasenie @inject */
 	public $user_prihlasenie;
-
 	/** @var DbTable\User_main @inject */
 	public $user_main;
 	/** @var DbTable\User_profiles @inject */
 	public $user_profiles;
 
-
-	/**   ----  USER_PRIHLASENIE  ----   */
+	/** @var Email\EmailControl @inject */
+	public $myMailer;
 
 	/**
 	 * Vráti posledné prihlásenia
@@ -113,7 +112,8 @@ class UserPresenter extends BasePresenter
 					"email_nefunkcny_odkaz" => $this->texty_presentera->translate('email_nefunkcny_odkaz'),
 					"email_pozdrav" => $this->texty_presentera->translate('email_pozdrav'),
 					"nazov"     => $this->texty_presentera->translate('forgot_pass'),
-					"odkaz"     => 'http://' . $this->nazov_stranky . $this->link("User:resetPassword", $user_info->id, $new_password_key),
+					"odkaz"     => 'http://' . $this->nazov_stranky . $this->link(":Front:User:resetPassword", $user_info->id, $new_password_key),
+					"basePath"	=> $this->template->basePath,
 				];
 				try {
 					$this->myMailer->sendMail(1, $user_info->email, $this->texty_presentera->translate('forgot_pass'), null, $params, __DIR__ . '/../templates/emails/forgot_password.latte');

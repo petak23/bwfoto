@@ -357,3 +357,7 @@ UPDATE `user_permission` SET
 `id_user_resource` = '28',
 `actions` = 'testuseremail'
 WHERE `id` = '37';
+
+-- update 2024-05-06
+
+UPDATE `user_permission` SET `actions` = 'testuseremail,forgottenpassword' WHERE `id_user_resource` = '28' AND `id` = '37';

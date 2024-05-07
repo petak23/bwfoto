@@ -12,7 +12,7 @@ use Nette\Http;
 /**
  * Zakladny presenter pre vsetky presentery v module API
  * 
- * Posledna zmena(last change): 11.03.2024
+ * Posledna zmena(last change): 06.05.2024
  *
  * Modul: API
  *
@@ -20,7 +20,7 @@ use Nette\Http;
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.8
+ * @version 1.0.9
  */
 abstract class BasePresenter extends Presenter
 {
@@ -68,6 +68,8 @@ abstract class BasePresenter extends Presenter
 
 	/** @var Http\Request @inject*/
 	public $httpRequest;
+	/** @var string kmenovy nazov stranky pre rozne ucely typu www.neco.sk*/
+	public $nazov_stranky;
 
 	public function __construct(array $parameters)
 	{
@@ -91,6 +93,10 @@ abstract class BasePresenter extends Presenter
 				'message' => "Name: " . $this->name . " | Action: -> ". $this->action ." <- NOT allowed!"
 			]);
 		}
+
+		$httpR = $this->httpRequest->getUrl();
+		$this->nazov_stranky = $httpR->host . $httpR->scriptPath; // Nazov stranky v tvare www.nieco.sk
+		$this->nazov_stranky = substr($this->nazov_stranky, 0, strlen($this->nazov_stranky) - 1);
 
 		$this->texty_presentera->setLanguage($this->language);
 	}

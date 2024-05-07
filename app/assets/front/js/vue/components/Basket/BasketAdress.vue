@@ -1,13 +1,13 @@
 <script>
 /**
  * Komponenta pre zadanie a editáciu kontaktných údajov.
- * Posledna zmena 17.04.2024
+ * Posledna zmena 07.05.2024
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.2
+ * @version    1.0.3
  */
 	import countryCodes from "../../plugins/country.js"
 	import MainService from '../../services/MainService.js'
@@ -43,7 +43,7 @@
 						psc: ""
 					},
 				},
-				test_email: 0,
+				test_email: 0, // 0: nevalidný; 1: validný a nenájdený; 2: validný a nájdený; 3: najdený a prihlásený
 			}
 		},
 		methods: {
@@ -60,25 +60,28 @@
 				}
 			},
 			async testEmail() {
-				console.log(this.f_data.email)
-				let test = false
 				await MainService.testUserEmail(this.f_data.email)
 					.then(response => {
-						test = response.data.status == 200
-						console.log(response.data);
-						console.log(test ? "Našiel som mail..." : "Žiadny mail...")
-						this.test_email = test ? 1 : 0
+						//console.log(response.data);
+						this.test_email = response.data.status == 200 ? 2 : (this.isEmailVAlid ? 1 : 0)
 					})
 					.catch((error) => {
 						console.error(error);
 					})
-
-				return test
+			}
+		},
+		watch: {
+			isEmailVAlid() {
+				if (this.isEmailVAlid) this.testEmail() // Testuj len keď je validný email
+				else this.test_email = 0
 			}
 		},
 		computed: {
 			isFormValid() {
 				return Object.keys(this.fields).every(key => this.fields[key].valid);
+			},
+			isEmailVAlid() {
+				return this.fields['basketInputEmail'] !== undefined ? this.fields['basketInputEmail'].valid : false
 			}
 		},
 		created () {
@@ -86,6 +89,7 @@
 			if (this.$store.state.user != null) { // Mám prihláseného užívateľa
 				this.f_data.name = this.$store.state.user.name
 				this.f_data.email = this.$store.state.user.email
+				this.test_email = 3
 				MainService.getActualUserProfile(this.$store.state.id)
 					.then(response => {
 						this.f_data.phone = response.data.phone
@@ -128,12 +132,12 @@
 					<small id="emailHelp" class="form-text text-muted">
 						E-mailovú adresu nezdieľame s nikým iným!
 					</small>
-					<small v-if="test_email" class="form-text bg-warning px-2">
+					<small v-if="test_email == 2 && $store.state.user == null" class="form-text alert alert-warning px-2">
 						Vašu e-mailovú adresu sme našli v databáze. 
 						Prosím, najprv sa prihláste a potom pokračujte v nákupe.
 					</small>
 				</div>
-				<div class="form-group col-md-6">
+				<div class="form-group col-md-6" v-if="test_email % 2 == 1">
 					<label for="basketInputName">Meno a priezvisko:</label>
 					<input 
 						type="text" class="form-control" 
@@ -149,14 +153,14 @@
 					<small id="nameHelp" class="form-text text-muted">Zadajte, prosím, meno v tvare: Janko Mrkvička.</small>
 				</div>
 			</div>
-			<div v-if="$store.state.user == null">
+			<div v-if="$store.state.user == null && test_email == 1">
 				<button class="btn btn-primary my-2" type="button" data-toggle="collapse" data-target="#collapseReg" aria-expanded="false" aria-controls="collapseReg">
 					Registrácia
 				</button>
 				<small id="emailHelp" class="form-text text-muted">Ak sa zaregistrujete, tak pri najbližšom nákupe už nemusíte zadávať údaje nanovo.</small>
 			</div>
-			<div class="collapse form-row" id="collapseReg" v-if="$store.state.user == null">
-			  <div class="form-group col-md-6">
+			<div class="collapse form-row" id="collapseReg" v-if="$store.state.user == null && test_email == 1">
+				<div class="form-group col-md-6">
 					<label for="password1">Heslo</label>
 					<input 
 						type="password" 
@@ -186,7 +190,7 @@
 					<small class="form-text bg-danger text-white px-2">{{ errors.first('password_confirmation') }}</small>
 				</div>
 			</div>
-			<div class="form-group">
+			<div class="form-group" v-if="test_email % 2 == 1">
 				<label for="basketInputAdress1">Ulica a číslo domu:</label>
 				<input type="text" class="form-control" 
 					name="basketInputAdress1"
@@ -197,7 +201,7 @@
 				>
 				<small class="form-text bg-danger text-white px-2">{{ errors.first('basketInputAdress1') }}</small>
 			</div>
-			<div class="form-row">
+			<div class="form-row" v-if="test_email % 2 == 1">
 				<div class="form-group col-md-4">
 					<label for="inputCity">Mesto:</label>
 					<input type="text" class="form-control" 
@@ -234,7 +238,7 @@
 					<small class="form-text bg-danger text-white px-2">{{ errors.first('inputState') }}</small>
 				</div>
 			</div>
-			<div class="form-group">
+			<div class="form-group" v-if="test_email % 2 == 1">
 				<label for="basketInputTel">Telefón(bez medzier):</label>
 				<input type="text" class="form-control" 
 					name="basketInputTel"
@@ -247,12 +251,12 @@
 				<small class="form-text bg-danger text-white px-2">{{ errors.first('basketInputTel') }}</small>
 			</div>
 
-			<div>
+			<div v-if="test_email % 2 == 1">
 				<button class="btn btn-primary my-2" type="button" data-toggle="collapse" data-target="#collapseFirm" aria-expanded="false" aria-controls="collapseFirm">
 					Dodávka na firmu
 				</button>
 			</div>
-			<div class="collapse" id="collapseFirm">
+			<div class="collapse" id="collapseFirm" v-if="test_email % 2 == 1">
 				<div class="form-group">
 					<label for="inputFirmName">Firma:</label>
 					<input type="text" 
@@ -318,12 +322,12 @@
 				</div>
 			</div>
 			
-			<div>
+			<div v-if="test_email % 2 == 1">
 				<button class="btn btn-primary my-2" type="button" data-toggle="collapse" data-target="#collapseAdress2" aria-expanded="false" aria-controls="collapseFirm">
 					Iná dodacia adresa
 				</button>
 			</div>
-			<div class="collapse" id="collapseAdress2">
+			<div class="collapse" id="collapseAdress2" v-if="test_email % 2 == 1">
 				<div class="form-group">
 					<label for="inputAdress2">Ulica a číslo domu:</label>
 					<input type="text" 
@@ -362,6 +366,7 @@
 			</div>
 
 			<button 
+				v-if="test_email != 2"
 				type="submit"
 				class="btn btn-success mt-2 send-button"
 				:class="isFormValid ? '' : 'disabled'"
@@ -372,12 +377,15 @@
 
 
 		</form>
+		<a :href="$store.state.logInLink" v-if="test_email == 2" class="btn btn-success mt-2">
+			{{ $store.state.texts.log_in }}
+		</a>
 	</div>
 </template>
 
 <style scoped>
 .send-button:disabled {
-  cursor: not-allowed;
+	cursor: not-allowed;
 	opacity: .5;
 }
 

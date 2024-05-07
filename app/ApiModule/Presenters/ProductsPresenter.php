@@ -6,6 +6,7 @@ use DbTable;
 use Nette\Database;
 use Nette\Http\FileUpload;
 use Nette\Utils\Json;
+use Nette\Utils\Random;
 use PeterVojtech\Email;
 
 /**
@@ -309,6 +310,35 @@ class ProductsPresenter extends BasePresenter
 			// Pošli email o potvrdení emailovej adresy	
 			// Pošli info nazad o zaslaní infa o potvrdzovacom emaile
 			$out = ['status' => 200, 'message' => "Zatiaľ nič..."];
+			$new_password_key = Random::generate(25);
+			$params = [
+				"site_name" => $this->nazov_stranky,
+				"nadpis"    => sprintf($this->texty_presentera->translate('email_activate_nadpis'), $this->nazov_stranky),
+				"email_activate_txt" => $this->texty_presentera->translate('email_activate_txt'),
+				"email_nefunkcny_odkaz" => $this->texty_presentera->translate('email_nefunkcny_odkaz'),
+				"email_pozdrav" => $this->texty_presentera->translate('email_pozdrav'),
+				"nazov"     => $this->texty_presentera->translate('register_aktivacia'),
+				"odkaz"     => 'http://' . $this->nazov_stranky . $this->link(":Front:User:activateUser", $u->id, $new_password_key),
+				"basePath"	=> $this->template->basePath,
+			];
+			try {
+				$this->myMailer->sendMail(
+					1, 
+					$values['adress']['email'], 
+					$this->texty_presentera->translate('register_aktivacia'), 
+					null, 
+					$params, 
+					__DIR__ . '/../templates/emails/email_activate.latte'
+				);
+				$this->user_main->find($u->id)->update([
+					'new_password_key' => $new_password_key,
+					'new_password_requested' => date("Y-m-d H:i:s", Time())
+				]);
+				$this->myMailer->sendAdminMail("Overenie e-mailu", "Požiadavka na overenie e-mailu:" . $u->email);
+				$out = ['status' => '200', 'message'=>$this->texty_presentera->translate('register_email_ok')];
+			} catch (Email\SendException $e) {
+				$out = ['status' => '404', 'message'=>$this->texty_presentera->translate('send_email_err')];
+			}
 		}
 		//dumpe($out);
 		$this->sendJson($out);
