@@ -67,13 +67,13 @@ export default {
 					}
 					this.$root.$emit('basket-nav-update', { id: 5, enabled: true, view_part: 5, disable_another: true })
 
-					/*	vm.$root.$emit('flash_message', [{
-							'message': 'Ǔspešne ste sa prihlásili.',
+						vm.$root.$emit('flash_message', [{
+							'message': response.data.message,
 							'type': 'success',
-							'heading': 'Prihlásenie',
-							'timeout': 5000,
+							'heading': 'Ukončenie nákupu',
+							'timeout': 50000,
 						}])
-					*/
+					
 					// https://stackoverflow.com/questions/35664550/vue-js-redirection-to-another-page
 					// Tvrdé presmerovanie po prihlásení.
 					//window.location.href = this.$store.state.basePath;

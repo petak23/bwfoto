@@ -290,10 +290,10 @@ class ProductsPresenter extends BasePresenter
 		// Pre prihláseného užívateľa
 		if ($this->user->isLoggedIn() && $values['adress']['email'] == $this->user->getIdentity()->email) {
 			// Pošli email o nákupe nakupujúcemu aj predávajúcemu.
-			$out_u = $this->sendEmailAboutShopping($values, $data_nakup);
-			$out_s = $this->sendEmailAboutShopping($values, $data_nakup, true); //správcovi
+			$out_u = $this->sendEmailAboutShopping($data_nakup);
+			$out_s = $this->sendEmailAboutShopping($data_nakup, true); //správcovi
 
-			$out_u['status'] = 500;
+			//$out_u['status'] = 500;
 			// Pošli info nazad o potvrdení a prechode na ukončenie.
 			if ($out_u['status'] == 200 && $out_s['status'] == 200) { // email bol odoslaný
 				$out = ['status' => 200, 'message' => "Informačný e-mail bol odoslaný"];
@@ -306,10 +306,9 @@ class ProductsPresenter extends BasePresenter
 						. "došlo k chybe!"
 				];
 			}
-		} else {
+		} else { // neprihlásený
 			// Pošli email o potvrdení emailovej adresy	
 			// Pošli info nazad o zaslaní infa o potvrdzovacom emaile
-			$out = ['status' => 200, 'message' => "Zatiaľ nič..."];
 			$new_password_key = Random::generate(25);
 			$params = [
 				"site_name" => $this->nazov_stranky,
@@ -318,11 +317,11 @@ class ProductsPresenter extends BasePresenter
 				"email_nefunkcny_odkaz" => $this->texty_presentera->translate('email_nefunkcny_odkaz'),
 				"email_pozdrav" => $this->texty_presentera->translate('email_pozdrav'),
 				"nazov"     => $this->texty_presentera->translate('register_aktivacia'),
-				"odkaz"     => 'http://' . $this->nazov_stranky . $this->link(":Front:User:activateUser", $u->id, $new_password_key),
+				"odkaz"     => 'http://' . $this->nazov_stranky . $this->link("products:activateEmail", $u->id, $new_password_key, $data_nakup->id),
 				"basePath"	=> $this->template->basePath,
 			];
 			try {
-				$this->myMailer->sendMail(
+				$this->emailControl->sendMail(
 					1, 
 					$values['adress']['email'], 
 					$this->texty_presentera->translate('register_aktivacia'), 
@@ -334,7 +333,7 @@ class ProductsPresenter extends BasePresenter
 					'new_password_key' => $new_password_key,
 					'new_password_requested' => date("Y-m-d H:i:s", Time())
 				]);
-				$this->myMailer->sendAdminMail("Overenie e-mailu", "Požiadavka na overenie e-mailu:" . $u->email);
+				$this->emailControl->sendAdminMail("Overenie e-mailu", "Požiadavka na overenie e-mailu:" . $u->email);
 				$out = ['status' => '200', 'message'=>$this->texty_presentera->translate('register_email_ok')];
 			} catch (Email\SendException $e) {
 				$out = ['status' => '404', 'message'=>$this->texty_presentera->translate('send_email_err')];
@@ -346,16 +345,24 @@ class ProductsPresenter extends BasePresenter
 
 	/** Funkcia pre odoslanie informacneho emailu */
 	public function sendEmailAboutShopping(
-		array $values,
 		Database\Table\ActiveRow $data_nakup,
 		bool $to_admin = false
 	): string|array {
+		$adress = [
+			'name'		=> $data_nakup->user_main->name,
+			'email'		=> $data_nakup->user_main->email,
+			'street'	=> $data_nakup->user_main->user_profiles->street,
+			'town'		=> $data_nakup->user_main->user_profiles->town,
+			'psc'			=> $data_nakup->user_main->user_profiles->psc,
+			'country'	=> $data_nakup->user_main->user_profiles->country,
+			'phone'		=> $data_nakup->user_main->user_profiles->phone,
+		];
+
 		$params = [
-			'product' => $values['product'],
-			'shipping' => $values['shipping'],
-			'final_price' => $values['final_price'],
-			'dph' => $values['dph'],
-			'adress' => $values['adress'],
+			'product' => JSON::decode($data_nakup->product),
+			'shipping' => JSON::decode($data_nakup->shipping), 
+			'final_price' => $data_nakup->price, 
+			'adress' => $adress,
 			'data_nakup' => $data_nakup,
 			'basePath' => $this->template->baseUrl,
 		];
@@ -363,7 +370,7 @@ class ProductsPresenter extends BasePresenter
 		$header = $to_admin ? "Nový nákup" : "Zhrnutie nákupu";
 		$sp_id = $this->udaje->getValByName('nakup_spravca');
 		$spravca = $this->user_main->find($sp_id)->email;
-		$to = $to_admin ? $spravca : $values['adress']['email'];
+		$to = $to_admin ? $spravca : $data_nakup->user_main->email;
 		try {
 			$this->emailControl->sendMail(2, $to,	$header, null, $params,	$template);
 			return ['status' => 200, 'message' => "OK"]; //$params; //"OK";
@@ -400,4 +407,39 @@ class ProductsPresenter extends BasePresenter
 
 		$this->sendJson($out);
 	}
+
+	/**
+	 * Akcia pre aktivaciu emailu užívateľa, ktorý sa registruje počas nákupu
+	 * @param int $id Id uzivatela
+	 * @param string $new_password_key Kontrolny retazec pre aktivaciu */
+	public function actionActivateEmail(int $id, string $new_password_key, int $id_nakup) : void {
+		$user_main_data = $this->user_main->find($id); // Najdi uzivatela
+		if ($new_password_key == $user_main_data->new_password_key) { //Aktivacne data su v poriadku
+			$user_main_data->update(['id_user_roles' => 1, 'activated' => 1, 'new_password_key' => NULL]); // Aktivacia uzivatela
+			$this->emailControl->sendAdminMail("Aktivácia", "Aktivácia užívateľa:" . $user_main_data->name);
+			
+			$nakup = $this->nakup->find($id_nakup);
+			// Odoslanie info. e-mailu o nákupe objednávateľovi a aj správcovi
+			$out_u = $this->sendEmailAboutShopping($nakup);
+			$out_s = $this->sendEmailAboutShopping($nakup, true); //správcovi
+
+			// Pošli info nazad o potvrdení a prechode na ukončenie.
+			if ($out_u['status'] == 200 && $out_s['status'] == 200) { // email bol odoslaný
+				$out = "Informačný e-mail o nákupe bol odoslaný.";
+			} else {
+				$out = "Pri posielaní informačného e-mailu"
+						. ($out_u['status'] != 200 ? " užívateľovi " : "")
+						. ($out_s['status'] != 200 ? ", správcovi " : "")
+						. "došlo k chybe!";
+			}
+
+			$this->flashMessage($this->texty_presentera->translate('activate_ok'), 'success');
+			$this->flashRedirect(':Front:User:', $out , 'success');
+
+		} else { //Neuspesna aktivacia
+			$this->flashMessage($this->texty_presentera->translate('activate_err2'), 'danger');
+		}
+		$this->redirect('Homepage:');
+	}
+
 }

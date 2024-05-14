@@ -144,7 +144,7 @@
 	<figure>
 		<div>Doprava: <span>{$shipping['shipping']['name']}</span> <b>+{$shipping['shipping']['price']}€</b></div>
 		<div>Platba: <span>{$shipping['payment']['name']}</span> <b>+{$shipping['payment']['price']}€</b></div>
-		<div>Spolu: <b>{$final_price}€</b> (DPH: {$dph})</div>
+		<div>Spolu: <b>{$final_price|number:2, ',', ' '}€</b> (DPH: {($final_price * 0.2)|number:2, ',', ' '})</div>
 	</figure>
 
 	<figure>

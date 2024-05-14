@@ -75,7 +75,7 @@
 		>
 		</basket-sumar>
 		<div v-else>
-			{{ $store.state.basket.view_part }}
+			
 		</div>
 	</div>
 </template>
