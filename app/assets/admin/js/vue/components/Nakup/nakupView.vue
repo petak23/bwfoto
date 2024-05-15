@@ -102,7 +102,7 @@ export default {
 					@cancel="handleCancel"
 				>
 				<div class="form-check" 
-					v-for="u in users">
+					v-for="u in users" :key="u.value">
 					<input 
 						v-model="a_spravca_form"
 						class="form-check-input" type="radio" name="usersRadios" 

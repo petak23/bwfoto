@@ -105,7 +105,7 @@
 				<th>Stav</th>
 				<th></th>
 			</tr>
-			<tr v-for="n in my_nakup">
+			<tr v-for="n in my_nakup" :key="n.id">
 				<td>{{ n.user_name }}</td>
 				<td>{{ n.created }}</td>
 				<td>{{ n.price }}</td>
@@ -154,7 +154,7 @@
 					</span>
 
 					<select v-else name="nakup_actual_status" @change="changeNakupStatus($event)">
-						<option v-for="(item, index) in nakup_status" :value="index" :selected="index == actual.id_nakup_status"
+						<option v-for="(item, index) in nakup_status" :key="index" :value="index" :selected="index == actual.id_nakup_status"
 							:disabled="index < actual.id_nakup_status"
 						>
 							{{ item }}
@@ -218,7 +218,7 @@
 					<h5>Produkty:</h5>
 				</div>
 
-				<div class="col-12" v-for="p in actual.products">
+				<div class="col-12" v-for="p in actual.products" :key="p.id">
 					<div class="card mb-3">
 						<div class="row no-gutters">
 							<div class="col-md-4">
@@ -231,7 +231,7 @@
 										<small class="text-muted">Cena: {{ p.product.properties.final_price }} €</small>
 									</h5>
 									<ul class="list-group list-group-flush">
-										<li class="list-group-item" v-for="r in p.product.properties.props">
+										<li class="list-group-item" v-for="r in p.product.properties.props" :key="r.name">
 											{{ r.category }}: <b>{{ r.name }}</b>
 										</li>
 									</ul>
