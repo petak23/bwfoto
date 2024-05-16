@@ -396,14 +396,64 @@ class ProductsPresenter extends BasePresenter
 
 		$ch_status = $this->nakup->changeNakupStatus((int)$values["id_nakup"], (int)$values["change_to"]);
 
-		// Todo send email ...
-
 		$out = [
 			'new_status' => $ch_status["id_nakup_status"],
-			'message'	=> "Objednávateľovi bol zaslaný informačný e-mail.",
-			'status' => 200,
 			'ch_status' => $ch_status,
 		];
+
+		$params = [
+			'code'	=> $ch_status['code'],
+			'created'	=> $ch_status['created']->format("d.m.Y"),
+			'shipping' => JSON::decode($ch_status['shipping'], JSON::FORCE_ARRAY), 
+			'basePath' => $this->template->baseUrl,
+		];
+		$to = $this->user_main->find($ch_status['id_user_main'])->email;
+		$template = __DIR__ . '/../templates/emails/nakup_' . $ch_status["id_nakup_status"] . '.latte';
+		$message_er = "Pri odosielaní emailu došlo k neočakávanej chybe: %s . Skúste to, prosím, neskôr znovu. ";
+
+		if ($ch_status["id_nakup_status"] >= 2 && $ch_status["id_nakup_status"] < 5) { // Ak je status OK
+			
+			if ($ch_status["id_nakup_status"] == 2) { // Akceptovanie nákupu
+				$params = array_merge($params, [
+					'ucet' => $this->udaje->getValByName('ucet'),
+					'final_price' => $ch_status['price'],
+				]);
+				$header = "Akceptovanie nákupu";
+				$message_ok = "Objednávateľovi bol zaslaný informačný e-mail o akceptácii objednávky.";
+			} elseif ($ch_status["id_nakup_status"] == 3) { // Zaplatenie nákupu
+				$header = "Zaplatenie nákupu";
+				$message_ok = "Objednávateľovi bol zaslaný informačný e-mail o zaplatení objednávky.";
+			} elseif ($ch_status["id_nakup_status"] == 4) { // Odoslanie nákupu
+				$message_ok = "Objednávateľovi bol zaslaný informačný e-mail o odoslaní objednávky.";
+				$header = "Odoslanie nákupu";
+			} 
+
+			try {
+				$this->emailControl->sendMail(
+					(int)$this->udaje->getValByName('nakup_spravca'), 
+					$to,	
+					$header, 
+					null,
+					$params,	
+					$template
+				);
+				$out['message'] = $message_ok;
+				$out['status'] = 200;
+			} catch (Email\SendException $e) {
+				$out['message'] = sprintf($message_er, $e->getMessage());
+				$out['status'] = 500;
+				$ch_status = $this->nakup->changeNakupStatus((int)$values["id_nakup"], (int)$ch_status["old_id_status"]);
+			}
+		}	elseif ($ch_status["id_nakup_status"] == 5) { // Uknčenie nákupu
+			
+			// TODO - oprava info v DB
+			
+			$out['message'] = "Objednávka bola ukončená.";
+			$out['status'] = 200; 
+		} else {
+			$out['message'] = "Status objednávky je chybný.";
+			$out['status'] = 500;
+		}
 
 		$this->sendJson($out);
 	}

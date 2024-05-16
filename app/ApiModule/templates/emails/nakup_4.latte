@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Akceptovanie nákupu</title>
+	<title>Odoslaný nákup</title>
 	<style>
 		body {
 			max-width: 50rem;
@@ -107,25 +107,13 @@
 	<main>
 		<p>
 			Vážený zákazník,<br />
-			Ďakujeme za Váš nákup. Vašu objednávku sme prijali a práve sa vybavuje. O stave Vašej objednávky Vás budeme informovať.
+			Ďakujeme za Váš nákup. Vašu objednávku sme odoslanli a je na ceste k Vám. 
 		</p>
 		<p>	
 			Kód objednávky: <b>{$code}</b><br />
 			Dátum vytvorenia: {$created}
 		</p>
 		<hr />
-		<p>
-			Ak ste si zvolili platbu vopred prevodom, tak nižšie nájdete podklady k platbe. 
-			Vaša objednávka bude v tomto prípade odoslaná až po pripísaní finančných prostriedkov na náš účet.
-		</p>
-		<article>
-			<h3>Platobné údaje</h3>
-			<div class="product-content">
-				<p>IBAN:<b> {$ucet}</b></p>
-        <p>Variabilný symbol:<b> {$code}</b></p>
-				<p>Čiastka na úhradu: <b>{$final_price|number:2, ',', ' '} €</b></p>
-			</div>
-		</article>
 	</main>
 	<figure>
 		<div>Zvolená doprava: <span>{$shipping['shipping']['name']}</span> <b>+{$shipping['shipping']['price']}€</b></div>

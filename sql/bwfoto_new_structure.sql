@@ -261,10 +261,21 @@ CREATE TABLE `nakup` (
   `created` datetime NOT NULL COMMENT 'Dátum vytvorenia nákupu',
   `price` float NOT NULL DEFAULT 0 COMMENT 'Konečná cena nákupu',
   `code` varchar(10) NOT NULL COMMENT 'Kód objednávky a variabilný symbol',
+  `id_nakup_status` int(11) NOT NULL DEFAULT 1 COMMENT 'Aktuálny stav nákupu',
   PRIMARY KEY (`id`),
   KEY `id_user_main` (`id_user_main`),
-  CONSTRAINT `nakup_ibfk_1` FOREIGN KEY (`id_user_main`) REFERENCES `user_main` (`id`)
+  KEY `id_nakup_status` (`id_nakup_status`),
+  CONSTRAINT `nakup_ibfk_1` FOREIGN KEY (`id_user_main`) REFERENCES `user_main` (`id`),
+  CONSTRAINT `nakup_ibfk_2` FOREIGN KEY (`id_nakup_status`) REFERENCES `nakup_status` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf32 COLLATE=utf32_bin;
+
+
+DROP TABLE IF EXISTS `nakup_status`;
+CREATE TABLE `nakup_status` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
+  `name` varchar(30) NOT NULL COMMENT 'Status nákupu',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf32 COLLATE=utf32_bin COMMENT='Zoznam statusov nákupu';
 
 
 DROP TABLE IF EXISTS `news`;
@@ -546,4 +557,4 @@ CREATE TABLE `verzie` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Verzie webu';
 
 
--- 2024-03-21 14:07:55
+-- 2024-05-15 13:13:42

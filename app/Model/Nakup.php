@@ -8,13 +8,13 @@ use Nette\Utils\Json;
 /**
  * Model, ktory sa stara o tabulku nakup
  * 
- * Posledna zmena 20.03.2024
+ * Posledna zmena 16.05.2024
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.1
+ * @version    1.0.2
  */
 class Nakup extends Table
 {
@@ -87,7 +87,8 @@ class Nakup extends Table
 
 	public function changeNakupStatus(int $id_nakup, int $change_to): array
 	{
+		$old_status = $this->find($id_nakup)->id_nakup_status;
 		$out = $this->repair($id_nakup, ["id_nakup_status" => $change_to]);
-		return $out->toArray();
+		return array_merge($out->toArray(), ['old_nakup_status' => $old_status]);
 	}
 }

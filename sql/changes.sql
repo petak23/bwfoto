@@ -344,7 +344,7 @@ INSERT INTO `nakup_status` (`id`, `name`) VALUES
 
 ALTER TABLE `nakup`
 ADD `id_nakup_status` int NOT NULL DEFAULT '1' COMMENT 'Aktuálny stav nákupu',
-ADD FOREIGN KEY (`id_nakup_status`) REFERENCES `nakup_status` (`id`);*/
+ADD FOREIGN KEY (`id_nakup_status`) REFERENCES `nakup_status` (`id`);
 
 -- update in 0.9.92
 
@@ -360,4 +360,4 @@ WHERE `id` = '37';
 
 -- update 2024-05-06
 
-UPDATE `user_permission` SET `actions` = 'testuseremail,forgottenpassword' WHERE `id_user_resource` = '28' AND `id` = '37';
+UPDATE `user_permission` SET `actions` = 'testuseremail,forgottenpassword' WHERE `id_user_resource` = '28' AND `id` = '37';/
