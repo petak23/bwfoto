@@ -60,20 +60,25 @@
 				}
 			},
 			async testEmail() {
-				await MainService.testUserEmail(this.f_data.email)
-					.then(response => {
-						//console.log(response.data);
-						this.test_email = response.data.status == 200 ? 2 : (this.isEmailVAlid ? 1 : 0)
-					})
-					.catch((error) => {
-						console.error(error);
-					})
+				if (this.$store.state.user == null) { // Testovanie má zmysel len pre neprihláseného
+					await MainService.testUserEmail(this.f_data.email)
+						.then(response => {
+							//console.log(response.data);
+							this.test_email = response.data.status == 200 ? 2 : (this.isEmailVAlid ? 1 : 0)
+							console.log('testEmail: ' + this.test_email);
+						})
+						.catch((error) => {
+							console.error(error);
+						})
+				}
 			}
 		},
 		watch: {
 			isEmailVAlid() {
-				if (this.isEmailVAlid) this.testEmail() // Testuj len keď je validný email
-				else this.test_email = 0
+				if (this.$store.state.user == null) {
+					if (this.isEmailVAlid) this.testEmail() // Testuj len keď je validný email
+					else this.test_email = 0
+				}
 			}
 		},
 		computed: {
@@ -103,6 +108,7 @@
 					.catch((error) => {
 						console.error(error);
 					})
+				console.log('created: ' + this.test_email);
 			}
 		},
 	}

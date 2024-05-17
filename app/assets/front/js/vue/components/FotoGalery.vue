@@ -12,6 +12,7 @@
 
 import MainService from '../services/MainService.js'
 import ProductsProperties from './ProductsProperties/ProductsProperties'
+import FotoFilter from './Fotogalery/FotoFilter.vue'
 
 // https://swiperjs.com/vue
 // import Swiper core and required modules
@@ -28,6 +29,7 @@ export default {
 		Swiper,
 		SwiperSlide,
 		ProductsProperties,
+		FotoFilter,
 	},
 	props: {
 		first_id: { // Ak je nastavené tak sa zobrazí obrázok ako prvý
@@ -62,6 +64,7 @@ export default {
 			}],
 			liked: false,
 			in_basket: false,
+			filter_choice: 1,
 		}
 	},
 	methods: {
@@ -136,8 +139,8 @@ export default {
 			let pom = border != null && border.length > 2 ? border.split("|") : ['', '0'];
 			return "border: " + pom[1] + "px solid " + (pom[0].length > 2 ? (pom[0]) : "inherit")
 		},
-		getAttachments() { 
-			MainService.getFotogalery(this.$store.state.main_menu_active)
+		async getAttachments() { 
+			await MainService.getFotogalery(this.$store.state.main_menu_active)
 				.then(response => {
 					this.attachments = response.data
 					if (parseInt(this.first_id) > 0) { // Ak mám first_id tak k nemu nájdem položku v attachments
@@ -188,6 +191,9 @@ export default {
 			this.attachments[this.id].in_basket = this.$session.has('basket-item-' + this.attachments[this.id].id)
 			this.in_basket = this.attachments[this.id].in_basket
 		},
+		filterChange(choice) {
+			this.filter_choice = choice
+		}
 	},
 	created() {
 		window.addEventListener("resize", this.matchHeight);
@@ -260,7 +266,7 @@ export default {
 	<section id="webThumbnails" class="row">
 		<div class="col-12 vue-fotogalery main-win" v-if="attachments.length > 0 && filesDir != null">
 			<div class="row" v-if="wid > 0">
-				<h4 class="col-8 bigimg-name d-flex justify-content-between">
+				<h4 class="col-8 d-flex justify-content-between mb-0">
 					{{ attachments[id].name }}
 					<div 
 						class="btn-group" role="group" aria-label="Tlačítka akcie"
@@ -291,7 +297,11 @@ export default {
 						</button>
 					</div>
 				</h4>
-				<div class="col-4">&nbsp;</div>
+				<div class="col-4 d-flex justify-content-end">
+					<foto-filter 
+						@filter-change="filterChange($event)"
+					/>
+				</div>
 			</div>
 			<div class="row">
 				<div class="d-none d-sm-flex justify-content-center col-sm-8 detail" ref="imgDetail" id="imgDetail"
