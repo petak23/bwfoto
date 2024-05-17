@@ -447,6 +447,13 @@ class ProductsPresenter extends BasePresenter
 		}	elseif ($ch_status["id_nakup_status"] == 5) { // Uknčenie nákupu
 			
 			// TODO - oprava info v DB
+			$products =  JSON::decode($ch_status['products']);
+			foreach ($products as $p) {
+				$this->products->repair($p->id, [
+					'id_products_status' => 3, // Predaný
+					'ks' => $this->products->find($p->id)->ks - 1,
+				]);
+			}
 			
 			$out['message'] = "Objednávka bola ukončená.";
 			$out['status'] = 200; 
