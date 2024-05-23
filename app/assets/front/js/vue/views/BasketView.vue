@@ -1,13 +1,13 @@
 <script>
 /**
  * Hlavná časť pre prácu s nákupom.
- * Posledna zmena 17.04.2024
+ * Posledna zmena 23.05.2024
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.1
+ * @version    1.0.2
  */
 
 	import BasketNavigation from "../components/Basket/BasketNavigation.vue"
@@ -15,6 +15,7 @@
 	import BasketAdress from "../components/Basket/BasketAdress.vue"
 	import BasketShipping from "../components/Basket/BasketShipping.vue"
 	import BasketSumar from "../components/Basket/BasketSumar.vue"
+	import BasketFinal from "../components/Basket/BasketFinal.vue"
 
 	export default {
 		components: {
@@ -23,12 +24,18 @@
 			BasketAdress, 		// Druhý krok: zadanie adresy
 			BasketShipping,		// Tretí krok: doprava a platba
 			BasketSumar,			// Štvrtý krok: sumarizácia nákupu
+			BasketFinal,			// Piaty krok: správa o ukončení nákupu
 		},
 		props: {
 			view_part: {
 				type: String,
 				default: "1",
 			},
+		},
+		data() {
+			return {
+				info: null,
+			}
 		},
 		methods: {
 			test_part(p) {
@@ -47,6 +54,9 @@
 			this.$root.$on('basket-view-part', item => {
 				this.$store.commit('UPDATE_BASKET_VIEW_PART', this.test_part(item[0].view_part))
 			});
+			this.$root.$on('basket-final', item => {
+				this.info = item
+			})
 		},
 	}
 </script>
@@ -74,6 +84,11 @@
 			v-else-if="$store.state.basket.view_part == 4"
 		>
 		</basket-sumar>
+		<!-- Piaty krok: správa o ukončení nákupu -->
+		<basket-final 
+			v-else-if="$store.state.basket.view_part == 5" 
+			:info="info"
+		/>
 		<div v-else>
 			
 		</div>

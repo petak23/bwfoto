@@ -50,7 +50,7 @@ export default {
 </script>
 
 <template>
-	<div class="d-flex justify-content-between">
+	<div class="d-flex justify-content-between mb-3">
 		<div 
 			class="flex-fill mx-1"
 			v-for="i in items"

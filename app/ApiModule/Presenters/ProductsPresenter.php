@@ -317,7 +317,7 @@ class ProductsPresenter extends BasePresenter
 				"email_nefunkcny_odkaz" => $this->texty_presentera->translate('email_nefunkcny_odkaz'),
 				"email_pozdrav" => $this->texty_presentera->translate('email_pozdrav'),
 				"nazov"     => $this->texty_presentera->translate('register_aktivacia'),
-				"odkaz"     => 'http://' . $this->nazov_stranky . $this->link("products:activateEmail", $u->id, $new_password_key, $data_nakup->id),
+				"odkaz"     => 'http://' . $this->nazov_stranky . $this->link("Products:ActivateEmail", $u->id, $new_password_key, $data_nakup->id),
 				"basePath"	=> $this->template->basePath,
 			];
 			try {

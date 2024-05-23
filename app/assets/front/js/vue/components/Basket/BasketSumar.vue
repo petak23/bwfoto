@@ -1,13 +1,13 @@
 <script>
 /**
  * Komponenta pre vypísanie sumárnych údajov o nákupe.
- * Posledna zmena 20.03.2024
+ * Posledna zmena 23.05.2024
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.4
+ * @version    1.0.5
  */
 import MainService from '../../services/MainService.js'
 
@@ -67,12 +67,7 @@ export default {
 					}
 					this.$root.$emit('basket-nav-update', { id: 5, enabled: true, view_part: 5, disable_another: true })
 
-						vm.$root.$emit('flash_message', [{
-							'message': response.data.message,
-							'type': 'success',
-							'heading': 'Ukončenie nákupu',
-							'timeout': 50000,
-						}])
+					this.$root.$emit('basket-final', { message: response.data.message, type: 'success', heading: 'Ukončenie nákupu', })
 					
 					// https://stackoverflow.com/questions/35664550/vue-js-redirection-to-another-page
 					// Tvrdé presmerovanie po prihlásení.
