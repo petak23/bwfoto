@@ -8,7 +8,8 @@
 		},
 		data() {
 			return {
-				choice: 0,
+				choice: 1,
+				data: [{id: 1, txt: "Všetky"}, {id: 2, txt: "Len na sklade"}],
 			}
 		},
 		methods: {
@@ -26,20 +27,20 @@
 <template>
 	<div class="btn-group">
 		<button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-			<i class="fa-solid fa-filter mr-2"></i>Filter
+			<i class="fa-solid fa-filter mr-2"></i>{{ data[choice - 1].txt }}
 		</button>
 		<div class="dropdown-menu dropdown-menu-right">
-			<button class="dropdown-item" type="button" @click="change(1)">
+			<button 
+				v-for="i in data"
+				class="dropdown-item" 
+				type="button" 
+				@click="change(i.id)"
+				:key="i.id"
+			>
 				<i 
 					class="fa-regular"
-					:class="choice == 1 ? 'fa-square-check' : 'fa-square'"
-				></i> Všetky
-			</button>
-			<button class="dropdown-item disabled" disabled type="button" @click="change(2)">
-				<i 
-					class="fa-regular"
-					:class="choice == 2 ? 'fa-square-check' : 'fa-square'"
-				></i> Len na sklade
+					:class="choice == i.id ? 'fa-square-check' : 'fa-square'"
+				></i> {{ i.txt }}
 			</button>
 		</div>
 	</div>

@@ -8,13 +8,13 @@ use Nette\Utils;
 /**
  * Model, ktory sa stara o tabulku products
  * 
- * Posledna zmena 26.03.2024
+ * Posledna zmena 24.05.2024
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.1.4
+ * @version    1.1.5
  */
 class Products extends Table
 {
@@ -118,11 +118,16 @@ class Products extends Table
 
 	/**
 	 * Funkcia pre fotogalériu
-	 * @param int id Id_hlavne_menu */
-	public function getForFotogalery(int $id): array
+	 * @param int id Id_hlavne_menu 
+	 * @param int filter Filter výberu produktov: 1 - všetky, 2 - len na sklade */
+	public function getForFotogalery(int $id, int $filter = 1): array
 	{
 		$out = [];
-		foreach ($this->findBy(['id_hlavne_menu' => $id]) as $v) {
+		$p = $this->findBy(['id_hlavne_menu' => $id]);
+		if ($filter == 2) {
+			$p->where("ks > ?", 0)->where("id_products_status < ?", 3);
+		}
+		foreach ($p as $v) {
 			$out[] = $this->_productToArray($v);
 		}
 		return $out;

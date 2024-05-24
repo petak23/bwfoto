@@ -64,7 +64,7 @@ export default {
 			}],
 			liked: false,
 			in_basket: false,
-			filter_choice: 1,
+			filter_choice: 1, // 1: všetky, 2: Len na sklade
 		}
 	},
 	methods: {
@@ -140,7 +140,7 @@ export default {
 			return "border: " + pom[1] + "px solid " + (pom[0].length > 2 ? (pom[0]) : "inherit")
 		},
 		async getAttachments() { 
-			await MainService.getFotogalery(this.$store.state.main_menu_active)
+			await MainService.getFotogalery(this.$store.state.main_menu_active, this.filter_choice)
 				.then(response => {
 					this.attachments = response.data
 					if (parseInt(this.first_id) > 0) { // Ak mám first_id tak k nemu nájdem položku v attachments
@@ -193,6 +193,7 @@ export default {
 		},
 		filterChange(choice) {
 			this.filter_choice = choice
+			this.getAttachments()
 		}
 	},
 	created() {

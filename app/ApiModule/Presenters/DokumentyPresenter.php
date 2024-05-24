@@ -12,15 +12,15 @@ use Nette\Utils\Strings;
 
 /**
  * Prezenter pre pristup k api dokumentov.
- * Posledna zmena(last change): 20.03.2023
+ * Posledna zmena(last change): 24.05.2024
  *
  * Modul: API
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.1
+ * @version 1.1.2
  * 
  * @help 1.) https://forum.nette.org/cs/28370-data-z-post-request-body-reactjs-appka-se-po-ceste-do-php-ztrati
  */
@@ -334,7 +334,7 @@ class DokumentyPresenter extends BasePresenter
 
 	/**
 	 * Načítanie príloh */
-	public function actionGetFotogalery(int $id): void
+	public function actionGetFotogalery(int $id, int $filter = 1): void
 	{
 		// Výber podčlánkov
 		$attachments = $this->_getForFotogalery($id);
@@ -343,7 +343,7 @@ class DokumentyPresenter extends BasePresenter
 		$attachments = array_merge($attachments, $this->documents->getForFotogalery($id));
 
 		// Produkty
-		$attachments = array_merge($attachments, $this->products->getForFotogalery($id));
+		$attachments = array_merge($attachments, $this->products->getForFotogalery($id, $filter));
 
 		$this->sendJson($attachments);
 	}

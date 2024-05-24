@@ -82,8 +82,8 @@ export default {
 	},
 
 	// ---- documents ----
-	getFotogalery(id_hlavne_menu) {
-		return apiClient.get('documents/getfotogalery/' + id_hlavne_menu)
+	getFotogalery(id_hlavne_menu, filter = 1) {
+		return apiClient.get('documents/getfotogalery/' + id_hlavne_menu + (filter > 1 ? "?filter=" + filter : ""))
 	},
 	getFotoCollage(id) {
 		return apiClient.get('documents/getfotocollage/' + id)
