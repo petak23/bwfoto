@@ -5,12 +5,6 @@
 		components: {
 			ProductsLikeItem,
 		},
-		props: {
-			filePath: {
-				type: String,
-				required: true,
-			},
-		},
 		data() {
 			return {
 				liked: [], // Array of Object {id_article: xx, id_product: xx, name: "xx", source: "xx.jpeg" }
@@ -31,6 +25,11 @@
 				this.getFromSession()
 			}
 		},
+		computed: {
+			filePath() {
+				return this.$store.state.app_settings != null ? this.$store.state.app_settings.basePath + '/' : '' 
+			}
+		},
 		mounted() {
 			this.$session.start()
 
@@ -43,6 +42,12 @@
 
 <template>
 	<div>
+		<p class="m-2 text-right" v-if="liked.length">
+			<a :href="filePath + 'clanky/produkty'" class="text-white">
+				<i class="fa-solid fa-rotate-left ml-2"></i>
+				Návrat do časti produktov
+			</a> 
+		</p>
 		<div 
 			class="card mb-3 bg-dark" 
 			v-if="liked.length"

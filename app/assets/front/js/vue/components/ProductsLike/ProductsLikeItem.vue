@@ -78,7 +78,9 @@ export default {
 <template>
 	<div class="row no-gutters pt-2 pl-2">
 		<div class="col-md-4">
-			<img :src="filePath + likeItem.source" :alt="likeItem.name" class="w-100"> 
+			<a :href="filePath + 'clanky/' + likeItem.id_article + '/?first_id=' + likeItem.id_product">
+				<img :src="filePath + likeItem.source" :alt="likeItem.name" class="w-100"> 
+			</a>
 		</div>
 		<div class="col-md-8">
 			<div class="card-body row">
@@ -94,7 +96,7 @@ export default {
 				</div>
 				<div class="col-10 col-md-4">
 					<h6 v-if="product != null && product.final_price > 0">
-						<b>Cena: {{ product.final_price }} €</b>
+						<b>Cena: {{ product.final_price.toFixed(2) }} €</b>
 					</h6>
 				</div>
 				<div class="col-2 col-md-2 text-right">

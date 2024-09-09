@@ -277,7 +277,7 @@ export default {
 							:title="liked ? 'Produkt je označený ako obľúbený.': 'Označ obľúbený produkt.'"	
 							type="button"
 							class="btn align-right"
-							:class="liked ? 'btn-success' : 'btn-outline-warning'"
+							:class="liked ? 'btn-warning' : 'btn-outline-warning'"
 							@click="saveLiked()"
 							>
 							<i 
