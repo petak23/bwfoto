@@ -1,4 +1,17 @@
 <script>
+/**
+ * Komponenta pre vypísanie jedného obľúbeného produktu.
+ * Posledna zmena 10.09.2024
+ *
+ * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
+ * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
+ * @license
+ * @link       http://petak23.echo-msz.eu
+ * @version    1.0.2
+ * 
+ * @description https://www.npmjs.com/package/vue-session
+ */
+
 import MainService from "../../services/MainService.js";
 
 export default {
@@ -6,11 +19,7 @@ export default {
 		likeItem: {
 			type: Object,
 			default: {},
-		},
-		filePath: {
-			type: String,
-			required: true,
-		},
+		}
 	},
 	data() {
 		return {
@@ -24,8 +33,6 @@ export default {
 				.then(response => {
 					this.product = response.data
 					this.my_in_basket()
-					//console.log(this.product)
-					//console.log(this.likeItem)
 				})
 				.catch((error) => {
 					console.error(error)
@@ -33,7 +40,7 @@ export default {
 		},
 		delMe() {
 			this.$session.remove('like-' + this.likeItem.id_product)
-			this.$root.$emit("product-like-update", [])
+			this.$emit('product-like-update-items');
 		},
 		basketInsert() {
 			console.log(this.product)
@@ -59,15 +66,17 @@ export default {
 		},
 		button_basket_disabled() {
 			return this.product != null && this.product.id_products_status > 1 ? true : this.in_basket
+		},
+		filePath() {
+			return this.$store.state.app_settings != null ? this.$store.state.app_settings.basePath + '/' : '' 
 		}
 	},
 	watch: {
 		likeItem: function (newLikeItem) {
 			this.getProductsInfo()
-		},
+		}
 	},
 	mounted () {
-		//console.log("LI", this.likeItem);
 		this.getProductsInfo()
 		this.$root.$on("basket-update", this.my_in_basket)
 	},
@@ -100,7 +109,12 @@ export default {
 					</h6>
 				</div>
 				<div class="col-2 col-md-2 text-right">
-					<button type="button" class="btn btn-outline-danger btn-sm" @click.prevent="delMe()">
+					<button 
+						type="button"
+						class="btn btn-outline-danger btn-sm"
+						@click.prevent="delMe()"
+						title="Odstráň foto zo zoznamu obľúbených položiek."
+					>
 						<i class="fa-regular fa-trash-can"></i>
 					</button>
 					<button 
@@ -135,9 +149,3 @@ export default {
 		</div>
 	</div>
 </template>
-
-
-
-<style lang="scss" scoped>
-
-</style>

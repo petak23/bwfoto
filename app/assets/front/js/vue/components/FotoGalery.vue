@@ -163,17 +163,29 @@ export default {
 				}
 			});
 		},
+		productsLikeUpdate() {
+			let spom = this.$session.getAll()
+			let li = []
+			for (const [key, value] of Object.entries(spom)) {
+				if (key.startsWith("like")) {
+					li.push(JSON.parse(value))
+				}
+			}
+			this.$store.commit("UPDATE_PRODUCTS_LIKE_ITEMS", li)
+		},
 		saveLiked() {
 			let item = this.attachments[this.id]
-			//console.log(item)
-			this.$root.$emit("product-like", [{
-				id_product: item.id,
-				id_article: this.$store.state.article.id_hlavne_menu,
-				source: item.main_file,
-				name: item.name,
-			}])
-			this.attachments[this.id].liked = this.attachments[this.id].liked ? false : true
-			this.liked = this.attachments[this.id].liked
+			if (!this.$session.has('like-' + item.id)) {
+				this.$session.set('like-' + item.id, JSON.stringify({
+					id_product: item.id,
+					id_article: this.$store.state.article.id_hlavne_menu,
+					source: item.main_file,
+					name: item.name,
+				}))
+			} else {
+				this.$session.remove('like-' + item.id)
+			}
+			this.productsLikeUpdate()
 		},
 		my_liked() {
 			this.attachments[this.id].liked = this.$session.has('like-' + this.attachments[this.id].id)
@@ -236,6 +248,9 @@ export default {
 	watch: {
 		'$store.state.main_menu_active': function () {
 			this.getAttachments()
+		},
+		'$store.state.productsLikeItem': function () {
+			this.my_liked()
 		}
 	},
 	mounted () {
@@ -249,15 +264,12 @@ export default {
 		 * najdené na: https://stackoverflow.com/questions/50181858/this-root-emit-not-working-in-vue */
 		this.$root.$on("bv::modal::shown", this.urovenUp);
 		this.$root.$on("bv::modal::hidden", this.urovenDwn);
-		
-		this.$root.$on("product-like-update", this.my_liked)
+
 		this.$root.$on("basket-update", this.my_in_basket)
 
 		this.$root.$on("product_update_props", this.getAttachments)
 
 		this.getAttachments()
-
-
 	},
 
 };

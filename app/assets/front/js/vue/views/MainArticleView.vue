@@ -1,4 +1,16 @@
 <script>
+/**
+ * Zobrazenie hlavnej časti článkov.
+ * Posledna zmena 12.09.2024
+ *
+ * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
+ * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
+ * @license
+ * @link       http://petak23.echo-msz.eu
+ * @version    1.0.2
+ * 
+ * @description https://www.npmjs.com/package/vue-session
+ */
 import FotoGalery from '../components/FotoGalery'
 import FotoCollage from '../components/FotoCollage'
 import FotoPanorama from '../components/FotoPanorama'
@@ -34,7 +46,6 @@ export default {
 			return this.$store.state.article != null ? this.$store.state.article.template : 0
 		}
 	},
-
 }
 </script>
 

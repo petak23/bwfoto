@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import MainService from "../services/MainService";
+import ProductsLikeItem from "../components/ProductsLike/ProductsLikeItem.vue";
 
 Vue.use(Vuex);
 
@@ -29,6 +30,8 @@ export default new Vuex.Store({
 										'log_in', 'log_out', 'register'
 									],
 		texts: {},
+
+		productsLikeItem: null,
 
 		basket: {
 			view_part: 1,
@@ -87,6 +90,9 @@ export default new Vuex.Store({
 			state.adminerLink = data.adminerLink
 			state.regLink = data.regLink
 			state.userLogLink = data.userLogLink
+		},
+		UPDATE_PRODUCTS_LIKE_ITEMS (state, data) {
+			state.productsLikeItem = data
 		}
 	},
 	actions: {

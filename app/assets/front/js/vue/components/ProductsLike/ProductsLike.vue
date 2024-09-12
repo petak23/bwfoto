@@ -1,27 +1,22 @@
 <script>
 /**
  * Komponenta pre vypísanie obľúbených produktov.
- * Posledna zmena 22.02.2023
+ * Posledna zmena 12.09.2024
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.1
+ * @version    1.0.2
  * 
  * @description https://www.npmjs.com/package/vue-session
  */
 
 export default {
-	/*props: {
-		filePath: {
-			type: String,
-			required: true,
-		},
-	},*/
 	data() {
 		return {
-			/*{
+			/* Štruktúra položiek poľa liked:
+				{
 					id_product: 0,
 					id_article: 0,
 					source: "",
@@ -35,36 +30,33 @@ export default {
 			let spom = this.$session.getAll()
 			this.liked = []
 			for (const [key, value] of Object.entries(spom)) {
-				//console.log(`${key}: ${value}`);
 				if (key.startsWith("like")) {
 					this.liked.push(JSON.parse(value))
 				}
 			}
+			this.$store.commit("UPDATE_PRODUCTS_LIKE_ITEMS", this.liked)
 		},
-		delAll(e) {
-			this.$session.clear()
-			this.liked = []
-			this.$root.$emit("product-like-update", [])
-		},
-		delOne(id) {
-			this.$session.remove('like-' + id)
-			this.$root.$emit("product-like-update", [])
+		delAll() { // Vymazanie všetkých obľúbených položiek
+			let vm = this
+			this.liked.forEach(function(i) {
+				vm.$session.remove('like-' + i.id_product)	
+			})
 			this.getFromSession()
+		},
+		delOne(id) { // Vymazanie jednej obľúbenej položky
+			this.$session.remove('like-' + id)
+			this.getFromSession()
+		}
+	},
+	watch: {
+		'$store.state.productsLikeItem': function () {
+			this.liked = this.$store.state.productsLikeItem
 		}
 	},
 	mounted () {
 		this.$session.start()
 
 		this.getFromSession()
-
-		this.$root.$on("product-like", liked => {			
-			if (!this.$session.has('like-' + liked[0].id_product))
-				this.$session.set('like-' + liked[0].id_product, JSON.stringify(liked[0]))
-			else 
-				this.$session.remove('like-' + liked[0].id_product)
-			this.getFromSession()
-		});
-		this.$root.$on("product-like-update", this.getFromSession);
 	}
 }
 </script>
@@ -90,7 +82,7 @@ export default {
 				>
 					<a :href="$store.state.app_settings.basePath + '/clanky/' + i.id_article + '/?first_id=' + i.id_product">
 						
-						<img :src="$store.state.app_settings.basePath + '/' + i.source" class="rounded float-start pe-1" alt="...">
+						<img :src="$store.state.app_settings.basePath + '/' + i.source" class="rounded float-start pe-1" :alt="i.name" />
 						{{ i.name }}
 					</a>
 					<b-button variant="light" @click.prevent="delOne(i.id_product)">

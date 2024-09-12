@@ -77,23 +77,32 @@ export default {
 				:key="i.id_product" 
 				class="d-flex justify-content-between border-bottom"
 			>
-				<a 
-					:href="$store.state.basePath + '/clanky/' + i.id_article + '/?first_id=' + i.id_product"
-					class="dropdown-item"
-				>
-					<b-avatar variant="info" :src="$store.state.basePath + '/' + i.product.main_file"></b-avatar>
-					{{ i.product.name }}
-					<br />{{ i.product.properties.final_price }} €
-				</a>
-				<b-button 
-					v-if="$store.state.basket.view_part == 1"
-					variant="light" 
-					@click.prevent="delOne(i.id_product)"
-				>
-					<i class="fa-regular fa-trash-can text-danger"></i>
-				</b-button>
+				<div class="dropdown-item d-flex justify-content-between">
+					<a 
+						:href="$store.state.basePath + '/clanky/' + i.id_article + '/?first_id=' + i.id_product"
+						
+					>
+						<img :src="$store.state.basePath + '/' + i.product.main_file" class="rounded float-start pe-1" :alt="i.product.name" />
+					</a>
+					<a 
+						:href="$store.state.basePath + '/clanky/' + i.id_article + '/?first_id=' + i.id_product"
+						
+					>
+						{{ i.product.name }}
+						<br />{{ i.product.properties.final_price }} €
+					</a>
+					<button 
+						v-if="$store.state.basket.view_part == 1"
+						class="btn btn-light btn-sm" 
+						@click.prevent="delOne(i.id_product)"
+					>
+						<i class="fa-regular fa-trash-can text-danger"></i>
+					</button>
+				</div>
 			</div>
-			<a class="dropdown-item" :href="$store.state.basePath + '/homepage/basket'">Zobraz košík</a>
+			<a class="dropdown-item show-basket mt-2" :href="$store.state.basePath + '/homepage/basket'">
+				Zobraz košík
+			</a>
 	  </div>
 	</div>
 </template>
@@ -109,5 +118,11 @@ export default {
 	}
 	.dropdown-menu a {
 		font-size: 80%;
+	}
+	.dropdown-menu img {
+		max-width: 4rem;
+	}
+	.show-basket {
+		background-color: rgba(120, 233, 116, 0.41);
 	}
 </style>

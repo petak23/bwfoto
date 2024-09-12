@@ -1,4 +1,17 @@
 <script>
+/**
+ * Komponenta pre vypísanie zoznamu obľúbených produktov.
+ * Posledna zmena 12.09.2024
+ *
+ * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
+ * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
+ * @license
+ * @link       http://petak23.echo-msz.eu
+ * @version    1.0.2
+ * 
+ * @description https://www.npmjs.com/package/vue-session
+ */
+
 	import ProductsLikeItem from "../components/ProductsLike/ProductsLikeItem.vue";
 
 	export default {
@@ -18,7 +31,7 @@
 						this.liked.push(JSON.parse(value))
 					}
 				}
-				console.log(this.liked)
+				this.$store.commit("UPDATE_PRODUCTS_LIKE_ITEMS", this.liked)
 			},
 			my_liked() {
 				this.liked = []
@@ -34,8 +47,6 @@
 			this.$session.start()
 
 			this.getFromSession()
-
-			this.$root.$on("product-like-update", this.my_liked);
 		}
 	}
 </script>
@@ -54,9 +65,9 @@
 			v-for="i in liked"
 			:key="i.id_product"
 		>
-			<products-like-item
-				:like-item="i"
-				:file-path="filePath"
+			<products-like-item	
+				:like-item="i" 
+				v-on:product-like-update-items="my_liked"
 			/>
 		</div>
 		
@@ -72,8 +83,3 @@
 
 	</div>
 </template>
-
-
-<style scoped>
-
-</style>
