@@ -34,13 +34,17 @@
 				this.$store.commit("UPDATE_PRODUCTS_LIKE_ITEMS", this.liked)
 			},
 			my_liked() {
-				this.liked = []
 				this.getFromSession()
 			}
 		},
 		computed: {
 			filePath() {
 				return this.$store.state.app_settings != null ? this.$store.state.app_settings.basePath + '/' : '' 
+			}
+		},
+		watch: {
+			'$store.state.productsLikeItem': function () {
+				this.liked = this.$store.state.productsLikeItem
 			}
 		},
 		mounted() {
