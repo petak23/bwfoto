@@ -9,6 +9,7 @@
  * @version 1.2.4
  */
 
+/** OLD VUE-2 
 import Vue from 'vue';
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
 import MySlider from './components/MySlider.vue';
@@ -132,4 +133,22 @@ let vm = new Vue({
 			this.handleDarkModeChange(data);
 		})
 	}
-});   
+});  */ 
+
+/** NEW for VUE-3 */
+
+import { createPinia } from 'pinia'
+import { createApp } from 'vue'
+import { createBootstrap } from 'bootstrap-vue-next'
+
+import App from './App.vue'
+import router from './router'
+
+const pinia = createPinia()
+const bootstrapVueNext = createBootstrap()
+const app = createApp(App)
+app.use(pinia)
+app.use(router)
+app.use(bootstrapVueNext)
+
+app.mount('#app')

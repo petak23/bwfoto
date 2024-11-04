@@ -1,7 +1,7 @@
-<script>
+<script setup>
 /** 
  * Component EditArticle
- * Posledná zmena(last change): 24.04.2024
+ * Posledná zmena(last change): 25.10.2024
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2024 Ing. Peter VOJTECH ml.
@@ -10,65 +10,39 @@
  * @version 1.0.7
  * 
  */
+import { computed } from 'vue'
+import { useMainStore } from '../../front/js/vue/store/main'
+const store = useMainStore()
+
 import EditTitle from "./EditTitle.vue";
 
-export default {
-	props: {
-		filesPath: { // Adresár k súborom bez basePath
-			type: String,
-			default: "",
-		},
-		link: String,
-		link_to_admin: String,
+const props = defineProps({
+	edit_enabled: {
+		type: Boolean,
+		default: false
 	},
-	data() {
-		return {
-			edit_enabled: false,
-			to_check_permission: {
-				resource: 'Front:Clanky',
-				action: 'edit',
-			}
-		}
+	article_hlavicka: { 
+		type: Number,
+		default: 1,
 	},
-	components: {
-		EditTitle,
-	},
-	methods: {
-		checkPermission: function (check_perm) {
-			this.edit_enabled = false
-			if (this.$store.state.user != null && typeof (this.$store.state.user.id) != 'undefined') {
-				this.$store.state.user.permission.forEach(function check(item) {
-					if (item.resource == check_perm.resource) {
-						let p = false
-						if (item.action == null) {
-							p = true
-						} else if (Array.isArray(item.action) && item.action.includes(check_perm.action)) {
-							p = true
-						}
-						this.edit_enabled = p
-					}
-				}, this)
-			}
-		}
-	},
-	computed: {
-		filesDir() {
-			return document.getElementById('vueapp').dataset.baseUrl + '/' + this.filesPath + 'www/'
-		},
-		article_avatar_view_in() {
-			let s = this.$store.state 
-			return s.app_settings && (s.app_settings.article_avatar_view_in & 2) && s.article.avatar != null
-		}
-	},
-	watch: {
-		'$store.state.user': function () {
-			this.checkPermission(this.to_check_permission)
-		}
-	},
-	mounted () {
-		if (this.$store.state.user != null) this.checkPermission(this.to_check_permission)
-	},
-}
+	article_avatar_view_in: {
+		type: Number,
+		default: 0,
+	}
+})
+
+const avatarView = computed(() => {
+	let avatar_en = store.article != null && (store.article.avatar !== undefined || store.article.avatar != null)
+	let kol = (props.article_avatar_view_in & 2) && avatar_en
+	//console.log(kol)
+  return kol
+})
+
+const avatarImg = computed(() => {
+	let out = store.baseUrl + '/www/'
+	let ko = store.udaje_webu.length > 0 && store.article != null ? store.udaje_webu.config.dir_to_menu + store.article.avatar : false
+	return ko ? out + store.udaje_webu.config.dir_to_menu + store.article.avatar : false
+})
 </script>
 
 <template>
@@ -76,20 +50,32 @@ export default {
 		<div class="page-header">
 			<div  
 				class="col-sm-12 col-md-3"
-				v-if="article_avatar_view_in"
-			>
-				<img  :src="filesDir + $store.state.article.avatar" 
-							alt="Title image"
-							class="img-fluid"
-				>
+				v-show="avatarView"
+			>	
+				<img  
+					v-if="avatarImg != false"
+					:src="avatarImg" 
+					alt="Title image"
+					class="img-fluid"
+				/>
 			</div>
 			<edit-title
-				:edit_enabled="edit_enabled"
-				:link="link"
-				:link_to_admin="link_to_admin"
+				:edit_enabled="props.edit_enabled"
+				:article_hlavicka="props.article_hlavicka"
 			></edit-title>
 		</div>
 
-		<span class="popis" v-if="$store.state.article.text_c" v-html="$store.state.article.text_c"></span>
+		<span class="popis" v-if="store.article != null && store.article.text_c" v-html="store.article.text_c"></span>
 	</span>
 </template>
+
+<style scoped>
+	.title-info {
+		border-right: 1px solid #ddd;
+		margin-right: .5ex;
+		padding-right: .25ex;
+	}
+	.title-info:last-child {
+		border-right: 0;
+	}
+</style>

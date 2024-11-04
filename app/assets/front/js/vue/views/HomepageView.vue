@@ -1,14 +1,6 @@
-<script>
+<script setup>
 	import ShowArticle from '../components/ShowArticle'
 	import BwfotoFixedHomepage from '../components/Menu/BWfoto_Fixed_Homepage'
-
-	export default {
-		components: {
-			ShowArticle,
-			BwfotoFixedHomepage,
-		},
-		
-	}
 </script>
 
 <template>

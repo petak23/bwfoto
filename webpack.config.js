@@ -21,7 +21,7 @@ const TerserPlugin = require("terser-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const {VueLoaderPlugin} = require("vue-loader");
-const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin');
+//const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 
@@ -127,7 +127,7 @@ module.exports = {
 						loader: 'sass-loader',
 						options: {
 							// This is the path to your variables
-							additionalData: "@import '@/admin/css/scss/variables.scss';"
+							additionalData: "@import '@/front/css/scss/variables.scss';"
 						},
 					},
 				],
@@ -157,7 +157,7 @@ module.exports = {
 						loader: 'sass-loader',
 						options: {
 							// This is the path to your variables
-							additionalData: "@import '@/admin/css/scss/variables.scss'"
+							additionalData: "@import '@/front/css/scss/variables.scss'"
 						},
 					},
 				],
@@ -166,7 +166,7 @@ module.exports = {
 	}, 
 	resolve: {
 		alias: {
-				'vue$': 'vue/dist/vue.esm.js',
+				'vue$': 'vue/dist/vue.runtime.esm-bundler.js',//https://stackoverflow.com/questions/65254050/after-upgrading-to-vue-3-and-updating-vue-instantiation-to-createapp-webpack-b
 				'@': path.resolve(ROOT_PATH, 'app/assets'),
 		},
 		extensions: ['.js', '.vue']
@@ -175,17 +175,17 @@ module.exports = {
 		// enable vue-loader to use existing loader rules for other module types
 		new VueLoaderPlugin(),
 
-		new VuetifyLoaderPlugin(),
+		//new VuetifyLoaderPlugin(),
 		
 		// fix legacy jQuery plugins which depend on globals
-		new webpack.ProvidePlugin({
+		/*new webpack.ProvidePlugin({
 			$: "jquery",
 			jQuery: "jquery",
 			"window.jQuery": "jquery",
 			"window.$": "jquery",
 			Popper: ["popper.js", "default"],
 			//naja: ['naja', 'default'],  // https://forum.nette.org/cs/25444-ublaboo-datagrid-mocny-rychly-rozsiritelny-hezky-anglicky-dokumentovany-datagrid?p=36#p213906
-		}),
+		}),*/
 		
 		new MiniCssExtractPlugin({
 			filename: devMode ? '[name].bundle.css' : '[name].[chunkhash:8].bundle.css'

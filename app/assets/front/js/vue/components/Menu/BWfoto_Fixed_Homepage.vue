@@ -1,77 +1,63 @@
-<script>
+<script setup>
 /** 
  * Component BWfoto_Fixed_Homepage
- * Posledná zmena(last change): 04.12.2023
+ * Posledná zmena(last change): 04.11.2024
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2021 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.1
+ * @version 1.0.2
  * 
  */
+import { ref, computed, watch } from 'vue'
+
+import { useMainStore } from '../../store/main'
+const store = useMainStore()
+
 import part_small from "./BWfoto_Fixed_Homepage/part_small.vue"
 import figureMy from "./BWfoto_Fixed_Homepage/figureMy.vue"
 
-export default {
-	components: {
-		part_small,
-		figureMy,
+const props = defineProps({
+	part: {
+		type: String,
+		default: "1",
 	},
-	props: {
-		part: {
-			type: String,
-			default: "1",
-		},
-		ulClass: {
-			type: String,
-			default: "navbar-nav mr-md-2 flex-grow-1 justify-content-end"
-		},
-		avatarDir: {	// Kompletná cesta
-			type: String,
-			required: true,
-		}
-	},
-	data() {
-		return {
-			menu_part: null,
-		}
-	},
-	computed: {
-		menu() {
-			const steps = [0, 3, 1, 4, 2, 5]
-			let out = []
-			let tmp = { f: null, s: null}
-			let menu_s = []
-			if (this.menu_part != null) {
-				steps.forEach(i => {
-					menu_s.push(this.menu_part.children[i])
-				})
-				menu_s.forEach((item, index) => {
-					if (index % 2 == 0) {
-						tmp.f = item
-					} else {
-						tmp.s = item
-						out.push(tmp)
-						tmp = { f: null, s: null }
-					}
-				})
+	ulClass: {
+		type: String,
+		default: "navbar-nav mr-md-2 flex-grow-1 justify-content-end"
+	}
+})
+
+const menu_part = ref(null)
+
+const menu = computed(() => {
+	const steps = [0, 3, 1, 4, 2, 5]
+	let out = []
+	let tmp = { f: null, s: null}
+	let menu_s = []
+	if (menu_part.value != null) {
+		steps.forEach(i => {
+			menu_s.push(menu_part.value.children[i])
+		})
+		menu_s.forEach((item, index) => {
+			if (index % 2 == 0) {
+				tmp.f = item
+			} else {
+				tmp.s = item
+				out.push(tmp)
+				tmp = { f: null, s: null }
 			}
-			return out
-		},
-		avatar_path() {
-			return document.getElementById('vueapp').dataset.baseUrl + '/' + this.avatarDir
-		},
-	},
-	created() {
-		// Reaguje na načítanie hl. menu
-		this.$root.$on('main-menu-loadet', data => {
-			this.$store.state.main_menu.map(item => {
-				if (item.id == -1*parseInt(this.part)) this.menu_part = item
-			})
 		})
 	}
-}
+	return out 
+})
+
+watch(() => store.main_menu, () => {
+	store.main_menu.map(item => {
+		if (item.id == -1*parseInt(props.part)) menu_part.value = item
+	})
+})
 </script>
 
 <template>
@@ -79,54 +65,55 @@ export default {
 
 	<!-- kategorie webu lg+ -->
 	<section id="webParts" class="container pb-3" v-if="menu_part != null">
-		<div class="row w-100">
-				<div
-					v-for="(node, index) in menu"
-					:key="index"
-					class="col d-flex" 
-					:class="index != 1 ? 'flex-column justify-content-between' : 'flex-column-reverse justify-content-around'"
-					
+		<div class="row w-100" v-if="menu != undefined">
+			<div
+				v-for="(node, index) in menu"
+				:key="index"
+				class="col d-flex" 
+				:class="index != 1 ? 'flex-column justify-content-between' : 'flex-column-reverse justify-content-around'"
+				
+			>
+				<figureMy
+					v-if="node.f != undefined"
+					:item="node.f"
+					:avatarDir="store.udaje_webu.config.dir_to_menu"
+					:if_part="index != 1"
 				>
-					<figure-my
-						:item="node.f"
-						:avatarDir="avatar_path"
-						:if_part="index != 1"
-					>
-					</figure-my>
-					<part_small
-						:item="node.s"
-						:main_class="'d-flex flex-column justify-content-center' + (index == 1 ? ' reverse': '')"
-						:bolder="node.s.id == 5"
-					>
-					</part_small>
-				</div>
+				</figureMy>
+				<part_small
+					v-if="node.s != undefined"
+					:item="node.s"
+					main_class="d-flex flex-column justify-content-center"
+					:bolder="node.s.id == 5"
+				>
+				</part_small>
 			</div>
-			</section>
+		</div>
+	</section>
 
 	<!-- kategorie webu md- -->
-	<section id="webParts-md" class="container pb-3" v-if="menu_part != null">
+	<section id="webParts-md" class="container d-lg-none pb-3" v-if="menu_part != null">
 		<div class="row w-100">
 			<div class="col-md d-flex flex-column justify-content-between">
-				<figure-my
+				<figureMy
 					:item="menu_part.children[0]"
-					:avatarDir="avatar_path"
+					:avatarDir="store.udaje_webu.config.dir_to_menu"
 					:if_part="true"
 				>
-				</figure-my>
-				<figure-my
+				</figureMy>
+				<figureMy
 					:item="menu_part.children[1]"
-					:avatarDir="avatar_path"
-					:if_part="true"
+					:avatarDir="store.udaje_webu.config.dir_to_menu"
 				>
-				</figure-my>
+				</figureMy>
 			</div>
 			<div class="col-md d-flex flex-column justify-content-between">
-				<figure-my
+				<figureMy
 					:item="menu_part.children[2]"
-					:avatarDir="avatar_path"
+					:avatarDir="store.udaje_webu.config.dir_to_menu"
 					:if_part="true"
 				>
-				</figure-my>
+				</figureMy>
 				<figure class="d-flex flex-column justify-content-start justify-content-md-between">
 					<part_small	:item="menu_part.children[3]"></part_small>
 					<part_small

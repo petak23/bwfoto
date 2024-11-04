@@ -1,96 +1,79 @@
-<script>
+<script setup>
 /**
  * Komponenta pre vypísanie flash správ.
- * Posledna zmena 23.05.2024
+ * Posledna zmena 04.11.2024
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.4
+ * @version    1.0.6
  */
-export default {
-	props: {
-		flashMessages: {
-			type: String,
-			default: "",
-		},
-		timeout: {
-			type: String,
-			default: "3000",
-		}
-	},
 
-	data() {
-		return {
-			visible: false,
-			message: '',
-			mess: [],
-			t_out: 0,
-		}
-	},
+import { ref, watch, toRaw, computed } from 'vue'
+import { useFlashStore } from '../../front/js/vue/store/flash'
+import { storeToRefs } from 'pinia';
 
-	created() {
-		if (this.text) {
-			this.message = this.text
-			this.show()
-		}
-		if (this.flashMessages.length > 3) {
-			this.mess = JSON.parse(this.flashMessages)
-			this.show()
-		}
+const storeF = useFlashStore()
 
-		this.$root.$on('flash', message => {
-			this.message = message
-			this.show()
-		})
-		this.$root.$on('flash_message', message => {
-			this.mess = message
-			if (typeof this.mess[0].timeout !== 'undefined') {
-				this.t_out = this.mess[0].timeout
-			}
-			this.show()
-		})
-		this.t_out = this.timeout
-	},
+const mess = ref([])	// pole aktuálne zobrezených správ
+		
+const hide = () => {
+	mess.value.shift()
+}
 
-	methods: {
-		show() {
-			this.visible = true
-			if (parseInt(this.t_out) > 0) setTimeout(() => this.hide(), this.t_out)
-		},
-		hide() {
-			this.visible = false
+const { flashMessages } = storeToRefs(storeF)
+
+const visible = computed(() => {
+	return mess.value.length > 0 
+})
+
+watch(storeF.flashMessages, (newFlashMessages) => {
+	if (flashMessages.value.length > 0) {
+		const fm = toRaw(flashMessages.value.shift())
+		mess.value.push(fm)
+		if (typeof fm.timeout !== 'undefined' && parseInt(fm.timeout) > 0) {
+			setTimeout(() => hide(), parseInt(fm.timeout))
 		}
 	}
-}
+})
+
 </script>
 
 <template>
-	<transition name="fade" v-if="visible">
-		<div class="alert alert-dismissible fade show" 
-					v-for="(m, index) in mess" :key="index"	
+	<ul class="alert-container" v-if="visible">
+		<li
+			v-for="(m, index) in mess" 
+			:key="index"
+		>
+			<transition name="fade">
+				<div 
+					class="alert alert-dismissible fade show" 			
 					:class="'alert-'+m.type"
-					>
-			<h4 class="alert-heading" v-if="m.heading">{{ m.heading }}</h4>
-
-			<span v-html="m.message"></span>
-
-			<button type="button" class="close" @click="hide">
-				<span>&times;</span>
-			</button>
-		</div>
-	</transition>
+				>
+					<h4 class="alert-heading" v-if="m.heading">{{ m.heading }}</h4>
+					<div v-html="m.message"></div>
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+			</transition>
+		</li>
+	</ul>
 </template>
 
 <style lang="scss" scoped>
-.alert {
-	font-size: 0.9rem;
+.alert-container {
 	position: fixed;
 	right: 2em;
 	bottom: 2em;
-	max-width: 50vw;
-	z-index: 2000;
+  max-width: 50vw;
+  z-index: 2000;
+
+	li {
+		list-style: none;
+	}
+}
+.alert {
+  font-size: 0.9rem;
 	border-width: .25rem;
 }
 .alert-heading {

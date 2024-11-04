@@ -2,11 +2,11 @@
 
 ## Nette project of webside www.bwfoto.sk
 
-This is [Nette](https://nette.org) & [Vue.js](https://vuejs.org/) project of webside [bwfoto.sk](http://www.bwfoto.sk) created in collaboration with [Tatravisual.sk -coming soon](http://tatravisual.sk/).
+This is [Nette](https://nette.org) & [Vue.js](https://vuejs.org/) project of webside [bwfoto.sk](http://www.bwfoto.sk) created in collaboration with [Tatravisual.sk](http://tatravisual.sk/).
 
 ## Nette projekt stránky www.bwfoto.sk
 
-Toto je [Nette](https://nette.org) a [Vue.js](https://vuejs.org/) projekt web-stránky [bwfoto.sk](http://www.bwfoto.sk) tvorený v spolupráci s [Tatravisual.sk - už čoskoro](http://tatravisual.sk/).
+Toto je [Nette](https://nette.org) a [Vue.js](https://vuejs.org/) projekt web-stránky [bwfoto.sk](http://www.bwfoto.sk) tvorený v spolupráci s [Tatravisual.sk](http://tatravisual.sk/).
 
 ## Install
 
