@@ -1,4 +1,4 @@
-
+/** https://dev.to/grahammorby/persist-data-with-vue-3-38pc */
 
 // Sets an item with a Key to local storage
 const saveStorage = function(key, data) {
