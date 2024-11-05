@@ -1,37 +1,54 @@
-<script>
-import BwfotoTreeMain from './Menu/BWfoto_Tree_Main'
-//import UserMenu from './User/UserMenu'
+<script setup>
+/** 
+ * Component BfFooter
+ * Posledná zmena(last change): 05.11.2024
+ *
+ * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
+ * @copyright Copyright (c) 2021 - 2024 Ing. Peter VOJTECH ml.
+ * @license
+ * @link http://petak23.echo-msz.eu
+ * @version 1.0.1
+ * 
+ */
 
-export default {
-	components: {
-		BwfotoTreeMain,
-		//UserMenu
+import { computed } from 'vue'
+import BwfotoTreeMain from './Menu/BWfoto_Tree_Main'
+
+import { useMainStore } from '../../store/main'
+const store = useMainStore()
+const props = defineProps({
+	dirToImages: {
+		type: String,
+		required: true
 	},
-	props: {
-		dirToImages: {
-			type: String,
-			required: true
-		},
-		copy: {
-			type: String,
-			default: "",
-		},
-		lastUpdate: {
-			type: String,
-			default: "",
-		},
+	copy: {
+		type: String,
+		default: "",
 	},
-	data() {
-		return {
-			base_img: null,
-		}
+	lastUpdate: {
+		type: String,
+		default: "",
+	}
+})
+
+const base_img = computed(() => {
+	return store.basePath + '/' + props.dirToImages
+})
+
+const links_to_other_pages = ref([
+	{
+		link: "http://nette.org/cs/",
+		title: "Nette Framework - populárny nástroj pre vytváranie webových aplikácií v PHP.",
+		img: "nette-powered1.gif",
+		alt: "nette powered",
 	},
-	watch: {
-		'$store.state.basePath': function () {
-			this.base_img = this.$store.state.basePath + '/' + this.dirToImages
-		}
+	{
+		link: "https://vuejs.org/",
+		title: "Vue js - The Progressive JavaScript Framework",
+		img: "logo_vue.png",
+		alt: "vue powered",
 	},
-}
+])
 </script>
 
 <template>
@@ -61,22 +78,32 @@ export default {
 		</div>
 		<div class="pv-footer info-layer my-3">
 			<ul class="nav justify-content-center">
-				<li class="p-2" v-if="copy.length > 0">{{ copy }}</li>
+				<li class="p-2" v-if="copy.length > 0">{{ props.copy }}</li>
 				<li class="p-2">
-					<a href="https://nette.org/cs/" class="logo-nette" title="nette powered">
-						<img v-if="base_img != null" :src="base_img + 'nette-powered1.gif'" alt="nette powered"	/>
-					</a>
-					&nbsp;
-					<a href="https://vuejs.org/" class="logo-nette" title="Vue js" target="_blank">
-						<img v-if="base_img != null" :src="base_img + 'logo_vue.png'" alt="vue powered" class="vue-logo" />
+					<a 
+						v-for="(li, index) in links_to_other_pages" :key="index"
+						:href="li.link" class="logo-nette" 
+						:title="li.title" target="_blank"
+					>
+						<img :src="store.baseUrl + '/www/images/' + li.img" :alt="li.alt" />
 					</a>
 				</li>
-				<li class="p-2">{{ lastUpdate }}</li>
+				<li class="p-2">{{ props.lastUpdate }}</li>
 				<li class="p-2">created by <a href="http://petak23.echo-msz.eu/" title="petak23.echo-msz.eu" target="_blank">petak23</a></li>
 			</ul>
-		</div> 
-		<!--div class="my-3 text-center">
-			<user-menu />
-		</div-->
+		</div>
 	</footer>
 </template>
+
+<style lang="scss" scoped>
+.logo-nette {
+	padding-right: 1em;
+	
+	img {
+		max-height: 1.5em;
+	}
+}
+.logo-nette:last-child {
+	padding-right: 0;
+}
+</style>

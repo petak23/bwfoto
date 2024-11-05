@@ -1,27 +1,33 @@
-<script>
+<script setup>
+/** 
+ * Component BWfoto_Tree_Main
+ * Posledná zmena(last change): 05.11.2024
+ *
+ * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
+ * @copyright Copyright (c) 2021 - 2024 Ing. Peter VOJTECH ml.
+ * @license
+ * @link http://petak23.echo-msz.eu
+ * @version 1.0.3
+ * 
+ */
+import { onMounted, ref } from 'vue'
 import MainService from '../services/MainService'
 
-export default {
-	data() {
-		return {
-			langs: null,
-		}
-	},
-	methods: {
-		getLangs() {
-			MainService.getActLangs()
-				.then(response => {
-					this.langs = response.data
-				})
-				.catch((error) => {
-					console.log(error);
-				});
-		},
-	},
-	mounted () {
-		this.getLangs();
-	},
+const langs = ref(null)
+
+const getLangs = () => {
+	MainService.getActLangs()
+		.then(response => {
+			langs.value = response.data
+		})
+		.catch((error) => {
+			console.error(error);
+		});
 }
+
+onMounted(() => {
+	getLangs()
+})
 </script>
 
 <template>

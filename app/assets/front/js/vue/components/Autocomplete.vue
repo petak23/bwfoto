@@ -1,21 +1,21 @@
-<script>
+<script setup>
 /** 
  * Component Autocomplete
- * Posledná zmena(last change): 27.02.2023
+ * Posledná zmena(last change): 19.09.2024
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2021 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.0
+ * @version 1.0.1
  * 
  * Inšpirácia z: https://blog.nette.org/cs/vue-js-v-nette
  */
 
+import { ref, onMounted, onUnmounted } from 'vue'
 import MainService from '../services/MainService'
 
-export default {
-	props: {
+const props = defineProps({
 		link: {
 			type: String,
 			required: true,
@@ -24,79 +24,79 @@ export default {
 			type: String,
 			default: "searchStr"
 		},
-	},
-	data: function () {
-		return {
-			searchquery: '',
-			results: [],
-			isOpen: false,
-			isSearching: true,
-			arrowCounter: -1,
-		}
-	},
-	methods: {
-		autoComplete() {
-			this.$emit('autocomplete-start');
-			this.results = [];
-			if (this.searchquery.length > 0) {
-				this.isOpen = true;
-				this.isSearching = true;
-			}
-			if (this.searchquery.length > 2) {
-				MainService.getSearch(this.inputname, this.searchquery)
-							.then(response => {
-								//console.log(response);
-								this.results = [];
-								response.data.forEach(cl => this.results.push(cl))
-								this.isSearching = false; 
-								//console.log(this.results);    
-							})
-							.catch((error) => {
-								console.log(error);
-							});
-			}
-		},
-		setLink(result) {
-			if (result.type == 1) {
-				//return this.mylinks[1] + result.id;
-				return this.link + result.id;
-			} else if (result.type == 2) {
-				//return this.mylinks[2] + result.id + '?first_id='+result.id_dokument;
-				return this.link + result.id + '?first_id=' + result.id_dokument;
-			}
-		},
-		onArrowDown() {
-		//    if (this.arrowCounter < this.results.length - 1) {
-		//        this.arrowCounter = this.arrowCounter + 1;
-		//    }
-		},
-		onArrowUp() {
-		//   if (this.arrowCounter > 0) {
-		//        this.arrowCounter = this.arrowCounter - 1;
-		//    }
-		},
-		onEnter() {
-		//    this.setResult(this.results[this.arrowCounter]);
-		//    this.arrowCounter = -1;
-		},
-		onAClick() {
-			return true;
-		},
-		handleClickOutside(evt) {
-			if (!this.$el.contains(evt.target)) {
-				this.isOpen = false;
-				this.arrowCounter = -1;
-				this.searchquery = '';
-			}
-		},
-	},
-	mounted() {
-		document.addEventListener('click', this.handleClickOutside)
-	},
-	destroyed() {
-		document.removeEventListener('click', this.handleClickOutside)
+	})
+
+const searchquery = ref('')
+const results = ref([])
+const isOpen = ref(false)
+const isSearching = ref(true)
+const arrowCounter = ref(-1)
+
+const autoComplete = () => {
+	this.$emit('autocomplete-start');
+	results.value = []
+	if (searchquery.value.length > 0) {
+		isOpen.value = true
+		isSearching.value = true
+	}
+	if (searchquery.value.length > 2) {
+		MainService.getSearch(props.inputname, searchquery.value)
+			.then(response => {
+				//console.log(response);
+				results.value = [];
+				response.data.forEach(cl => results.push(cl))
+				isSearching.value = false 
+			})
+			.catch((error) => {
+				console.error(error)
+			});
 	}
 }
+
+const setLink = (result) => {
+	if (result.type == 1) {
+		return props.link + result.id;
+	} else if (result.type == 2) {
+		return props.link + result.id + '?first_id=' + result.id_dokument;
+	}
+}
+
+const onArrowDown = () => {
+  if (arrowCounter.value < results.value.length - 1) {
+    arrowCounter.value++
+  }
+}
+
+const onArrowUp = () => {
+  if (arrowCounter.value > 0) {
+    arrowCounter--
+  }
+}
+
+const onEnter = () => {
+  //setResult(results[arrowCounter.value])
+  //arrowCounter.value = -1
+}
+
+const onAClick = () => {
+	return true;
+}
+
+const handleClickOutside = (evt) => {
+	if (!$el.contains(evt.target)) {
+		isOpen.value = false;
+		arrowCounter.value = -1
+		searchquery.value = ''
+	}
+}
+
+onMounted(() => {
+	document.addEventListener('click', handleClickOutside)
+})
+
+onUnmounted(() => {
+	document.removeEventListener('click', handleClickOutside)
+})
 </script>
 
 <template>

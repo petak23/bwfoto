@@ -25,7 +25,6 @@ import FlashMessage from '../../../components/FlashMessages/FlashMessage';
 import BwfotoTreeMain from './components/Menu/BWfoto_Tree_Main.vue'
 import VueDndZone from 'vue-dnd-zone'
 import 'vue-dnd-zone/vue-dnd-zone.css'
-import Vuetify from 'vuetify'
 import store from "./store/index.js"
 import MainMenuLoad from "./components/Menu/MainMenuLoad.vue"
 import MainMenu from './components/Menu/MainMenu.vue'

@@ -1,48 +1,48 @@
-<script>
-import Autocomplete from './Autocomplete.vue'
-import BwfotoTreeMain from './Menu/BWfoto_Tree_Main.vue'
-import LangMenu from './LangMenu.vue'
-import BasketNav from './Basket/BasketNav'
-import UserMenu_not_logged from "./User/UserMenu_not_logged.vue"
+<script setup>
+/** 
+ * Component BfNav
+ * Posledná zmena(last change): 05.11.2024
+ *
+ * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
+ * @copyright Copyright (c) 2021 - 2024 Ing. Peter VOJTECH ml.
+ * @license
+ * @link http://petak23.echo-msz.eu
+ * @version 1.0.1
+ * 
+ */
+import { ref, computed } from 'vue'
 
-export default {
-	components: {
-		Autocomplete,
-		BwfotoTreeMain,
-		LangMenu,
-		BasketNav,
-		UserMenu_not_logged
+import { useMainStore } from '../../store/main'
+const store = useMainStore()
+import Autocomplete from './Autocomplete.vue'  //v3
+import BwfotoTreeMain from './Menu/BWfoto_Tree_Main.vue' //v3
+import LangMenu from './LangMenu.vue' 	//v3
+import BasketNav from './Basket/BasketNav' /** @TODO vue 3*/
+import UserMenu_not_logged from "./User/UserMenu_not_logged.vue" //v3
+
+const props = defineProps({
+	dirToImages: {
+		type: String,
+		required: true
 	},
-	props: {
-		dirToImages: {
-			type: String,
-			required: true
-		},
-		linkHome: {
-			type: String,
-			required: true
-		},
-		linkClanky: {
-			type: String,
-			required: true
-		},
+	linkHome: {
+		type: String,
+		required: true
 	},
-	data() {
-		return {
-			base_img: null,
-		}
+	linkClanky: {
+		type: String,
+		required: true
 	},
-	watch: {
-		'$store.state.basePath': function () {
-			this.base_img = this.$store.state.basePath + '/' + this.dirToImages
-		}
-	},
-}
+})
+
+const base_img = computed(() => {
+	return store.basePath + '/' + props.dirToImages
+})
 </script>
 
 <template>
 	<nav id="topNav" class="navbar navbar-expand-md fixed-top">
-		<a class="navbar-brand ml-sm-5 p-3 logo" :href="linkHome" title="Homepage">
+		<a class="navbar-brand ml-sm-5 p-3 logo" :href="props.linkHome" title="Homepage">
 			<img v-if="base_img != null" :src="base_img + 'logo_bw-g.png'" alt="logo bw foto" class="logo">
 		</a>	
 		<button class="navbar-toggler bf-nt" type="button" data-toggle="collapse" 
@@ -56,7 +56,7 @@ export default {
 				part="-2" 
 			/>
 			<autocomplete
-				:link="linkClanky"
+				:link="props.linkClanky"
 			></autocomplete>
 
 			<lang-menu />
@@ -64,47 +64,47 @@ export default {
 			<basket-nav />
 
 			<user-menu_not_logged 
-				v-if="$store.state.user == null" 
+				v-if="store.user == null" 
 				button-class="btn btn-light ml-2"
 			/>
 			<!--a
-				v-if="$store.state.user == null"
+				v-if="store.user == null"
 				class="btn btn-light ml-2"
-				:href="$store.state.logInLink" 
+				:href="store.logInLink" 
 				title="Prihlásenie (Log in)"
 			>
 				<i class="fa-solid fa-arrow-right-to-bracket"></i>
 			</a!-->
-			<div class="btn-group ml-2" v-if="$store.state.user != null">
+			<div class="btn-group ml-2" v-if="store.user != null">
 				<button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 					<i class="fa-regular fa-user"></i>
 				</button>
 				<div class="dropdown-menu dropdown-menu-right">
 					<a 
-						:href="$store.state.userLogLink" 
-						:title="'Editácia profilu užívateľa: ' + $store.state.user.name" 
+						:href="store.userLogLink" 
+						:title="'Editácia profilu užívateľa: ' + store.user.name" 
 						class="dropdown-item" 
 					>
 						<i class="fa-regular fa-address-card"></i> Profil
 					</a>
 					<a 
-						v-if="$store.state.adminerLink != null"
-						:href="$store.state.adminerLink"
+						v-if="store.adminerLink != null"
+						:href="store.adminerLink"
 						target="_blank"
 						class="dropdown-item" 
 					>
 						<i class="fa-solid fa-database"></i> Adminer
 					</a>
 					<a 
-						v-if="$store.state.adminLink != null"
-						:href="$store.state.adminLink" 
-						:title="$store.state.texts.base_AdminLink_name" 
+						v-if="store.adminLink != null"
+						:href="store.adminLink" 
+						:title="store.texts.base_AdminLink_name" 
 						class="dropdown-item" 
 					>
-						<i class="fa-solid fa-screwdriver-wrench"></i> {{ $store.state.texts.base_AdminLink_name }}
+						<i class="fa-solid fa-screwdriver-wrench"></i> {{ store.texts.base_AdminLink_name }}
 					</a>
 					<div class="dropdown-divider"></div>
-					<a class="dropdown-item" :href="$store.state.logOutLink">
+					<a class="dropdown-item" :href="store.logOutLink">
 						<i class="fa-solid fa-arrow-right-from-bracket"></i> Odhlás sa
 					</a>
 				</div>
