@@ -37,7 +37,6 @@ services:
 
   - App\RouterFactory 
   router: @App\RouterFactory::createRouter
-  Texy: TexylaExample\MyTexy(@httpRequest)
 
 # services for language support
   - Language_support\LanguageMain

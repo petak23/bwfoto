@@ -14,12 +14,11 @@ use Nette\Utils\Json;
 use Nette\Utils\Html;
 use Nette\Utils\Strings;
 use PeterVojtech;
-use Texy;
 
 /**
  * Zakladny presenter pre vsetky presentery vo FRONT module
  * 
- * Posledna zmena(last change): 19.04.2024
+ * Posledna zmena(last change): 06.11.2024
  *
  *	Modul: FRONT
  *
@@ -27,7 +26,7 @@ use Texy;
  * @copyright Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link      http://petak23.echo-msz.eu
- * @version 1.8.0
+ * @version 1.8.1
  */
 abstract class BasePresenter extends Presenter
 {

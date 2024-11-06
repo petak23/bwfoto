@@ -10,13 +10,13 @@
  * @version 1.0.1
  * 
  */
-import Tiptap from "../../../../../components/Tiptap/tiptap-editor.vue"//"../Tiptap/tiptap-editor.vue"
+//import Tiptap from "../../../../../components/Tiptap/tiptap-editor.vue"//"../Tiptap/tiptap-editor.vue"
 import MainService from '../../services/MainService.js'
 
 export default {
-	components: {
+	/*components: {
 		Tiptap,
-	},
+	},*/
 	props: {
 		link: String,
 		button_prefix: { // Prefix classu odosielacích tlačidiel

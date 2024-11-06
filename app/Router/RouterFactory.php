@@ -8,13 +8,13 @@ use Nette\Application\Routers\RouteList;
 
 /**
  * Router
- * Posledna zmena 23.02.2024
+ * Posledna zmena 06.11.2024
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.1.5
+ * @version    1.1.6
  */
 class RouterFactory
 {
@@ -64,6 +64,7 @@ class RouterFactory
 
 		$router->withModule('Api')
 			->addRoute('api/menu/<action>[/<id>[/<lmodule>]]', 'Menu:default')
+			->addRoute('api/user/getusernpk/<id>/<new_password_key>', 'User:getUserNpk')
 			->addRoute('api/user/<action>[/<id>]', 'User:default')
 			->addRoute('api/lang/<action>[/<id>]', 'Lang:default')
 			->addRoute('api/documents/<action>[/<id>]', 'Dokumenty:default')
@@ -71,9 +72,9 @@ class RouterFactory
 			->addRoute('api/search[/<action>]', 'Search:default')
 			->addRoute('api/sign[/<action>[/<id>]]', 'Sign:in')
 			->addRoute('api/slider/<action>[/<id>]', 'Slider:default')
-			->addRoute('api/texyla[/<action>[/<id>]]', 'Texyla:default')
 			->addRoute('api/verzie[/<action>[/<id>]]', 'Verzie:default')
-			->addRoute('api/udaje/<action>[/<s>]', 'Udaje:default');
+			->addRoute('api/udaje/<action>[/<s>]', 'Udaje:default')
+                        ->addRoute('api/homepage[/<action>[/<id>]]', 'Homepage:default');
 
 		$router->withModule('Front')
 			->addRoute('clanky[/<id>]', [
@@ -100,11 +101,12 @@ class RouterFactory
 			])
 			->addRoute('homepage/productlike', 'Homepage:productLikeView')
 			->addRoute('homepage/basket/<id=1>', 'Homepage:basketView')
-			->addRoute('homepage/section[/id]', 'Homepage:default')
+			//->addRoute('homepage/section[/id]', 'Homepage:default')
 			->addRoute('forgottenPassword', 'User:forgottenPassword')
 			->addRoute('profile', 'UserLog:default')
 			->addRoute('registration', 'User:registracia')
 			->addRoute('login', 'User:default')
+			->addRoute('resetpassword[/<id>/<new_password_key>]', 'User:resetpassword')
 			->addRoute('user[/<action>]', 'User:default')
 			->addRoute('userlog[/<action>]/<id>', 'UserLog:default')
 			->addRoute('oznam[/<action>]', 'Oznam:default')

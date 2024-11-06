@@ -9,15 +9,15 @@ use Nette\Application\UI\Form;
 /**
  * Prezenter pre spravu clankov.
  * 
- * Posledna zmena(last change): 04.01.2023
+ * Posledna zmena(last change): 06.11.2024
  *
  *	Modul: ADMIN
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @copyright Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.4.3
+ * @version 1.4.4
  */
 
 class ClankyPresenter extends ArticlePresenter
@@ -117,8 +117,7 @@ class ClankyPresenter extends ArticlePresenter
       }
       $form->addTextArea($j->skratka . '_text', 'Text článku pre jazyk ' . $j->nazov . ':')
         ->setHtmlAttribute('cols', 0)
-        ->setHtmlAttribute('rows', 20)
-        ->getControlPrototype()->class("texyla");
+        ->setHtmlAttribute('rows', 20);
     }
     $form->addGroup();
     $form->addSubmit('uloz', 'Ulož článok')->setHtmlAttribute('class', 'btn btn-success');
@@ -156,20 +155,6 @@ class ClankyPresenter extends ArticlePresenter
         'text' => $c->clanok_lang->text,
         'anotacia' => $c->clanok_lang->anotacia
       ]);
-    }*/
-  /*$cl = $this->hlavne_menu_lang->findAll();
-    foreach ($cl as $c) {
-      if ($c->text !== null)
-        $c->update([
-          'text_c' => $this->texy->process($c->text),
-        ]);
-    }*/
-  /*$ve = $this->verzie->findAll();
-    foreach ($ve as $v) {
-      if ($v->text !== null)
-        $v->update([
-          'text' => $this->texy->process($v->text),
-        ]);
     }*/
   //$this->flashRedirect("Homepage:", 'OK!', "success");
   //}

@@ -360,4 +360,13 @@ WHERE `id` = '37';
 
 -- update 2024-05-06
 
-UPDATE `user_permission` SET `actions` = 'testuseremail,forgottenpassword' WHERE `id_user_resource` = '28' AND `id` = '37';/
+UPDATE `user_permission` SET `actions` = 'testuseremail,forgottenpassword' WHERE `id_user_resource` = '28' AND `id` = '37';*/
+
+INSERT INTO `user_resource` (`name`)
+VALUES ('Api:Homepage');
+
+INSERT INTO `user_permission` (`id_user_roles`, `id_user_resource`, `actions`) VALUES
+(0,	41,	'myappsettings,getnews'),
+(4,	41,	NULL);
+
+UPDATE `user_permission` SET `actions` = 'getactualuserinfo,testuseremail,forgottenpassword,registration,getUserNpk,resetpassword' WHERE `id_user_resource` = '28' AND `id` = '37';

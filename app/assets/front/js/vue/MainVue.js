@@ -10,7 +10,6 @@
  */
 
 /** OLD VUE-2 
-import Vue from 'vue';
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
 import MySlider from './components/MySlider.vue';
 
@@ -33,7 +32,6 @@ import ProductsLike from './components/ProductsLike/ProductsLike.vue'
 import ShowArticle from './components/ShowArticle.vue'
 import UserMenu from './components/User/UserMenu.vue'
 import ToogleMode from './components/ToggleMode.vue'
-import BfFooter from './components/BfFooter.vue'
 import BfNav from './components/BfNav.vue'
 
 import VueSession from 'vue-session'
@@ -88,43 +86,9 @@ let vm = new Vue({
 		ShowArticle,
 		UserMenu,
 		ToogleMode,
-		BfFooter,
 		BfNav,
 	},
-	data() {
-		return {
-			isDarkMode: false,
-		};
-	},
-	methods: {
-		handleDarkModeChange(isDarkMode, isAutomatic = false) {
-			// Zmeňte CSS triedy na body elemente podľa hodnoty isDarkMode
-			if (isDarkMode) {
-				document.body.classList.add("dark-mode");
-				document.body.classList.remove("light-mode");
-				this.isDarkMode = true;
-			} else {
-				document.body.classList.add("light-mode");
-				document.body.classList.remove("dark-mode");
-				this.isDarkMode = false;
-			}
-			
-			// Umožnite automatickú zmenu podľa času
-			if (isAutomatic) {
-				const currentTime = new Date().getHours();
-				const isNightTime = currentTime < 6 || currentTime >= 18; // Predpokladáme, že noc je od 18:00 do 6:00
-				if (isNightTime) {
-					this.isDarkMode = true;
-				} else {
-					this.isDarkMode = false;
-				}
-			}
-		},
-	},
-	mounted() {
-		// Načítanie aktuálneho režimu podľa času pri načítaní stránky
-		this.handleDarkModeChange(null, true);
-	},
+	
 	created() {
 		// Reaguje na načítanie hl. menu
 		this.$root.$on('darkModeChanged', data => {

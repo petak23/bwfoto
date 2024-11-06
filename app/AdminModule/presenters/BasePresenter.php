@@ -9,7 +9,6 @@ use Nette\Application\UI;
 use Nette\Http;
 use Nette\Utils\Json;
 use PeterVojtech;
-use Texy;
 
 /**
  * Zakladny presenter pre vsetky presentery v module ADMIN
@@ -55,9 +54,6 @@ abstract class BasePresenter extends UI\Presenter
 
 	/** @var Http\Request @inject*/
 	public $httpRequest;
-
-	/** @var Texy\Texy @inject */
-	public $texy;
 
 	/** @var string kmenovy nazov stranky pre rozne ucely typu www.neco.sk*/
 	public $nazov_stranky;
@@ -238,17 +234,6 @@ abstract class BasePresenter extends UI\Presenter
 		$this->template->addFilter('to_json', function ($value) {
 			return Json::encode($value);
 		});
-		$this->texy->allowedTags = TRUE;
-		$this->texy->headingModule->balancing = "FIXED";
-		$this->template->addFilter('texy', [$this->texy, 'process']);
-
-		//For texyla
-		$this->template->previewPath = $this->link("Texyla:preview");
-		$this->template->filesPath = $this->link("Texyla:listFiles");
-		$this->template->filesUploadPath = $this->link("Texyla:upload");
-		$this->template->filesMkDirPath = $this->link("Texyla:mkDir");
-		$this->template->filesRenamePath = $this->link("Texyla:rename");
-		$this->template->filesDeletePath = $this->link("Texyla:delete");
 	}
 
 	//  ---- Komponenty ---- 

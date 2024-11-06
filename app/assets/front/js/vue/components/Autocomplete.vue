@@ -14,17 +14,15 @@
 
 import { ref, onMounted, onUnmounted } from 'vue'
 import MainService from '../services/MainService'
+import { useMainStore } from '../store/main.js'
+const store = useMainStore()
 
 const props = defineProps({
-		link: {
-			type: String,
-			required: true,
-		},
-		inputname: { // Názov poliíčka inputu
-			type: String,
-			default: "searchStr"
-		},
-	})
+	inputname: { // Názov poliíčka inputu
+		type: String,
+		default: "searchStr"
+	},
+})
 
 const searchquery = ref('')
 const results = ref([])
@@ -32,8 +30,10 @@ const isOpen = ref(false)
 const isSearching = ref(true)
 const arrowCounter = ref(-1)
 
+const emit = defineEmits(['autocomplete-start'])
+
 const autoComplete = () => {
-	this.$emit('autocomplete-start');
+	emit('autocomplete-start')
 	results.value = []
 	if (searchquery.value.length > 0) {
 		isOpen.value = true
@@ -44,7 +44,7 @@ const autoComplete = () => {
 			.then(response => {
 				//console.log(response);
 				results.value = [];
-				response.data.forEach(cl => results.push(cl))
+				response.data.forEach(cl => results.value.push(cl))
 				isSearching.value = false 
 			})
 			.catch((error) => {
@@ -55,9 +55,9 @@ const autoComplete = () => {
 
 const setLink = (result) => {
 	if (result.type == 1) {
-		return props.link + result.id;
+		return store.baseUrl + "/clanky/" + result.id;
 	} else if (result.type == 2) {
-		return props.link + result.id + '?first_id=' + result.id_dokument;
+		return store.baseUrl + "/clanky/" + result.id + '?first_id=' + result.id_dokument;
 	}
 }
 
@@ -73,22 +73,32 @@ const onArrowUp = () => {
   }
 }
 
+const setResult = (item) => {
+		isOpen.value = false;
+		searchquery.value = item[choice.value];
+		//product_id = item.id;
+		//this.$emit('selected', item);
+}
+
 const onEnter = () => {
-  //setResult(results[arrowCounter.value])
-  //arrowCounter.value = -1
+  setResult(results.value[arrowCounter.value])
+  arrowCounter.value = -1
 }
 
 const onAClick = () => {
 	return true;
 }
 
+const elementRef = ref(null);
+
 const handleClickOutside = (evt) => {
-	if (!$el.contains(evt.target)) {
+	console.log(evt);
+	
+	if (elementRef.value && !elementRef.value.contains(evt.target)) {
 		isOpen.value = false;
-		arrowCounter.value = -1
-		searchquery.value = ''
+		arrowCounter.value = -1;
 	}
-}
+};
 
 onMounted(() => {
 	document.addEventListener('click', handleClickOutside)
@@ -100,10 +110,10 @@ onUnmounted(() => {
 </script>
 
 <template>
-	<div id="autocomplete" class="autocomplete">
+	<div id="autocomplete" class="autocomplete" ref="elementRef">
 		<form autocomplete="off" class="my-2 my-lg-0" @submit.prevent><!--required for disable google chrome auto fill-->
 			<input  type="search" 
-							:placeholder="$store.state.texts.autocomplete_placeholder"
+							:placeholder="store.texts.autocomplete_placeholder"
 							:name="inputname"
 							class="form-control mr-sm-2"
 							aria-label="Search"
@@ -118,9 +128,9 @@ onUnmounted(() => {
 					<li class="list-group-item text-secondary" v-show="isSearching">
 						<span v-show="searchquery.length > 2">
 							<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-							{{ $store.state.texts.autocomplete_searching }}
+							{{ store.texts.autocomplete_searching }}
 						</span>
-						<span v-show="searchquery.length < 3">{{ $store.state.texts.autocomplete_min_char }}</span>
+						<span v-show="searchquery.length < 3">{{ store.texts.autocomplete_min_char }}</span>
 					</li>
 					<li class="list-group-item"
 							v-for="(result, i) in results"
@@ -133,7 +143,7 @@ onUnmounted(() => {
 						</a>
 					</li>
 					<li class="list-group-item text-warning" v-show="!isSearching && searchquery.length > 2 && results.length == 0">
-						<span>{{ $store.state.texts.autocomplete_not_found }}</span>
+						<span>{{ store.texts.autocomplete_not_found }}</span>
 					</li>
 				</ul>
 			</div>

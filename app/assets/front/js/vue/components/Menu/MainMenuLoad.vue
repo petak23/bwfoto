@@ -1,185 +1,126 @@
-<script>
+<script setup>
 /**
  * Komponenta pre načítanie hl. menu a textov prekladov.
- * Posledna zmena 19.04.2024
+ * Posledna zmena 16.10.2024
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.5
+ * @version    1.0.9
  */
 
+import { ref, watch, onMounted } from 'vue'
 import MainService from '../../services/MainService.js'
 
-export default {
-	props: {
-		main_menu_active: { //Aktuálna aktívna polozka
-			type: String,
-			default: 0,
-		},
-		id_hlavne_menu_lang: {
-			type: String,
-			default: 0,
-		},
-		id_user_main: {
-			type: String,
-			default: 0,
-		},
-		adminLink: {
-			type: String,
-			default: null,
-		},
-		adminerLink: {
-			type: String,
-			default: null,
-		},
-		logInLink: {
-			type: String,
-			default: null,
-		},
-		logOutLink: { // Odkaz na stránku odhlásenia sa (Log out)
-			type: String,
-			default: null,
-		},
-		regLink: { // Odkaz na registráciu
-			type: String,
-			default: null,
-		},
-		userLogLink: {
-			type: String,
-			default: null,
+import { useMainStore } from '../../store/main'
+const store = useMainStore()
+import { useFlashStore } from '../../store/flash'
+const storeF = useFlashStore()
+
+const props = defineProps({
+	id_hlavne_menu_lang: {
+		type: Number,
+		default: 0,
+	},
+	
+})
+
+const in_path = ref(false)
+
+const convert = (itemsObject) => {
+	return Object.values(itemsObject).map(item => ({
+		...item,
+		children: item.children ? convert(item.children) : undefined,
+	}));
+}
+
+const getpath = (item) => {
+	item.map((i) => {
+		if (in_path.value == false) {
+			if (i.id == store.main_menu_active) {
+				store.push_main_menu_open(i)
+				in_path.value = true
+			} else if (i.children !== undefined && i.children.length > 0) {
+				getpath(i.children)
+				if (in_path.value) { store.push_main_menu_open(i) }
+			}
 		}
-	},
-	data: () => ({
-		in_path: false,
-	}),
-	computed: {},
-	methods: {
-		convert(itemsObject) {
-			return Object.values(itemsObject).map(item => ({
-				...item,
-				children: item.children ? this.convert(item.children) : undefined,
-			}));
-		},
-		getpath(item) {
-			var self = this
-			item.map(function(i) {
-				if (self.in_path == false) {
-					if (i.id == self.main_menu_active) {
-						self.$store.commit('SET_PUSH_MAIN_MENU_OPEN', i.id)
-						self.in_path = true
-					} else if (typeof i.children !== 'undefined' && i.children.length > 0) {
-						self.getpath(i.children)
-						if (self.in_path) {
-							self.$store.commit('SET_PUSH_MAIN_MENU_OPEN', i.id)
-						}
-					}
-				}
-			})
-		},
-		getMenu() {
-			MainService.getMenuFront()
-				.then(response => {
-					this.$store.dispatch('changeMainMenu', this.convert(response.data))
-					//this.$store.commit('SET_INIT_MAIN_MENU', this.convert(response.data))
-					this.$store.commit('SET_INIT_MAIN_MENU_OPEN', [])
-					this.getpath(this.$store.state.main_menu)
-					this.in_path = false
-					this.$store.commit('SET_REVERSE_MAIN_MENU_OPEN')
-					this.$root.$emit("main-menu-loadet", [])
-				})
-				.catch((error) => {
-					console.log(error);
-				});
-		},
+	})
+}
 
-		// Načítanie prekladov textov
-		getTexts() {
-			let vm = this
-			let data = { texts: this.$store.state.texts_to_load }
-			MainService.postGetTexts(data)
-				.then(function (response) {
-					//console.log(response.data)
-					vm.$store.commit('SET_INIT_TEXTS', response.data)
-					vm.$root.$emit("main-texts-loadet", [])
-				})
-				.catch(function (error) {
-					console.log(error)
-				});
-		},
-		// Načítanie aktuálneho článku
-		getArticle() {
-			MainService.getOneMenuArticle(this.id_hlavne_menu_lang)
-				.then(response => {
-					this.$store.commit('SET_INIT_ARTICLE', response.data)
-				})
-				.catch((error) => {
-					console.log(error);
-				});
-		},
-		// Načítanie aktuálneho užívateľa
-		getUser() {
-			MainService.getActualUserInfo(this.id_user_main)
-				.then(response => {
-					this.$store.commit('SET_INIT_USER', response.data.user)
-					if (typeof(this.$store.state.user.id) != 'undefined') {
-						this.$root.$emit("user-loadet", [])
-					}
-				})
-				.catch((error) => {
-					console.error(error);
-				});
-		},
-	},
-	watch: {
-		// Zapísanie aktívnej položky menu
-		main_menu_active: function (newMainMenuActive) {
-			this.$store.commit('SET_MAIN_MENU_ACTIVE', parseInt(this.main_menu_active))
-		}
-	},
-	mounted() {
-		const basePath = document.getElementById('vueapp').dataset.baseUrl
+const changeActiveItemOfMenu = () => {
+	store.main_menu_open = []
+	if (store.main_menu_active > 1) {
+		getpath(store.main_menu)
+		in_path.value = false
+		store.main_menu_open.reverse()
+	}
+}
 
-		// Zapísanie aktívnej položky menu
-		this.$store.commit('SET_MAIN_MENU_ACTIVE', parseInt(this.main_menu_active))
-
-		this.$store.commit('UPDATE_MAIN_PAGE_LINKS', {
-			logInLink: this.logInLink, 
-			logOutLink: this.logOutLink, 
-			adminLink: this.adminLink, 
-			adminerLink: this.adminerLink, 
-			regLink: this.regLink != null && this.regLink.length ? this.regLink : null, 
-			userLogLink: this.userLogLink
+const getMenu = () => {
+	MainService.getMenuFront()
+		.then(response => {
+			store.changeMainMenu(convert(response.data))
+			changeActiveItemOfMenu()
+			store.main_menu_loadet = true
+			if (store.user != null && store.user.user_role == 'admin')
+				setTimeout(() => storeF.showMessage('Menu sa načítalo.', 'success', 'Menu ...', 2000), 100)
 		})
+		.catch((error) => {
+			console.error(error);
+		});
+}
 
-		MainService.getFromSettings()
+// Načítanie aktuálneho článku
+const getArticle = () => {
+	if (store.main_menu_active != 0) {
+		MainService.getOneMenuArticle(store.main_menu_active)
 			.then(response => {
-				this.$store.commit('SET_INIT_APP_SETTINGS', response.data.data)
+				store.article = response.data
 			})
 			.catch((error) => {
-				console.log(error);
+				console.error(error);
 			});
-		
-		// Načítanie údajov priamo z DB
-		this.getMenu()
-
-		// Načítanie prekladov textov
-		this.getTexts()
-
-		// Načítanie aktuálneho článku
-		this.getArticle()
-
-		// Načítanie užívateľa
-		if (parseInt(this.id_user_main) > 0) this.getUser()
-
-		this.$store.commit('SET_INIT_BASE_PATH', basePath)
-
-		this.$root.$on('reload-main-menu', data => {
-			this.getMenu()
-		})
-	},
+	} else {
+		store.article = null
+	}
 }
+
+watch(() => props.id_hlavne_menu_lang, (newIdHlavneMenuLang) => {
+	//console.log(newIdHlavneMenuLang)
+	store.main_menu_active = newIdHlavneMenuLang
+	getArticle()
+	changeActiveItemOfMenu()
+	store.getSubmenu(store.main_menu_active)
+})
+
+watch(() => store.user, () => {
+	getMenu()
+	changeActiveItemOfMenu()
+})
+
+watch(() => store.main_menu_changed, () => { // Sleduje, či došlo k zmene hl. menu
+	if (store.main_menu_changed) {
+		getMenu()
+		getArticle()
+		changeActiveItemOfMenu()
+		store.getSubmenu(store.main_menu_active)
+		store.main_menu_changed = false
+	}
+})
+
+
+onMounted(() => {
+	// Zapísanie aktívnej položky menu
+	store.main_menu_active = props.id_hlavne_menu_lang
+	
+	// Načítanie údajov priamo z DB
+	getMenu()
+
+	// Načítanie aktuálneho článku
+	getArticle()
+})
 </script>
 
 <template></template>

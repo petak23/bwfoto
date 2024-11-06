@@ -13,7 +13,6 @@ services:
 	- App\AdminModule\Presenters\NakupPresenter(%parameters%)
 	- App\AdminModule\Presenters\ProductsPresenter(%parameters%)
 	- App\AdminModule\Presenters\SliderPresenter(%parameters%)
-	- App\AdminModule\Presenters\TexylaPresenter(%parameters%)
 	- App\AdminModule\Presenters\UdajePresenter(%parameters%)
 	- App\AdminModule\Presenters\UserCategoriesPresenter(%parameters%)
 	- App\AdminModule\Presenters\UserPresenter(%parameters%)

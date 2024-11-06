@@ -12,19 +12,15 @@
  */
 import { ref, computed } from 'vue'
 
-import { useMainStore } from '../../store/main'
+import { useMainStore } from '../store/main.js'
 const store = useMainStore()
 import Autocomplete from './Autocomplete.vue'  //v3
 import BwfotoTreeMain from './Menu/BWfoto_Tree_Main.vue' //v3
 import LangMenu from './LangMenu.vue' 	//v3
-import BasketNav from './Basket/BasketNav' /** @TODO vue 3*/
+//import BasketNav from './Basket/BasketNav' /** @TODO vue 3*/
 import UserMenu_not_logged from "./User/UserMenu_not_logged.vue" //v3
 
 const props = defineProps({
-	dirToImages: {
-		type: String,
-		required: true
-	},
 	linkHome: {
 		type: String,
 		required: true
@@ -35,15 +31,16 @@ const props = defineProps({
 	},
 })
 
-const base_img = computed(() => {
-	return store.basePath + '/' + props.dirToImages
+const logo_img = computed(() => {
+	return store.udaje_webu != undefined && store.udaje_webu.config != undefined ?
+		store.baseUrl + '/' + store.udaje_webu.config.dir_to_images + 'logo_bw-g.png': ""
 })
 </script>
 
 <template>
 	<nav id="topNav" class="navbar navbar-expand-md fixed-top">
 		<a class="navbar-brand ml-sm-5 p-3 logo" :href="props.linkHome" title="Homepage">
-			<img v-if="base_img != null" :src="base_img + 'logo_bw-g.png'" alt="logo bw foto" class="logo">
+			<img v-if="logo_img != null" :src="logo_img" alt="logo bw foto" class="logo">
 		</a>	
 		<button class="navbar-toggler bf-nt" type="button" data-toggle="collapse" 
 						data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" 

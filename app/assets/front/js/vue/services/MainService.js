@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = document.getElementById('vueapp').dataset.baseUrl + "/api/"
+const baseUrl = document.getElementById('app').dataset.baseUrl + "/api/"
 
 //axios.defaults.withCredentials = true;
 
@@ -14,10 +14,17 @@ const apiClient = axios.create({
 		Accept: 'application/json',
 		'Content-Type': 'application/json'
 	},
-	timeout: 10000,
+	timeout: 10000
 })
 
 export default {
+	getMySettings() {
+		return apiClient.get('homepage/myappsettings')
+	},
+	getMyUserData() {
+		return apiClient.get('user/getactualuserinfo')
+	},
+
 	// ---- user ----
 	getActualUserInfo(id_user_main) {
 		return apiClient.get('user/getactualuserinfo/' + id_user_main)
@@ -44,6 +51,18 @@ export default {
 	// ---- sign ----
 	postSignIn(data) {
 		return apiClient.post('sign/in', data)
+	},
+	getSignOut() {
+		return apiClient.get('sign/out')
+	},
+	postRegistration(data) {
+		return apiClient.post('user/registration', data)
+	},
+	postResetPassword(data) {
+		return apiClient.post('user/resetpassword', data)
+	},
+	getUserNpk(id, new_password_key) {
+		return apiClient.get('user/getusernpk/' + id + '/' + new_password_key)
 	},
 
 	// ---- menu ----
@@ -94,8 +113,9 @@ export default {
 	getVisibleAttachments(id_hlavne_menu, group = '') {
 		return apiClient.get('documents/getvisibleattachments/' + parseInt(id_hlavne_menu) + (group.length ? '?group=' + group : ''))
 	},
-	
-
+	postUpdateDocItem(id, data) {
+		return apiClient.post('documents/update/' + id, data)
+        },
 	// ---- slider ----
 	getSlider(id = 1) {
 		return apiClient.get('slider/getall/' + id)
@@ -122,6 +142,16 @@ export default {
 		return apiClient.get('udaje/getfromsettings' + (name.length ? '/'+name : ''))
 	},
 
+        // ---- news ----
+	getNews(limit = 0) {
+		return apiClient.get('homepage/getnews' + (limit > 0 && limit != 5 ? '/?limit=' + limit : ''))
+	},
+        postUpdateNews(id, data) {
+		return apiClient.post('homepage/updatenews/' + id, data)
+	},
+	getDeleteNews(id) {
+		return apiClient.get('homepage/deletenews/' + id)
+	},
 	// ---- products ----
 	getProductPropsCategories() {
 		return apiClient.get('products/productpropscategories')
@@ -156,9 +186,9 @@ export default {
       //"Content-Type": "application/x-www-form-urlencoded",
     }}*/)
 	},
-	getMyUserData() {
+	/*getMyUserData() {
 		return apiClient.get('user')
-	},
+	},*/
 	/*getEvents(perPage, page) {
 		return apiClient.get('/events?_limit=' + perPage + '&_page=' + page)
 	},*/

@@ -1,39 +1,28 @@
 <script setup>
 /** 
  * Component BfFooter
- * Posledná zmena(last change): 05.11.2024
+ * Posledná zmena(last change): 06.11.2024
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.1
+ * @version 1.0.2
  * 
  */
 
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
 import BwfotoTreeMain from './Menu/BWfoto_Tree_Main'
 
-import { useMainStore } from '../../store/main'
+import { useMainStore } from '../store/main.js'
 const store = useMainStore()
-const props = defineProps({
-	dirToImages: {
-		type: String,
-		required: true
-	},
-	copy: {
-		type: String,
-		default: "",
-	},
-	lastUpdate: {
-		type: String,
-		default: "",
-	}
-})
 
 const base_img = computed(() => {
-	return store.basePath + '/' + props.dirToImages
+	return store.udaje_webu != undefined && store.udaje_webu.config != undefined ?
+		store.basePath + '/' + store.udaje_webu.config.dir_to_images : ""
 })
+
+const last_year = new Date().getFullYear()
 
 const links_to_other_pages = ref([
 	{
@@ -77,8 +66,10 @@ const links_to_other_pages = ref([
 			</div>
 		</div>
 		<div class="pv-footer info-layer my-3">
-			<ul class="nav justify-content-center">
-				<li class="p-2" v-if="copy.length > 0">{{ props.copy }}</li>
+			<ul class="nav justify-content-center" v-if="store.udaje_webu != undefined">
+				<li class="p-2" v-if="store.udaje_webu.copy != undefined && store.udaje_webu.copy.length > 0">
+					&copy; {{ store.udaje_webu.copy }} 2017 - {{ last_year }}
+				</li>
 				<li class="p-2">
 					<a 
 						v-for="(li, index) in links_to_other_pages" :key="index"
@@ -88,7 +79,7 @@ const links_to_other_pages = ref([
 						<img :src="store.baseUrl + '/www/images/' + li.img" :alt="li.alt" />
 					</a>
 				</li>
-				<li class="p-2">{{ props.lastUpdate }}</li>
+				<li class="p-2">{{ store.udaje_webu.last_change }}</li>
 				<li class="p-2">created by <a href="http://petak23.echo-msz.eu/" title="petak23.echo-msz.eu" target="_blank">petak23</a></li>
 			</ul>
 		</div>

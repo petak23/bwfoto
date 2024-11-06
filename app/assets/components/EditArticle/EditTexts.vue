@@ -13,9 +13,25 @@
 import { ref, watch, onMounted } from 'vue'
 import MainService from '../../front/js/vue/services/MainService'
 import { BModal } from 'bootstrap-vue-next'
-import { QuillEditor } from '@vueup/vue-quill'
-import '@vueup/vue-quill/dist/vue-quill.snow.css';
-const quill = ref(null)
+import Quill from 'quill' // Full build
+// https://github.com/alekswebnet/vue-quilly
+//import Quill from 'quill/core' // Core build
+import { QuillyEditor } from 'vue-quilly'
+import 'quill/dist/quill.core.css' // Required
+import 'quill/dist/quill.snow.css' // For snow theme (optional)
+
+const editor = ref()
+// Quill instance
+let quill = null
+
+const options = {
+  theme: 'snow', // If you need Quill theme
+  modules: {
+    toolbar: true,
+  },
+  //placeholder: 'Compose an epic...',
+  readOnly: false
+}
 
 import { useMainStore } from '../../front/js/vue/store/main'
 const store = useMainStore()
@@ -89,6 +105,7 @@ watch(() => props.editArticleTextsDialogView, () => {
 
 onMounted(() => {
 	textin.value = store.article != null ? store.article.text_c : ""
+	quill = editor.value && editor.value.initialize(Quill);
 })
 </script>
 
@@ -105,7 +122,7 @@ onMounted(() => {
 			<div id="input-text-gr" role="group" class="form-group mb-2">
 				<!--label for="input-text" class="d-block">Text:</!--label-->
 				<div>
-					<QuillEditor 
+					<!--QuillEditor 
 						ref="quill"
 						theme="snow" 
 						v-model:content="textin"
@@ -114,7 +131,16 @@ onMounted(() => {
 						@ready="onEditorReady($event)"
 						contentType="html"
 						style="height: 320px"
+					/-->
+					<QuillyEditor
+						ref="editor"
+						v-model="textin"
+						:options="options"
+						@update:modelValue="(value) => console.log('HTML model updated:', value)"
+						@ready="onEditorReady($event)/*(quill) => console.log('ready', quill)*/"
+						style="height: 320px"
 					/>
+
 				</div>
 			</div>
 			<button 

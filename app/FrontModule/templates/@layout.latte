@@ -30,61 +30,16 @@
 	{block head}{/block}
 </head>
 <body n:class="$page_font == 'c' ? cinzel">
-<div
-	id="vueapp"
-	v-cloak
-	data-base-path="{$basePath}"
-	data-base-url="{$baseUrl}"
-><div id="slider" ref="myslider">
-
-	<main-menu-load
-		main_menu_active="{$main_menu_active}"
-		id_hlavne_menu_lang="{$id_hlavne_menu_lang}"
-		id_user_main="{$user->getId() != null ? $user->getId() : 0}"
-		log-in-link="{link User:}"
-		log-out-link="{link Homepage:signOut}"
-		admin-link="{$adminLink}"
-		adminer-link="{$adminerLink}"
-		reg-link="{$registracia_enabled}"
-		user-log-link="{link UserLog:}"
+	<div 
+		id="app"
+		v-cloak
+		data-base-path="{$basePath}"
+		data-base-url="{$baseUrl}"
+		data-id_hlavne_menu_lang="{$id_hlavne_menu_lang}"
+		data-flashes="{($flashes|to_json)}"
+		class="container"
 	>
-	</main-menu-load>
-	<my-slider
-		files-path="{$basePath}/www/{$nastavenie['slider']['dir']}"
-	></my-slider>
-
-	<bf-nav 
-		dir-to-images="{$dir_to_images}"
-		link-home="{link Homepage:}"
-		link-clanky="{link Clanky:}/"
-	/>
-
-	<div class="frame">
-		{* ----- ZACIATOK content - centralna cast, obsahova sekcia ----- *}
-		<section id="webContent">
-			<a href="{$link_page_font}" n:if="$user->isLoggedIn()">
-				Prepni na: {if $page_font == 'c'}Monserat{else}Cinzel{/if}
-			</a>
-			<breadcrumb
-				homepage="{plink 'Homepage:'}"
-			></breadcrumb>
-			{*control confirmForm*}
-			<flash-message
-				flash-messages="{($flashes|to_json)}"
-			/>
-			{block content}{/block}
-		</section>
-		<products-like />
-		
-		{* ----- Spodok stranky - FOOTER ----- *}
-		<bf-footer
-			dir-to-images="{$dir_to_images}"
-			copy="&copy; {$copy} 2017 - {date('Y')}"
-			last-update="{$last_update}"
-		/>
 	</div>
-	<toogle-mode @darkModeChanged="handleDarkModeChange"></toogle-mode>
-</div></div>
 	<script src="{webpack front.js}"></script>
 	{control googleAnalytics}
 </body>

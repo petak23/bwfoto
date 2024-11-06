@@ -1,7 +1,7 @@
 /* 
  * Fotogaléria s Vue.js
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * Last update: 30.03.2022 
+ * Last update: 06.11.2024 
  */
 
 [v-cloak] #webThumbnails .vue-fotogalery > div, 
@@ -22,6 +22,7 @@
 		transform: translate3d(-50%, -50%, 0) rotate(360deg);
 	}
 }
+
 [v-cloak] #webThumbnails .vue-fotogalery,
 [v-cloak] #webAlbums .menu-section {
 	height: 80vh;
@@ -36,7 +37,7 @@
 [v-cloak] #webThumbnails .vue-fotogalery::before,
 [v-cloak] #webAlbums .menu-section::before {
 	animation: 2s linear infinite spinner;
-	border: solid 5px rgb(54,54,54,1);
+	border: solid 5px rgba(54,54,54,1);
 	border-bottom-color: #ef6565;
 	border-radius: 50%;
 	content: "";
@@ -50,6 +51,7 @@
 	width: 40px;
 	will-change: transform;
 }
+
 [v-cloak] #webThumbnails .vue-fotogalery::after,
 [v-cloak] #webAlbums .menu-section::after {
 	content: "Nahrávam...";

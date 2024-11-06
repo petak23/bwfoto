@@ -1,9 +1,14 @@
+/* AUTHOR: Peter VOJTECH; CREATION DATE: 24.04.2012 */
+/* UPDATED 06.11.2024 */
 $fa-font-path: "~@fortawesome/fontawesome-free/webfonts";
 @import "~@fortawesome/fontawesome-free/scss/fontawesome.scss";
 @import "~@fortawesome/fontawesome-free/scss/solid.scss";
+@import "~@fortawesome/fontawesome-free/scss/brands.scss";
+
 @import 'bootstrap/dist/css/bootstrap.css';
-@import 'bootstrap-vue/dist/bootstrap-vue.css';
-//@import 'css2.css';
+@import 'bootstrap-vue-next/dist/bootstrap-vue-next.css';
+
+@import 'css2.css';
 @import 'bwfoto.scss';
 @import 'pv_styles.scss';
 @import 'vue_fotogalery.css';
