@@ -1,13 +1,13 @@
-<script>
+<script setup>
 /**
  * Hlavná časť pre prácu s nákupom.
- * Posledna zmena 23.05.2024
+ * Posledna zmena 11.11.2024
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.2
+ * @version    1.0.3
  */
 
 	import BasketNavigation from "../components/Basket/BasketNavigation.vue"
@@ -15,7 +15,7 @@
 	import BasketAdress from "../components/Basket/BasketAdress.vue"
 	import BasketShipping from "../components/Basket/BasketShipping.vue"
 	import BasketSumar from "../components/Basket/BasketSumar.vue"
-	import BasketFinal from "../components/Basket/BasketFinal.vue"
+	import BasketFinal from "../components/Basket/BasketFinal.vue" //v3
 
 	export default {
 		components: {
