@@ -11,6 +11,7 @@
  * 
  */
 import { ref, computed } from 'vue'
+import { RouterLink } from 'vue-router'
 
 import { useMainStore } from '../store/main.js'
 const store = useMainStore()
@@ -39,9 +40,9 @@ const logo_img = computed(() => {
 
 <template>
 	<nav id="topNav" class="navbar navbar-expand-md fixed-top">
-		<a class="navbar-brand ml-sm-5 p-3 logo" :href="props.linkHome" title="Homepage">
+		<RouterLink class="navbar-brand ml-sm-5 p-3 logo" to="/" title="Homepage">
 			<img v-if="logo_img != null" :src="logo_img" alt="logo bw foto" class="logo">
-		</a>	
+		</RouterLink>	
 		<button class="navbar-toggler bf-nt" type="button" data-toggle="collapse" 
 						data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" 
 						aria-expanded="false" aria-label="Toggle navigation"

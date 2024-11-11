@@ -5,7 +5,7 @@
 
 <template>
 	<div>
-
+		Homeview...
 		<!-- text nad nahladmi -->
 		<show-article
 			:id_hlavne_menu_lang = "14"

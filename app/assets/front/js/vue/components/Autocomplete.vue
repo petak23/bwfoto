@@ -92,7 +92,7 @@ const onAClick = () => {
 const elementRef = ref(null);
 
 const handleClickOutside = (evt) => {
-	console.log(evt);
+	//console.log(evt);
 	
 	if (elementRef.value && !elementRef.value.contains(evt.target)) {
 		isOpen.value = false;

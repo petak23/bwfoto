@@ -104,6 +104,10 @@ const sliderFilesPath = computed(() => {
 				<flash-message
 					flash-messages="{($flashes|to_json)}"
 				/>
+				<small>
+					RouterView(id: {{ $route.params.id }}, {{ id_hlavne_menu_lang }})<br />
+				</small>
+				<RouterView />
 			</section>
 			<products-like />
 			
