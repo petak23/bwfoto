@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DbTable;
 
+use App\ApiModule\Components\Menu;
 use Nette;
 use Nette\Utils\Random;
 use Nette\Utils\Image;
@@ -82,7 +83,7 @@ class Hlavne_menu extends Table
 				//Mam taku istu cast ako pred tym? Ak nie nastav cislo casti, ale len ak je to dovolene cez $casti
 				if ($cislo_casti !== $v->id_hlavne_menu_cast) { //Len jeden prechod cez toto a to na začiatku
 					$cislo_casti = $v->id_hlavne_menu_cast;
-					$temp_pol = new \App\FrontModule\Components\Menu\MenuNode;
+					$temp_pol = new Menu\MenuNode;
 					$temp_pol->name = $v->hlavne_menu_cast->view_name;
 					$temp_pol->link = $abs_link . "Homepage:";
 					$temp_pol->id = -1 * $v->hlavne_menu_cast->id;
@@ -90,7 +91,7 @@ class Hlavne_menu extends Table
 					unset($temp_pol);
 				}
 				$for_link = $abs_link . ($v->druh->presenter == "Menu" ? "Clanky" : $v->druh->presenter) . ":";
-				$temp_pol = new \App\FrontModule\Components\Menu\MenuNode;
+				$temp_pol = new Menu\MenuNode;
 				$temp_pol->name = $ja->menu_name;
 				$temp_pol->tooltip = $ja->h1part2;
 				$temp_pol->view_name = $ja->view_name;
@@ -130,14 +131,14 @@ class Hlavne_menu extends Table
 			//Mam taku istu cast ako pred tym? Ak nie nastav cislo casti, ale len ak je to dovolene cez $casti
 			if ($cislo_casti !== $v->id_hlavne_menu_cast) { //Len jeden prechod cez toto a to na začiatku
 				$cislo_casti = $v->id_hlavne_menu_cast;
-				$temp_pol = new \App\FrontModule\Components\Menu\MenuNode;
+				$temp_pol = new Menu\MenuNode;
 				$temp_pol->link = "//:Front:Homepage:";
 				$temp_pol->id = -1 * $v->hlavne_menu_cast->id;
 				$out[] = ["node" => $temp_pol, "nadradena" => FALSE];
 				unset($temp_pol);
 			}
 			$for_link = "//:Front:" . ($v->druh->presenter == "Menu" ? "Clanky" : $v->druh->presenter) . ":";
-			$temp_pol = new \App\FrontModule\Components\Menu\MenuNode;
+			$temp_pol = new Menu\MenuNode;
 			$temp_pol->link = $v->druh->je_spec_naz ? [$for_link] : $for_link;
 			$temp_pol->absolutna = $v->absolutna;
 			$temp_pol->id = $v->id;
@@ -185,6 +186,7 @@ class Hlavne_menu extends Table
 				}
 				$temp_pol = new \App\AdminModule\Components\Menu\MenuNode;
 				$temp_pol->name = $ja->menu_name;
+        $temp_pol->spec_nazov = $ja->hlavne_menu->spec_nazov;
 				$temp_pol->tooltip = $ja->h1part2;
 				$temp_pol->view_name = $ja->view_name;
 				$temp_pol->avatar = $v->avatar;

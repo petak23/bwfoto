@@ -1,59 +1,49 @@
-<script>
+<script setup>
 /**
  * Component audios
- * Posledna zmena 20.03.2023
+ * Posledna zmena 21.08.2024
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.0
+ * @version    1.0.3
  * 
  */
+import { ref, watch } from 'vue'
+import MainService from '../../services/MainService'
 
-import MainService from '../../services/MainService.js'
+import { useMainStore } from '../../store/main'
+const store = useMainStore()
 
-export default {
-	props: {
-		filePath: {
-			type: String,
-			required: true,
-		},
-	},
-	data() {
-		return {
-			audios: null,
-			id: 0,
-		}
-	},
-	methods: {
-		getAttachments() {
-			MainService.getVisibleAttachments(this.$store.state.article.id_hlavne_menu, 'audios')
-				.then(response => {
-					this.audios = response.data.length > 0 ? response.data : null
-				})
-				.catch((error) => {
-					console.log(error);
-				});
-		},
-		// Generovanie url pre lazyloading obrázky
-		getFileUrl(text) {
-			return this.filePath + "/" + text
-		},
-	},
-	watch: {
-		'$store.state.article.id_hlavne_menu': function () {
-			this.getAttachments()
-		}
-	},
+const audios = ref(null) 
+const id = ref(0)
+
+const getAttachments = () => {
+	MainService.getVisibleAttachments(store.article.id_hlavne_menu, "audios")
+		.then(response => {
+			//console.log(response.data.length)
+			audios.value = response.data.length > 0 ? response.data : null
+		})
+		.catch((error) => {
+			console.error(error);
+		});
 }
+// Generovanie url pre lazyloading obrázky
+const getFileUrl = (text) => {
+	return store.udaje_webu.config.prilohy_dir + text
+}
+
+watch(() => store.article, () => {
+	if (store.article != null) getAttachments()
+})
 </script>
 
 <template>
 	<div v-if="audios != null" class="row attachments">
 		<div class="col-12">
 			<hr />
-			<h4>{{ $store.state.texts.clanky_h3_prilohy_audios }}:</h4>
+			<h4>{{ store.texts.clanky_h3_prilohy_audios }}:</h4>
 		</div>
 		<div class="col-12 col-md-6" v-for="im in audios" :key="im.id">
 			<div class="thumbnail">
@@ -68,6 +58,3 @@ export default {
 		</div>
 	</div>
 </template>
-
-<style scoped>
-</style>

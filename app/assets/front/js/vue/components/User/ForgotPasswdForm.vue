@@ -1,121 +1,130 @@
-<script>
+<script setup>
 /**
  * Komponenta pre formulár pri strate hesla.
- * Posledna zmena 06.05.2024
+ * Posledna zmena 02.08.2024
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.1
+ * @version    1.0.3
  */
-
+import { ref, watch, onMounted } from 'vue'
 import MainService from '../../services/MainService.js'
 
-export default {
-	props: {
-		email: {
-			type: String,
-			default: '',
-		},
-	},
-	data() {
-		return {
-			form_email: '',
-			submit_enabled: false, // Použité pri resete
-			test_email: null,
-			email_tested: false,
-		}
-	},
-	watch: {
-		email() {
-			this.form_email = this.email
-		},
-		isEmailVAlid() {
-			if (this.isEmailVAlid) this.testEmail() // Testuj len keď je validný email
-			else this.test_email = null
-		}
-	},
-	computed: {
-		isFormValid() {
-			return Object.keys(this.fields).every(key => this.fields[key].valid);
-		},
-		isEmailVAlid() {
-			return this.fields['forgotInputEmail'] !== undefined ? this.fields['forgotInputEmail'].valid : false
-		}
-	},
-	methods: {
-		async onSubmit(event) {
-			event.preventDefault()
-			let vm = this
-			await MainService.postForgottenPassword(this.form_email)
-			.then(response => {
-				vm.$root.$emit('flash_message', [{
-					'message': response.data.message,
-					'type': response.data.status == 200 ? 'success' : 'danger',
-					'heading': 'Zabudnuté heslo',
-					'timeout': 10000,
-				}])
-				vm.$root.$emit('forgottenHide', [])
-			})
-			.catch(error => {
-				console.log(error)
-				alert(error)
-			});
-		},
-		onReset(event) {
-			event.preventDefault()
-			// Reset our form values
-			this.form_email = ''
-			// Trick to reset/clear native browser form validation state
-			this.submit_enabled = false
-			this.$nextTick(() => {
-				this.submit_enabled = true
-			})
-		},
-		forgottenPassword() {
+import { useFlashStore } from '../../store/flash'
+const storeF = useFlashStore()
 
-		},
-		async testEmail() {
-			console.log(this.form_email)
-			let test = false
-			await MainService.testUserEmail(this.form_email)
-				.then(response => {
-					test = response.data.status == 200
-					//console.log(response.data);
-					//console.log(test ? "Našiel som mail..." : "Žiadny mail...")
-					this.test_email = test ? 1 : 0
-				})
-				.catch((error) => {
-					console.error(error);
-				})
-
-			return test
-		}
+const props = defineProps({
+	email: {	// prednastavenie emailovej adresy 
+		type: String,
+		default: null
 	}
+})
+
+import { useForm, useIsFormValid, useField } from 'vee-validate';
+import * as Yup from 'yup'
+import { BFormInput } from 'bootstrap-vue-next'
+
+const schema = Yup.object().shape({
+	email: Yup.string().required('Email musíte zadať!').email('Email nie je zadaný správne!').label('Emailová adresa'),
+})
+
+const { defineField, errors } = useForm({
+  validationSchema: schema,
+});
+
+const [email] = defineField('email');
+const { meta: metae } = useField('email')
+
+const test_email = ref(null)
+
+const isForgotPassWdFormValid = useIsFormValid()
+
+//const inputEmailRef = ref(null)
+
+watch(() => props.email, (newEmail) => {
+	email.value = newEmail
+})
+
+watch(isForgotPassWdFormValid, (newValidTest) => {
+	if (isForgotPassWdFormValid) testEmail() // Testuj len keď je validný email
+	else test_email.value = null
+})
+
+const emit = defineEmits('forgotPasswdClose')
+
+const onSubmit = async (event) => {
+	event.preventDefault()
+	await MainService.postForgottenPassword(email.value)
+	.then(response => {
+		if (response.data.status == 200) {
+			storeF.showMessage(response.data.message, 'success', 'Zabudnuté heslo', 10000)
+			console.log(response.data.params)
+			
+		} else {
+			storeF.showMessage(response.data.message, 'danger', 'Zabudnuté heslo', 10000)
+		}
+		emit('forgotPasswdClose')
+	})
+	.catch(error => {
+		console.error(error)
+	});
 }
+
+const testEmail = async () => {
+	let test = false
+	if (isForgotPassWdFormValid && email.value != undefined && email.value.length > 5) {
+		await MainService.testUserEmail(email.value)
+			.then(response => {
+				test = response.data.status == 200
+				test_email.value = test ? 1 : 0
+			})
+			.catch((error) => {
+				console.error(error);
+			})
+	}
+	return test
+}
+
+onMounted(() => {
+	if (props.email != null) {
+		email.value = props.email
+	} else {
+		email.value = null
+	}
+	/*setTimeout(() => {
+		inputEmailRef.value.focus()	
+	}, 500);*/
+	
+})
 </script>
 
 <template>
-	<form @submit="onSubmit" @reset="onReset">
+	<form @submit="onSubmit">
 		<div class="form-row">
 			<div class="form-group">
 				<label for="forgotInputEmail">E-mail:</label>
-				<input 
-					type="email" class="form-control" 
-					name="forgotInputEmail"
+				<BFormInput 
 					id="forgotInputEmail" aria-describedby="emailHelp" required
-					v-validate="'required|email'" 
-					data-vv-as="e-mail"
-					v-model="form_email"
+					v-model="email" 
+					:state="!metae.dirty ? null : metae.valid" 
+					type="email"
+					placeholder="Zadaj email"
 					@blur="testEmail"
+					autofocus
+				/>
+				<small id="email-help" 
+					class="form-text bg-danger text-white px-2"
+					v-if="errors.email"
 				>
-				<small class="form-text bg-danger text-white px-2">{{ errors.first('forgotInputEmail') }}</small>
-				<small id="emailHelp" class="form-text text-muted">
-					Zadajte, prosím, e-mailovú adresu, na ktorú zašleme inštrukcie na obnovenie hesla!
+					{{ errors.email }}<br />
 				</small>
-				<small v-if="test_email != null && !test_email" class="form-text bg-warning px-2 text-dark">
-					Vašu e-mailovú adresu sme nenašli v databáze!
+				<small id="emailHelp" class="form-text text-muted">
+					Zadajte, prosím, e-mailovú adresu, na ktorú zašleme inštrukcie na obnovenie hesla!<br />
+				</small>
+				<small v-if="test_email != null && !test_email && isForgotPassWdFormValid" class="form-text bg-warning px-2 text-dark">
+					Vašu e-mailovú adresu sme nenašli v databáze!<br />
 					Prosím, skúste sa zaregistrovať.
 				</small>
 			</div>
@@ -123,8 +132,8 @@ export default {
 		<button 
 			type="submit"
 			class="btn btn-success mt-2 send-button"
-			:class="isFormValid && test_email ? '' : 'disabled'"
-			:disabled="!(isFormValid && test_email)"
+			:class="isForgotPassWdFormValid && test_email ? '' : 'disabled'"
+			:disabled="!(isForgotPassWdFormValid && test_email)"
 		>
 			Odošli
 		</button>

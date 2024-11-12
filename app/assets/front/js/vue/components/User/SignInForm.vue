@@ -1,140 +1,126 @@
-<script>
+<script setup>
 /**
  * Komponenta pre prihlasovací formulár.
- * Posledna zmena 17.01.2024
+ * Posledna zmena 15.08.2024
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.1
+ * @version    1.0.3
  */
-
-import MainService from '../../services/MainService.js'
+import { ref } from 'vue'
+import MainService from '../../services/MainService'
 import ForgotPasswdForm from './ForgotPasswdForm.vue'
 
-export default {
-	components: {
-		ForgotPasswdForm,
-	},
-	data() {
-		return {
-			form: {
-				email: '',
-				password: '',
-				remember: false,
-			},
-			submit_enabled: true, // - dočasne inak false
-			error_message: null, 	// inak objekt {status: xxx, error: "Správa o chybe..."}
+import { useRouter } from 'vue-router'
+const router = useRouter()
+
+import { useMainStore } from '../../store/main'
+import { useFlashStore } from '../../store/flash'
+const store = useMainStore()
+const storeF = useFlashStore()
+
+import { useForm, useIsFormValid, useField } from 'vee-validate';
+import * as Yup from 'yup'
+import { BFormInput, BModal } from 'bootstrap-vue-next'
+
+const schema = Yup.object().shape({
+	email: Yup.string().required('Email musíte zadať!').email('Email nie je zadaný správne!').label('Emailová adresa'),
+	password: Yup.string().required('Heslo musí byť zadané!').min(5, 'Heslo musí mať aspoň 5 zankov'),
+})
+
+const { defineField, handleSubmit, resetForm, errors } = useForm({
+  validationSchema: schema,
+});
+
+const { meta: metae } = useField('email')
+const { meta: metap } = useField('password')
+
+const [email] = defineField('email');
+const [password] = defineField('password');
+
+const error_message = ref(null) 	// inak objekt {status: xxx, error: "Správa o chybe..."}
+
+const onSubmit = handleSubmit((values) => {
+	error_message.value = null
+  MainService.postSignIn(values)
+	.then(response => {
+		if (response.data.status == 200 && response.data.user != undefined && response.data.user != null) {
+			store.user = response.data.user
+			store.user_permission = response.data.user.permission
+			storeF.showMessage('Ǔspešne ste sa prihlásili.', 'success', 'Prihlásenie', 5000)
+			router.push('/') // Presmerovanie...
+		} else {
+			console.error(response.data)
+			error_message.value = response.data
 		}
-	},
-	computed: {
-		isFormValid() {
-			return Object.keys(this.fields).every(key => this.fields[key].valid);
-		},
-	},
-	methods: {
-		async onSubmit(event) {
-			event.preventDefault()
-			let vm = this
-			await MainService.postSignIn(this.form)
-			.then(response => {
-				if (response.data.status == 200) {
-					vm.$store.commit('SET_INIT_USER', response.data.user)
-					if (typeof (this.$store.state.user.id) != 'undefined') {
-						vm.$root.$emit("user-loadet", [])
-						vm.$root.$emit('flash_message', [{
-							'message': 'Ǔspešne ste sa prihlásili.',
-							'type': 'success',
-							'heading': 'Prihlásenie',
-							'timeout': 5000,
-						}])
-					}
-					// https://stackoverflow.com/questions/35664550/vue-js-redirection-to-another-page
-					// Tvrdé presmerovanie po prihlásení.
-					window.location.href = this.$store.state.basePath;
-				} else {
-					console.error(response.data)
-					this.error_message = response.data
-				}
-			})
-			.catch(error => {
-				console.log(error)
-				alert(error)
-			});
-		},
-		onReset(event) {
-			event.preventDefault()
-			// Reset our form values
-			this.form.email = ''
-			this.form.password = ''
-			this.form.remember = false
-			// Trick to reset/clear native browser form validation state
-			this.submit_enabled = false
-			this.$nextTick(() => {
-				this.submit_enabled = true
-			})
-		},
-		forgottenPassword() {
-			//console.log("FPass");
-			this.$bvModal.show("modal-forgot-passwd")
-		},
-	},
-	mounted () {
-    this.$root.$on('forgottenHide', () => {
-      this.$bvModal.hide("modal-forgot-passwd")
-    })
-	},
+	})
+	.catch(error => {
+		console.error(error)
+		error_message.value = response.data
+	});
+});
+	
+const isSignInFormValid = useIsFormValid()
+
+const submit_enabled = ref(true) // - dočasne inak false
+
+const forgotDialogView = ref(false)
+
+const	onReset = async (event) => {
+	event.preventDefault()
+	// Reset our form values
+	form.email = ''
+	form.password = ''
+	form.remember = false
+	// Trick to reset/clear native browser form validation state
+	submit_enabled.value = false
+	
+	await nextTick()
+	submit_enabled.value = true
 }
 </script>
 
 <template>
+	<div class="form-row" v-if="error_message != null">
+		<div class="form-group">
+			<div class="alert alert-danger"> 
+				<h4 class="alert-heading">Chyba!!!</h4>
+				<p>{{ error_message.error }}</p>
+			</div>
+		</div>
+	</div>
 	<form @submit="onSubmit" @reset="onReset" class="sign-in-form">
-		<div class="form-row" v-if="error_message != null">
-			<div class="form-group">
-				<div class="alert alert-danger"> 
-					<h4 class="alert-heading">Chyba!!!</h4>
-					<p>{{ error_message.error }}</p>
-				</div>
-			</div>
-		</div>
 		<div class="form-row">
 			<div class="form-group">
-				<input 
-					type="email" class="form-control" 
-					name="signInEmail"
+				<BFormInput 
+					id="input-email"
+					v-model="email" 
+					aria-describedby="email-help"
+					:state="!metae.dirty ? null : metae.valid" 
+					type="email"
 					placeholder="Zadaj email"
-					id="signInEmail" aria-describedby="emailHelp" 
-					required
-					v-validate="'required|email'" 
-					data-vv-as="e-mail"
-					v-model="form.email"
-				>
-				<small class="form-text bg-danger text-white px-2">
-					{{ errors.first('signInEmail') }}
-				</small>
+					autofocus
+				/>
+				<small id="email-help" class="text-danger">{{ errors.email }}</small>
 			</div>
 		</div>
-
 		<div class="form-row">
 			<div class="form-group">
-				<input 
-					type="password" 
-					class="form-control"
-					id="signInPassdord"
+				<BFormInput 
+					id="input-passwordemail"
+					v-model="password"
+					aria-describedby="password-help"
+					type="password"
+					:state="!metap.dirty ? null : metap.valid" 
 					placeholder="Zadaj heslo"
-					name="signInPassdord"
-					required
-					v-validate="'required|min:5'"
-					v-model="form.password"
-					data-vv-as="heslo"
-				>
-				<small class="form-text bg-danger text-white px-2">
-					{{ errors.first('signInPassdord') }}
+				/>
+				<small id="password-help" class="text-danger">
+					{{ errors.password }}
 				</small>
 			</div>
 		</div>
-
 		<!-- b-form-group id="input-group-4" v-slot="{ ariaDescribedby }">
 			<b-form-checkbox-group
 				v-model="form.remember"
@@ -146,37 +132,32 @@ export default {
 		</ -->
 
 		<div class="form-row">
-			<div class="form-group">
+			<div class="form-group my-3">
 				<button 
 					type="submit"
 					class="btn btn-success mt-2 send-button"
-					:class="submit_enabled && isFormValid ? '' : 'disabled'"
-					:disabled="!(submit_enabled && isFormValid)"
+					:class="submit_enabled && isSignInFormValid ? '' : 'disabled'"
+					:disabled="!(submit_enabled && isSignInFormValid)"
 				>
 					Prihlásiť
 				</button>
 				<button 
-					v-on:click.prevent="forgottenPassword" 
+					@click.prevent="forgotDialogView = true"
 					class="btn btn-link mt-2"
 				>
 					Zabudnuté heslo
 				</button>
-				<b-modal 
-					id="modal-forgot-passwd" 
+				<BModal
+					v-model="forgotDialogView" 
 					title="Obnovenie zabudnutého hesla"
 					centered 
 					size="xl" 
-					ok-only
-					header-bg-variant="dark"
-					header-text-variant="light"
-					body-bg-variant="dark"
-					body-text-variant="white"
-					footer-bg-variant="dark"
-					footer-text-variant="light"
 					hide-footer 
 				>
-					<forgot-passwd-form></forgot-passwd-form>
-				</b-modal>
+					<forgot-passwd-form 
+						@forgot-passwd-close="() => {forgotDialogView = false}"
+					/>
+				</BModal>
 			</div>
 		</div>
 	</form>

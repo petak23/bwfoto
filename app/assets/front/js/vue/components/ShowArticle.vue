@@ -1,108 +1,79 @@
-<script>
+<script setup>
 /** 
  * Component ShowArticle
- * Posledná zmena(last change): 11.12.2023
+ * Posledná zmena(last change): 12.11.2024
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @copyright Copyright (c) 2021 - 2023 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2021 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.2
+ * @version 1.0.3
  * 
  */
-import EditTexts from "./Article/EditTexts.vue"
-import EditTitle from "./Article/EditTitle.vue"
+import { ref, watch, computed, onMounted } from 'vue'
+import { useMainStore } from '../store/main.js'
+const store = useMainStore()
+
+import EditTexts from "../../../../components/EditArticle/EditTexts.vue" //"./Article/EditTexts.vue"
+import EditTitle from "../../../../components/EditArticle/EditTitle.vue" //"./Article/EditTitle.vue"
 import MainService from '../services/MainService.js'
 
-export default {
-	components: {
-		EditTexts,
-		EditTitle,
+const props = defineProps({
+	id_hlavne_menu_lang: {
+		type: Number,
+		required: true,
 	},
-	props: {
-		filesPath: { // Adresár k súborom vrátanekoncového lomítka
-			type: String,
-			//required: true
-		},
-		link: String,
-		//link_to_admin: String,
-		article_hlavicka: String,
-		article_avatar_view_in: String,
-		id_hlavne_menu_lang: {
-			type: Number,
-			required: true,
-		},
-		view_h1: {	// Povolenie zobrazenia nadpisu H1
-			type: String,
-			default: "0", //Povolenie zobrazenia je "1"
-		},
-		text_class: {	// Doplnkový class pre textové pole
-			type: String,
-			default: "",
-		},
-		container_id: { // Id hlavného kontajnera
-			type: String,
-		}
+	view_h1: {	// Povolenie zobrazenia nadpisu H1
+		type: Boolean,
+		default: false, //Povolenie zobrazenia
 	},
-	data() {
-		return {
-			article: null,
-			edit_enabled: false,
-		}
+	text_class: {	// Doplnkový class pre textové pole
+		type: String,
+		default: "",
 	},
-	methods: {
-				// Načítanie aktuálneho článku
-		getArticle() {
-			MainService.getOneMenuArticle(this.id_hlavne_menu_lang)
-				.then(response => {
-					this.article = response.data
-					//console.log(response.data)
-				})
-				.catch((error) => {
-					console.log(error);
-				});
-		},
-	},
-	computed: {
-		modalNameTitle() {
-			return 'EditTitleModalID' + this.id_hlavne_menu_lang
-		},
-		modalNameText() {
-			return 'EditTextModalID' + this.id_hlavne_menu_lang 
-		}
-	},
-	created: function () {
-		this.$root.$on("reload-article-" + this.id_hlavne_menu_lang, data => {
-			this.article = data[0]
+	container_id: { // Id hlavného kontajnera
+		type: String,
+	}
+})
+
+const article = ref(null)
+const edit_enabled = ref(false)
+
+// Načítanie aktuálneho článku
+const getArticle = () => {
+	MainService.getOneMenuArticle(props.id_hlavne_menu_lang)
+		.then(response => {
+			article.value = response.data
+			//console.log(response.data)
 		})
-	},
-	watch: {
-		'$store.state.user': function () {
-			if (typeof (this.$store.state.user.id) != 'undefined') {
-				let vm = this
-				let data = {
-					resource: 'Front:Clanky',
-					action: 'edit',
-				}
-				MainService.postIsAllowed(this.$store.state.user.id, data)
-					.then(function (response) {
-						vm.edit_enabled = response.data.result == 1
-					})
-					.catch(function (error) {
-						console.log(error);
-					});
-			}
-		}
-	},
-	mounted () {
-		this.getArticle()
-	},
+		.catch((error) => {
+			console.error(error);
+		})
 }
+
+const modalNameTitle = computed(() => {
+	return 'EditTitleModalID' + props.id_hlavne_menu_lang
+})
+const modalNameText = computed(() => {
+	return 'EditTextModalID' + props.id_hlavne_menu_lang 
+})
+
+watch(() => store.user, () => {
+	edit_enabled.value = (store.user != null) ? store.checkUserPermission('Front:Clanky', 'edit') : false
+})
+
+watch(() => store.article, () => {
+	article.value = store.article
+})
+
+onMounted(() => {
+	getArticle()
+})
 </script>
 
 <template>
 	<div
-		:id="container_id"
+		:id="props.container_id"
 		class="sa-container"
 		v-if="article != null"
 	>
@@ -123,7 +94,7 @@ export default {
 				:article_hlavicka="article_hlavicka"
 			></edit-title>
 		</div -->
-		<h1 v-if="view_h1 == '1'">
+		<h1 v-if="props.view_h1">
 			{{ article.view_name }}
 			<small v-if="article.h1part2 != null" class="ml-2">
 				{{ article.h1part2 }}
@@ -134,29 +105,29 @@ export default {
 				role="group"
 		>
 			<b-button
-				v-if="view_h1 == '1'"
+				v-if="props.view_h1"
 				variant="outline-warning"
 				size="sm"
 				v-b-modal="modalNameTitle"
-				:title="$store.state.texts.base_edit_title"
+				:title="store.texts.base_edit_title"
 			>
 				<i class="fas fa-pen"></i>
 			</b-button>
 			<b-button 
 				variant="outline-warning"
 				size="sm"
-				:title="$store.state.texts.base_edit_texts"
+				:title="store.texts.base_edit_texts"
 				v-b-modal="modalNameText"
 			>
 				<i class="fa-solid fa-file-lines"></i>
 			</b-button>
 			<edit-title
-				:button_prefix="'buttonTitleID' + id_hlavne_menu_lang"
+				:button_prefix="'buttonTitleID' + props.id_hlavne_menu_lang"
 				:article="article"
 				:modal_name="modalNameTitle"
 			></edit-title>
 			<edit-texts
-				:button_prefix="'buttonTextID' + id_hlavne_menu_lang"
+				:button_prefix="'buttonTextID' + props.id_hlavne_menu_lang"
 				:article="article"
 				:modal_name="modalNameText"
 			>
@@ -164,7 +135,7 @@ export default {
 		</div>
 		<span 
 			class="popis"
-			:class="text_class"
+			:class="props.text_class"
 			v-html="article.text_c">
 		</span>
 	</div>

@@ -19,7 +19,7 @@ const store = useMainStore()
 
 const base_img = computed(() => {
 	return store.udaje_webu != undefined && store.udaje_webu.config != undefined ?
-		store.basePath + '/' + store.udaje_webu.config.dir_to_images : ""
+		store.baseUrl + '/' + store.udaje_webu.config.dir_to_images : null
 })
 
 const last_year = new Date().getFullYear()
@@ -44,8 +44,7 @@ const links_to_other_pages = ref([
 	<footer class="py-3">
 		<!-- --- Mapa stranky --- --> 
 		<nav class="w-100">
-			<bwfoto-tree-main 
-				part="-1" 
+			<bwfoto-tree-main
 				ul-class="nav text-center justify-content-center py-3"
 			/>
 		</nav>
@@ -55,7 +54,8 @@ const links_to_other_pages = ref([
 				<img 
 					v-if="base_img != null"
 					:src="base_img + 'logo_bw-w.png'"
-					title="Logo BWfoto" alt="Logo Bwfoto" class="img-responsive">
+					title="Logo BWfoto" alt="Logo Bwfoto" class="img-responsive" 
+				/>
 			</div>
 			<div id="contact" class="px-3 my-3 col-md">
 				<h4>Ateliér Zámečník</h4>

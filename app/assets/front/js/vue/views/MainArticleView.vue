@@ -1,4 +1,4 @@
-<script>
+<script setup>
 /**
  * Zobrazenie hlavnej časti článkov.
  * Posledna zmena 12.09.2024
@@ -10,7 +10,13 @@
  * @version    1.0.2
  * 
  * @description https://www.npmjs.com/package/vue-session
+ *
  */
+
+import { computed } from 'vue'
+import { useMainStore } from '../store/main.js'
+const store = useMainStore()
+
 import FotoGalery from '../components/FotoGalery'
 import FotoCollage from '../components/FotoCollage'
 import FotoPanorama from '../components/FotoPanorama'
@@ -19,60 +25,54 @@ import EditArticle from '../../../../components/EditArticle/EditArticle'
 import SingleMenu from '../components/Menu/SingleMenu'
 import Attachments from '../components/Attachments/Attachments'
 
-export default {
-	components: {
-		FotoGalery,
-		FotoCollage,
-		FotoPanorama,
-		Menucardorder,
-		EditArticle,
-		SingleMenu,
-		Attachments,
+const props = defineProps({
+	first_id: {
+		type: String, // Todo - prerob na Number
+		default: "0", 
 	},
-	props: {
-		first_id: {
-			type: String, // Todo - prerob na Number
-			default: "0", 
-		},
-		this_link: {
-			type: String,
-		},
-		link_to_admin: {
-			type: String,
-		},
+	this_link: {
+		type: String,
 	},
-	computed: {
-		template_id() {
-			return this.$store.state.article != null ? this.$store.state.article.template : 0
-		}
+	link_to_admin: {
+		type: String,
 	},
-}
+})
+
+const template_id = computed(() => {
+	return store.article != null && store.article.template !== undefined ? store.article.template : 0
+})
+
+const edit_enabled = computed(() => {
+	return store.user != null && store.checkUserPermission('Front:Clanky', 'edit')
+})
 </script>
 
 <template>
 	<div> <!-- Vo vue3 tento div odstrániť !-->
 		<article class="article-main">
 			<edit-article
-				:link="this_link"
-				:link_to_admin="link_to_admin"
+				:link="props.this_link"
+				:link_to_admin="props.link_to_admin"
 			></edit-article>
 		</article>
 
 		<!-- ----- BWfoto_foto_album ------ -->
 		<foto-galery 
 			v-if="template_id == 2"
-			:first_id="first_id" 
+			:first_id="props.first_id" 
 		/>
 
 		<!-- ----- BWfoto_foto_section -----  -->
 		<menucardorder 
 			v-else-if="template_id == 3"
+			:id_hlavne_menu="store.main_menu_active"
+			:edit_enabled="edit_enabled"
 		/>
 
 		<!-- ----- BWfoto_foto_album_lg ----- -->
 		<foto-panorama
 			v-else-if="template_id == 6"
-			:first_id="first_id" 
+			:first_id="props.first_id" 
 		/>
 
 		<!-- ----- BWfoto_foto_collage ----- -->

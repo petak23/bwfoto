@@ -6,13 +6,13 @@ use Nette;
 
 /**
  * Komponenta na vytvorenie menu
- * Posledna zmena 13.03.2023
+ * Posledna zmena 21.08.2024
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.1.0
+ * @version    1.1.3
  */
 class Menu extends Nette\Application\UI\Control
 {
@@ -185,8 +185,13 @@ class Menu extends Nette\Application\UI\Control
 			$out[$node->id] = [
 				'id'	 		=> $node->id,
 				'name' 		=> $node->name,
+				'tooltip' => $node->tooltip,
+				'view_name' => $node->view_name,
+				'anotacia'	=> $node->anotacia != null && strlen($node->anotacia) > 2 ? $node->anotacia : null,
+				'datum_platnosti' => $node->datum_platnosti,
 				'children' => $this->_anode($node, $level + 1),
-				'link' 		=> $node->link,
+				//'link' 		=> $node->link,
+				'vue_link'=> $node->vue_link,
 				'class' 	=> $node->node_class,
 				'avatar'	=> $node->avatar,
 			];
@@ -208,8 +213,13 @@ class Menu extends Nette\Application\UI\Control
 				$out[$no->id] = [
 					'id'	 		=> $no->id,
 					'name' 		=> $no->name,
+					'tooltip' => $no->tooltip,
+					'view_name' => $no->view_name,
+					'anotacia'	=> $no->anotacia != null && strlen($no->anotacia) > 2 ? $no->anotacia : null,
+					'datum_platnosti' => $no->datum_platnosti,
 					'children' => $subn,
-					'link' 		=> $no->link,
+					//'link' 		=> $no->link,
+					'vue_link'=> $no->vue_link,
 					'class' 	=> $no->node_class,
 					'avatar'	=> $no->avatar,
 				];
@@ -231,7 +241,8 @@ class MenuNode
 	var $anotacia;
 	var $node_class;
 	var $datum_platnosti;
-	var $link;	//Odkaz na polozku
+	//var $link;	//Odkaz na polozku
+	var $vue_link; // Odkaz pre vuerouter
 	var $nodes = [];
 	var $parent;
 	var $id;

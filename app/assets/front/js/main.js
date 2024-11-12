@@ -30,7 +30,7 @@ window.onload = function() {
 		});
 	}
 }
-
-import './nav-shrink.js';*/
+*/
+import './nav-shrink.js';
 import './vue/MainVue.js';
 

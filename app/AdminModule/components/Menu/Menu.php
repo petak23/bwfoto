@@ -368,6 +368,7 @@ class MenuNode
 
 	var $name;
 	var $tooltip;
+	var $spec_nazov;
 	var $view_name;
 	var $avatar;
 	var $anotacia;

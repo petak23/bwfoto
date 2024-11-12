@@ -9,7 +9,7 @@ use Nette\Utils\Validators;
 
 /**
  * Prezenter pre pristup k api prihlasovania a odhlasovania užívateľov.
- * Posledna zmena(last change): 16.04.2024
+ * Posledna zmena(last change): 30.07.2024
  *
  * Modul: API
  *
@@ -17,7 +17,7 @@ use Nette\Utils\Validators;
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.1
+ * @version 1.0.2
  * @help 1.) https://forum.nette.org/cs/28370-data-z-post-request-body-reactjs-appka-se-po-ceste-do-php-ztrati
  * @help 2.) https://www.php.net/manual/en/function.checkdnsrr.php#48157
  */
@@ -95,8 +95,14 @@ class SignPresenter extends BasePresenter
 			Validators::assert($_post['password'], 'string:3..', 'Heslo musí mať viac ako 3 znaky!'); // Kontrola, či heslo má aspoň 3 znaky
 
 			$this->user->login($_post['email'], $_post['password']);
+			
+			$message = "Užívateľ: '" . $this->user->getIdentity()->name . "' sa prihlásil"; 
+			$this->myMailer->sendAdminMail("Prihlásenie", $message);
+
 			$this->getActualUserInfo();
 		} catch (Nette\Security\AuthenticationException $e) {
+			$message = "Pokus o prihlásenie z emailu: '" . $_post['email'] . "' sa nepodaril z dôvodu: " . $e->getMessage();
+			$this->myMailer->sendAdminMail("Neúspešné prihlásenie", $message);
 			$this->sendJson(['status' => 500, 'error' => 'Uživateľské meno alebo heslo je nesprávne!!!']);
 		} catch (Nette\Utils\AssertionException $e) {
 			$this->sendJson(['status' => 500, 'error' => 'Zadajte hodnoty v správnom tvare!!!']);
@@ -106,5 +112,6 @@ class SignPresenter extends BasePresenter
 	public function actionOut(): void
 	{
 		$this->user->logout(true);
+		$this->sendJson(['status' => 200]);
 	}
 }

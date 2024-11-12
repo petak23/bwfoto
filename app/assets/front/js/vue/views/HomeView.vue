@@ -5,20 +5,16 @@
 
 <template>
 	<div>
-		Homeview...
 		<!-- text nad nahladmi -->
 		<show-article
 			:id_hlavne_menu_lang = "14"
 			container_id = "uvodnyText"
-			view_h1 = "1"
+			view_h1
 			text_class = "text-justify"
 		/>
 
 		<!-- Hlavne menu -->
-		<bwfoto-fixed-homepage
-			part="1"
-			avatar-dir="/files/menu/"
-		/>
+		<bwfoto-fixed-homepage />
 
 		<!-- text pod nahladmi -->
 		<show-article

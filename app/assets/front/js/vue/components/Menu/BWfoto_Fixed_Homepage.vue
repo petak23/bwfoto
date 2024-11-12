@@ -1,13 +1,13 @@
 <script setup>
 /** 
  * Component BWfoto_Fixed_Homepage
- * Posledná zmena(last change): 04.11.2024
+ * Posledná zmena(last change): 12.11.2024
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.2
+ * @version 1.0.3
  * 
  */
 import { ref, computed, watch } from 'vue'
@@ -19,9 +19,9 @@ import part_small from "./BWfoto_Fixed_Homepage/part_small.vue"
 import figureMy from "./BWfoto_Fixed_Homepage/figureMy.vue"
 
 const props = defineProps({
-	part: {
-		type: String,
-		default: "1",
+	part: { // id_hlavne_menu_cast
+		type: Number,
+		default: 1,
 	},
 	ulClass: {
 		type: String,
@@ -55,7 +55,7 @@ const menu = computed(() => {
 
 watch(() => store.main_menu, () => {
 	store.main_menu.map(item => {
-		if (item.id == -1*parseInt(props.part)) menu_part.value = item
+		if (item.id == -1*props.part) menu_part.value = item
 	})
 })
 </script>

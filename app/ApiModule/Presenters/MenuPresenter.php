@@ -10,15 +10,15 @@ use Nette\Utils\Json;
 
 /**
  * Prezenter pre pristup k api hlavneho menu a pridružených vecí ako je aj obsah článku.
- * Posledna zmena(last change): 07.12.2023
+ * Posledna zmena(last change): 21.08.2024
  *
  * Modul: API
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.3
+ * @version 1.1.5
  * 
  * @help 1.) https://forum.nette.org/cs/28370-data-z-post-request-body-reactjs-appka-se-po-ceste-do-php-ztrati
  */
@@ -35,27 +35,22 @@ class MenuPresenter extends BasePresenter
 	/** @var DbTable\Hlavne_menu_template $hlavne_menu_template @inject */
 	public $hlavne_menu_template;
 
-	/**
-	 * Vráti kompletné menu v json 
-	 * @param String $lmodule Modul, pre ktorý sa vatvárajú odkazy v submenu */
-	public function actionGetMenu(String $lmodule = "Admin"): void
+	/** Vráti kompletné menu v json formáte */
+	public function actionGetMenu(): void
 	{
 		$menu = new Menu\Menu;
 		$menu->setNastavenie($this->nastavenie);
 		$hl_m = $this->hlavne_menu->getMenuAdmin(1);
 		if (count($hl_m)) {
-			$servise = $this;
-			$menu->fromTable($hl_m, function ($node, $row) use ($servise, $lmodule) {
-				foreach (["name", "tooltip", "avatar", "anotacia", "node_class", "id", "datum_platnosti"] as $v) {
+			$menu->fromTable($hl_m, function ($node, $row) {
+				foreach (
+					["name", "tooltip", "avatar", "anotacia", 
+						"node_class", "id", "datum_platnosti", 
+						'view_name', 'anotacia'
+					] as $v) {
 					$node->$v = $row['node']->$v;
 				}
-
-				$presenter = is_array($row['node']->link) ? $row['node']->link[0] : $row['node']->link;
-				$p_for_link = (ucfirst($lmodule) == "Front" && $presenter == "Menu:") ? "Clanky:" : $presenter;
-
-				$node->link = is_array($row['node']->link) ?
-					$servise->link(":" . ucfirst($lmodule) . ":" . $p_for_link, ["id" => $row['node']->id]) :
-					$servise->link(":" . ucfirst($lmodule) . ":" . $p_for_link, []);
+				$node->vue_link = $row['node']->spec_nazov != null ? "/clanky/" . $row['node']->spec_nazov : "/";
 				return $row['nadradena'] ? $row['nadradena'] : null;
 			});
 		}
@@ -63,22 +58,24 @@ class MenuPresenter extends BasePresenter
 	}
 
 	/** 
-	 * Akcia vráti konkrétne submenu pre nadradenú položku
-	 * @param int $id Id nadradenej polozky
-	 * @param String $lmodule Modul, pre ktorý sa vatvárajú odkazy v submenu */
-	public function actionGetSubmenu(int $id, String $lmodule = "Admin"): void
+	 * Akcia vráti konkrétne submenu pre nadradenú položku v závislosti od oprávnenia užívateľa
+	 * @param int $id Id nadradenej polozky */
+	public function actionGetSubmenu(int $id): void
 	{
 		$tmp = $this->hlavne_menu_lang
-			->findBy(['hlavne_menu.id_nadradenej' => $id, 'id_lang' => 1])
+			->findBy([
+				'hlavne_menu.id_nadradenej' => $id, 
+				'id_lang' => 1,
+				'id_user_roles <=' => $this->id_reg,
+			])
 			->order('poradie ASC');
 		$out = [];
-		foreach ($tmp as $v) {
-			$p = $lmodule == "front" && $v->hlavne_menu->druh->presenter == "Menu" ? "Clanky" : $v->hlavne_menu->druh->presenter;
+		foreach ($tmp as $v) { 
 			$out[$v->hlavne_menu->poradie] = [
 				'id'    => $v->id_hlavne_menu,
 				'order'  => $v->hlavne_menu->poradie,
 				'name'  => $v->menu_name,
-				'link'  => $this->link(":" . ucfirst($lmodule) . ":$p:", $v->id_hlavne_menu),
+				'vue_link' => "/clanky/" . $v->hlavne_menu->spec_nazov,  // link pre vue-router
 				'avatar' => $v->hlavne_menu->avatar,
 				'node_class' => ($v->hlavne_menu->ikonka !== null && strlen($v->hlavne_menu->ikonka) > 2) ? $v->hlavne_menu->ikonka : null,
 			];
@@ -149,7 +146,7 @@ class MenuPresenter extends BasePresenter
 		try {
 			$tmp = $this->hlavne_menu_lang->getOneArticleAPI($id, $this->id_reg);
 		} catch (DbTable\ArticleMainMenuException $e) {
-			$tmp = ['error' => $e->getCode()];
+			$tmp = ['error' => $e->getCode(), 'message'=> $e->getMessage()];
 		}
 		if ($result != null) {
 			$tmp = array_merge($tmp, ['result' => $result]);

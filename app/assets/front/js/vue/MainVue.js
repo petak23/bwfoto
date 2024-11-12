@@ -29,7 +29,6 @@ import MainMenuLoad from "./components/Menu/MainMenuLoad.vue"
 import MainMenu from './components/Menu/MainMenu.vue'
 import Breadcrumb from './components/Menu/Breadcrumb.vue'
 import ProductsLike from './components/ProductsLike/ProductsLike.vue'
-import ShowArticle from './components/ShowArticle.vue'
 import UserMenu from './components/User/UserMenu.vue'
 import ToogleMode from './components/ToggleMode.vue'
 import BfNav from './components/BfNav.vue'
@@ -83,7 +82,6 @@ let vm = new Vue({
 		MainMenuLoad,
 		Breadcrumb,
 		ProductsLike,
-		ShowArticle,
 		UserMenu,
 		ToogleMode,
 		BfNav,

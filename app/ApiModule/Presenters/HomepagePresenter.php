@@ -7,7 +7,7 @@ use Nette\Utils\Strings;
 
 /**
  * Domáci presenter pre API.
- * Posledna zmena(last change): 06.11.2024
+ * Posledna zmena(last change): 12.11.2024
  *
  * Modul: API
  *
@@ -15,7 +15,7 @@ use Nette\Utils\Strings;
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.5
+ * @version 1.0.6
  * 
  * @help 1.) https://forum.nette.org/cs/28370-data-z-post-request-body-reactjs-appka-se-po-ceste-do-php-ztrati
  */
@@ -42,7 +42,6 @@ class HomepagePresenter extends BasePresenter
 				'basePath'			=> $this->template->basePath,
 				'adminLink'			=> $this->user->isAllowed('Admin:Homepage', 'default') ? $this->link(':Admin:Homepage:') : null,
 				'adminerLink'		=> $adminerLink,
-				'regLink'				=> (bool)$this->udaje->getValByName('registracia_enabled') ? $this->link("User:registracia") : "",
 				'last_change'		=> $this->verzie->posledna()->modified->format('j.n.Y'),
 				'user_admin' 		=> ['name' => $admin->name,
 														'email'=> $admin->email,
