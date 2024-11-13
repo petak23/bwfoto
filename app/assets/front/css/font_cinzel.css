@@ -1,6 +1,5 @@
-/* styles.css */
 @import url('https://fonts.googleapis.com/css2?family=Cinzel&display=swap');
 
-body.cinzel {
+.cinzel {
   font-family: 'Cinzel', sans-serif;
 }

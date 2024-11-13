@@ -1,16 +1,16 @@
 <script setup>
 /** 
  * Component Menucardorder
- * Posledná zmena(last change): 09.08.2024
+ * Posledná zmena(last change): 13.11.2024
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.7
+ * @version 1.0.8
  */
 
-import { /*ref, */watch, onMounted } from 'vue'
+import { watch, onMounted } from 'vue'
 import MainService from '../services/MainService'
 import { BImg } from 'bootstrap-vue-next'
 import { RouterLink } from 'vue-router'
@@ -19,12 +19,7 @@ import { Sortable } from "sortablejs-vue3"
 import { useMainStore } from '../store/main'
 const store = useMainStore()
 
-
 const props = defineProps({
-	/*filesPath: { // Adresár k súborom
-		type: String,
-		required: true
-	}, */
 	id_hlavne_menu: { 
 		type: Number,
 		required: true,
@@ -35,20 +30,12 @@ const props = defineProps({
 	}
 })
 
-//const items = ref([])
-/*const mainProps = ref({  //  Momentálne navyužité bolo v <b-img-lazy />
-	center: true,
-	fluidGrow: true,
-	blank: true,
-	blankColor: '#bbb',
-})*/
-
 const moveArticle = (ai) => {
-	let from = ai.from.index
-	let to = ai.to.index
+	let from = ai.oldIndex
+	let to = ai.newIndex
 	let out = []
-	for (let i = 0; i < this.items.length; i++) {
-		out.push(this.items[i].id)
+	for (let i = 0; i < store.sub_menu.length; i++) {
+		out.push(store.sub_menu[i].id)
 	}
 	// https://www.codegrepper.com/code-examples/javascript/change+index+order+in+array+javascript
 	let element = out[from];
@@ -65,24 +52,13 @@ const moveArticle = (ai) => {
 		})
 }
 
-/*const getSubmenu = (id_submenu) => {
-	items.value = []
-	MainService.getSubmenuFront(id_submenu)
-		.then(response => {
-			items.value = Object.values(response.data)
-		})
-		.catch((error) => {
-			console.error(error);
-		})
-}*/
-
 watch(() => store.main_menu_active, (newMainMenuActive) => {
-	console.log("MCO - watch", newMainMenuActive)
+	//console.log("MCO - watch", newMainMenuActive)
 	store.getSubmenu(newMainMenuActive)
 })
 
 onMounted(() => {
-	console.log("MCO - mounted", props.id_hlavne_menu);
+	//console.log("MCO - mounted", props.id_hlavne_menu);
 	store.getSubmenu(props.id_hlavne_menu)
 })
 </script>
@@ -96,7 +72,7 @@ onMounted(() => {
 				tag="div"
 				class="row"
 				:options="{ handle: '.handle' }"
-				@end="(event) => console.log(event)"
+				@end="(event) => moveArticle(event)"
 			>
 				<template #item="{ element, index }">
 					<div class="col-12 col-sm-6 col-md-4 col-xxl-3 position-relative draggable card album" :key="element.id">
@@ -127,51 +103,7 @@ onMounted(() => {
 							</div>
 						</div>
 				</template>
-			</Sortable>
-			
-			<!--dnd-zone
-				:transition-duration="0.3"
-				handle-class="handle"
-				v-on:move="moveArticle"
-			>
-				<dnd-container
-					:dnd-model="items"
-					dnd-id="grid-example"
-					class="row"
-					dense
-				>
-					<dnd-item
-						v-for="image in items"
-						:key="image.id"
-						:dnd-id="image.id"
-						:dnd-model="image"
-					>
-						<div class="col-12 col-sm-6 col-md-4 col-xxl-3 album position-relative">
-							<i 
-								v-if="props.edit_enabled == '1'"
-								class="fas fa-grip-vertical handle position-absolute"
-								style="top: 0; left: 0"
-							></i>
-							<a :href="image.link" :title="image.name">
-								<BImg 
-									v-if="image.avatar != null" 
-									:src="store.baseUrl + '/' + store.udaje_webu.config.dir_to_menu + image.avatar" 
-									class="img-responsive img-square"
-									:alt="image.name" 
-									:lazy="true" />
-								<i v-if="image.node_class != null" :class="image.node_class"> </i>
-								<h3>{{ image.name }}</h3>
-							</a>
-							<div class="caption">
-								<p v-if="image.anotacia" class="popis">
-									{{ image.anotacia }} 
-									<a :href="image.link" title="more">»»»</a>
-								</p>
-							</div>
-						</div>
-					</dnd-item>
-				</dnd-container>
-			</dnd-zone-->
+			</Sortable>			
 		</div>
 	</section>
 </template>

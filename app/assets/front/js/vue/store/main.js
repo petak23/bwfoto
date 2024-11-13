@@ -55,17 +55,24 @@ export const useMainStore = defineStore('main', () => {
 	 * @var spec_nazov String Šecifický názov - webname
 	 * @returns int id_hlavne_menu_lang */
 	function searchMenuSpecNazov(item, spec_nazov) {
-		//console.log(item)
 		let out = 0
-		if (item.vue_link == ("/clanky/" + spec_nazov)) {
-			out = item.id
-		} else {
-			if (item.children !== undefined) {
-				item.children.forEach((i) => {
-					if (out == 0) {
-						out = searchMenuSpecNazov(i, spec_nazov)
-					}
-				})
+		if (Array.isArray(item)) { // Prechádzanie jednotlivých častí menu
+			item.forEach((i) => {
+				if (out == 0) {
+					out = searchMenuSpecNazov(i, spec_nazov)
+				}
+			})
+		} else { // Prechádzanie jednotlivých položiek časti
+			if (item.vue_link == ("/clanky/" + spec_nazov)) {
+				out = item.id
+			} else {
+				if (item.children !== undefined) {
+					item.children.forEach((i) => {
+						if (out == 0) {
+							out = searchMenuSpecNazov(i, spec_nazov)
+						}
+					})
+				}
 			}
 		}
 		return parseInt(out)

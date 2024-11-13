@@ -1,17 +1,16 @@
 <script setup>
 /** 
  * Component BfNav
- * Posledná zmena(last change): 05.11.2024
+ * Posledná zmena(last change): 13.11.2024
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.1
+ * @version 1.0.2
  * 
  */
-import { ref, computed } from 'vue'
-import { RouterLink } from 'vue-router'
+import { computed } from 'vue'
 
 import { useMainStore } from '../store/main.js'
 const store = useMainStore()

@@ -1,44 +1,40 @@
 <script setup>
 /** 
  * Component Slider
- * Posledná zmena(last change): 06.11.2024
+ * Posledná zmena(last change): 13.11.2024
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.3
+ * @version 1.0.4
  */
-import { ref, watch } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import MainService from '../services/MainService';
 import { useMainStore } from '../store/main.js'
 const store = useMainStore()
 
-const props = defineProps({
-	filesPath: { // Adresár k súborom
-		type: String,
-		required: true
-	},
-})
-
 const items = ref(null)
 
+const emit = defineEmits(['reloadSlider'])
+
 const getSlider = () => {
-	MainService.getSlider()
-		.then(response => {
-			//console.log(response.data)
-			items.value = response.data
-			if (items.value !== null) { 
-				let show = findIn()
-				if (show != null) {
-					// TODO - toto
-					//this.$root.$refs.myslider.style.backgroundImage = 'url(' + this.filesPath + show.subor + ')'
+	if (store.main_menu_active !== undefined) {
+		MainService.getSlider()
+			.then(response => {
+				//console.log(response.data)
+				items.value = response.data
+				if (items.value !== null) { 
+					let show = findIn()
+					if (show != null) {
+						emit('reloadSlider', show.subor)
+					}
 				}
-			}
-		})
-		.catch((error) => {
-			console.error(error);
-		});
+			})
+			.catch((error) => {
+				console.error(error);
+			})
+	}
 }
 
 /*
@@ -82,9 +78,11 @@ const zisti = (z) => {
 }
 
 watch(() => store.main_menu_active, () => {
-	if (store.main_menu_active !== undefined) {
-		getSlider()
-	}
+	getSlider()
+})
+
+onMounted(() => {
+	getSlider()
 })
 </script>
 <template>
