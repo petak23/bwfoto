@@ -28,6 +28,8 @@ const logo_img = computed(() => {
 	return store.udaje_webu != undefined && store.udaje_webu.config != undefined ?
 		store.baseUrl + '/' + store.udaje_webu.config.dir_to_images + 'logo_bw-g.png': null
 })
+
+
 </script>
 
 <template>
