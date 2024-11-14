@@ -1,13 +1,13 @@
 <script setup>
 /**
  * Komponenta pre prihlasovací formulár.
- * Posledna zmena 15.08.2024
+ * Posledna zmena 14.11.2024
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.3
+ * @version    1.0.4
  */
 import { ref } from 'vue'
 import MainService from '../../services/MainService'
@@ -49,7 +49,7 @@ const onSubmit = handleSubmit((values) => {
 		if (response.data.status == 200 && response.data.user != undefined && response.data.user != null) {
 			store.user = response.data.user
 			store.user_permission = response.data.user.permission
-			storeF.showMessage('Ǔspešne ste sa prihlásili.', 'success', 'Prihlásenie', 5000)
+			storeF.showMessage('Úspešne ste sa prihlásili.', 'success', 'Prihlásenie', 5000)
 			router.push('/') // Presmerovanie...
 		} else {
 			console.error(response.data)

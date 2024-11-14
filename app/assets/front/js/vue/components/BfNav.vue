@@ -1,19 +1,24 @@
 <script setup>
 /** 
  * Component BfNav
- * Posledná zmena(last change): 13.11.2024
+ * Posledná zmena(last change): 14.11.2024
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.2
+ * @version 1.0.3
  * 
  */
 import { computed } from 'vue'
 
 import { useMainStore } from '../store/main.js'
+import { useFlashStore } from '../store/flash'
 const store = useMainStore()
+const storeF = useFlashStore()
+
+import { useRouter } from 'vue-router'
+const router = useRouter()
 
 import { 	BNavbar, BNavbarBrand, BNavbarToggle, BCollapse, 
 					BDropdown, BDropdownItem, BDropdownDivider } from 'bootstrap-vue-next';
@@ -23,13 +28,30 @@ import BwfotoTreeMain from './Menu/BWfoto_Tree_Main.vue' //v3
 import LangMenu from './LangMenu.vue' 	//v3
 //import BasketNav from './Basket/BasketNav' /** @TODO vue 3*/
 import UserMenu_not_logged from "./User/UserMenu_not_logged.vue" //v3
+import MainService from "../services/MainService.js"
 
 const logo_img = computed(() => {
 	return store.udaje_webu != undefined && store.udaje_webu.config != undefined ?
 		store.baseUrl + '/' + store.udaje_webu.config.dir_to_images + 'logo_bw-g.png': null
 })
 
-
+const logOut = () => {
+	MainService.getSignOut()
+		.then(response => {
+			if (response.data.status == "200") {
+				store.user = null
+				store.user_permission = response.data.user.permission
+				storeF.showMessage('Boli ste v poriadku odhlásený.', 'success', 'Ohlásenie', 5000)
+				router.push('/') // Presmerovanie...
+			} else {
+				console.error(response.data)
+				error_message.value = response.data
+			}
+		})
+		.catch((error) => {
+			console.error(error)
+		})
+}
 </script>
 
 <template>
@@ -82,7 +104,7 @@ const logo_img = computed(() => {
 						<i class="fa-solid fa-screwdriver-wrench"></i> {{ store.texts.base_AdminLink_name }}
 					</BDropdownItem>
 					<BDropdownDivider />
-					<BDropdownItem to="/logout">
+					<BDropdownItem @click.prevent="logOut">
 						<i class="fa-solid fa-arrow-right-from-bracket"></i> Odhlás sa
 					</BDropdownItem>
 				</BDropdown>

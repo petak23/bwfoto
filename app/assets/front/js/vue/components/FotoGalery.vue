@@ -12,7 +12,7 @@
 
 import MainService from '../services/MainService.js'
 import ProductsProperties from './ProductsProperties/ProductsProperties'
-import FotoFilter from './Fotogalery/FotoFilter.vue'
+import FotoFilter from './Fotogalery/FotoFilter.vue' // v3
 
 // https://swiperjs.com/vue
 // import Swiper core and required modules

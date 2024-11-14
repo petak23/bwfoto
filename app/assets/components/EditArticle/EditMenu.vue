@@ -1,17 +1,17 @@
 <script setup>
 /** 
  * Component EditMenu
- * Posledná zmena(last change): 25.10.2024
+ * Posledná zmena(last change): 14.11.2024
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.5
+ * @version 1.0.6
  * 
  */
 import { onMounted, ref, watch, computed } from 'vue'
-import { BModal, BDropdown, BDropdownItem, BDropdownDivider} from 'bootstrap-vue-next'
+import { BModal, BDropdown, BDropdownItem, BDropdownDivider, BButton, BButtonGroup} from 'bootstrap-vue-next'
 import { useMainStore } from '../../front/js/vue/store/main'
 const store = useMainStore()
 import { useFlashStore } from '../../front/js/vue/store/flash'
@@ -102,7 +102,7 @@ watch(() => store.article, () => {
 })
 
 const buttons_class = computed(() => {
-  return "btn btn-sm btn-outline-" + props.color_type
+	return "outline-" + props.color_type
 })
 
 onMounted(() => {
@@ -119,98 +119,94 @@ onMounted(() => {
 </script>
 
 <template>
-	<div
-		class="btn-group btn-group-sm editable" 
-		role="group"
-	>
-		<button
-			:class="buttons_class"
+	<div class="flex-fill align-self-start">
+	<BButtonGroup size="sm">
+		<BButton 
+			:variant="buttons_class"
 			@click.prevent="menuDialogView = true"
 			:title="store.texts.base_edit_title"
 		>
 			<i class="fas fa-pen"></i>
-		</button>
-		<button 
-			:class="buttons_class"
+		</BButton>
+		<BButton 
+			:variant="buttons_class"
 			:title="store.texts.base_edit_texts"
 			@click.prevent="editArticleTextsDialogView = true"
 		>
 			<i class="fa-solid fa-file-lines"></i>
-		</button>
-		<a 
-			:class="buttons_class"
+		</BButton>
+		<BButton
+			:variant="buttons_class"
 			v-if="store.udaje_webu.adminLink != null && store.udaje_webu.adminLink.length > 0"
 			:href="store.udaje_webu.adminLink"
 			:title="store.texts.base_to_admin"
 		>
 			<i class="fa-solid fa-person-walking-dashed-line-arrow-right"></i>
-		</a>
-
-		<BDropdown right variant="outline-warning" no-caret >
-			<template #button-content>
+		</BButton>
+		<BDropdown right :variant="buttons_class" text="Menu">
+			<!--template #button-content>
 				&nbsp;<i class="fa-solid fa-ellipsis text-warning"></i>&nbsp;
-			</template>
+			</!--template-->
 			<BDropdownItem disabled>Pridaj podčlánok</BDropdownItem>
 			<BDropdownItem disabled>Pridaj podmenu</BDropdownItem>
 			<BDropdownDivider />
 			<BDropdownItem disabled variant="outline-danger">Vymaž</BDropdownItem>
 		</BDropdown>
-
-		<BModal 
-			v-model="menuDialogView" 
-			centered 
-			:title="store.texts.base_edit_title" 
-			hide-footer
-		>
-			<form @submit="onSubmitTitle" @reset="onResetTitle">
-				<div id="input-group-1" role="group" class="form-group">
-					<label for="view_name" class="d-block">Názov zobrazený v nadpise:</label>
-					<div>
-						<input 
-							id="view_name" type="text" 
-							required="required" aria-required="true" class="form-control"
-							v-model="art_title.view_name"
-						/>
-					</div>
-				</div>
-
-				<div id="input-group-2" role="group" class="form-group">
-					<label for="menu_name" class="d-block">Názov zobrazený v menu:</label>
-					<div>
-						<input 
-							id="menu_name" type="text" 
-							class="form-control"
-							v-model="art_title.menu_name"
-						/>
-						<small class="form-text text-muted">
-							Ak necháte pole prázdne použije sa rovnaký ako pre nadpis.
-						</small>
-					</div>
-				</div>
-
-				<div id="input-group-3" role="group" class="form-group">
-					<label for="h1part2" class="d-block">Podnadpis:</label>
-					<div>
-						<input 
-							id="h1part2" type="text" 
-							class="form-control"
-							v-model="art_title.h1part2"
-						/>
-					</div>
-				</div>
-				
-				<div id="input-group-4" role="group" class="form-group">
-					<label for="h1part2" class="d-block">Použitá šablóna:</label>
-					<select v-model="art_title.template" id="template-change">
-						<option v-for="te in templates" :value="te.value" :key="te.value">{{te.name}}</option>
-					</select>
-				</div>
-				<button class="btn btn-success main-submit mr-2" type="submit">Ulož</button>
-				<button class="btn btn-secondary main-reset" type="reset" >Cancel</button>
-			</form>
-		</BModal>
-
+	</BButtonGroup>
 	</div>
+	<BModal 
+		v-model="menuDialogView" 
+		centered 
+		:title="store.texts.base_edit_title" 
+		hide-footer
+	>
+		<form @submit="onSubmitTitle" @reset="onResetTitle">
+			<div id="input-group-1" role="group" class="form-group">
+				<label for="view_name" class="d-block">Názov zobrazený v nadpise:</label>
+				<div>
+					<input 
+						id="view_name" type="text" 
+						required="required" aria-required="true" class="form-control"
+						v-model="art_title.view_name"
+					/>
+				</div>
+			</div>
+
+			<div id="input-group-2" role="group" class="form-group">
+				<label for="menu_name" class="d-block">Názov zobrazený v menu:</label>
+				<div>
+					<input 
+						id="menu_name" type="text" 
+						class="form-control"
+						v-model="art_title.menu_name"
+					/>
+					<small class="form-text text-muted">
+						Ak necháte pole prázdne použije sa rovnaký ako pre nadpis.
+					</small>
+				</div>
+			</div>
+
+			<div id="input-group-3" role="group" class="form-group">
+				<label for="h1part2" class="d-block">Podnadpis:</label>
+				<div>
+					<input 
+						id="h1part2" type="text" 
+						class="form-control"
+						v-model="art_title.h1part2"
+					/>
+				</div>
+			</div>
+			
+			<div id="input-group-4" role="group" class="form-group">
+				<label for="h1part2" class="d-block">Použitá šablóna:</label>
+				<select v-model="art_title.template" id="template-change">
+					<option v-for="te in templates" :value="te.value" :key="te.value">{{te.name}}</option>
+				</select>
+			</div>
+			<button class="btn btn-success main-submit mr-2" type="submit">Ulož</button>
+			<button class="btn btn-secondary main-reset" type="reset" >Cancel</button>
+		</form>
+	</BModal>
 	<edit-texts
 		:editArticleTextsDialogView="editArticleTextsDialogView"
 		@reloadArticle="editArticleTextsDialogView = false"

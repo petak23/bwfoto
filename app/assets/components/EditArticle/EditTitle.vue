@@ -1,19 +1,19 @@
 <script setup>
 /** 
  * Component EditTitle
- * Posledná zmena(last change): 30.10.2024
+ * Posledná zmena(last change): 14.11.2024
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.0
+ * @version 1.1.1
  * 
  */
 import { ref } from 'vue'
 
-import EditMenu from "./EditMenu.vue"			//vue 3
-import UserChange from "./UserChange.vue" //vue 3
+import EditMenu from "./EditMenu.vue"			
+import UserChange from "./UserChange.vue" 
 
 import { useMainStore } from '../../front/js/vue/store/main'
 const store = useMainStore()
@@ -27,18 +27,24 @@ const props = defineProps({
 		type: Number,
 		default: 1,
 	},
+	editMenuColorType: { // Farebná schéma tlačídiel editačného menu
+		type: String
+	}
 })
 </script>
 
 <template>
-	<div class="d-flex justify-content-between">
-		<h1 class="title-article" v-if="store.article != null">
+	<div class="d-flex">
+		<h1 class="text-center title-article flex-fill flex-grow-1" v-if="store.article != null">
 			{{ store.article.view_name }}
 			<small v-if="store.article.h1part2 != null">
 				{{ store.article.h1part2 }}
 			</small>
 		</h1>
-		<edit-menu v-if="props.edit_enabled" />
+		<edit-menu 
+			v-if="props.edit_enabled" 
+			:color_type="props.editMenuColorType"
+		/>
 	</div>
 	<div v-if="store.article != null">
 		<small v-if="props.article_hlavicka & 1 || props.edit_enabled" class="title-info">

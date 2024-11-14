@@ -13,7 +13,7 @@ use PeterVojtech\Email;
 /**
  * Zakladny presenter pre vsetky presentery v module API
  * 
- * Posledna zmena(last change): 03.10.2024
+ * Posledna zmena(last change): 14.11.2024
  *
  * Modul: API
  *
@@ -21,7 +21,7 @@ use PeterVojtech\Email;
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.2
+ * @version 1.1.3
  */
 abstract class BasePresenter extends Presenter
 {
@@ -124,8 +124,10 @@ abstract class BasePresenter extends Presenter
 		$this->udaje_webu["upload_size"] = intval($ini_v) * ($s[strtolower(substr($ini_v,-1))] ?: 1);
 	}
 
-	/** Odošle údaje o aktuálne prihlásenom užívateľovy */
-	public function getActualUserInfo(): void
+	/** 
+	 * Odošle údaje o aktuálne prihlásenom užívateľovy 
+	 * @var bool $is_log_out_action Ak sa to pouije pri odhlásení tak true */
+	public function getActualUserInfo(bool $is_log_out_action = false): void
 	{
 		$out = [];
 		if ($this->user->isLoggedIn()) {
@@ -137,7 +139,7 @@ abstract class BasePresenter extends Presenter
 			$out['status'] = '200';
 		} else {
 			$out = [
-				'status' => '401',
+				'status' => $is_log_out_action ? '200' : '401',
 				'error' => "Neprihlásený užívateľ"
 			];
 		}

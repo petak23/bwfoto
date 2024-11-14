@@ -28,6 +28,9 @@ const props = defineProps({
 	article_avatar_view_in: {
 		type: Number,
 		default: 0,
+	},
+	editMenuColorType: { // Farebná schéma tlačídiel editačného menu
+		type: String
 	}
 })
 
@@ -62,6 +65,7 @@ const avatarImg = computed(() => {
 			<edit-title
 				:edit_enabled="props.edit_enabled"
 				:article_hlavicka="props.article_hlavicka"
+				:editMenuColorType="props.editMenuColorType"
 			></edit-title>
 		</div>
 

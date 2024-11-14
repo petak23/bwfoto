@@ -9,7 +9,7 @@ use Nette\Utils\Validators;
 
 /**
  * Prezenter pre pristup k api prihlasovania a odhlasovania užívateľov.
- * Posledna zmena(last change): 30.07.2024
+ * Posledna zmena(last change): 14.11.2024
  *
  * Modul: API
  *
@@ -17,7 +17,7 @@ use Nette\Utils\Validators;
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.2
+ * @version 1.0.3
  * @help 1.) https://forum.nette.org/cs/28370-data-z-post-request-body-reactjs-appka-se-po-ceste-do-php-ztrati
  * @help 2.) https://www.php.net/manual/en/function.checkdnsrr.php#48157
  */
@@ -112,6 +112,6 @@ class SignPresenter extends BasePresenter
 	public function actionOut(): void
 	{
 		$this->user->logout(true);
-		$this->sendJson(['status' => 200]);
+		$this->getActualUserInfo(true);
 	}
 }

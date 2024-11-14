@@ -1,27 +1,37 @@
-<script>
-	export default {
-		props: {
-			val: {
-				type: Number,
-				default: 1
-			},
-		},
-		data() {
-			return {
-				choice: 1,
-				data: [{id: 1, txt: "Všetky"}, {id: 2, txt: "Len na sklade"}],
-			}
-		},
-		methods: {
-			change(id) {
-				this.choice = id
-				this.$emit('filter-change', this.choice)
-			}
-		},
-		mounted () {
-			this.choice = this.val
-		},
-	}
+<script setup>
+/** 
+ * Component FotoFilter
+ * Posledná zmena(last change): 14.11.2024
+ *
+ * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
+ * @copyright Copyright (c) 2021 - 2024 Ing. Peter VOJTECH ml.
+ * @license
+ * @link http://petak23.echo-msz.eu
+ * @version 1.0.1
+ * 
+ */
+import { ref, onMounted } from 'vue'
+
+const props = defineProps({
+	val: {
+		type: Number,
+		default: 1
+	},
+})
+
+const choice = ref(1)
+const data = ref([{id: 1, txt: "Všetky"}, {id: 2, txt: "Len na sklade"}])
+
+const emit = defineEmits(['filter-change'])
+
+const change = (id) => {
+	choice.value = id
+	emit('filter-change', choice.value)
+}
+
+onMounted(() => {
+	choice.value = props.val
+})
 </script>
 
 <template>

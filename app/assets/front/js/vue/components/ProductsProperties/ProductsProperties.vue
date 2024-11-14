@@ -1,210 +1,207 @@
-<script>
+<script setup>
+/** 
+ * Component ProductsProperties
+ * Posledná zmena(last change): 14.11.2024
+ *
+ * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
+ * @copyright Copyright (c) 2021 - 2024 Ing. Peter VOJTECH ml.
+ * @license
+ * @link http://petak23.echo-msz.eu
+ * @version 1.0.1
+ * 
+ */
+import { ref, onMounted, watch } from 'vue'
+import { BButton, BModal, BForm, BFormInput, BFormSelect } from 'bootstrap-vue-next';
+
 import MainService from "../../services/MainService.js";
 
-export default {
-	props: {
-		article: {
-			type: Object,
-			default: null,
-		},
+const props = defineProps({
+	article: {
+		type: Object,
+		default: null,
 	},
-	data() {
-		return {
-			form_price: 0,
-			form_props: {}, // Aktuálne vlastnosti
-			view_add: false,
-			props: {}, // Všetky dostupné vlastnosti z DB
-			//--- for add
-			sel_category: null,
-			form_categories: [],
-			sel_value: null,
-			form_values: [],
-			form_plus_perc: null,
-			form_plus_sum: null,
-			added_props_not_verified: null,
-			edit_enabled: false,
-			to_check_permission: {
-				resource: 'Front:Products',
-				action: 'edit',
-			}
-		}
-	},
-	watch: {
-		article: function (newArticle) {
-			this.reset()
-		},
-		sel_category: function (newSel_category) {
-			if (newSel_category != null) {
-				this.sel_value = null
-				this.form_values = [{ value: null, text: 'Vyberte hodnotu' }]
-				this.props[newSel_category].forEach((item) => {
-					this.form_values.push({
-						value: item.id,
-						text: item.name
-					})
-				})
-			}
-		},
-		sel_value: function (newSel_value) {
-			if (this.sel_category !== null) {
-				this.props[this.sel_category].forEach((item) => {
-					if (item.id == newSel_value) {
-						this.form_plus_perc = item.price_increase_percentage
-						this.form_plus_sum = item.price_increase_price
-						this.added_props_not_verified = item
-					}
-				})
-			}
-		},
-		form_price: function (newForm_price) {
-			if (newForm_price != null && newForm_price > 0) {
-				this.calculateFinalPrice()
-			}
-		},
-		'$store.state.user': function () {
-			this.checkPermission(this.to_check_permission)
-		}
-	},
-	methods: {
-		handleOk() {
-			let to_save = {
-				id_products: this.article.id,
-				id_products_property: 
-					this.form_props.props.filter(item => item.id_property_categories === undefined).map(item => item.id),
-				id_new_property: 
-					this.form_props.props.filter(item => item.id_property_categories !== undefined).map(item => item.id),
-				price: this.form_price,
-				final_price: this.form_props.final_price,
-			}
-			console.log(to_save)
-			MainService.postSaveProductProps(to_save)
-				.then(response => {
-					console.log(response.data);
-					this.$root.$emit('product_update_props', [/*{id_product: response.data.id}*/])
-				})
-		},
-		reset() {
-			if (this.article.price !== undefined && this.edit_enabled) {
-				this.form_price = this.article.price
-				this.form_props = this.article.properties
-				this.calculateFinalPrice()
-				this.getCategories()
-			} 
-		},
-		onSubmit() {
+})
 
-		},
-		onReset() {
-			this.reset()
-		},
-		delProp(id) {
-			this.form_props.props = this.form_props.props.filter(function (item) {
-				return item.id != id
-			})
-			this.calculateFinalPrice()
-		},
-		addFormClear() {
-			this.sel_category = null
-			this.sel_value = null
-			this.form_values = []
-			this.form_plus_perc = null
-			this.form_plus_sum = null
-			this.added_props_not_verified = null
-		},
-		addProp() {
-			this.view_add = false
-			if (this.added_props_not_verified != null) {
-				this.form_props.props.push(this.added_props_not_verified)
-				this.addFormClear()
-				this.calculateFinalPrice()
-			}
-		},
-		calculateFinalPrice() {
-			let final_price = parseFloat(this.form_price)
-			this.form_props.props.forEach((item) => {
-				if (item.price_increase_percentage !== null)
-					final_price += this.form_price * item.price_increase_percentage / 100
-				if (item.price_increase_price !== null) final_price += item.price_increase_price
-			})
-			this.form_props.final_price = final_price.toFixed(2)
-		},
-		addViewProp() {
-			this.view_add = true
-		},
-		getCategories() {
-			MainService.getProductPropsCategories()
-				.then(response => {
-					this.props = response.data
-					this.form_categories = [{ value: null, text: 'Vyberte kategóriu' }]
-					for (const [key, value] of Object.entries(this.props)) {
-						this.form_categories.push({
-							'value': value[0].id_property_categories,
-							'text': value[0].category
-						})
-						//console.log(`${key}: ${value}`);
-					}
-					this.form_values = []
-				})
-				.catch((error) => {
-					console.error(error)
-				})
-		},
-		checkPermission(check_perm) {
-			this.edit_enabled = false
-			if (this.$store.state.user != null && typeof (this.$store.state.user.id) != 'undefined') {
-				this.$store.state.user.permission.forEach(function check(item) {
-					if (item.resource == check_perm.resource) {
-						let p = false
-						if (item.action == null) {
-							p = true
-						} else if (Array.isArray(item.action) && item.action.includes(check_perm.action)) {
-							p = true
-						}
-						this.edit_enabled = p
-					}
-				}, this)
-			}
-		}
-	},
-	mounted() {
-		this.reset()
-		if (this.$store.state.user != null) this.checkPermission(this.to_check_permission)
-	},
+const form_price = ref(0)
+const form_props = ref({}) // Aktuálne vlastnosti
+const view_add = ref(false)
+const proProps = ref({}) // Všetky dostupné vlastnosti z DB
+//--- for add
+const sel_category = ref(null)
+const form_categories = ref([])
+const sel_value = ref(null)
+const form_values = ref([])
+const form_plus_perc = ref(null)
+const form_plus_sum = ref(null)
+const added_props_not_verified = ref(null)
+const edit_enabled = ref(false)
+
+const viewModalEditProperties = ref(false)
+
+const emit = defineEmits(['product_update_props'])
+
+const handleOk = () => {
+	viewModalEditProperties.value = false
+	let to_save = {
+		id_products: props.article.id,
+		id_products_property: 
+			form_props.value.props.filter(item => item.id_property_categories === undefined).map(item => item.id),
+		id_new_property: 
+			form_props.value.props.filter(item => item.id_property_categories !== undefined).map(item => item.id),
+		price: form_price.value,
+		final_price: form_props.value.final_price,
+	}
+	console.log(to_save)
+	MainService.postSaveProductProps(to_save)
+		.then(response => {
+			console.log(response.data);
+			emit('product_update_props', [/*{id_product: response.data.id}*/])
+		})
 }
+const reset = () => {
+	if (props.article.price !== undefined && edit_enabled.value) {
+		form_price.value = props.article.price
+		form_props.value = props.article.properties
+		calculateFinalPrice()
+		getCategories()
+	} 
+}
+const onSubmit = () => {
+
+}
+const onReset = () => {
+	reset()
+}
+const delProp = (id) => {
+	form_props.value.props = form_props.value.props.filter(function (item) {
+		return item.id != id
+	})
+	calculateFinalPrice()
+}
+const addFormClear = () => {
+	sel_category.value = null
+	sel_value.value = null
+	form_values.value = []
+	form_plus_perc.value = null
+	form_plus_sum.value = null
+	added_props_not_verified.value = null
+}
+const addProp = () => {
+	view_add.value = false
+	if (added_props_not_verified.value != null) {
+		form_props.value.props.push(added_props_not_verified.value)
+		addFormClear()
+		calculateFinalPrice()
+	}
+}
+const calculateFinalPrice = () => {
+	let final_price = parseFloat(form_price.value)
+	form_props.value.props.forEach((item) => {
+		if (item.price_increase_percentage !== null)
+			final_price += form_price.value * item.price_increase_percentage / 100
+		if (item.price_increase_price !== null) final_price += item.price_increase_price
+	})
+	form_props.value.final_price = final_price.toFixed(2)
+}
+const addViewProp = () => {
+	view_add.value = true
+}
+const getCategories = () => {
+	MainService.getProductPropsCategories()
+		.then(response => {
+			proProps.value = response.data
+			form_categories.value = [{ value: null, text: 'Vyberte kategóriu' }]
+			for (const [key, value] of Object.entries(proProps.value)) {
+				form_categories.value.push({
+					'value': value[0].id_property_categories,
+					'text': value[0].category
+				})
+				//console.log(`${key}: ${value}`);
+			}
+			form_values.value = []
+		})
+		.catch((error) => {
+			console.error(error)
+		})
+}
+
+
+watch(() => props.article, () => {
+	reset()
+})
+
+watch(sel_category, (newSel_category) => {
+	if (newSel_category != null) {
+		sel_value.value = null
+		form_values.value = [{ value: null, text: 'Vyberte hodnotu' }]
+		proProps.value[newSel_category].forEach((item) => {
+			form_values.value.push({
+				value: item.id,
+				text: item.name
+			})
+		})
+	}
+})
+watch(sel_value, (newSel_value) => {
+	if (sel_category.value !== null) {
+		proProps.value[sel_category.value].forEach((item) => {
+			if (item.id == newSel_value) {
+				form_plus_perc.value = item.price_increase_percentage
+				form_plus_sum.value = item.price_increase_price
+				added_props_not_verified.value = item
+			}
+		})
+	}
+})
+watch(form_price, (newForm_price) => {
+	if (newForm_price != null && newForm_price > 0) {
+		calculateFinalPrice()
+	}
+})
+
+watch(() => store.user, () => {
+	edit_enabled.value = store.checkPermission('Front:Products', 'edit')
+})
+
+onMounted(() => {
+	reset()
+	if (store.user != null) edit_enabled.value = store.checkPermission('Front:Products', 'edit')
+})
 </script>
 
 <template>
 	<div 
-		v-if="typeof article.properties !== 'undefined'" class="border border-secondary position-relative"
+		v-if="props.article.properties !== undefined" class="border border-secondary position-relative"
 	>
-		<b-button v-b-modal.modal-edit-properties
-			v-if="$store.state.user !== null"
+		<BButton 
+			v-if="store.user !== null"
 			size="sm"
 			variant="outline-success"
 			class="edit-button"	
+			@click="viewModalEditProperties = !viewModalEditProperties"
 		>
-
 			<i class="fa-solid fa-pencil"></i>
-		</b-button>
+		</BButton>
 
 
-		<div>Základná cena: {{ article.price }}€</div>
-		<div v-for="p in article.properties.props">
+		<div>Základná cena: {{ props.article.price }}€</div>
+		<div v-for="p in props.article.properties.props">
 			{{ p.category }}: {{ p.name }} 
 			(
 				<span v-if="p.price_increase_percentage !== null"> 
-					+{{ p.price_increase_percentage }}% = {{ article.price * p.price_increase_percentage / 100 }}€
+					+{{ p.price_increase_percentage }}% = {{ props.article.price * p.price_increase_percentage / 100 }}€
 				</span>
 				<span v-else-if="p.price_increase_price !== null"> +{{ p.price_increase_price }}€</span> 
 			)
 		</div>
 		<div class="border-top">Konečná suma: 
-			<strong>{{ article.properties.final_price }}€</strong>
+			<strong>{{ props.article.properties.final_price }}€</strong>
 		</div>
 
-		<b-modal id="modal-edit-properties" 
+		<BModal 
+			v-model="viewModalEditProperties"
 			title="Editácia vlastností produktu"
-			v-if="$store.state.user !== null"
+			v-if="store.user !== null"
 			centered
 			size="lg"
 			header-bg-variant="dark"
@@ -217,19 +214,19 @@ export default {
 			@ok="handleOk"
 		>
 			<!--pp-main-edit-form
-				:price="article.price"
-				:properties="article.properties"
+				:price="props.article.price"
+				:properties="props.article.properties"
 			>
 			</!--pp-main-edit-form-->
-			<b-form @submit="onSubmit" @reset="onReset">
+			<BForm @submit="onSubmit" @reset="onReset">
 				<label for="input-price">Základná cena:</label>
-				<b-form-input 
+				<BFormInput 
 					id="input-price"
 					v-model="form_price" 
 					placeholder="Zadajte cenu"
 					type="number"
-				></b-form-input>
-			</b-form>
+				></BFormInput>
+			</BForm>
 			<table class="table table-dark table-striped">
 				<thead>
 					<tr>
@@ -250,19 +247,19 @@ export default {
 					</tr>
 					<tr v-if="view_add">
 						<td>
-							<b-form-select
+							<BFormSelect
 								v-model="sel_category"
 								:options="form_categories"
 								size="sm"
-							></b-form-select>
+							></BFormSelect>
 						</td>
 						<td>
-							<b-form-select
+							<BFormSelect
 								v-if="sel_category != null"
 								v-model="sel_value"
 								:options="form_values"
 								size="sm"
-							></b-form-select>
+							></BFormSelect>
 						</td>
 						<td>
 							{{ form_plus_perc != null ? form_plus_perc : '---' }}
@@ -283,7 +280,7 @@ export default {
 					</tr>
 				</tbody>
 			</table>
-		</b-modal>
+		</BModal>
 	</div>
 </template>
 

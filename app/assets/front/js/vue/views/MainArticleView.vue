@@ -53,6 +53,8 @@ const edit_enabled = computed(() => {
 			<edit-article
 				:link="props.this_link"
 				:link_to_admin="props.link_to_admin"
+				:edit_enabled="edit_enabled"
+				edit-menu-color-type="warning"
 			></edit-article>
 		</article>
 
