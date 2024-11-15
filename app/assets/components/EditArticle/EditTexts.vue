@@ -95,12 +95,14 @@ const onEditorReady = (e) => {
 
 watch(() => store.article, () => {
 	textin.value = store.article.text_c
-	quill.value.setHTML(textin.value)
+	console.log(quill);
+	
+	quill.setHTML(textin.value)
 })
 
 watch(() => props.editArticleTextsDialogView, () => {
 	editArticleTextsDialogView.value = props.editArticleTextsDialogView
-	quill.value.setHTML(textin.value)
+	quill.setHTML(textin.value)
 })
 
 onMounted(() => {

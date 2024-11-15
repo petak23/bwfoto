@@ -106,7 +106,7 @@ const	onReset = async (event) => {
 				<small id="email-help" class="text-danger">{{ errors.email }}</small>
 			</div>
 		</div>
-		<div class="form-row">
+		<div class="form-row my-2">
 			<div class="form-group">
 				<BFormInput 
 					id="input-passwordemail"

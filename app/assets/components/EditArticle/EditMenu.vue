@@ -119,7 +119,6 @@ onMounted(() => {
 </script>
 
 <template>
-	<div class="flex-fill align-self-start">
 	<BButtonGroup size="sm">
 		<BButton 
 			:variant="buttons_class"
@@ -143,22 +142,25 @@ onMounted(() => {
 		>
 			<i class="fa-solid fa-person-walking-dashed-line-arrow-right"></i>
 		</BButton>
-		<BDropdown right :variant="buttons_class" text="Menu">
-			<!--template #button-content>
+		<BDropdown right :variant="buttons_class" toggle-class="p-1 rounded-start-0" no-caret>
+			<template #button-content>
 				&nbsp;<i class="fa-solid fa-ellipsis text-warning"></i>&nbsp;
-			</!--template-->
+			</template>
 			<BDropdownItem disabled>Pridaj podčlánok</BDropdownItem>
 			<BDropdownItem disabled>Pridaj podmenu</BDropdownItem>
 			<BDropdownDivider />
 			<BDropdownItem disabled variant="outline-danger">Vymaž</BDropdownItem>
 		</BDropdown>
 	</BButtonGroup>
-	</div>
+	
 	<BModal 
 		v-model="menuDialogView" 
 		centered 
 		:title="store.texts.base_edit_title" 
 		hide-footer
+		body-bg-variant="dark"
+		header-bg-variant="dark"
+		hide-header-close
 	>
 		<form @submit="onSubmitTitle" @reset="onResetTitle">
 			<div id="input-group-1" role="group" class="form-group">
@@ -197,13 +199,13 @@ onMounted(() => {
 				</div>
 			</div>
 			
-			<div id="input-group-4" role="group" class="form-group">
+			<div id="input-group-4" role="group" class="form-group mb-2">
 				<label for="h1part2" class="d-block">Použitá šablóna:</label>
 				<select v-model="art_title.template" id="template-change">
-					<option v-for="te in templates" :value="te.value" :key="te.value">{{te.name}}</option>
+					<option v-for="te in templates" :value="te.value" :key="te.value">{{te.text}}</option>
 				</select>
 			</div>
-			<button class="btn btn-success main-submit mr-2" type="submit">Ulož</button>
+			<button class="btn btn-success main-submit me-2" type="submit">Ulož</button>
 			<button class="btn btn-secondary main-reset" type="reset" >Cancel</button>
 		</form>
 	</BModal>

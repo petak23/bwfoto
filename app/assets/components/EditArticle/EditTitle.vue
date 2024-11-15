@@ -34,17 +34,19 @@ const props = defineProps({
 </script>
 
 <template>
-	<div class="d-flex">
-		<h1 class="text-center title-article flex-fill flex-grow-1" v-if="store.article != null">
+	<div class="position-relative">
+		<h1 class="text-center title-article" v-if="store.article != null">
 			{{ store.article.view_name }}
 			<small v-if="store.article.h1part2 != null">
 				{{ store.article.h1part2 }}
 			</small>
 		</h1>
-		<edit-menu 
-			v-if="props.edit_enabled" 
-			:color_type="props.editMenuColorType"
-		/>
+		<div class="position-absolute top-0 end-0">
+			<edit-menu 
+				v-if="props.edit_enabled" 
+				:color_type="props.editMenuColorType"
+			/>
+		</div>
 	</div>
 	<div v-if="store.article != null">
 		<small v-if="props.article_hlavicka & 1 || props.edit_enabled" class="title-info">
