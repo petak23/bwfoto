@@ -1,13 +1,13 @@
 <script setup>
 /** 
  * Component EditTexts
- * Posledná zmena(last change): 30.10.2024
+ * Posledná zmena(last change): 18.11.2024
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.2
+ * @version 1.1.3
  * 
  */
 import { ref, watch, onMounted } from 'vue'
@@ -19,6 +19,7 @@ import Quill from 'quill' // Full build
 import { QuillyEditor } from 'vue-quilly'
 import 'quill/dist/quill.core.css' // Required
 import 'quill/dist/quill.snow.css' // For snow theme (optional)
+import '../../front/css/quill.bwfoto.css' // Vlastné zmeny v téme
 
 const editor = ref()
 // Quill instance
@@ -51,7 +52,7 @@ const props = defineProps({
 
 const textin = ref('')
 const show = ref(true)
-const editArticleTextsDialogView = ref(false)
+const editArticleTextsDialogViewModal = ref(false)
 
 const emit = defineEmits(['reloadArticle'])
 
@@ -73,7 +74,7 @@ const onSubmit = (event) => {
 				console.error(error)
 			});      
 	}
-	editArticleTextsDialogView.value = false
+	editArticleTextsDialogViewModal.value = false
 }
 
 const onCancel = (event) => {
@@ -84,7 +85,7 @@ const onCancel = (event) => {
 			emit('reloadArticle', store.article) // Info o úroveň vyššie o znovunačítaní informácií o položke
 		}, 100)
 	}
-	editArticleTextsDialogView.value = false
+	editArticleTextsDialogViewModal.value = false
 }
 
 /* https://dev.to/anjolaogunmefun/using-vuequill-editor-in-vue-js3-1cpd */
@@ -95,14 +96,10 @@ const onEditorReady = (e) => {
 
 watch(() => store.article, () => {
 	textin.value = store.article.text_c
-	console.log(quill);
-	
-	quill.setHTML(textin.value)
 })
 
-watch(() => props.editArticleTextsDialogView, () => {
-	editArticleTextsDialogView.value = props.editArticleTextsDialogView
-	quill.setHTML(textin.value)
+watch(() => props.editArticleTextsDialogView, (newEditArticleTextsDialogView) => {
+	editArticleTextsDialogViewModal.value = newEditArticleTextsDialogView
 })
 
 onMounted(() => {
@@ -113,27 +110,18 @@ onMounted(() => {
 
 <template>
 	<BModal 
-		v-model="editArticleTextsDialogView" 
+		v-model="editArticleTextsDialogViewModal" 
 		centered 
 		:title="store.texts.base_edit_texts" 
-		hide-header-close
 		hide-footer
+		body-bg-variant="dark"
+		header-bg-variant="dark"
+		hide-header-close
 		fullscreen
 	>
 		<form @submit="onSubmit" @reset="onCancel" v-if="show">
-			<div id="input-text-gr" role="group" class="form-group mb-2">
-				<!--label for="input-text" class="d-block">Text:</!--label-->
+			<div id="input-text-gr" role="group" class="form-group mb-2 qu-editor">
 				<div>
-					<!--QuillEditor 
-						ref="quill"
-						theme="snow" 
-						v-model:content="textin"
-						:content="textin"
-						toolbar="minimal"
-						@ready="onEditorReady($event)"
-						contentType="html"
-						style="height: 320px"
-					/-->
 					<QuillyEditor
 						ref="editor"
 						v-model="textin"

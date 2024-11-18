@@ -1,13 +1,13 @@
 <script setup>
 /** 
  * Component BfNav
- * Posledná zmena(last change): 14.11.2024
+ * Posledná zmena(last change): 18.11.2024
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.3
+ * @version 1.0.4
  * 
  */
 import { computed } from 'vue'
@@ -26,7 +26,7 @@ import { 	BNavbar, BNavbarBrand, BNavbarToggle, BCollapse,
 import Autocomplete from './Autocomplete.vue'  //v3
 import BwfotoTreeMain from './Menu/BWfoto_Tree_Main.vue' //v3
 import LangMenu from './LangMenu.vue' 	//v3
-//import BasketNav from './Basket/BasketNav' /** @TODO vue 3*/
+import BasketNav from './Basket/BasketNav' //vue 3
 import UserMenu_not_logged from "./User/UserMenu_not_logged.vue" //v3
 import MainService from "../services/MainService.js"
 
