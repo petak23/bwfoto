@@ -1,4 +1,4 @@
-<script>
+<script setup>
 /**
  * Komponenta pre zadanie možností o doprave a platbe.
  * Posledna zmena 08.03.2024
@@ -9,51 +9,50 @@
  * @link       http://petak23.echo-msz.eu
  * @version    1.0.1
  */
-export default {
-	data() {
-		return {
-			f_data: {
-				shipping: { val: 1, name: "", price: 0 },
-				payment: { val: 1, name: "", price: 0 },
-				notice: null,
-			},
-			shipping: [
-				{id: 1, name: "Kuriér XYZ", price: 5 },
-				{id: 2, name: "Slovenská pošta", price: 3.5 },
-				{id: 3, name: "Osobný odber(Spišské Bystré)", price: 0 },
-			],
-			payment: [
-				{id: 1, name: "Prevodom na účet", price: 0 },
-				{id: 2, name: "Dobierka", price: 2 }
-			]
-		}
-	},
-	methods: {
-		onSubmit() {
-			if (this.$session.has('basket-shipping')) this.$session.remove('basket-shipping')
-			this.f_data.shipping.price = this.shipping[this.f_data.shipping.val - 1].price
-			this.f_data.shipping.name = this.shipping[this.f_data.shipping.val - 1].name
-			this.f_data.payment.price = this.payment[this.f_data.payment.val - 1].price
-			this.f_data.payment.name = this.payment[this.f_data.payment.val - 1].name
-			this.$session.set('basket-shipping', JSON.stringify(this.f_data))
-			// Nasleduje emit do basketNavigation a odtiaľ na zmenu view
-			this.$root.$emit('basket-nav-update', { id: 4, enabled: true, view_part: 4 })
-		},
-		getFromSession() {
-			if (this.$session.has('basket-shipping')) {
-				this.f_data = JSON.parse(this.$session.get("basket-shipping"))			
-			}
-		},
-	},
-	computed: {
-		isFormValid() {
-			return Object.keys(this.fields).every(key => this.fields[key].valid);
-		}
-	},
-	created () {
-		this.getFromSession()
-	},
+
+import { ref, onMounted, computed } from 'vue'
+import Session from "../../plugins/session.js"
+const f_data = ref({
+	shipping: { val: 1, name: "", price: 0 },
+	payment: { val: 1, name: "", price: 0 },
+	notice: null,
+})
+const shipping = ref([
+	{id: 1, name: "Kuriér XYZ", price: 5 },
+	{id: 2, name: "Slovenská pošta", price: 3.5 },
+	{id: 3, name: "Osobný odber(Spišské Bystré)", price: 0 },
+])
+const	payment = ref([
+	{id: 1, name: "Prevodom na účet", price: 0 },
+	{id: 2, name: "Dobierka", price: 2 }
+])
+
+const emit = defineEmits('basket-nav-update')
+
+const onSubmit = () => {
+	if (Session.getStorage('basket-shipping')) Session.clearStorage('basket-shipping')
+	f_data.value.shipping.price = shipping.value[f_data.value.shipping.val - 1].price
+	f_data.value.shipping.name = shipping.value[f_data.value.shipping.val - 1].name
+	f_data.value.payment.price = payment.value[f_data.value.payment.val - 1].price
+	f_data.value.payment.name = payment.value[f_data.value.payment.val - 1].name
+	Session.saveStorage('basket-shipping', JSON.stringify(f_data.value))
+	// Nasleduje emit do basketNavigation a odtiaľ na zmenu view
+	emit('basket-nav-update', { id: 4, enabled: true, view_part: 4 })
 }
+
+const getFromSession = () => {
+	if (Session.getStorage('basket-shipping')) {
+		f_data.value = JSON.parse(Session.getStorage("basket-shipping"))			
+	}
+}
+
+const isFormValid = computed(() => {
+	return Object.keys(fields).every(key => fields[key].valid);
+})
+
+onMounted(() => {
+	getFromSession()
+})
 </script>
 
 <template>
@@ -103,12 +102,7 @@ export default {
 			<div class="form-row">
 				<div class="form-group col-md-6">
 					<h6>Poznámka:</h6><!-- v-validate="{ regex: /<[^>]*>/g }" -->
-					<textarea 
-						v-model="f_data.notice"
-						
-						data-vv-as="Telefón"
-					>
-					</textarea>
+					<textarea v-model="f_data.notice"></textarea>
 				</div>
 			</div>
 		
