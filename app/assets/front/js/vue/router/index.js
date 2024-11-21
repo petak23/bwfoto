@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import LogInView from '../views/LogInView.vue'
 import MainArticleView from '../views/MainArticleView.vue'
+import ProductsLikeView from '../views/ProductsLikeView.vue'
 import UserView from '../views/UserView.vue'
 import { useMainStore } from '../store/main'
 import { useFlashStore } from '../store/flash'
@@ -33,6 +34,10 @@ const routes = [
 	{ 
 		path: '/clanky/:id',
 		component: MainArticleView 
+	},
+	{ 
+		path: '/productlike',
+		component: ProductsLikeView
 	},
 	{
 		path: '/clanky/home',

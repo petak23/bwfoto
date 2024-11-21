@@ -7,6 +7,7 @@ import MainMenuLoad from './components/Menu/MainMenuLoad.vue'	//v3
 import BfFooter from './components/BfFooter.vue' //v3
 import MySlider from './components/MySlider.vue' //v3
 import BfNav from './components/BfNav.vue'	//v3
+import ProductsLike from './components/ProductsLike/ProductsLike.vue'
 /*import EchoFixedMain from './components/Menu/EchoFixedMain.vue'
 import EchoBreadcrumb from './components/Menu/EchoBreadcrumb.vue'
 import SingleMenu from './components/Menu/SingleMenu.vue'

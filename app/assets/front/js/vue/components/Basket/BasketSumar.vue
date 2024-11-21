@@ -1,101 +1,99 @@
-<script>
+<script setup>
 /**
  * Komponenta pre vypísanie sumárnych údajov o nákupe.
- * Posledna zmena 23.05.2024
+ * Posledna zmena 21.11.2024
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.5
+ * @version    1.0.6
  */
+import { ref, computed, onMounted } from 'vue'
 import MainService from '../../services/MainService.js'
+import Session from '../../plugins/session.js'
+import { BAvatar } from 'bootstrap-vue-next'
+import { RouterLink } from 'vue-router'
 
-export default {
-	data() {
-		return {
-			product: [],
-			adress: null,
-			shipping: null,
-			final_price: 0,
-			dph: 0,
-			op: false,  // Súhlas s obchodnými podmienkami
-			su: false,	// Súhlas na spracovanie údajov
+import { useMainStore } from '../../store/main.js'
+import { useFlashStore } from '../../store/flash'
+const store = useMainStore()
+const storeF = useFlashStore()
+
+const product = ref([])
+const adress = ref(null)
+const shipping = ref(null)
+const final_price = ref(0)
+const dph = ref(0)
+const op = ref(false)  // Súhlas s obchodnými podmienkami
+const su = ref(false)	// Súhlas na spracovanie údajov
+
+const getFromSession = () => {
+	product.value = []
+	final_price.value = 0
+	for (const [key, value] of Object.entries(Session.allStorage())) {
+		if (key.startsWith("basket-item")) {
+			let data = JSON.parse(value)
+			product.value.push(data)
+			final_price.value += parseFloat(data.product.properties.final_price)
 		}
-	},
-	methods: {
-		getFromSession() {
-			this.product = []
-			this.final_price = 0
-			for (const [key, value] of Object.entries(this.$session.getAll())) {
-				if (key.startsWith("basket-item")) {
-					let data = JSON.parse(value)
-					this.product.push(data)
-					this.final_price += parseFloat(data.product.properties.final_price)
-				}
-			}
+	}
 
-			if (this.final_price > 0 && this.$session.has('basket-adress') && this.$session.has('basket-shipping')) 
-			{
-				this.adress = JSON.parse(this.$session.get("basket-adress"))
-				this.shipping = JSON.parse(this.$session.get("basket-shipping"))
-				this.final_price += parseFloat(this.shipping.shipping.price) + parseFloat(this.shipping.payment.price)
-				this.final_price = this.final_price.toFixed(2)
-				this.dph = parseFloat(this.final_price * 0.2).toFixed(2)
-			}
-		},
-		async onSubmit(e) {
-			e.preventDefault()
-			let vm = this
-			let data = {
-				product: this.product,
-				adress: this.adress,
-				shipping: this.shipping,
-				final_price: this.final_price,
-				dph: this.dph,
-			}
-			await MainService.postSaveNakup(data)
-			.then(response => {
-				if (parseInt(response.data.status) == 200) {
-					this.$session.remove('basket-adress')
-					this.$session.remove('basket-shipping')
-					for (const [key, value] of Object.entries(this.$session.getAll())) {
-						if (key.startsWith("basket-item")) {
-							let v = JSON.parse(value)
-							this.$session.remove('basket-item-' + v.id_product)
-						}
-					}
-					this.$root.$emit('basket-nav-update', { id: 5, enabled: true, view_part: 5, disable_another: true })
-
-					this.$root.$emit('basket-final', { message: response.data.message, type: 'success', heading: 'Ukončenie nákupu', })
-					
-					// https://stackoverflow.com/questions/35664550/vue-js-redirection-to-another-page
-					// Tvrdé presmerovanie po prihlásení.
-					//window.location.href = this.$store.state.basePath;
-				} else {
-					console.error(response.data)
-					vm.$root.$emit('flash_message', [{
-						'message': response.data.message,
-						'type': 'danger',
-						'heading': 'Chyba posielania',
-						'timeout': 10000,
-					}])
-				}
-			})
-			.catch(error => {
-				console.error(error)
-			})
-		},
-	},
-	computed: {
-		isFormValid() {
-			return Object.keys(this.fields).every(key => this.fields[key].valid);
-		}
-	},
-	created () {
-		this.getFromSession()
-	},
+	if (final_price.value > 0 && Session.has('basket-adress') && Session.has('basket-shipping')) 
+	{
+		adress.value = JSON.parse(Session.get("basket-adress"))
+		shipping.value = JSON.parse(Session.get("basket-shipping"))
+		final_price.value += parseFloat(shipping.value.shipping.price) + parseFloat(shipping.value.payment.price)
+		final_price.value = final_price.value.toFixed(2)
+		dph.value = parseFloat(final_price.value * 0.2).toFixed(2)
+	}
 }
+
+const emit = defineEmits(['basket-nav-update', 'basket-final'])
+
+const onSubmit = async (e) =>{
+	e.preventDefault()
+	let vm = this
+	let data = {
+		product: product.value,
+		adress: adress.value,
+		shipping: shipping.value,
+		final_price: final_price.value,
+		dph: dph.value,
+	}
+	await MainService.postSaveNakup(data)
+	.then(response => {
+		if (parseInt(response.data.status) == 200) {
+			Session.clearStorage('basket-adress')
+			Session.clearStorage('basket-shipping')
+			for (const [key, value] of Object.entries(Session.allStorage())) {
+				if (key.startsWith("basket-item")) {
+					let v = JSON.parse(value)
+					Session.clearStorage('basket-item-' + v.id_product)
+				}
+			}
+			emit('basket-nav-update', { id: 5, enabled: true, view_part: 5, disable_another: true })
+
+			emit('basket-final', { message: response.data.message, type: 'success', heading: 'Ukončenie nákupu', })
+		} else {
+			console.error(response.data)
+			storeF.showMessage(response.data.message, 'danger', 'Chyba posielania', 10000)
+		}
+	})
+	.catch(error => {
+		console.error(error)
+	})
+}
+
+/** @TODO */
+const isFormValid = computed(() => {
+	return su.value
+	//return Object.keys(fields).every(key => this.fields[key].valid);
+})
+
+onMounted(() => {
+	getFromSession()
+})
 </script>
 
 <template>
@@ -110,7 +108,7 @@ export default {
 					:key="i.id_product" 
 					class="d-flex justify-content-between"
 				>
-					<b-avatar variant="info" :src="$store.state.basePath + '/' + i.product.main_file"></b-avatar>
+					<BAvatar variant="info" :src="store.baseUrl + '/' + i.product.main_file"></BAvatar>
 					{{ i.product.name }}
 					<b class="ms-2">{{ i.product.properties.final_price }} €</b>
 				</div>
@@ -175,9 +173,9 @@ export default {
 						>
 						<label class="form-check-label" for="opCheck">
 							Súhlasím s 
-							<a :href="$store.state.basePath + '/clanky/obchodne-podmienky'">
+							<RouterLink to="/clanky/obchodne-podmienky">
 								obchodnými podmienkami
-							</a>
+							</RouterLink>
 							.
 						</label>
 					</div>

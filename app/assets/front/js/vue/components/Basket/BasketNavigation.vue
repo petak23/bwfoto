@@ -12,6 +12,7 @@
 import { ref, watch, onMounted } from "vue"
 import { useBasketStore } from '../../store/basket.js'
 const storeB = useBasketStore()
+import Session from '../../plugins/session.js'
 
 const items = ref([
 	{ id: 1, key: "Obsah košíka", enabled: true },
@@ -21,7 +22,7 @@ const items = ref([
 	{ id: 5, key: "Ukončenie", enabled: false},
 ])
 
-const emit = defineEmits(['basketViewPart'])
+const emit = defineEmits(['basketViewPart', 'basket-update'])
 
 const getToPage = (id) => {
 	emit('basketViewPart', id)
@@ -29,24 +30,23 @@ const getToPage = (id) => {
 
 onMounted(() => {
 	/** @TODO !!! */
-	/*this.$root.$on("basket-nav-update", data => {  
-			/ * formát prichádzajúcich dát: 
-				 { id: x, enabled: true|false, view_part: y, disable_another: true|false } * /
-			if (data.disable_another != undefined && data.disable_another) {
-				for (let i = 0; i < this.items.length; i++) {
-					this.items[i].enabled = false;
-				}
+	this.$root.$on("basket-nav-update", data => {  
+		/* formát prichádzajúcich dát: { id: x, enabled: true|false, view_part: y, disable_another: true|false } */
+		if (data.disable_another != undefined && data.disable_another) {
+			for (let i = 0; i < this.items.length; i++) {
+				items.value[i].enabled = false;
 			}
-			if (parseInt(data.id) > 0 && parseInt(data.id) <= items.value.length) { // ošetrenie hraníc
-				items.value[data.id - 1].enabled = data.enabled == true // ošetrenie, že to bude bool
-			}
-			if (this.$session.has('basket-nav')) this.$session.remove('basket-nav')
-			this.$session.set('basket-nav', JSON.stringify(this.items))
-			if (data.view_part != undefined) this.$root.$emit('basket-view-part', [{view_part: data.view_part}])
-		})
+		}
+		if (parseInt(data.id) > 0 && parseInt(data.id) <= items.value.length) { // ošetrenie hraníc
+			items.value[data.id - 1].enabled = data.enabled == true // ošetrenie, že to bude bool
+		}
+		if (Session.has('basket-nav')) Session.clearStorage('basket-nav')
+		Session.saveStorage('basket-nav', items.value)
+		if (data.view_part != undefined) emit('basketViewPart', [{view_part: data.view_part}])
+	})
 
-		if (this.$session.has('basket-nav')) this.items = JSON.parse(this.$session.get('basket-nav'))
-		this.$root.$emit('basket-update', [])*/
+	if (Session.has('basket-nav')) items.value = JSON.parse(Session.getStorage('basket-nav'))
+	emit('basket-update', [])
 })
 </script>
 

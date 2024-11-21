@@ -1,18 +1,22 @@
-<script>
+<script setup>
 /** 
  * Component Fotogalery
- * Posledná zmena(last change): 08.03.2024
+ * Posledná zmena(last change): 21.11.2024
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.9
+ * @version 1.2.0
  */
-
+import { ref } from 'vue'
 import MainService from '../services/MainService.js'
-import ProductsProperties from './ProductsProperties/ProductsProperties'
+import ProductsProperties from '../components/ProductsProperties/ProductsProperties.vue'
 import FotoFilter from './Fotogalery/FotoFilter.vue' // v3
+import Session from '../plugins/session.js'
+import { useMainStore } from '../../store/main.js'
+const store = useMainStore()
+
 
 // https://swiperjs.com/vue
 // import Swiper core and required modules
@@ -24,190 +28,186 @@ import { Swiper, SwiperSlide } from 'swiper/vue';
 // Import Swiper styles
 import 'swiper/css';
 
+const props = defineProps({
+	first_id: { // Ak je nastavené tak sa zobrazí obrázok ako prvý
+		type: String,
+		default: "0",
+	},
+	large: {
+		type: String,
+		default: "",
+	},
+	filesPath: { // Adresár k súborom bez basePath
+		type: String,
+		default: "",
+	},
+})
+
+const id = ref(0)
+const square = ref(0)
+const wid = ref(0)
+const uroven = ref(0) // Premenná sleduje uroveň zobrazenia
+//article = ref({})
+const attachments = ref([{ // Musí byť nejaký nultý objekt inak je chyba...
+	description: null,
+	id: 0,
+	main_file: "",
+	name: "",
+	thumb_file: "",
+	type: "",
+	web_name: "",
+	liked: false
+}])
+const liked = ref(false)
+const in_basket = ref(false)
+const filter_choice = ref(1) // 1: všetky, 2: Len na sklade
+
+const emit = defineEmits(["basket-insert"])
+
+// Zmena id
+const changebig = (id) => {
+	id.value = id
+	my_liked()
+	my_in_basket()
+}
+const modalchangebig = (id) => {
+	id.value = id;
+	// TODO bvModal
+	//this.$bvModal.show("modal-multi-1")
+}
+const openmodal2 = () => {
+	// TODO bvModal
+	//if (wid.value > 0) this.$bvModal.show("modal-multi-2")
+}
+const swipe = (direction) => {
+	//console.log(direction)
+	if (direction == 'Left' || direction == 'Up') {
+		before()
+	} else if (direction == 'Right' || direction == 'Down') {
+		after()
+	}
+}
+// Zmena id na predošlé
+const before = () => {
+	id.value = id.value <= 0 ? (attachments.value.length - 1) : id.value - 1;
+	my_liked()
+	my_in_basket()
+}  
+// Zmena id na  nasledujúce
+const after = () => {
+	id.value = id.value >= (attachments.value.length - 1) ? 0 : id.value + 1;
+	my_liked()
+	my_in_basket()
+}
+const closeme = (no) => {
+	// TODO bvModal
+	//this.$bvModal.hide("modal-multi-" + no);
+}
+const matchHeight = () => {
+	// TODO $refs...
+	let height = this.$refs.imgDetail.clientHeight;
+	let width = this.$refs.imgDetail.clientWidth;
+	let height2 = parseInt(window.innerHeight * 0.8);
+	let h = height2 > height ? height2 : height;
+	//console.log(h, width)
+	square.value = (h > width ? width-20 : h);
+	wid.value = width;
+}
+const urovenUp = () => { // Funkcia pre zmenu úrovne o +1 na max. 2
+	uroven.value += uroven.value < 2 ? 1 : 0
+}
+const urovenDwn = () => {// Funkcia pre zmenu úrovne o -1 na min. 0
+	uroven.value -= uroven.value > 0 ? 1 : 0;
+}
+const keyPush = (event) => {
+	if (uroven.value <= 1) {
+		switch (event.key) {
+			case "ArrowLeft":
+				before()
+				break
+			case "ArrowRight":
+				after()
+				break
+		}
+	}
+}
+// Generovanie url pre lazyloading obrázky
+const getImageUrl = (text) => {
+	// TODO filesDir -> store
+	return this.filesDir + text
+}
+const border_compute = (border) => {
+	let pom = border != null && border.length > 2 ? border.split("|") : ['', '0'];
+	return "border: " + pom[1] + "px solid " + (pom[0].length > 2 ? (pom[0]) : "inherit")
+}
+const getAttachments = async () => { 
+	await MainService.getFotogalery(store.main_menu_active, filter_choice.value)
+		.then(response => {
+			attachments.value = response.data
+			if (parseInt(first_id.value) > 0) { // Ak mám first_id tak k nemu nájdem položku v attachments
+				getFirstId(parseInt(first_id.value))
+				my_liked()
+				my_in_basket()
+				if (wid.value == 0) {
+					modalchangebig(id.value)
+				}
+			}
+		})
+		.catch((error) => {
+			console.error(error);
+		})
+}
+const getFirstId = (idf) => {
+	Object.keys(attachments.value).forEach(ma => {
+		if (attachments.value[ma].id === idf) {
+			id.value = ma
+		}
+	})
+}
+const productsLikeUpdate = () => {
+	state.productsLikeItem = []
+	for (const [key, value] of Object.entries(Session.allStorage())) {
+		if (key.startsWith("like")) {
+			state.productsLikeItem.push(JSON.parse(value))
+		}
+	}
+}
+const saveLiked = () => {
+	let item = attachments.value[this.id]
+	if (!Session.has('like-' + item.id)) {
+		Session.saveStorage('like-' + item.id, {
+			id_product: item.id,
+			id_article: this.$store.state.article.id_hlavne_menu,
+			source: item.main_file,
+			name: item.name,
+		})
+	} else {
+		Session.clearStorage('like-' + item.id)
+	}
+	productsLikeUpdate()
+}
+const my_liked = () => {
+	attachments.value[id.value].liked = Session.has('like-' + attachments.value[id.value].id)
+	liked.value = attachments.value[id.value].liked
+}
+const basketInsert = () => {
+	let item = attachments.value[id.value]
+	emit("basket-insert", [{
+		id_product: item.id,
+		product: item,
+		id_article: store.article.id_hlavne_menu,
+	}])
+}
+const my_in_basket = () => {
+	attachments.value[id.value].in_basket = Session.has('basket-item-' + attachments.value[id.value].id)
+	in_basket.value = attachments.value[id.value].in_basket
+}
+const filterChange(choice) {
+	filter_choice.value = choice
+	getAttachments()
+}
+
 export default {
-	components: {
-		Swiper,
-		SwiperSlide,
-		ProductsProperties,
-		FotoFilter,
-	},
-	props: {
-		first_id: { // Ak je nastavené tak sa zobrazí obrázok ako prvý
-			type: String,
-			default: "0",
-		},
-		large: {
-			type: String,
-			default: "",
-		},
-		filesPath: { // Adresár k súborom bez basePath
-			type: String,
-			default: "",
-		},
-	},
-	data() {
-		return {
-			id: 0,
-			square: 0,
-			wid: 0,
-			uroven: 0, // Premenná sleduje uroveň zobrazenia
-			//article: {},
-			attachments: [{ // Musí byť nejaký nultý objekt inak je chyba...
-				description: null,
-				id: 0,
-				main_file: "",
-				name: "",
-				thumb_file: "",
-				type: "",
-				web_name: "",
-				liked: false
-			}],
-			liked: false,
-			in_basket: false,
-			filter_choice: 1, // 1: všetky, 2: Len na sklade
-		}
-	},
-	methods: {
-		// Zmena id
-		changebig(id) {
-			this.id = id
-			this.my_liked()
-			this.my_in_basket()
-		},
-		modalchangebig (id) {
-			this.id = id;
-			this.$bvModal.show("modal-multi-1")
-		},
-		openmodal2 () {
-			if (this.wid > 0) this.$bvModal.show("modal-multi-2")
-		},
-		swipe (direction) {
-			//console.log(direction)
-			if (direction == 'Left' || direction == 'Up') {
-				this.before()
-			} else if (direction == 'Right' || direction == 'Down') {
-				this.after()
-			}
-		},
-		// Zmena id na predošlé
-		before() {
-			this.id = this.id <= 0 ? (this.attachments.length - 1) : this.id - 1;
-			this.my_liked();
-			this.my_in_basket()
-		},  
-		// Zmena id na  nasledujúce
-		after() {
-			this.id = this.id >= (this.attachments.length - 1) ? 0 : this.id + 1;
-			this.my_liked();
-			this.my_in_basket()
-		}, 
-		closeme: function(no) {
-			this.$bvModal.hide("modal-multi-" + no);
-		},
-		matchHeight () {
-			let height = this.$refs.imgDetail.clientHeight;
-			let width = this.$refs.imgDetail.clientWidth;
-			let height2 = parseInt(window.innerHeight * 0.8);
-			let h = height2 > height ? height2 : height;
-			//console.log(h, width)
-			this.square = (h > width ? width-20 : h);
-			this.wid = width;
-		},
-		urovenUp () { // Funkcia pre zmenu úrovne o +1 na max. 2
-			this.uroven += this.uroven < 2 ? 1 : 0;;
-		},
-		urovenDwn () {// Funkcia pre zmenu úrovne o -1 na min. 0
-			this.uroven -= this.uroven > 0 ? 1 : 0;
-		},
-		keyPush(event) {
-			if (this.uroven <= 1) {
-				switch (event.key) {
-					case "ArrowLeft":
-						this.before();
-						break;
-					case "ArrowRight":
-						this.after();
-						break;
-				}
-			}
-		},
-		// Generovanie url pre lazyloading obrázky
-		getImageUrl(text) {
-			return this.filesDir + text
-		},
-		border_compute(border) {
-			let pom = border != null && border.length > 2 ? border.split("|") : ['', '0'];
-			return "border: " + pom[1] + "px solid " + (pom[0].length > 2 ? (pom[0]) : "inherit")
-		},
-		async getAttachments() { 
-			await MainService.getFotogalery(this.$store.state.main_menu_active, this.filter_choice)
-				.then(response => {
-					this.attachments = response.data
-					if (parseInt(this.first_id) > 0) { // Ak mám first_id tak k nemu nájdem položku v attachments
-						this.getFirstId(parseInt(this.first_id))
-						this.my_liked()
-						this.my_in_basket()
-						if (this.wid == 0) {
-							this.modalchangebig(this.id)
-						}
-					}
-				})
-				.catch((error) => {
-					console.log(error);
-				});
-		},
-		getFirstId(id) {
-			Object.keys(this.attachments).forEach(ma => {
-				if (this.attachments[ma].id === id) {
-					this.id = ma
-				}
-			});
-		},
-		productsLikeUpdate() {
-			let spom = this.$session.getAll()
-			let li = []
-			for (const [key, value] of Object.entries(spom)) {
-				if (key.startsWith("like")) {
-					li.push(JSON.parse(value))
-				}
-			}
-			this.$store.commit("UPDATE_PRODUCTS_LIKE_ITEMS", li)
-		},
-		saveLiked() {
-			let item = this.attachments[this.id]
-			if (!this.$session.has('like-' + item.id)) {
-				this.$session.set('like-' + item.id, JSON.stringify({
-					id_product: item.id,
-					id_article: this.$store.state.article.id_hlavne_menu,
-					source: item.main_file,
-					name: item.name,
-				}))
-			} else {
-				this.$session.remove('like-' + item.id)
-			}
-			this.productsLikeUpdate()
-		},
-		my_liked() {
-			this.attachments[this.id].liked = this.$session.has('like-' + this.attachments[this.id].id)
-			this.liked = this.attachments[this.id].liked
-		},
-		basketInsert() {
-			let item = this.attachments[this.id]
-			this.$root.$emit("basket-insert", [{
-				id_product: item.id,
-				product: item,
-				id_article: this.$store.state.article.id_hlavne_menu,
-			}])
-		},
-		my_in_basket() {
-			this.attachments[this.id].in_basket = this.$session.has('basket-item-' + this.attachments[this.id].id)
-			this.in_basket = this.attachments[this.id].in_basket
-		},
-		filterChange(choice) {
-			this.filter_choice = choice
-			this.getAttachments()
-		}
-	},
 	created() {
 		window.addEventListener("resize", this.matchHeight);
 	},

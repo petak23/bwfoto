@@ -14,12 +14,12 @@ import { ref, watch, onMounted } from "vue"
 import { useBasketStore } from '../store/basket.js'
 const storeB = useBasketStore()
 
-import BasketNavigation from "../components/Basket/BasketNavigation.vue" 	// Hlavá navigácie priebehu nákupu
-import BasketList from "../components/Basket/BasketList.vue"							// Prvý krok: prehľad košíka
+import BasketNavigation from "../components/Basket/BasketNavigation.vue"//v3 	// Hlavá navigácie priebehu nákupu
+import BasketList from "../components/Basket/BasketList.vue"	 //v3						// Prvý krok: prehľad košíka
 import BasketAdress from "../components/Basket/BasketAdress.vue"					// Druhý krok: zadanie adresy
-import BasketShipping from "../components/Basket/BasketShipping.vue"			// Tretí krok: doprava a platba
-import BasketSumar from "../components/Basket/BasketSumar.vue"						// Štvrtý krok: sumarizácia nákupu
-import BasketFinal from "../components/Basket/BasketFinal.vue" //v3				// Piaty krok: správa o ukončení nákupu
+import BasketShipping from "../components/Basket/BasketShipping.vue"//v3			// Tretí krok: doprava a platba
+import BasketSumar from "../components/Basket/BasketSumar.vue" //v3						// Štvrtý krok: sumarizácia nákupu
+import BasketFinal from "../components/Basket/BasketFinal.vue" //v3						// Piaty krok: správa o ukončení nákupu
 
 const props = defineProps({
 	view_part: {

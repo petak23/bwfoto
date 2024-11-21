@@ -1,4 +1,4 @@
-<script>
+<script setup>
 /**
  * Komponenta pre vypísanie jednej položky nákupného košíka.
  * Posledna zmena 07.03.2024
@@ -9,23 +9,25 @@
  * @link       http://petak23.echo-msz.eu
  * @version    1.0.0
  */
-export default {
-	props: {
-		basketItem: {
-			type: Object,
-			default: {},
-		},
-		filePath: {
-			type: String,
-			required: true,
-		},
+import Session from "../../plugins/session.js"
+import { RouterLink } from "vue-router";
+
+const props = defineProps({
+	basketItem: {
+		type: Object,
+		default: {},
 	},
-	methods: {
-		delMe() {
-			this.$session.remove('basket-item-' + this.basketItem.id_product)
-			this.$root.$emit("basket-update", [])
-		}
-	},
+	filePath: {
+		type: String,
+		required: true,
+	}
+})
+
+const emit = defineEmits("basket-update")
+
+const delMe = () => {
+	Session.clearStorage('basket-item-' + props.basketItem.id_product)
+	emit("basket-update")
 }
 </script>
 
@@ -39,12 +41,12 @@ export default {
 			<div class="card-body row">
 				<div class="col-12 col-md-6">
 					<h5 class="card-title">
-						<a 
-							:href="filePath + 'clanky/' + basketItem.id_article + '/?first_id=' + basketItem.id_product"
+						<RouterLink 
+							:to="'/clanky/' + basketItem.id_article + '/?first_id=' + basketItem.id_product"
 							class="text-white"
 						>
 							{{ basketItem.product.name }}
-						</a>
+						</RouterLink>
 					</h5>
 				</div>
 				<div class="col-10 col-md-4">
@@ -81,9 +83,3 @@ export default {
 		</div>
 	</div>
 </template>
-
-
-
-<style lang="scss" scoped>
-
-</style>

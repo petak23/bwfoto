@@ -1,4 +1,4 @@
-<script>
+<script setup>
 /**
  * Komponenta pre vypísanie položiek nákupného košíka.
  * Posledna zmena 26.03.2024
@@ -9,53 +9,49 @@
  * @link       http://petak23.echo-msz.eu
  * @version    1.0.2
  */
-	import BasketItem from "./BasketItem.vue";
+import { ref, onMounted } from 'vue'
+import BasketItem from "./BasketItem.vue"
+import Session from "../../plugins/session.js"
+import { RouterLink } from "vue-router";
 
-	export default {
-		components: {
-			BasketItem,
-		},
-		data() {
-			return {
-				product: [], // Array of Object {id_article: xx, id_product: xx, product: Object }
-				sum_price: 0, // Sumárna cena za produkty 
-			}
-		},
-		methods: {
-			getFromSession() {
-				this.product = []
-				this.sum_price = 0
-				for (const [key, value] of Object.entries(this.$session.getAll())) {
-					if (key.startsWith("basket-item")) {
-						let data = JSON.parse(value)
-						this.product.push(data)
-						this.sum_price += parseFloat(data.product.properties.final_price)
-					}
-				}
-			},
-			my_basket() {
-				this.product = []
-				this.getFromSession()
-				if (this.product.length == 0) { // Pre prípad, že košík bude prázdny
-					this.$root.$emit('basket-nav-update', { id: 0, enabled: false, disable_another: true })	
-				}
-			},
-			getToPage(id) {
-				this.$root.$emit('basket-view-part', [{ view_part: id }])
-			},
-		},
-		mounted() {
-			this.$session.start()
+const product = ref([]) // Array of Object {id_article: xx, id_product: xx, product: Object }
+const sum_price = ref(0) // Sumárna cena za produkty 
 
-			this.getFromSession()
+const emit = defineEmits(['basket-nav-update', 'basket-view-part'])
 
-			if (this.product.length) {
-				this.$root.$emit('basket-nav-update', { id: 2, enabled: true })
-			}
-
-			this.$root.$on("basket-update", this.my_basket);
+const getFromSession = () => {
+	product.value = []
+	sum_price.value = 0
+	for (const [key, value] of Object.entries(Session.allStorage())) {
+		if (key.startsWith("basket-item")) {
+			let data = JSON.parse(value)
+			product.value.push(data)
+			sum_price.value += parseFloat(data.product.properties.final_price)
 		}
 	}
+}
+const my_basket = () => {
+	product.value = []
+	getFromSession()
+	if (product.value.length == 0) { // Pre prípad, že košík bude prázdny
+		emit('basket-nav-update', { id: 0, enabled: false, disable_another: true })	
+	}
+}
+const getToPage = (id) => {
+	emit('basket-view-part', [{ view_part: id }])
+}
+
+onMounted(() => {
+	//this.$session.start()
+
+	getFromSession()
+
+	if (product.value.length) {
+		emit('basket-nav-update', { id: 2, enabled: true })
+	}
+
+	//this.$root.$on("basket-update", my_basket);
+})
 </script>
 
 <template>
@@ -74,9 +70,6 @@
 		</div>
 		<div class="text-right" v-if="product.length">
 			Výsledná cena: <b>{{ sum_price }} €</b><br />
-			<!--a-- :href="$store.state.basePath + '/homepage/basket/2'" class="btn btn-success mt-2">
-				Ďaľší krok v objednávke <i class="ml-1 fa-solid fa-arrow-right"></i>
-			</!--a-->
 			<button
 				@click="getToPage(2)"
 				class="btn btn-success mt-2">
@@ -90,7 +83,7 @@
 			<hr>
 			<p class="mb-0">
 				Prosím, prejdite do časti 
-				<a :href="$store.state.basePath + '/clanky/produkty'" class="alert-link">produktov</a> a nejaké zvoľte. 
+				<RouterLink to="/clanky/produkty" class="alert-link">produktov</RouterLink> a nejaké zvoľte. 
 			</p>
 		</div>
 	</div>

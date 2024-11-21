@@ -15,7 +15,14 @@ export default {
 		}
 		else if(localStorage.getItem(key)) {
 			return localStorage.getItem(key)
+		} else {
+			return false
 		}
+	},
+
+	// est či existuje daný kľúč
+	has(key) {
+		return localStorage.getItem(key) ? true : false
 	},
 
 	// Get all storage items

@@ -1,69 +1,81 @@
-<script>
+<script setup>
 /**
  * Komponenta pre vypísanie obľúbených produktov.
- * Posledna zmena 12.09.2024
+ * Posledna zmena 21.11.2024
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.2
+ * @version    1.0.3
  * 
- * @description https://www.npmjs.com/package/vue-session
  */
+import { onMounted } from 'vue'
+import Session from '../../plugins/session'
+import { RouterLink } from 'vue-router';
+import { BButton, BDropdown, BDropdownDivider, BDropdownItem } from 'bootstrap-vue-next';
+import { useMainStore } from '../../store/main.js'
+const store = useMainStore()
 
-export default {
-	data() {
-		return {
-			/* Štruktúra položiek poľa liked:
-				{
-					id_product: 0,
-					id_article: 0,
-					source: "",
-					name: "",
-				}*/
-			liked: [], 
+const getFromSession = () => {
+	store.productsLikeItem = []
+	for (const [key, value] of Object.entries(Session.allStorage())) {
+		if (key.startsWith("like")) {
+			store.productsLikeItem.push(JSON.parse(value))
 		}
-	},
-	methods: {
-		getFromSession() {
-			let spom = this.$session.getAll()
-			this.liked = []
-			for (const [key, value] of Object.entries(spom)) {
-				if (key.startsWith("like")) {
-					this.liked.push(JSON.parse(value))
-				}
-			}
-			this.$store.commit("UPDATE_PRODUCTS_LIKE_ITEMS", this.liked)
-		},
-		delAll() { // Vymazanie všetkých obľúbených položiek
-			let vm = this
-			this.liked.forEach(function(i) {
-				vm.$session.remove('like-' + i.id_product)	
-			})
-			this.getFromSession()
-		},
-		delOne(id) { // Vymazanie jednej obľúbenej položky
-			this.$session.remove('like-' + id)
-			this.getFromSession()
-		}
-	},
-	watch: {
-		'$store.state.productsLikeItem': function () {
-			this.liked = this.$store.state.productsLikeItem
-		}
-	},
-	mounted () {
-		this.$session.start()
-
-		this.getFromSession()
 	}
 }
+
+const delAll = () => { // Vymazanie všetkých obľúbených položiek
+	store.productsLikeItem.forEach(function(i) {
+		Session.clearStorage('like-' + i.id_product)	
+	})
+	getFromSession()
+}
+
+const delOne = (id) => { // Vymazanie jednej obľúbenej položky
+	Session.clearStorage('like-' + id)
+	getFromSession()
+}
+
+onMounted(() => {
+	getFromSession()
+})
 </script>
 
 <template>
-	<div class="liked" v-if="liked.length > 0">
-		<div class="btn-group dropup">
+	<div class="liked" v-if="store.productsLikeItem != null && store.productsLikeItem.length > 0">
+		<BDropdown class="me-2" toggle-class="btn-lg btn-warning rounded-pill">
+			<template #button-content>
+				<i class="fa-regular fa-heart my-heart"></i>
+				<span class="badge badge-pill badge-warning">
+					{{ store.productsLikeItem.length }}
+				</span>
+			</template>
+			<BDropdownItem 
+				v-for="i in store.productsLikeItem"
+				:key="i.id_product"
+				link-class="dropdown-item-text d-flex justify-content-between mx-2"
+			>
+				<RouterLink :to="'/clanky/' + i.id_article + '/?first_id=' + i.id_product">
+					<img :src="store.baseUrl + '/' + i.source" class="rounded float-start pe-1" :alt="i.name" />
+					{{ i.name }}
+				</RouterLink>
+				<BButton variant="light" @click.prevent="delOne(i.id_product)">
+					<i class="fa-regular fa-trash-can text-danger"></i>
+				</BButton>
+			</BDropdownItem>
+			
+			<BDropdownDivider />
+			<BDropdownItem >
+				<button class="dropdown-item px-2 del-item" @click.prevent="delAll">Vymaž všetky obľúbené foto</button>
+			</BDropdownItem>
+			<BDropdownItem to="/productlike" link-class="dropdown-item px-2 mt-2 all-item">
+				Zobraz obľúbené foto
+			</BDropdownItem>
+		</BDropdown>
+
+		<!--div class="btn-group dropup">
 			<button 
 				type="button" 
 				class="btn btn-lg btn-warning dropdown-toggle rounded-pill" 
@@ -74,26 +86,28 @@ export default {
 					{{ liked.length }}
 				</span>
 			</button>
-			<ul class="dropdown-menu" v-if="$store.state.app_settings != null">
+			<ul class="dropdown-menu">
 				<li
 					v-for="i in liked"
 					:key="i.id_product" 
 					class="dropdown-item-text d-flex justify-content-between mx-2"
 				>
-					<a :href="$store.state.app_settings.basePath + '/clanky/' + i.id_article + '/?first_id=' + i.id_product">
-						
-						<img :src="$store.state.app_settings.basePath + '/' + i.source" class="rounded float-start pe-1" :alt="i.name" />
+					<RouterLink :to="'/clanky/' + i.id_article + '/?first_id=' + i.id_product">
+						<img :src="store.baseUrl + '/' + i.source" class="rounded float-start pe-1" :alt="i.name" />
 						{{ i.name }}
-					</a>
-					<b-button variant="light" @click.prevent="delOne(i.id_product)">
+					</RouterLink>
+					<BButton variant="light" @click.prevent="delOne(i.id_product)">
 						<i class="fa-regular fa-trash-can text-danger"></i>
-					</b-button>
+					</BButton>
 				</li>
 				<li><hr class="dropdown-divider"></li>
-				<li><a class="dropdown-item px-2 del-item" href="#" @click.prevent="delAll">Vymaž všetky obľúbené foto</a></li>
-				<li><a class="dropdown-item px-2 mt-2 all-item" :href="$store.state.app_settings.basePath + '/homepage/productlike'">Zobraz obľúbené foto</a></li>
+				<li></li>
+				<li>
+					<RouterLink class="dropdown-item px-2 mt-2 all-item" 
+						to="/productlike">Zobraz obľúbené foto</RouterLink>
+				</li>
 			</ul>
-		</div>
+		</div-->
 	</div>
 </template>
 
