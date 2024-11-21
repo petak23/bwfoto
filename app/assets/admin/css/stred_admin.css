@@ -1,7 +1,7 @@
 /* 
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @file stred_admin.css
- * Last update: 23.11.2022 
+ * Last update: 21.11.2024 
  */
 
 .uroven-registracie {
@@ -229,7 +229,7 @@ li > p {
 }
 
 /* ------ OLD CSS ------ */ 
-/* @todo - zistiť ich potrebu */
+/* TODO - zistiť ich potrebu */
 h6 {
   font-size: 100%;
   float: left;

@@ -11,7 +11,7 @@ use PeterVojtech\Email;
 
 /**
  * Prezenter pre pristup k api produktov.
- * Posledna zmena(last change): 16.04.2024
+ * Posledna zmena(last change): 21.11.2024
  *
  * Modul: API
  *
@@ -19,7 +19,7 @@ use PeterVojtech\Email;
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.0
+ * @version 1.1.1
  * 
  * @help 1.) https://forum.nette.org/cs/28370-data-z-post-request-body-reactjs-appka-se-po-ceste-do-php-ztrati
  */
@@ -76,12 +76,11 @@ class ProductsPresenter extends BasePresenter
 
 	/** 
 	 * Uloženie produktu/produktov do DB 
-	 * @param int $id Id_hlavne_menu, ku ktorému ukladám produkt 
-	 * ----------------------------------------
-	 * @todo Kontrola duplicitných súborov
-	 * @todo Kontrola max. veľkosti súboru
-	 * ----------------------------------------
-	 * */
+	 * @param int $id Id_hlavne_menu, ku ktorému ukladám produkt */
+	// ----------------------------------------
+	// TODO Kontrola duplicitných súborov
+	// TODO Kontrola max. veľkosti súboru
+	// ----------------------------------------
 	public function actionSave(int $id)
 	{
 		/* from POST:

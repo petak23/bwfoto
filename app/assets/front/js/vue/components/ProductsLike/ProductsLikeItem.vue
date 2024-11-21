@@ -80,7 +80,7 @@ watch(() => likeItem, () => {
 
 onMounted(() => {
 	getProductsInfo()
-	/** @TODO */
+	// TODO $root.$on 
 	//this.$root.$on("basket-update", this.my_in_basket)
 })
 </script>

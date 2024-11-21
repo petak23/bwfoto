@@ -16,9 +16,8 @@ use Nette\Application\UI\Control;
  * @license
  * @link http://petak23.echo-msz.eu
  * @version 1.0.3
- * 
- * @todo Odstranit premennu nastavenie, ak nebude potrebna.
- */
+ */ 
+// TODO Odstranit premennu nastavenie, ak nebude potrebna.
 class ProductsViewControl extends Control
 {
 

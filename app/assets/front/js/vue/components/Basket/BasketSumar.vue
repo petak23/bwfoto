@@ -85,7 +85,7 @@ const onSubmit = async (e) =>{
 	})
 }
 
-/** @TODO */
+// TODO validate
 const isFormValid = computed(() => {
 	return su.value
 	//return Object.keys(fields).every(key => this.fields[key].valid);

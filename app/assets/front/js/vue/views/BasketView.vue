@@ -46,9 +46,8 @@ watch(() => props.view_part, (newValue) => {
 onMounted(() => {
 	setPart(props.view_part)
 
-	/** @TODO !!! */
-	/*
-	this.$root.$on('basket-final', item => {
+	// TODO $root.$on
+	/*this.$root.$on('basket-final', item => {
 		this.info = item
 	})*/
 })

@@ -29,7 +29,7 @@ const getToPage = (id) => {
 }
 
 onMounted(() => {
-	/** @TODO !!! */
+	// TODO !!! $root.$on
 	this.$root.$on("basket-nav-update", data => {  
 		/* formát prichádzajúcich dát: { id: x, enabled: true|false, view_part: y, disable_another: true|false } */
 		if (data.disable_another != undefined && data.disable_another) {
