@@ -1,19 +1,21 @@
 <script setup>
 /** 
  * Component ProductsProperties
- * Posledná zmena(last change): 14.11.2024
+ * Posledná zmena(last change): 22.11.2024
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.1
+ * @version 1.0.2
  * 
  */
 import { ref, onMounted, watch } from 'vue'
 import { BButton, BModal, BForm, BFormInput, BFormSelect } from 'bootstrap-vue-next';
 
 import MainService from "../../services/MainService.js";
+import { useMainStore } from '../../store/main.js'
+const store = useMainStore()
 
 const props = defineProps({
 	article: {

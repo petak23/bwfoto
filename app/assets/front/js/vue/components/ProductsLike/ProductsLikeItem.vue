@@ -137,14 +137,14 @@ onMounted(() => {
 						<small>{{ product.description }}</small><br />
 					</p>
 					<h6 v-if="product != null && product.props.length">Vlastnosti:</h6>
-					<p class="card-text" v-if="product != null && product.props.length">
+					<div class="card-text" v-if="product != null && product.props.length">
 						<table class="table table-dark table-striped table-sm">
 							<tr v-for="pp in product.props">
 								<td>{{ pp.category }}</td>
 								<td>{{ pp.name }}</td>
 							</tr>
 						</table>
-					</p>
+					</div>
 				</div>
 			</div>
 		</div>

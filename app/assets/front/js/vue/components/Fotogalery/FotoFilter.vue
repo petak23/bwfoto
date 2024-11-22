@@ -12,6 +12,8 @@
  */
 import { ref, onMounted } from 'vue'
 
+import { BDropdown, BDropdownItem } from 'bootstrap-vue-next';
+
 const props = defineProps({
 	val: {
 		type: Number,
@@ -35,7 +37,22 @@ onMounted(() => {
 </script>
 
 <template>
-	<div class="btn-group">
+	<BDropdown text="Dropdown Button" class="me-2" variant="outline-secondary" toggle-class="px-1 py-2 me-1" end>
+		<template #button-content>
+			<i class="fa-solid fa-filter me-2"></i><span class="me-1">{{ data[choice - 1].txt }}</span>
+		</template>
+		<BDropdownItem 
+			v-for="i in data"
+			@click="change(i.id)"
+		>
+			<i 
+				class="fa-regular"
+				:class="choice == i.id ? 'fa-square-check' : 'fa-square'"
+			></i> {{ i.txt }}
+		</BDropdownItem>
+	</BDropdown>
+
+	<!--div-- class="btn-group">
 		<button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 			<i class="fa-solid fa-filter mr-2"></i>{{ data[choice - 1].txt }}
 		</button>
@@ -53,7 +70,7 @@ onMounted(() => {
 				></i> {{ i.txt }}
 			</button>
 		</div>
-	</div>
+	</!--div-->
 </template>
 
 <style scoped>

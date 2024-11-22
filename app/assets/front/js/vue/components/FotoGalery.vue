@@ -9,14 +9,15 @@
  * @link http://petak23.echo-msz.eu
  * @version 1.2.0
  */
-import { ref } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import MainService from '../services/MainService.js'
 import ProductsProperties from '../components/ProductsProperties/ProductsProperties.vue'
-import FotoFilter from './Fotogalery/FotoFilter.vue' // v3
+import FotoFilter from './Fotogalery/FotoFilter.vue'
 import Session from '../plugins/session.js'
-import { useMainStore } from '../../store/main.js'
+import { useMainStore } from '../store/main.js'
 const store = useMainStore()
 
+import { BModal, BImg } from 'bootstrap-vue-next'
 
 // https://swiperjs.com/vue
 // import Swiper core and required modules
@@ -33,19 +34,16 @@ const props = defineProps({
 		type: String,
 		default: "0",
 	},
-	large: {
-		type: String,
-		default: "",
-	},
-	filesPath: { // Adresár k súborom bez basePath
-		type: String,
-		default: "",
-	},
+	large: {	// TODO zisti potrebnosť...
+		type: Boolean,
+		default: false,
+	}
 })
 
 const id = ref(0)
 const square = ref(0)
 const wid = ref(0)
+const imgDetail = ref(null)
 const uroven = ref(0) // Premenná sleduje uroveň zobrazenia
 //article = ref({})
 const attachments = ref([{ // Musí byť nejaký nultý objekt inak je chyba...
@@ -62,22 +60,20 @@ const liked = ref(false)
 const in_basket = ref(false)
 const filter_choice = ref(1) // 1: všetky, 2: Len na sklade
 
+const viewModalFoto1 = ref(false)
+const viewModalFoto2 = ref(false)
+
 const emit = defineEmits(["basket-insert"])
 
 // Zmena id
-const changebig = (id) => {
-	id.value = id
+const changebig = (idc) => {
+	id.value = idc
 	my_liked()
 	my_in_basket()
 }
-const modalchangebig = (id) => {
-	id.value = id;
-	// TODO bvModal
-	//this.$bvModal.show("modal-multi-1")
-}
-const openmodal2 = () => {
-	// TODO bvModal
-	//if (wid.value > 0) this.$bvModal.show("modal-multi-2")
+const modalchangebig = (idm) => {
+	id.value = idm
+	viewModalFoto1.value = true
 }
 const swipe = (direction) => {
 	//console.log(direction)
@@ -99,19 +95,16 @@ const after = () => {
 	my_liked()
 	my_in_basket()
 }
-const closeme = (no) => {
-	// TODO bvModal
-	//this.$bvModal.hide("modal-multi-" + no);
-}
 const matchHeight = () => {
-	// TODO $refs...
-	let height = this.$refs.imgDetail.clientHeight;
-	let width = this.$refs.imgDetail.clientWidth;
-	let height2 = parseInt(window.innerHeight * 0.8);
-	let h = height2 > height ? height2 : height;
-	//console.log(h, width)
-	square.value = (h > width ? width-20 : h);
-	wid.value = width;
+	if (imgDetail.value) {
+		const height = imgDetail.value.clientHeight;
+		const width = imgDetail.value.clientWidth;
+		const height2 = parseInt(window.innerHeight * 0.8);
+		const h = height2 > height ? height2 : height;
+
+		square.value = h > width ? width - 20 : h;
+		wid.value = width;
+	}
 }
 const urovenUp = () => { // Funkcia pre zmenu úrovne o +1 na max. 2
 	uroven.value += uroven.value < 2 ? 1 : 0
@@ -133,8 +126,7 @@ const keyPush = (event) => {
 }
 // Generovanie url pre lazyloading obrázky
 const getImageUrl = (text) => {
-	// TODO filesDir -> store
-	return this.filesDir + text
+	return store.baseUrl + '/' + text
 }
 const border_compute = (border) => {
 	let pom = border != null && border.length > 2 ? border.split("|") : ['', '0'];
@@ -144,8 +136,8 @@ const getAttachments = async () => {
 	await MainService.getFotogalery(store.main_menu_active, filter_choice.value)
 		.then(response => {
 			attachments.value = response.data
-			if (parseInt(first_id.value) > 0) { // Ak mám first_id tak k nemu nájdem položku v attachments
-				getFirstId(parseInt(first_id.value))
+			if (parseInt(props.first_id) > 0) { // Ak mám first_id tak k nemu nájdem položku v attachments
+				getFirstId(parseInt(props.first_id))
 				my_liked()
 				my_in_basket()
 				if (wid.value == 0) {
@@ -164,30 +156,39 @@ const getFirstId = (idf) => {
 		}
 	})
 }
-const productsLikeUpdate = () => {
-	state.productsLikeItem = []
+/*const productsLikeUpdate = () => {
+	store.productsLikeItem = []
 	for (const [key, value] of Object.entries(Session.allStorage())) {
 		if (key.startsWith("like")) {
-			state.productsLikeItem.push(JSON.parse(value))
+			store.productsLikeItem.push(JSON.parse(value))
 		}
 	}
-}
+}*/
 const saveLiked = () => {
-	let item = attachments.value[this.id]
-	if (!Session.has('like-' + item.id)) {
-		Session.saveStorage('like-' + item.id, {
-			id_product: item.id,
-			id_article: this.$store.state.article.id_hlavne_menu,
-			source: item.main_file,
-			name: item.name,
-		})
-	} else {
-		Session.clearStorage('like-' + item.id)
-	}
-	productsLikeUpdate()
+	const item = attachments.value[id.value]
+
+	// Ak je v poli položka s id_propdukt == item.id tak ju vylúč
+	store.productsLikeItem = store.productsLikeItem.map((likeItem) => {
+		if (likeItem.id_product !== item.id) {
+			return likeItem
+		}
+	})
+
+	store.productsLikeItem.push({
+		id_product: item.id,
+		id_article: store.article.id_hlavne_menu,
+		source: item.main_file,
+		name: item.name,
+	})
+
+	Session.clearStorage('like-items')
+	Session.saveStorage('like-items', store.productsLikeItem)
+	
+	//productsLikeUpdate()
 }
 const my_liked = () => {
-	attachments.value[id.value].liked = Session.has('like-' + attachments.value[id.value].id)
+	const result = store.productsLikeItem.find(({ id_product }) => id_product == attachments.value[id.value].id)
+	attachments.value[id.value].liked = result == undefined
 	liked.value = attachments.value[id.value].liked
 }
 const basketInsert = () => {
@@ -202,82 +203,69 @@ const my_in_basket = () => {
 	attachments.value[id.value].in_basket = Session.has('basket-item-' + attachments.value[id.value].id)
 	in_basket.value = attachments.value[id.value].in_basket
 }
-const filterChange(choice) {
+const filterChange = (choice) => {
 	filter_choice.value = choice
 	getAttachments()
 }
 
-export default {
-	created() {
-		window.addEventListener("resize", this.matchHeight);
-	},
-	destroyed() {
-		window.removeEventListener("resize", this.matchHeight);
-	},
-	computed: {
-		large_thumbs() {
-			return this.large == "large"
-		},
-		border_a() {
-			return this.border_compute(this.$store.state.article.border_a)
-		},
-		border_b() {
-			return this.border_compute(this.$store.state.article.border_b)
-		},
-		border_c() {
-			return this.border_compute(this.$store.state.article.border_c)
-		},
-		filesDir() {
-			return document.getElementById('vueapp').dataset.baseUrl + '/' + this.filesPath
-		},
-		aa() {
-			return typeof this.attachments[this.id] !== 'undefined' ? this.attachments[this.id] : null
-		},
-		button_basket_title() {
-			let t = this.in_basket ? 'Produkt už je v košíku.' : 'Vlož do košíka.'
-			return this.aa != null && this.aa.id_products_status > 1 ? this.aa.products_status : t
-		},
-		button_basket_class() {
-			let t = this.in_basket ? 'btn-outline-secondary disabled' : 'btn-success'
-			return this.aa != null && this.aa.id_products_status > 1 ? 'btn-outline-secondary disabled' : t
-		},
-		button_basket_disabled() {
-			return this.aa != null && this.aa.id_products_status > 1 ? true : this.in_basket
-		}
-	},
-	watch: {
-		'$store.state.main_menu_active': function () {
-			this.getAttachments()
-		},
-		'$store.state.productsLikeItem': function () {
-			this.my_liked()
-		}
-	},
-	mounted () {
-		/* Naviazanie na sledovanie zmeny veľkosti stránky */
-		this.matchHeight();
+const border_a = computed(() => {
+	return border_compute(store.article.border_a)
+})
+const border_b = computed(() => {
+	return border_compute(store.article.border_b)
+})
+const border_c = computed(() => {
+	return border_compute(store.article.border_c)
+})
+const filesDir = computed(() => {
+	return store.baseUrl + '/'
+})
+const aa = computed(() => {
+	return typeof attachments.value[id.value] !== 'undefined' ? attachments.value[id.value] : null
+})
+const button_basket_title = computed(() => {
+	let t = in_basket.value ? 'Produkt už je v košíku.' : 'Vlož do košíka.'
+	return aa != null && aa.id_products_status > 1 ? aa.products_status : t 
+})
+const button_basket_class = computed(() => {
+	let t = in_basket.value ? 'btn-outline-secondary disabled' : 'btn-success'
+	return aa != null && aa.id_products_status > 1 ? 'btn-outline-secondary disabled' : t
+})
+const button_basket_disabled = computed(() => {
+	return aa != null && aa.id_products_status > 1 ? true : in_basket.value
+})
 
-		/* Naviazanie na sledovanie stláčania klávesnice */
-		document.addEventListener("keydown", this.keyPush);
+watch(() => store.main_menu_active, () => {
+	getAttachments()
+})
+watch(() => store.productsLikeItem, () => {
+	my_liked()
+})
 
-		/* Naviazanie funkcií na $emit na root elemente pre zobrazenie/skrytie modálneho okna fotogalérie 
-		 * najdené na: https://stackoverflow.com/questions/50181858/this-root-emit-not-working-in-vue */
-		this.$root.$on("bv::modal::shown", this.urovenUp);
-		this.$root.$on("bv::modal::hidden", this.urovenDwn);
+onMounted(() => {
+	// Dynamické správanie pri zmene veľkosti okna
+	matchHeight();
+  window.addEventListener("resize", matchHeight); 
 
-		this.$root.$on("basket-update", this.my_in_basket)
+	/* Naviazanie na sledovanie stláčania klávesnice */
+	document.addEventListener("keydown", keyPush);
 
-		this.$root.$on("product_update_props", this.getAttachments)
+	// TODO $root.$on ...
+	/*this.$root.$on("basket-update", my_in_basket)
 
-		this.getAttachments()
-	},
+	this.$root.$on("product_update_props", getAttachments)*/
 
-};
+	getAttachments()
+})
+
+onUnmounted(() => {
+	window.removeEventListener("resize", matchHeight);
+})
 </script>
 
 <template>
 	<section id="webThumbnails" class="row">
-		<div class="col-12 vue-fotogalery main-win" v-if="attachments.length > 0 && filesDir != null">
+		<div class="col-12 vue-fotogalery main-win" v-if="attachments.length > 0 && filesDir != ''">
 			<div class="row" v-if="wid > 0">
 				<h4 class="col-8 d-flex justify-content-between mb-0">
 					{{ attachments[id].name }}
@@ -311,16 +299,13 @@ export default {
 					</div>
 				</h4>
 				<div class="col-4 d-flex justify-content-end">
-					<foto-filter 
-						@filter-change="filterChange($event)"
-					/>
+					<foto-filter @filter-change="filterChange" />
 				</div>
 			</div>
 			<div class="row">
 				<div class="d-none d-sm-flex justify-content-center col-sm-8 detail" ref="imgDetail" id="imgDetail"
-						v-if="large_thumbs == false">
-					<div id="squarePlace" 
-							v-bind:style="{height: square + 'px', width: square + 'px'}">
+						v-if="props.large == false">
+					<div id="squarePlace" v-bind:style="{height: square + 'px', width: square + 'px'}">
 						<a  v-if="attachments[id].type == 'menu'"
 								:href="attachments[id].web_name" 
 								:title="attachments[id].name">
@@ -345,7 +330,7 @@ export default {
 							<br><h6>{{ attachments[id].name }}</h6>
 						</a>  
 						<button v-else-if="attachments[id].type == 'attachments2' || attachments[id].type == 'product'"
-										v-b-modal.modal-multi-1
+										@click="viewModalFoto1 = true"
 										type="button" class="btn btn-link">
 							<img :src="filesDir + attachments[id].main_file" 
 									:alt="attachments[id].name" class="img-fluid">
@@ -353,25 +338,25 @@ export default {
 					</div>
 				</div>
 				<div class="col-12 thumbgrid" 
-						:class="{'thumbs-large': large_thumbs, 'col-sm-4': !large_thumbs}">
+						:class="{'thumbs-large': props.large, 'col-sm-4': !props.large}">
 					<div v-for="(im, index) in attachments" :key="im.id">
 						<a  v-if="wid > 0" 
 								@click.prevent="changebig(index)" href=""
 								:title="'Odkaz' + (im.type == 'menu' ? im.view_name : im.name)"
 								class="pok thumb-a ajax" 
 								:class="index == id ? 'selected' : ''">
-							<b-img-lazy
+							<BImg
 								:src="getImageUrl(im.thumb_file)"
-								:alt="im.name" class="img-fluid">
-							></b-img-lazy>
+								:alt="im.name" class="img-fluid"
+								lazy />
 						</a>
 						<a  v-else-if="wid == 0 && im.type == 'menu'" 
 								:href="im.web_name" 
 								:title="im.name">
-							<b-img-lazy
+							<BImg
 								:src="getImageUrl(im.main_file)"
-								:alt="im.name" class="img-fluid podclanok">
-							></b-img-lazy>
+								:alt="im.name" class="img-fluid podclanok"
+								lazy />
 							<h4 class="h4-podclanok">{{ im.name }}</h4>
 						</a>
 						<video v-if="wid == 0 && im.type == 'attachments3'"
@@ -382,11 +367,11 @@ export default {
 						</video>
 						<button v-else-if="wid == 0 && im.type == 'attachments1'" 
 										:title="im.name">
-							<b-img-lazy
+							<BImg
 								:src="getImageUrl(im.thumb_file)" 
-								:alt="im.name" 
-								class="img-fluid a3">
-							></b-img-lazy>
+								:alt="im.name"
+								lazy
+								class="img-fluid a3"/>
 							<br><h6>{{ im.name }}</h6>
 						</button>
 						<button v-else-if="wid == 0 && (im.type == 'attachments2' || im.type == 'product')"
@@ -395,11 +380,11 @@ export default {
 										class="btn btn-link"
 										:class="index == id ? 'selected' : ''"
 						>
-							<b-img-lazy
+							<BImg
 								:src="getImageUrl(im.thumb_file)" 
 								:alt="im.name" 
-								class="img-fluid a12">
-							></b-img-lazy>
+								lazy
+								class="img-fluid a12"/>
 						</button>
 					</div>
 				</div>
@@ -411,11 +396,16 @@ export default {
 				</div>
 			</div>
 
-			<b-modal  id="modal-multi-1" centered size="xl" 
-								ok-only
-								modal-class="lightbox-img"
-								ref="modal1fo">
-				<template #modal-header>
+			<BModal  
+				id="modal-multi-1" 
+				ref="modal1fo"
+				centered 
+				size="xl" 
+				ok-only
+				modal-class="lightbox-img"
+				v-model="viewModalFoto1"
+			>
+				<template #header>
 					<h5 class="modal-title">{{ attachments[id].name}}</h5>
 					<button 
 							v-if="attachments[id].type == 'product'"
@@ -432,7 +422,7 @@ export default {
 					<button 
 						type="button" aria-label="Close" 
 						class="btn btn-outline-warning mr-5"
-						@click="closeme(1)"
+						@click="viewModalFoto1 = false"
 					>
 						<i class="fa-solid fa-xmark"></i>
 					</button>
@@ -456,7 +446,7 @@ export default {
 						<div class="arrows-l"
 								@click="before">
 							<a href="#" class="text-light"   
-									:title="$store.state.texts.galery_arrows_before">&#10094;
+									:title="store.texts.galery_arrows_before">&#10094;
 							</a>
 						</div>
 						<div class="go-to-hight"
@@ -466,21 +456,24 @@ export default {
 									up: () => swipe('Up'),
 									down: () => swipe('Down')
 								}"
-								@click="openmodal2">
+								@click="viewModalFoto2 = true">
 						</div>
 						<div class="arrows-r flex-row-reverse"
 								@click="after">
 							<a href="#" class="text-light"
-									:title="$store.state.texts.galery_arrows_after">&#10095;
+									:title="store.texts.galery_arrows_after">&#10095;
 							</a>
 						</div>
 					</div>
 				</div>
-			</b-modal>
+			</BModal>
 
-			<b-modal id="modal-multi-2" centered size="xl" ok-only >
-				<img :src="filesDir + attachments[id].main_file" :alt="attachments[id].name" @click="closeme(2)">
-			</b-modal>
+			<BModal id="modal-multi-2" centered size="xl" ok-only v-model="viewModalFoto2">
+				<img 
+					:src="filesDir + attachments[id].main_file" 
+					:alt="attachments[id].name" @click="viewModalFoto2 = false"
+				>
+			</BModal>
 		</div>
 	</section>
 </template>
