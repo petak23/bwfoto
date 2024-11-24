@@ -41,7 +41,7 @@ export const useMainStore = defineStore('main', () => {
 
 	const udaje_webu = ref([])
 
-	const productsLikeItem = ref(null)
+	const productsLikeItem = ref([])
 
 	function push_main_menu_open (push_id) {
 		main_menu_open.value.push(push_id)

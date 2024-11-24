@@ -166,14 +166,15 @@ const getFirstId = (idf) => {
 }*/
 const saveLiked = () => {
 	const item = attachments.value[id.value]
-
+	
 	// Ak je v poli položka s id_propdukt == item.id tak ju vylúč
 	store.productsLikeItem = store.productsLikeItem.map((likeItem) => {
 		if (likeItem.id_product !== item.id) {
 			return likeItem
 		}
 	})
-
+	
+	// Pridaj novú položku
 	store.productsLikeItem.push({
 		id_product: item.id,
 		id_article: store.article.id_hlavne_menu,
