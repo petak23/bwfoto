@@ -7,13 +7,13 @@ use Nette;
 /**
  * Model starajuci sa o tabulku hlavne_menu_lang
  * 
- * Posledna zmena 11.03.2024
+ * Posledna zmena 25.11.2024
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.2.2
+ * @version    1.2.3
  */
 class Hlavne_menu_lang extends Table
 {
@@ -27,19 +27,15 @@ class Hlavne_menu_lang extends Table
 	/** @var string */
 	private $avatar_path;
 
-	private $www_dir;
-
 	/** @var Nette\Database\Table\Selection */
 	protected $hlavne_menu;
 
 	public function __construct(
 		string $dir_to_slider,
-		string $www_dir,
 		Nette\Database\Explorer $db
 	) {
 		parent::__construct($db);
 		$this->avatar_path = $dir_to_slider;
-		$this->www_dir = $www_dir;
 		$this->hlavne_menu = $this->connection->table("hlavne_menu");
 	}
 
@@ -181,6 +177,7 @@ class Hlavne_menu_lang extends Table
 				$out['id_user_main'] = $tmp_article->hlavne_menu->id_user_main;
 				$out['avatar'] = isset($tmp_article->hlavne_menu->avatar) && is_file($this->avatar_path . $tmp_article->hlavne_menu->avatar) ? $this->avatar_path . $tmp_article->hlavne_menu->avatar : null;
 				$out['template'] = $tmp_article->hlavne_menu->id_hlavne_menu_template;
+				$out['url_name'] = $tmp_article->hlavne_menu->spec_nazov;
 				return $out;
 			} else {
 				throw new ArticleMainMenuException("Missing permissions", self::MISSING_PERMISSIONS);

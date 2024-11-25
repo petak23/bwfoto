@@ -41,8 +41,6 @@ export const useMainStore = defineStore('main', () => {
 
 	const udaje_webu = ref([])
 
-	const productsLikeItem = ref([])
-
 	function push_main_menu_open (push_id) {
 		main_menu_open.value.push(push_id)
   }
@@ -133,7 +131,6 @@ export const useMainStore = defineStore('main', () => {
 		baseUrl, apiPath, appName, minYear, user, user_permission,
 		main_menu, main_menu_open, main_menu_active, main_menu_loadet, main_menu_changed, sub_menu,
 		article, texts, texts_to_load, texts_loadet, udaje_webu,
-		productsLikeItem,
 		push_main_menu_open, changeMainMenu, searchMenuSpecNazov, getSubmenu,
 		checkUserPermission, getActualUser
 	}

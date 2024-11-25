@@ -1,13 +1,13 @@
 <script setup>
 /** 
  * Component Fotogalery
- * Posledná zmena(last change): 21.11.2024
+ * Posledná zmena(last change): 25.11.2024
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.2.0
+ * @version 1.2.1
  */
 import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import MainService from '../services/MainService.js'
@@ -31,8 +31,8 @@ import 'swiper/css';
 
 const props = defineProps({
 	first_id: { // Ak je nastavené tak sa zobrazí obrázok ako prvý
-		type: String,
-		default: "0",
+		type: Number,
+		default: 0,
 	},
 	large: {	// TODO zisti potrebnosť...
 		type: Boolean,
@@ -136,8 +136,8 @@ const getAttachments = async () => {
 	await MainService.getFotogalery(store.main_menu_active, filter_choice.value)
 		.then(response => {
 			attachments.value = response.data
-			if (parseInt(props.first_id) > 0) { // Ak mám first_id tak k nemu nájdem položku v attachments
-				getFirstId(parseInt(props.first_id))
+			if (props.first_id > 0) { // Ak mám first_id tak k nemu nájdem položku v attachments
+				getFirstId(props.first_id)
 				my_liked()
 				my_in_basket()
 				if (wid.value == 0) {
@@ -156,42 +156,39 @@ const getFirstId = (idf) => {
 		}
 	})
 }
-/*const productsLikeUpdate = () => {
-	store.productsLikeItem = []
-	for (const [key, value] of Object.entries(Session.allStorage())) {
-		if (key.startsWith("like")) {
-			store.productsLikeItem.push(JSON.parse(value))
-		}
-	}
-}*/
+
+// ------- ProdustLike -------------------------
+
+import { useProductLikeStore } from '../store/productLike.js'
+const storePL = useProductLikeStore()
+
 const saveLiked = () => {
 	const item = attachments.value[id.value]
-	
-	// Ak je v poli položka s id_propdukt == item.id tak ju vylúč
-	store.productsLikeItem = store.productsLikeItem.map((likeItem) => {
-		if (likeItem.id_product !== item.id) {
-			return likeItem
-		}
-	})
-	
-	// Pridaj novú položku
-	store.productsLikeItem.push({
-		id_product: item.id,
-		id_article: store.article.id_hlavne_menu,
-		source: item.main_file,
-		name: item.name,
-	})
-
-	Session.clearStorage('like-items')
-	Session.saveStorage('like-items', store.productsLikeItem)
-	
-	//productsLikeUpdate()
+	if (liked.value) {
+		storePL.delOne(item.id)
+	} else {
+		storePL.saveLiked({
+			id_product: item.id,
+			id_article: store.article.id_hlavne_menu,
+			source: item.main_file,
+			name: item.name,
+			url_name: store.article.url_name, 
+		})
+	}
 }
+
 const my_liked = () => {
-	const result = store.productsLikeItem.find(({ id_product }) => id_product == attachments.value[id.value].id)
-	attachments.value[id.value].liked = result == undefined
+	const result = storePL.productsLikeItem.find(({ id_product }) => id_product == attachments.value[id.value].id)
+	attachments.value[id.value].liked = (result != undefined)
 	liked.value = attachments.value[id.value].liked
 }
+
+watch(() => storePL.productsLikeItem, () => {
+	my_liked()
+})
+
+// ------- ProdustLike ------------------------- end
+
 const basketInsert = () => {
 	let item = attachments.value[id.value]
 	emit("basket-insert", [{
@@ -239,9 +236,15 @@ const button_basket_disabled = computed(() => {
 watch(() => store.main_menu_active, () => {
 	getAttachments()
 })
-watch(() => store.productsLikeItem, () => {
-	my_liked()
+
+watch(() => props.first_id, (newFirstIdValue) => {
+	if (newFirstIdValue > 0) {
+		getFirstId(newFirstIdValue)
+		my_liked()
+		my_in_basket()
+	}
 })
+
 
 onMounted(() => {
 	// Dynamické správanie pri zmene veľkosti okna
@@ -279,7 +282,7 @@ onUnmounted(() => {
 							type="button"
 							class="btn align-right"
 							:class="liked ? 'btn-warning' : 'btn-outline-warning'"
-							@click="saveLiked()"
+							@click="saveLiked"
 							>
 							<i 
 								class="fa-solid"
@@ -408,18 +411,19 @@ onUnmounted(() => {
 			>
 				<template #header>
 					<h5 class="modal-title">{{ attachments[id].name}}</h5>
-					<button 
-							v-if="attachments[id].type == 'product'"
-							type="button"
-							class="btn align-right"
-							:class="liked ? 'btn-success' : 'btn-outline-warning'"				
-							@click="saveLiked()"
-							>
-							<i 
-								class="fa-solid"
-								:class="liked ? 'fa-heart' : 'fa-thumbs-up'"
-							></i>
-						</button>
+					<button
+						v-if="attachments[id].type == 'product'"
+						:title="liked ? 'Produkt je označený ako obľúbený.': 'Označ obľúbený produkt.'"	
+						type="button"
+						class="btn align-right"
+						:class="liked ? 'btn-warning' : 'btn-outline-warning'"
+						@click="saveLiked"
+						>
+						<i 
+							class="fa-solid"
+							:class="liked ? 'fa-heart' : 'fa-thumbs-up'"
+						></i>
+					</button>
 					<button 
 						type="button" aria-label="Close" 
 						class="btn btn-outline-warning mr-5"

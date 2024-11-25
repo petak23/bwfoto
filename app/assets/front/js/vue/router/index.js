@@ -32,7 +32,7 @@ const routes = [
 		props: { viewRegistrationForm: 'resetPassword' }
 	},
 	{ 
-		path: '/clanky/:id',
+		path: '/clanky/:id/:first_id?',
 		component: MainArticleView 
 	},
 	{ 

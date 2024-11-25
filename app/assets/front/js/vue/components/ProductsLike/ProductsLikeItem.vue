@@ -1,22 +1,25 @@
 <script setup>
 /**
  * Komponenta pre vypísanie jedného obľúbeného produktu.
- * Posledna zmena 21.11.2024
+ * Posledna zmena 25.11.2024
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.3
+ * @version    1.0.4
  * 
  */
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import MainService from "../../services/MainService.js";
 import Session from '../../plugins/session.js'
 import { RouterLink } from 'vue-router';
 
 import { useMainStore } from '../../store/main.js'
 const store = useMainStore()
+
+import { useProductLikeStore } from '../../store/productLike.js'
+const storePL = useProductLikeStore()
 
 const props = defineProps({
 	likeItem: {
@@ -42,8 +45,7 @@ const getProductsInfo = () => {
 }
 
 const delMe = () => {
-	Session.clearStorage('like-' + props.likeItem.id_product)
-	emit('product-like-update-items')
+	storePL.delOne(props.likeItem.id_product)	
 }
 
 const basketInsert = () => {
@@ -74,7 +76,7 @@ const button_basket_disabled = computed(() => {
 	return product.value != null && product.value.id_products_status > 1 ? true : in_basket.value
 })
 
-watch(() => likeItem, () => {
+watch(() => props.likeItem, () => {
 	getProductsInfo()
 })
 
@@ -88,8 +90,8 @@ onMounted(() => {
 <template>
 	<div class="row no-gutters pt-2 pl-2">
 		<div class="col-md-4">
-			<RouterLink :to="'/clanky/' + likeItem.id_article + '/?first_id=' + likeItem.id_product">
-				<img :src="store.baseUrl + '/' + likeItem.source" :alt="likeItem.name" class="w-100"> 
+			<RouterLink :to="'/clanky/' + props.likeItem.url_name + '/' + props.likeItem.id_product">
+				<img :src="store.baseUrl + '/' + props.likeItem.source" :alt="props.likeItem.name" class="w-100"> 
 			</RouterLink>
 		</div>
 		<div class="col-md-8">
@@ -97,10 +99,10 @@ onMounted(() => {
 				<div class="col-12 col-md-6">
 					<h5 class="card-title">
 						<RouterLink 
-							:to="'/clanky/' + likeItem.id_article + '/?first_id=' + likeItem.id_product"
+							:to="'/clanky/' + props.likeItem.url_name + '/' + props.likeItem.id_product"
 							class="text-white"
 						>
-							{{ likeItem.name }}
+							{{ props.likeItem.name }}
 						</RouterLink>
 					</h5>
 				</div>
