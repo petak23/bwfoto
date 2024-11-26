@@ -35,7 +35,7 @@ onMounted(() => {
 </script>
 
 <template>
-	<button class="dark-mode-button" @click="toggleDarkMode"
+	<button class="btn dark-mode-button" @click="toggleDarkMode"
 		:class="isDarkMode ? 'btn-light' : 'btn-dark'"
 		:title="isDarkMode ? 'Prepni na svetlý mód.' : 'Prepni na tmavý mód.'">
 		<i class="fa-solid fa-lg" :class="isDarkMode ? 'fa-sun' : 'fa-moon'"></i>
@@ -50,15 +50,5 @@ onMounted(() => {
 	width: 3rem;
 	height: 3rem;
 	border-radius: 50%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	cursor: pointer;
-	color: white;
-	transition: background-color 0.3s;
-}
-
-.dark-mode-button:hover {
-	background-color: #555;
 }
 </style>
