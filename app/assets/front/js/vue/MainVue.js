@@ -1,24 +1,15 @@
 /* 
  * Main Vue.js app file
- * Posledná zmena(last change): 13.02.2024
+ * Posledná zmena(last change): 26.11.2024
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.2.4
+ * @version 1.2.5
  */
 
 /** OLD VUE-2 
-import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
-import MySlider from './components/MySlider.vue';
-
-import MainArticleView from './views/MainArticleView.vue'
-import HomepageView from './views/HomepageView.vue'
-import LogInView from './views/LogInView.vue'
-import ProductsLikeView from './views/ProductsLikeView.vue'
-import BasketView from './views/BasketView.vue'
-
 import EditArticle from '../../../components/EditArticle/EditArticle';
 import FlashMessage from '../../../components/FlashMessages/FlashMessage';
 import BwfotoTreeMain from './components/Menu/BWfoto_Tree_Main.vue'
@@ -28,13 +19,7 @@ import store from "./store/index.js"
 import MainMenuLoad from "./components/Menu/MainMenuLoad.vue"
 import MainMenu from './components/Menu/MainMenu.vue'
 import Breadcrumb from './components/Menu/Breadcrumb.vue'
-import ProductsLike from './components/ProductsLike/ProductsLike.vue'
 import UserMenu from './components/User/UserMenu.vue'
-import ToogleMode from './components/ToggleMode.vue'
-import BfNav from './components/BfNav.vue'
-
-import VueSession from 'vue-session'
-Vue.use(VueSession)
 
 import sk from "./locale/vee-validator/sk.js"
 import VeeValidate, { Validator } from 'vee-validate'
@@ -50,18 +35,9 @@ Vue.use(VeeValidate, {
 // Localize takes the locale object as the second argument (optional) and merges it.
 Validator.localize('sk', sk);
 
-// Make BootstrapVue available throughout your project
-Vue.use(BootstrapVue);
-// Optionally install the BootstrapVue icon components plugin
-Vue.use(IconsPlugin);
 
 Vue.use(VueDndZone);
 
-Vue.use(Vuetify);
-
-import VueRouter from 'vue-router'
-
-Vue.use(VueRouter)
 
 let vm = new Vue({
 	el: '#vueapp',

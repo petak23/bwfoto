@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted, watch, computed } from 'vue'
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterView } from 'vue-router'
 
 import MySettings from './components/MySettings.vue'	//v3
 import MainMenuLoad from './components/Menu/MainMenuLoad.vue'	//v3
@@ -13,6 +13,7 @@ import EchoBreadcrumb from './components/Menu/EchoBreadcrumb.vue'
 import SingleMenu from './components/Menu/SingleMenu.vue'
 import UserMenu from './components/User/UserMenu.vue'
 import ShowNews from './components/ShowNews.vue'*/
+import DarkModeButton from "./components/DarkModeButton.vue"
 import FlashMessage from '../../../components/FlashMessages/FlashMessage.vue'
 
 import { useRoute } from 'vue-router'
@@ -26,11 +27,11 @@ const storeF = useFlashStore()
 
 const id_hlavne_menu_lang = ref(0)
 const flashes = ref("")
-const isDarkMode = ref(false)
+//const isDarkMode = ref(false)
 const sliderImage = ref("")
 const isCinzel = ref(false)
 
-const handleDarkModeChange = (isAutomatic = false) => {
+/*const handleDarkModeChange = (isAutomatic = false) => {
 	// Zmeňte CSS triedy na body elemente podľa hodnoty isDarkMode
 	if (isDarkMode.value) {
 		document.body.classList.add("dark-mode");
@@ -52,7 +53,7 @@ const handleDarkModeChange = (isAutomatic = false) => {
 			isDarkMode.value = false;
 		}
 	}
-}
+}*/
 
 watch(() => route.params.id, (newId) => {
 	if (store.main_menu.length) {
@@ -71,7 +72,7 @@ onMounted(() => {
 		})
 	}
 	// Načítanie aktuálneho režimu podľa času pri načítaní stránky
-	handleDarkModeChange(true);
+	//handleDarkModeChange(true);
 })
 
 const sliderFilesPath = computed(() => {
@@ -123,7 +124,7 @@ const setSliderImage = (si) => {
 			
 			<bf-footer />
 		</div>
-		<toogle-mode @darkModeChanged="handleDarkModeChange"></toogle-mode>
+		<dark-mode-button />
 	</div>
 </template>
 

@@ -65,7 +65,7 @@ onMounted(() => {
 .liked {
   font-size: 0.9rem;
 	position: fixed;
-	left: 4rem;
+	left: 5rem;
 	bottom: 1rem;
   max-width: 50vw;
   z-index: 2000;
