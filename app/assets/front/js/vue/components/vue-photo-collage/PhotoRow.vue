@@ -1,20 +1,18 @@
-<script>
+<script setup>
 /** 
- * @lastchange 02.03.2023
+ * @lastchange 27.11.2024
  *
  * @editedby Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @version 1.0.2
+ * @version 1.0.3
  */
-export default {
-  props: {
-    rowHeight: Number,
-    rowPadding: Number,
-  },
-};
+const props = defineProps({
+  rowHeight: Number,
+  rowPadding: Number,
+})
 </script>
 
 <template>
-  <div class="vue-photo-row" :style="{ height: rowHeight+'px', 'padding-bottom': rowPadding+'px' }">
+  <div class="vue-photo-row" :style="{ height: props.rowHeight+'px', 'padding-bottom': props.rowPadding+'px' }">
     <slot></slot>
   </div>
 </template>

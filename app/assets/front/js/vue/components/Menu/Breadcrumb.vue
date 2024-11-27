@@ -1,75 +1,70 @@
-<script>
+<script setup>
 /**
  * Komponenta pre navigáciu "odrobinky".
- * Posledna zmena 27.02.2023
+ * Posledna zmena 27.11.2024
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.2
+ * @version    1.0.3
  */
+import { ref, onMounted } from 'vue'
+import { BBreadcrumb, BBreadcrumbItem, BDropdown, BDropdownItem }	from 'bootstrap-vue-next'
+import { useMainStore } from '../../store/main'
+const store = useMainStore()
 
-export default {
-	components: {},
-	props: {
-		homepage: {
-			type: String,
-			required: true,
-		}
-	},
-	data: () => ({
-		submenu: [],
-	}),
-	methods: {
-		/**
-		 * @param {array} items main_menu items
-		 * @param {array} mmo main_menu_open 
-		 * @param {int} level 
-		 */
-		getItem(items, mmo, level) {
-			let self = this
-			items.map(function (i) {
-				if (i.id == mmo[level]) {
-					self.submenu.push(i)
-					if (typeof (i.children) != undefined && level < (mmo.length - 1)) {
-						level++
-						self.getItem(i.children, mmo, level)
-						level--
-					}
-				}
-			})
-		},
-		getBreadcrumb() {
-			this.submenu = []
-			this.getItem(this.$store.state.main_menu, this.$store.state.main_menu_open, 0)
-			//console.log(this.submenu)
-		},
-	},
-	created() {
-		// Reaguje na načítanie hl. menu
-		this.$root.$on('main-menu-loadet', data => {
-			if (parseInt(this.$store.state.main_menu_active) != 0) {
-				this.getBreadcrumb()
+const submenu = ref([])
+
+/**
+ * @param {array} items main_menu items
+ * @param {array} mmo main_menu_open 
+ * @param {int} level 
+ */
+const getItem = (items, mmo, level) => {
+	items.map((i) => {
+		if (i.id == mmo[level]) {
+			submenu.value.push(i)
+			if (i.children != undefined && level < (mmo.length - 1)) {
+				level++
+				getItem(i.children, mmo, level)
+				level--
 			}
-		})
-	}
+		}
+	})
 }
+
+const getBreadcrumb = () => {
+	submenu.value = []
+	getItem(store.main_menu, store.main_menu_open, 0)
+}
+
+watch(() => store.main_menu_loadet, () => { // Sleduje, či došlo k zmene hl. menu
+	if (parseInt(store.main_menu_active) != 0) {
+		getBreadcrumb()
+	}
+})
+
+onMounted(() => {
+	if (parseInt(store.main_menu_active) != 0) {
+		getBreadcrumb()
+	}
+})
 </script>
 
 <template>
 	<div class="row">
-		<b-breadcrumb 
+		<BBreadcrumb 
 			v-if="submenu !== null && submenu.length > 1"
 			class="col breadcrumb-main"
 		>
-			<b-breadcrumb-item
+			<BBreadcrumbItem
 				v-for="(ia, index) in submenu"
 				:key="index"
-				:href="ia.link"
+				:to="ia.vue_link"
 				:active="index == (submenu.length - 1)"
 			>
-				<b-dropdown 
+				<BDropdown 
 					v-if="typeof (ia.children) !== 'undefined' && ia.children.length && index != (submenu.length - 1)"
 					split
 					size="sm"
@@ -79,17 +74,17 @@ export default {
 					:split-href="index != (submenu.length - 1) ? ia.link : null"
 					class="m-0"
 				> 
-					<b-dropdown-item 
+					<BDropdownItem 
 						v-for="dit in ia.children"
 						:key="dit.id"
-						:href="dit.link"
+						:to="dit.vue_link"
 					>
 						{{ dit.name }}
-					</b-dropdown-item>
-				</b-dropdown>
+					</BDropdownItem>
+				</BDropdown>
 				<span v-else>{{ ia.name }}</span>
-			</b-breadcrumb-item>
-		</b-breadcrumb>
+			</BBreadcrumbItem>
+		</BBreadcrumb>
 	</div>
 
 </template>

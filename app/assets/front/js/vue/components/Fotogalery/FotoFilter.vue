@@ -43,6 +43,7 @@ onMounted(() => {
 		</template>
 		<BDropdownItem 
 			v-for="i in data"
+			:key="i.id"
 			@click="change(i.id)"
 		>
 			<i 

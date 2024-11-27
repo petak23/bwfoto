@@ -7,14 +7,13 @@ import MainMenuLoad from './components/Menu/MainMenuLoad.vue'	//v3
 import BfFooter from './components/BfFooter.vue' //v3
 import MySlider from './components/MySlider.vue' //v3
 import BfNav from './components/BfNav.vue'	//v3
-import ProductsLike from './components/ProductsLike/ProductsLike.vue'
-/*import EchoFixedMain from './components/Menu/EchoFixedMain.vue'
-import EchoBreadcrumb from './components/Menu/EchoBreadcrumb.vue'
-import SingleMenu from './components/Menu/SingleMenu.vue'
+import ProductsLike from './components/ProductsLike/ProductsLike.vue' //v3
+import Breadcrumb from './components/Menu/Breadcrumb.vue' //v3
+/*
 import UserMenu from './components/User/UserMenu.vue'
 import ShowNews from './components/ShowNews.vue'*/
-import DarkModeButton from "./components/DarkModeButton.vue"
-import FlashMessage from '../../../components/FlashMessages/FlashMessage.vue'
+import DarkModeButton from "./components/DarkModeButton.vue" //v3
+import FlashMessage from '../../../components/FlashMessages/FlashMessage.vue' //v3
 
 import { useRoute } from 'vue-router'
 const route = useRoute()
@@ -27,33 +26,8 @@ const storeF = useFlashStore()
 
 const id_hlavne_menu_lang = ref(0)
 const flashes = ref("")
-//const isDarkMode = ref(false)
 const sliderImage = ref("")
 const isCinzel = ref(false)
-
-/*const handleDarkModeChange = (isAutomatic = false) => {
-	// Zmeňte CSS triedy na body elemente podľa hodnoty isDarkMode
-	if (isDarkMode.value) {
-		document.body.classList.add("dark-mode");
-		document.body.classList.remove("light-mode");
-		isDarkMode.value = true;
-	} else {
-		document.body.classList.add("light-mode");
-		document.body.classList.remove("dark-mode");
-		isDarkMode.value = false;
-	}
-	
-	// Umožnite automatickú zmenu podľa času
-	if (isAutomatic) {
-		const currentTime = new Date().getHours();
-		const isNightTime = currentTime < 6 || currentTime >= 18; // Predpokladáme, že noc je od 18:00 do 6:00
-		if (isNightTime) {
-			isDarkMode.value = true;
-		} else {
-			isDarkMode.value = false;
-		}
-	}
-}*/
 
 watch(() => route.params.id, (newId) => {
 	if (store.main_menu.length) {
@@ -71,8 +45,6 @@ onMounted(() => {
 			storeF.showMessage(fl.message, fl.type, null, 60000)
 		})
 	}
-	// Načítanie aktuálneho režimu podľa času pri načítaní stránky
-	//handleDarkModeChange(true);
 })
 
 const sliderFilesPath = computed(() => {
@@ -109,9 +81,7 @@ const setSliderImage = (si) => {
 					v-text="isCinzel ? 'Monserat' : 'Cinzel'"
 					class="btn btn-sm btn-outline-secondary ms-2"
 				></button>
-				<breadcrumb
-					homepage="{plink 'Homepage:'}"
-				></breadcrumb>
+				<breadcrumb />
 				<flash-message
 					flash-messages="{($flashes|to_json)}"
 				/>

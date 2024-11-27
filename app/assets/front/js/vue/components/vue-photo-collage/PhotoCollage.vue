@@ -1,3 +1,29 @@
+<script setup>
+import { computed } from "vue"
+import RowPhotos from "./RowPhotos.vue" //v3
+
+const props = defineProps({
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
+  width: String,
+  height: Array,
+  padding: Array,
+  layout: Array,
+  layoutPhotoMaps: Object,
+  layoutNum: Number,
+  remainingNum: Number,
+  showNumOfRemainingPhotos: Boolean,
+  maxRandomPercWidth: Number,
+  widerPhotoId: Array,
+})
+
+const photoCollageStyle = computed(() => {
+  return { width: props.width }
+})
+</script>
+
 <template>
   <div
     class="vue-photo-collage"
@@ -18,39 +44,6 @@
     ></row-photos>
   </div>
 </template>
-
-<script>
-import RowPhotos from "./RowPhotos.vue";
-
-export default {
-  components: {
-    RowPhotos,
-  },
-  props: {
-    disabled: {
-      type: Boolean,
-      default: false,
-    },
-    width: String,
-    height: Array,
-    padding: Array,
-    layout: Array,
-    layoutPhotoMaps: Object,
-    layoutNum: Number,
-    remainingNum: Number,
-    showNumOfRemainingPhotos: Boolean,
-    maxRandomPercWidth: Number,
-    widerPhotoId: Array,
-  },
-  computed: {
-    photoCollageStyle() {
-      return {
-        width: this.width,
-      };
-    },
-  },
-};
-</script>
 
 <style lang="scss">
 .vue-photo-collage {

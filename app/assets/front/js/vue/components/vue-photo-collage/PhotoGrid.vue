@@ -1,24 +1,23 @@
-<script>
+<script setup>
 /** 
- * @lastchange 30.03.2022
+ * @lastchange 27.11.2024
  *
  * @editedby Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @version 1.0.1
+ * @version 1.0.2
  */
-export default {
-  props: {
-    photostyle: Object,
-  },
-  computed: {
-    thumbStyle() {
-      let style = {};
-      if (typeof this.photostyle.width !== 'undefined') {
-        style.width = this.photostyle.width + '%';
-      }
-      return style;
-    }
+import { computed } from "vue"
+
+const props = defineProps({
+  photostyle: Object,
+})
+
+const thumbStyle = computed(() => {
+  let style = {};
+  if (typeof props.photostyle.width !== 'undefined') {
+    style.width = props.photostyle.width + '%';
   }
-}
+  return style; 
+})
 </script>
 
 <template>
@@ -27,7 +26,6 @@ export default {
     @click="$emit('click')"
     :style="thumbStyle"
   >
-
     <slot></slot>
   </div>
 </template>

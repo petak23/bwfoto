@@ -106,12 +106,12 @@ const matchHeight = () => {
 		wid.value = width;
 	}
 }
-const urovenUp = () => { // Funkcia pre zmenu úrovne o +1 na max. 2
+/*const urovenUp = () => { // Funkcia pre zmenu úrovne o +1 na max. 2
 	uroven.value += uroven.value < 2 ? 1 : 0
 }
 const urovenDwn = () => {// Funkcia pre zmenu úrovne o -1 na min. 0
 	uroven.value -= uroven.value > 0 ? 1 : 0;
-}
+}*/
 const keyPush = (event) => {
 	if (uroven.value <= 1) {
 		switch (event.key) {
