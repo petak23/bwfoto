@@ -17,7 +17,7 @@ import { useMainStore } from '../store/main.js'
 const store = useMainStore()
 
 import FotoGalery from '../components/FotoGalery'
-import FotoCollage from '../components/FotoCollage'
+//import FotoCollage from '../components/FotoCollage'
 import FotoPanorama from '../components/FotoPanorama'
 import Menucardorder from '../components/Menucardorder'
 import EditArticle from '../../../../components/EditArticle/EditArticle'
@@ -34,7 +34,7 @@ const edit_enabled = computed(() => {
 </script>
 
 <template>
-  (first_id: {{ $route.params.first_id }})
+  <!--(first_id: {{ $route.params.first_id }})-->
 	<article class="article-main">
 		<edit-article
 			:edit_enabled="edit_enabled"

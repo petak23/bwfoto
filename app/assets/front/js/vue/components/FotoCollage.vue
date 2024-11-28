@@ -14,6 +14,9 @@ import PhotoCollageWrapper from "./vue-photo-collage/PhotoCollageWrapper.vue";
 import EditSchemaRow from "./vue-photo-collage/EditSchemaRow.vue"
 import MainService from '../services/MainService.js'
 
+import { useMainStore } from '../store/main.js'
+const store = useMainStore()
+
 export default {
 	components: {
 		PhotoCollageWrapper,
@@ -216,14 +219,14 @@ export default {
 		},
 	},
 	created() {
-		window.addEventListener("resize", this.matchHeight);
+		window.addEventListener("resize", matchHeight);
 	},
 	destroyed() {
-		window.removeEventListener("resize", this.matchHeight);
+		window.removeEventListener("resize", matchHeight);
 	},
 	computed: {
 		filesDir() {
-			return document.getElementById('vueapp').dataset.baseUrl + '/' + this.filesPath
+			return store.baseUrl + '/' + props.filesPath
 		},
 	},
 	watch: {

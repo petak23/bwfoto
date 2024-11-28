@@ -74,18 +74,17 @@ const setSliderImage = (si) => {
 
 		<div class="frame">
 			<section id="webContent">
-				Prepni na:
 				<button 
 					@click.prevent="isCinzel = !isCinzel" 
-					v-if="store.user != null" 
-					v-text="isCinzel ? 'Monserat' : 'Cinzel'"
+					v-if="store.user != null && store.user.id_user_roles > 3" 
+					v-text="isCinzel ? 'Prepni na: Monserat' : 'Prepni na: Cinzel'"
 					class="btn btn-sm btn-outline-secondary ms-2"
 				></button>
 				<breadcrumb />
 				<flash-message
 					flash-messages="{($flashes|to_json)}"
 				/>
-				<small><br />
+				<small v-if="store.user != null && store.user.id_user_roles > 3"><br />
 					RouterView(id: {{ $route.params.id }}, {{ id_hlavne_menu_lang }})<br />
 				</small>
 				<RouterView />

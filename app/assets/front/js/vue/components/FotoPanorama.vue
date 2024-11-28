@@ -1,15 +1,15 @@
 <script setup>
 /** 
  * Component FotoPanorama
- * Posledná zmena(last change): 27.11.2024
+ * Posledná zmena(last change): 28.11.2024
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.1.6
+ * @version 1.1.7
  */
-import { ref } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import MainService from '../services/MainService.js'
 
 import { BModal, BImg } from 'bootstrap-vue-next'
