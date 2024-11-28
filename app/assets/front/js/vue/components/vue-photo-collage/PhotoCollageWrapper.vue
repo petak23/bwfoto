@@ -6,7 +6,7 @@
  * @version 1.0.2
  */
 import PhotoCollage from "./PhotoCollage.vue" //v3
-import { ref, computed, watch } from "vue"
+import { ref, computed, watch, onMounted } from "vue"
 
 function createPhotoIds(photos) {
 	return photos.map((data, i) => {
@@ -67,7 +67,7 @@ const props = defineProps({
 	borderRadius: String,
 })
 
-const layout = ref(props.layout)
+//const layout = ref(props.layout)
 
 const internalHeight = ref([])
 const internalPadding = ref([])
@@ -88,89 +88,67 @@ watch(() => props.borderRadius, () => {
 	setBorderRadius()
 }, { deep: true })
 
-watch(() => foo, (newValue, oldValue) => {
-	
-})
-export default {
-	watch: {
+watch(() => props.layout, () => {
+	reconfigurate()
+}, { deep: true })
 
-		layout: {
-			handler() {
-				this.reconfigurate();
-			},
-			deep: true,
-		},
-		photos: {
-			handler() {
-				this.reconfigurate();
-			},
-			deep: true,
-		},
-		height: {
-			handler() {
-				this.internalHeight = this.height
-				let r = this.layout.length - this.internalHeight.length // Počet riadkov, pre ktoré nemám výšku
-				if (r > 0) {
-					for (let i = 0; i < r; i++) { // Doplnenie výšok riadkov ak chýbajú
-						this.internalHeight.push(this.height[i % this.height.length])
-					}
-				}
-			},
-			deep: true,
-		},
-		padding: {
-			handler() {
-				this.internalPadding = this.padding
-				let r = this.layout.length - this.internalPadding.length // Počet riadkov, pre ktoré nemám padding
-				if (r > 0) {
-					for (let i = 0; i < r; i++) { // Doplnenie výšok riadkov ak chýbajú
-						this.internalPadding.push(this.padding[i % this.padding.length])
-					}
-				}
-			},
-			deep: true,
+watch(() => props.photos, () => {
+	reconfigurate()
+}, { deep: true })
+
+watch(() => props.height, () => {
+	internalHeight.layout = props.height
+	let r = props.layout.length - internalHeight.value.length // Počet riadkov, pre ktoré nemám výšku
+	if (r > 0) {
+		for (let i = 0; i < r; i++) { // Doplnenie výšok riadkov ak chýbajú
+			internalHeight.value.push(props.height[i % props.height.length])
 		}
+	}
+}, { deep: true })
 
-	},
-	created() {
-		this.reconfigurate();
-	},
-	methods: {
-		reconfigurate() {
-			this.layoutPhotoMaps = createLayoutPhotoMaps(this.layout, this.photos);
-			this.setGapSize();
-			this.setBorderRadius();
-		},
-		setGapSize() {
-			if (document) {
-				document.documentElement.style.setProperty(
-					"--vue-photo-grid-gap",
-					this.gapSize
-				);
-			}
-		},
-		setBorderRadius() {
-			if (document) {
-				document.documentElement.style.setProperty(
-					"--vue-photo-grid-radius",
-					this.borderRadius
-				);
-			}
-		},
-	},
-	computed: {
-		layoutNum() {
-			return this.layout.reduce(
-				(accumulator, currentValue) => accumulator + currentValue,
-				0
-			);
-		},
-		remainingNum() {
-			return this.photos.length - this.layoutNum;
-		},
+watch(() => props.padding, () => {
+	internalPadding.value = props.padding
+	let r = props.layout.length - internalPadding.value.length // Počet riadkov, pre ktoré nemám padding
+	if (r > 0) {
+		for (let i = 0; i < r; i++) { // Doplnenie výšok riadkov ak chýbajú
+			internalPadding.value.push(props.padding[i % props.padding.length])
+		}
+	}
+}, { deep: true })
 
-	},
-};
+const reconfigurate = () => {
+	layoutPhotoMaps.value = createLayoutPhotoMaps(props.layout, props.photos);
+	setGapSize()
+	setBorderRadius()
+}
+const setGapSize = () => {
+	if (document) {
+		document.documentElement.style.setProperty(
+			"--vue-photo-grid-gap",
+			props.gapSize
+		)
+	}
+}
+const setBorderRadius = () => {
+	if (document) {
+		document.documentElement.style.setProperty(
+			"--vue-photo-grid-radius",
+			props.borderRadius
+		);
+	}
+}
+
+const layoutNum	= computed(() => {
+	return props.layout.reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+})
+
+const remainingNum = computed(() => {
+	return props.photos.length - layoutNum
+})
+
+onMounted(() => {
+	reconfigurate()
+})
 </script>
 
 <template>
