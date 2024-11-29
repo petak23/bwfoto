@@ -1,13 +1,13 @@
 <script setup>
 /** 
  * Component EditSchemaRow
- * Posledná zmena(last change): 28.11.2024
+ * Posledná zmena(last change): 29.11.2024
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.3
+ * @version 1.0.4
  */
 import { ref, watch, onMounted } from 'vue'
 import { BCard, BCardHeader, BCardBody, BCardText, BButton, BCollapse, BFormInput } from 'bootstrap-vue-next'
@@ -48,6 +48,8 @@ const row_state_n = ref(null)
 const row_len_mid = ref(0) // Hodnota, ktorú by mali mať všetky časti row_len
 const changed = ref(false)
 
+const emit = defineEmits(['schema-changed'])
+
 const setRow_str = () => {
 	row_str.value = {
 		max_width: props.row.max_width,
@@ -74,8 +76,7 @@ const onSaveRow = (event) => {
 			widerPhotoId: row_str.value.widerPhotoId.split(",").map(x => parseInt(x)),
 			max_width: parseInt(row_str.value.max_width),
 		}
-		// TODO
-		//this.$root.$emit("schema-changed", [{ 'id_part': props.id_part, 'data': tmp}])
+		emit("schema-changed", [{ 'id_part': props.id_part, 'data': tmp}])
 	}
 }
 const onCancelRow = (event) => {
