@@ -10,14 +10,14 @@
  * @version 1.2.6
  * Z kniznica pouzite súbory a upravene: https://github.com/seanghay/vue-photo-collage
  */
-import { ref } from "vue"
-import { BButton } from 'bootstrap-vue-next'
+import { ref, computed, watch, onMounted, onUnmounted } from "vue"
+import { BButton, BModal } from 'bootstrap-vue-next'
 import PhotoCollageWrapper from "./vue-photo-collage/PhotoCollageWrapper.vue"
 import EditSchemaRow from "./vue-photo-collage/EditSchemaRow.vue"
 import MainService from '../services/MainService.js'
 import { useMainStore } from '../store/main.js'
 const store = useMainStore()
-import { useFlashStore } from '../../store/flash'
+import { useFlashStore } from '../store/flash'
 const storeF = useFlashStore()
 
 const props = defineProps({
@@ -26,8 +26,8 @@ const props = defineProps({
 		default: "",
 	}, 
 	maxrandompercwidth: { // Percento, o ktoré sa môže meniť naviac šírka fotky
-		type: String,
-		default: "25",
+		type: Number,
+		default: 25,
 	},
 })
 
@@ -87,7 +87,7 @@ const itemClickHandler = (data, i) => {
 					.then(response => {
 						image.value = response.data
 						image.value.id_collage = data.id
-						viewModalImg = true
+						viewModalImg.value = true
 					})
 					.catch((error) => {
 						console.error(error)
@@ -130,7 +130,7 @@ const computeLayout = (client_width) => {
 	collage.value.height = res.height.map(x => parseInt(x)) // Aby som z textových položiek urobil čísla
 	collage.value.padding = res.padding.map(x => parseInt(x))
 	collage.value.layout = res.layout.map(x => parseInt(x))
-	collage.value.maxRandomPercWidth = parseInt(this.maxrandompercwidth)
+	collage.value.maxRandomPercWidth = props.maxrandompercwidth
 	collage.value.widerPhotoId = res.widerPhotoId.map(x => parseInt(x))
 	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce
 	collage.value.maxPhotosToShow = res.schema.map(x => parseInt(x)).reduce((a, b) => a + b, 0)
@@ -301,10 +301,13 @@ onUnmounted(() => {
 				</photo-collage-wrapper>
 			</div>
 			
-			<BModal  id="modal-multi-1" centered size="xl" 
+			<BModal  centered size="xl" 
 								:title="image.name" ok-only
 								modal-class="lightbox-img"
-								v-model="viewModalImg">
+								v-model="viewModalImg"
+								header-close-class="btn btn-dark text-light me-3"
+								header-close-variant="dark"
+			>
 				<div class="modal-content">
 					<div class="modal-body my-img-content">  
 						<img :src="filesDir + image.main_file" 
@@ -317,7 +320,7 @@ onUnmounted(() => {
 					</div>
 					<div class="arrows-overlay">
 						<div class="arrows-l" @click="before">
-							<button class="text-light" :title="store.texts.galery_arrows_before">&#10094;</button>
+							<button class="btn btn-dark text-light" :title="store.texts.galery_arrows_before">&#10094;</button>
 						</div>
 						<div class="go-to-hight" 
 							v-touch="{
@@ -328,7 +331,7 @@ onUnmounted(() => {
 							}"
 						></div>
 						<div class="arrows-r flex-row-reverse" @click="after">
-							<button class="text-light" :title="store.texts.galery_arrows_after">&#10095;</button>
+							<button class="btn btn-dark text-light" :title="store.texts.galery_arrows_after">&#10095;</button>
 						</div>
 					</div>
 				</div>

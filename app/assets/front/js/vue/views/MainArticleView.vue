@@ -17,7 +17,7 @@ import { useMainStore } from '../store/main.js'
 const store = useMainStore()
 
 import FotoGalery from '../components/FotoGalery'
-//import FotoCollage from '../components/FotoCollage'
+import FotoCollage from '../components/FotoCollage'
 import FotoPanorama from '../components/FotoPanorama'
 import Menucardorder from '../components/Menucardorder'
 import EditArticle from '../../../../components/EditArticle/EditArticle'

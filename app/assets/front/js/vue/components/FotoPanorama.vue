@@ -68,7 +68,7 @@ const keyPush = (event) => {
 }
 // Generovanie url pre lazyloading obrázky
 const getImageUrl = (text) => {
-	return props.filesDir + text
+	return store.baseUrl + "/" + text
 }
 const border_compute = (border) => {
 	let pom = border != null && border.length > 2 ? border.split("|") : ['', '0'];
@@ -129,7 +129,7 @@ onMounted(() => {
 
 <template>
 	<section id="webThumbnails" class="row">
-		<div class="col-12 main-win">
+		<div class="col-12 main-win" v-if="attachments.length > 0">
 			<div class="row">
 				<h4 class="col-12 bigimg-name">
 					{{ attachments[id].name }}
@@ -179,7 +179,9 @@ onMounted(() => {
 			<BModal  id="modal-multi-1" centered size="xl" 
 								:title="attachments[id].name" ok-only
 								modal-class="lightbox-img"
-								v-model="viewModalFoto">
+								v-model="viewModalFoto"
+								header-close-class="btn btn-dark"
+			>
 				<div class="modal-content">
 					<div class="modal-body my-img-content">
 						<div class="border-a" :style="border_a">
@@ -197,10 +199,10 @@ onMounted(() => {
 					</div>
 					<div class="arrows-overlay">
 						<div class="arrows-l" @click="before">
-							<button class="text-light" :title="store.texts.galery_arrows_before">&#10094;</button>
+							<button class="btn btn-dark text-light" :title="store.texts.galery_arrows_before">&#10094;</button>
 						</div>
 						<div class="arrows-r flex-row-reverse" @click="after">
-							<button class="text-light" :title="store.texts.galery_arrows_after">&#10095;</button>
+							<button class="btn btn-dark text-light" :title="store.texts.galery_arrows_after">&#10095;</button>
 						</div>
 					</div>
 				</div>
