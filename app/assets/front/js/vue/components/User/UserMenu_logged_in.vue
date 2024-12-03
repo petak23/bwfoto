@@ -1,4 +1,4 @@
-<script>
+<script setup>
 /**
  * Komponenta pre užívateľkú ponuku - prihlásený užívateľ.
  * Posledna zmena 19.04.2024
@@ -9,31 +9,32 @@
  * @link       http://petak23.echo-msz.eu
  * @version    1.0.7
  */
-//export default {}
+import { useMainStore } from '../../store/main'
+const store = useMainStore()
 </script>
 
 <template>
 	<div class="btn-group user-lang-menu" role="group" aria-label="User-lang-menu">
 		<a 
-			:href="$store.state.userLogLink" 
-			:title="$store.state.user.name" 
+			:href="store.userLogLink" 
+			:title="store.user.name" 
 			role="button" 
 			class="btn btn-outline-info btn-sm" 
 		>
-			{{ $store.state.user.name }}
+			{{ store.user.name }}
 		</a>
 		<a 
-			v-if="$store.state.adminLink != null"
-			:href="$store.state.adminLink" 
-			:title="$store.state.texts.base_AdminLink_name" 
+			v-if="store.adminLink != null"
+			:href="store.adminLink" 
+			:title="store.texts.base_AdminLink_name" 
 			role="button" 
 			class="btn btn-outline-info btn-sm" 
 		>
-			{{ $store.state.texts.base_AdminLink_name }}
+			{{ store.texts.base_AdminLink_name }}
 		</a>
 		<a 
-			v-if="$store.state.adminerLink != null"
-			:href="$store.state.adminerLink" 
+			v-if="store.adminerLink != null"
+			:href="store.adminerLink" 
 			role="button" 
 			target="_blank"
 			class="btn btn-outline-secondary btn-sm" 
@@ -41,14 +42,14 @@
 			<i class="fas fa-database"></i>
 		</a>
 		<a 
-			v-if="$store.state.logOutLink != null"
-			:href="$store.state.logOutLink" 
-			:title="$store.state.texts.log_out" 
+			v-if="store.logOutLink != null"
+			:href="store.logOutLink" 
+			:title="store.texts.log_out" 
 			role="button" 
 			class="btn btn-outline-warning btn-sm" 
 		>
 			<i class="fas fa-sign-out-alt pr-1"></i>
-			{{ $store.state.texts.log_out }}
+			{{ store.texts.log_out }}
 		</a>
 	</div>
 </template>

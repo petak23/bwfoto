@@ -1,127 +1,120 @@
-<script>
+<script setup>
+import { ref, watch, onMounted } from 'vue'
 import MainService from "../../services/MainService.js";
 
-export default {
-	props: {
-		price: {
-			type: Number, 
-		},
-		properties: {
-			type: Object,
-		}
+const props = defineProps({
+	price: {
+		type: Number, 
 	},
-	data() {
-		return {
-			form_price: 0,
-			form_props: {}, // Aktuálne vlastnosti
-			view_add: false,
-			props:{}, // Všetky dostupné vlastnosti z DB
-			//--- for add
-			sel_category: null,
-			form_categories: [],			
-			sel_value: null,
-			form_values: [],
-			form_plus_perc: null,
-			form_plus_sum: null,
-			added_props_not_verified: null,
-		}
-	},
-	watch: {
-		price: function (newPrice) {
-			this.reset()
-		},
-		sel_category: function (newSel_category) {
-			this.sel_value = null
-			this.form_values = [{ value: null, text: 'Vyberte hodnotu' }]
-			this.props[newSel_category].forEach((item) => {
-				this.form_values.push({
-					value: item.id,
-					text: item.name
-				})
-			})
-		},
-		sel_value: function (newSel_value) {
-			if (this.sel_category !== null) {
-				this.props[this.sel_category].forEach((item) => {
-					if (item.id == newSel_value) {
-						this.form_plus_perc = item.price_increase_percentage
-						this.form_plus_sum = item.price_increase_price
-						this.added_props_not_verified = item
-					}
-				})
-			}
-		}
-	},
-	methods: {
-		reset() {
-			this.form_price = this.price
-			this.form_props = this.properties
-		},
-		onSubmit() {
-			
-		},
-		onReset() {
-			this.reset()
-		},
-		delProp(id) {
-			this.form_props.props = this.form_props.props.filter(function(item) {
-				return item.id != id
-			})
-			this.calculateFinalPrice()
-		},
-		addFormClear() {
-			this.sel_category = null
-			this.sel_value = null
-			this.form_values = []
-			this.form_plus_perc = null
-			this.form_plus_sum = null
-			this.added_props_not_verified = null
-		},
-		addProp() {
-			this.view_add = false
-			if (this.added_props_not_verified != null) {
-				this.form_props.props.push(this.added_props_not_verified)
-				this.addFormClear()
-				this.calculateFinalPrice()
-			}
-		},
-		calculateFinalPrice() {
-			let final_price = this.form_price
-			this.form_props.props.forEach((item) => {
-				if (item.price_increase_percentage !== null)
-					final_price += this.form_price * item.price_increase_percentage / 100
-				if(item.price_increase_price !== null) final_price += item.price_increase_price
-			})
-			this.form_props.final_price = final_price
-		},
-		addViewProp() {
-			this.view_add = true
-		},
-		getCategories() {
-			MainService.getProductPropsCategories()
-				.then(response => {
-					this.props = response.data
-					this.form_categories = [{ value: null, text: 'Vyberte kategóriu' }]
-					for (const [key, value] of Object.entries(this.props)) {
-						this.form_categories.push({
-							'value': value[0].id_property_categories, 
-							'text': 	value[0].category
-						})
-						//console.log(`${key}: ${value}`);
-					}
-					this.form_values = []
-				})
-				.catch((error) => {
-					console.error(error)
-				})	
-		},
-	},
-	mounted () {
-		this.reset()
-		this.calculateFinalPrice()
-		this.getCategories()
-	},
+	properties: {
+		type: Object,
+	}
+})
+
+const form_price = ref(0)
+const form_props = ref({}) // Aktuálne vlastnosti
+const view_add = ref(false)
+const product_props = ref({}) // Všetky dostupné vlastnosti z DB
+//--- for add
+const sel_category = ref(null)
+const form_categories = ref([])			
+const sel_value = ref(null)
+const form_values = ref([])
+const form_plus_perc = ref(null)
+const form_plus_sum = ref(null)
+const added_props_not_verified = ref(null)
+
+const reset = () => {
+	form_price.value = props.price
+	form_props.value = props.properties
 }
+const onSubmit = () => {}
+const onReset = () => {
+	reset()
+}
+const delProp = (id) => {
+	form_props.value.props = form_props.value.props.filter((item) => {
+		return item.id != id
+	})
+	calculateFinalPrice()
+}
+const addFormClear = () => {
+	sel_category.value = null
+	sel_value.value = null
+	form_values.value = []
+	form_plus_perc.value = null
+	form_plus_sum.value = null
+	added_props_not_verified.value = null
+}
+const addProp = () => {
+	view_add.value = false
+	if (added_props_not_verified.value != null) {
+		form_props.value.props.push(added_props_not_verified.value)
+		addFormClear()
+		calculateFinalPrice()
+	}
+}
+const calculateFinalPrice = () => {
+	let final_price = form_price.value
+	form_props.value.props.forEach((item) => {
+		if (item.price_increase_percentage !== null)
+			final_price += form_price.value * item.price_increase_percentage / 100
+		if(item.price_increase_price !== null) final_price += item.price_increase_price
+	})
+	form_props.value.final_price = final_price
+}
+const addViewProp = () => {
+	view_add.value = true
+}
+const getCategories = () => {
+	MainService.getProductPropsCategories()
+		.then(response => {
+			product_props.value = response.data
+			form_categories.value = [{ value: null, text: 'Vyberte kategóriu' }]
+			for (const [key, value] of Object.entries(product_props.value)) {
+				form_categories.value.push({
+					'value': value[0].id_property_categories, 
+					'text': 	value[0].category
+				})
+				//console.log(`${key}: ${value}`);
+			}
+			form_values.value = []
+		})
+		.catch((error) => {
+			console.error(error)
+		})	
+}
+
+watch(() => props.price, () => {
+	reset()
+})
+watch(sel_category, (newSel_category) => {
+	sel_value.value = null
+	form_values.value = [{ value: null, text: 'Vyberte hodnotu' }]
+	product_props.value[newSel_category].forEach((item) => {
+		form_values.value.push({
+			value: item.id,
+			text: item.name
+		})
+	})
+})
+watch(sel_value, (newSel_value) => {
+	if (sel_category.value !== null) {
+		product_props.value[sel_category.value].forEach((item) => {
+			if (item.id == newSel_value) {
+				form_plus_perc.value = item.price_increase_percentage
+				form_plus_sum.value = item.price_increase_price
+				added_props_not_verified.value = item
+			}
+		})
+	}
+})
+
+onMounted(() => {
+	reset()
+	calculateFinalPrice()
+	getCategories()
+})
 </script>
 
 

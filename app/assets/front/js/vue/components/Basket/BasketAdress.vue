@@ -1,117 +1,119 @@
-<script>
+<script setup>
 /**
  * Komponenta pre zadanie a editáciu kontaktných údajov.
- * Posledna zmena 07.05.2024
+ * Posledna zmena 03.12.2024
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.3
+ * @version    1.0.4
+ * @example https://medium.com/swlh/vue3-using-ref-or-reactive-88d47c8f6944
  */
-	import countryCodes from "../../plugins/country.js"
-	import MainService from '../../services/MainService.js'
+import { ref, reactive, computed, watch, onMounted } from 'vue';
+import countryCodes from "../../plugins/country.js"
+import MainService from '../../services/MainService.js'
 
-	export default {
-		data() {
-			return {
-				country: countryCodes,
-				confirmation: "",
-				f_data: {
-					name: "",
-					email: "",
-					password: "",
-					street: "",
-					town: "",
-					country: "",
-					psc: "",
-					phone: "+421",
-					adress2: {
-						street: "",
-						town: "",
-						country: "",
-						psc: ""
-					},
-					firm: {
-						name: "",
-						ico: "",
-						dic: "",
-						icdph: "",
-						street: "",
-						town: "",
-						country: "",
-						psc: ""
-					},
-				},
-				test_email: 0, // 0: nevalidný; 1: validný a nenájdený; 2: validný a nájdený; 3: najdený a prihlásený
-			}
-		},
-		methods: {
-			onSubmit() {
-				if (this.$session.has('basket-adress')) this.$session.remove('basket-adress')
-				this.$session.set('basket-adress', JSON.stringify(this.f_data))
-				// Nasleduje emit do basketNavigation a odtiaľ na zmenu view
-				this.$root.$emit('basket-nav-update', { id: 3, enabled: true, view_part: 3 })
-				
-			},
-			getFromSession() {
-				if (this.$session.has('basket-adress')) {
-					this.f_data = JSON.parse(this.$session.get("basket-adress"))
-				}
-			},
-			async testEmail() {
-				if (this.$store.state.user == null) { // Testovanie má zmysel len pre neprihláseného
-					await MainService.testUserEmail(this.f_data.email)
-						.then(response => {
-							//console.log(response.data);
-							this.test_email = response.data.status == 200 ? 2 : (this.isEmailVAlid ? 1 : 0)
-							console.log('testEmail: ' + this.test_email);
-						})
-						.catch((error) => {
-							console.error(error);
-						})
-				}
-			}
-		},
-		watch: {
-			isEmailVAlid() {
-				if (this.$store.state.user == null) {
-					if (this.isEmailVAlid) this.testEmail() // Testuj len keď je validný email
-					else this.test_email = 0
-				}
-			}
-		},
-		computed: {
-			isFormValid() {
-				return Object.keys(this.fields).every(key => this.fields[key].valid);
-			},
-			isEmailVAlid() {
-				return this.fields['basketInputEmail'] !== undefined ? this.fields['basketInputEmail'].valid : false
-			}
-		},
-		created () {
-			this.getFromSession()
-			if (this.$store.state.user != null) { // Mám prihláseného užívateľa
-				this.f_data.name = this.$store.state.user.name
-				this.f_data.email = this.$store.state.user.email
-				this.test_email = 3
-				MainService.getActualUserProfile(this.$store.state.id)
-					.then(response => {
-						this.f_data.phone = response.data.phone
-						this.f_data.street = response.data.street
-						this.f_data.town = response.data.town
-						this.f_data.psc = response.data.psc
-						this.f_data.country = response.data.country
-						if (response.data.adress2 != null) this.f_data.adress2 = JSON.parse(response.data.adress2)
-						if (response.data.firm != null) this.f_data.firm = JSON.parse(response.data.firm)
-					})
-					.catch((error) => {
-						console.error(error);
-					})
-				console.log('created: ' + this.test_email);
-			}
-		},
+import { useMainStore } from '../../store/main'
+const store = useMainStore()
+
+// Reactive state
+const country = countryCodes
+const confirmation = ref("")
+const f_data = reactive({
+  name: "",
+  email: "",
+  password: "",
+  street: "",
+  town: "",
+  country: "",
+  psc: "",
+  phone: "+421",
+  adress2: {
+    street: "",
+    town: "",
+    country: "",
+    psc: ""
+  },
+  firm: {
+    name: "",
+    ico: "",
+    dic: "",
+    icdph: "",
+    street: "",
+    town: "",
+    country: "",
+    psc: ""
+  }
+});
+const test_email = ref(0) // 0: nevalidný; 1: validný a nenájdený; 2: validný a nájdený; 3: najdený a prihlasený
+
+const onSubmit = () => {
+	// TODO
+	if (this.$session.has('basket-adress')) this.$session.remove('basket-adress')
+	this.$session.set('basket-adress', JSON.stringify(f_data))
+	// Nasleduje emit do basketNavigation a odtiaľ na zmenu view
+	this.$root.$emit('basket-nav-update', { id: 3, enabled: true, view_part: 3 })
+	
+}
+const getFromSession = () => {
+	// TODO
+	if (this.$session.has('basket-adress')) {
+		f_data = JSON.parse(this.$session.get("basket-adress"))
 	}
+}
+const testEmail = async () => {
+	if (store.user == null) { // Testovanie má zmysel len pre neprihláseného
+		await MainService.testUserEmail(f_data.email)
+			.then(response => {
+				//console.log(response.data); // TODO isEmailVAlid...
+				test_email.value = response.data.status == 200 ? 2 : (isEmailVAlid ? 1 : 0)
+				console.log('testEmail: ' + test_email.value);
+			})
+			.catch((error) => {
+				console.error(error);
+			})
+	}
+}
+// TODO
+watch(() => isEmailVAlid, () => {
+	if (store.user == null) {
+		if (isEmailVAlid) testEmail() // Testuj len keď je validný email
+		else test_email.value = 0
+	}
+})
+// TODO
+const isFormValid = computed(() => {
+	return Object.keys(fields).every(key => fields[key].valid);
+})
+// TODO
+const isEmailVAlid = computed(() => {
+	return fields['basketInputEmail'] !== undefined ? fields['basketInputEmail'].valid : false 
+})
+
+onMounted(() => {
+	getFromSession()
+	if (store.user != null) { // Mám prihláseného užívateľa
+		f_data.name = store.user.name
+		f_data.email = store.user.email
+		test_email.value = 3
+		MainService.getActualUserProfile(store.id)
+			.then(response => {
+				f_data.phone = response.data.phone
+				f_data.street = response.data.street
+				f_data.town = response.data.town
+				f_data.psc = response.data.psc
+				f_data.country = response.data.country
+				if (response.data.adress2 != null) f_data.adress2 = JSON.parse(response.data.adress2)
+				if (response.data.firm != null) f_data.firm = JSON.parse(response.data.firm)
+			})
+			.catch((error) => {
+				console.error(error);
+			})
+		console.log('created: ' + test_email.value);
+	}
+})
+
 </script>
 
 <template>
@@ -130,15 +132,15 @@
 						v-validate="'required|email'" 
 						data-vv-as="e-mail"
 						v-model="f_data.email"
-						:disabled="$store.state.user != null"
-						:class="$store.state.user != null ? 'disabled' : ''"
+						:disabled="store.user != null"
+						:class="store.user != null ? 'disabled' : ''"
 						@blur="testEmail"
 					>
 					<small class="form-text bg-danger text-white px-2">{{ errors.first('basketInputEmail') }}</small>
 					<small id="emailHelp" class="form-text text-muted">
 						E-mailovú adresu nezdieľame s nikým iným!
 					</small>
-					<small v-if="test_email == 2 && $store.state.user == null" class="form-text alert alert-warning px-2">
+					<small v-if="test_email == 2 && store.user == null" class="form-text alert alert-warning px-2">
 						Vašu e-mailovú adresu sme našli v databáze. 
 						Prosím, najprv sa prihláste a potom pokračujte v nákupe.
 					</small>
@@ -152,20 +154,20 @@
 						v-validate="'required|alpha_spaces'" 
 						data-vv-as="Meno a priezvisko"
 						v-model="f_data.name"
-						:disabled="$store.state.user != null"
-						:class="$store.state.user != null ? 'disabled' : ''"
+						:disabled="store.user != null"
+						:class="store.user != null ? 'disabled' : ''"
 					/>
 					<small class="form-text bg-danger text-white px-2">{{ errors.first('basketInputName') }}</small>
 					<small id="nameHelp" class="form-text text-muted">Zadajte, prosím, meno v tvare: Janko Mrkvička.</small>
 				</div>
 			</div>
-			<div v-if="$store.state.user == null && test_email == 1">
+			<div v-if="store.user == null && test_email == 1">
 				<button class="btn btn-primary my-2" type="button" data-toggle="collapse" data-target="#collapseReg" aria-expanded="false" aria-controls="collapseReg">
 					Registrácia
 				</button>
 				<small id="emailHelp" class="form-text text-muted">Ak sa zaregistrujete, tak pri najbližšom nákupe už nemusíte zadávať údaje nanovo.</small>
 			</div>
-			<div class="collapse form-row" id="collapseReg" v-if="$store.state.user == null && test_email == 1">
+			<div class="collapse form-row" id="collapseReg" v-if="store.user == null && test_email == 1">
 				<div class="form-group col-md-6">
 					<label for="password1">Heslo</label>
 					<input 
@@ -383,8 +385,8 @@
 
 
 		</form>
-		<a :href="$store.state.logInLink" v-if="test_email == 2" class="btn btn-success mt-2">
-			{{ $store.state.texts.log_in }}
+		<a :href="store.logInLink" v-if="test_email == 2" class="btn btn-success mt-2">
+			{{ store.texts.log_in }}
 		</a>
 	</div>
 </template>
