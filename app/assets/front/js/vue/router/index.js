@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import LogInView from '../views/LogInView.vue'
 import MainArticleView from '../views/MainArticleView.vue'
 import ProductsLikeView from '../views/ProductsLikeView.vue'
+import BasketView from '../views/BasketView.vue'
 import UserView from '../views/UserView.vue'
 import { useMainStore } from '../store/main'
 import { useFlashStore } from '../store/flash'
@@ -47,6 +48,11 @@ const routes = [
 		path: '/user',
 		name: 'Užívateľ',
 		component: UserView
+	},
+	{
+		path: '/basket',
+		name: 'Košík',
+		component: BasketView
 	},
 	/*
 	{

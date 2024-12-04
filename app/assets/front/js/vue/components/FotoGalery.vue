@@ -13,7 +13,7 @@ import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import MainService from '../services/MainService.js'
 import ProductsProperties from '../components/ProductsProperties/ProductsProperties.vue'
 import FotoFilter from './Fotogalery/FotoFilter.vue'
-import Session from '../plugins/session.js'
+//import Session from '../plugins/session.js'
 import { useMainStore } from '../store/main.js'
 const store = useMainStore()
 
@@ -138,11 +138,11 @@ const getAttachments = async () => {
 			attachments.value = response.data
 			if (props.first_id > 0) { // Ak mám first_id tak k nemu nájdem položku v attachments
 				getFirstId(props.first_id)
-				my_liked()
-				my_in_basket()
-				if (wid.value == 0) {
-					modalchangebig(id.value)
-				}
+			}
+			my_liked()
+			my_in_basket()
+			if (wid.value == 0) {
+				modalchangebig(id.value)
 			}
 		})
 		.catch((error) => {
@@ -157,7 +157,7 @@ const getFirstId = (idf) => {
 	})
 }
 
-// ------- ProdustLike -------------------------
+// ------- ProductLike -------------------------
 
 import { useProductLikeStore } from '../store/productLike.js'
 const storePL = useProductLikeStore()
@@ -187,20 +187,28 @@ watch(() => storePL.productsLikeItem, () => {
 	my_liked()
 })
 
-// ------- ProdustLike ------------------------- end
+// ------- ProductLike ------------------------- end
+
+// ------- ProductBasket------------------------
+import { useBasketStore } from '../store/basket.js'
+const storeB = useBasketStore()
+
 
 const basketInsert = () => {
 	let item = attachments.value[id.value]
-	emit("basket-insert", [{
+	storeB.saveProduct({
 		id_product: item.id,
 		product: item,
 		id_article: store.article.id_hlavne_menu,
-	}])
+		url_name: store.article.url_name,
+	})
 }
 const my_in_basket = () => {
-	attachments.value[id.value].in_basket = Session.has('basket-item-' + attachments.value[id.value].id)
+	attachments.value[id.value].in_basket = storeB.getProductFromBasket(attachments.value[id.value].id) != null
 	in_basket.value = attachments.value[id.value].in_basket
 }
+
+
 const filterChange = (choice) => {
 	filter_choice.value = choice
 	getAttachments()
@@ -245,6 +253,9 @@ watch(() => props.first_id, (newFirstIdValue) => {
 	}
 })
 
+watch(() => storeB.basketItem, () => {
+	my_in_basket()
+})
 
 onMounted(() => {
 	// Dynamické správanie pri zmene veľkosti okna
@@ -300,6 +311,7 @@ onUnmounted(() => {
 							<i class="fa-solid fa-basket-shopping" v-if="aa.id_products_status == 1"></i>
 							<span v-else>{{ aa.products_status }}</span>
 						</button>
+						<button class="btn btn-outline-secondary" disabled>{{ aa.ks }} ks</button>
 					</div>
 				</h4>
 				<div class="col-4 d-flex justify-content-end">

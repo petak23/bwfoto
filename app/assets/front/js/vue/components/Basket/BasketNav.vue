@@ -1,95 +1,75 @@
 <script setup>
 /**
  * Komponenta pre vypísanie nákupného košíka v hlavnej ponuke.
- * Posledna zmena 18.11.2024
+ * Posledna zmena 04.12.2024
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.2
+ * @version    1.0.3
  */
 
-import { ref, onMounted } from 'vue'
-import Session from "../../plugins/session.js"
+import { onMounted } from 'vue'
 
 import { useMainStore } from '../../store/main.js'
 const store = useMainStore()
+import { useBasketStore } from '../../store/basket.js'
+const storeB = useBasketStore()
 
 import { RouterLink } from 'vue-router'
 
 import { BDropdown, BDropdownItem, BDropdownDivider } from 'bootstrap-vue-next';
 
-const items = ref([])
-
 const getFromSession = () => {
-	//let spom = Session.getStorage()
-	items.value = []
-	for (const [key, value] of Object.entries(Session.allStorage())) {
-		if (key.startsWith("basket-item")) {
-			items.value.push(JSON.parse(value))
-		}
-	}
+	
+	storeB.getProductsFromSession()
+	
+	/*
 	if (items.value.length == 0) {
 		Session.clearStorage('basket-adress')
 		Session.clearStorage('basket-shipping')
 		Session.clearStorage('basket-nav')	
-	}
-}
-
-const emit = defineEmits('basket-update')
-
-const delOne = (id) => {
-	Session.clearStorage('basket-item-' + id)
-	emit("basket-update")
-	getFromSession()
+	}*/
 }
 
 onMounted(() => {
-	//this.$session.start()
-
 	getFromSession()
-
-	/*this.$root.$on("basket-insert", item => {
-		Session.saveStorage('basket-item-' + item[0].id_product, JSON.stringify(item[0]))
-		emit("basket-update")
-	});
-	this.$root.$on("basket-update", this.getFromSession);*/
 })
 
 </script>
 
 <template>
-	<BDropdown variant="success" size="sm" toggle-class="bf-nt py-1 px-2 ms-2" :disabled="items.length == 0">
+	<BDropdown variant="success" size="sm" toggle-class="bf-nt py-2 px-2 ms-2" :disabled="storeB.basketItem.length == 0">
 		<template #button-content>
-			<i class="fa-solid fa-basket-shopping"></i>
+			<i class="fa-solid fa-basket-shopping fa-lg"></i>
 			<span 
-				class="mx-2 badge badge-pill badge-warning"
-				v-if="items.length > 0">
-				{{ items.length }}
+				class="mx-2 badge rounded-pill bg-warning text-dark border"
+				v-if="storeB.basketItem.length > 0">
+				{{ storeB.basketItem.length }}
 			</span> 
 		</template>
 		<BDropdownItem 
-			v-for="i in items"
+			v-for="i in storeB.basketItem"
 			:key="i.id_product"
 		>
 			<template #default>
 				<div class="d-flex justify-content-between">
 					<RouterLink
-						:to="'/clanky/' + i.id_article + '/?first_id=' + i.id_product"
+						:to="'/clanky/' + i.url_name + '/' + i.id_product"
 					>
 						<img :src="store.baseUrl + '/' + i.product.main_file" class="rounded float-start pe-1" :alt="i.product.name" />
 					</RouterLink>
 					<RouterLink 
-						:to="'/clanky/' + i.id_article + '/?first_id=' + i.id_product"
+						:to="'/clanky/' + i.url_name + '/' + i.id_product"
 					>
 						{{ i.product.name }}
 						<br />{{ i.product.properties.final_price }} €
 					</RouterLink>
 					<button 
-						v-if="store.basket.view_part == 1"
+						v-if="storeB.view_part == 1"
 						class="btn btn-light btn-sm" 
-						@click.prevent="delOne(i.id_product)"
+						@click.prevent="storeB.delOneProduct(i.id_product)"
 					>
 						<i class="fa-regular fa-trash-can text-danger"></i>
 					</button>

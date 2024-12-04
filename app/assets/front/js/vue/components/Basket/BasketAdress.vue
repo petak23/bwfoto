@@ -16,6 +16,8 @@ import MainService from '../../services/MainService.js'
 
 import { useMainStore } from '../../store/main'
 const store = useMainStore()
+import { useBasketStore } from '../../store/basket.js'
+const storeB = useBasketStore()
 
 // Reactive state
 const country = countryCodes
@@ -52,8 +54,8 @@ const onSubmit = () => {
 	// TODO
 	if (this.$session.has('basket-adress')) this.$session.remove('basket-adress')
 	this.$session.set('basket-adress', JSON.stringify(f_data))
-	// Nasleduje emit do basketNavigation a odtiaľ na zmenu view
-	this.$root.$emit('basket-nav-update', { id: 3, enabled: true, view_part: 3 })
+	// Nasleduje zmena menu odtiaľ na zmenu view
+	storeB.basketNavUpdate({ id: 3, enabled: true, view_part: 3 })
 	
 }
 const getFromSession = () => {

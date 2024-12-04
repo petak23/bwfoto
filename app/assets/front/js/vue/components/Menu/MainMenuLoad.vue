@@ -90,9 +90,10 @@ const getArticle = () => {
 watch(() => props.id_hlavne_menu_lang, (newIdHlavneMenuLang) => {
 	//console.log(newIdHlavneMenuLang)
 	store.main_menu_active = newIdHlavneMenuLang
-	getArticle()
-	changeActiveItemOfMenu()
-	store.getSubmenu(store.main_menu_active)
+	store.main_menu_changed = true
+	//getArticle()
+	//changeActiveItemOfMenu()
+	//store.getSubmenu(store.main_menu_active)
 })
 
 watch(() => store.user, () => {

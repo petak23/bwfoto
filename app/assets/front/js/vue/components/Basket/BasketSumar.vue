@@ -1,13 +1,13 @@
 <script setup>
 /**
  * Komponenta pre vypísanie sumárnych údajov o nákupe.
- * Posledna zmena 21.11.2024
+ * Posledna zmena 04.12.2024
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.6
+ * @version    1.0.7
  */
 import { ref, computed, onMounted } from 'vue'
 import MainService from '../../services/MainService.js'
@@ -19,6 +19,8 @@ import { useMainStore } from '../../store/main.js'
 import { useFlashStore } from '../../store/flash'
 const store = useMainStore()
 const storeF = useFlashStore()
+import { useBasketStore } from '../../store/basket.js'
+const storeB = useBasketStore()
 
 const product = ref([])
 const adress = ref(null)
@@ -49,7 +51,7 @@ const getFromSession = () => {
 	}
 }
 
-const emit = defineEmits(['basket-nav-update', 'basket-final'])
+const emit = defineEmits(['basket-final'])
 
 const onSubmit = async (e) =>{
 	e.preventDefault()
@@ -72,7 +74,7 @@ const onSubmit = async (e) =>{
 					Session.clearStorage('basket-item-' + v.id_product)
 				}
 			}
-			emit('basket-nav-update', { id: 5, enabled: true, view_part: 5, disable_another: true })
+			storeB.basketNavUpdate({ id: 5, enabled: true, view_part: 5, disable_another: true })
 
 			emit('basket-final', { message: response.data.message, type: 'success', heading: 'Ukončenie nákupu', })
 		} else {

@@ -1,23 +1,25 @@
 <script setup>
 /**
  * Komponenta pre vypísanie položiek nákupného košíka.
- * Posledna zmena 26.03.2024
+ * Posledna zmena 04.12.2024
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.2
+ * @version    1.0.3
  */
 import { ref, onMounted } from 'vue'
 import BasketItem from "./BasketItem.vue"
 import Session from "../../plugins/session.js"
 import { RouterLink } from "vue-router";
+import { useBasketStore } from '../../store/basket.js'
+const storeB = useBasketStore()
 
 const product = ref([]) // Array of Object {id_article: xx, id_product: xx, product: Object }
 const sum_price = ref(0) // Sumárna cena za produkty 
 
-const emit = defineEmits(['basket-nav-update', 'basket-view-part'])
+const emit = defineEmits(['basket-view-part'])
 
 const getFromSession = () => {
 	product.value = []
@@ -34,7 +36,7 @@ const my_basket = () => {
 	product.value = []
 	getFromSession()
 	if (product.value.length == 0) { // Pre prípad, že košík bude prázdny
-		emit('basket-nav-update', { id: 0, enabled: false, disable_another: true })	
+		storeB.basketNavUpdate({ id: 0, enabled: false, disable_another: true })	
 	}
 }
 const getToPage = (id) => {
@@ -42,15 +44,11 @@ const getToPage = (id) => {
 }
 
 onMounted(() => {
-	//this.$session.start()
-
 	getFromSession()
 
 	if (product.value.length) {
-		emit('basket-nav-update', { id: 2, enabled: true })
+		storeB.basketNavUpdate({ id: 2, enabled: true })
 	}
-
-	//this.$root.$on("basket-update", my_basket);
 })
 </script>
 

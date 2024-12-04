@@ -215,9 +215,11 @@ const filesDir = computed(() => {
 	return store.baseUrl + '/' + props.filesPath
 })
 
-watch(() => store.main_menu_active, () => {
-	/* Nčítanie schémy fotokoláže */
-	loadSchema()
+watch(() => store.main_menu_changed, () => {
+	if (!store.main_menu_changed) {
+		/* Nčítanie schémy fotokoláže */
+		loadSchema()
+	}
 })
 
 watch(() => store.user, () => {

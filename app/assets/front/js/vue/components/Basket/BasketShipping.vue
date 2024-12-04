@@ -1,17 +1,20 @@
 <script setup>
 /**
  * Komponenta pre zadanie možností o doprave a platbe.
- * Posledna zmena 08.03.2024
+ * Posledna zmena 04.12.2024
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.1
+ * @version    1.0.2
  */
 
 import { ref, onMounted, computed } from 'vue'
 import Session from "../../plugins/session.js"
+import { useBasketStore } from '../../store/basket.js'
+const storeB = useBasketStore()
+
 const f_data = ref({
 	shipping: { val: 1, name: "", price: 0 },
 	payment: { val: 1, name: "", price: 0 },
@@ -27,8 +30,6 @@ const	payment = ref([
 	{id: 2, name: "Dobierka", price: 2 }
 ])
 
-const emit = defineEmits('basket-nav-update')
-
 const onSubmit = () => {
 	if (Session.getStorage('basket-shipping')) Session.clearStorage('basket-shipping')
 	f_data.value.shipping.price = shipping.value[f_data.value.shipping.val - 1].price
@@ -36,8 +37,8 @@ const onSubmit = () => {
 	f_data.value.payment.price = payment.value[f_data.value.payment.val - 1].price
 	f_data.value.payment.name = payment.value[f_data.value.payment.val - 1].name
 	Session.saveStorage('basket-shipping', JSON.stringify(f_data.value))
-	// Nasleduje emit do basketNavigation a odtiaľ na zmenu view
-	emit('basket-nav-update', { id: 4, enabled: true, view_part: 4 })
+	// Nasleduje zmena menu a odtiaľ na zmenu view
+	storeB.basketNavUpdate({ id: 4, enabled: true, view_part: 4 })
 }
 
 const getFromSession = () => {

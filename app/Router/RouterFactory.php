@@ -100,7 +100,7 @@ class RouterFactory
 				],
 			])
 			->addRoute('productlike', 'Homepage:productLikeView')
-			->addRoute('homepage/basket/<id=1>', 'Homepage:basketView')
+			->addRoute('basket[/<id>]', 'Homepage:basketView')
 			//->addRoute('homepage/section[/id]', 'Homepage:default')
 			->addRoute('forgottenPassword', 'User:forgottenPassword')
 			->addRoute('profile', 'UserLog:default')
