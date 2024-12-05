@@ -13,16 +13,14 @@ import { onMounted } from "vue"
 import { useBasketStore } from '../../store/basket.js'
 const storeB = useBasketStore()
 
-const emit = defineEmits(['basketViewPart', 'basket-update'])
+const emit = defineEmits(['basket-update'])
 
 const getToPage = (id) => {
 	storeB.view_part = id
 }
 
 onMounted(() => {
-	// TODO Session ...
 	if (Session.has('basket-nav')) storeB.basketNav = JSON.parse(Session.getStorage('basket-nav'))
-	emit('basket-update', [])
 })
 </script>
 

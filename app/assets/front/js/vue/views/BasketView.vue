@@ -45,11 +45,6 @@ watch(() => props.view_part, (newValue) => {
 
 onMounted(() => {
 	setPart(props.view_part)
-
-	// TODO $root.$on
-	/*this.$root.$on('basket-final', item => {
-		this.info = item
-	})*/
 })
 
 
@@ -79,6 +74,7 @@ onMounted(() => {
 		<!-- Štvrtý krok: sumarizácia nákupu -->
 		<basket-sumar 
 			v-else-if="storeB.view_part == 4"
+			@basket-final="(i) => info = i"
 		>
 		</basket-sumar>
 		<!-- Piaty krok: správa o ukončení nákupu -->

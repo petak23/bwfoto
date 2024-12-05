@@ -102,10 +102,9 @@ onMounted(() => {
 	<div>
 		<h1>Sumarizácia nákupu</h1>
 		<div class="row">
-			<div class="col-md-6">
+			<div class="col-md-6" v-if="product.length > 0">
 				<h5>Produkty:</h5>
 				<div
-					v-if="product.length > 0"
 					v-for="i in product"
 					:key="i.id_product" 
 					class="d-flex justify-content-between"
