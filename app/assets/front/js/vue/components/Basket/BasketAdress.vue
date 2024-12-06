@@ -55,7 +55,7 @@ const onSubmit = () => {
 	if (this.$session.has('basket-adress')) this.$session.remove('basket-adress')
 	this.$session.set('basket-adress', JSON.stringify(f_data))
 	// Nasleduje zmena menu odtiaľ na zmenu view
-	storeB.basketNavUpdate({ id: 3, enabled: true, view_part: 3 })
+	storeB.navigationUpdate({ id: 3, enabled: true, view_part: 3 })
 	
 }
 const getFromSession = () => {

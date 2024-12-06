@@ -4,28 +4,26 @@ import Session from '../plugins/session'
 
 export const useBasketStore = defineStore('basket', () => {
 
-	const view_part = ref(1)
-	const basketItem = ref([])
+/** ---------------- BASKET ------------- */
+	const basketItem = ref([]) // Array of Object {id_article: xx, id_product: xx, product: Object }
+	const final_price = ref(0) // Sumárna cena za produkty 
 
-	const basketNav = ref([
-		{ id: 1, key: "Obsah košíka", enabled: true },
-		{ id: 2, key: "Adresa", enabled: false },
-		{ id: 3, key: "Doprava a platba", enabled: false },
-		{ id: 4, key: "Sumár", enabled: false },
-		{ id: 5, key: "Ukončenie", enabled: false},
-	])
+	const getFinalPrice = () => {
+		final_price.value = 0
+		basketItem.value.forEach((item) => {
+			final_price.value += parseFloat(item.product.properties.final_price)
+		})
+		return final_price.value
+	}
 
-	/** Ulož položku 
-	 *  data = {
-	 *		id_product: item.id,
-	 *		product: item,
-	 *		id_article: store.article.id_hlavne_menu,
+	/** Ulož produkt
+	 *  data = { id_product: item.id, product: item, id_article: store.article.id_hlavne_menu,
 	 *		url_name: store.article.url_name, 
 	 *	}
 	 */
 	 const saveProduct = (data) => {
 		if (basketItem.value.length == 1 && basketItem.value[0].id_product == data.id_product) {
-			delAllProducts()
+			delAllProducts('basket-items')
 		} else {	
 			// Ak je v poli položka s id_propdukt == data.id_product tak ju vylúč
 			basketItem.value = basketItem.value.filter((likeItem) => (likeItem.id_product !== data.id_product))
@@ -74,24 +72,102 @@ export const useBasketStore = defineStore('basket', () => {
 		return out
 	}
 
-	const basketNavUpdate = (data) => {
+
+
+
+
+/** ---------------- NAV ------------- */
+
+	const view_part = ref(1)
+
+	const nav_dafault = ref([
+		{ id: 1, key: "Obsah košíka", enabled: true },
+		{ id: 2, key: "Adresa", enabled: false },
+		{ id: 3, key: "Doprava a platba", enabled: false },
+		{ id: 4, key: "Sumár", enabled: false },
+		{ id: 5, key: "Ukončenie", enabled: false},
+	])
+
+	const navigation = ref(nav_dafault)
+
+	const getNavFromSession = () => {
+		if (Session.has('basket-nav')) {
+			let pom = JSON.parse(Session.getStorage('basket-nav'))
+			navigation.value = pom.nav
+			view_part.value = pom.view_part
+		} else {
+			view_part.value = 1
+			navigation.value = nav_dafault.value
+		}
+	}
+
+	const saveNav = () => {
+		if (Session.has('basket-nav')) Session.clearStorage('basket-nav')
+		Session.saveStorage('basket-nav', {nav: navigation.value, view_part: view_part})	
+	}
+
+	const navigationUpdate = (data) => {
 		/* formát prichádzajúcich dát: { id: x, enabled: true|false, view_part: y, disable_another: true|false } */
 		if (data.disable_another != undefined && data.disable_another) {
-			for (let i = 0; i < basketNav.value.length; i++) {
-				basketNav.value[i].enabled = false;
+			for (let i = 0; i < navigation.value.length; i++) {
+				navigation.value[i].enabled = false;
 			}
 		}
-		if (parseInt(data.id) > 0 && parseInt(data.id) <= basketNav.value.length) { // ošetrenie hraníc
-			basketNav.value[data.id - 1].enabled = data.enabled == true // ošetrenie, že to bude bool
+		if (data.id != undefined && parseInt(data.id) > 0 && parseInt(data.id) <= navigation.value.length) { // ošetrenie hraníc
+			navigation.value[data.id - 1].enabled = data.enabled == true // ošetrenie, že to bude bool
 		}
-		if (Session.has('basket-nav')) Session.clearStorage('basket-nav')
-		Session.saveStorage('basket-nav', basketNav.value)
+		saveNav()
 		if (data.view_part != undefined) view_part.value = data.view_part
 	}
+
+
+
+
+
+/** ---------------- ADDRESS ------------- */
+
+	const basketAddress = ref([])
+	
+	const getAddressFromSession = () => {
+		if (Session.has('basket-address')) {
+			basketAddress.value = JSON.parse(Session.getStorage('basket-address'))
+		} else {
+			basketAddress.value = []
+		}
+	}
+
+	const saveAddress = () => {
+		if (Session.has('basket-address')) Session.clearStorage('basket-address')
+		Session.saveStorage('basket-address', basketAddress.value)	
+	}
+
+	
+
+	
+/** ---------------- SHIPPING ------------- */
+
+	const basketShipping = ref([])
+
+	const getShipingFromSession = () => {
+		if (Session.has('basket-shipping')) {
+			basketShipping.value = JSON.parse(Session.getStorage('basket-shipping'))
+		} else {
+			basketShipping.value = []
+		}
+	}
+	
+	const saveShipping = () => {
+		if (Session.has('basket-shipping')) Session.clearStorage('basket-shipping')
+		Session.saveStorage('basket-shipping', basketShipping.value)	
+	}
+	
  
 	return {
-		view_part, basketItem,
-		saveProduct, delAllProducts, delOneProduct, getProductsFromSession, getProductFromBasket,
-		basketNavUpdate
+		view_part, basketItem, final_price, navigation, basketAddress, basketShipping,
+		saveProduct, delAllProducts, delOneProduct, 
+		getProductsFromSession, getProductFromBasket, navigationUpdate, getFinalPrice,
+		getNavFromSession,
+		getAddressFromSession, saveAddress,
+		getShipingFromSession, saveShipping,
 	}
 })

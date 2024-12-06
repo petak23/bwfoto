@@ -38,7 +38,7 @@ const onSubmit = () => {
 	f_data.value.payment.name = payment.value[f_data.value.payment.val - 1].name
 	Session.saveStorage('basket-shipping', JSON.stringify(f_data.value))
 	// Nasleduje zmena menu a odtiaľ na zmenu view
-	storeB.basketNavUpdate({ id: 4, enabled: true, view_part: 4 })
+	storeB.navigationUpdate({ id: 4, enabled: true, view_part: 4 })
 }
 
 const getFromSession = () => {

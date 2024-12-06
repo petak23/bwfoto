@@ -1,16 +1,16 @@
 <script setup>
 /**
  * Komponenta pre vypísanie nákupného košíka v hlavnej ponuke.
- * Posledna zmena 04.12.2024
+ * Posledna zmena 05.12.2024
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.3
+ * @version    1.0.4
  */
 
-import { onMounted } from 'vue'
+import { watch, onMounted } from 'vue'
 
 import { useMainStore } from '../../store/main.js'
 const store = useMainStore()
@@ -21,20 +21,15 @@ import { RouterLink } from 'vue-router'
 
 import { BDropdown, BDropdownItem, BDropdownDivider } from 'bootstrap-vue-next';
 
-const getFromSession = () => {
-	
-	storeB.getProductsFromSession()
-	
-	/*
-	if (items.value.length == 0) {
-		Session.clearStorage('basket-adress')
-		Session.clearStorage('basket-shipping')
-		Session.clearStorage('basket-nav')	
-	}*/
-}
+watch(() => storeB.basketItem, () => {
+	storeB.getFinalPrice()
+})
 
 onMounted(() => {
-	getFromSession()
+	storeB.getProductsFromSession()
+	storeB.getNavFromSession()
+	storeB.getAddressFromSession()
+	storeB.getShipingFromSession()
 })
 
 </script>

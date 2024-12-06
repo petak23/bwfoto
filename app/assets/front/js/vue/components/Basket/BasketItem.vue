@@ -1,15 +1,14 @@
 <script setup>
 /**
  * Komponenta pre vypísanie jednej položky nákupného košíka.
- * Posledna zmena 07.03.2024
+ * Posledna zmena 05.12.2024
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.0
+ * @version    1.0.1
  */
-import Session from "../../plugins/session.js"
 import { RouterLink } from "vue-router";
 
 const props = defineProps({
@@ -23,11 +22,10 @@ const props = defineProps({
 	}
 })
 
-const emit = defineEmits("basket-update")
+const emit = defineEmits("basket-item-del")
 
 const delMe = () => {
-	Session.clearStorage('basket-item-' + props.basketItem.id_product)
-	emit("basket-update")
+	emit("basket-item-del", props.basketItem.id_product)
 }
 </script>
 
@@ -42,7 +40,7 @@ const delMe = () => {
 				<div class="col-12 col-md-6">
 					<h5 class="card-title">
 						<RouterLink 
-							:to="'/clanky/' + basketItem.id_article + '/?first_id=' + basketItem.id_product"
+							:to="'/clanky/' + basketItem.url_name + '/' + basketItem.id_product"
 							class="text-white"
 						>
 							{{ basketItem.product.name }}
@@ -50,7 +48,7 @@ const delMe = () => {
 					</h5>
 				</div>
 				<div class="col-10 col-md-4">
-					<h6 v-if="basketItem.product.properties.final_price > 0">
+					<h6 class="text-white" v-if="basketItem.product.properties.final_price > 0">
 						<b>Cena: {{ basketItem.product.properties.final_price }} €</b>
 					</h6>
 				</div>
@@ -64,7 +62,7 @@ const delMe = () => {
 						<i class="fa-regular fa-trash-can"></i>
 					</button>
 				</div>
-				<div class="col-12">
+				<div class="col-12 text-white">
 					<h6 v-if="basketItem.product.description != null">Popis:</h6>
 					<p class="card-text" v-if="basketItem.product.description != null">
 						<small>{{ basketItem.product.description }}</small><br />

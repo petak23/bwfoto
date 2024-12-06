@@ -74,7 +74,7 @@ const onSubmit = async (e) =>{
 					Session.clearStorage('basket-item-' + v.id_product)
 				}
 			}
-			storeB.basketNavUpdate({ id: 5, enabled: true, view_part: 5, disable_another: true })
+			storeB.navigationUpdate({ id: 5, enabled: true, view_part: 5, disable_another: true })
 
 			emit('basket-final', { message: response.data.message, type: 'success', heading: 'Ukončenie nákupu', })
 		} else {

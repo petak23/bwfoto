@@ -20,7 +20,7 @@ const getToPage = (id) => {
 }
 
 onMounted(() => {
-	if (Session.has('basket-nav')) storeB.basketNav = JSON.parse(Session.getStorage('basket-nav'))
+	//if (Session.has('basket-nav')) storeB.basketNav = JSON.parse(Session.getStorage('basket-nav'))
 })
 </script>
 
