@@ -21,7 +21,7 @@ export const useBasketStore = defineStore('basket', () => {
 	 *		url_name: store.article.url_name, 
 	 *	}
 	 */
-	 const saveProduct = (data) => {
+	const saveProduct = (data) => {
 		if (basketItem.value.length == 1 && basketItem.value[0].id_product == data.id_product) {
 			delAllProducts('basket-items')
 		} else {	

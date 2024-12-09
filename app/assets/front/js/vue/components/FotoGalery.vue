@@ -207,7 +207,23 @@ const my_in_basket = () => {
 	attachments.value[id.value].in_basket = storeB.getProductFromBasket(attachments.value[id.value].id) != null
 	in_basket.value = attachments.value[id.value].in_basket
 }
+const button_basket_title = computed(() => {
+	let t = in_basket.value ? 'Produkt už je v košíku.' : 'Vlož do košíka.'
+	return aa != null && aa.id_products_status > 1 ? aa.products_status : t 
+})
+const button_basket_class = computed(() => {
+	let t = in_basket.value ? 'btn-outline-secondary disabled' : 'btn-success'
+	return aa != null && aa.id_products_status > 1 ? 'btn-outline-secondary disabled' : t
+})
+const button_basket_disabled = computed(() => {
+	return aa != null && aa.id_products_status > 1 ? true : in_basket.value
+})
 
+watch(() => storeB.basketItem, () => {
+	my_in_basket()
+})
+
+// ------- ProductBasket------------------------ end
 
 const filterChange = (choice) => {
 	filter_choice.value = choice
@@ -229,17 +245,6 @@ const filesDir = computed(() => {
 const aa = computed(() => {
 	return typeof attachments.value[id.value] !== 'undefined' ? attachments.value[id.value] : null
 })
-const button_basket_title = computed(() => {
-	let t = in_basket.value ? 'Produkt už je v košíku.' : 'Vlož do košíka.'
-	return aa != null && aa.id_products_status > 1 ? aa.products_status : t 
-})
-const button_basket_class = computed(() => {
-	let t = in_basket.value ? 'btn-outline-secondary disabled' : 'btn-success'
-	return aa != null && aa.id_products_status > 1 ? 'btn-outline-secondary disabled' : t
-})
-const button_basket_disabled = computed(() => {
-	return aa != null && aa.id_products_status > 1 ? true : in_basket.value
-})
 
 watch(() => store.main_menu_active, () => {
 	getAttachments()
@@ -253,9 +258,7 @@ watch(() => props.first_id, (newFirstIdValue) => {
 	}
 })
 
-watch(() => storeB.basketItem, () => {
-	my_in_basket()
-})
+
 
 onMounted(() => {
 	// Dynamické správanie pri zmene veľkosti okna
