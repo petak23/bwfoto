@@ -1,16 +1,16 @@
 <script setup>
 /**
  * Komponenta pre zadanie a editáciu kontaktných údajov.
- * Posledna zmena 03.12.2024
+ * Posledna zmena 12.12.2024
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.4
+ * @version    1.0.5
  * @example https://medium.com/swlh/vue3-using-ref-or-reactive-88d47c8f6944
  */
-import { ref, reactive, computed, watch, onMounted } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 import countryCodes from "../../plugins/country.js"
 import MainService from '../../services/MainService.js'
 
@@ -22,51 +22,43 @@ const storeB = useBasketStore()
 // Reactive state
 const country = countryCodes
 const confirmation = ref("")
-const f_data = reactive({
-  name: "",
-  email: "",
-  password: "",
-  street: "",
-  town: "",
-  country: "",
-  psc: "",
-  phone: "+421",
-  adress2: {
-    street: "",
-    town: "",
-    country: "",
-    psc: ""
-  },
-  firm: {
-    name: "",
-    ico: "",
-    dic: "",
-    icdph: "",
-    street: "",
-    town: "",
-    country: "",
-    psc: ""
-  }
-});
+
 const test_email = ref(0) // 0: nevalidný; 1: validný a nenájdený; 2: validný a nájdený; 3: najdený a prihlasený
 
+import { useForm, useIsFormValid, useField } from 'vee-validate';
+import * as Yup from 'yup'
+
+const schema = Yup.object().shape({
+	basketInputEmail: Yup.string().required('Email musíte zadať!').email('Email nie je zadaný správne!').label('Emailová adresa'),
+	basketInputName: Yup.string().required('Heslo musí byť zadané!').min(5, 'Heslo musí mať aspoň 5 zankov'),
+})
+
+const { defineField, handleSubmit, resetForm, errors } = useForm({
+  validationSchema: schema,
+});
+
+const { meta: metae } = useField('email')
+const { meta: metap } = useField('password')
+
+const [email] = defineField('email');
+const [password] = defineField('password');
+
+const error_message = ref(null)
+
 const onSubmit = () => {
-	// TODO
-	if (this.$session.has('basket-adress')) this.$session.remove('basket-adress')
-	this.$session.set('basket-adress', JSON.stringify(f_data))
+	// Ulož data do storu a session
+	storeB.saveAddress()
 	// Nasleduje zmena menu odtiaľ na zmenu view
 	storeB.navigationUpdate({ id: 3, enabled: true, view_part: 3 })
-	
 }
+
 const getFromSession = () => {
-	// TODO
-	if (this.$session.has('basket-adress')) {
-		f_data = JSON.parse(this.$session.get("basket-adress"))
-	}
+	storeB.getAddressFromSession()
 }
+
 const testEmail = async () => {
 	if (store.user == null) { // Testovanie má zmysel len pre neprihláseného
-		await MainService.testUserEmail(f_data.email)
+		await MainService.testUserEmail(storeB.basketAddress.email)
 			.then(response => {
 				//console.log(response.data); // TODO isEmailVAlid...
 				test_email.value = response.data.status == 200 ? 2 : (isEmailVAlid ? 1 : 0)
@@ -96,18 +88,18 @@ const isEmailVAlid = computed(() => {
 onMounted(() => {
 	getFromSession()
 	if (store.user != null) { // Mám prihláseného užívateľa
-		f_data.name = store.user.name
-		f_data.email = store.user.email
+		storeB.basketAddress.name = store.user.name
+		storeB.basketAddress.email = store.user.email
 		test_email.value = 3
 		MainService.getActualUserProfile(store.id)
 			.then(response => {
-				f_data.phone = response.data.phone
-				f_data.street = response.data.street
-				f_data.town = response.data.town
-				f_data.psc = response.data.psc
-				f_data.country = response.data.country
-				if (response.data.adress2 != null) f_data.adress2 = JSON.parse(response.data.adress2)
-				if (response.data.firm != null) f_data.firm = JSON.parse(response.data.firm)
+				storeB.basketAddress.phone = response.data.phone
+				storeB.basketAddress.street = response.data.street
+				storeB.basketAddress.town = response.data.town
+				storeB.basketAddress.psc = response.data.psc
+				storeB.basketAddress.country = response.data.country
+				if (response.data.adress2 != null) storeB.basketAddress.adress2 = JSON.parse(response.data.adress2)
+				if (response.data.firm != null) storeB.basketAddress.firm = JSON.parse(response.data.firm)
 			})
 			.catch((error) => {
 				console.error(error);
@@ -133,7 +125,7 @@ onMounted(() => {
 						id="basketInputEmail" aria-describedby="emailHelp" required
 						v-validate="'required|email'" 
 						data-vv-as="e-mail"
-						v-model="f_data.email"
+						v-model="storeB.basketAddress.email"
 						:disabled="store.user != null"
 						:class="store.user != null ? 'disabled' : ''"
 						@blur="testEmail"
@@ -155,7 +147,7 @@ onMounted(() => {
 						id="basketInputName" aria-describedby="nameHelp" required
 						v-validate="'required|alpha_spaces'" 
 						data-vv-as="Meno a priezvisko"
-						v-model="f_data.name"
+						v-model="storeB.basketAddress.name"
 						:disabled="store.user != null"
 						:class="store.user != null ? 'disabled' : ''"
 					/>
@@ -178,7 +170,7 @@ onMounted(() => {
 						id="password1"
 						name="password1"
 						v-validate="'min:5'"
-						v-model="f_data.password"
+						v-model="storeB.basketAddress.password"
 						data-vv-as="heslo"
 					>
 					<small class="form-text bg-danger text-white px-2">{{ errors.first('password1') }}</small>
@@ -194,7 +186,7 @@ onMounted(() => {
 						name="password_confirmation" 
 						class="form-control"
 						id="password2"
-						v-validate="{ min:5, confirmed: f_data.password }"
+						v-validate="{ min:5, confirmed: storeB.basketAddress.password }"
 						data-vv-as="overené heslo"
 					>
 					<small class="form-text bg-danger text-white px-2">{{ errors.first('password_confirmation') }}</small>
@@ -207,7 +199,7 @@ onMounted(() => {
 					id="basketInputAdress1" required
 					v-validate="'required'"
 					data-vv-as="Adresa"
-					v-model="f_data.street"
+					v-model="storeB.basketAddress.street"
 				>
 				<small class="form-text bg-danger text-white px-2">{{ errors.first('basketInputAdress1') }}</small>
 			</div>
@@ -219,7 +211,7 @@ onMounted(() => {
 						id="inputCity" required
 						v-validate="'required'"
 						data-vv-as="Mesto"
-						v-model="f_data.town"
+						v-model="storeB.basketAddress.town"
 					>
 					<small class="form-text bg-danger text-white px-2">{{ errors.first('inputCity') }}</small>
 				</div>
@@ -230,7 +222,7 @@ onMounted(() => {
 						id="inputPsc" required
 						v-validate="'required|numeric|length:5'"
 						data-vv-as="PSČ"
-						v-model="f_data.psc"
+						v-model="storeB.basketAddress.psc"
 					>
 					<small class="form-text bg-danger text-white px-2">{{ errors.first('inputPsc') }}</small>
 				</div>
@@ -240,7 +232,7 @@ onMounted(() => {
 						name="inputState"
 						v-validate="'required'"
 						data-vv-as="Štát" 
-						v-model="f_data.country"
+						v-model="storeB.basketAddress.country"
 					>
 						<option selected disabled>Vyber...</option>
 						<option v-for="c in country" :key="c.code" :value="c.code">{{ c.name }}</option>
@@ -256,7 +248,7 @@ onMounted(() => {
 					value="+421" required
 					v-validate="'required|min:13'"
 					data-vv-as="Telefón"
-					v-model="f_data.phone"
+					v-model="storeB.basketAddress.phone"
 				>
 				<small class="form-text bg-danger text-white px-2">{{ errors.first('basketInputTel') }}</small>
 			</div>
@@ -271,35 +263,35 @@ onMounted(() => {
 					<label for="inputFirmName">Firma:</label>
 					<input type="text" 
 						class="form-control" id="inputFirmName"
-						v-model="f_data.firm.name"
+						v-model="storeB.basketAddress.firm.name"
 					>
 				</div>
 				<div class="form-group">
 					<label for="inputFirmIco">IČO:</label>
 					<input type="text" 
 						class="form-control" id="inputFirmIco"
-						v-model="f_data.firm.ico"
+						v-model="storeB.basketAddress.firm.ico"
 					>
 				</div>
 				<div class="form-group">
 					<label for="inputFirmDic">DIČ:</label>
 					<input type="text" 
 						class="form-control" id="inputFirmDic"
-						v-model="f_data.firm.dic"
+						v-model="storeB.basketAddress.firm.dic"
 					>
 				</div>
 				<div class="form-group">
 					<label for="inputFirmIcdph">IČ DPH:</label>
 					<input type="text" 
 						class="form-control" id="inputFirmIcdph"
-						v-model="f_data.firm.icdph"
+						v-model="storeB.basketAddress.firm.icdph"
 					>
 				</div>
 				<div class="form-group">
 					<label for="inputFirmAdress">Ulica a číslo domu:</label>
 					<input type="text"
 						class="form-control" id="inputFirmAdress"
-						v-model="f_data.firm.street"
+						v-model="storeB.basketAddress.firm.street"
 					>
 				</div>
 				<div class="form-row">
@@ -307,7 +299,7 @@ onMounted(() => {
 						<label for="inputFirmCity">Mesto:</label>
 						<input type="text" 
 							class="form-control" id="inputFirmCity"
-							v-model="f_data.firm.town"
+							v-model="storeB.basketAddress.firm.town"
 						>
 					</div>
 					<div class="form-group col-md-4">
@@ -316,14 +308,14 @@ onMounted(() => {
 							class="form-control" id="inputFirmPsc" 
 							v-validate="'numeric|length:5'"
 							data-vv-as="PSČ firmy"
-							v-model="f_data.firm.psc"
+							v-model="storeB.basketAddress.firm.psc"
 						>
 					</div>
 					<div class="form-group col-md-4">
 						<label for="inputFirmState">Štát:</label>
 						<select id="inputFirmState" 
 							class="form-control" 
-							v-model="f_data.firm.country"
+							v-model="storeB.basketAddress.firm.country"
 						>
 							<option selected disabled>Vyber...</option>
 							<option v-for="c in country" :key="c.code" value="c.code">{{ c.name }}</option>
@@ -342,7 +334,7 @@ onMounted(() => {
 					<label for="inputAdress2">Ulica a číslo domu:</label>
 					<input type="text" 
 						class="form-control" id="inputAdress2"
-						v-model="f_data.adress2.street"
+						v-model="storeB.basketAddress.adress2.street"
 					>
 				</div>
 				<div class="form-row">
@@ -350,7 +342,7 @@ onMounted(() => {
 						<label for="inputCity2">Mesto:</label>
 						<input type="text" 
 							class="form-control" id="inputCity2"
-							v-model="f_data.adress2.town"
+							v-model="storeB.basketAddress.adress2.town"
 						>
 					</div>
 					<div class="form-group col-md-4">
@@ -359,14 +351,14 @@ onMounted(() => {
 							class="form-control" id="inputPsc2"
 							v-validate="'numeric|length:5'"
 							data-vv-as="PSČ inej dodacej adresy"
-							v-model="f_data.adress2.psc"
+							v-model="storeB.basketAddress.adress2.psc"
 						>
 					</div>
 					<div class="form-group col-md-4">
 						<label for="inputState2">Štát:</label>
 						<select id="inputState2" 
 							class="form-control"
-							v-model="f_data.adress2.country"
+							v-model="storeB.basketAddress.adress2.country"
 						>
 							<option selected disabled>Vyber...</option>
 							<option v-for="c in country" :key="c.code" :value="c.code">{{ c.name }}</option>

@@ -80,13 +80,13 @@ export const useBasketStore = defineStore('basket', () => {
 
 	const view_part = ref(1)
 
-	const nav_dafault = ref([
+	const nav_dafault = [
 		{ id: 1, key: "Obsah košíka", enabled: true },
 		{ id: 2, key: "Adresa", enabled: false },
 		{ id: 3, key: "Doprava a platba", enabled: false },
 		{ id: 4, key: "Sumár", enabled: false },
 		{ id: 5, key: "Ukončenie", enabled: false},
-	])
+	]
 
 	const navigation = ref(nav_dafault)
 
@@ -97,7 +97,7 @@ export const useBasketStore = defineStore('basket', () => {
 			view_part.value = pom.view_part
 		} else {
 			view_part.value = 1
-			navigation.value = nav_dafault.value
+			navigation.value = nav_dafault
 		}
 	}
 
@@ -126,17 +126,45 @@ export const useBasketStore = defineStore('basket', () => {
 
 /** ---------------- ADDRESS ------------- */
 
-	const basketAddress = ref([])
+	const address_default = {
+		name: "",
+		email: "",
+		password: "",
+		street: "",
+		town: "",
+		country: "",
+		psc: "",
+		phone: "+421",
+		adress2: {
+			street: "",
+			town: "",
+			country: "",
+			psc: ""
+		},
+		firm: {
+			name: "",
+			ico: "",
+			dic: "",
+			icdph: "",
+			street: "",
+			town: "",
+			country: "",
+			psc: ""
+		}
+	}
+
+	const basketAddress = ref(address_default)
 	
 	const getAddressFromSession = () => {
 		if (Session.has('basket-address')) {
 			basketAddress.value = JSON.parse(Session.getStorage('basket-address'))
 		} else {
-			basketAddress.value = []
+			basketAddress.value = address_default
 		}
 	}
 
-	const saveAddress = () => {
+	const saveAddress = (data = null) => {
+		if (data != null) basketAddress.value = data
 		if (Session.has('basket-address')) Session.clearStorage('basket-address')
 		Session.saveStorage('basket-address', basketAddress.value)	
 	}
