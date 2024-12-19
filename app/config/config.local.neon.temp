@@ -10,4 +10,4 @@ webpack:
   devServer:
     enabled: %debugMode%
     # Upraviť adresu podľa vlastného localhost-u napr. na: http://http://localhost/bwfoto/dist
-    url: http://http://localhost/~petak23/bwfoto/dist 
+    url: http://http://localhost/bwfoto/dist 

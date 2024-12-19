@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { ref, toRaw } from 'vue'
 import { defineStore } from 'pinia'
 import Session from '../plugins/session'
 
@@ -32,7 +32,7 @@ export const useBasketStore = defineStore('basket', () => {
 			basketItem.value.push(data)
 	
 			Session.clearStorage('basket-items')
-			Session.saveStorage('basket-items', basketItem.value)
+			Session.saveStorage('basket-items', toRaw(basketItem.value))
 		}
 	}
 
@@ -50,7 +50,7 @@ export const useBasketStore = defineStore('basket', () => {
 			// Ak je v poli položka s id_propdukt == id tak ju vylúč
 			basketItem.value = basketItem.value.filter((likeItem) => (likeItem != null && likeItem.id_product !== id))
 			Session.clearStorage('basket-items')
-			Session.saveStorage('basket-items', basketItem.value)
+			Session.saveStorage('basket-items', toRaw(basketItem.value))
 		}
 	}
 
@@ -103,7 +103,7 @@ export const useBasketStore = defineStore('basket', () => {
 
 	const saveNav = () => {
 		if (Session.has('basket-nav')) Session.clearStorage('basket-nav')
-		Session.saveStorage('basket-nav', {nav: navigation.value, view_part: view_part})	
+		Session.saveStorage('basket-nav', {nav: toRaw(navigation.value), view_part: toRaw(view_part.value)})	
 	}
 
 	const navigationUpdate = (data) => {
@@ -166,7 +166,7 @@ export const useBasketStore = defineStore('basket', () => {
 	const saveAddress = (data = null) => {
 		if (data != null) basketAddress.value = data
 		if (Session.has('basket-address')) Session.clearStorage('basket-address')
-		Session.saveStorage('basket-address', basketAddress.value)	
+		Session.saveStorage('basket-address', toRaw(basketAddress.value))	
 	}
 
 	
@@ -186,7 +186,7 @@ export const useBasketStore = defineStore('basket', () => {
 	
 	const saveShipping = () => {
 		if (Session.has('basket-shipping')) Session.clearStorage('basket-shipping')
-		Session.saveStorage('basket-shipping', basketShipping.value)	
+		Session.saveStorage('basket-shipping', toRaw(basketShipping.value))	
 	}
 	
  

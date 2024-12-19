@@ -1,2 +1,2 @@
 /* eslint-disable */
-export const baseURL = 'http://localhost/~petak23/bwfoto';
+export const baseURL = 'http://localhost/bwfoto';

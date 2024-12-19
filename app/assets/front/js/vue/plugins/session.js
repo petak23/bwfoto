@@ -3,6 +3,7 @@ export default {
 	// Sets an item with a Key to local storage
 	//const saveStorage = function(key, data) {
 	saveStorage(key, data) {
+		if (localStorage.getItem(key)) { localStorage.removeItem(key) }
 		localStorage.setItem(key, JSON.stringify(data));
 	},
 

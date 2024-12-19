@@ -1,1 +1,0 @@
-../_sources/apigen generate --config ../bwfoto/apigen.neon
