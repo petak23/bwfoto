@@ -59,7 +59,7 @@ onMounted(() => {
 						:to="'/clanky/' + i.url_name + '/' + i.id_product"
 					>
 						{{ i.product.name }}
-						<br />{{ i.product.properties.final_price }} €
+						<br />{{ i.product.properties.final_price.toFixed(2) }} €
 					</RouterLink>
 					<button 
 						v-if="storeB.view_part == 1"

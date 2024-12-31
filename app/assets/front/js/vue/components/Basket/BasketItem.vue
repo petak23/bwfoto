@@ -49,7 +49,7 @@ const delMe = () => {
 				</div>
 				<div class="col-10 col-md-4">
 					<h6 class="text-white" v-if="basketItem.product.properties.final_price > 0">
-						<b>Cena: {{ basketItem.product.properties.final_price }} €</b>
+						<b>Cena: {{ basketItem.product.properties.final_price.toFixed(2) }} €</b>
 					</h6>
 				</div>
 				<div class="col-2 col-md-2 text-right">
@@ -70,7 +70,7 @@ const delMe = () => {
 					<h6 v-if="basketItem.product.properties.props.length">Vlastnosti:</h6>
 					<div class="card-text" v-if="basketItem.product.properties.props.length">
 						<table class="table table-dark table-striped table-sm">
-							<tr v-for="pp in basketItem.product.properties.props">
+							<tr v-for="pp in basketItem.product.properties.props" :key="pp.category">
 								<td>{{ pp.category }}</td>
 								<td>{{ pp.name }}</td>
 							</tr>

@@ -43,7 +43,7 @@ onMounted(() => {
 			/>
 		</div>
 		<div class="text-right" v-if="storeB.basketItem.length">
-			Výsledná cena: <b>{{ storeB.final_price }} €</b><br />
+			Výsledná cena: <b>{{ storeB.final_price.toFixed(2) }} €</b><br />
 			<button
 				@click="getToPage(2)"
 				class="btn btn-success mt-2">
