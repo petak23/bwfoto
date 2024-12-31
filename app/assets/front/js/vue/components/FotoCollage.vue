@@ -1,13 +1,13 @@
 <script setup>
 /** 
  * Component Fotocollage
- * Posledná zmena(last change): 29.11.2024
+ * Posledná zmena(last change): 31.12.2024
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2024 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.2.6
+ * @version 1.2.7
  * Z kniznica pouzite súbory a upravene: https://github.com/seanghay/vue-photo-collage
  */
 import { ref, computed, watch, onMounted, onUnmounted } from "vue"
@@ -21,10 +21,6 @@ import { useFlashStore } from '../store/flash'
 const storeF = useFlashStore()
 
 const props = defineProps({
-	filesPath: { // Adresár k súborom bez basePath
-		type: String,
-		default: "",
-	}, 
 	maxrandompercwidth: { // Percento, o ktoré sa môže meniť naviac šírka fotky
 		type: Number,
 		default: 25,
@@ -211,10 +207,6 @@ const after = () => {
 	}, 1)
 }
 
-const filesDir = computed(() => {
-	return store.baseUrl + '/' + props.filesPath
-})
-
 watch(() => store.main_menu_changed, () => {
 	if (!store.main_menu_changed) {
 		/* Nčítanie schémy fotokoláže */
@@ -245,7 +237,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-	<section id="webThumbnails" class="row" v-if="filesDir.length > 0">
+	<section id="webThumbnails" class="row" v-if="store.baseUrl.length > 0">
 		<div class="col-12 vue-fotogalery">
 			<ul class="nav justify-content-end mb-1" v-if="edit_enabled">
 				<li class="nav-item">
@@ -312,7 +304,7 @@ onUnmounted(() => {
 			>
 				<div class="modal-content">
 					<div class="modal-body my-img-content">  
-						<img :src="filesDir + image.main_file" 
+						<img :src="store.baseUrl + '/' + image.main_file" 
 									:alt="image.name" 
 									id="big-main-img"
 									class="" />
