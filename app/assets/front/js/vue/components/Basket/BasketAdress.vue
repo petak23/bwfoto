@@ -1,17 +1,21 @@
 <script setup>
 /**
  * Komponenta pre zadanie a editáciu kontaktných údajov.
- * Posledna zmena 12.12.2024
+ * Posledna zmena 13.01.2025
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2025 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.5
+ * @version    1.0.6
  * @example https://medium.com/swlh/vue3-using-ref-or-reactive-88d47c8f6944
  */
-import { ref, computed, watch, onMounted } from 'vue';
-import countryCodes from "../../plugins/country.js"
+import { ref, computed, onMounted, watch } from 'vue'
+import { useForm, useField, ErrorMessage } from 'vee-validate'
+import * as yup from 'yup'
+import { debounce } from 'lodash'
+import { RouterLink } from "vue-router"
+import { BForm, BFormGroup, BFormInput, BFormInvalidFeedback, BButton } from 'bootstrap-vue-next'
 import MainService from '../../services/MainService.js'
 
 import { useMainStore } from '../../store/main'
@@ -19,90 +23,69 @@ const store = useMainStore()
 import { useBasketStore } from '../../store/basket.js'
 const storeB = useBasketStore()
 
-import { BFormInput } from 'bootstrap-vue-next'
-
-// Reactive state
+import countryCodes from "../../plugins/country.js"
 const country = countryCodes
-const confirmation = ref("")
+
+const isLoading = ref(false);
+const apiError = ref(false); // Pridaná premenná pre chyby API
+const emailState = ref(null)
+const oldValue = ref("")
 
 const test_email = ref(0) // 0: nevalidný; 1: validný a nenájdený; 2: validný a nájdený; 3: najdený a prihlasený
 
-import { Form, useForm, useIsFormValid, useField, Field, ErrorMessage } from 'vee-validate';
-import * as Yup from 'yup'
-
-const schema = Yup.object().shape({
-	basketEmail: Yup.string().required('Email musíte zadať!').email('Email nie je zadaný správne!').label('Emailová adresa'),
-	basketInputName: Yup.string().required('Heslo musí byť zadané!').min(5, 'Heslo musí mať aspoň 5 zankov'),
-})
-/*
-const { defineField, handleSubmit, resetForm, errors } = useForm({
-  validationSchema: schema,
+const validationSchema = yup.object().shape({
+	email: yup.string().email('Zadajte platný email').required('Email je povinný'),
+	basketInputName: yup.string().required('Meno a priezvisko sú povinné')
+		.matches(/^\S+\s+\S+$/, 'Meno musí obsahovať meno a priezvisko oddelené medzerou'),
 });
 
-const { meta: metae } = useField('basketEmail')
-const { meta: metap } = useField('password')
-
-//const [basketEmail, basketEmailAttrs] = defineField('basketEmail')
-const [password] = defineField('password');
-
-
-const emailRules = Yup
-  .string()
-  .required('Email je povinný')
-  .email('Zadajte platný email');
-
-const nameRules = Yup
-  .string()
-  .required('Meno a priezvisko sú povinné')
-  .matches(/^\S+\s+\S+$/, 'Meno musí obsahovať meno a priezvisko oddelené medzerou');
-*/
-
-const error_message = ref(null)
-
-const isAddressFormValid = useIsFormValid()
-
-const onSubmit = (values) => {
-	console.log(values);
-	
-	// Ulož data do storu a session
-	storeB.saveAddress()
-	// Nasleduje zmena menu odtiaľ na zmenu view
-	storeB.navigationUpdate({ id: 3, enabled: true, view_part: 3 })
-}
-
-const getFromSession = () => {
-	storeB.getAddressFromSession()
-}
-
-const testEmail = async () => {
-	if (store.user == null) { // Testovanie má zmysel len pre neprihláseného
-		await MainService.testUserEmail(storeB.basketAddress.email)
-			.then(response => {
-				//console.log(response.data); // TODO isEmailVAlid...
-				test_email.value = response.data.status == 200 ? 2 : 0//(metae.valid ? 1 : 0)
-				console.log('testEmail: ' + test_email.value);
-			})
-			.catch((error) => {
-				console.error(error);
-			})
+const { handleSubmit, meta } = useForm({
+	validationSchema,
+	initialValues: {
+		email: storeB.basketEmail,
 	}
-}
-
-// TODO ...
-const isFormValid = computed(() => {
-	return false//Object.keys(fields).every(key => fields[key].valid);
 })
 
-// TODO
-/*watch(() => metae.valid, () => {
-	if (store.user == null) {
-		if (metae.valid) testEmail() // Testuj len keď je validný email
-		else test_email.value = 0
+const { value: email, errorMessage } = useField('email');
+
+const validateEmailExistence = async () => {
+	console.log("Testujem...", errorMessage.value, meta.value.valid)
+
+	if (!meta.value.valid) { // Email nie je validný
+		test_email.value = 0
+		emailState.value = false
+		console.log(emailState.value);
+		
+		return
 	}
-})*/
+	if (oldValue.value != email.value) { // Došlo k zmene v zadaní
+		isLoading.value = true;
+		apiError.value = false; // Resetovanie chyby pred novým pokusom
+		try {
+			const response = await MainService.testUserEmail(email.value);
+			test_email.value = response.data.status == 200 ? (store.user == null ? 2 : 3) : 1
+			emailState.value = true
+			oldValue.value = email.value
+		} catch (error) {
+			console.error('Chyba pri kontrole emailu:', error)
+			apiError.value = true // Nastavenie chyby
+			emailState.value = false
+			test_email.value = 0;
+		} finally {
+			isLoading.value = false;
+		}
+	}
+}
+
+const debouncedValidateEmailExistence = debounce(validateEmailExistence, 1000);
+
+const isFormValid = computed(() => meta.value.valid);
 
 onMounted(() => {
-	getFromSession()
+	if (storeB.basketEmail) {
+			email.value = storeB.basketEmail
+	}
+	storeB.getAddressFromSession()
 	if (store.user != null) { // Mám prihláseného užívateľa
 		storeB.basketAddress.name = store.user.name
 		storeB.basketAddress.email = store.user.email
@@ -124,188 +107,142 @@ onMounted(() => {
 	}
 })
 
+const onSubmit = async (values) => {
+	storeB.basketEmail = values.email;
+	console.log('Odosielané dáta:', values);
+}
 </script>
 
 <template>
-	<div>
-		<h1>Fakturačné údaje</h1>
-		<Form
-			@submit="onSubmit"
-			:validation-schema="schema"
-		>
-			<div class="form-row">
-				<div class="form-group col-md-6">
-					<!--<div class="form-row">
-						<div class="form-group">
-							<BFormInput 
-								id="input-email"
-								v-model="storeB.basketAddress.email" 
-								aria-describedby="email-help"
-								:state="!metae.dirty ? null : metae.valid"
-								:disabled="store.user != null"
-								:class="store.user != null ? 'disabled' : ''"
-								@blur="testEmail" 
-								type="email"
-								title="E-mail:"
-								placeholder="Zadaj email"
-								autofocus
-							/>
-							<small id="email-help" class="text-danger">{{ errors.email }}</small>
-							
-							<small class="form-text bg-danger text-white px-2">{{ errors.email }}</small>
-							<small id="emailHelp" class="form-text text-white">
-								E-mailovú adresu nezdieľame s nikým iným!
-							</small>
-							<small v-if="test_email == 2 && store.user == null" class="form-text alert alert-warning px-2">
-								Vašu e-mailovú adresu sme našli v databáze. 
-								Prosím, najprv sa prihláste a potom pokračujte v nákupe.
-							</small>
-						</div>
-					</div>-->
-					
-					<!--label for="email">E-mail:</label-->
-					<Field
-						name="email"
-						type="email"
-						v-model="storeB.basketAddress.email"
-						label="E-mail:"
-						:rules="emailRules"
-						placeholder="Zadajte váš1 email"
-						:disabled="store.user != null"
-						class="form-control"
-						:class="store.user != null ? 'disabled' : ''"
-						@blur="testEmail"
-						autofocus
-					/>
-					<ErrorMessage name="email" class="form-text bg-danger text-white px-2" />
-      
-
-					<!--<label for="basketInputEmail">E-mail:</label>
-					<input 
-						type="email" class="form-control" 
-						name="basketInputEmail"
-						id="basketInputEmail" aria-describedby="emailHelp" required
-						v-validate="'required|email'" 
-						data-vv-as="e-mail" 
-						v-bind="basketEmailAttrs"
-						v-model="storeB.basketAddress.email"
-						:disabled="store.user != null"
-						:class="store.user != null ? 'disabled' : ''"
-						@blur="testEmail"
-						autofocus
-					>
-					<small class="form-text bg-danger text-white px-2">{{ errors.basketEmail }}</small>-->
-					<small id="emailHelp" class="form-text text-light">
-						E-mailovú adresu nezdieľame s nikým iným!
-					</small>
-					<small v-if="test_email == 2 && store.user == null" class="form-text alert alert-warning px-2">
-						Vašu e-mailovú adresu sme našli v databáze. 
-						Prosím, najprv sa prihláste a potom pokračujte v nákupe.
-					</small>
-				</div>
-
-
-				<!--<div class="form-group col-md-6" v-if="test_email % 2 == 1">
-					<label for="basketInputName">Meno a priezvisko:</label>
-					<input 
-						type="text" class="form-control" 
-						name="basketInputName"
-						id="basketInputName" aria-describedby="nameHelp" required
-						v-validate="'required|alpha_spaces'" 
-						data-vv-as="Meno a priezvisko"
-						v-model="storeB.basketAddress.name"
-						:disabled="store.user != null"
-						:class="store.user != null ? 'disabled' : ''"
-					/>
-					<small class="form-text bg-danger text-white px-2">{{ errors.first('basketInputName') }}</small>
-					<small id="nameHelp" class="form-text text-muted">Zadajte, prosím, meno v tvare: Janko Mrkvička.</small>
-				</div>
+	<h1>Fakturačné údaje</h1>
+	<BForm @submit.prevent="handleSubmit">
+		<BFormGroup label="Email:" label-for="email" :state="emailState">
+			<BFormInput
+				id="email"
+				class="form-control"
+				v-model="email"
+				type="email"
+				placeholder="Zadajte email"
+				@blur="validateEmailExistence"
+				@input="debouncedValidateEmailExistence"
+				:state="emailState"
+			/>
+			<BFormInvalidFeedback v-if="errorMessage">{{ errorMessage }}</BFormInvalidFeedback>
+			<div v-if="isFormValid && test_email === 1" class="text-green-500">Email je voľný.</div>
+			<div v-if="isLoading" class="animate-pulse">Kontrolujem email...</div>
+			<div v-if="apiError" class="text-red-500">Vyskytla sa chyba pri overovaní emailu.</div>
+			<div v-if="test_email === 2" class="form-text alert alert-warning px-2">
+				Vašu e-mailovú adresu sme našli v databáze. 
+				Prosím, najprv sa prihláste a potom pokračujte v nákupe. <br />
+				<RouterLink to="login" v-if="test_email === 2" class="btn btn-success mt-2">
+					{{ store.texts.log_in }}
+				</RouterLink>
 			</div>
-			<div v-if="store.user == null && test_email == 1">
-				<button class="btn btn-primary my-2" type="button" data-toggle="collapse" data-target="#collapseReg" aria-expanded="false" aria-controls="collapseReg">
-					Registrácia
-				</button>
-				<small id="emailHelp" class="form-text text-muted">Ak sa zaregistrujete, tak pri najbližšom nákupe už nemusíte zadávať údaje nanovo.</small>
+			<div class="form-text text-light">
+				E-mailovú adresu nezdieľame s nikým iným!
 			</div>
-			<div class="collapse form-row" id="collapseReg" v-if="store.user == null && test_email == 1">
-				<div class="form-group col-md-6">
-					<label for="password1">Heslo</label>
-					<input 
-						type="password" 
-						class="form-control"
-						id="password1"
-						name="password1"
-						v-validate="'min:5'"
-						v-model="storeB.basketAddress.password"
-						data-vv-as="heslo"
-					>
-					<small class="form-text bg-danger text-white px-2">{{ errors.first('password1') }}</small>
-					<small id="emailHelp" class="form-text text-muted">
-						Zadajte dvakrát rovnaké heslo!
-					</small>
-				</div>
-				<div class="form-group col-md-6">
-					<label for="password2">Over heslo</label>
-					<input 
-						v-model="confirmation"
-						type="password" 
-						name="password_confirmation" 
-						class="form-control"
-						id="password2"
-						v-validate="{ min:5, confirmed: storeB.basketAddress.password }"
-						data-vv-as="overené heslo"
-					>
-					<small class="form-text bg-danger text-white px-2">{{ errors.first('password_confirmation') }}</small>
-				</div>
-			</div>
-			<div class="form-group" v-if="test_email % 2 == 1">
-				<label for="basketInputAdress1">Ulica a číslo domu:</label>
-				<input type="text" class="form-control" 
-					name="basketInputAdress1"
-					id="basketInputAdress1" required
-					v-validate="'required'"
-					data-vv-as="Adresa"
-					v-model="storeB.basketAddress.street"
+		</BFormGroup>
+
+		<div class="form-group col-md-6" v-if="test_email % 2 == 1">
+			<label for="basketInputName">Meno a priezvisko:</label>
+			<input 
+				type="text" class="form-control" 
+				name="basketInputName"
+				id="basketInputName" aria-describedby="nameHelp" required
+				v-validate="'required|alpha_spaces'" 
+				data-vv-as="Meno a priezvisko"
+				v-model="storeB.basketAddress.name"
+				:disabled="store.user != null"
+				:class="store.user != null ? 'disabled' : ''"
+			/>
+			<small class="form-text bg-danger text-white px-2">{{ errors.first('basketInputName') }}</small>
+			<small id="nameHelp" class="form-text text-muted">Zadajte, prosím, meno v tvare: Janko Mrkvička.</small>
+		</div>
+		<div v-if="store.user == null && test_email == 1">
+			<button class="btn btn-primary my-2" type="button" data-toggle="collapse" data-target="#collapseReg" aria-expanded="false" aria-controls="collapseReg">
+				Registrácia
+			</button>
+			<small id="emailHelp" class="form-text text-muted">Ak sa zaregistrujete, tak pri najbližšom nákupe už nemusíte zadávať údaje nanovo.</small>
+		</div>
+		<div class="collapse form-row" id="collapseReg" v-if="store.user == null && test_email == 1">
+			<div class="form-group col-md-6">
+				<label for="password1">Heslo</label>
+				<input 
+					type="password" 
+					class="form-control"
+					id="password1"
+					name="password1"
+					v-validate="'min:5'"
+					v-model="storeB.basketAddress.password"
+					data-vv-as="heslo"
 				>
-				<small class="form-text bg-danger text-white px-2">{{ errors.first('basketInputAdress1') }}</small>
+				<small class="form-text bg-danger text-white px-2">{{ errors.first('password1') }}</small>
+				<small id="emailHelp" class="form-text text-muted">
+					Zadajte dvakrát rovnaké heslo!
+				</small>
 			</div>
-			<div class="form-row" v-if="test_email % 2 == 1">
-				<div class="form-group col-md-4">
-					<label for="inputCity">Mesto:</label>
-					<input type="text" class="form-control" 
-						name="inputCity"
-						id="inputCity" required
-						v-validate="'required'"
-						data-vv-as="Mesto"
-						v-model="storeB.basketAddress.town"
-					>
-					<small class="form-text bg-danger text-white px-2">{{ errors.first('inputCity') }}</small>
-				</div>
-				<div class="form-group col-md-4">
-					<label for="inputPsc">PSČ(bez medzery):</label>
-					<input type="text" class="form-control" 
-						name="inputPsc"
-						id="inputPsc" required
-						v-validate="'required|numeric|length:5'"
-						data-vv-as="PSČ"
-						v-model="storeB.basketAddress.psc"
-					>
-					<small class="form-text bg-danger text-white px-2">{{ errors.first('inputPsc') }}</small>
-				</div>
-				<div class="form-group col-md-4">
-					<label for="inputState">Štát:</label>
-					<select id="inputState" class="form-control" required
-						name="inputState"
-						v-validate="'required'"
-						data-vv-as="Štát" 
-						v-model="storeB.basketAddress.country"
-					>
-						<option selected disabled>Vyber...</option>
-						<option v-for="c in country" :key="c.code" :value="c.code">{{ c.name }}</option>
-					</select>
-					<small class="form-text bg-danger text-white px-2">{{ errors.first('inputState') }}</small>
-				</div>
+			<div class="form-group col-md-6">
+				<label for="password2">Over heslo</label>
+				<input 
+					v-model="confirmation"
+					type="password" 
+					name="password_confirmation" 
+					class="form-control"
+					id="password2"
+					v-validate="{ min:5, confirmed: storeB.basketAddress.password }"
+					data-vv-as="overené heslo"
+				>
+				<small class="form-text bg-danger text-white px-2">{{ errors.first('password_confirmation') }}</small>
 			</div>
+		</div>
+		<div class="form-group" v-if="test_email % 2 == 1">
+			<label for="basketInputAdress1">Ulica a číslo domu:</label>
+			<input type="text" class="form-control" 
+				name="basketInputAdress1"
+				id="basketInputAdress1" required
+				v-validate="'required'"
+				data-vv-as="Adresa"
+				v-model="storeB.basketAddress.street"
+			>
+			<small class="form-text bg-danger text-white px-2">{{ errors.first('basketInputAdress1') }}</small>
+		</div>
+		<div class="form-row" v-if="test_email % 2 == 1">
+			<div class="form-group col-md-4">
+				<label for="inputCity">Mesto:</label>
+				<input type="text" class="form-control" 
+					name="inputCity"
+					id="inputCity" required
+					v-validate="'required'"
+					data-vv-as="Mesto"
+					v-model="storeB.basketAddress.town"
+				>
+				<small class="form-text bg-danger text-white px-2">{{ errors.first('inputCity') }}</small>
+			</div>
+			<div class="form-group col-md-4">
+				<label for="inputPsc">PSČ(bez medzery):</label>
+				<input type="text" class="form-control" 
+					name="inputPsc"
+					id="inputPsc" required
+					v-validate="'required|numeric|length:5'"
+					data-vv-as="PSČ"
+					v-model="storeB.basketAddress.psc"
+				>
+				<small class="form-text bg-danger text-white px-2">{{ errors.first('inputPsc') }}</small>
+			</div>
+			<div class="form-group col-md-4">
+				<label for="inputState">Štát:</label>
+				<select id="inputState" class="form-control" required
+					name="inputState"
+					v-validate="'required'"
+					data-vv-as="Štát" 
+					v-model="storeB.basketAddress.country"
+				>
+					<option selected disabled>Vyber...</option>
+					<option v-for="c in country" :key="c.code" :value="c.code">{{ c.name }}</option>
+				</select>
+				<small class="form-text bg-danger text-white px-2">{{ errors.first('inputState') }}</small>
+			</div>
+		</div>
 			<div class="form-group" v-if="test_email % 2 == 1">
 				<label for="basketInputTel">Telefón(bez medzier):</label>
 				<input type="text" class="form-control" 
@@ -430,35 +367,17 @@ onMounted(() => {
 							<option v-for="c in country" :key="c.code" :value="c.code">{{ c.name }}</option>
 						</select>
 					</div>
-				</div>-->
+				</div>
 			</div>
 
-			<button 
-				v-if="test_email != 2"
-				type="submit"
-				class="btn btn-success mt-2 send-button"
-				:class="isFormValid ? '' : 'disabled'"
-				:disabled="!isFormValid"
-			>
-				Pokračuj v objednávke na zhrnutie <i class="ml-1 fa-solid fa-arrow-right"></i>
-			</button>
 
-
-		</form>
-		<a :href="store.logInLink" v-if="test_email == 2" class="btn btn-success mt-2">
-			{{ store.texts.log_in }}
-		</a>
-	</div>
+		<BButton 
+			type="submit" :disabled="!isFormValid" 
+			variant="success" class="mt-2 send-button"
+			:class="isFormValid ? '' : 'disabled'"
+		>
+			Pokračuj v objednávke na zhrnutie <i class="ml-1 fa-solid fa-arrow-right"></i>
+		</BButton>
+	</BForm>
+	
 </template>
-
-<style scoped>
-.send-button:disabled {
-	cursor: not-allowed;
-	opacity: .5;
-}
-
-.form-control:disabled {
-	cursor: not-allowed;
-	opacity: .5;
-}
-</style>

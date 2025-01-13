@@ -41,9 +41,19 @@ export default {
 	getUserInfo(id_user_main) {
 		return apiClient.get('user/getuserinfo/' + id_user_main)
 	},
-	testUserEmail(email) {
+	/*OLD - testUserEmail(email) {
 		return apiClient.post('user/testuseremail', {email: email})
-	},
+	},*/
+	async testUserEmail(email) {
+    try {
+      const response = await apiClient.post('user/testuseremail', {email: email})
+      return response
+    } catch (error) {
+      // Dôležité je spracovať chyby a vrátiť ich, aby ich komponenta mohla zachytiť
+      console.error("Chyba v MainService:testUserEmail => ", error);
+      throw error; // Prehodenie chyby, aby ju komponenta zachytila
+    }
+  },
 	postForgottenPassword(email) {
 		return apiClient.post('user/forgottenpassword', {email: email})
 	},
