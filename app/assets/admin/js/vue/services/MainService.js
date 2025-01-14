@@ -35,4 +35,42 @@ export default {
 	postSaveUdaj(key, val) {
 		return apiClient.post('udaje/saveudaj', { key: key, val: val })
 	},
+
+	// ---- menu -----
+	getMenuFront() {
+		return apiClient.get('menu/getmenu/0/front')
+	},
+	getSubmenuFront(main_menu_active) {
+		return apiClient.get('menu/getsubmenu/' + main_menu_active + '/front')
+	},
+	getOneMainMenuArticle(id_hlavne_menu){
+		return apiClient.get('menu/getonehlavnemenuarticle/' + id_hlavne_menu)
+	},
+	getOneMenuArticle(id_hlavne_menu_lang) {
+		return apiClient.get('menu/getonemenuarticle/' + id_hlavne_menu_lang)
+	},
+	getFotoCollageSettings(id_hlavne_menu) {
+		return apiClient.get('menu/getfotocollagesettings/' + id_hlavne_menu)
+	},
+	getForFormTemplate() {
+		return apiClient.get('menu/getforformtemplate')
+	},
+	postSaveFotoCollageSettings(id_hlavne_menu, data) {
+		return apiClient.post('menu/savefotocollagesettings/' + id_hlavne_menu, data)
+	},
+	postSaveOrderSubmenu(id_hlavne_menu, data) {
+		return apiClient.post('menu/saveordersubmenu/' + id_hlavne_menu, data)
+	},
+	postH1Save(id, data) {
+		return apiClient.post('menu/h1save/' + id, data)
+	},
+	postTextSave(id, data) {
+		return apiClient.post('menu/textssave/' + id, data)
+	},
+	postSaveMainMenuField(id_hlavne_menu, data) {
+		return apiClient.post('menu/savemainmenufield/' + id_hlavne_menu, data)
+	},
+	postSaveBorder(id, data) {
+		return apiClient.post('menu/saveborder/' + id, data)
+	},
 }

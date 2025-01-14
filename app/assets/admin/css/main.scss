@@ -1,10 +1,12 @@
 /* AUTHOR: Peter VOJTECH; CREATION DATE: 24.04.2012 */
 /* UPDATED 20.12.2024 */
 @use "sass:meta";
+
 @import "~@fortawesome/fontawesome-free/css/all.css";
 @import 'bootstrap/dist/css/bootstrap.css';
+@import 'bootstrap-vue-next/dist/bootstrap-vue-next.css';
 
-@include meta.load-css('scss/variables.scss');
+/*@include meta.load-css('scss/variables.scss');*/
 @import "~@mdi/font/css/materialdesignicons.min.css";
 
 @import 'formulare.css';

@@ -187,7 +187,7 @@ onMounted(() => {
 
 
 		<div>Základná cena: {{ props.article.price }}€</div>
-		<div v-for="p in props.article.properties.props">
+		<div v-for="p in props.article.properties.props" :key="p.category">
 			{{ p.category }}: {{ p.name }} 
 			(
 				<span v-if="p.price_increase_percentage !== null"> 
@@ -239,8 +239,8 @@ onMounted(() => {
 						<th></th>
 					</tr>
 				</thead>
-		  	<tbody>
-					<tr v-for="item in form_props.props">
+				<tbody>
+					<tr v-for="item in form_props.props" :key="item.category">
 						<td>{{ item.category }}</td>
 						<td>{{ item.name }}</td>
 						<td>{{ item.price_increase_percentage == null ? '---' : item.price_increase_percentage }}</td>

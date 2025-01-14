@@ -140,7 +140,7 @@ onMounted(() => {
 				</tr>
 			</thead>
 	  	<tbody>
-				<tr v-for="item in form_props.props">
+				<tr v-for="item in form_props.props" :key="item.category">
 					<td>{{ item.category }}</td>
 					<td>{{ item.name }}</td>
 					<td>{{ item.price_increase_percentage == null ? '---' : item.price_increase_percentage }}</td>

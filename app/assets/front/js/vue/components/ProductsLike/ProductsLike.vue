@@ -37,6 +37,7 @@ onMounted(() => {
 			<BDropdownItem 
 				v-for="i in storePL.productsLikeItem"
 				link-class="dropdown-item-text d-flex justify-content-between mx-2"
+				:key="i.id_product"
 			>
 				<RouterLink 
 					v-if="i != null"
