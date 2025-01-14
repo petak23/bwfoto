@@ -1,13 +1,13 @@
 <script setup>
 /** 
  * Component UserChange
- * Posledná zmena(last change): 15.10.2024
+ * Posledná zmena(last change): 14.01.2025
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @copyright Copyright (c) 2021 - 2024 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2021 - 2025 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.5
+ * @version 1.0.6
  * 
  */
 
@@ -17,7 +17,7 @@ import { BModal } from 'bootstrap-vue-next'
 
 import { useMainStore } from '../../front/js/vue/store/main'
 const store = useMainStore()
-import { useFlashStore } from '../../front/js/vue/store/flash'
+import { useFlashStore } from '../FlashMessages/store/flash'
 const storeF = useFlashStore()
 
 

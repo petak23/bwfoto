@@ -21,7 +21,7 @@ const route = useRoute()
 import { useMainStore } from './store/main'
 const store = useMainStore()
 
-import { useFlashStore } from './store/flash'
+import { useFlashStore } from '../../../components/FlashMessages/store/flash'
 const storeF = useFlashStore()
 
 const id_hlavne_menu_lang = ref(0)

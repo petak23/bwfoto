@@ -1,97 +1,95 @@
-<script>
-	import MainService from "../../services/MainService.js"
+<script setup>
+import { ref, watch, onMounted } from 'vue'
+import MainService from "../../services/MainService.js"
 
-	export default {
-		props: {
-			nakup: {
-				type: String,
-				default: '{}'
-			},
-			basePath: {
-				type: String,
-				required: true,
-			}
-		},
-		data() {
-			return {
-				my_nakup: [],
-				actual_id: 0,	// id aktualneho nakupu v my_nakup
-				actual: null,
-				actual_status_old: 0,
-				new_status: 0,
-				nakup_status: [],
-			}
-		},
-		methods: {
-			viewDetails(id) {
-				let ii = 0
-				this.my_nakup.forEach((item) => {
-					if (item.id == id) {
-						this.actual = item
-						this.actual_id = ii
-						this.actual_status_old = this.actual.status
-					}
-					ii++
-				})
-			},
-			getMyNakup() {
-				if (this.nakup.length) this.my_nakup = JSON.parse(this.nakup)
-			},
-			getAllNakupStatus() {
-				MainService.getAllNakupStatus()
-					.then(response => {
-						this.nakup_status = response.data
-					})
-					.catch((error) => {
-						console.error(error)
-					})
-			},
-			changeNakupStatus(event) { // https://masteringjs.io/tutorials/vue/select-onchange
-				console.log(event.target.value);
-				this.new_status = parseInt(event.target.value)
-				console.log(this.new_status);
-			},	
-			reset() {
-				this.actual = null,
-				this.actual_status_old = 0
-				this.new_status = 0
-			},
-			async handleOk() {
-				if (this.new_status > 0 && this.actual.id_nakup_status != this.new_status) {
-					await MainService.changeNakupStatus(this.actual.id, this.new_status)
-						.then(response => {
-							console.log(response.data)
-							this.my_nakup[this.actual_id].id_nakup_status = response.data.new_status
-							this.my_nakup[this.actual_id].status = this.nakup_status[response.data.new_status]
-							this.reset()
-							let message = 'Zmena objednávky č. ' + this.my_nakup[this.actual_id].code + ' na: "' 
-							message += this.my_nakup[this.actual_id].status 
-							message += '" bola vykonaná. ' + response.data.message 
-							this.$root.$emit('flash_message', [{
-								'message': message,
-								'type': response.data.status == 200 ? 'success' : 'danger',
-								'heading': 'Zmena stavu objednávky',
-								'timeout': response.data.status == 200 ? 20000 : 60*60*100 /* hodina */,
-							}])
-						})
-						.catch((error) => {
-							console.error(error)
-						})
-				} else {
-					console.log("Nič nerob...");
-				}
-			}
-		},
-		watch: {
-			nakup() {
-				this.getMyNakup()
-			}
-		},
-		mounted () {
-			this.getMyNakup()
-			this.getAllNakupStatus()
-		},
+import { useFlashStore } from '../../../../../components/FlashMessages/store/flash'
+const storeF = useFlashStore()
+
+const props = defineProps({
+	nakup: {
+		type: String,
+		default: '{}'
+	},
+	basePath: {
+		type: String,
+		required: true,
 	}
+})
+
+const my_nakup = ref([])
+const actual_id = ref(0)	// id aktualneho nakupu v my_nakup
+const actual = ref(null)
+const actual_status_old = ref(0)
+const new_status = ref(0)
+const nakup_status = ref([])
+
+const viewDetails = (id) => {
+	let ii = 0
+	my_nakup.value.forEach((item) => {
+		if (item.id == id) {
+			actual.value = item
+			actual_id.value = ii
+			actual_status_old.value = actual.value.status
+		}
+		ii++
+	})
+}
+
+const getMyNakup = () => {
+	if (props.nakup.length) my_nakup.value = JSON.parse(props.nakup)
+}
+
+const getAllNakupStatus = () => {
+	MainService.getAllNakupStatus()
+		.then(response => {
+			nakup_status.value = response.data
+		})
+		.catch((error) => {
+			console.error(error)
+		})
+}
+
+const changeNakupStatus = (event) => { // https://masteringjs.io/tutorials/vue/select-onchange
+	//console.log(event.target.value);
+	new_status.value = parseInt(event.target.value)
+	//console.log(new_status.value);
+}
+
+const reset = () => {
+	actual.value = null,
+	actual_status_old.value = 0
+	new_status.value = 0
+}
+
+const handleOk = async () => {
+	if (new_status.value > 0 && actual.value.id_nakup_status != new_status.value) {
+		await MainService.changeNakupStatus(actual.value.id, new_status.value)
+			.then(response => {
+				//console.log(response.data)
+				my_nakup.value[actual_id.value].id_nakup_status = response.data.new_status
+				my_nakup.value[actual_id.value].status = nakup_status.value[response.data.new_status]
+				reset()
+				let message = 'Zmena objednávky č. ' + my_nakup.value[actual_id.value].code + ' na: "' 
+				message += my_nakup.value[actual_id.value].status 
+				message += '" bola vykonaná. ' + response.data.message 
+				storeF.showMessage(message, response.data.status == 200 ? 'success' : 'danger', 'Zmena stavu objednávky', response.data.status == 200 ? 20000 : 60*60*100)
+			})
+			.catch((error) => {
+				console.error(error)
+			})
+	} else {
+		console.log("Nič nerob...");
+	}
+}
+
+watch(() => props.nakup, (newValue, oldValue) => {
+	getMyNakup()
+})
+
+onMounted(() => {
+	getMyNakup()
+	getAllNakupStatus()
+})
 </script>
 
 <template>
@@ -222,7 +220,7 @@
 					<div class="card mb-3">
 						<div class="row no-gutters">
 							<div class="col-md-4">
-								<img :src="basePath + '/' + p.product.thumb_file" :alt="p.product.name">
+								<img :src="props.basePath + '/' + p.product.thumb_file" :alt="p.product.name">
 							</div>
 							<div class="col-md-8">
 								<div class="card-body">

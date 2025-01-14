@@ -6,7 +6,7 @@ import ProductsLikeView from '../views/ProductsLikeView.vue'
 import BasketView from '../views/BasketView.vue'
 import UserView from '../views/UserView.vue'
 import { useMainStore } from '../store/main'
-import { useFlashStore } from '../store/flash'
+import { useFlashStore } from '../../../../components/FlashMessages/store/flash'
 
 const routes = [
 	{

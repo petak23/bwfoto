@@ -17,7 +17,7 @@ import EditSchemaRow from "./vue-photo-collage/EditSchemaRow.vue"
 import MainService from '../services/MainService.js'
 import { useMainStore } from '../store/main.js'
 const store = useMainStore()
-import { useFlashStore } from '../store/flash'
+import { useFlashStore } from '../../../../components/FlashMessages/store/flash'
 const storeF = useFlashStore()
 
 const props = defineProps({

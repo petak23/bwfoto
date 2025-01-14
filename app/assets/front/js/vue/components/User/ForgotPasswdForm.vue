@@ -1,18 +1,18 @@
 <script setup>
 /**
  * Komponenta pre formulár pri strate hesla.
- * Posledna zmena 02.08.2024
+ * Posledna zmena 14.01.2025
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2025 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.3
+ * @version    1.0.4
  */
 import { ref, watch, onMounted } from 'vue'
 import MainService from '../../services/MainService.js'
 
-import { useFlashStore } from '../../store/flash'
+import { useFlashStore } from '../../../../../components/FlashMessages/store/flash' 
 const storeF = useFlashStore()
 
 const props = defineProps({

@@ -1,19 +1,19 @@
 <script setup>
 /** 
  * Component BfNav
- * Posledná zmena(last change): 18.11.2024
+ * Posledná zmena(last change): 14.01.2025
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @copyright Copyright (c) 2021 - 2024 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2021 - 2025 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.4
+ * @version 1.0.5
  * 
  */
 import { computed } from 'vue'
 
 import { useMainStore } from '../store/main.js'
-import { useFlashStore } from '../store/flash'
+import { useFlashStore } from '../../../../components/FlashMessages/store/flash'
 const store = useMainStore()
 const storeF = useFlashStore()
 

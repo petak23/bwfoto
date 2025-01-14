@@ -123,7 +123,3 @@ export default {
 		/>
 	</span>
 </template>
-
-<style scoped>
-
-</style>

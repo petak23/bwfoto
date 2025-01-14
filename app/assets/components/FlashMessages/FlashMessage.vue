@@ -1,17 +1,17 @@
 <script setup>
 /**
  * Komponenta pre vypísanie flash správ.
- * Posledna zmena 04.11.2024
+ * Posledna zmena 14.01.2025
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2025 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.6
+ * @version    1.0.7
  */
 
 import { ref, watch, toRaw, computed } from 'vue'
-import { useFlashStore } from '../../front/js/vue/store/flash'
+import { useFlashStore } from './store/flash'
 import { storeToRefs } from 'pinia';
 
 const storeF = useFlashStore()
