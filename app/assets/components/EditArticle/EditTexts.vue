@@ -44,9 +44,13 @@ const props = defineProps({
 		type: String,
 		default: "main"
 	},
-	editArticleTextsDialogView: {
+	editArticleTextsDialogView: { // Zobrazenie modálneho okna editora
 		type: Boolean,
 		default: false,
+	},
+	text_to_edit: {
+		type: String,
+		default: "",
 	}
 })
 
@@ -103,7 +107,7 @@ watch(() => props.editArticleTextsDialogView, (newEditArticleTextsDialogView) =>
 })
 
 onMounted(() => {
-	textin.value = store.article != null ? store.article.text_c : ""
+	textin.value = props.text_to_edit != "" ? props.text_to_edit : (store.article != null ? store.article.text_c : "")
 	quill = editor.value && editor.value.initialize(Quill);
 })
 </script>
