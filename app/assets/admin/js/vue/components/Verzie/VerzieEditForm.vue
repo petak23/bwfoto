@@ -10,7 +10,7 @@
  * @version    1.0.4
  */
 
-////import Tiptap from "../../../../../components/Tiptap/tiptap-editor.vue"
+//import Tiptap from "../../../../../components/Tiptap/tiptap-editor.vue"
 import EditTexts from '../../../../../components/EditArticle/EditTexts.vue';
 import axios from 'axios'
 
