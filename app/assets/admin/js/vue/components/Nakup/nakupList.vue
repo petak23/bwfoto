@@ -95,29 +95,31 @@ onMounted(() => {
 <template>
 	<div class="col-12">
 		<table class="table table-sm table-stripped" v-if="my_nakup.length">
-			<tr>
-				<th>Kupujúci</th>
-				<th>Dátum vytvorenia</th>
-				<th>Cena</th>
-				<th>Kód</th>
-				<th>Stav</th>
-				<th></th>
-			</tr>
-			<tr v-for="n in my_nakup" :key="n.id">
-				<td>{{ n.user_name }}</td>
-				<td>{{ n.created }}</td>
-				<td>{{ n.price }}</td>
-				<td>{{ n.code }}</td>
-				<td :class="n.id_nakup_status == Object.keys(nakup_status).length ? 'text-muted' : ''">
-					{{ n.status }}
-				</td>
-				<td>
-					<button class="btn btn-sm btn-outline-success" :id="'nakup'+n.id" title="Zobraz detail nákupu"
-						@click="viewDetails(n.id)" v-b-modal.modal-nakup>
-						<i class="fa-solid fa-eye"></i>
-					</button>
-				</td>
-			</tr>
+			<tbody>
+				<tr>
+					<th>Kupujúci</th>
+					<th>Dátum vytvorenia</th>
+					<th>Cena</th>
+					<th>Kód</th>
+					<th>Stav</th>
+					<th></th>
+				</tr>
+				<tr v-for="n in my_nakup" :key="n.id">
+					<td>{{ n.user_name }}</td>
+					<td>{{ n.created }}</td>
+					<td>{{ n.price }}</td>
+					<td>{{ n.code }}</td>
+					<td :class="n.id_nakup_status == Object.keys(nakup_status).length ? 'text-muted' : ''">
+						{{ n.status }}
+					</td>
+					<td>
+						<button class="btn btn-sm btn-outline-success" :id="'nakup'+n.id" title="Zobraz detail nákupu"
+							@click="viewDetails(n.id)" v-b-modal.modal-nakup>
+							<i class="fa-solid fa-eye"></i>
+						</button>
+					</td>
+				</tr>
+			</tbody>
 		</table>
 		<b-modal 
 			v-if="actual != null" 

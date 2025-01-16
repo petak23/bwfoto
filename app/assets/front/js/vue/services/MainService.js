@@ -41,10 +41,10 @@ export default {
 	getUserInfo(id_user_main) {
 		return apiClient.get('user/getuserinfo/' + id_user_main)
 	},
-	/*OLD - testUserEmail(email) {
-		return apiClient.post('user/testuseremail', {email: email})
-	},*/
 	async testUserEmail(email) {
+		return apiClient.post('user/testuseremail', {email: email})
+	},
+	async testUserEmail2(email) {
     try {
       const response = await apiClient.post('user/testuseremail', {email: email})
       return response

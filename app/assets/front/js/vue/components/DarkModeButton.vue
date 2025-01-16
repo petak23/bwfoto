@@ -13,11 +13,13 @@ const toggleDarkMode = () => {
 // Funkcia na aktualizáciu tried na body elemente
 const updateBodyClass = () => {
 	if (isDarkMode.value) {
-		document.body.classList.add("dark-mode");
-		document.body.classList.remove("light-mode");
+		document.body.classList.add("dark-mode")
+		document.body.setAttribute('data-bs-theme', "dark")
+		document.body.classList.remove("light-mode")
 	} else {
-		document.body.classList.add("light-mode");
-		document.body.classList.remove("dark-mode");
+		document.body.classList.add("light-mode")
+		document.body.setAttribute('data-bs-theme', "light")
+		document.body.classList.remove("dark-mode")
 	}
 };
 

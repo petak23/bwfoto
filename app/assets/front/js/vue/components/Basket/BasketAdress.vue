@@ -26,9 +26,10 @@ const storeB = useBasketStore()
 import countryCodes from "../../plugins/country.js"
 const country = countryCodes
 
-const isLoading = ref(false);
-const apiError = ref(false); // Pridaná premenná pre chyby API
+const isLoading = ref(false)
+const apiError = ref(false) // Premenná pre chyby API
 const emailState = ref(null)
+//const nameState = ref(null)
 const oldValue = ref("")
 
 const test_email = ref(0) // 0: nevalidný; 1: validný a nenájdený; 2: validný a nájdený; 3: najdený a prihlasený
@@ -43,41 +44,47 @@ const { handleSubmit, meta } = useForm({
 	validationSchema,
 	initialValues: {
 		email: storeB.basketEmail,
+		basketInputName: storeB.basketInputName
 	}
 })
 
-const { value: email, errorMessage } = useField('email');
+const { value: email, errorMessage, meta: metaE } = useField('email')
+const { value: basketInputName, errorMessage: nameError, meta: metaM } = useField('basketInputName');
 
 const validateEmailExistence = async () => {
-	console.log("Testujem...", errorMessage.value, meta.value.valid)
-
-	if (!meta.value.valid) { // Email nie je validný
+	if (email.value.length == 0) {
+		test_email.value = 0
+		emailState.value = null
+	} else if (!metaE.valid) { // Email nie je validný
 		test_email.value = 0
 		emailState.value = false
-		console.log(emailState.value);
-		
-		return
-	}
-	if (oldValue.value != email.value) { // Došlo k zmene v zadaní
-		isLoading.value = true;
-		apiError.value = false; // Resetovanie chyby pred novým pokusom
-		try {
-			const response = await MainService.testUserEmail(email.value);
-			test_email.value = response.data.status == 200 ? (store.user == null ? 2 : 3) : 1
-			emailState.value = true
-			oldValue.value = email.value
-		} catch (error) {
-			console.error('Chyba pri kontrole emailu:', error)
-			apiError.value = true // Nastavenie chyby
-			emailState.value = false
-			test_email.value = 0;
-		} finally {
-			isLoading.value = false;
+	} else {								// Email JE validný
+		emailState.value = true
+		if (oldValue.value != email.value) { // Došlo k zmene v zadaní
+			isLoading.value = true
+			apiError.value = false // Resetovanie chyby pred novým pokus
+			await MainService.testUserEmail(email.value)
+				.then(response => {
+					console.log(response.data.status, store.user)
+					const sta = response.data.status
+					test_email.value = (sta === 200) ? 
+						(store.user == null ? 2 : 3) : 1
+					oldValue.value = email.value	
+				})
+				.catch((error) => {
+					console.error('Chyba pri kontrole emailu:', error)
+					apiError.value = true // Nastavenie chyby
+					emailState.value = false
+					test_email.value = 0;
+				})
+				isLoading.value = false	
 		}
 	}
+	console.log(emailState.value)
 }
 
-const debouncedValidateEmailExistence = debounce(validateEmailExistence, 1000);
+const debouncedValidateEmailExistence = debounce(validateEmailExistence, 500);
+//const debouncedValidateNameExistence = debounce(validateEmailExistence, 500);
 
 const isFormValid = computed(() => meta.value.valid);
 
@@ -89,7 +96,10 @@ onMounted(() => {
 	if (store.user != null) { // Mám prihláseného užívateľa
 		storeB.basketAddress.name = store.user.name
 		storeB.basketAddress.email = store.user.email
+		email.value = store.user.email
+		emailState.value = true
 		test_email.value = 3
+		basketInputName.value = store.user.name
 		MainService.getActualUserProfile(store.id)
 			.then(response => {
 				storeB.basketAddress.phone = response.data.phone
@@ -111,14 +121,43 @@ const onSubmit = async (values) => {
 	storeB.basketEmail = values.email;
 	console.log('Odosielané dáta:', values);
 }
+
+const emailValidFeedback = computed(() => {
+	return isFormValid && test_email.value === 1 ? "Email je OK." : null
+})
+const emailInvalidFeedback = computed(() => {
+	return apiError.value ? "Vyskytla sa chyba pri overovaní emailu." :
+		(errorMessage.value ? errorMessage.value : null)
+})
+const nameInvalidFeedback = computed(() => {
+	return nameError.value ? nameError : null
+})
+const emailCanUse = computed(() => {
+	return test_email.value % 2 === 1
+})
 </script>
 
 <template>
 	<h1>Fakturačné údaje</h1>
 	<BForm @submit.prevent="handleSubmit">
-		<BFormGroup label="Email:" label-for="email" :state="emailState">
+		<BFormGroup 
+			label="Email:"  
+			:state="emailState"
+			description="E-mailovú adresu nezdieľame s nikým iným!"
+			:valid-feedback="emailValidFeedback"
+			:invalid-feedback="emailInvalidFeedback"
+			label-cols-sm="4"
+			label-cols-lg="3"
+			content-cols-sm
+			content-cols-lg="7"
+		>
+			<template #description>
+				<small class="text-light" v-if="store.user == null">
+					E-mailovú adresu nezdieľame s nikým iným!
+				</small>
+			</template>
 			<BFormInput
-				id="email"
+				id="basket-email"
 				class="form-control"
 				v-model="email"
 				type="email"
@@ -126,11 +165,10 @@ const onSubmit = async (values) => {
 				@blur="validateEmailExistence"
 				@input="debouncedValidateEmailExistence"
 				:state="emailState"
+				:disabled="store.user != null"
+				:class="store.user != null ? 'disabled' : ''"
 			/>
-			<BFormInvalidFeedback v-if="errorMessage">{{ errorMessage }}</BFormInvalidFeedback>
-			<div v-if="isFormValid && test_email === 1" class="text-green-500">Email je voľný.</div>
 			<div v-if="isLoading" class="animate-pulse">Kontrolujem email...</div>
-			<div v-if="apiError" class="text-red-500">Vyskytla sa chyba pri overovaní emailu.</div>
 			<div v-if="test_email === 2" class="form-text alert alert-warning px-2">
 				Vašu e-mailovú adresu sme našli v databáze. 
 				Prosím, najprv sa prihláste a potom pokračujte v nákupe. <br />
@@ -138,12 +176,35 @@ const onSubmit = async (values) => {
 					{{ store.texts.log_in }}
 				</RouterLink>
 			</div>
-			<div class="form-text text-light">
-				E-mailovú adresu nezdieľame s nikým iným!
-			</div>
 		</BFormGroup>
 
-		<div class="form-group col-md-6" v-if="test_email % 2 == 1">
+		<BFormGroup 
+			v-if="emailCanUse"
+			label="Meno a priezvisko:"  
+			:state="metaM.valid"
+			:invalid-feedback="nameInvalidFeedback"
+			label-cols-sm="4"
+			label-cols-lg="3"
+			content-cols-sm
+			content-cols-lg="7"
+		>
+			<template #description>
+				<small class="text-light" v-if="store.user == null">
+					Zadajte, prosím, meno v tvare: Janko Mrkvička.
+				</small>
+			</template>
+			<BFormInput
+				id="basketInputName"
+				placeholder="Zadajte email"
+				:state="metaM.valid"
+				v-model="storeB.basketAddress.name"
+				:disabled="store.user != null"
+				:class="store.user != null ? 'disabled' : ''"
+			/>
+		</BFormGroup>
+
+
+		<!--<div class="form-group col-md-6" v-if="emailCanUse">
 			<label for="basketInputName">Meno a priezvisko:</label>
 			<input 
 				type="text" class="form-control" 
@@ -155,14 +216,13 @@ const onSubmit = async (values) => {
 				:disabled="store.user != null"
 				:class="store.user != null ? 'disabled' : ''"
 			/>
-			<small class="form-text bg-danger text-white px-2">{{ errors.first('basketInputName') }}</small>
-			<small id="nameHelp" class="form-text text-muted">Zadajte, prosím, meno v tvare: Janko Mrkvička.</small>
-		</div>
+			<small class="form-text bg-danger text-white px-2">{{ /*errors.first('basketInputName')*/ }}</small>
+		</div>-->
 		<div v-if="store.user == null && test_email == 1">
 			<button class="btn btn-primary my-2" type="button" data-toggle="collapse" data-target="#collapseReg" aria-expanded="false" aria-controls="collapseReg">
 				Registrácia
-			</button>
-			<small id="emailHelp" class="form-text text-muted">Ak sa zaregistrujete, tak pri najbližšom nákupe už nemusíte zadávať údaje nanovo.</small>
+			</button><br />
+			<small id="emailHelp" class="form-text text-white">Ak sa zaregistrujete, tak pri najbližšom nákupe už nemusíte zadávať údaje nanovo.</small>
 		</div>
 		<div class="collapse form-row" id="collapseReg" v-if="store.user == null && test_email == 1">
 			<div class="form-group col-md-6">
@@ -176,7 +236,7 @@ const onSubmit = async (values) => {
 					v-model="storeB.basketAddress.password"
 					data-vv-as="heslo"
 				>
-				<small class="form-text bg-danger text-white px-2">{{ errors.first('password1') }}</small>
+				<!--<small class="form-text bg-danger text-white px-2">{{ /*errors.first('password1')*/ }}</small>-->
 				<small id="emailHelp" class="form-text text-muted">
 					Zadajte dvakrát rovnaké heslo!
 				</small>
@@ -192,10 +252,10 @@ const onSubmit = async (values) => {
 					v-validate="{ min:5, confirmed: storeB.basketAddress.password }"
 					data-vv-as="overené heslo"
 				>
-				<small class="form-text bg-danger text-white px-2">{{ errors.first('password_confirmation') }}</small>
+				<!--<small class="form-text bg-danger text-white px-2">{{ /*errors.first('password_confirmation')*/ }}</small>-->
 			</div>
 		</div>
-		<div class="form-group" v-if="test_email % 2 == 1">
+		<!--<div class="form-group" v-if="emailCanUse">
 			<label for="basketInputAdress1">Ulica a číslo domu:</label>
 			<input type="text" class="form-control" 
 				name="basketInputAdress1"
@@ -204,7 +264,7 @@ const onSubmit = async (values) => {
 				data-vv-as="Adresa"
 				v-model="storeB.basketAddress.street"
 			>
-			<small class="form-text bg-danger text-white px-2">{{ errors.first('basketInputAdress1') }}</small>
+			<small class="form-text bg-danger text-white px-2">{{ /*errors.first('basketInputAdress1')*/ }}</small>
 		</div>
 		<div class="form-row" v-if="test_email % 2 == 1">
 			<div class="form-group col-md-4">
@@ -216,7 +276,7 @@ const onSubmit = async (values) => {
 					data-vv-as="Mesto"
 					v-model="storeB.basketAddress.town"
 				>
-				<small class="form-text bg-danger text-white px-2">{{ errors.first('inputCity') }}</small>
+				<small class="form-text bg-danger text-white px-2">{{ /*errors.first('inputCity')*/ }}</small>
 			</div>
 			<div class="form-group col-md-4">
 				<label for="inputPsc">PSČ(bez medzery):</label>
@@ -227,7 +287,7 @@ const onSubmit = async (values) => {
 					data-vv-as="PSČ"
 					v-model="storeB.basketAddress.psc"
 				>
-				<small class="form-text bg-danger text-white px-2">{{ errors.first('inputPsc') }}</small>
+				<small class="form-text bg-danger text-white px-2">{{ /*errors.first('inputPsc')*/ }}</small>
 			</div>
 			<div class="form-group col-md-4">
 				<label for="inputState">Štát:</label>
@@ -240,7 +300,7 @@ const onSubmit = async (values) => {
 					<option selected disabled>Vyber...</option>
 					<option v-for="c in country" :key="c.code" :value="c.code">{{ c.name }}</option>
 				</select>
-				<small class="form-text bg-danger text-white px-2">{{ errors.first('inputState') }}</small>
+				<small class="form-text bg-danger text-white px-2">{{ /*errors.first('inputState')*/ }}</small>
 			</div>
 		</div>
 			<div class="form-group" v-if="test_email % 2 == 1">
@@ -253,15 +313,15 @@ const onSubmit = async (values) => {
 					data-vv-as="Telefón"
 					v-model="storeB.basketAddress.phone"
 				>
-				<small class="form-text bg-danger text-white px-2">{{ errors.first('basketInputTel') }}</small>
-			</div>
+				<small class="form-text bg-danger text-white px-2">{{ /*errors.first('basketInputTel')*/ }}</small>
+			</div>-->
 
-			<div v-if="test_email % 2 == 1">
+			<div v-if="emailCanUse">
 				<button class="btn btn-primary my-2" type="button" data-toggle="collapse" data-target="#collapseFirm" aria-expanded="false" aria-controls="collapseFirm">
 					Dodávka na firmu
 				</button>
 			</div>
-			<div class="collapse" id="collapseFirm" v-if="test_email % 2 == 1">
+			<div class="collapse" id="collapseFirm" v-if="emailCanUse">
 				<div class="form-group">
 					<label for="inputFirmName">Firma:</label>
 					<input type="text" 
@@ -327,12 +387,12 @@ const onSubmit = async (values) => {
 				</div>
 			</div>
 			
-			<div v-if="test_email % 2 == 1">
+			<div v-if="emailCanUse">
 				<button class="btn btn-primary my-2" type="button" data-toggle="collapse" data-target="#collapseAdress2" aria-expanded="false" aria-controls="collapseFirm">
 					Iná dodacia adresa
 				</button>
 			</div>
-			<div class="collapse" id="collapseAdress2" v-if="test_email % 2 == 1">
+			<div class="collapse" id="collapseAdress2" v-if="emailCanUse">
 				<div class="form-group">
 					<label for="inputAdress2">Ulica a číslo domu:</label>
 					<input type="text" 

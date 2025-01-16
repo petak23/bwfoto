@@ -10,16 +10,16 @@
  * @version    1.0.4
  */
 
-import Tiptap from "../../../../../components/Tiptap/tiptap-editor.vue"
+//import Tiptap from "../../../../../components/Tiptap/tiptap-editor.vue"
 import axios from 'axios'
 
 //for Tracy Debug Bar
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 export default {
-  components: {
+  /*components: {
     Tiptap,
-  },
+  },*/
   props: {
     id: {
       type: String,
@@ -43,9 +43,9 @@ export default {
       back_link: '/administration/verzie/',
     }
   },
-  beforeDestroy() {
+  /*beforeDestroy() {
     this.editor.destroy()
-  },
+  },*/
   methods: {
     onSubmit(event) {
       event.preventDefault()
