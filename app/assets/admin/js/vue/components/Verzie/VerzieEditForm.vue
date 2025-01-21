@@ -17,9 +17,6 @@ import axios from 'axios'
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 export default {
-  /*components: {
-    Tiptap,
-  },*/
   props: {
     id: {
       type: String,
@@ -140,12 +137,10 @@ export default {
 			label="Popis verzie:"
 			label-for="input-text"
 		>
-			<tiptap 
-				:value="form.text"/>
-
 			<edit-texts
 				:editArticleTextsDialogView="editArticleTextsDialogView"
 				@saveText="editArticleTextsDialogView = false"
+        :text-to-edit="form.text"
 			/>
 		</b-form-group>
 		<input type="hidden" :value="form.id">
