@@ -10,7 +10,6 @@
  * @version    1.0.4
  */
 
-//import Tiptap from "../../../../../components/Tiptap/tiptap-editor.vue"
 import EditTexts from '../../../../../components/EditArticle/EditTexts.vue';
 import axios from 'axios'
 
@@ -113,40 +112,45 @@ export default {
   created() {
     this.$root.$on('tiptap_input', data => {
 			//console.log(data)
-      this.form.text = data
+			this.form.text = data
 		})
-  }
+	}
 }
 </script>
 
 <template>
-  <b-form @submit="onSubmit" @reset="onReset" class="my-tip-tap">
-    <b-form-group
-      id="input-number-gr"
-      label="Číslo verzie:"
-      label-for="input-number"
-    >
-      <b-form-input
-        id="input-number"
-        size="sm"
-        v-model="form.number"
-        type="text"
-        required
-        autofocus
-        >
-      </b-form-input>
-    </b-form-group>
-    <b-form-group
-      id="input-text-gr"
-      label="Popis verzie:"
-      label-for="input-text"
-    >
-      <tiptap 
-        :value="form.text"/>
-    </b-form-group>
-    <input type="hidden" :value="form.id">
-    <b-button type="submit" variant="success" class="main-submit">Ulož</b-button>
-    <b-button type="reset" variant="secondary" class="main-reset">Cancel</b-button>
-  </b-form>
+	<b-form @submit="onSubmit" @reset="onReset" class="my-tip-tap">
+		<b-form-group
+			id="input-number-gr"
+			label="Číslo verzie:"
+			label-for="input-number"
+		>
+			<b-form-input
+				id="input-number"
+				size="sm"
+				v-model="form.number"
+				type="text"
+				required
+				autofocus
+				>
+			</b-form-input>
+		</b-form-group>
+		<b-form-group
+			id="input-text-gr"
+			label="Popis verzie:"
+			label-for="input-text"
+		>
+			<tiptap 
+				:value="form.text"/>
+
+			<edit-texts
+				:editArticleTextsDialogView="editArticleTextsDialogView"
+				@saveText="editArticleTextsDialogView = false"
+			/>
+		</b-form-group>
+		<input type="hidden" :value="form.id">
+		<b-button type="submit" variant="success" class="main-submit">Ulož</b-button>
+		<b-button type="reset" variant="secondary" class="main-reset">Cancel</b-button>
+	</b-form>
 
 </template>
