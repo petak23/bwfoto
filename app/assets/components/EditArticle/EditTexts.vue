@@ -14,6 +14,8 @@ import { ref, watch, onMounted } from 'vue'
 import MainService from '../../front/js/vue/services/MainService'
 import { BModal } from 'bootstrap-vue-next'
 import QuillyEditor from '../QuillyEditor.vue'
+const editor = ref()
+let quill = null
 
 import { useMainStore } from '../../front/js/vue/store/main'
 const store = useMainStore()

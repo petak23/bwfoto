@@ -61,7 +61,7 @@ const { handleSubmit, meta, errors, values } = useForm({
 
 const { value: email, errorMessage, meta: metaE } = useField('email')
 const { value: basketInputName, errorMessage: nameError, meta: metaM } = useField('basketInputName');
-const { value: password, errorMessage: psswdError } = useField('password1')
+const { value: password, errorMessage: psswdError } = useField('password')
 
 const validateEmailExistence = async () => {
 	if (email.value.length == 0) {
@@ -231,8 +231,6 @@ const emailCanUse = computed(() => {
 				@input="debouncedValidateNameExistence"
 			/>
 		</BFormGroup>
-		<!--<div>Errors: {{ errors }}</div>
-		<pre>Values: {{ values }}</pre>-->
 
 		<BCard v-if="store.user == null && test_email == 1" bg-variant="secondary">
 			<BButton
@@ -261,7 +259,15 @@ const emailCanUse = computed(() => {
 								Zadajte dvakrát rovnaké heslo!
 							</small>
 						</template>
-						<BFormInput id="input-id" />
+						<BFormInput
+							id="basketInputName"
+							:state="nameState"
+							v-model="basketInputName"
+							:disabled="store.user != null"
+							:class="store.user != null ? 'disabled' : ''"
+							@blur="validateNameExistence"
+							@input="debouncedValidateNameExistence"
+						/>
 					</BFormGroup>
 
 					<div class="form-group col-md-6">

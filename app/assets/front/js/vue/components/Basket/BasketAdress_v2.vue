@@ -10,12 +10,8 @@
  * @version    1.0.5
  * @example https://medium.com/swlh/vue3-using-ref-or-reactive-88d47c8f6944
  */
-
 import { ref, computed, watch, onMounted } from 'vue';
-
-import countryCodes from "../../plugins/country.js"
-const country = countryCodes
-
+import { BFormInput, BButton, BCard, BCollapse, BFormText } from 'bootstrap-vue-next'
 import MainService from '../../services/MainService.js'
 
 import { useMainStore } from '../../store/main'
@@ -23,90 +19,189 @@ const store = useMainStore()
 import { useBasketStore } from '../../store/basket.js'
 const storeB = useBasketStore()
 
-import { BFormInput } from 'bootstrap-vue-next'
+import countryCodes from "../../plugins/country.js"
+const country = countryCodes
 
-// Reactive state
-const confirmation = ref("")
+const registrationVisibility = ref(false) // (Ne)zobrazenie časti pre registráciu.
 
 const test_email = ref(0) // 0: nevalidný; 1: validný a nenájdený; 2: validný a nájdený; 3: najdený a prihlasený
+const passwordConfirm = ref(null)
 
-//import { Form, useForm, useIsFormValid} from 'vee-validate'
-//import { toTypedSchema } from '@vee-validate/yup'
-//import * as Yup from 'yup'
+const errors = ref({
+	email: null,
+	name: null,
+	password: null,
+	passwordConfirm: null,
+	basketInputAdress1: null,
+	inputCity: null,
+	inputPsc: null,
+	inputState: null,
+	basketInputTel: null,
+})
 
-//const schema = toTypedSchema(Yup.object().shape({
-	//basketEmail: Yup.string().email('Email nie je zadaný správne!').required('Email musíte zadať!'),//.label('Emailová adresa'),
-	//basketInputName: Yup.string().required('Heslo musí byť zadané!').min(5, 'Heslo musí mať aspoň 5 zankov'),
-//}))
+const fieldsValid = ref({
+	email: null,
+	name: null,
+	password: true,
+	passwordConfirm: true,
+	basketInputAdress1: true,
+	inputCity: true,
+	inputPsc: true,
+	inputState: true,
+	basketInputTel: true,
+})
 
-//const { values, defineField, errors } = useForm({
-//  validationSchema: schema,
-//});
-
-//const [basketEmail, basketEmailAttrs, basketEmailMeta] = defineField('basketEmail')
-
-//const { meta: metae } = useField('basketEmail')
-//const { meta: metap } = useField('password')
-
-
-//const [password] = defineField('password');
-
-//const nameRules = Yup
-//  .string()
-//  .required('Meno a priezvisko sú povinné')
-//  .matches(/^\S+\s+\S+$/, 'Meno musí obsahovať meno a priezvisko oddelené medzerou');
-
-
-const error_message = ref(null)
-
-const isAddressFormValid = false //useIsFormValid()
-
-const onSubmit = (values) => {
-	console.log(values);
-	
+const onSubmit = () => {
 	// Ulož data do storu a session
 	storeB.saveAddress()
 	// Nasleduje zmena menu odtiaľ na zmenu view
 	storeB.navigationUpdate({ id: 3, enabled: true, view_part: 3 })
 }
 
-const getFromSession = () => {
-	storeB.getAddressFromSession()
-}
+
 
 const testEmail = async () => {
 	if (store.user == null) { // Testovanie má zmysel len pre neprihláseného
 		await MainService.testUserEmail(storeB.basketAddress.email)
 			.then(response => {
-				//console.log(response.data); // TODO isEmailVAlid...
-				test_email.value = response.data.status == 200 ? 2 : 0//(metae.valid ? 1 : 0)
-				console.log('testEmail: ' + test_email.value);
+				//console.log(response.data); 
+				test_email.value = response.data.status == 200 ? 2 : (fieldsValid.value.email ? 1 : 0)
+				//console.log('testEmail: ' + test_email.value)
 			})
 			.catch((error) => {
-				console.error(error);
+				test_email.value = 0
+				console.error(error)
 			})
+	} else {
+		test_email.value = 3
 	}
 }
 
-// TODO ...
-const isFormValid = computed(() => {
-	return false//Object.keys(fields).every(key => fields[key].valid);
-})
+const validateEmail = () => {
+  if (!storeB.basketAddress.email) {
+    errors.value.email = "Email nemôže byť prázdny."
+		fieldsValid.value.email = null
+		test_email.value = 0
+    return
+  }
+	
+  // Dôkladnejší regex pre overenie emailu.
+  const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-// TODO
-watch(() => metae.valid, () => {
+  if (!emailRegex.test(storeB.basketAddress.email)) {
+    errors.value.email = "Zadaný email nemá platný formát."
+		fieldsValid.value.email = false
+		test_email.value = 0
+  } else {
+    errors.value.email = null
+		fieldsValid.value.email = true
+		test_email.value = 1
+		testEmail()
+  }
+}
+
+watch(() => storeB.basketAddress.email, () => {
 	if (store.user == null) {
-		if (metae.valid) testEmail() // Testuj len keď je validný email
-		else test_email.value = 0
+		validateEmail()
 	}
 })
+
+
+const validateName = () => {
+	if (!storeB.basketAddress.name) {
+    errors.value.name = "Meno músí byť zadané."
+		fieldsValid.value.name = null
+    return
+  }
+	const nameRegex = /^[a-zA-Z\u00C0-\u017F]+\s[a-zA-Z\u00C0-\u017F]+$/; // Regex pre meno a priezvisko (s diakritikou)
+
+	if (!nameRegex.test(storeB.basketAddress.name)) {
+    errors.value.name = "Zadané meno nemá platný formát."
+		fieldsValid.value.name = false
+  } else {
+		errors.value.name = null
+		fieldsValid.value.name = true
+  }
+}
+
+watch(() => storeB.basketAddress.name, () => {
+	if (store.user == null) {
+		validateName()
+	}
+})
+
+const validatePassword = () => {
+	if (storeB.basketAddress.password == null) {
+		errors.value.password = null
+		fieldsValid.value.password = null
+	} else if (storeB.basketAddress.password.length < 5) {
+		errors.value.password = "Heslo musí mať aspoň 6 znakov!"
+		fieldsValid.value.password = false
+	} else {
+		errors.value.password = null
+		fieldsValid.value.password = true
+	}
+}
+
+watch(() => storeB.basketAddress.password, () => {
+	if (store.user == null) {
+		if (storeB.basketAddress.password != null && storeB.basketAddress.password.length == 0) storeB.basketAddress.password = null
+		validatePassword()
+	}
+})
+
+const validatePasswordConfirm = () => {
+	if (fieldsValid.value.password) {
+		if (storeB.basketAddress.password === passwordConfirm.value) {
+			errors.value.passwordConfirm = null
+			fieldsValid.value.passwordConfirm = true
+		} else {
+			errors.value.passwordConfirm = "Zadané heslá sa nezhodujú!"
+			fieldsValid.value.passwordConfirm = false
+		}
+	} else {
+		errors.value.passwordConfirm = null
+		fieldsValid.value.passwordConfirm = null
+	}
+}
+
+watch(passwordConfirm, () => {
+	if (store.user == null) {
+		validatePasswordConfirm()
+	}
+})
+
+watch(registrationVisibility, () => {
+	if (store.user == null) {
+		if (registrationVisibility.value) {
+			fieldsValid.value.password = null
+			fieldsValid.value.passwordConfirm = null
+		} else {
+			fieldsValid.value.password = true
+			fieldsValid.value.passwordConfirm = true
+		}
+		storeB.basketAddress.password = null
+		passwordConfirm.value = null
+	}
+})
+
+const isFormValid = computed(() => {
+	return (Object.keys(errors.value).every(key => errors.value[key] == null)) && (Object.keys(fieldsValid.value).every(key => fieldsValid.value[key]))
+})
+
+const getFromSession = () => {
+	storeB.getAddressFromSession()
+	if (storeB.basketAddress.name != "") validateName()
+	if (storeB.basketAddress.email != "") validateEmail()
+}
 
 onMounted(() => {
 	getFromSession()
 	if (store.user != null) { // Mám prihláseného užívateľa
 		storeB.basketAddress.name = store.user.name
 		storeB.basketAddress.email = store.user.email
-		test_email.value = 3
+		validateEmail()
+		validateName()
 		MainService.getActualUserProfile(store.id)
 			.then(response => {
 				storeB.basketAddress.phone = response.data.phone
@@ -129,134 +224,99 @@ onMounted(() => {
 <template>
 	<div>
 		<h1>Fakturačné údaje</h1>
-		<Form
-			@submit="onSubmit"
-			:validation-schema="schema"
+		<form
+			@submit="onSubmit()"
 		>
-			<div class="form-row">
-				<div class="form-group col-md-6">
-					<!--<div class="form-row">
-						<div class="form-group">
-							<BFormInput 
-								id="input-email"
-								v-model="storeB.basketAddress.email" 
-								aria-describedby="email-help"
-								:state="!metae.dirty ? null : metae.valid"
-								:disabled="store.user != null"
-								:class="store.user != null ? 'disabled' : ''"
-								@blur="testEmail" 
-								type="email"
-								title="E-mail:"
-								placeholder="Zadaj email"
-								autofocus
-							/>
-							<small id="email-help" class="text-danger">{{ errors.email }}</small>
-							
-							<small class="form-text bg-danger text-white px-2">{{ errors.email }}</small>
-							<small id="emailHelp" class="form-text text-white">
-								E-mailovú adresu nezdieľame s nikým iným!
-							</small>
-							<small v-if="test_email == 2 && store.user == null" class="form-text alert alert-warning px-2">
-								Vašu e-mailovú adresu sme našli v databáze. 
-								Prosím, najprv sa prihláste a potom pokračujte v nákupe.
-							</small>
-						</div>
-					</div>-->
-					
-					<!--label for="email">E-mail:</label-->
-				<!--
-					<Field
-						name="email"
-						type="email"
-						v-model="storeB.basketAddress.email"
-						label="E-mail:"
-						:rules="emailRules"
-						placeholder="Zadajte váš1 email"
-						:disabled="store.user != null"
-						class="form-control"
-						:class="store.user != null ? 'disabled' : ''"
-						@blur="testEmail"
-						autofocus
-					/>
-					<ErrorMessage name="email" class="form-text bg-danger text-white px-2" />
-				-->
-
+			<div class="row gx-3">
+				<div class="col-12 col-md-6">
 					<label for="basketInputEmail">E-mail:</label>
-					<input 
-						type="email" class="form-control" 
+					<BFormInput 
+						autofocus
+						debounce="500" 
+						type="email"
 						name="basketInputEmail"
-						id="basketInputEmail" aria-describedby="emailHelp" required 
-						v-bind="basketEmailAttrs"
+						id="basketInputEmail" required
 						v-model="storeB.basketAddress.email"
 						:disabled="store.user != null"
 						:class="store.user != null ? 'disabled' : ''"
-						@blur="testEmail"
-						autofocus
-					>
-					<small class="form-text bg-danger text-white px-2"><pre>{{ errors }}</pre></small>
-					<small id="emailHelp" class="form-text text-light">
+						:state="fieldsValid.email"
+					/>
+					<small class="form-text bg-danger text-white px-2" v-if="errors.email != null">
+						{{ errors.email }}
+					</small>
+					<small class="form-text text-secondary">
 						E-mailovú adresu nezdieľame s nikým iným!
 					</small>
-					<small v-if="test_email == 2 && store.user == null" class="form-text alert alert-warning px-2">
+					<div v-if="test_email === 2 && store.user == null" class=" alert alert-warning px-2">
 						Vašu e-mailovú adresu sme našli v databáze. 
-						Prosím, najprv sa prihláste a potom pokračujte v nákupe.
-					</small>
+						Prosím, najprv sa prihláste a potom pokračujte v nákupe. <br />
+						<RouterLink to="login" v-if="test_email === 2" class="btn btn-success mt-2">
+							{{ store.texts.log_in }}
+						</RouterLink>
+					</div>
 				</div>
-
-
-				<!--<div class="form-group col-md-6" v-if="test_email % 2 == 1">
+				<div class="col-12 col-md-6" v-if="test_email % 2 == 1">
 					<label for="basketInputName">Meno a priezvisko:</label>
-					<input 
-						type="text" class="form-control" 
+					<BFormInput 
+						type="text"
+						debounce="500" 
 						name="basketInputName"
-						id="basketInputName" aria-describedby="nameHelp" required
-						v-validate="'required|alpha_spaces'" 
-						data-vv-as="Meno a priezvisko"
+						id="basketInputName" required
 						v-model="storeB.basketAddress.name"
 						:disabled="store.user != null"
 						:class="store.user != null ? 'disabled' : ''"
+						:state="fieldsValid.name"
 					/>
-					<small class="form-text bg-danger text-white px-2">{{ errors.first('basketInputName') }}</small>
-					<small id="nameHelp" class="form-text text-muted">Zadajte, prosím, meno v tvare: Janko Mrkvička.</small>
+					<small class="form-text bg-danger text-white px-2" v-if="errors.name != null">{{ errors.name }}</small>
+					<small class="form-text text-secondary">Zadajte, prosím, meno v tvare: Janko Mrkvička.</small>
 				</div>
 			</div>
-			<div v-if="store.user == null && test_email == 1">
-				<button class="btn btn-primary my-2" type="button" data-toggle="collapse" data-target="#collapseReg" aria-expanded="false" aria-controls="collapseReg">
+			<BCard v-if="store.user == null && test_email == 1" bg-variant="secondary">
+				<BButton
+					:class="registrationVisibility ? null : 'collapsed'"
+					:aria-expanded="registrationVisibility ? 'true' : 'false'"
+					aria-controls="collapse-registration"
+					@click="registrationVisibility = !registrationVisibility"
+					variant="primary"
+				>
 					Registrácia
-				</button>
-				<small id="emailHelp" class="form-text text-muted">Ak sa zaregistrujete, tak pri najbližšom nákupe už nemusíte zadávať údaje nanovo.</small>
-			</div>
-			<div class="collapse form-row" id="collapseReg" v-if="store.user == null && test_email == 1">
-				<div class="form-group col-md-6">
-					<label for="password1">Heslo</label>
-					<input 
-						type="password" 
-						class="form-control"
-						id="password1"
-						name="password1"
-						v-validate="'min:5'"
-						v-model="storeB.basketAddress.password"
-						data-vv-as="heslo"
-					>
-					<small class="form-text bg-danger text-white px-2">{{ errors.first('password1') }}</small>
-					<small id="emailHelp" class="form-text text-muted">
-						Zadajte dvakrát rovnaké heslo!
-					</small>
-				</div>
-				<div class="form-group col-md-6">
-					<label for="password2">Over heslo</label>
-					<input 
-						v-model="confirmation"
-						type="password" 
-						name="password_confirmation" 
-						class="form-control"
-						id="password2"
-						v-validate="{ min:5, confirmed: storeB.basketAddress.password }"
-						data-vv-as="overené heslo"
-					>
-					<small class="form-text bg-danger text-white px-2">{{ errors.first('password_confirmation') }}</small>
-				</div>
-			</div>
+				</BButton>
+				<small id="emailHelp" class="ms-2 text-white">
+					Ak sa zaregistrujete, tak pri najbližšom nákupe už nemusíte zadávať údaje nanovo.
+				</small>
+				<BCollapse id="collapse-registration" v-model="registrationVisibility" class="mt-2">
+					<BCard bg-variant="secondary">
+						<div class="row">
+							<div class="col-12 col-md-6">
+								<label for="password1">Heslo</label>
+								<input 
+									type="password" 
+									id="password1"
+									name="password1"
+									v-model="storeB.basketAddress.password"
+									:state="fieldsValid.password"
+								>
+								<small class="form-text bg-danger text-white px-2" v-if="errors.password != null">{{ errors.password }}</small>
+								<small id="emailHelp" class="form-text text-secondary">
+									Zadajte dvakrát rovnaké heslo!
+								</small>
+							</div>
+							<div class="form-group col-md-6">
+								<label for="password2">Over heslo</label>
+								<input 
+									v-model="passwordConfirm"
+									type="password" 
+									name="password_confirmation"
+									id="password2"
+									:state="fieldsValid.passwordConfirm"
+								>
+								<small class="form-text bg-danger text-white px-2" v-if="errors.passwordConfirm != null">{{ errors.passwordConfirm }}</small>
+							</div>
+						</div>
+					</BCard>
+				</BCollapse>
+			</BCard>
+
 			<div class="form-group" v-if="test_email % 2 == 1">
 				<label for="basketInputAdress1">Ulica a číslo domu:</label>
 				<input type="text" class="form-control" 
@@ -266,10 +326,10 @@ onMounted(() => {
 					data-vv-as="Adresa"
 					v-model="storeB.basketAddress.street"
 				>
-				<small class="form-text bg-danger text-white px-2">{{ errors.first('basketInputAdress1') }}</small>
+				<small class="form-text bg-danger text-white px-2" v-if="errors.basketInputAdress1 != null">{{ errors.basketInputAdress1 }}</small>
 			</div>
-			<div class="form-row" v-if="test_email % 2 == 1">
-				<div class="form-group col-md-4">
+			<div class="row" v-if="test_email % 2 == 1">
+				<div class="col-12 col-md-4">
 					<label for="inputCity">Mesto:</label>
 					<input type="text" class="form-control" 
 						name="inputCity"
@@ -278,9 +338,9 @@ onMounted(() => {
 						data-vv-as="Mesto"
 						v-model="storeB.basketAddress.town"
 					>
-					<small class="form-text bg-danger text-white px-2">{{ errors.first('inputCity') }}</small>
+					<small class="form-text bg-danger text-white px-2" v-if="errors.inputCity != null">{{ errors.inputCity }}</small>
 				</div>
-				<div class="form-group col-md-4">
+				<div class="col-12 col-md-4">
 					<label for="inputPsc">PSČ(bez medzery):</label>
 					<input type="text" class="form-control" 
 						name="inputPsc"
@@ -289,9 +349,9 @@ onMounted(() => {
 						data-vv-as="PSČ"
 						v-model="storeB.basketAddress.psc"
 					>
-					<small class="form-text bg-danger text-white px-2">{{ errors.first('inputPsc') }}</small>
+					<small class="form-text bg-danger text-white px-2" v-if="errors.inputPsc != null">{{ errors.inputPsc }}</small>
 				</div>
-				<div class="form-group col-md-4">
+				<div class="col-12 col-md-4">
 					<label for="inputState">Štát:</label>
 					<select id="inputState" class="form-control" required
 						name="inputState"
@@ -302,7 +362,7 @@ onMounted(() => {
 						<option selected disabled>Vyber...</option>
 						<option v-for="c in country" :key="c.code" :value="c.code">{{ c.name }}</option>
 					</select>
-					<small class="form-text bg-danger text-white px-2">{{ errors.first('inputState') }}</small>
+					<small class="form-text bg-danger text-white px-2" v-if="errors.inputState != null">{{ errors.inputState }}</small>
 				</div>
 			</div>
 			<div class="form-group" v-if="test_email % 2 == 1">
@@ -315,7 +375,7 @@ onMounted(() => {
 					data-vv-as="Telefón"
 					v-model="storeB.basketAddress.phone"
 				>
-				<small class="form-text bg-danger text-white px-2">{{ errors.first('basketInputTel') }}</small>
+				<small class="form-text bg-danger text-white px-2" v-if="errors.basketInputTel != null">{{ errors.basketInputTel }}</small>
 			</div>
 
 			<div v-if="test_email % 2 == 1">
@@ -429,7 +489,7 @@ onMounted(() => {
 							<option v-for="c in country" :key="c.code" :value="c.code">{{ c.name }}</option>
 						</select>
 					</div>
-				</div>-->
+				</div>
 			</div>
 
 			<button 
@@ -443,10 +503,7 @@ onMounted(() => {
 			</button>
 
 
-		</Form>
-		<a :href="store.logInLink" v-if="test_email == 2" class="btn btn-success mt-2">
-			{{ store.texts.log_in }}
-		</a>
+		</form>
 	</div>
 </template>
 

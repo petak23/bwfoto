@@ -1,7 +1,7 @@
 <script setup>
 /** 
  * Component QuillyEditor
- * Posledná zmena(last change): 21.01.2025
+ * Posledná zmena(last change): 24.01.2025
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2025 Ing. Peter VOJTECH ml.
@@ -21,7 +21,7 @@ import '../front/css/quill.bwfoto.css' // Vlastné zmeny v téme
 
 import { debounce } from 'lodash'
 
-const debouncedChangedText = debounce(updateText, 500);
+
 
 const editor = ref()
 // Quill instance
@@ -50,6 +50,8 @@ const emit = defineEmits(['saveText'])
 const updateText = (value) => {
 	emit('saveText', toRaw(textin.value))     
 }
+
+const debouncedChangedText = debounce(updateText, 500);
 
 /* https://dev.to/anjolaogunmefun/using-vuequill-editor-in-vue-js3-1cpd */
 const onEditorReady = (e) => {
