@@ -1,13 +1,13 @@
 <script setup>
 /** 
  * Component QuillyEditor
- * Posledná zmena(last change): 24.01.2025
+ * Posledná zmena(last change): 27.01.2025
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2025 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.0
+ * @version 1.0.1
  * 
  */
 import { ref, watch, onMounted, toRaw } from 'vue'
@@ -20,8 +20,6 @@ import 'quill/dist/quill.snow.css' // For snow theme (optional)
 import '../front/css/quill.bwfoto.css' // Vlastné zmeny v téme
 
 import { debounce } from 'lodash'
-
-
 
 const editor = ref()
 // Quill instance
@@ -48,6 +46,7 @@ const textin = ref('') // Text na editáciu v editore
 const emit = defineEmits(['saveText'])
 
 const updateText = (value) => {
+	textin.value = value // TODO over potrebnosť ...
 	emit('saveText', toRaw(textin.value))     
 }
 

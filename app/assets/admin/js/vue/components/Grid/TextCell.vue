@@ -1,4 +1,4 @@
-<script>
+<script setup>
 /**
  * Komponenta pre vypísanie textového políčka gridu.
  * Posledna zmena 09.06.2022
@@ -9,114 +9,109 @@
  * @link       http://petak23.echo-msz.eu
  * @version    1.0.3
  */
+import { ref, watch, onMounted, nextTick, useTemplateRef } from 'vue'
+import MainService from '../../services/MainService'
 
-import axios from "axios";
+const props = defineProps({
+	value: {
+		type: String,
+		default: '',
+		//required: true,
+	},
+	apiLink: {
+		type: String,
+		required: true,
+	},
+	colName: {
+		type: String,
+		required: true,
+	},
+	id: {
+		type: Number,
+		required: true,
+	}
+})
 
-//for Tracy Debug Bar
-axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
+const my_value = ref('')
+const editing = ref(false)
+//const edit_name = ref('')
+const input = useTemplateRef('text_area')
 
-export default {
-  props: {
-    value: {
-      type: String,
-      default: '',
-      //required: true,
-    },
-    apiLink: {
-      type: String,
-      required: true,
-    },
-    colName: {
-      type: String,
-      required: true,
-    },
-    id: {
-      type: Number,
-      required: true,
-    }
-  },
-  data() {
-    return {
-      my_value: '',
-      editing: false,
-      edit_name: '',
-    };
-  },
-  methods: {
-    updateItem() {
-      this.editing = false
-      let odkaz = this.apiLink + this.id
-      let vm = this
-      axios.post(odkaz, {
-          [this.colName]: this.my_value,
-        })
-        .then(function (response) {
-          //vm.preview = response.data
-          //console.log(response.data)
-          vm.$root.$emit('flash_message', 
-                           [{ 'message': 'Uloženie v poriadku', 
-                              'type':'success',
-                              'heading': 'Uložené'
-                              }])
-          vm.my_value
-        })
-        .catch(function (error) {
-          console.log(odkaz)
-          console.log(error)
-          vm.$root.$emit('flash_message', 
-                           [{ 'message': 'Pri uklasaní došlo k chybe',
-                              'type':'danger',
-                              'heading': 'Chyba'
-                              }])
-        });      
-      
-    },
-    edit() {
-      this.editing = true
-      // https://forum.vuejs.org/t/setting-focus-to-textarea-not-working/17891/5
-      this.$nextTick(() => {
-        this.$refs.text_area.focus()
-      })
-    }
-  },
-  watch: { 
-    value: function() {
-      this.my_value = this.value  
-    }
-  },
-  created: function () {
-    this.my_value = this.value
-  },
+const updateItem = () => {
+	editing.value = false
+	let odkaz = props.apiLink + props.id
+	let vm = this
+	// TODO axios, storeF
+	axios.post(odkaz, {
+			[props.colName]: my_value.value,
+		})
+		.then(function (response) {
+			//vm.preview = response.data
+			//console.log(response.data)
+			vm.$root.$emit('flash_message', 
+												[{ 'message': 'Uloženie v poriadku', 
+													'type':'success',
+													'heading': 'Uložené'
+													}])
+			vm.my_value
+		})
+		.catch(function (error) {
+			console.log(odkaz)
+			console.log(error)
+			vm.$root.$emit('flash_message', 
+												[{ 'message': 'Pri uklasaní došlo k chybe',
+													'type':'danger',
+													'heading': 'Chyba'
+													}])
+		});      
+	
 }
+const edit = async () => {
+	editing.value = true
+	
+	// https://forum.vuejs.org/t/setting-focus-to-textarea-not-working/17891/5
+	// https://vuejs.org/guide/essentials/template-refs.html#template-refs
+	await nextTick()
+	text_area.value.focus()
+
+}
+
+watch(() => props.value, (newValue, oldValue) => {
+	my_value.value = props.value
+})
+
+onMounted(() => {
+	my_value.value = props.value
+})
 </script>
 
 <template>
-  <div 
-    class="text-col"
-    @click="edit"
-  >
-    <div v-if="!editing">{{ my_value }}</div>
-    <textarea 
-      ref="text_area"
-      v-model="my_value"
-      v-if="editing"
-      @blur="updateItem">
-    </textarea>
-  </div>
+	<div 
+		class="text-col"
+		@click="edit"
+	>
+		<div v-if="!editing">{{ my_value }}</div>
+		<textarea 
+			ref="text_area"
+			v-model="my_value"
+			v-if="editing"
+			@blur="updateItem">
+		</textarea>
+	</div>
 </template>
 
 
 <style>
 .text-col{
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  /*border: 2px solid red;*/
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	/*border: 2px solid red;*/
 }
 textarea {
-  max-width: 100%;
-  height: 100%;
+	max-width: 100%;
+	height: 100%;
 }
 </style>

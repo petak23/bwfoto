@@ -73,4 +73,12 @@ export default {
 	postSaveBorder(id, data) {
 		return apiClient.post('menu/saveborder/' + id, data)
 	},
+
+	// ---- verzie ----
+	getVersion(id) {
+		return apiClient.get('verzie/getversion/' + id)
+	},
+	postSaveVerzie(id, number, text) {
+		return apiClient.post('verzie/save/' + id, [number, text])
+	},
 }
