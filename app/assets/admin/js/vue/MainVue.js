@@ -46,4 +46,4 @@ let vm = new Vue({
     VerzieEditForm,
     NakupView,
   },
-});   
+}) 

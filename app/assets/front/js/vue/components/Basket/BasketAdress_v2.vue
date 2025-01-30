@@ -10,7 +10,7 @@
  * @version    1.0.5
  * @example https://medium.com/swlh/vue3-using-ref-or-reactive-88d47c8f6944
  */
-import { ref, computed, watch, onMounted } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue'
 import { BFormInput, BButton, BCard, BCollapse, BFormText } from 'bootstrap-vue-next'
 import MainService from '../../services/MainService.js'
 
@@ -18,6 +18,10 @@ import { useMainStore } from '../../store/main'
 const store = useMainStore()
 import { useBasketStore } from '../../store/basket.js'
 const storeB = useBasketStore()
+
+import AddressForm from './components/AddressForm.vue'
+import AddressFirm from './components/AddressFirm.vue'
+import AddressOther from './components/AddressOther.vue'
 
 import countryCodes from "../../plugins/country.js"
 const country = countryCodes
@@ -49,6 +53,8 @@ const fieldsValid = ref({
 	inputPsc: true,
 	inputState: true,
 	basketInputTel: true,
+	isAddressFirmFormValid: false,
+	isAddressOtherFormValid: true,
 })
 
 const onSubmit = () => {
@@ -57,8 +63,6 @@ const onSubmit = () => {
 	// Nasleduje zmena menu odtiaľ na zmenu view
 	storeB.navigationUpdate({ id: 3, enabled: true, view_part: 3 })
 }
-
-
 
 const testEmail = async () => {
 	if (store.user == null) { // Testovanie má zmysel len pre neprihláseného
@@ -105,7 +109,6 @@ watch(() => storeB.basketAddress.email, () => {
 		validateEmail()
 	}
 })
-
 
 const validateName = () => {
 	if (!storeB.basketAddress.name) {
@@ -186,7 +189,8 @@ watch(registrationVisibility, () => {
 })
 
 const isFormValid = computed(() => {
-	return (Object.keys(errors.value).every(key => errors.value[key] == null)) && (Object.keys(fieldsValid.value).every(key => fieldsValid.value[key]))
+	return (Object.keys(errors.value).every(key => errors.value[key] == null)) 
+		&& (Object.keys(fieldsValid.value).every(key => fieldsValid.value[key]))
 })
 
 const getFromSession = () => {
@@ -317,180 +321,81 @@ onMounted(() => {
 				</BCollapse>
 			</BCard>
 
-			<div class="form-group" v-if="test_email % 2 == 1">
-				<label for="basketInputAdress1">Ulica a číslo domu:</label>
-				<input type="text" class="form-control" 
-					name="basketInputAdress1"
-					id="basketInputAdress1" required
-					v-validate="'required'"
-					data-vv-as="Adresa"
-					v-model="storeB.basketAddress.street"
-				>
-				<small class="form-text bg-danger text-white px-2" v-if="errors.basketInputAdress1 != null">{{ errors.basketInputAdress1 }}</small>
-			</div>
-			<div class="row" v-if="test_email % 2 == 1">
-				<div class="col-12 col-md-4">
-					<label for="inputCity">Mesto:</label>
-					<input type="text" class="form-control" 
-						name="inputCity"
-						id="inputCity" required
-						v-validate="'required'"
-						data-vv-as="Mesto"
-						v-model="storeB.basketAddress.town"
-					>
-					<small class="form-text bg-danger text-white px-2" v-if="errors.inputCity != null">{{ errors.inputCity }}</small>
-				</div>
-				<div class="col-12 col-md-4">
-					<label for="inputPsc">PSČ(bez medzery):</label>
-					<input type="text" class="form-control" 
-						name="inputPsc"
-						id="inputPsc" required
-						v-validate="'required|numeric|length:5'"
-						data-vv-as="PSČ"
-						v-model="storeB.basketAddress.psc"
-					>
-					<small class="form-text bg-danger text-white px-2" v-if="errors.inputPsc != null">{{ errors.inputPsc }}</small>
-				</div>
-				<div class="col-12 col-md-4">
-					<label for="inputState">Štát:</label>
-					<select id="inputState" class="form-control" required
-						name="inputState"
-						v-validate="'required'"
-						data-vv-as="Štát" 
-						v-model="storeB.basketAddress.country"
-					>
-						<option selected disabled>Vyber...</option>
-						<option v-for="c in country" :key="c.code" :value="c.code">{{ c.name }}</option>
-					</select>
-					<small class="form-text bg-danger text-white px-2" v-if="errors.inputState != null">{{ errors.inputState }}</small>
-				</div>
-			</div>
-			<div class="form-group" v-if="test_email % 2 == 1">
-				<label for="basketInputTel">Telefón(bez medzier):</label>
-				<input type="text" class="form-control" 
-					name="basketInputTel"
-					id="basketInputTel"
-					value="+421" required
-					v-validate="'required|min:13'"
-					data-vv-as="Telefón"
-					v-model="storeB.basketAddress.phone"
-				>
-				<small class="form-text bg-danger text-white px-2" v-if="errors.basketInputTel != null">{{ errors.basketInputTel }}</small>
-			</div>
-
-			<div v-if="test_email % 2 == 1">
-				<button class="btn btn-primary my-2" type="button" data-toggle="collapse" data-target="#collapseFirm" aria-expanded="false" aria-controls="collapseFirm">
-					Dodávka na firmu
-				</button>
-			</div>
-			<div class="collapse" id="collapseFirm" v-if="test_email % 2 == 1">
-				<div class="form-group">
-					<label for="inputFirmName">Firma:</label>
-					<input type="text" 
-						class="form-control" id="inputFirmName"
-						v-model="storeB.basketAddress.firm.name"
-					>
-				</div>
-				<div class="form-group">
-					<label for="inputFirmIco">IČO:</label>
-					<input type="text" 
-						class="form-control" id="inputFirmIco"
-						v-model="storeB.basketAddress.firm.ico"
-					>
-				</div>
-				<div class="form-group">
-					<label for="inputFirmDic">DIČ:</label>
-					<input type="text" 
-						class="form-control" id="inputFirmDic"
-						v-model="storeB.basketAddress.firm.dic"
-					>
-				</div>
-				<div class="form-group">
-					<label for="inputFirmIcdph">IČ DPH:</label>
-					<input type="text" 
-						class="form-control" id="inputFirmIcdph"
-						v-model="storeB.basketAddress.firm.icdph"
-					>
-				</div>
-				<div class="form-group">
-					<label for="inputFirmAdress">Ulica a číslo domu:</label>
-					<input type="text"
-						class="form-control" id="inputFirmAdress"
-						v-model="storeB.basketAddress.firm.street"
-					>
-				</div>
-				<div class="form-row">
-					<div class="form-group col-md-4">
-						<label for="inputFirmCity">Mesto:</label>
-						<input type="text" 
-							class="form-control" id="inputFirmCity"
-							v-model="storeB.basketAddress.firm.town"
+			<BCard bg-variant="secondary" v-if="test_email % 2 == 1">
+				<div class="row">
+					<div class="col-12">
+						<label for="basketInputAdress1">Ulica a číslo domu:</label>
+						<input type="text" class="form-control" 
+							name="basketInputAdress1"
+							id="basketInputAdress1" required
+							v-validate="'required'"
+							data-vv-as="Adresa"
+							v-model="storeB.basketAddress.street"
 						>
-					</div>
-					<div class="form-group col-md-4">
-						<label for="inputFirmPsc">PSČ(bez medzery):</label>
-						<input type="text" 
-							class="form-control" id="inputFirmPsc" 
-							v-validate="'numeric|length:5'"
-							data-vv-as="PSČ firmy"
-							v-model="storeB.basketAddress.firm.psc"
-						>
-					</div>
-					<div class="form-group col-md-4">
-						<label for="inputFirmState">Štát:</label>
-						<select id="inputFirmState" 
-							class="form-control" 
-							v-model="storeB.basketAddress.firm.country"
-						>
-							<option selected disabled>Vyber...</option>
-							<option v-for="c in country" :key="c.code" value="c.code">{{ c.name }}</option>
-						</select>
+						<small class="form-text bg-danger text-white px-2" v-if="errors.basketInputAdress1 != null">{{ errors.basketInputAdress1 }}</small>
 					</div>
 				</div>
-			</div>
-			
-			<div v-if="test_email % 2 == 1">
-				<button class="btn btn-primary my-2" type="button" data-toggle="collapse" data-target="#collapseAdress2" aria-expanded="false" aria-controls="collapseFirm">
-					Iná dodacia adresa
-				</button>
-			</div>
-			<div class="collapse" id="collapseAdress2" v-if="test_email % 2 == 1">
-				<div class="form-group">
-					<label for="inputAdress2">Ulica a číslo domu:</label>
-					<input type="text" 
-						class="form-control" id="inputAdress2"
-						v-model="storeB.basketAddress.adress2.street"
-					>
-				</div>
-				<div class="form-row">
-					<div class="form-group col-md-4">
-						<label for="inputCity2">Mesto:</label>
-						<input type="text" 
-							class="form-control" id="inputCity2"
-							v-model="storeB.basketAddress.adress2.town"
+				<div class="row">
+					<div class="col-12 col-md-4">
+						<label for="inputCity">Mesto:</label>
+						<input type="text" class="form-control" 
+							name="inputCity"
+							id="inputCity" required
+							v-validate="'required'"
+							data-vv-as="Mesto"
+							v-model="storeB.basketAddress.town"
 						>
+						<small class="form-text bg-danger text-white px-2" v-if="errors.inputCity != null">{{ errors.inputCity }}</small>
 					</div>
-					<div class="form-group col-md-4">
-						<label for="inputPsc2">PSČ(bez medzery):</label>
-						<input type="text" 
-							class="form-control" id="inputPsc2"
-							v-validate="'numeric|length:5'"
-							data-vv-as="PSČ inej dodacej adresy"
-							v-model="storeB.basketAddress.adress2.psc"
+					<div class="col-12 col-md-4">
+						<label for="inputPsc">PSČ(bez medzery):</label>
+						<input type="text" class="form-control" 
+							name="inputPsc"
+							id="inputPsc" required
+							v-validate="'required|numeric|length:5'"
+							data-vv-as="PSČ"
+							v-model="storeB.basketAddress.psc"
 						>
+						<small class="form-text bg-danger text-white px-2" v-if="errors.inputPsc != null">{{ errors.inputPsc }}</small>
 					</div>
-					<div class="form-group col-md-4">
-						<label for="inputState2">Štát:</label>
-						<select id="inputState2" 
-							class="form-control"
-							v-model="storeB.basketAddress.adress2.country"
+					<div class="col-12 col-md-4">
+						<label for="inputState">Štát:</label>
+						<select id="inputState" class="form-control" required
+							name="inputState"
+							v-validate="'required'"
+							data-vv-as="Štát" 
+							v-model="storeB.basketAddress.country"
 						>
 							<option selected disabled>Vyber...</option>
 							<option v-for="c in country" :key="c.code" :value="c.code">{{ c.name }}</option>
 						</select>
+						<small class="form-text bg-danger text-white px-2" v-if="errors.inputState != null">{{ errors.inputState }}</small>
 					</div>
 				</div>
-			</div>
+				<div class="row">
+					<div class="col-12">
+						<label for="basketInputTel">Telefón(bez medzier):</label>
+						<input type="text" class="form-control" 
+							name="basketInputTel"
+							id="basketInputTel"
+							value="+421" required
+							v-validate="'required|min:13'"
+							data-vv-as="Telefón"
+							v-model="storeB.basketAddress.phone"
+						>
+						<small class="form-text bg-danger text-white px-2" v-if="errors.basketInputTel != null">{{ errors.basketInputTel }}</small>
+					</div>
+				</div>
+			</BCard>
+
+			<address-firm 
+				v-if="test_email % 2 == 1"
+				@isFormValid="(isf) => fieldsValid.isAddressFirmFormValid = isf" 
+			/>
+			<address-other 
+				v-if="test_email % 2 == 1"
+				@formOtherValid="(iso) => fieldsValid.isAddressOtherFormValid = iso" 
+			/> 
 
 			<button 
 				v-if="test_email != 2"
