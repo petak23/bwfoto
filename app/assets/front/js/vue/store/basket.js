@@ -174,13 +174,21 @@ export const useBasketStore = defineStore('basket', () => {
 	
 /** ---------------- SHIPPING ------------- */
 
-	const basketShipping = ref([])
+	const basketShipping = ref({
+		shipping: { val: 1, name: "", price: 0 },
+		payment: { val: 1, name: "", price: 0 },
+		notice: null,
+	})
 
 	const getShipingFromSession = () => {
 		if (Session.has('basket-shipping')) {
 			basketShipping.value = JSON.parse(Session.getStorage('basket-shipping'))
 		} else {
-			basketShipping.value = []
+			basketShipping.value = {
+				shipping: { val: 1, name: "", price: 0 },
+				payment: { val: 1, name: "", price: 0 },
+				notice: null,
+			}
 		}
 	}
 	

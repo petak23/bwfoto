@@ -70,11 +70,11 @@ const isFormValid = computed(() => {
 
 const emit = defineEmits(['saveData'])
 
-const sendData = () => {
-	let data = {formValid: isFormValid.value, values: valuesFields}
-	console.log(data);
+const sendData = (mes) => {
+	//let data = {formValid: isFormValid.value, values: valuesFields}
+	//console.log(data, mes)
 	
-	emit('savaData', {formValid: isFormValid.value, values: valuesFields})
+	emit('saveData', {formValid: isFormValid.value, values: valuesFields.value})
 }
 
 // ------- STREET ------
@@ -89,10 +89,14 @@ const validateStreet = () => {
 	return fieldsValid.value.street
 }
 
-watch(() => valuesFields.value.street, () => {
-	if (valuesFields.value.street != null && valuesFields.value.street.length == 0) valuesFields.value.street = null
-	validateStreet()
-	if (wasFirstRun.value) sendData()
+watch(() => valuesFields.value.street, (newValue, oldValue) => {
+	if (newValue != null && newValue.length == 0) newValue = null // Ak je prázdny reťazec zmeň na null
+	if (oldValue != null && oldValue.length == 0) oldValue = null // Ak je prázdny reťazec zmeň na null
+	valuesFields.value.street = newValue													// Zapíš hodnotu
+	validateStreet()																							// Validuj
+	if (newValue != oldValue && wasFirstRun.value) {							// Ak sa hodnoty nerovnajú a nie je to prvý raz
+		sendData('watch-street')																		// Odošli data
+	}
 })
 
 // ------- TOWN ------
@@ -107,10 +111,14 @@ const validateTown = () => {
 	return fieldsValid.value.street
 }
 
-watch(() => valuesFields.value.town, () => {
-	if (valuesFields.value.town != null && valuesFields.value.town.length == 0) valuesFields.value.town = null
+watch(() => valuesFields.value.town, (newValue, oldValue) => {
+	if (newValue != null && newValue.length == 0) newValue = null // Ak je prázdny reťazec zmeň na null
+	if (oldValue != null && oldValue.length == 0) oldValue = null // Ak je prázdny reťazec zmeň na null
+	valuesFields.value.town = newValue
 	validateTown()
-	if (wasFirstRun.value) sendData()
+	if (newValue != oldValue && wasFirstRun.value) {
+		sendData('watch-town')
+	}
 })
 
 // ------- PSČ ------
@@ -128,10 +136,14 @@ const validatePsc = () => {
 	return fieldsValid.value.psc
 }
 
-watch(() => valuesFields.value.psc, () => {
-	if (valuesFields.value.psc != null && valuesFields.value.psc.length == 0) valuesFields.value.psc = null
+watch(() => valuesFields.value.psc, (newValue, oldValue) => {
+	if (newValue != null && newValue.length == 0) newValue = null // Ak je prázdny reťazec zmeň na null
+	if (oldValue != null && oldValue.length == 0) oldValue = null // Ak je prázdny reťazec zmeň na null
+	valuesFields.value.psc = newValue
 	validatePsc()
-	if (wasFirstRun.value) sendData()
+	if (newValue != oldValue && wasFirstRun.value) {
+		sendData('watch-psc')
+	}
 })
 
 // ------- COUNTRY ------
@@ -146,15 +158,19 @@ const validateCountry = () => {
 	return fieldsValid.value.country
 }
 
-watch(() => valuesFields.value.country, () => {
-	if (valuesFields.value.country != null && valuesFields.value.country == 0) valuesFields.value.country = null
+watch(() => valuesFields.value.country, (newValue, oldValue) => {
+	if (newValue != null && newValue.length == 0) newValue = null // Ak je prázdny reťazec zmeň na null
+	if (oldValue != null && oldValue.length == 0) oldValue = null // Ak je prázdny reťazec zmeň na null
+	valuesFields.value.country = newValue
 	validateCountry()
-	if (wasFirstRun.value) sendData()
+	if (newValue != oldValue && wasFirstRun.value) {
+		sendData('watch-country')
+	}
 })
 
 // -------- Koniec validácií ---------
 
-watch(() => props.formVisibility, () => {
+const testForm = () => {
 	// Je formulár je viditeľný alebo je sapoň jedno pole povinné?
 	if (props.formVisibility || Object.values(requireField.value).some(pole => pole === true)){
 		validateStreet()
@@ -169,6 +185,10 @@ watch(() => props.formVisibility, () => {
 			country: null
 		}
 	}
+}
+
+watch(() => props.formVisibility, () => {
+	testForm()
 })
 
 watch(() => props.require, (newValue) => {
@@ -184,12 +204,10 @@ onMounted(() => {
 	// Zlúčenie nastavení
 	requireField.value = {...requireField.value, ...props.require}
 	valuesFields.value = {...valuesFields.value, ...props.values}
-	validateStreet()
-	validateTown()
-	validatePsc()
-	validateCountry()
-
-	sendData()
+	formVisibility.value = props.formVisibility
+	testForm()
+	
+	sendData('onMounted')
 	wasFirstRun.value = true // Pre blokovanie zbytočných emitov
 })
 </script>

@@ -1,13 +1,13 @@
 <script setup>
 /**
  * Hlavná časť pre prácu s nákupom.
- * Posledna zmena 11.11.2024
+ * Posledna zmena 04.02.2025
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2025 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.3
+ * @version    1.0.4
  */
 import { ref, watch, onMounted } from "vue"
 
@@ -16,7 +16,7 @@ const storeB = useBasketStore()
 
 import BasketNavigation from "../components/Basket/BasketNavigation.vue"//v3 	// Hlavá navigácie priebehu nákupu
 import BasketList from "../components/Basket/BasketList.vue"	 //v3						// Prvý krok: prehľad košíka
-import BasketAdress from "../components/Basket/BasketAdress_v2.vue"					// Druhý krok: zadanie adresy
+import BasketAdress from "../components/Basket/BasketAdress.vue"					// Druhý krok: zadanie adresy
 import BasketShipping from "../components/Basket/BasketShipping.vue"//v3			// Tretí krok: doprava a platba
 import BasketSumar from "../components/Basket/BasketSumar.vue" //v3						// Štvrtý krok: sumarizácia nákupu
 import BasketFinal from "../components/Basket/BasketFinal.vue" //v3						// Piaty krok: správa o ukončení nákupu
@@ -55,33 +55,35 @@ onMounted(() => {
 		<basket-navigation 
 			@basket-view-part="setPart"
 		/>
+		
 		<!-- Prvý krok: prehľad košíka -->
 		<basket-list 
 			v-if="storeB.view_part == 1"
 			@basket-view-part="setPart"
-		>
-		</basket-list>
+		/>
+		
 		<!-- Druhý krok: zadanie adresy -->
 		<basket-adress 
 			v-else-if="storeB.view_part == 2"
-		>
-		</basket-adress>
+		/>
+	
 		<!-- Tretí krok: doprava a platba -->
 		<basket-shipping
-				v-else-if="storeB.view_part == 3"
-		>
-		</basket-shipping>
+			v-else-if="storeB.view_part == 3"
+		/>
+		
 		<!-- Štvrtý krok: sumarizácia nákupu -->
 		<basket-sumar 
 			v-else-if="storeB.view_part == 4"
 			@basket-final="(i) => info = i"
-		>
-		</basket-sumar>
+		/>
+		
 		<!-- Piaty krok: správa o ukončení nákupu -->
 		<basket-final 
 			v-else-if="storeB.view_part == 5" 
 			:info="info"
 		/>
+
 		<div v-else>
 			
 		</div>

@@ -1,25 +1,19 @@
 <script setup>
 /**
  * Komponenta pre zadanie možností o doprave a platbe.
- * Posledna zmena 04.12.2024
+ * Posledna zmena 04.02.2025
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2025 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.2
+ * @version    1.0.3
  */
 
 import { ref, onMounted, computed } from 'vue'
-import Session from "../../plugins/session.js"
 import { useBasketStore } from '../../store/basket.js'
 const storeB = useBasketStore()
 
-const f_data = ref({
-	shipping: { val: 1, name: "", price: 0 },
-	payment: { val: 1, name: "", price: 0 },
-	notice: null,
-})
 const shipping = ref([
 	{id: 1, name: "Kuriér XYZ", price: 5 },
 	{id: 2, name: "Slovenská pošta", price: 3.5 },
@@ -31,24 +25,21 @@ const	payment = ref([
 ])
 
 const onSubmit = () => {
-	if (Session.getStorage('basket-shipping')) Session.clearStorage('basket-shipping')
-	f_data.value.shipping.price = shipping.value[f_data.value.shipping.val - 1].price
-	f_data.value.shipping.name = shipping.value[f_data.value.shipping.val - 1].name
-	f_data.value.payment.price = payment.value[f_data.value.payment.val - 1].price
-	f_data.value.payment.name = payment.value[f_data.value.payment.val - 1].name
-	Session.saveStorage('basket-shipping', JSON.stringify(f_data.value))
+	storeB.basketShipping.shipping.price = shipping.value[storeB.basketShipping.shipping.val - 1].price
+	storeB.basketShipping.shipping.name = shipping.value[storeB.basketShipping.shipping.val - 1].name
+	storeB.basketShipping.payment.price = payment.value[storeB.basketShipping.payment.val - 1].price
+	storeB.basketShipping.payment.name = payment.value[storeB.basketShipping.payment.val - 1].name
+	storeB.saveShipping()
 	// Nasleduje zmena menu a odtiaľ na zmenu view
 	storeB.navigationUpdate({ id: 4, enabled: true, view_part: 4 })
 }
 
 const getFromSession = () => {
-	if (Session.getStorage('basket-shipping')) {
-		f_data.value = JSON.parse(Session.getStorage("basket-shipping"))			
-	}
+	storeB.getShipingFromSession()
 }
 
 const isFormValid = computed(() => {
-	return Object.keys(fields).every(key => fields[key].valid);
+	return true//Object.keys(fields).every(key => fields[key].valid);
 })
 
 onMounted(() => {
@@ -74,7 +65,7 @@ onMounted(() => {
 							class="form-check-input" type="radio" 
 							name="shippingRadios" :id="'shippingRadios'+s.id"
 							:value="s.id" 
-							v-model="f_data.shipping.val"
+							v-model="storeB.basketShipping.shipping.val"
 						>
 						<label class="form-check-label" :for="'shippingRadios'+s.id">
 							{{ s.name }} (+ {{ s.price }} €)
@@ -92,7 +83,7 @@ onMounted(() => {
 							class="form-check-input" type="radio" 
 							name="paymentRadios" :id="'paymentRadios'+p.id"
 							:value="p.id" 
-							v-model="f_data.payment.val"
+							v-model="storeB.basketShipping.payment.val"
 						>
 						<label class="form-check-label" :for="'paymentRadios'+p.id">
 							{{ p.name }} (+ {{ p.price }} €)
@@ -103,7 +94,7 @@ onMounted(() => {
 			<div class="form-row">
 				<div class="form-group col-md-6">
 					<h6>Poznámka:</h6><!-- v-validate="{ regex: /<[^>]*>/g }" -->
-					<textarea v-model="f_data.notice"></textarea>
+					<textarea v-model="storeB.basketShipping.notice"></textarea>
 				</div>
 			</div>
 		

@@ -1,56 +1,29 @@
 <script setup>
-import { ref, computed, watch } from 'vue';
+import { ref, watch } from 'vue';
 import { BFormInput, BButton, BCard, BCollapse, BFormText } from 'bootstrap-vue-next'
 import { useBasketStore } from '../../../store/basket.js'
+import AddressForm from './AddressForm.vue';
 const storeB = useBasketStore()
-
-import countryCodes from "../../../plugins/country.js"
-const country = countryCodes
 
 const formVisibility = ref(false)
 
-const errors = ref({
-	psc: null,
+const isFormValid = ref(false)
+
+const emit = defineEmits(['formFirmValid'])
+
+watch(() => storeB.basketAddress.firm, () => {
+	//console.log(isFormValid)
+	
+	emit('formFirmValid', isFormValid.value)
 })
 
-const fieldsValid = ref({
-	psc: true,
-})
-
-const isFormValid = computed(() => {
-	return (Object.keys(errors.value).every(key => errors.value[key] == null)) 
-			&& (Object.keys(fieldsValid.value).every(key => fieldsValid.value[key]))
-})
-
-const emit = defineEmits(['isFormValid'])
-
-const validatePsc = () => {
-	if (storeB.basketAddress.firm.psc == null) {
-		errors.value.psc = null
-		fieldsValid.value.psc = null
-	} else if (storeB.basketAddress.firm.psc.length != 5) {
-		errors.value.password = "PSČ musí mať 5 znakov!"
-		fieldsValid.value.password = false
-	} else {
-		errors.value.password = null
-		fieldsValid.value.password = true
-	}
+const saveIncomingData = (data) => { 
+	isFormValid.value = data.formValid
+	storeB.basketAddress.firm = {...storeB.basketAddress.firm, ...data.values}
+	//console.log(data)
+	
+	emit('formFirmValid', isFormValid.value)
 }
-
-// TODO skús watch na celý firm ???
-watch(() => storeB.basketAddress.firm.psc, () => {
-	if (storeB.basketAddress.firm.psc != null && storeB.basketAddress.firm.psc == 0) storeB.basketAddress.firm.psc = null
-	validatePsc()
-	emit('isFormValid', isFormValid)
-})
-
-watch(formVisibility, () => {
-	if (formVisibility.value) {
-		validatePsc()
-	} else {
-		fieldsValid.value.psc = true
-	}
-})
 
 </script>
 
@@ -104,43 +77,16 @@ watch(formVisibility, () => {
 						>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-12">
-						<label for="inputFirmAdress">Ulica a číslo:</label>
-						<input type="text"
-							class="form-control" id="inputFirmAdress"
-							v-model="storeB.basketAddress.firm.street"
-						>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-12 col-md-4">
-						<label for="inputFirmCity">Mesto:</label>
-						<input type="text" 
-							class="form-control" id="inputFirmCity"
-							v-model="storeB.basketAddress.firm.town"
-						>
-					</div>
-					<div class="col-12 col-md-4">
-						<label for="inputFirmPsc">PSČ(bez medzery):</label>
-						<input type="text" 
-							class="form-control" id="inputFirmPsc" 
-							:state="fieldsValid.psc"
-							v-model="storeB.basketAddress.firm.psc"
-						>
-						<small class="form-text bg-danger text-white px-2" v-if="errors.psc != null">{{ errors.psc }}</small>
-					</div>
-					<div class="col-12 col-md-4">
-						<label for="inputFirmState">Štát:</label>
-						<select id="inputFirmState" 
-							class="form-control" 
-							v-model="storeB.basketAddress.firm.country"
-						>
-							<option selected disabled>Vyber...</option>
-							<option v-for="c in country" :key="c.code" value="c.code">{{ c.name }}</option>
-						</select>
-					</div>
-				</div>
+				<AddressForm 
+					:values="{
+						street: storeB.basketAddress.firm.street,
+						town: storeB.basketAddress.firm.town,
+						psc: storeB.basketAddress.firm.psc,
+						country: storeB.basketAddress.firm.country
+					}"
+					:formVisibility="formVisibility"
+					@saveData="saveIncomingData" 
+				/>
 			</BCard>
 		</BCollapse>
 	</BCard>

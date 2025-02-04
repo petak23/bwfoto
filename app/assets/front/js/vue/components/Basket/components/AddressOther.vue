@@ -12,17 +12,17 @@ const isFormValid = ref(false)
 const emit = defineEmits(['formOtherValid'])
 
 watch(() => storeB.basketAddress.adress2, () => {
-	console.log(isFormValid)
+	//console.log(isFormValid)
 	
-	emit('formOtherValid', isFormValid)
+	emit('formOtherValid', isFormValid.value)
 })
 
 const saveIncomingData = (data) => { 
-	isFormValid = data.formValid
+	isFormValid.value = data.formValid
 	storeB.basketAddress.adress2 = {...storeB.basketAddress.adress2, ...data.values}
-	console.log(data)
+	//console.log('saveIncomingData-other',data.values, storeB.basketAddress.adress2)
 	
-	emit('formOtherValid', isFormValid)
+	emit('formOtherValid', isFormValid.value)
 }
 
 </script>
@@ -48,7 +48,6 @@ const saveIncomingData = (data) => {
 						psc: storeB.basketAddress.adress2.psc,
 						country: storeB.basketAddress.adress2.country
 					}"
-					:require="{street: true}"
 					:formVisibility="formVisibility"
 					@saveData="saveIncomingData" 
 				/>
