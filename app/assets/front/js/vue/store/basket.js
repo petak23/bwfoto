@@ -9,10 +9,11 @@ export const useBasketStore = defineStore('basket', () => {
 	const final_price = ref(0) // Sumárna cena za produkty 
 
 	const getFinalPrice = () => {
-		final_price.value = 0
+		let fp = 0
 		basketItem.value.forEach((item) => {
-			final_price.value += parseFloat(item.product.properties.final_price)
+			fp += parseFloat(item.product.properties.final_price)
 		})
+		final_price.value = parseFloat(fp.toFixed(2))
 		return final_price.value
 	}
 
@@ -36,7 +37,7 @@ export const useBasketStore = defineStore('basket', () => {
 		}
 	}
 
-	/** Vymazanie všetkých obľúbených položiek */
+	/** Vymazanie všetkých produktov */
 	const delAllProducts = () => { 
 		basketItem.value = []
 		Session.clearStorage('basket-items')
@@ -60,6 +61,7 @@ export const useBasketStore = defineStore('basket', () => {
 		} else {
 			basketItem.value = []
 		}
+		return basketItem.value
 	}
 
 	const getProductFromBasket = (id_product) => {
@@ -161,6 +163,7 @@ export const useBasketStore = defineStore('basket', () => {
 		} else {
 			basketAddress.value = address_default
 		}
+		return basketAddress.value
 	}
 
 	const saveAddress = (data = null) => {
@@ -169,32 +172,41 @@ export const useBasketStore = defineStore('basket', () => {
 		Session.saveStorage('basket-address', toRaw(basketAddress.value))	
 	}
 
-	
+	/** Vymazanie adresy */
+	const clearAddress = () => { 
+		basketAddress.value = address_default
+		Session.clearStorage('basket-address')
+	}
 
 	
 /** ---------------- SHIPPING ------------- */
 
-	const basketShipping = ref({
+	const shipping_default = {
 		shipping: { val: 1, name: "", price: 0 },
 		payment: { val: 1, name: "", price: 0 },
 		notice: null,
-	})
+	}
+
+	const basketShipping = ref(shipping_default)
 
 	const getShipingFromSession = () => {
 		if (Session.has('basket-shipping')) {
 			basketShipping.value = JSON.parse(Session.getStorage('basket-shipping'))
 		} else {
-			basketShipping.value = {
-				shipping: { val: 1, name: "", price: 0 },
-				payment: { val: 1, name: "", price: 0 },
-				notice: null,
-			}
+			basketShipping.value = shipping_default
 		}
+		return basketShipping.value
 	}
 	
 	const saveShipping = () => {
 		if (Session.has('basket-shipping')) Session.clearStorage('basket-shipping')
 		Session.saveStorage('basket-shipping', toRaw(basketShipping.value))	
+	}
+
+	/** Vymazanie adresy */
+	const clearShipping = () => { 
+		basketShipping.value = shipping_default 
+		Session.clearStorage('basket-shipping')
 	}
 	
  
@@ -203,7 +215,7 @@ export const useBasketStore = defineStore('basket', () => {
 		saveProduct, delAllProducts, delOneProduct, 
 		getProductsFromSession, getProductFromBasket, navigationUpdate, getFinalPrice,
 		getNavFromSession,
-		getAddressFromSession, saveAddress,
-		getShipingFromSession, saveShipping,
+		getAddressFromSession, saveAddress, clearAddress,
+		getShipingFromSession, saveShipping, clearShipping,
 	}
 })

@@ -38,6 +38,7 @@ const getFromSession = () => {
 	storeB.getShipingFromSession()
 }
 
+// TODO
 const isFormValid = computed(() => {
 	return true//Object.keys(fields).every(key => fields[key].valid);
 })
