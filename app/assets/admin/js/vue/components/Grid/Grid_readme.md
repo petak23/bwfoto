@@ -60,12 +60,10 @@ V gride vytvorí po kliku editovateľné textové pole.
 | Názov       | typ    | Povinný | Východzia hodnota | Popis                     |
 |-------------|--------|---------|-------------------|---------------------------|
 | value       | String | Nie     | ''                | Hodnota prvku             |
-| apiLink     | String | Áno     | ---               | Základná časť cesty k API |
-| colName     | String | Áno     | ---               | Názov príslušného stípca  DB tabuľky |
 | id          | Number | Áno     | ---               | Id prvku v DB tabuľke     |
 
-**Emity**
+**Emit**
 
-| Názov                  | Popis                                           | Parametre                                |
-|------------------------|-------------------------------------------------|------------------------------------------|
-| flash_message          | Info o výsledku uloženia hodnoty do DB tabuľky | message, type, heading |
+| Názov             | Popis                          |Parametre |
+|-------------------|--------------------------------|----------|
+| saveData          | Odoslané id a text na uloženie | id, text |

@@ -10,21 +10,12 @@
  * @version    1.0.3
  */
 import { ref, watch, onMounted, nextTick, useTemplateRef } from 'vue'
-import MainService from '../../services/MainService'
 
 const props = defineProps({
 	value: {
 		type: String,
 		default: '',
 		//required: true,
-	},
-	apiLink: {
-		type: String,
-		required: true,
-	},
-	colName: {
-		type: String,
-		required: true,
 	},
 	id: {
 		type: Number,
@@ -35,36 +26,13 @@ const props = defineProps({
 const my_value = ref('')
 const editing = ref(false)
 //const edit_name = ref('')
-const input = useTemplateRef('text_area')
+const text_area = useTemplateRef('text_area')
+
+const emit = defineEmits(['saveData'])
 
 const updateItem = () => {
 	editing.value = false
-	let odkaz = props.apiLink + props.id
-	let vm = this
-	// TODO axios, storeF
-	axios.post(odkaz, {
-			[props.colName]: my_value.value,
-		})
-		.then(function (response) {
-			//vm.preview = response.data
-			//console.log(response.data)
-			vm.$root.$emit('flash_message', 
-												[{ 'message': 'Uloženie v poriadku', 
-													'type':'success',
-													'heading': 'Uložené'
-													}])
-			vm.my_value
-		})
-		.catch(function (error) {
-			console.log(odkaz)
-			console.log(error)
-			vm.$root.$emit('flash_message', 
-												[{ 'message': 'Pri uklasaní došlo k chybe',
-													'type':'danger',
-													'heading': 'Chyba'
-													}])
-		});      
-	
+	emit('saveData', {id: props.id, text:my_value.value })
 }
 const edit = async () => {
 	editing.value = true
@@ -76,7 +44,7 @@ const edit = async () => {
 
 }
 
-watch(() => props.value, (newValue, oldValue) => {
+watch(() => props.value, () => {
 	my_value.value = props.value
 })
 
