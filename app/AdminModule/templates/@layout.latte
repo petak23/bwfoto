@@ -40,8 +40,18 @@
 
 <body>
 	<div 
+		id="app"
+		v-cloak
+		data-base-path="{$basePath}"
+		data-base-url="{$baseUrl}"
+		
+		data-flashes="{($flashes|to_json)}"
+		class="container-fluid"
+	>
+	</div>
+	<div 
 		class="container-fluid" 
-		id="vueapp"
+		
 		data-base-path="{$basePath}"
 		data-base-url="{$baseUrl}"
 	>

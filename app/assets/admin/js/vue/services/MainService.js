@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = document.getElementById('vueapp').dataset.baseUrl + "/api/"
+const baseUrl = document.getElementById('app').dataset.baseUrl + "/api/"
 
 //axios.defaults.withCredentials = true;
 

@@ -9,41 +9,18 @@
  * @version 1.0.5
  */
 
-import Vue from 'vue';
-import { BootstrapVue, IconsPlugin } from 'bootstrap-vue-next'
-/*import VueDndZone from 'vue-dnd-zone'
-import 'vue-dnd-zone/vue-dnd-zone.css'*/
-import SingleUpload from './components/Uploader/SingleUpload'
-import MultipleUpload from './components/Uploader/MultipleUpload'
-import lastlogin from './components/MainFrame/LastLogin'
-import colorBorderChange from './components/ColorBorderChange.vue'
-import Edittexts from '../../../components/EditArticle/EditTexts'
-import FlashMessage from '../../../components/FlashMessages/FlashMessage';
-import SliderGrid from './components/Slider/SliderGrid'
-import MainDocumentsPart from "./components/MainFrame/MainDocumentsPart.vue"
-import VerzieEditForm from "./components/Verzie/VerzieEditForm.vue"
-import NakupView from "./components/Nakup/nakupView.vue"
+import { createPinia } from 'pinia'
+import { createApp } from 'vue'
+import { createBootstrap } from 'bootstrap-vue-next'
 
+import App from './App.vue'
+//import router from './router'
 
-// Make BootstrapVue available throughout your project
-Vue.use(BootstrapVue);
-// Optionally install the BootstrapVue icon components plugin
-Vue.use(IconsPlugin);
+const pinia = createPinia()
+const bootstrapVueNext = createBootstrap()
+const app = createApp(App)
+app.use(pinia)
+//app.use(router)
+app.use(bootstrapVueNext)
 
-//Vue.use(VueDndZone);
-
-let vm = new Vue({
-  el: '#vueapp',
-  components: { 
-    SingleUpload,
-    lastlogin,
-    MultipleUpload,
-    colorBorderChange,
-    MainDocumentsPart,
-    Edittexts,
-    FlashMessage,
-    SliderGrid,
-    VerzieEditForm,
-    NakupView,
-  },
-}) 
+app.mount('#app')
