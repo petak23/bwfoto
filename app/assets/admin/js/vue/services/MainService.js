@@ -81,4 +81,20 @@ export default {
 	postSaveVerzie(id, number, text) {
 		return apiClient.post('verzie/save/' + id, [number, text])
 	},
+
+	// ---- slider ----
+	getSliderDelete(id) {
+		return apiClient.get('slider/delete/' + id)
+	},
+	getSliderAll() {
+		return apiClient.get('slider/getall')
+	},
+	postSliderSaveOrderVerzie(items) {
+		return apiClient.post('slider/saveorder', {	items: items })
+	},
+	postSliderUpdate(id, data) {
+		return apiClient.post('slider/update/' + id, data)
+	},
+	
+	
 }

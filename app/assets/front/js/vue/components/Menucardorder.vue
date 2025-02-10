@@ -1,13 +1,13 @@
 <script setup>
 /** 
  * Component Menucardorder
- * Posledná zmena(last change): 13.11.2024
+ * Posledná zmena(last change): 06.02.2025
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @copyright Copyright (c) 2021 - 2024 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2021 - 2025 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.8
+ * @version 1.0.9
  */
 
 import { watch, onMounted } from 'vue'
@@ -75,33 +75,33 @@ onMounted(() => {
 				@end="(event) => moveArticle(event)"
 			>
 				<template #item="{ element, index }">
-					<div class="col-12 col-sm-6 col-md-4 col-xxl-3 position-relative draggable card album" :key="element.id">
-							<i 
-								v-if="props.edit_enabled"
-								class="fas fa-grip-vertical handle position-absolute text-white"
-								style="top: 0; left: 0"
-							></i>
-							<RouterLink 
-								:to="element.vue_link"
-								:title="element.name"
-								:replace="true"
-							>
-								<BImg 
-									v-if="element.avatar != null" 
-									:src="store.baseUrl + '/' + store.udaje_webu.config.dir_to_menu + element.avatar" 
-									class="img-responsive img-square"
-									:alt="element.name" 
-									:lazy="true" />
-								<i v-if="element.node_class != null" :class="element.node_class"> </i>
-								<h3>{{ element.name }}</h3>
-							</RouterLink>
-							<div class="caption">
-								<p v-if="element.anotacia" class="popis">
-									{{ element.anotacia }} 
-									<a :href="element.link" title="more">»»»</a>
-								</p>
-							</div>
+					<div class="col-12 col-sm-6 col-md-4 col-xxl-3 position-relative draggable card album" :key="index">
+						<i 
+							v-if="props.edit_enabled"
+							class="fas fa-grip-vertical handle position-absolute text-white"
+							style="top: 0; left: 0"
+						></i>
+						<RouterLink 
+							:to="element.vue_link"
+							:title="element.name"
+							:replace="true"
+						>
+							<BImg 
+								v-if="element.avatar != null" 
+								:src="store.baseUrl + '/' + store.udaje_webu.config.dir_to_menu + element.avatar" 
+								class="img-responsive img-square"
+								:alt="element.name" 
+								:lazy="true" />
+							<i v-if="element.node_class != null" :class="element.node_class"> </i>
+							<h3>{{ element.name }}</h3>
+						</RouterLink>
+						<div class="caption">
+							<p v-if="element.anotacia" class="popis">
+								{{ element.anotacia }} 
+								<a :href="element.link" title="more">»»»</a>
+							</p>
 						</div>
+					</div>
 				</template>
 			</Sortable>			
 		</div>
