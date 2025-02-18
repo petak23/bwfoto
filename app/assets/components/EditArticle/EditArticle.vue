@@ -13,6 +13,8 @@
 import { computed } from 'vue'
 import { useMainStore } from '../../front/js/vue/store/main'
 const store = useMainStore()
+import { useFlashStore } from '../../components/FlashMessages/store/flash'
+const storeF = useFlashStore()
 
 import EditTitle from "./EditTitle.vue";
 
@@ -33,6 +35,31 @@ const props = defineProps({
 		type: String
 	}
 })
+
+const saveChanges = (data) => {
+	if (data.onlyShow != undefined) {
+		//getArticle()
+	} else {
+		MainService.postH1Save(store.article.value.id, {
+			article: data
+		})
+		.then((response) => {
+			if (response.data.result == "OK") {
+				storeF.showMessage('Zmeny v článku boli uložené.', 'success', 'Uložené ...', 5000)
+				//let	td = response.data
+				//delete td.result
+				//article.value = td
+				store.main_menu_changed = true //Zapíše príznak o zmene hl. menu
+			} else {
+				storeF.showMessage('Došlo k chybe a zmeny sa neuložili.', 'danger', 'Oopps ...', 10000)
+			}
+		})
+		.catch((error) => {
+			storeF.showMessage('Došlo k chybe a zmeny sa neuložili. ' + error, 'danger', 'Oopps ...', 10000)
+			console.error(error)
+		})
+	}
+}
 
 const avatarView = computed(() => {
 	let avatar_en = store.article != null && (store.article.avatar !== undefined || store.article.avatar != null)
@@ -62,10 +89,12 @@ const avatarImg = computed(() => {
 					class="img-fluid"
 				/>
 			</div>
-			<edit-title
+			<edit-title v-if="store.article != null"
 				:edit_enabled="props.edit_enabled"
 				:article_hlavicka="props.article_hlavicka"
 				:editMenuColorType="props.editMenuColorType"
+				:article="store.article"
+				@reloadArticle="saveChanges"
 			></edit-title>
 		</div>
 

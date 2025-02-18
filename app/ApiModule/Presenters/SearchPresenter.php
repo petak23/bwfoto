@@ -8,15 +8,15 @@ use Nette\Application\Responses;
 /**
  * Prezenter pre vyhadavania.
  * 
- * Posledna zmena(last change): 14.02.2023
+ * Posledna zmena(last change): 18.02.2025
  *
  *	Modul: FRONT
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2025 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.6
+ * @version 1.0.7
  */
 class SearchPresenter extends BasePresenter
 {
@@ -48,10 +48,11 @@ class SearchPresenter extends BasePresenter
 		$out = [];
 		foreach ($search as $s) {
 			$out[] = [
-				'id'          => $s->id,
-				'type'        => 1,
+				//'id'          => $s->id,
+				//'type'        => 1,
 				'name'        => $s->view_name,
 				'description' => $this->texty_presentera->translate('search_in_heading'),
+				'vue_link' 		=> $s->hlavne_menu->spec_nazov != null ? "/clanky/" . $s->hlavne_menu->spec_nazov : "/",
 			];
 		}
 		$this->max_finds -= count($search); // Na hľadanie už len koľko zostane
@@ -81,10 +82,11 @@ class SearchPresenter extends BasePresenter
 				$des .= isset($tmp[$my_key[0] + $this->words + 1]) ? " ..." : ""; // Koncové bodky
 			} else $des = "";
 			$out[] = [
-				'id'          => $s->id,
-				'type'        => 1,
+				//'id'          => $s->id,
+				//'type'        => 1,
 				'name'        => $s->view_name,
 				'description' => $des,
+				'vue_link' 		=> $s->hlavne_menu->spec_nazov != null ? "/clanky/" . $s->hlavne_menu->spec_nazov : "/",
 			];
 		}
 		$this->max_finds -= count($search); // Na hľadanie už len koľko zostane
@@ -96,11 +98,12 @@ class SearchPresenter extends BasePresenter
 			->limit($this->max_finds);
 		foreach ($search as $s) {
 			$out[] = [
-				'id'          => $s->id_hlavne_menu,
-				'type'        => 2,
+				//'id'          => $s->id_hlavne_menu,
+				//'type'        => 2,
 				'name'        => $s->name,
 				'description' => $this->texty_presentera->translate('search_in_headnig_doc'),
-				'id_dokument' => $s->id,
+				//'id_dokument' => $s->id,
+				'vue_link' 		=> $s->hlavne_menu->spec_nazov != null ? "/clanky/" . $s->hlavne_menu->spec_nazov . "/" . $s->id : "/",
 			];
 		}
 		$this->max_finds -= count($search); // Na hľadanie už len koľko zostane
@@ -130,11 +133,12 @@ class SearchPresenter extends BasePresenter
 				$des .= isset($tmp[$my_key[0] + $this->words + 1]) ? " ..." : ""; // Koncové bodky
 			} else $des = "";
 			$out[] = [
-				'id'          => $s->id_hlavne_menu,
-				'type'        => 2,
+				//'id'          => $s->id_hlavne_menu,
+				//'type'        => 2,
 				'name'        => $s->name,
 				'description' => $des,
-				'id_dokument' => $s->id,
+				//'id_dokument' => $s->id,
+				'vue_link' 		=> $s->hlavne_menu->spec_nazov != null ? "/clanky/" . $s->hlavne_menu->spec_nazov . "/" . $s->id: "/",
 			];
 		}
 		$this->max_finds -= count($search); // Na hľadanie už len koľko zostane             
@@ -146,11 +150,12 @@ class SearchPresenter extends BasePresenter
 			->limit($this->max_finds);
 		foreach ($search as $s) {
 			$out[] = [
-				'id'          => $s->id_hlavne_menu,
-				'type'        => 2,
+				//'id'          => $s->id_hlavne_menu,
+				//'type'        => 2,
 				'name'        => $s->name,
 				'description' => $this->texty_presentera->translate('search_in_headnig_pro'),
-				'id_dokument' => $s->id,
+				//'id_dokument' => $s->id,
+				'vue_link' 		=> $s->hlavne_menu->spec_nazov != null ? "/clanky/" . $s->hlavne_menu->spec_nazov . "/" . $s->id : "/",
 			];
 		}
 		$this->max_finds -= count($search); // Na hľadanie už len koľko zostane
@@ -180,11 +185,12 @@ class SearchPresenter extends BasePresenter
 				$des .= isset($tmp[$my_key[0] + $this->words + 1]) ? " ..." : ""; // Koncové bodky
 			} else $des = "";
 			$out[] = [
-				'id'          => $s->id_hlavne_menu,
-				'type'        => 2,
+				//'id'          => $s->id_hlavne_menu,
+				//'type'        => 2,
 				'name'        => $s->name,
 				'description' => $des,
-				'id_dokument' => $s->id,
+				//'id_dokument' => $s->id,
+				'vue_link' 		=> $s->hlavne_menu->spec_nazov != null ? "/clanky/" . $s->hlavne_menu->spec_nazov . "/" . $s->id : "/",
 			];
 		}
 

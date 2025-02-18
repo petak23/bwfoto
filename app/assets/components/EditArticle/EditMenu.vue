@@ -1,23 +1,21 @@
 <script setup>
 /** 
  * Component EditMenu
- * Posledná zmena(last change): 14.01.2025
+ * Posledná zmena(last change): 18.02.2025
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2025 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.7
+ * @version 1.0.8
  * 
  */
 import { onMounted, ref, watch, computed } from 'vue'
 import { BModal, BDropdown, BDropdownItem, BDropdownDivider, BButton, BButtonGroup} from 'bootstrap-vue-next'
 import { useMainStore } from '../../front/js/vue/store/main'
 const store = useMainStore()
-import { useFlashStore } from '../FlashMessages/store/flash'
-const storeF = useFlashStore()
 import MainService from '../../front/js/vue/services/MainService'
-import EditTexts from "./EditTexts.vue"		//vue 3
+import EditTexts from "./EditTexts.vue"		
 
 const menuDialogView = ref(false)
 const editArticleTextsDialogView = ref(false)
@@ -26,7 +24,11 @@ const props = defineProps({
 	color_type: { // Typ farebnej schémy tlačidiel 
 		type: String,
 		default: "primary"
-	}
+	},
+	article: {
+		type: Object,
+		required: true
+	},
 })
 
 const templates = ref(null)
@@ -39,16 +41,12 @@ const	art_title = ref({
 })
 
 const getArtTitle = () => {
-	if(store.article != null) {
-		art_title.value.menu_name = store.article.menu_name
-		art_title.value.h1part2 = store.article.h1part2
-		art_title.value.view_name = store.article.view_name
-		art_title.value.template = store.article.template
+	if(props.article != null) {
+		art_title.value.menu_name = props.article.menu_name
+		art_title.value.h1part2 = props.article.h1part2
+		art_title.value.view_name = props.article.view_name
+		art_title.value.template = props.article.template
 	}
-}
-
-const saveErr = () => {
-	storeF.showMessage('Došlo k chybe a položka sa neuložila.', 'danger', 'Oopps ...', 10000)
 }
 
 const emit = defineEmits(['reloadArticle'])
@@ -57,34 +55,12 @@ const onSubmitTitle = (event) =>{
 	event.preventDefault()
 	// Aby sa formulár odoslal, len ak je stačené tlačítko s class="main-submit"
 	if (event.submitter.classList.contains("main-submit")) {
-
-		MainService.postH1Save(store.article.id, {
-				article: {
+		emit('reloadArticle', {
 					menu_name: art_title.value.menu_name,
 					h1part2: art_title.value.h1part2,
 					view_name: art_title.value.view_name,
 					template: art_title.value.template,
-				}
-			})
-			.then((response) => {
-				//console.log(response.data.result)
-				if (response.data.result == "OK") {
-					storeF.showMessage('Položka v nadpise bola uložená.', 'success', 'Uložené ...', 5000)
-					let	td = response.data
-					delete td.result
-					store.article.value = td
-					setTimeout(() => {
-						emit('reloadArticle', [td]) // Info o úroveň vyššie o znovunačítaní informácií o položke
-						store.main_menu_changed = true //Zapíše príznak o zmene hl. menu
-					}, 300)
-				} else {
-					saveErr()
-				}
-			})
-			.catch((error) => {
-				saveErr()
-				console.error(error)
-			});
+				})
 	}
 	menuDialogView.value = false
 }
@@ -97,7 +73,12 @@ const onResetTitle = (event) => {
 	}
 }
 
-watch(() => store.article, () => {
+const reloadArticleText = (data) => {
+	editArticleTextsDialogView.value = false
+	emit('reloadArticle', data)
+}
+
+watch(() => props.article, () => {
 	getArtTitle()
 })
 
@@ -211,7 +192,7 @@ onMounted(() => {
 	</BModal>
 	<edit-texts
 		:editArticleTextsDialogView="editArticleTextsDialogView"
-		@reloadArticle="editArticleTextsDialogView = false"
-	>
-	</edit-texts>
+		:article="props.article"
+		@reloadArticle="reloadArticleText"
+	/>
 </template>

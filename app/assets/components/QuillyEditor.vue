@@ -1,13 +1,13 @@
 <script setup>
 /** 
  * Component QuillyEditor
- * Posledná zmena(last change): 27.01.2025
+ * Posledná zmena(last change): 18.02.2025
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2025 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.1
+ * @version 1.0.2
  * 
  */
 import { ref, watch, onMounted, toRaw } from 'vue'
@@ -25,12 +25,35 @@ const editor = ref()
 // Quill instance
 let quill = null
 
+import { ClassAttributor } from "parchment";
+
+const AlignClass = new ClassAttributor("align", "text", {
+  scope: Quill.import("parchment").Scope.BLOCK,
+});
+
+// Registrujeme triedu
+Quill.register(AlignClass, true);
+
 const options = {
   theme: 'snow', // If you need Quill theme
   modules: {
-    toolbar: true,
+    toolbar: [
+      [{ size: [] }],
+      ['bold', 'italic', 'underline', 'strike'],
+			[
+				{ align: "" }, 
+				{ align: "center" }, 
+				{ align: "end" }, // Použijeme "end" namiesto "right"
+				{ align: "justify" }
+			],
+      [{ color: [] }, { background: [] }],
+      [{ header: '3' }, { header: '4' }, { header: '5' }, 'blockquote'],
+      [{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }],
+			['link'],
+      ['clean']
+    ]
   },
-  //placeholder: 'Compose an epic...',
+  placeholder: 'Zadaj text ...',
   readOnly: false
 }
 
@@ -45,17 +68,11 @@ const textin = ref('') // Text na editáciu v editore
 
 const emit = defineEmits(['saveText'])
 
-const updateText = (value) => {
-	textin.value = value // TODO over potrebnosť ...
+const updateText = () => {
 	emit('saveText', toRaw(textin.value))     
 }
 
 const debouncedChangedText = debounce(updateText, 500);
-
-/* https://dev.to/anjolaogunmefun/using-vuequill-editor-in-vue-js3-1cpd */
-const onEditorReady = (e) => {
-	e.container.querySelector('.ql-blank').innerHTML = props.textToEdit
-}
 
 watch(() => props.textToEdit, () => {
 	textin.value = props.textToEdit
@@ -72,8 +89,8 @@ onMounted(() => {
 		ref="editor"
 		v-model="textin"
 		:options="options"
+		:is-semantic-html-model="true"
 		@update:modelValue="debouncedChangedText(value)"
-		@ready="onEditorReady($event)"
 		style="height: 320px"
 	/>
 </template>

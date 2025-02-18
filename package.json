@@ -22,11 +22,11 @@
     "remixicon": "^4.5.0",
     "sortablejs": "^1.15.2",
     "sortablejs-vue3": "^1.2.11",
-    "swiper": "^11.1.14",
     "vee-validate": "^4.13.2",
     "vue": "^3.2.22",
     "vue-quilly": "^1.1.0",
     "vue-router": "^4.3.2",
+    "vue3-touch-events": "^5.0.13",
     "vuedraggable": "^4.1.0",
     "yup": "^1.4.0"
   },

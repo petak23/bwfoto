@@ -1,33 +1,22 @@
 <script setup>
 /** 
  * Component Fotogalery
- * Posledná zmena(last change): 25.11.2024
+ * Posledná zmena(last change): 18.02.2025
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @copyright Copyright (c) 2021 - 2024 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2021 - 2025 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.2.1
+ * @version 1.2.2
  */
 import { ref, computed, watch, onMounted, onUnmounted } from 'vue'
 import MainService from '../services/MainService.js'
 import ProductsProperties from '../components/ProductsProperties/ProductsProperties.vue'
 import FotoFilter from './Fotogalery/FotoFilter.vue'
-//import Session from '../plugins/session.js'
 import { useMainStore } from '../store/main.js'
 const store = useMainStore()
 
 import { BModal, BImg } from 'bootstrap-vue-next'
-
-// https://swiperjs.com/vue
-// import Swiper core and required modules
-import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
-
-// Import Swiper Vue.js components
-import { Swiper, SwiperSlide } from 'swiper/vue';
-
-// Import Swiper styles
-import 'swiper/css';
 
 const props = defineProps({
 	first_id: { // Ak je nastavené tak sa zobrazí obrázok ako prvý
@@ -45,7 +34,6 @@ const square = ref(0)
 const wid = ref(0)
 const imgDetail = ref(null)
 const uroven = ref(0) // Premenná sleduje uroveň zobrazenia
-//article = ref({})
 const attachments = ref([{ // Musí byť nejaký nultý objekt inak je chyba...
 	description: null,
 	id: 0,
@@ -75,14 +63,7 @@ const modalchangebig = (idm) => {
 	id.value = idm
 	viewModalFoto1.value = true
 }
-const swipe = (direction) => {
-	//console.log(direction)
-	if (direction == 'Left' || direction == 'Up') {
-		before()
-	} else if (direction == 'Right' || direction == 'Down') {
-		after()
-	}
-}
+
 // Zmena id na predošlé
 const before = () => {
 	id.value = id.value <= 0 ? (attachments.value.length - 1) : id.value - 1;
@@ -95,6 +76,7 @@ const after = () => {
 	my_liked()
 	my_in_basket()
 }
+
 const matchHeight = () => {
 	if (imgDetail.value) {
 		const height = imgDetail.value.clientHeight;
@@ -267,11 +249,6 @@ onMounted(() => {
 
 	/* Naviazanie na sledovanie stláčania klávesnice */
 	document.addEventListener("keydown", keyPush);
-
-	// TODO $root.$on ...
-	/*this.$root.$on("basket-update", my_in_basket)
-
-	this.$root.$on("product_update_props", getAttachments)*/
 
 	getAttachments()
 })
@@ -470,12 +447,8 @@ onUnmounted(() => {
 							</a>
 						</div>
 						<div class="go-to-hight"
-								v-touch="{
-									left: () => swipe('Left'),
-									right: () => swipe('Right'),
-									up: () => swipe('Up'),
-									down: () => swipe('Down')
-								}"
+								v-touch:swipe.left="before"
+								v-touch:swipe.right="after"
 								@click="viewModalFoto2 = true">
 						</div>
 						<div class="arrows-r flex-row-reverse"

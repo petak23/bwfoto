@@ -1,13 +1,13 @@
 <script setup>
 /** 
  * Component BfNav
- * Posledná zmena(last change): 14.01.2025
+ * Posledná zmena(last change): 18.02.2025
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
  * @copyright Copyright (c) 2021 - 2025 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.5
+ * @version 1.0.6
  * 
  */
 import { computed } from 'vue'
@@ -90,15 +90,15 @@ const logOut = () => {
 						<i class="fa-regular fa-address-card"></i> Profil
 					</BDropdownItem>
 					<BDropdownItem
-						v-if="store.adminerLink != null"
-						:href="store.adminerLink"
+						v-if="store.udaje_webu.adminerLink != null"
+						:href="store.udaje_webu.adminerLink"
 						target="_blank"
 					>
 						<i class="fa-solid fa-database"></i> Adminer
 					</BDropdownItem>
 					<BDropdownItem
-						v-if="store.adminLink != null"
-						:href="store.adminLink" 
+						v-if="store.udaje_webu.adminLink != null"
+						:href="store.udaje_webu.adminLink" 
 						:title="store.texts.base_AdminLink_name" 
 					>
 						<i class="fa-solid fa-screwdriver-wrench"></i> {{ store.texts.base_AdminLink_name }}

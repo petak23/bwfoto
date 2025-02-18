@@ -1,19 +1,20 @@
 <script setup>
 /** 
  * Component Autocomplete
- * Posledná zmena(last change): 19.09.2024
+ * Posledná zmena(last change): 18.02.2025
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @copyright Copyright (c) 2021 - 2024 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2021 - 2025 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.0.1
+ * @version 1.0.2
  * 
  * Inšpirácia z: https://blog.nette.org/cs/vue-js-v-nette
  */
 
 import { ref, onMounted, onUnmounted } from 'vue'
 import MainService from '../services/MainService'
+import { RouterLink } from 'vue-router'
 import { useMainStore } from '../store/main.js'
 const store = useMainStore()
 
@@ -53,13 +54,13 @@ const autoComplete = () => {
 	}
 }
 
-const setLink = (result) => {
+/*const setLink = (result) => {
 	if (result.type == 1) {
-		return store.baseUrl + "/clanky/" + result.id;
+		return "/clanky/" + result.id;
 	} else if (result.type == 2) {
-		return store.baseUrl + "/clanky/" + result.id + '?first_id=' + result.id_dokument;
+		return "/clanky/" + result.id + '/' + result.id_dokument;
 	}
-}
+}*/
 
 const onArrowDown = () => {
   if (arrowCounter.value < results.value.length - 1) {
@@ -85,9 +86,9 @@ const onEnter = () => {
   arrowCounter.value = -1
 }
 
-const onAClick = () => {
+/*const onAClick = () => {
 	return true;
-}
+}*/
 
 const elementRef = ref(null);
 
@@ -137,10 +138,10 @@ onUnmounted(() => {
 							:key="i"
 							:class="{ 'is-active': i === arrowCounter }"
 					>
-						<a :href="setLink(result)" :title="result.name" @click="onAClick"> 
+						<RouterLink :to="result.vue_link" :title="result.name"> 
 							{{ result.name }} 
 							<div class="small" v-if="result.description != ''"><span v-html="result.description"></span></div>
-						</a>
+						</RouterLink>
 					</li>
 					<li class="list-group-item text-warning" v-show="!isSearching && searchquery.length > 2 && results.length == 0">
 						<span>{{ store.texts.autocomplete_not_found }}</span>

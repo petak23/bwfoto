@@ -167,7 +167,7 @@ watch(() => store.user, () => {
 
 onMounted(() => {
 	reset()
-	if (store.user != null) edit_enabled.value = store.checkPermission('Front:Products', 'edit')
+	if (store.user != null) edit_enabled.value = store.checkUserPermission('Front:Products', 'edit')
 })
 </script>
 

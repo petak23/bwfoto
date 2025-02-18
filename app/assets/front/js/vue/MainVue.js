@@ -42,11 +42,14 @@ import { createBootstrap } from 'bootstrap-vue-next'
 import App from './App.vue'
 import router from './router'
 
+import Vue3TouchEvents from "vue3-touch-events"
+
 const pinia = createPinia()
 const bootstrapVueNext = createBootstrap()
 const app = createApp(App)
 app.use(pinia)
 app.use(router)
 app.use(bootstrapVueNext)
+app.use(Vue3TouchEvents)
 
 app.mount('#app')
