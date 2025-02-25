@@ -25,7 +25,6 @@ import { useFlashStore } from '../../../components/FlashMessages/store/flash'
 const storeF = useFlashStore()
 
 const id_hlavne_menu_lang = ref(0)
-const flashes = ref("")
 const sliderImage = ref("")
 const isCinzel = ref(false)
 
@@ -39,9 +38,9 @@ onMounted(() => {
 	const app_el_dataset = document.getElementById('app').dataset
 	id_hlavne_menu_lang.value = parseInt(app_el_dataset.id_hlavne_menu_lang)
 	
-	flashes.value =  JSON.parse(app_el_dataset.flashes)
-	if (flashes.value.length > 0) {
-		flashes.value.forEach((fl) => {
+	let flashes =  JSON.parse(app_el_dataset.flashes)
+	if (flashes.length > 0) {
+		flashes.forEach((fl) => {
 			storeF.showMessage(fl.message, fl.type, null, 60000)
 		})
 	}
@@ -81,9 +80,6 @@ const setSliderImage = (si) => {
 					class="btn btn-sm btn-outline-secondary ms-2"
 				></button>
 				<breadcrumb />
-				<flash-message
-					flash-messages="{($flashes|to_json)}"
-				/>
 				<small v-if="store.user != null && store.user.id_user_roles > 3"><br />
 					RouterView(id: {{ $route.params.id }}, {{ id_hlavne_menu_lang }})<br />
 				</small>

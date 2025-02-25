@@ -6,18 +6,23 @@ namespace App\ApiModule\Presenters;
 
 /**
  * Prezenter pre pristup k api verzií.
- * Posledna zmena(last change): 12.08.2024
+ * Posledna zmena(last change): 25.02.2025
  *
  * Modul: API
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2025 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.5
+ * @version 1.0.6
  */
 class VerziePresenter extends BasePresenter
 {
+
+	public function actionDefault(): void
+  {
+    $this->sendJson($this->verzie->vsetky(true));
+  }
 
 	/**
 	 * Vráti konkrétnu verziu

@@ -7,13 +7,13 @@ namespace DbTable;
 /**
  * Model, ktory sa stara o tabulku admin_menu
  * 
- * Posledna zmena(last change): 08.02.2024
+ * Posledna zmena(last change): 25.02.2025
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2025 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.4
+ * @version    1.0.5
  */
 class Admin_menu extends Table
 {
@@ -39,7 +39,8 @@ class Admin_menu extends Table
 				'id'    => $v->id,
 				'link'  => $v->odkaz,
 				'name'  => $v->nazov,
-				'avatar' => $v->avatar
+				'avatar' => $v->avatar,
+				'vue_link'=> $v->vue_link,
 			];
 		};
 		return $o;

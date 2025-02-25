@@ -7,21 +7,23 @@ use Nette\Utils\Strings;
 
 /**
  * Domáci presenter pre API.
- * Posledna zmena(last change): 12.11.2024
+ * Posledna zmena(last change): 25.02.2025
  *
  * Modul: API
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2025 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.6
+ * @version 1.0.7
  * 
  * @help 1.) https://forum.nette.org/cs/28370-data-z-post-request-body-reactjs-appka-se-po-ceste-do-php-ztrati
  */
 class HomepagePresenter extends BasePresenter
 {
 	// -- DB
+	/** @var DbTable\Admin_menu @inject */
+	public $admin_menu;
 	/** @var DbTable\User_main @inject */
 	public $user_main;
 	/** @var DbTable\News @inject */
@@ -36,13 +38,15 @@ class HomepagePresenter extends BasePresenter
 		$admin = $this->user_main->findOneBy(['user_roles.role'=>'admin']);	
 
 		$spravca = $this->user_main->findOneBy(['user_roles.role'=>'manager']);
+		$last_version = $this->verzie->posledna();
 
 		$out = array_merge($this->udaje_webu, [
 				'config'				=> $this->nastavenie,
 				'basePath'			=> $this->template->basePath,
 				'adminLink'			=> $this->user->isAllowed('Admin:Homepage', 'default') ? $this->link(':Admin:Homepage:') : null,
 				'adminerLink'		=> $adminerLink,
-				'last_change'		=> $this->verzie->posledna()->modified->format('j.n.Y'),
+				'last_change'		=> $last_version->modified->format('j.n.Y'),
+				'last_version'	=> $last_version->toArray(),
 				'user_admin' 		=> ['name' => $admin->name,
 														'email'=> $admin->email,
 														'email_u'	=> Strings::replace($admin->email, ['~@~' => '[@]', '~\.~' => '[dot]'])
@@ -52,6 +56,9 @@ class HomepagePresenter extends BasePresenter
 														'email'=> $spravca->email,
 														'email_u'	=> Strings::replace($spravca->email, ['~@~' => '[@]', '~\.~' => '[dot]'])
 														] : null,
+				'php_version'		=> ['number' => PHP_VERSION,
+														'server'	=> isset($_SERVER['SERVER_SOFTWARE']) ? "Server " . $_SERVER['SERVER_SOFTWARE'] : ""
+														]
 			]);
 
 		$this->sendJson($out);
@@ -87,5 +94,20 @@ class HomepagePresenter extends BasePresenter
 		} else {
 			$this->sendJson(['status' => 500]);
 		}
+	}
+
+	public function actionGetAdminMenu() : void {
+		$tmp = $this->admin_menu->getAdminMenu($this->id_reg);
+		$out = [];
+		foreach ($tmp as $k => $v) {
+			$out[$k] = [
+				'id'    => $v['id'],
+				'link'  => $this->link("//:Admin:".$v['link']),
+				'name'  => $v['name'],
+				'avatar' => $v['avatar'],
+				'vue_link'=> $v['vue_link']
+			];
+		}
+		$this->sendJson($out);		
 	}
 }

@@ -21,8 +21,24 @@ class Verzie extends Table {
   protected $tableName = 'verzie';
 
   /** Vrati vsetky verzie v poradi od najnovsej */
-  public function vsetky(): Database\Table\Selection {
-    return $this->getTable()->order('modified DESC');
+  public function vsetky(bool $return_as_array = false): Database\Table\Selection|array {
+    $t = $this->getTable()->order('modified DESC');
+    if ($return_as_array) {
+      $o = [];
+      foreach ($t as $v) {
+        $o[] = [
+          'cislo'=> $v->cislo,
+          'id'  => $v->id,
+          'user'=> $v->user_main->name,
+          'modified'=> $v->modified->format('d.m.Y'),
+          'subory'=> $v->subory,
+          'text'  => $v->text,
+        ];
+        
+      }
+      return $o;
+    }
+    return $t;
   }
 
   /** Vrati najnovsiu verziu */
@@ -37,7 +53,7 @@ class Verzie extends Table {
       $id = isset($values->id) ? $values->id : 0;
       unset($values->posli_news, $values->id);
       return $this->uloz($values, $id);
-    } catch (Exception $e) {
+    } catch (Database\DriverException $e) {
       throw new Database\DriverException('Chyba ulozenia: '.$e->getMessage());
     }
   }

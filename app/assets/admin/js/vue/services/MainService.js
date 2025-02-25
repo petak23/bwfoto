@@ -18,6 +18,16 @@ const apiClient = axios.create({
 })
 
 export default {
+	getMySettings() {
+		return apiClient.get('homepage/myappsettings')
+	},
+	getMyUserData() {
+		return apiClient.get('user/getactualuserinfo')
+	},
+	getAdminMenu() {
+		return apiClient.get('homepage/getadminmenu')
+	},
+
 	// ---- nakup ----
 	getAllNakupStatus(id_user_main) {
 		return apiClient.get('products/getnakupstatus')
@@ -29,6 +39,12 @@ export default {
 	// ---- user ----
 	getUsersForSpravca() {
 		return apiClient.get('user/userchangeformusers/4')
+	},
+	getDellAllLogins() {
+		return apiClient.get('user/deletealllogin')
+	},
+	getLastLogins(rows) {
+		return apiClient.get('user/getlastlogin/' + rows)
 	},
 
 	// ---- udaje ----
@@ -75,6 +91,9 @@ export default {
 	},
 
 	// ---- verzie ----
+	getAllVersions() {
+		return apiClient.get('verzie')
+	},
 	getVersion(id) {
 		return apiClient.get('verzie/getversion/' + id)
 	},

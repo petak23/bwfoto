@@ -13,15 +13,15 @@ use PeterVojtech\Email;
 /**
  * Zakladny presenter pre vsetky presentery v module API
  * 
- * Posledna zmena(last change): 14.11.2024
+ * Posledna zmena(last change): 25.02.2025
  *
  * Modul: API
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2025 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.3
+ * @version 1.1.4
  */
 abstract class BasePresenter extends Presenter
 {
@@ -37,6 +37,8 @@ abstract class BasePresenter extends Presenter
 	public $user_roles;
 	/** @var DbTable\Udaje @inject */
 	public $udaje;
+	/** @var DbTable\User_main @inject */
+	public $user_main;
 	/** @var DbTable\Verzie @inject */
 	public $verzie;
 
@@ -131,11 +133,16 @@ abstract class BasePresenter extends Presenter
 	{
 		$out = [];
 		if ($this->user->isLoggedIn()) {
-			$exported_fields = ['id', 'id_user_roles', 'name', 'email', 'pocet_pr', 'avatar', 'user_role'];
+			$user_i = $this->user->getIdentity();
+			$exported_fields = ['id', 'id_user_roles', 'name', 'email', 'avatar', 'last_ip'];
 			foreach ($exported_fields as $k) {
-				$out['user'][$k] = $this->user->getIdentity()->data[$k];
+				$out['user'][$k] = $user_i->data[$k];
 			}
-			$out['user']['prihlas_teraz'] = $this->user->getIdentity()->data['prihlas_teraz']->format('d.m.Y H:i:s');
+			$um = $this->user_main->getUser($this->user->id);
+			$out['user']['prihlas_teraz'] = $um->user_profiles->prihlas_teraz->format('d.m.Y H:i:s');
+			$out['user']['user_role'] = $um->user_roles->name;
+			$out['user']['pocet_pr'] = $um->user_profiles->pocet_pr;
+			$out['user']['created'] = $user_i->data['created']->format('d.m.Y H:i:s');
 			$out['status'] = '200';
 		} else {
 			$out = [
@@ -144,9 +151,7 @@ abstract class BasePresenter extends Presenter
 			];
 		}
 
-		$idur = $this->user->isLoggedIn() ? $this->user->getIdentity()->data['id_user_roles'] : 0;
-
-		$out['user']['permission'] = $this->user_permission->getAllowedPermission($idur, true);
+		$out['user']['permission'] = $this->user_permission->getAllowedPermission($this->id_reg, true);
 
 		$this->sendJson($out);
 	}

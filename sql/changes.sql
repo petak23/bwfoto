@@ -370,3 +370,12 @@ INSERT INTO `user_permission` (`id_user_roles`, `id_user_resource`, `actions`) V
 (4,	41,	NULL);
 
 UPDATE `user_permission` SET `actions` = 'getactualuserinfo,testuseremail,forgottenpassword,registration,getUserNpk,resetpassword' WHERE `id_user_resource` = '28' AND `id` = '37';
+
+-- update 2025-02-25
+
+ALTER TABLE `admin_menu`
+CHANGE `odkaz` `odkaz` varchar(50) COLLATE 'utf32_bin' NOT NULL COMMENT 'Odkaz' AFTER `id`,
+CHANGE `nazov` `nazov` varchar(100) COLLATE 'utf32_bin' NOT NULL COMMENT 'Názov položky' AFTER `odkaz`,
+CHANGE `avatar` `avatar` varchar(200) COLLATE 'utf32_bin' NULL COMMENT 'Odkaz na avatar aj s relatívnou cestou od adresára www' AFTER `id_user_roles`,
+ADD `vue_link` varchar(30) COLLATE 'utf32_bin' NULL COMMENT 'Odkaz pre vue',
+COLLATE 'utf32_bin';
