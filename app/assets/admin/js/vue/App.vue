@@ -1,19 +1,8 @@
 <script setup>
-
-/*import SingleUpload from './components/Uploader/SingleUpload'
-import MultipleUpload from './components/Uploader/MultipleUpload'
-
-import colorBorderChange from './components/ColorBorderChange.vue'
-import Edittexts from '../../../components/EditArticle/EditTexts'
-import FlashMessage from '../../../components/FlashMessages/FlashMessage';
-import SliderGrid from './components/Slider/SliderGrid'
-import MainDocumentsPart from "./components/MainFrame/MainDocumentsPart.vue"
-import VerzieEditForm from "./components/Verzie/VerzieEditForm.vue"
-import NakupView from "./components/Nakup/nakupView.vue"*/
-
-import { ref, onMounted } from 'vue';
+import { onMounted } from 'vue';
 import { BNavbar, BNavbarToggle, BNavbarBrand, BCollapse, BNavbarNav, BNavText, BNavItem, vBColorMode } from 'bootstrap-vue-next';
 import MainService from './services/MainService'
+import AdminFooter from './components/MainFrame/AdminFooter.vue';
 import { useMainStore } from './store/main'
 const store = useMainStore()
 
@@ -39,7 +28,7 @@ onMounted(() => {
 			store.admin_menu = response.data
 		})
 		.catch((error) => {
-			console.log(error);
+			console.error(error)
 		})
 })
 </script>
@@ -106,34 +95,9 @@ onMounted(() => {
 		</div>
 	</div>
 
-	<div class="row footer-dark" v-if="store.user != null && store.udaje_webu != null">
+	<div class="row footer-dark">
 		<div class="col-12">
-			<footer>
-				<nav class="navbar navbar-expand navbar-dark">
-					<div class="text-center justify-content-center">
-						<p class="navbar-text">
-							© {{ store.udaje_webu.autor }} & {{ store.udaje_webu.copy }} 2015 - {date('Y')}&nbsp;|&nbsp;
-							Posledná aktualizácia: 
-							<a href="./verzie/" title="Verzie" v-if="store.udaje_webu.last_version != undefined">
-								{{ store.udaje_webu.last_change }} - v.{{ store.udaje_webu.last_version.cislo }}
-							</a>
-							&nbsp;|&nbsp;
-							<br>
-							<span v-if="store.user.user_role == 'admin'">
-								PHP {{ store.udaje_webu.php_version.number }} &nbsp;|&nbsp;
-								{{ store.udaje_webu.php_version.server }} &nbsp;|&nbsp;
-							</span>
-							<a href="https://nette.org/cs/" class="logo-nette" title="Nette Framework - populárny nástroj pre vytváranie webových aplikacií v PHP." target="_blank">
-								<img :src="store.baseUrl + '/www/images/nette-powered1.gif'" alt="nette powered">
-							</a>
-							&nbsp;|&nbsp;
-							<a href="https://vuejs.org/" class="logo-nette" title="Vue js." target="_blank">
-								<img :src="store.baseUrl + '/www/images/logo_vue.png'" alt="vue powered" class="vue-logo">
-							</a>
-						</p>
-					</div>
-				</nav>
-			</footer>
+			<admin-footer />
 		</div>
 	</div>
 

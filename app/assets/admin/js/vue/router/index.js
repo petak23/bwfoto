@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import VerzieView from '../views/VerzieView.vue'
+import SliderView from '../view/Sliderview.vue'
 import { useMainStore } from '../store/main.js'
 import { useFlashStore } from '../../../../components/FlashMessages/store/flash'
 
@@ -15,29 +16,15 @@ const routes = [
 		name: 'Výpis verzií',
 		component: VerzieView,
 	},
+	{
+		path: '/administration/slider',
+		name: 'Výpis slider-a',
+		component: SliderView,
+	},
 	/*{ 
 		path: '/clanky/:id/:first_id?',
 		component: MainArticleView 
 	},
-	{ 
-		path: '/productlike',
-		component: ProductsLikeView
-	},
-	{
-		path: '/clanky/home',
-		redirect: '/'
-	},
-	{
-		path: '/user',
-		name: 'Užívateľ',
-		component: UserView
-	},
-	{
-		path: '/basket',
-		name: 'Košík',
-		component: BasketView
-	},*/
-	/*
 	{
 		path: '/units',
 		name: 'Jednotky',
