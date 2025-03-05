@@ -9,60 +9,71 @@
  * @link       http://petak23.echo-msz.eu
  * @version    1.0.5
  */
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, toRaw } from 'vue'
 import QuillyEditor from '../../../../../components/QuillyEditor.vue'
-import MainService from '../../services/MainService'
+//import MainService from '../../services/MainService'
 import { BForm, BFormGroup, BFormInput, BButton } from 'bootstrap-vue-next'
-import { useFlashStore } from '../../../../../components/FlashMessages/store/flash'
-const storeF = useFlashStore()
+//import { useFlashStore } from '../../../../../components/FlashMessages/store/flash'
+//const storeF = useFlashStore()
 
 const props = defineProps({
-	id: {
+	/*id: {
 		type: Number,
 		default: 0
 	},
 	basePath: {
 		type: String,
 		required: true
-	},
+	},*/
+	verzia: {
+		type: Object,
+		default: null,
+	}
 })
 
 const form = ref({
 	id: 0,
-	id_user_main: 0,
-	number: "",
+	cislo: "",
 	text:"",
-	modified: ""
 })
-const back_link = ref('/administration/verzie/')
+//const back_link = ref('/administration/verzie/')
+
+const emit = defineEmits(['saveVersion'])
+
+const onSaveText = (text) => {
+	if (text != undefined) form.value.text = text
+	//emit('saveVersion', toRaw(form.value))
+}
 
 const onSubmit = (event) => {
 	event.preventDefault()
 	// Aby sa formulár odoslal, len ak je stačené tlačítko s class="main-submit"
 	if (event.submitter.classList.contains("main-submit")) {
-		MainService.postSaveVerzie(props.id, form.value.number, form.value.text)
+		emit('saveVersion', toRaw(form.value))
+		/*MainService.postSaveVerzie(props.id, form.value.number, form.value.text)
 			.then(function (response) {
 				//console.log(response)
 				// https://stackoverflow.com/questions/35664550/vue-js-redirection-to-another-page
-				window.location.href = vm.basePath + vm.back_link;
+				//window.location.href = vm.basePath + vm.back_link;
 				storeF.showMessage('Verzia bola uložená.', 'success', 'Podarilo sa...', 5000)
 			})
 			.catch(function (error) {
 				console.error(error)
 				storeF.showMessage('Pri ukladaní došlo k chybe... Skúste neskôr znovu.', 'danger', 'Chyba', 50000)
-			});
+			});*/
 	}
 }
 
 const onReset = (event) => {
 	event.preventDefault()
 	if (event.explicitOriginalTarget.classList.contains("main-reset")) {
-		window.location.href = props.basePath + back_link.value
+		emit('saveVersion', null)
+		//window.location.href = props.basePath + back_link.value
 	}
 }
 
 onMounted(() => {
-	if (props.id !== 0) { // Len pri editácii
+	/*if (props.id !== 0) { // Len pri editácii
 		// Načítanie údajov priamo z DB
 		MainService.getVersion(props.id)
 			.then(response => {
@@ -76,7 +87,12 @@ onMounted(() => {
 			.catch((error) => {
 				console.error(error)
 			})
-		}
+		}*/
+	if (props.verzia != null) {
+		form.value.id = props.verzia.id
+		form.value.cislo = props.verzia.cislo
+		form.value.text = props.verzia.text
+	}
 })
 
 </script>
@@ -91,7 +107,7 @@ onMounted(() => {
 			<b-form-input
 				id="input-number"
 				size="sm"
-				v-model="form.number"
+				v-model="form.cislo"
 				type="text"
 				required
 				autofocus
@@ -103,10 +119,9 @@ onMounted(() => {
 			label="Popis verzie:"
 			label-for="input-text"
 		>
-			<edit-texts
-				:editArticleTextsDialogView="editArticleTextsDialogView"
-				@saveText="editArticleTextsDialogView = false"
+			<QuillyEditor
 				:text-to-edit="form.text"
+				@saveText="onSaveText"
 			/>
 		</b-form-group>
 		<input type="hidden" :value="form.id">
