@@ -98,7 +98,13 @@ export default {
 		return apiClient.get('verzie/getversion/' + id)
 	},
 	postSaveVerzie(id, number, text) {
-		return apiClient.post('verzie/save/' + id, [number, text])
+		return apiClient.post('verzie/save/' + id, {number: number, text: text})
+	},
+	getDeleteVersion(id) {
+		return apiClient.get('verzie/delete/' + id)
+	},
+	getSendInfoMailVersion(id) {
+		return apiClient.get('verzie/sendinfomail/' + id)
 	},
 
 	// ---- slider ----

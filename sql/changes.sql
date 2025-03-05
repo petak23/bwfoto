@@ -379,3 +379,18 @@ CHANGE `nazov` `nazov` varchar(100) COLLATE 'utf32_bin' NOT NULL COMMENT 'Názov
 CHANGE `avatar` `avatar` varchar(200) COLLATE 'utf32_bin' NULL COMMENT 'Odkaz na avatar aj s relatívnou cestou od adresára www' AFTER `id_user_roles`,
 ADD `vue_link` varchar(30) COLLATE 'utf32_bin' NULL COMMENT 'Odkaz pre vue',
 COLLATE 'utf32_bin';*/
+
+-- update 2025-03-05
+
+ALTER TABLE `verzie`
+CHANGE `cislo` `cislo` varchar(25) COLLATE 'utf32_bin' NOT NULL DEFAULT '' COMMENT 'Číslo verzie' AFTER `id_user_main`,
+CHANGE `subory` `subory` varchar(255) COLLATE 'utf32_bin' NULL COMMENT 'Zmenené súbory' AFTER `cislo`,
+CHANGE `text` `text` text COLLATE 'utf32_bin' NULL COMMENT 'Popis zmien' AFTER `subory`,
+CHANGE `modified` `modified` timestamp NULL COMMENT 'Dátum a čas zmeny' AFTER `text`,
+COLLATE 'utf32_bin';
+
+-- Api:Verzie
+UPDATE `user_permission` SET `actions` = 'view' WHERE `id_user_resource` = '34' AND `id` = '45';
+
+INSERT INTO `user_permission` (`id_user_roles`, `id_user_resource`, `actions`)
+VALUES ('5', '34', NULL);

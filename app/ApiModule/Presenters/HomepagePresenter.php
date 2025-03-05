@@ -38,15 +38,15 @@ class HomepagePresenter extends BasePresenter
 		$admin = $this->user_main->findOneBy(['user_roles.role'=>'admin']);	
 
 		$spravca = $this->user_main->findOneBy(['user_roles.role'=>'manager']);
-		$last_version = $this->verzie->posledna();
+		$last_version = $this->verzie->posledna(true);
 
 		$out = array_merge($this->udaje_webu, [
 				'config'				=> $this->nastavenie,
 				'basePath'			=> $this->template->basePath,
 				'adminLink'			=> $this->user->isAllowed('Admin:Homepage', 'default') ? $this->link(':Admin:Homepage:') : null,
 				'adminerLink'		=> $adminerLink,
-				'last_change'		=> $last_version->modified->format('j.n.Y'),
-				'last_version'	=> $last_version->toArray(),
+				'last_change'		=> $last_version['modified'],
+				'last_version'	=> $last_version,
 				'user_admin' 		=> ['name' => $admin->name,
 														'email'=> $admin->email,
 														'email_u'	=> Strings::replace($admin->email, ['~@~' => '[@]', '~\.~' => '[dot]'])

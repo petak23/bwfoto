@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import VerzieView from '../views/VerzieView.vue'
-import SliderView from '../view/Sliderview.vue'
+import SliderView from '../views/Sliderview.vue'
 import { useMainStore } from '../store/main.js'
 import { useFlashStore } from '../../../../components/FlashMessages/store/flash'
 

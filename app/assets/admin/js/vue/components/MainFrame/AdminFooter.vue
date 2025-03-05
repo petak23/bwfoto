@@ -14,7 +14,7 @@
 import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
 
-import { useMainStore } from '../store/main.js'
+import { useMainStore } from '../../store/main'
 const store = useMainStore()
 
 const last_year = new Date().getFullYear()
@@ -44,7 +44,7 @@ const links_to_other_pages = ref([
 					&nbsp;|&nbsp;
 					Posledná aktualizácia: 
 					<RouterLink to="/administration/verzie" title="Verzie" v-if="store.udaje_webu.last_version != undefined">
-						{{ store.udaje_webu.last_change }} - v.{{ store.udaje_webu.last_version.cislo }}
+						{{ store.udaje_webu.last_version.modified }} - v.{{ store.udaje_webu.last_version.cislo }}
 					</RouterLink>
 					&nbsp;|&nbsp;
 					<br>
