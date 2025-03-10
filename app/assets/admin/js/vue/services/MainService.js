@@ -120,6 +120,24 @@ export default {
 	postSliderUpdate(id, data) {
 		return apiClient.post('slider/update/' + id, data)
 	},
-	
-	
+
+	// ---- documents ----
+	getFotogalery(id_hlavne_menu, filter = 1) {
+		return apiClient.get('documents/getfotogalery/' + id_hlavne_menu + (filter > 1 ? "?filter=" + filter : ""))
+	},
+	getFotoCollage(id) {
+		return apiClient.get('documents/getfotocollage/' + id)
+	},
+	getDocument(id_document) {
+		return apiClient.get('documents/document/' + id_document)
+	},
+	getVisibleAttachments(id_hlavne_menu, group = '') {
+		return apiClient.get('documents/getvisibleattachments/' + parseInt(id_hlavne_menu) + (group.length ? '?group=' + group : ''))
+	},
+	postUpdateDocItem(id, data) {
+		return apiClient.post('documents/update/' + id, data)
+	},
+	postSaveDocument(id, data) {
+		return apiClient.post('documents/save/' + id, data)
+	},
 }
