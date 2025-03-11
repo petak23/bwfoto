@@ -11,15 +11,15 @@ use PeterVojtech\Email;
 
 /**
  * Prezenter pre pristup k api produktov.
- * Posledna zmena(last change): 21.11.2024
+ * Posledna zmena(last change): 11.03.2025
  *
  * Modul: API
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2025 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.1
+ * @version 1.1.2
  * 
  * @help 1.) https://forum.nette.org/cs/28370-data-z-post-request-body-reactjs-appka-se-po-ceste-do-php-ztrati
  */
@@ -34,7 +34,7 @@ class ProductsPresenter extends BasePresenter
 	/** @var DbTable\Products_property @inject */
 	public $products_property;
 
-	/** @var String */
+	/** @var string */
 	public $wwwDir;
 	/** @var array */
 	private $products_settings;
@@ -380,6 +380,11 @@ class ProductsPresenter extends BasePresenter
 
 	public function actionGetNakupy(): void
 	{
+	}
+
+	public function actionGetLastNakup(): void
+	{
+		$this->sendJson($this->nakup->getLast());
 	}
 
 	public function actionGetNakupStatus(): void

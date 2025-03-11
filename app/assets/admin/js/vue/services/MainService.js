@@ -35,6 +35,9 @@ export default {
 	changeNakupStatus(id_nakup, change_to) {
 		return apiClient.post('products/changenakupstatus', { id_nakup: id_nakup, change_to: change_to })
 	},
+	getLastNakup() {
+		return apiClient.get('products/getlastnakup')
+	},
 
 	// ---- user ----
 	getUsersForSpravca() {

@@ -6,15 +6,15 @@ use DbTable;
 
 /**
  * Prezenter pre pristup k api slider-a.
- * Posledna zmena(last change): 10.03.2023
+ * Posledna zmena(last change): 07.03.2025
  *
  * Modul: API
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2025 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.2
+ * @version 1.0.3
  */
 class SliderPresenter extends BasePresenter
 {
@@ -23,7 +23,6 @@ class SliderPresenter extends BasePresenter
   /** @var DbTable\Slider @inject */
   public $slider;
 
-  /** @var String */
   public $wwwDir;
 
   public function __construct(array $parameters, String $wwwDir)
@@ -71,7 +70,7 @@ class SliderPresenter extends BasePresenter
 
     //dumpe($values);
 
-    $this->slider->saveSlider($values, $id);
+    $this->slider->repair($id, $values);
     if ($this->isAjax()) {
       $this->sendJson(['status' => 200, 'data' => 'OK']);
     } else {

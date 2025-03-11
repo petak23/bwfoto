@@ -101,7 +101,7 @@ const active_item = computed(() => {
 onMounted(() => {
 	MainService.getAllVersions()
 		.then(response => {
-			console.log(response.data);
+			//console.log(response.data);
 
 			items.value = response.data
 			is_visible.value = items.value[0].id
@@ -125,7 +125,6 @@ onMounted(() => {
 			>
 				<i class="fas fa-file fa-lg"></i> Pridaj novú verziu
 			</BButton>
-			{{ is_visible }}
 		</div>
 	</div>
 	<div class="row">
@@ -134,7 +133,7 @@ onMounted(() => {
 				<BAccordionItem v-for="(ve, index) in items" :key="ve.id" :visible="ve.id == is_visible" :id="'ve-' + ve.id">
 					<template #title>
 						<h5 class="mb-0">
-							<strong>{{ ve.cislo }} {{ ve.id }}-{{ index }}</strong>
+							<strong>{{ ve.cislo }}</strong>
 							<small>&nbsp;|&nbsp;<span class="ver-datum">{{ ve.modified }}</span>&nbsp;|&nbsp;
 							<span>(Zadal {{ ve.user }})</span></small>
 						</h5>

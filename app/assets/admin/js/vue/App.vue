@@ -76,7 +76,7 @@ onMounted(() => {
 						<a :href="am.link" :title="am.name" v-if="am.vue_link == null">
 							{{ am.name }}
 						</a>
-						<RouterLink v-else :to="'/administration' + am.vue_link" :title="am.name">{{ am.name }}</RouterLink>
+						<RouterLink v-else :to="'/administration' + am.vue_link" :title="am.name">* {{ am.name }}</RouterLink>
 						<ul v-if="am.child != undefined">
 							<li v-for="ch in am.child" :key="ch.id">
 								<a :href="ch.link" :title="ch.name">

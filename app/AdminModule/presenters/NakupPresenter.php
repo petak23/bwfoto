@@ -2,30 +2,22 @@
 
 namespace App\AdminModule\Presenters;
 
-use DbTable;
-use Nette\Utils\Json;
-
 /**
  * Prezenter pre správu nákupov.
  * 
- * Posledna zmena(last change): 26.03.2024
+ * Posledna zmena(last change): 11.03.2025
  *
  * Modul: ADMIN
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2024 - 2024 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2024 - 2025 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.0
+ * @version 1.0.1
  */
 
 class NakupPresenter extends BasePresenter
 {
-
-	// -- DB
-	/** @var DbTable\Nakup @inject */
-	public $nakup;
-
 	/*protected function startup()
 	{
 		parent::startup();
@@ -39,7 +31,6 @@ class NakupPresenter extends BasePresenter
 	/** Vychodzia akcia */
 	public function renderDefault()
 	{
-		$this->template->nakup = Json::encode($this->nakup->getLast());
 		$this->template->spravca = $this->udaje->getValByName("nakup_spravca");
 	}
 }

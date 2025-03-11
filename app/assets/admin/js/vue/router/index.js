@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import NakupView from '../views/NakupView.vue'
 import VerzieView from '../views/VerzieView.vue'
 import SliderView from '../views/Sliderview.vue'
 import { useMainStore } from '../store/main.js'
@@ -20,6 +21,11 @@ const routes = [
 		path: '/administration/slider',
 		name: 'Výpis slider-a',
 		component: SliderView,
+	},
+	{
+		path: '/administration/nakup',
+		name: 'Nákupy',
+		component: NakupView,
 	},
 	/*{ 
 		path: '/clanky/:id/:first_id?',

@@ -8,20 +8,20 @@ use Nette\Utils\Json;
 /**
  * Model, ktory sa stara o tabulku nakup
  * 
- * Posledna zmena 16.05.2024
+ * Posledna zmena 11.03.2025
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2025 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.2
+ * @version    1.0.3
  */
 class Nakup extends Table
 {
 	/** @var string */
 	protected $tableName = 'nakup';
 
-	/** @var Nette\Database\Table\Selection */
+	/** @var Database\Table\Selection */
 	protected $nakup_status;
 
 	public function __construct(
@@ -72,7 +72,6 @@ class Nakup extends Table
 				'status'	=> $v->nakup_status->name,
 				'shipping' => JSON::decode($v->shipping),
 				'products' => JSON::decode($v->products),
-				'status'	 => $v->nakup_status->name,
 				'id_nakup_status' => $v->id_nakup_status,
 
 			];

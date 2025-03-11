@@ -394,3 +394,6 @@ UPDATE `user_permission` SET `actions` = 'view' WHERE `id_user_resource` = '34' 
 
 INSERT INTO `user_permission` (`id_user_roles`, `id_user_resource`, `actions`)
 VALUES ('5', '34', NULL);
+
+UPDATE `admin_menu` SET `vue_link` = '/slider' WHERE `id` = '3';
+UPDATE `admin_menu` SET `vue_link` = '/nakup' WHERE `id` = '9';

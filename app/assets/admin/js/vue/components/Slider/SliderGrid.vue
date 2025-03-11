@@ -1,13 +1,13 @@
 <script setup>
 /**
  * Komponenta pre vypísanie a spracovanie obrázkov slider-a.
- * Posledna zmena 06.02.2025
+ * Posledna zmena 11.03.2025
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
  * @copyright  Copyright (c) 2012 - 2025 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.2
+ * @version    1.0.3
  */
 import { ref, onMounted } from 'vue'
 import MainService from '../../services/MainService'
@@ -15,18 +15,10 @@ import { BModal } from 'bootstrap-vue-next'
 import textCell from '../Grid/TextCell.vue'
 import { useFlashStore } from '../../../../../components/FlashMessages/store/flash'
 const storeF = useFlashStore()
-import { Sortable } from "sortablejs-vue3"
+import { useMainStore } from '../../store/main'
+const store = useMainStore()
 
-const props = defineProps({
-	basePath: {
-		type: String,
-		required: true,
-	},
-	sliderDir: {
-		type: String,
-		required: true,
-	},
-})
+import { Sortable } from "sortablejs-vue3"
 
 const items = ref([])
 const id_p = ref(1)
@@ -34,8 +26,9 @@ const loading = ref(0)     // Načítanie údajov 0 - nič, 1 - načítavanie, 2
 const error_msg = ref('')  // Chybová hláška
 const viewModalImg = ref(false)
 
-const deleteSlider = (id) => {
-	if (window.confirm('Naozaj chceš vymazať obrázok123 slider-a?')) {
+const deleteSlider = (index) => {
+	if (window.confirm('Naozaj chceš vymazať obrázok s id:' + items.value[index].subor + ' slider-a?')) {
+		let id = items.value[index].id
 		MainService.getSliderDelete(id)
 			.then((response) => {
 				if (response.data.data == "OK") {
@@ -45,7 +38,7 @@ const deleteSlider = (id) => {
 			})
 			.catch((error) => {
 				console.error(error)
-				storeF.showMessage('Došlo k chybe a položka nebola vymazaná!', 'danger', 'Chyba', 15000)
+				storeF.showMessage('Došlo k chybe a položka nebola vymazaná!', 'danger', 'Chyba...', 15000)
 			});
 	}
 }
@@ -56,8 +49,8 @@ const openmodal = (index) => {
 }
 
 const imgUrl = () => {
-	return items.value[id_p.value] === undefined
-		? "" : props.basePath + "/" + items.value[id_p.value].main_file // ????
+	return store.baseUrl + "/" + 
+		(items.value[id_p.value] === undefined ? "www/images/otaznik.png" : items.value[id_p.value].main_file)
 }
 
 const imgName = () => {
@@ -103,15 +96,15 @@ const moveArticle = (ai) => {
 		})
 }
 
-const onSaveData = (d) => {
-	MainService.postSliderUpdate(d.id, { nadpis: d.text })
-	.then(function (response) {
-		items.value[d.id].nadpis = d.text
-		storeF.showMessage('Uloženie v poriadku.', 'success', 'Podarilo sa...', 5000)
+const onSaveData = (text, id, index) => {
+	MainService.postSliderUpdate(id, { nadpis: text })
+	.then((response) => {
+		items.value[index].nadpis = text
+		storeF.showMessage('Uloženie v poriadku.', 'success', 'Podarilo sa...', 3000)
 	})
 	.catch((error) => {
 		console.error(error)
-		storeF.showMessage('Pri uklasaní došlo k chybe: ' + error, 'danger', 'Chyba', 15000)
+		storeF.showMessage('Pri ukladaní došlo k chybe: ' + error, 'danger', 'Chyba', 15000)
 	})
 }
 
@@ -129,7 +122,7 @@ onMounted(() => {
 					<div class="px-2">Počet obrázkov: {{ items.length }}</div>
 				</div>
 			</caption>
-			<thead class="thead-dark">
+			<thead class="table-dark">
 				<tr>
 					<th style="width: 15rem">Obrázok</th>
 					<th>Súbor</th>
@@ -141,45 +134,49 @@ onMounted(() => {
 			<Sortable
 				:list="items"
 				item-key="id"
-				tag="tr"
-				class="row"
+				tag="tbody"
 				:options="{ handle: '.handle' }"
 				@end="(event) => moveArticle(event)"
 			>
 				<template #item="{ element, index }">
-					<td class="text-center align-middle">
-						<img
-							:src="basePath + '/' + props.sliderDir + element.subor"
-							:alt="element.subor"
-							class="img-thumbnail"
-							@click="openmodal(index)"
-						/>
-					</td>
-					<td class="text-right align-middle"><small>{{ element.subor }}</small></td>
-					<!--td>{{ element.nadpis !== null ? element.nadpis : 'Bez nadpisu' }}</td-->
-					<text-cell
-						:value="element.nadpis"
-						:id="element.id"
-						@saveData="onSaveData"
-					/>
-					<td>{{ element.zobrazenie !== null ? element.zobrazenie : 'Vždy okrem...' }}</td>
-					<td class="align-middle">
-						<button class="btn btn-sm btn-secondary handle">
-							<i class="fas fa-arrows-alt-v"></i>
-						</button>
-						<a :href="basePath + '/administration/slider/edit?id=' + element.id" 
-							title="Edituj slider" class="btn btn-sm btn-default btn-secondary">
-							<span class="fa fa-pencil-alt"></span>
-						</a>
-						<button
-							type="button"
-							class="btn btn-danger btn-sm"
-							title="Zmaž"
-							@click="deleteSlider(element.id)"
-						>
-							<i class="fa-solid fa-trash-can"></i>
-						</button>
-					</td>
+					<tr :key="index" :id="'item-'+index">
+						<td class="text-center align-middle">
+							<img
+								:src="store.baseUrl + '/' + store.udaje_webu.config.slider.dir + element.subor"
+								:alt="element.subor"
+								class="img-thumbnail"
+								@click="openmodal(index)"
+							/>
+						</td>
+						<td class="text-right align-middle"><small>{{ element.subor }}</small></td>
+						<!--td>{{ element.nadpis !== null ? element.nadpis : 'Bez nadpisu' }}</td-->
+						<td class="position-relative">
+							<text-cell
+								:value="element.nadpis"
+								@saveData="(d) => onSaveData(d.text, element.id, index)"
+							/>
+						</td>
+						<td>{{ element.zobrazenie !== null ? element.zobrazenie : 'Vždy okrem...' }}</td>
+						<td class="align-middle">
+							<button class="btn btn-sm btn-secondary handle me-1">
+								<i class="fas fa-arrows-alt-v"></i>
+							</button>
+							<!-- TODO
+							<a :href="store.baseUrl + '/administration/slider/edit?id=' + element.id" 
+								title="Edituj slider" class="btn btn-sm btn-default btn-secondary">
+								<span class="fa fa-pencil-alt"></span>
+							</a>
+							-->
+							<button
+								type="button"
+								class="btn btn-danger btn-sm"
+								title="Zmaž"
+								@click="deleteSlider(index)"
+							>
+								<i class="fa-solid fa-trash-can"></i>
+							</button>
+						</td>
+					</tr>
 				</template>
 			</Sortable>
 		</table>
@@ -196,7 +193,7 @@ onMounted(() => {
 			hide-header
 			hide-footer
 			dialog-class="slider-dialog"
-			v-modal="viewModalImg"
+			v-model="viewModalImg"
 		>
 			<img :src="imgUrl()" :alt="imgName()" @click="viewModalImg = false" />
 		</BModal>

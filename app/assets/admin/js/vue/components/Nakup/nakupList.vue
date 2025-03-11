@@ -1,20 +1,14 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue'
 import MainService from "../../services/MainService.js"
+import { BModal } from 'bootstrap-vue-next'
+
+import { useMainStore } from '../../store/main'
+const store = useMainStore()
 
 import { useFlashStore } from '../../../../../components/FlashMessages/store/flash'
-const storeF = useFlashStore()
 
-const props = defineProps({
-	nakup: {
-		type: String,
-		default: '{}'
-	},
-	basePath: {
-		type: String,
-		required: true,
-	}
-})
+const storeF = useFlashStore()
 
 const my_nakup = ref([])
 const actual_id = ref(0)	// id aktualneho nakupu v my_nakup
@@ -22,6 +16,7 @@ const actual = ref(null)
 const actual_status_old = ref(0)
 const new_status = ref(0)
 const nakup_status = ref([])
+const viewDetailModal = ref(false)
 
 const viewDetails = (id) => {
 	let ii = 0
@@ -33,10 +28,7 @@ const viewDetails = (id) => {
 		}
 		ii++
 	})
-}
-
-const getMyNakup = () => {
-	if (props.nakup.length) my_nakup.value = JSON.parse(props.nakup)
+	viewDetailModal.value = true
 }
 
 const getAllNakupStatus = () => {
@@ -80,14 +72,18 @@ const handleOk = async () => {
 	} else {
 		console.log("Nič nerob...");
 	}
+	viewDetailModal.value = false
 }
 
-watch(() => props.nakup, (newValue, oldValue) => {
-	getMyNakup()
-})
-
 onMounted(() => {
-	getMyNakup()
+	MainService.getLastNakup()
+	.then(response => {
+		//console.log(response.data)
+		my_nakup.value = response.data
+	})
+	.catch((error) => {
+		console.error(error)
+	})
 	getAllNakupStatus()
 })
 </script>
@@ -107,21 +103,21 @@ onMounted(() => {
 				<tr v-for="n in my_nakup" :key="n.id">
 					<td>{{ n.user_name }}</td>
 					<td>{{ n.created }}</td>
-					<td>{{ n.price }}</td>
+					<td>{{ n.price }}€</td>
 					<td>{{ n.code }}</td>
 					<td :class="n.id_nakup_status == Object.keys(nakup_status).length ? 'text-muted' : ''">
 						{{ n.status }}
 					</td>
 					<td>
 						<button class="btn btn-sm btn-outline-success" :id="'nakup'+n.id" title="Zobraz detail nákupu"
-							@click="viewDetails(n.id)" v-b-modal.modal-nakup>
+							@click="viewDetails(n.id)">
 							<i class="fa-solid fa-eye"></i>
 						</button>
 					</td>
 				</tr>
 			</tbody>
 		</table>
-		<b-modal 
+		<BModal 
 			v-if="actual != null" 
 			id="modal-nakup" centered size="xl" 
 			:title="'Objednávka č.: ' + actual.code" 
@@ -130,6 +126,7 @@ onMounted(() => {
 			no-close-on-esc
 			hide-header-close
 			modal-class="lightbox-img" ref="modal1fo"
+			v-model="viewDetailModal"
 			@ok="handleOk"
 		>
 			<div class="row">
@@ -222,7 +219,7 @@ onMounted(() => {
 					<div class="card mb-3">
 						<div class="row no-gutters">
 							<div class="col-md-4">
-								<img :src="props.basePath + '/' + p.product.thumb_file" :alt="p.product.name">
+								<img :src="store.baseUrl + '/' + p.product.thumb_file" :alt="p.product.name">
 							</div>
 							<div class="col-md-8">
 								<div class="card-body">
@@ -246,7 +243,7 @@ onMounted(() => {
 					</div>
 				</div>
 			</div>
-		</b-modal>
+		</BModal>
 	</div>
 </template>
 

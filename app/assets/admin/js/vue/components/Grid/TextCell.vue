@@ -1,38 +1,47 @@
 <script setup>
 /**
  * Komponenta pre vypísanie textového políčka gridu.
- * Posledna zmena 09.06.2022
+ * Posledna zmena 11.03.2025
  *
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2022 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2025 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.0.3
+ * @version    1.0.5
  */
 import { ref, watch, onMounted, nextTick, useTemplateRef } from 'vue'
 
 const props = defineProps({
-	value: {
+	tag: {	// Tag akým má byť obalená komponenta
+    type: String,
+    default: 'div'
+  },
+	value: {	// Hodnota prvku
 		type: String,
 		default: '',
-		//required: true,
 	},
-	id: {
+	// TODO @deprecadet
+	id: {	// Id editovaného prvku z DB 
 		type: Number,
-		required: true,
+		default: 0,
+	},
+	// TODO DEPRECADET
+	index: {
+		type: Number,
+		default: 0,
 	}
 })
 
 const my_value = ref('')
 const editing = ref(false)
-//const edit_name = ref('')
 const text_area = useTemplateRef('text_area')
 
 const emit = defineEmits(['saveData'])
 
 const updateItem = () => {
 	editing.value = false
-	emit('saveData', {id: props.id, text:my_value.value })
+	// TODO delete deprecadet props id, index...
+	emit('saveData', {id: props.id, text:my_value.value, index: props.index })
 }
 const edit = async () => {
 	editing.value = true
@@ -43,7 +52,6 @@ const edit = async () => {
 	text_area.value.focus()
 
 }
-
 watch(() => props.value, () => {
 	my_value.value = props.value
 })
@@ -54,7 +62,7 @@ onMounted(() => {
 </script>
 
 <template>
-	<div 
+	<component :is="props.tag" 
 		class="text-col"
 		@click="edit"
 	>
@@ -65,7 +73,7 @@ onMounted(() => {
 			v-if="editing"
 			@blur="updateItem">
 		</textarea>
-	</div>
+	</component>
 </template>
 
 
@@ -76,7 +84,6 @@ onMounted(() => {
 	left: 0;
 	right: 0;
 	bottom: 0;
-	/*border: 2px solid red;*/
 }
 textarea {
 	max-width: 100%;
