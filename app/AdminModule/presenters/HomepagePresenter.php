@@ -24,6 +24,7 @@ class HomepagePresenter extends BasePresenter {
   public function renderDefault() {
     $this->template->parts = $this->hlavne_menu_cast->findAll();
     $this->template->useri = $this->user_main->getUser($this->user->id);
+    $this->template->dir_to_icons = $this->nastavenie['dir_to_icons'];
   }
 
   /** Pre zobrazenie článokv v časti menu 
@@ -33,6 +34,7 @@ class HomepagePresenter extends BasePresenter {
     if ($id == 0) $this->redirect("Homepage:"); // Ak nie je id zadané
     
     $user = $this->user;
+    $this->template->avatar_path = $this->nastavenie["dir_to_menu"];
     $this->template->id_menu = -1*$id;
     $this->template->view_add_link = $user->isAllowed('Admin:Menu', 'addpol') && 
                                      ($user->isInRole("admin") ? TRUE :	$this->nastavenie['add_uroven0']) &&

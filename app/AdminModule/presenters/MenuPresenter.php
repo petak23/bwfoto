@@ -18,6 +18,7 @@ class MenuPresenter extends ArticlePresenter {
   /** Render pre defaultnu akciu */
   public function renderDefault() {
     parent::renderDefault();
+    $this->template->avatar_path = $this->nastavenie["dir_to_menu"];
 		$this->template->uroven = $this->zobraz_clanok->hlavne_menu->uroven+2;
     $this->template->obsahuje = $this->hlavne_menu->findBy(["id_nadradenej"=>$this->zobraz_clanok->hlavne_menu->id])->count();
   }

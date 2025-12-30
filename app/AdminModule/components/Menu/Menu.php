@@ -34,7 +34,8 @@ class Menu extends Nette\Application\UI\Control
 		"article_avatar_view_in" => 0,
 		"separator" => "|",
 	];
-	private $nastavenie;
+	private $dir_to_menu = "";
+	private $dir_to_images = "";
 
 	public function __construct(Nette\ComponentModel\IContainer $parent = NULL, $name = NULL)
 	{
@@ -52,9 +53,10 @@ class Menu extends Nette\Application\UI\Control
 		$this->rootNode->isRootNode = true;
 	}
 
-	public function setNastavenie($nastavenie)
+	public function setNastavenie($dir_to_menu = "", $dir_to_images = "")
 	{
-		$this->nastavenie = $nastavenie;
+		$this->dir_to_menu = $dir_to_menu;
+		$this->dir_to_images = $dir_to_images;
 	}
 
 	public function setSelected($node)
@@ -131,7 +133,8 @@ class Menu extends Nette\Application\UI\Control
 		$template->startLevel = $level;
 		$template->templateType = $templateType;
 		$template->spRootNode = $this->rootNode;
-		$template->nastavenie = $this->nastavenie;
+		$template->dir_to_menu = $this->dir_to_menu;
+		$template->dir_to_images = $this->dir_to_images;
 		$template->setFile($this->templatePath[$templateType]);
 		$template->render();
 	}

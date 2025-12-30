@@ -1,7 +1,7 @@
 {define #link_in}
   {for $i = 2; $i < $level; $i++}-{/for}
-  <div n:if="strlen($nastav['avatar']) && isset($node->avatar) && is_file($nastavenie['dir_to_menu'].$node->avatar)" class="avatar-img">
-    <img src="{$basePath}/{$nastavenie['dir_to_menu']}{$node->avatar}" alt="Titulný obrázok">
+  <div n:if="strlen($nastav['avatar']) && isset($node->avatar) && is_file($dir_to_menu.$node->avatar)" class="avatar-img">
+    <img src="{$basePath}/{$dir_to_menu}{$node->avatar}" alt="Titulný obrázok">
   </div>
   {$node->name}
   <br n:if="isset($node->tooltip)" />

@@ -67,6 +67,7 @@ class SliderPresenter extends BasePresenter
     if (($pol_slider = $this->slider->find($id)) === null) {
       $this->setView('notFound');
     } else {
+      $this->template->dir_to_images = $this->nastavenie['dir_to_images'];
       $this->template->sucasny = $pol_slider;
       if ($pol_slider->zobrazenie !== null) { // Test, ci vsetky polozky existuju. Ak nie vypustia sa.
         $zobraz = [];
@@ -90,7 +91,7 @@ class SliderPresenter extends BasePresenter
   /** Edit Slider form component factory for admin. */
   public function createComponentSliderEditForm(): Form
   {
-    $form = $this->editSliderForm->create($this->nastavenie, $this->getComponent('menu'));
+    $form = $this->editSliderForm->create($this->nastavenie['slider'], $this->nastavenie['wwwDir'], $this->getComponent('menu'));
     $form['uloz']->onClick[] = function ($button) {
       $this->flashOut(!count($button->errors), 'Slider:', 'Položka bola uložená!', 'Došlo k chybe a položka sa neuložila. Skúste neskôr znovu...');
     };
