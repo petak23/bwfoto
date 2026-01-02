@@ -358,7 +358,7 @@ UPDATE `user_permission` SET
 `actions` = 'testuseremail'
 WHERE `id` = '37';
 
--- update 2024-05-06
+-- update 2024-05-06*/
 
 UPDATE `user_permission` SET `actions` = 'testuseremail,forgottenpassword' WHERE `id_user_resource` = '28' AND `id` = '37';
 
@@ -378,7 +378,7 @@ CHANGE `odkaz` `odkaz` varchar(50) COLLATE 'utf32_bin' NOT NULL COMMENT 'Odkaz' 
 CHANGE `nazov` `nazov` varchar(100) COLLATE 'utf32_bin' NOT NULL COMMENT 'Názov položky' AFTER `odkaz`,
 CHANGE `avatar` `avatar` varchar(200) COLLATE 'utf32_bin' NULL COMMENT 'Odkaz na avatar aj s relatívnou cestou od adresára www' AFTER `id_user_roles`,
 ADD `vue_link` varchar(30) COLLATE 'utf32_bin' NULL COMMENT 'Odkaz pre vue',
-COLLATE 'utf32_bin';*/
+COLLATE 'utf32_bin'; /* */
 
 -- update 2025-03-05
 
@@ -397,3 +397,4 @@ VALUES ('5', '34', NULL);
 
 UPDATE `admin_menu` SET `vue_link` = '/slider' WHERE `id` = '3';
 UPDATE `admin_menu` SET `vue_link` = '/nakup' WHERE `id` = '9';
+UPDATE `admin_menu` SET `vue_link` = '/udaje' WHERE `id` = '6';

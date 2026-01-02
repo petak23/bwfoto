@@ -4,29 +4,30 @@ namespace PeterVojtech\MainLayout\GoogleAnalytics;
 
 use DbTable;
 use Nette\Application\UI\Control;
+use Nette\Database;
 use Nette\Http\Request;
 
 /**
  * Komponenta pre vlozenie kodu pre google analytics do stranky
- * Posledna zmena(last change): 04.01.2023
+ * Posledna zmena(last change): 29.12.2025
  * 
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com> 
- * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2025 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.5
+ * @version 1.0.6
  */
 
 class GoogleAnalyticsControl extends Control
 {
-  /** @var \Nette\Database\Table\ActiveRow|FALSE */
+  /** @var Database\Table\ActiveRow|null */
   private $udaj;
   /** @var string */
   private $host;
 
   /** 
    * @param DbTable\Udaje $udaje 
-   * @param Nette\Http\Request $request */
+   * @param Request $request */
   public function __construct(DbTable\Udaje $udaje, Request $request)
   {
     $this->udaj = $udaje->getValByName("google-analytics");

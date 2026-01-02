@@ -5,11 +5,11 @@
 # http://nette.org/security-warning
 #
 services:
-	- App\FrontModule\Presenters\ClankyPresenter(%parameters%)
-	- App\FrontModule\Presenters\ErrorPresenter(%parameters%)
-	- App\FrontModule\Presenters\HomepagePresenter(%parameters%)
-	- App\FrontModule\Presenters\UserLogPresenter(%parameters%)
-	- App\FrontModule\Presenters\UserPresenter(%parameters%)
+	- App\FrontModule\Presenters\ClankyPresenter(@container::getParameters())
+	- App\FrontModule\Presenters\ErrorPresenter(@container::getParameters())
+	- App\FrontModule\Presenters\HomepagePresenter(@container::getParameters())
+	- App\FrontModule\Presenters\UserLogPresenter(@container::getParameters())
+	- App\FrontModule\Presenters\UserPresenter(@container::getParameters())
 
 # forms
 	- App\FrontModule\Forms\User\ForgottenPasswordFormFactory

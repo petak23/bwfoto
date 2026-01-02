@@ -44,7 +44,7 @@ class UdajePresenter extends BasePresenter
 
 		$out = [];
 		foreach ($allowed_fields as $k) {
-			$out[$k] = isset($this->nastavenie[$k]) ? $this->nastavenie[$k] : null;
+			$out[$k] = $this->nastavenie[$k] ?? null; //isset($this->nastavenie[$k]) ? $this->nastavenie[$k] : null;
 		}
 		$out['basePath'] = $this->template->basePath;
 		$out['basUrl'] = $this->template->baseUrl;
@@ -78,5 +78,11 @@ class UdajePresenter extends BasePresenter
 			'result' => $saved != null ? '200' : '404',
 			'new_val' => $this->udaje->getValByName($_post['key']),
 		]);
+	}
+
+	public function actionGetUdaje(): void
+	{
+		dumpe($this->udaje->findBy(['id_user_roles <= ?' => $this->id_reg]));
+		$this->sendJson($this->udaje->findBy(['id_user_roles <= ?' => $this->id_reg]));
 	}
 }

@@ -54,6 +54,9 @@ export default {
 	postSaveUdaj(key, val) {
 		return apiClient.post('udaje/saveudaj', { key: key, val: val })
 	},
+	getUdaje() {
+		return apiClient.get('udaje/getudaje')
+	},
 
 	// ---- menu -----
 	getMenuFront() {

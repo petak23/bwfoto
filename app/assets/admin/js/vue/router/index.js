@@ -1,8 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import NakupView from '../views/NakupView.vue'
-import VerzieView from '../views/VerzieView.vue'
+import UdajeView from '../views/UdajeView.vue'
 import SliderView from '../views/Sliderview.vue'
+import VerzieView from '../views/VerzieView.vue'
 import { useMainStore } from '../store/main.js'
 import { useFlashStore } from '../../../../components/FlashMessages/store/flash'
 
@@ -26,6 +27,11 @@ const routes = [
 		path: '/administration/nakup',
 		name: 'Nákupy',
 		component: NakupView,
+	},
+	{
+		path: '/administration/udaje',
+		name: 'Údaje webu',
+		component: UdajeView,
 	},
 	/*{ 
 		path: '/clanky/:id/:first_id?',

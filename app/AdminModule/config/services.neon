@@ -5,18 +5,18 @@
 # http://nette.org/security-warning
 #
 services:
-	- App\AdminModule\Presenters\ClankyPresenter(%parameters%)
-	- App\AdminModule\Presenters\DokumentyPresenter(%parameters%)
-	- App\AdminModule\Presenters\HomepagePresenter(%parameters%)
-	- App\AdminModule\Presenters\LangPresenter(%parameters%)
-	- App\AdminModule\Presenters\MenuPresenter(%parameters%)
-	- App\AdminModule\Presenters\NakupPresenter(%parameters%)
-	- App\AdminModule\Presenters\ProductsPresenter(%parameters%)
-	- App\AdminModule\Presenters\SliderPresenter(%parameters%)
-	- App\AdminModule\Presenters\UdajePresenter(%parameters%)
-	- App\AdminModule\Presenters\UserCategoriesPresenter(%parameters%)
-	- App\AdminModule\Presenters\UserPresenter(%parameters%)
-	- App\AdminModule\Presenters\VerziePresenter(%parameters%)
+	- App\AdminModule\Presenters\ClankyPresenter(@container::getParameters())
+	- App\AdminModule\Presenters\DokumentyPresenter(@container::getParameters())
+	- App\AdminModule\Presenters\HomepagePresenter(@container::getParameters())
+	- App\AdminModule\Presenters\LangPresenter(@container::getParameters())
+	- App\AdminModule\Presenters\MenuPresenter(@container::getParameters())
+	- App\AdminModule\Presenters\NakupPresenter(@container::getParameters())
+	- App\AdminModule\Presenters\ProductsPresenter(@container::getParameters())
+	- App\AdminModule\Presenters\SliderPresenter(@container::getParameters())
+	- App\AdminModule\Presenters\UdajePresenter(@container::getParameters())
+	- App\AdminModule\Presenters\UserCategoriesPresenter(@container::getParameters())
+	- App\AdminModule\Presenters\UserPresenter(@container::getParameters())
+	- App\AdminModule\Presenters\VerziePresenter(@container::getParameters())
 
 # forms
 
