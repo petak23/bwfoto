@@ -13,7 +13,7 @@ services:
 	- App\AdminModule\Presenters\MenuPresenter(%dir_to_menu%, %dir_to_images%)
 	- App\AdminModule\Presenters\NakupPresenter(%dir_to_menu%, %dir_to_images%)
 	- App\AdminModule\Presenters\ProductsPresenter(%dir_to_menu%, %dir_to_images%, %dir_to_products%, %wwwDir%)
-	- App\AdminModule\Presenters\SliderPresenter(%dir_to_menu%, %dir_to_images%, %wwwDir%, %slider_settings%)
+	- App\AdminModule\Presenters\SliderPresenter(%dir_to_menu%, %dir_to_images%, %wwwDir%, %slider%)
 	- App\AdminModule\Presenters\UdajePresenter(%dir_to_menu%, %dir_to_images%)
 	- App\AdminModule\Presenters\UserCategoriesPresenter(%dir_to_menu%, %dir_to_images%)
 	- App\AdminModule\Presenters\UserPresenter(%dir_to_menu%, %dir_to_images%, %dir_to_user%, %wwwDir%, %user_view_fields%)

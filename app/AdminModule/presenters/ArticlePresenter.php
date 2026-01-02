@@ -22,7 +22,7 @@ use PeterVojtech;
  * @link       http://petak23.echo-msz.eu
  * @version 1.5.6
  */
-abstract class ArticlePresenter extends BasePresenter
+class ArticlePresenter extends BasePresenter
 {
 
   // -- Traity
@@ -70,7 +70,7 @@ abstract class ArticlePresenter extends BasePresenter
   /** @var array - pole pre menu formular */
   public $menuformuloz = ["text" => "Ulož", "redirect" => FALSE, "edit" => FALSE];
 
-  /** @var Nette\Database\Table\ActiveRow|FALSE */
+  /** @var Nette\Database\Table\ActiveRow|false */
   public $zobraz_clanok;
 
   /** @var array */
@@ -92,7 +92,7 @@ abstract class ArticlePresenter extends BasePresenter
   /** @var string */
   private $wwwDir;
 
-  public function __construct(string $dir_to_menu, string $dir_to_images, string $wwwDir)
+  public function __construct(string $dir_to_menu = "", string $dir_to_images = "", string $wwwDir = "")
 	{
     parent::__construct($dir_to_menu, $dir_to_images);
     $this->wwwDir = $wwwDir;

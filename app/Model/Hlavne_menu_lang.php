@@ -68,7 +68,7 @@ class Hlavne_menu_lang extends Table
 	 * @param int $id_hlavne_menu Id polozky v tabulke "hlavne_menu"
 	 * @param int $id_lang Id jazykovej mutacie clanku v tabulke "lang". Ak nemam tak 1 - sk. 
 	 * @param int $id_user_roles Min. uroven registracie uzivatela. Ak nemam tak sa berie 0 - guest
-	 * @throws ArticleExteption */
+	 * @throws ArticleMainMenuException */
 	public function getOneArticleId(int $id_hlavne_menu, int $id_lang = 1, int $id_user_roles = 0): Nette\Database\Table\ActiveRow
 	{
 		$articles = clone $this;
