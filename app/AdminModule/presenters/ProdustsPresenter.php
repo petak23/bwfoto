@@ -5,21 +5,22 @@ namespace App\AdminModule\Presenters;
 use App\AdminModule\Forms\Products;
 use DbTable;
 use Nette\Application\UI\Form;
+use Nette\Database\Table;
 use Nette\Forms\Controls;
 use PeterVojtech\Confirm\ConfirmationDialog;
 
 /**
  * Prezenter pre smerovanie na dokumenty a editaciu produktov.
  * 
- * Posledna zmena(last change): 04.01.2023
+ * Posledna zmena(last change): 02.01.2026
  *
  * Modul: ADMIN
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2026 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.0.3
+ * @version 1.0.4
  */
 
 class ProductsPresenter extends BasePresenter
@@ -39,11 +40,24 @@ class ProductsPresenter extends BasePresenter
 	public $property_cat;
 
 
-	/** @var \Nette\Database\Table\ActiveRow */
+	/** @var Table\ActiveRow */
 	private $product;
 
-	/** @var \Nette\Database\Table\Selection */
+	/** @var Table\Selection */
 	protected $products_data;
+
+	/** @var string */
+  private $dir_to_products;
+	/** @var string */
+  private $wwwDir;
+
+  public function __construct(string $dir_to_menu, string $dir_to_images, string $dir_to_products, string $wwwDir)
+	{
+    parent::__construct($dir_to_menu, $dir_to_images);
+		// Nastavenie z config-u
+    $this->dir_to_products = $dir_to_products;
+		$this->wwwDir = $wwwDir;
+	}
 
 	protected function startup()
 	{
@@ -117,8 +131,8 @@ class ProductsPresenter extends BasePresenter
 	 * Formular pre editaciu info. o produkte. */
 	protected function createComponentEditForm(): Form
 	{
-		$ft = new Products\EditProoductFormFactory($this->products, $this->udaje, $this->user, $this->nastavenie['wwwDir']);
-		$form = $ft->create($this->nastavenie['dir_to_products']);
+		$ft = new Products\EditProoductFormFactory($this->products, $this->udaje, $this->user, $this->wwwDir);
+		$form = $ft->create($this->dir_to_products);
 		$form->setDefaults($this->product);
 		$form['uloz']->onClick[] = function ($button) {
 			$this->flashOut(!count($button->getForm()->errors), ['Clanky:#products-tab', ['id' => $this->product->id_hlavne_menu, 'tab' => 'products-tab']], 'Produkt bol úspešne uložený!', 'Došlo k chybe a zmena sa neuložila. Skúste neskôr znovu...');

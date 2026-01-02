@@ -50,10 +50,10 @@ class EditSliderFormFactory
 
   /**
    * Edit hlavne menu form component factory. */
-  public function create(array $nastavenie, $menu): Form
+  public function create(array $slider_i, string $wwwDir ,$menu): Form
   {
-    $this->slider_i = array_merge($this->slider_i, $nastavenie['slider']);
-    $this->wwwDir = $nastavenie['wwwDir'];
+    $this->slider_i = array_merge($this->slider_i, $slider_i);
+    $this->wwwDir = $wwwDir;
     $form = new Form();
     $form->addProtection();
     $form->addHidden('id');

@@ -10,15 +10,15 @@ use Nette\Database\DriverException;
 /**
  * Prezenter pre spravu uzivatela.
  * 
- * Posledna zmena(last change): 11.03.2024
+ * Posledna zmena(last change): 02.01.2026
  *
  *	Modul: ADMIN
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2026 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.2.1
+ * @version 1.2.2
  */
 class UserPresenter extends BasePresenter
 {
@@ -43,18 +43,33 @@ class UserPresenter extends BasePresenter
 	/** @var User\EditCategoriFormFactory @inject*/
 	public $editCategoriForm;
 
+	/** @var array */
+  private $user_view_fields = [];
+  /** @var string */
+  private $dir_to_user;
+  /** @var string */
+  private $wwwDir;
+
+  public function __construct(string $dir_to_menu, string $dir_to_images, string $dir_to_user, string $wwwDir, array $user_view_fields)
+  {
+    parent::__construct($dir_to_menu, $dir_to_images);
+    $this->dir_to_user = $dir_to_user;
+    $this->wwwDir = $wwwDir;
+    $this->user_view_fields = $user_view_fields;
+  }
+
 	protected function startup()
 	{
 		parent::startup();
 		// Nastavenie zobrazovania volitelnych poloziek 
-		$this->template->user_view_fields = $this->nastavenie['user_view_fields'];
+		$this->template->user_view_fields = $this->user_view_fields;
 	}
 
 	public function renderDefault(): void
 	{
 		$this->template->users_data = $this->user_main->findAll()->order('id ASC');
 		$this->template->poc_pr_udaje = $this->user_profiles->getPocetPr();
-		$this->template->dir_to_user = $this->nastavenie['dir_to_user'];
+		$this->template->dir_to_user = $this->dir_to_user;
 		$this->template->user_in_categories = $this->user_in_categories;
 	}
 
@@ -77,7 +92,7 @@ class UserPresenter extends BasePresenter
 	 * Formulár pre editáciu užívateľských dát */
 	protected function createComponentEditUserMainForm(): Form
 	{
-		$form = $this->editUserMainForm->create($this->nastavenie['user_view_fields']);
+		$form = $this->editUserMainForm->create($this->user_view_fields);
 		$form['uloz']->onClick[] = function ($button) {
 			$this->flashOut(!count($button->getForm()->errors), 'User:', 'Údaje boli uložené!', 'Došlo k chybe a údaje sa neuložili. Skúste neskôr znovu...');
 		};
@@ -91,7 +106,7 @@ class UserPresenter extends BasePresenter
 	 * Formulár pre editáciu profilu užívateľa */
 	protected function createComponentEditUserProfilesForm(): Form
 	{
-		$form = $this->editUserProfilesForm->create($this->nastavenie['user_view_fields']);
+		$form = $this->editUserProfilesForm->create($this->user_view_fields);
 		$form['uloz']->onClick[] = function ($button) {
 			$this->flashOut(!count($button->getForm()->errors), 'User:', 'Údaje boli uložené!', 'Došlo k chybe a údaje sa neuložili. Skúste neskôr znovu...');
 		};
@@ -119,7 +134,7 @@ class UserPresenter extends BasePresenter
 	 * @param int $id Id užívateľa */
 	function handleConfirmedDeleteUser(int $id)
 	{
-		$path = $this->nastavenie["wwwDir"] . $this->nastavenie["dir_to_user"] . $id;
+		$path = $this->wwwDir . $this->dir_to_user . $id;
 		try {
 			if (is_dir($path)) { //Vymazanie adresaru s avatarom
 				foreach (glob("$path*.{jpg,jpeg,gif,png}", GLOB_BRACE) as $file) {

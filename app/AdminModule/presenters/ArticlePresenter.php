@@ -12,15 +12,15 @@ use PeterVojtech;
 /**
  * Zakladny presenter pre presentery obsluhujuce polozky hlavneho menu v module ADMIN
  * 
- * Posledna zmena(last change): 03.02.2023
+ * Posledna zmena(last change): 02.01.2026
  *
  * Modul: ADMIN
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2026 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.5.5
+ * @version 1.5.6
  */
 abstract class ArticlePresenter extends BasePresenter
 {
@@ -89,6 +89,14 @@ abstract class ArticlePresenter extends BasePresenter
   public $jaz;
   /** @var array */
   public $admin_links;
+  /** @var string */
+  private $wwwDir;
+
+  public function __construct(string $dir_to_menu, string $dir_to_images, string $wwwDir)
+	{
+    parent::__construct($dir_to_menu, $dir_to_images);
+    $this->wwwDir = $wwwDir;
+	}
 
   /**
    * Pre zjednodusenie vypisu
@@ -343,7 +351,7 @@ abstract class ArticlePresenter extends BasePresenter
       $presenter = $hl_m->hlavne_menu->druh->presenter;
     }
     if ($druh == 'avatar') {
-      $uloz = $this->hlavne_menu->zmazTitleImage($id, $this->nastavenie["dir_to_menu"], $this->nastavenie["wwwDir"]);
+      $uloz = $this->hlavne_menu->zmazTitleImage($id, $this->dir_to_menu, $this->wwwDir);
       $this->_ifMessage($uloz !== FALSE ? TRUE : FALSE, 'Titulný obrázok bol vymazaný!', 'Došlo k chybe a titulný obrázok nebol vymazaný!');
       $this->redirect($presenter . ':', $id);
     } elseif ($druh == 'priloha') { //Poziadavka na zmazanie prilohy
@@ -379,7 +387,7 @@ abstract class ArticlePresenter extends BasePresenter
    * @param string $subor Nazov suboru aj srelativnou cestou */
   public function vymazSubor(string $subor): int
   {
-    return (is_file($subor)) ? unlink($this->nastavenie["wwwDir"] . "/" . $subor) : -1;
+    return (is_file($subor)) ? unlink($this->wwwDir . "/" . $subor) : -1;
   }
 
   /** 
@@ -411,7 +419,7 @@ abstract class ArticlePresenter extends BasePresenter
     $komponenty = $this->clanok_komponenty->findBy(["id_hlavne_menu" => $id]);
     $products = $this->products->findBy(["id_hlavne_menu" => $id]);
 
-    $this->hlavne_menu->zmazTitleImage($id, $this->nastavenie["dir_to_menu"], $this->nastavenie["wwwDir"]);
+    $this->hlavne_menu->zmazTitleImage($id, $this->dir_to_menu, $this->wwwDir);
     if ($dokumenty !== null && ($pocita = count($dokumenty))) {
       $do = 0;
       foreach ($dokumenty as $pr) {
