@@ -9,15 +9,15 @@ use Nette\Application\UI\Form;
 /**
  * Prezenter pre administraciu slider-u.
  * 
- * Posledna zmena(last change): 04.01.2023
+ * Posledna zmena(last change): 02.01.2026
  *
  * Modul: ADMIN
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2023 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2026 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version 1.1.8
+ * @version 1.1.9
  */
 
 class SliderPresenter extends BasePresenter
@@ -29,26 +29,29 @@ class SliderPresenter extends BasePresenter
   // -- Forms
   /** @var Slider\EditSliderFormFactory @inject*/
   public $editSliderForm;
+  /** @var array */
+  private $slider_settings = [];
+  /** @var string */
+  private $wwwDir;
 
-  public function __construct(array $parameters)
+  public function __construct(string $dir_to_menu, string $dir_to_images, string $wwwDir, array $slider)
   {
-    // Nastavenie z config-u
-    $this->nastavenie = $parameters;
+    parent::__construct($dir_to_menu, $dir_to_images);
+    $this->wwwDir = $wwwDir;
+    $this->slider_settings = $slider;
   }
 
   public function startup()
   {
     parent::startup();
-    if (isset($this->nastavenie['slider'])) {
-      $this->template->slider_i = $this->nastavenie['slider'];
-    }
+    $this->template->slider_i = $this->slider_settings;
   }
 
   public function renderDefault()
   {
     $this->template->allways = $this->slider->findBy(["zobrazenie" => null]);
     $this->template->slider_data = $this->slider->findAll()->order('poradie ASC');
-    $this->template->dir_to_images = $this->nastavenie['dir_to_images'];
+    $this->template->dir_to_images = $this->dir_to_images;
   }
 
   /** Akcia pre pridanie položky slideru */
@@ -67,7 +70,7 @@ class SliderPresenter extends BasePresenter
     if (($pol_slider = $this->slider->find($id)) === null) {
       $this->setView('notFound');
     } else {
-      $this->template->dir_to_images = $this->nastavenie['dir_to_images'];
+      $this->template->dir_to_images = $this->dir_to_images;
       $this->template->sucasny = $pol_slider;
       if ($pol_slider->zobrazenie !== null) { // Test, ci vsetky polozky existuju. Ak nie vypustia sa.
         $zobraz = [];
@@ -91,7 +94,7 @@ class SliderPresenter extends BasePresenter
   /** Edit Slider form component factory for admin. */
   public function createComponentSliderEditForm(): Form
   {
-    $form = $this->editSliderForm->create($this->nastavenie['slider'], $this->nastavenie['wwwDir'], $this->getComponent('menu'));
+    $form = $this->editSliderForm->create($this->slider_settings, $this->wwwDir, $this->getComponent('menu'));
     $form['uloz']->onClick[] = function ($button) {
       $this->flashOut(!count($button->errors), 'Slider:', 'Položka bola uložená!', 'Došlo k chybe a položka sa neuložila. Skúste neskôr znovu...');
     };

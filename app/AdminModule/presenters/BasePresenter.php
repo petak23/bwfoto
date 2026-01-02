@@ -94,10 +94,16 @@ abstract class BasePresenter extends UI\Presenter
 	/** Aktuálna aktívna položka admin. menu */
 	public $admin_menu_active;
 
-	public function __construct($parameters)
+	/** @var string */
+	private $dir_to_menu = '';
+	/** @var string */
+	private $dir_to_images = '';
+
+	public function __construct(string $dir_to_menu, string $dir_to_images)
 	{
 		// Nastavenie z config-u
-		$this->nastavenie = $parameters;
+		$this->dir_to_menu = $dir_to_menu;
+		$this->dir_to_images = $dir_to_images;
 	}
 
 	/** Vychodzie nastavenia */
@@ -171,7 +177,6 @@ abstract class BasePresenter extends UI\Presenter
 		$this->template->urovregistr = $this->id_reg;
 		$this->template->lang_menu = $this->lang->findAll();
 		$this->template->language = $this->language;
-		//$this->template->avatar_path = $this->nastavenie["dir_to_menu"]; // Presun do MenuPresenter a HomepagePresenter
 
 		$this->template->admin_menu = $this->admin_menu_final;
 		$this->template->admin_menu_active = $this->admin_menu_active;
@@ -180,9 +185,6 @@ abstract class BasePresenter extends UI\Presenter
 		$this->template->main_menu_active = isset($this->params["id"]) ? $this->params["id"] : (isset($this->zobraz_clanok) ? $this->zobraz_clanok->id : 0);
 		$this->template->clanok = null; // Pre prípady, kedy nemám článok
 
-		//$this->template->nastavenie = $this->nastavenie;
-		//$this->template->dir_to_images = $this->nastavenie['dir_to_images']; // Presun do SliderPresenter
-		//$this->template->dir_to_icons = $this->nastavenie['dir_to_icons']; // Presun do HomepagePresenter
 		$this->template->items_per_page = [1 => "10", 2 => "20", 3 => "50", -1 => "Všetky"];
 
 		$servise = $this;
@@ -239,18 +241,11 @@ abstract class BasePresenter extends UI\Presenter
 	//  ---- Komponenty ---- 
 
 	/** 
-	 * Komponenta pre výpis css a js súborov */
-	public function createComponentFiles(): PeterVojtech\Base\CssJsFilesControl
-	{
-		return new PeterVojtech\Base\CssJsFilesControl($this->nastavenie['web_files'], $this->name, $this->action);
-	}
-
-	/** 
 	 * Vytvorenie komponenty pre hlavne menu */
 	public function createComponentMenu(): Components\Menu\Menu
 	{
 		$menu = new Components\Menu\Menu;
-		$menu->setNastavenie($this->nastavenie['dir_to_menu'], $this->nastavenie['dir_to_images']);
+		$menu->setNastavenie($this->dir_to_menu, $this->dir_to_images);
 		$hl_m = $this->hlavne_menu->getMenuAdmin($this->language_id);
 		if (count($hl_m)) {
 			$servise = $this;

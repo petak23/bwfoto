@@ -9,15 +9,15 @@ use Nette\Application\UI\Form;
 /**
  * Prezenter pre spravu clankov.
  * 
- * Posledna zmena(last change): 06.11.2024
+ * Posledna zmena(last change): 02.01.2026
  *
  *	Modul: ADMIN
  *
  * @author Ing. Peter VOJTECH ml <petak23@gmail.com>
- * @copyright Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2026 Ing. Peter VOJTECH ml.
  * @license
  * @link http://petak23.echo-msz.eu
- * @version 1.4.4
+ * @version 1.4.5
  */
 
 class ClankyPresenter extends ArticlePresenter
@@ -32,6 +32,17 @@ class ClankyPresenter extends ArticlePresenter
 
   /** @persistent */
   public $tabs_clanky = 'prilohy-tab';
+  /** @var array */
+  private $komponenty;
+  /** @var array */
+  private $clanky;
+
+  public function __construct(string $dir_to_menu, string $dir_to_images, array $komponenty, array $clanky)
+	{
+    parent::__construct($dir_to_menu, $dir_to_images);
+		$this->komponenty = $komponenty;
+    $this->clanky = $clanky;
+	}
 
   /** Vychodzie nastavenia */
   protected function startup()
@@ -45,7 +56,7 @@ class ClankyPresenter extends ArticlePresenter
   {
     parent::renderDefault();
     //Kontrola jedinecnych komponent. Ak uz su priradene tak sa vypustia
-    $this->template->zoznam_komponent = $this->clanok_komponenty->testJedinecnosti($this->nastavenie["komponenty"], $this->zobraz_clanok->id_hlavne_menu);
+    $this->template->zoznam_komponent = $this->clanok_komponenty->testJedinecnosti($this->komponenty, $this->zobraz_clanok->id_hlavne_menu);
     $this->template->tabs = isset($this->params["tab"]) ? $this->params["tab"] : "prilohy-tab";
   }
 
@@ -112,7 +123,7 @@ class ClankyPresenter extends ArticlePresenter
     $form->addGroup();
     foreach ($this->jaz as $j) {
       $form->addHidden($j->skratka . '_id'); // hlavne_menu_lang -> id
-      if ($this->nastavenie['clanky']['zobraz_anotaciu']) {
+      if ($this->clanky['zobraz_anotaciu']) {
         $form->addText($j->skratka . '_anotacia', 'Anotácia článku pre jazyk ' . $j->nazov . ':', 0, 255);
       }
       $form->addTextArea($j->skratka . '_text', 'Text článku pre jazyk ' . $j->nazov . ':')
