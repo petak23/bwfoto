@@ -88,7 +88,7 @@ onMounted(() => {
 				</ul>
 			</div>
 		</div>
-		<div class="col-12 col-sm-9 col-md-10">
+		<div class="col-12 col-sm-9 col-md-10 pt-2">
 			<div class="row">
 				<RouterView />
 			</div>

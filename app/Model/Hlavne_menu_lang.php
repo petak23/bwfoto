@@ -7,17 +7,17 @@ use Nette;
 /**
  * Model starajuci sa o tabulku hlavne_menu_lang
  * 
- * Posledna zmena 25.11.2024
+ * Posledna zmena 02.01.2026
  * 
  * @author     Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright  Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
+ * @copyright  Copyright (c) 2012 - 2026 Ing. Peter VOJTECH ml.
  * @license
  * @link       http://petak23.echo-msz.eu
- * @version    1.2.3
+ * @version    1.2.4
  */
 class Hlavne_menu_lang extends Table
 {
-	const
+	public const
 		NOT_EXIST = 1,
 		MISSING_PERMISSIONS = 2;
 
@@ -44,7 +44,7 @@ class Hlavne_menu_lang extends Table
 	 * @param string $spec_nazov - specificky nazov clanku v hl. menu
 	 * @param int $language_id - id jazykovej mutacie clanku. Ak nemam tak 1 - sk
 	 * @param int $id_user_roles - min. uroven registracie uzivatela. Ak nemam tak sa berie 5
-	 * @throws ArticleExteption */
+	 * @throws ArticleMainMenuException */
 	public function getOneArticleSp(string $spec_nazov, int $language_id = 1, int $id_user_roles = 5): Nette\Database\Table\ActiveRow
 	{
 		$articles = clone $this;
@@ -158,7 +158,7 @@ class Hlavne_menu_lang extends Table
 	 * a min. urovne registracie uzivatela
 	 * @param int $id hlavne_menu_lang.id
 	 * @param int $id_user_roles Min. uroven registracie uzivatela. Ak nemam tak sa berie 0 - guest
-	 * @throws ArticleExteption */
+	 * @throws ArticleMainMenuException */
 	public function getOneArticleAPI(int $id, int $id_user_roles = 0): array
 	{
 		$articles = clone $this;
@@ -188,9 +188,9 @@ class Hlavne_menu_lang extends Table
 	/** 
 	 * Funkcia pre ziskanie info o konkretnom clanku na zaklade id
 	 * a min. urovne registracie uzivatela
-	 * @param String $web_name hlavne_menu.spec_nazov
+	 * @param string $web_name hlavne_menu.spec_nazov
 	 * @param int $id_user_roles Min. uroven registracie uzivatela. Ak nemam tak sa berie 0 - guest
-	 * @throws ArticleExteption */
+	 * @throws ArticleMainMenuException */
 	public function getOneArticleSpAPI(String $web_name, int $id_user_roles = 0): array
 	{
 		$articles = clone $this;
