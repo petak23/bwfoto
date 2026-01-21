@@ -8,6 +8,7 @@ use DbTable;
 use Language_support;
 use Nette\Application\UI\Presenter;
 use Nette\Http;
+use Nette\Http\IResponse;
 use PeterVojtech\Email;
 
 /**
@@ -93,7 +94,33 @@ abstract class BasePresenter extends Presenter
 	/** Vychodzie nastavenia */
 	protected function startup(): void
 	{
-		parent::startup();
+		parent::startup(); // ??? je potrebné volať rodičovskú metódu?
+
+		$httpRequest = $this->getHttpRequest();
+		$httpResponse = $this->getHttpResponse();
+
+		// Rozlíšenie prostredia podľa hostname
+		$isLocalhost = in_array($httpRequest->getUrl()->getHost(), ['localhost', '127.0.0.1'], true);
+
+		$allowedOrigins = $isLocalhost
+				? ['http://localhost:5173']
+				: ['https://test.bwfoto.sk/api'];
+
+		$origin = $httpRequest->getHeader('Origin');
+		if ($origin && in_array($origin, $allowedOrigins, true)) {
+				$httpResponse->setHeader('Access-Control-Allow-Origin', $origin);
+		} else {
+				$httpResponse->setHeader('Access-Control-Allow-Origin', $allowedOrigins[0]);
+		}
+		$httpResponse->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+		$httpResponse->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+		$httpResponse->setHeader('Access-Control-Allow-Credentials', 'true');
+
+		if ($httpRequest->getMethod() === 'OPTIONS') {
+				$httpResponse->setCode(IResponse::S204_NoContent); // 204 = no content
+				$this->terminate(); // okamžité ukončenie requestu
+		}
+
 		// Sprava uzivatela
 		$user = $this->getUser(); //Nacitanie uzivatela
 		// Kontrola prihlasenia a nacitania urovne registracie
