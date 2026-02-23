@@ -21,7 +21,7 @@
     "nette-forms": "^3.3.1",
     "portal-vue": "^2.1.7",
     "remixicon": "^2.5.0",
-    "swiper": "^11.0.5",
+    "swiper": "^12.1.2",
     "vee-validate": "^2.2.15",
     "vue": "^2.7.14",
     "vue-dnd-zone": "^0.4.0",
