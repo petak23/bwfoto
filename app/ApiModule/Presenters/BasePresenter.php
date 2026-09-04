@@ -127,15 +127,15 @@ abstract class BasePresenter extends Presenter
 		$this->id_reg = ($user->isLoggedIn()) ? $user->getIdentity()->id_user_roles : 0;
 
 		// Kontrola ACL
-		if (!($user->isAllowed($this->name, $this->action))) {
+		if (!($user->isAllowed($this->getName(), $this->action))) {
 			$message = ($this->id_reg) ? 
 				"Užívateľ: '" . $user->getIdentity()->name . "' požaduje vykonať akciu: '" : "Snaha o vykonanie akcie: ";
-			$message .= $this->name . ":" . $this->action . "', na ktorú NIEJE oprávnenie!";
+			$message .= $this->getName() . ":" . $this->action . "', na ktorú NIEJE oprávnenie!";
 	
 			$this->myMailer->sendAdminMail("Akcia bez oprávnenia...", $message);
 			$this->sendJson([
 				'status' => 401, 
-				'message' => "Name: " . $this->name . " | Action: -> ". $this->action ." <- NOT allowed!"
+				'message' => "Name: " . $this->getName() . " | Action: -> ". $this->action ." <- NOT allowed!"
 			]);
 		}
 

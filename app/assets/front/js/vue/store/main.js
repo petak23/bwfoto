@@ -4,7 +4,7 @@ import MainService from '../services/MainService'
 
 export const useMainStore = defineStore('main', () => {
 
-	const baseUrl = ref(document.getElementById('app').dataset.baseUrl)
+	const baseUrl = ref("")	//ref(document.getElementById('app').dataset.baseUrl)
 
 	const apiPath = computed(() => baseUrl.value + "api/") // Cesta k API
 

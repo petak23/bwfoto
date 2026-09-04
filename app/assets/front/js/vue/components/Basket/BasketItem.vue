@@ -27,6 +27,10 @@ const emit = defineEmits("basket-item-del")
 const delMe = () => {
 	emit("basket-item-del", props.basketItem.id_product)
 }
+
+const fixedPrice = (price) => {
+	return parseFloat(price).toFixed(2)
+}
 </script>
 
 
@@ -49,8 +53,9 @@ const delMe = () => {
 				</div>
 				<div class="col-10 col-md-4">
 					<h6 class="text-white" v-if="basketItem.product.properties.final_price > 0">
-						<b>Cena: {{ basketItem.product.properties.final_price.toFixed(2) }} €</b>
+						<b>Cena: {{ fixedPrice(basketItem.product.properties.final_price) }} €</b>
 					</h6>
+					<span v-else class="text-white">---</span>
 				</div>
 				<div class="col-2 col-md-2 text-right">
 					<button 
