@@ -33,7 +33,7 @@ class UserCategoriesPresenter extends BasePresenter
 
   /*public function createComponentCategoriesGrid($name)
   {
-    if ($this->user->isAllowed($this->name, 'edit')) {
+    if ($this->user->isAllowed($this->getName(), 'edit')) {
       $grid->addInlineEdit()->setClass('btn btn-xs btn-info ajax')
         ->setIcon('pencil-alt')
         ->onControlAdd[] = function ($container) {
@@ -56,7 +56,7 @@ class UserCategoriesPresenter extends BasePresenter
       };
     }
 
-    if ($this->user->isAllowed($this->name, 'add')) {
+    if ($this->user->isAllowed($this->getName(), 'add')) {
       $grid->addInlineAdd()->setPositionTop(FALSE)->setText('Pridať kategóriu')->setClass('btn btn-xs btn-success')
         ->onControlAdd[] = function ($container) {
         $container->addText('id', '')->setAttribute('readonly');

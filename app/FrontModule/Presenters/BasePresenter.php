@@ -15,18 +15,20 @@ use Nette\Utils\Html;
 use Nette\Utils\Strings;
 use PeterVojtech;
 
+use function sprintf, is_array, array_merge;
+
 /**
  * Zakladny presenter pre vsetky presentery vo FRONT module
  * 
- * Posledna zmena(last change): 06.11.2024
+ * Posledna zmena(last change): 03.09.2026
  *
  *	Modul: FRONT
  *
  * @author Ing. Peter VOJTECH ml. <petak23@gmail.com>
- * @copyright Copyright (c) 2012 - 2024 Ing. Peter VOJTECH ml.
+ * @copyright Copyright (c) 2012 - 2026 Ing. Peter VOJTECH ml.
  * @license
  * @link      http://petak23.echo-msz.eu
- * @version 1.8.1
+ * @version 1.8.2
  */
 abstract class BasePresenter extends Presenter
 {
@@ -113,7 +115,7 @@ abstract class BasePresenter extends Presenter
 		parent::startup();
 		// Kontrola prihlasenia a nacitania urovne registracie
 		$this->id_reg = ($this->user->isLoggedIn()) ? ($this->user->getIdentity()->id_user_roles === NULL ? 0 : $this->user->getIdentity()->id_user_roles) : 0;
-		$modul_presenter = explode(":", $this->name);
+		$modul_presenter = explode(":", $this->getName());
 
 		// Nastav jazyk
 		$lang_temp = $this->lang->findOneBy(['skratka' => $this->params['language']]);
@@ -125,7 +127,7 @@ abstract class BasePresenter extends Presenter
 		$this->texty_presentera->setLanguage($this->language);
 
 		// Kontrola ACL
-		if (!$this->user->isAllowed($this->name, $this->action)) {
+		if (!$this->user->isAllowed($this->getName(), $this->action)) {
 			$this->flashRedirect('Homepage:notAllowed', sprintf($this->texty_presentera->translate('base_nie_je_opravnenie'), $this->action), 'danger');
 		}
 
@@ -467,7 +469,7 @@ abstract class BasePresenter extends Presenter
 
 	/**
 	 * Uprava vzhladu formularov
-	 * @param \Nette\Application\UI\Form $form Formular
+	 * @param Form $form Formular
 	 * @param string $form_class Doplnkovy class pre tag form */
 	public function _vzhladForm(Form $form, $form_class = ""): Form
 	{

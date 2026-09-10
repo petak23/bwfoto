@@ -34,11 +34,12 @@
 		id="app"
 		v-cloak
 		data-base-path="{$basePath}"
-		data-base-url="{$baseUrl}"
+		
 		data-id_hlavne_menu_lang="{$id_hlavne_menu_lang}"
 		data-flashes="{($flashes|to_json)}"
 		class="container-fluid"
 	>
+	{*data-base-url="{$baseUrl}"*}
 	</div>
 	<script src="{webpack front.js}"></script>
 	{control googleAnalytics}

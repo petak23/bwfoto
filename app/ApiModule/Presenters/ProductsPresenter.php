@@ -161,7 +161,7 @@ class ProductsPresenter extends BasePresenter
 	 * @param int $id Iddokumentu */
 	public function actionDelete(int $id)
 	{
-		if ($this->getUser()->isLoggedIn() && $this->getUser()->isAllowed($this->name, $this->action)) { //Preventývna kontrola
+		if ($this->getUser()->isLoggedIn() && $this->getUser()->isAllowed($this->getName(), $this->action)) { //Preventývna kontrola
 			$out = $this->products->removeFile($id) ? ['status' => 200, 'data' => 'OK'] : ['status' => 500, 'data' => null]; // 500 Internal Server Error
 		} else {
 			$out = ['status' => 401, 'data' => null]; //401 Unauthorized (RFC 7235) Používaný tam, kde je vyžadovaná autorizácia, ale zatiaľ nebola vykonaná. 
@@ -177,7 +177,7 @@ class ProductsPresenter extends BasePresenter
 	/** Vymazanie viacerých dokumentu z DB */
 	public function actionDeleteMore()
 	{
-		if ($this->getUser()->isLoggedIn() && $this->getUser()->isAllowed($this->name, $this->action)) { //Preventývna kontrola
+		if ($this->getUser()->isLoggedIn() && $this->getUser()->isAllowed($this->getName(), $this->action)) { //Preventývna kontrola
 			/* from POST: */
 			$values = json_decode(file_get_contents("php://input"), true); // @help 1.)
 			$o = true;
@@ -295,7 +295,7 @@ class ProductsPresenter extends BasePresenter
 			//$out_u['status'] = 500;
 			// Pošli info nazad o potvrdení a prechode na ukončenie.
 			if ($out_u['status'] == 200 && $out_s['status'] == 200) { // email bol odoslaný
-				$out = ['status' => 200, 'message' => "Informačný e-mail bol odoslaný"];
+				$out = ['status' => 200, 'message' => "Ďakujeme za Váš nákup! <br /> Všetky informácie o nákupe a jeho stave boli odoslané na Váš e-mail."];
 			} else {
 				$out = [
 					'status' => 500,
@@ -358,9 +358,9 @@ class ProductsPresenter extends BasePresenter
 		];
 
 		$params = [
-			'product' => JSON::decode($data_nakup->product),
-			'shipping' => JSON::decode($data_nakup->shipping), 
-			'final_price' => $data_nakup->price, 
+			'product' => JSON::decode($data_nakup->products, forceArrays: true),
+			'shipping' => JSON::decode($data_nakup->shipping, forceArrays: true),
+			'final_price' => $data_nakup->price,
 			'adress' => $adress,
 			'data_nakup' => $data_nakup,
 			'basePath' => $this->template->baseUrl,
@@ -408,7 +408,7 @@ class ProductsPresenter extends BasePresenter
 		$params = [
 			'code'	=> $ch_status['code'],
 			'created'	=> $ch_status['created']->format("d.m.Y"),
-			'shipping' => JSON::decode($ch_status['shipping'], JSON::FORCE_ARRAY), 
+			'shipping' => JSON::decode($ch_status['shipping'], forceArrays: true), 
 			'basePath' => $this->template->baseUrl,
 		];
 		$to = $this->user_main->find($ch_status['id_user_main'])->email;
@@ -450,7 +450,7 @@ class ProductsPresenter extends BasePresenter
 			}
 		}	elseif ($ch_status["id_nakup_status"] == 5) { // Uknčenie nákupu
 			
-			$products =  JSON::decode($ch_status['products']);
+			$products =  JSON::decode($ch_status['products'], forceArrays: true);
 			//dump($products);
 			foreach ($products as $p) {
 				//dumpe($p);

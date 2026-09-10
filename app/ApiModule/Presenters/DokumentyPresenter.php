@@ -250,7 +250,7 @@ class DokumentyPresenter extends BasePresenter
 	 * @param int $id Iddokumentu */
 	public function actionDelete(int $id)
 	{
-		if ($this->getUser()->isLoggedIn() && $this->getUser()->isAllowed($this->name, $this->action)) { //Preventývna kontrola
+		if ($this->getUser()->isLoggedIn() && $this->getUser()->isAllowed($this->getName(), $this->action)) { //Preventývna kontrola
 			$out = ($this->documents->removeFile($id)) ? ['status' => 200, 'data' => 'OK'] : ['status' => 500, 'data' => null];
 		} else {
 			$out = ['status' => 401, 'data' => null]; //401 Unauthorized (RFC 7235) Používaný tam, kde je vyžadovaná autorizácia, ale zatiaľ nebola vykonaná. 
@@ -266,7 +266,7 @@ class DokumentyPresenter extends BasePresenter
 	/** Vymazanie viacerých dokumentu z DB */
 	public function actionDeleteMore()
 	{
-		if ($this->getUser()->isLoggedIn() && $this->getUser()->isAllowed($this->name, $this->action)) { //Preventývna kontrola
+		if ($this->getUser()->isLoggedIn() && $this->getUser()->isAllowed($this->getName(), $this->action)) { //Preventývna kontrola
 			/* from POST: */
 			$values = json_decode(file_get_contents("php://input"), true); // @help 1.)
 			//dumpe($values['to_del']);

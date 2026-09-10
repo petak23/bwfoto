@@ -1,6 +1,8 @@
 import axios from 'axios'
 
-const baseUrl = document.getElementById('app').dataset.baseUrl + "/api/"
+//const baseUrl = document.getElementById('app').dataset.baseUrl + "/api/"
+const baseUrl = "http://localhost/bwfoto/api/"
+//const baseUrl = "https://api.bwfoto.sk/"
 
 //axios.defaults.withCredentials = true;
 

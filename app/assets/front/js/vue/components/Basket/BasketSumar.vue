@@ -92,22 +92,25 @@ onMounted(() => {
 			>
 				<BAvatar variant="info" :src="store.baseUrl + '/' + i.product.main_file"></BAvatar>
 				{{ i.product.name }}
-				<b class="ms-2">{{ i.product.properties.final_price.toFixed(2) }} €</b>
+				<b class="ms-2">{{ storeB.fixedPrice(i.product.properties.final_price) }} €</b>
 			</div>
 			<div class="d-flex justify-content-between border-top pt-2 mt-2">
 				<h6>Dodávka:</h6>
 				<span>{{ shipping.shipping.name }}</span>
-				<b>{{ shipping.shipping.price }} €</b>
+				<b>{{ storeB.fixedPrice(shipping.shipping.price) }} €</b>
 			</div>
 			<div class="d-flex justify-content-between">
 				<h6>Platba:</h6>
 				<span>{{ shipping.payment.name }}</span>
-				<b>{{ shipping.payment.price }} €</b>
+				<b>{{ storeB.fixedPrice(shipping.payment.price) }} €</b>
 			</div>
 			<div class="d-flex justify-content-between border-top pt-2">
 				<h6>Konečná cena:</h6>
-				<b>{{ final_price }} €</b><br />
-				<small>DPH: {{ dph }} €</small>
+				<b class="text-warning">{{ storeB.fixedPrice(final_price) }} €</b>
+			</div>
+			<div class="d-flex justify-content-between">
+				<div>&nbsp;</div>
+				<small>DPH: {{ storeB.fixedPrice(dph) }} €</small>
 			</div>
 		</div>
 		<div class="col-md-6">

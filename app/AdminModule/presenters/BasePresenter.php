@@ -116,8 +116,8 @@ abstract class BasePresenter extends UI\Presenter
 		$this->id_reg = ($user->isLoggedIn()) ? $this->user_main->getUser($user->id)->id_user_roles : 0;
 		// Kontrola prihlasenia
 		if ($user->isLoggedIn()) { //Prihlaseny uzivatel
-			if (!$user->isAllowed($this->name, $this->action)) { //Kontrola ACL
-				$this->flashRedirect('Homepage:', 'Na požadovanú akciu nemáte dostatočné oprávnenie! Ide o:' . $this->name . ':' . $this->action, 'danger');
+			if (!$user->isAllowed($this->getName(), $this->action)) { //Kontrola ACL
+				$this->flashRedirect('Homepage:', 'Na požadovanú akciu nemáte dostatočné oprávnenie! Ide o:' . $this->getName() . ':' . $this->action, 'danger');
 			}
 		} else { //Neprihlaseny
 			$ur = $user->getLogoutReason();
@@ -130,7 +130,7 @@ abstract class BasePresenter extends UI\Presenter
 				$this->flashRedirect(':Front:User:', 'Nemáte dostatočné oprávnenie na danú operáciu!', 'danger');
 			}
 		}
-		$modul_presenter = explode(":", $this->name);
+		$modul_presenter = explode(":", $this->getName());
 		$this->language = 'sk';
 		$this->language_id = 1;
 		//Nacitanie a spracovanie hlavnych udajov webu

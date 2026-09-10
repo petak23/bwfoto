@@ -11,7 +11,8 @@ export const useBasketStore = defineStore('basket', () => {
 	const getFinalPrice = () => {
 		let fp = 0
 		basketItem.value.forEach((item) => {
-			fp += parseFloat(item.product.properties.final_price)
+			if (item.product !== undefined && item.product.properties !== undefined && item.product.properties.final_price !== undefined)
+				fp += parseFloat(item.product.properties.final_price)
 		})
 		final_price.value = parseFloat(fp.toFixed(2))
 		return final_price.value
@@ -74,7 +75,9 @@ export const useBasketStore = defineStore('basket', () => {
 		return out
 	}
 
-
+	const fixedPrice = (price) => {
+		return parseFloat(price).toFixed(2)
+	}
 
 
 
@@ -212,7 +215,7 @@ export const useBasketStore = defineStore('basket', () => {
  
 	return {
 		view_part, basketItem, final_price, navigation, basketAddress, basketShipping,
-		saveProduct, delAllProducts, delOneProduct, 
+		saveProduct, delAllProducts, delOneProduct, fixedPrice, 
 		getProductsFromSession, getProductFromBasket, navigationUpdate, getFinalPrice,
 		getNavFromSession,
 		getAddressFromSession, saveAddress, clearAddress,

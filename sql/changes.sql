@@ -398,3 +398,6 @@ VALUES ('5', '34', NULL);
 UPDATE `admin_menu` SET `vue_link` = '/slider' WHERE `id` = '3';
 UPDATE `admin_menu` SET `vue_link` = '/nakup' WHERE `id` = '9';
 UPDATE `admin_menu` SET `vue_link` = '/udaje' WHERE `id` = '6';
+
+-- update 2026-09-06
+UPDATE `user_permission` SET `actions` = 'getactualuserinfo,testuseremail,forgottenpassword,registration,getUserNpk,resetpassword' WHERE `id` = '37';

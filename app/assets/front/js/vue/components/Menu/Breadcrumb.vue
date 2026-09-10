@@ -23,7 +23,7 @@ const submenu = ref([])
  */
 const getItem = (items, mmo, level) => {
 	items.map((i) => {
-		if (i.id == mmo[level].id) {
+		if (mmo[level] !== undefined && i.id == mmo[level].id) {
 			submenu.value.push(i)
 			if (i.children != undefined && level < (mmo.length - 1)) {
 				level++

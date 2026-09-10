@@ -74,7 +74,8 @@ class RouterFactory
 			->addRoute('api/slider/<action>[/<id>]', 'Slider:default')
 			->addRoute('api/verzie[/<action>[/<id>]]', 'Verzie:default')
 			->addRoute('api/udaje/<action>[/<s>]', 'Udaje:default')
-                        ->addRoute('api/homepage[/<action>[/<id>]]', 'Homepage:default');
+      ->addRoute('api/homepage[/<action>[/<id>]]', 'Homepage:default')
+			->addRoute('api[/<presenter>[/<action>[/<id>]]]', 'Homepage:default');
 
 		$router->withModule('Front')
 			->addRoute('clanky[/<id>[/<first_id>]]', [

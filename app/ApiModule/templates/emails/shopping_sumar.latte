@@ -157,24 +157,28 @@
 			{$adress['country']}<br />
 			{$adress['phone']}
 		</p>
-		<h5 n:if="strlen($adress['firm']['name'])" class="border-top pt-2">Firma:</h5>
-		<p n:if="strlen($adress['firm']['name'])">
-			{$adress['firm']['name']}<br />
-			{$adress['firm']['ico']}<br />
-			{$adress['firm']['dic']}<br />
-			{$adress['firm']['icdph']}<br />
-			{$adress['firm']['street']}<br />
-			{$adress['firm']['town']}<br />
-			{$adress['firm']['psc']}<br />
-			{$adress['firm']['country']}<br />
-		</p>
-		<h5 n:if="strlen($adress['adress2']['street'])" class="border-top pt-2">Iná dodacia adresa:</h5>
-		<p n:if="strlen($adress['adress2']['street'])">
-			{$adress['adress2']['street']}<br />
-			{$adress['adress2']['town']}<br />
-			{$adress['adress2']['psc']}<br />
-			{$adress['adress2']['country']}<br />
-		</p>
+		{ifset $adress['firm']}
+			<h5 n:if="strlen($adress['firm']['name'])" class="border-top pt-2">Firma:</h5>
+			<p n:if="strlen($adress['firm']['name'])">
+				{$adress['firm']['name']}<br />
+				{$adress['firm']['ico']}<br />
+				{$adress['firm']['dic']}<br />
+				{$adress['firm']['icdph']}<br />
+				{$adress['firm']['street']}<br />
+				{$adress['firm']['town']}<br />
+				{$adress['firm']['psc']}<br />
+				{$adress['firm']['country']}<br />
+			</p>
+		{/ifset}
+		{ifset $adress['adress2']}
+			<h5 n:if="strlen($adress['adress2']['street'])" class="border-top pt-2">Iná dodacia adresa:</h5>
+			<p n:if="strlen($adress['adress2']['street'])">
+				{$adress['adress2']['street']}<br />
+				{$adress['adress2']['town']}<br />
+				{$adress['adress2']['psc']}<br />
+				{$adress['adress2']['country']}<br />
+			</p>
+		{/ifset}
 	</figure>
 
 	<footer>

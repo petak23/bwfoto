@@ -26,7 +26,7 @@ trait zobrazKartyPodclankovTrait
    * Vytvorenie komponenty */
   public function createComponentZobrazKartyPodclankov(): FrontZobrazKartyPodclankovControl|AdminZobrazKartyPodclankovControl
   {
-    if (explode(":", $this->name)[0] == "Front") {
+    if (explode(":", $this->getName())[0] == "Front") {
       $out = $this->zobrazKartyPodclankovFControlFactory->create();
       $out->setArticle($this->zobraz_clanok->id_hlavne_menu, $this->language, $this->kotva);
     } else {

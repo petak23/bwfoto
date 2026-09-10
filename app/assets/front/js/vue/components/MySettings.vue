@@ -10,6 +10,7 @@ const getMySettings = () => {
 		.then(response => {
 			//console.log(response.data)
 			store.udaje_webu = response.data
+			store.baseUrl = response.data.config.baseUrl
 		})
 		.catch((error) => {
 			console.log(error);
