@@ -32,7 +32,8 @@ const su = ref(false)	// Súhlas na spracovanie údajov
 const getFromSession = () => {
 	product.value = storeB.getProductsFromSession()
 	final_price.value = storeB.getFinalPrice()
-	console.log(product.value, final_price.value)
+	//console.log(product.value)
+	//console.log(final_price.value)
 	if (final_price.value > 0) {
 		adress.value = storeB.getAddressFromSession() 
 		shipping.value = storeB.getShipingFromSession() 
@@ -81,7 +82,7 @@ onMounted(() => {
 
 <template>
 	<h1>Sumarizácia nákupu</h1>
-	<div class="row" v-if="product.length > 0">
+	<div class="row" v-if="product.length > 0 && final_price > 0">
 		<div class="col-md-6" >
 			<h5>Produkty:</h5>
 			<div
@@ -180,6 +181,11 @@ onMounted(() => {
 					Objednávka s povinnosťou platby
 				</button>
 			</form>
+		</div>
+	</div>
+	<div class="row" v-else>
+		<div class="col-12">
+			<p>Neboli nájdené žiadne produkty v košíku alebo je konečná cena 0.00 €.</p>
 		</div>
 	</div>
 </template>

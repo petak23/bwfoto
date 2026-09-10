@@ -1,4 +1,4 @@
--- Adminer 4.8.1 MySQL 8.0.32-0ubuntu0.22.04.2 dump
+-- Adminer 5.4.0 MariaDB 10.4.32-MariaDB dump
 
 SET NAMES utf8;
 SET time_zone = '+00:00';
@@ -7,16 +7,16 @@ SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
 DROP TABLE IF EXISTS `user_permission`;
 CREATE TABLE `user_permission` (
-  `id` int NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
-  `id_user_roles` int NOT NULL DEFAULT '0' COMMENT 'Užívateľská rola',
-  `id_user_resource` int NOT NULL COMMENT 'Zdroj',
-  `actions` varchar(255) COLLATE utf8mb3_bin DEFAULT NULL COMMENT 'Povolenie na akciu. (Ak viac oddelené čiarkou, ak null tak všetko)',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '[A]Index',
+  `id_user_roles` int(11) NOT NULL DEFAULT 0 COMMENT 'Užívateľská rola',
+  `id_user_resource` int(11) NOT NULL COMMENT 'Zdroj',
+  `actions` varchar(255) DEFAULT NULL COMMENT 'Povolenie na akciu. (Ak viac oddelené čiarkou, ak null tak všetko)',
   PRIMARY KEY (`id`),
   KEY `id_user_roles` (`id_user_roles`),
   KEY `id_user_resource` (`id_user_resource`),
   CONSTRAINT `user_permission_ibfk_1` FOREIGN KEY (`id_user_roles`) REFERENCES `user_roles` (`id`),
   CONSTRAINT `user_permission_ibfk_2` FOREIGN KEY (`id_user_resource`) REFERENCES `user_resource` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin COMMENT='Užívateľské oprávnenia';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Užívateľské oprávnenia';
 
 INSERT INTO `user_permission` (`id`, `id_user_roles`, `id_user_resource`, `actions`) VALUES
 (1,	0,	4,	NULL),
@@ -55,15 +55,24 @@ INSERT INTO `user_permission` (`id`, `id_user_roles`, `id_user_resource`, `actio
 (34,	4,	25,	NULL),
 (35,	0,	26,	NULL),
 (36,	0,	27,	'getsubmenu,getmenu,getonemenuarticle,getonemenuarticlesp,getonehlavnemenuarticle,getfotocollagesettings,getactualuserinfo'),
-(37,	4,	28,	NULL),
+(37,	0,	28,	'getactualuserinfo,testuseremail,forgottenpassword,registration,getUserNpk,resetpassword'),
 (38,	0,	29,	NULL),
 (39,	4,	27,	NULL),
 (40,	4,	30,	NULL),
 (41,	0,	31,	NULL),
 (42,	4,	32,	NULL),
-(45,	3,	34,	NULL),
+(45,	3,	34,	'view'),
 (46,	0,	35,	NULL),
 (47,	0,	36,	NULL),
-(48,	0,	32,	'getall');
+(48,	0,	32,	'getall'),
+(49,	0,	37,	NULL),
+(50,	0,	38,	NULL),
+(51,	3,	39,	NULL),
+(52,	0,	30,	'product,nakup'),
+(53,	4,	40,	NULL),
+(54,	4,	28,	NULL),
+(55,	0,	41,	'myappsettings,getnews'),
+(56,	4,	41,	NULL),
+(57,	5,	34,	NULL);
 
--- 2023-04-05 03:54:25
+-- 2026-01-14 13:30:51 UTC
